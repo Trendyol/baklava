@@ -1,0 +1,498 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GExcelDropdown Specs should match snapshot with default props 1`] = `
+<div
+  class="g-excel-dropdown"
+>
+  <div
+    class="g-button-dropdown"
+  >
+    <div
+      class="buttons g-d-flex"
+    >
+      <button
+        class="g-button -success"
+      >
+        <div
+          class="content -big"
+        >
+          <!---->
+           
+    EXCEL İŞLEMLERİ
+     
+          <!---->
+           
+          <!---->
+        </div>
+      </button>
+       
+      <button
+        class="dropdown-button g-button -icon -onlyIcon -success-darker"
+      >
+        <div
+          class="content -big"
+        >
+          <!---->
+            
+          <svg
+            class="g-icon feather feather--chevron-down"
+            dataName="chevron-down"
+            dataTags=""
+            dataType="chevron-down"
+            fill="none"
+            height="20"
+            stroke="var(--white)"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polyline
+              points="6 9 12 15 18 9"
+            />
+          </svg>
+           
+          <!---->
+        </div>
+      </button>
+    </div>
+     
+    <div
+      class="menu g-d-none"
+    >
+      <div
+        class="g-tabs"
+      >
+        <div
+          class="tab active download"
+        >
+          <div
+            class="tab-title"
+          >
+            <div
+              class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
+            >
+              
+        İNDİRME İŞLEMLERİ
+        
+              <!---->
+               
+              <!---->
+            </div>
+          </div>
+           
+          <!---->
+           
+          <div
+            class="seperator"
+          />
+        </div>
+        <div
+          class="tab upload"
+        >
+          <div
+            class="tab-title"
+          >
+            <div
+              class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
+            >
+              
+        YÜKLEME İŞLEMLERİ
+        
+              <!---->
+               
+              <!---->
+            </div>
+          </div>
+           
+          <!---->
+           
+          <div
+            class="seperator"
+          />
+        </div>
+      </div>
+       
+      <div
+        class="excel-history"
+      >
+        <div
+          class="g-mb-16 title"
+        >
+          <div
+            class="g-text-green-500 -subtitle-03 g-text"
+          >
+            
+            İNDİRME GEÇMİŞİM
+          
+          </div>
+        </div>
+         
+        <ul
+          class="list"
+        >
+          <li
+            class="list-item no-data"
+          >
+            <!---->
+          </li>
+        </ul>
+         
+        <button
+          class="g-mt-10 g-button -fluid -icon -success"
+        >
+          <div
+            class="content -big"
+          >
+            <!---->
+             
+          EXCEL'E AKTAR
+         
+            <!---->
+             
+            <svg
+              class="-rightIcon g-icon feather feather--download g-ml-10"
+              dataName="download"
+              dataTags=""
+              dataType="download"
+              fill="none"
+              height="20"
+              stroke="var(--white)"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+              />
+              <polyline
+                points="7 10 12 15 17 10"
+              />
+              <line
+                x1="12"
+                x2="12"
+                y1="15"
+                y2="3"
+              />
+            </svg>
+          </div>
+        </button>
+         
+        <input
+          hidden="hidden"
+          id="fileUpload"
+          type="file"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GExcelDropdown Specs should match snapshot with excel history list 1`] = `
+<div
+  class="g-excel-dropdown"
+>
+  <div
+    class="g-button-dropdown"
+  >
+    <div
+      class="buttons g-d-flex"
+    >
+      <button
+        class="g-button -success"
+      >
+        <div
+          class="content -big"
+        >
+          <!---->
+           
+    EXCEL İŞLEMLERİ
+     
+          <!---->
+           
+          <!---->
+        </div>
+      </button>
+       
+      <button
+        class="dropdown-button g-button -icon -onlyIcon -success-darker"
+      >
+        <div
+          class="content -big"
+        >
+          <!---->
+            
+          <svg
+            class="g-icon feather feather--chevron-down"
+            dataName="chevron-down"
+            dataTags=""
+            dataType="chevron-down"
+            fill="none"
+            height="20"
+            stroke="var(--white)"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polyline
+              points="6 9 12 15 18 9"
+            />
+          </svg>
+           
+          <!---->
+        </div>
+      </button>
+    </div>
+     
+    <div
+      class="menu g-d-none"
+    >
+      <div
+        class="g-tabs"
+      >
+        <div
+          class="tab active download"
+        >
+          <div
+            class="tab-title"
+          >
+            <div
+              class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
+            >
+              
+        İNDİRME İŞLEMLERİ
+        
+              <!---->
+               
+              <!---->
+            </div>
+          </div>
+           
+          <!---->
+           
+          <div
+            class="seperator"
+          />
+        </div>
+        <div
+          class="tab upload"
+        >
+          <div
+            class="tab-title"
+          >
+            <div
+              class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
+            >
+              
+        YÜKLEME İŞLEMLERİ
+        
+              <!---->
+               
+              <!---->
+            </div>
+          </div>
+           
+          <!---->
+           
+          <div
+            class="seperator"
+          />
+        </div>
+      </div>
+       
+      <div
+        class="excel-history"
+      >
+        <div
+          class="g-mb-16 title"
+        >
+          <div
+            class="g-text-green-500 -subtitle-03 g-text"
+          >
+            
+            İNDİRME GEÇMİŞİM
+          
+          </div>
+        </div>
+         
+        <ul
+          class="list"
+        >
+          <li
+            class="g-d-flex g-d-align-items-center list-item"
+          >
+            <svg
+              class="g-icon feather feather--check"
+              dataName="check"
+              dataTags=""
+              dataType="check"
+              fill="none"
+              height="12px"
+              stroke="var(--green-500)"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="12px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <polyline
+                points="20 6 9 17 4 12"
+              />
+            </svg>
+             
+            <div
+              class="file-name g-text-main-grey-500 -menu-item g-text"
+            >
+              <a
+                class="ready"
+                download=""
+              >
+                
+                created file name
+              
+              </a>
+            </div>
+          </li>
+          <li
+            class="g-d-flex g-d-align-items-center list-item"
+          >
+            <svg
+              class="g-icon feather feather--circle"
+              dataName="circle"
+              dataTags="off,zero,record"
+              dataType="circle"
+              fill="none"
+              height="12px"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="12px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              />
+            </svg>
+             
+            <div
+              class="file-name g-text-mid-grey-500 -menu-item g-text"
+            >
+              <span>
+                
+                Hazırlanıyor...
+              
+              </span>
+            </div>
+          </li>
+          <li
+            class="g-d-flex g-d-align-items-center list-item"
+          >
+            <svg
+              class="g-icon feather feather--x"
+              dataName="x"
+              dataTags="cancel,close,delete,remove,times,clear"
+              dataType="x"
+              fill="none"
+              height="12px"
+              stroke="var(--red-500)"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="12px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line
+                x1="18"
+                x2="6"
+                y1="6"
+                y2="18"
+              />
+              <line
+                x1="6"
+                x2="18"
+                y1="6"
+                y2="18"
+              />
+            </svg>
+             
+            <div
+              class="file-name g-text-mid-grey-500 -menu-item g-text"
+            >
+              <span>
+                
+                Bir hata oluştu.
+              
+              </span>
+            </div>
+          </li>
+        </ul>
+         
+        <button
+          class="g-mt-10 g-button -fluid -icon -success"
+          disabled="disabled"
+        >
+          <div
+            class="content -big"
+          >
+            <!---->
+             
+          EXCEL'E AKTAR
+         
+            <!---->
+             
+            <svg
+              class="-rightIcon g-icon feather feather--download g-ml-10"
+              dataName="download"
+              dataTags=""
+              dataType="download"
+              fill="none"
+              height="20"
+              stroke="var(--white)"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+              />
+              <polyline
+                points="7 10 12 15 17 10"
+              />
+              <line
+                x1="12"
+                x2="12"
+                y1="15"
+                y2="3"
+              />
+            </svg>
+          </div>
+        </button>
+         
+        <input
+          hidden="hidden"
+          id="fileUpload"
+          type="file"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

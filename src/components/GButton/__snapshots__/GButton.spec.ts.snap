@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GButton should match snapshot when show is prop is given as false  1`] = `
+<button
+  class="g-button -primary"
+>
+  <div
+    class="content -big"
+  >
+    <!---->
+      
+    <!---->
+     
+    <!---->
+  </div>
+</button>
+`;

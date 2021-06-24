@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GHeader should match snapshot when show is prop is given as false  1`] = `
+<div
+  class="g-d-flex g-d-justify-space-between g-my-32"
+>
+  <div
+    class="g-d-flex g-d-direction-row"
+  >
+     
+    <div
+      class="g-d-flex g-d-direction-column g-mr-30"
+    >
+      <div
+        class="g-text-main-grey-500 -headline-03 g-text"
+      >
+        
+        
+      
+      </div>
+       
+    </div>
+     
+  </div>
+   
+  <div
+    box=""
+    class=""
+  />
+</div>
+`;

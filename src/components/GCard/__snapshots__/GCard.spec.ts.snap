@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GCard should have GMiniPagination component if pageable prop is true 1`] = `
+<gbox-stub
+  class="g-card"
+  direction="column"
+  flex="true"
+>
+  <gbox-stub
+    align="items-center"
+    flex="true"
+    justify="space-between"
+  >
+    <gbox-stub>
+      <gtext-stub
+        color="main-grey-500"
+        variant="headline-04"
+      >
+        
+          
+        
+      </gtext-stub>
+    </gbox-stub>
+     
+    <gbox-stub
+      flex="true"
+    >
+       
+      <gminipagination-stub
+        totalpages="0"
+      />
+    </gbox-stub>
+  </gbox-stub>
+   
+  <gbox-stub
+    class="body g-mt-15"
+  />
+</gbox-stub>
+`;
+
+exports[`GCard should have message-wrapper if showMessage prop is true 1`] = `
+<gbox-stub
+  class="g-card"
+  direction="column"
+  flex="true"
+>
+  <gbox-stub
+    align="items-center"
+    flex="true"
+    justify="space-between"
+  >
+    <gbox-stub>
+      <gtext-stub
+        color="main-grey-500"
+        variant="headline-04"
+      >
+        
+          
+        
+      </gtext-stub>
+    </gbox-stub>
+     
+    <gbox-stub
+      flex="true"
+    >
+       
+      <!---->
+    </gbox-stub>
+  </gbox-stub>
+   
+  <gbox-stub
+    align="items-center"
+    class="body g-mt-15"
+    direction="column"
+    flex="true"
+  >
+    <gicon-stub
+      class="g-mb-15"
+      color="red-300"
+      fill="none"
+      name="alert-circle"
+      size="24px"
+      stroke="currentColor"
+      strokelinecap="round"
+      strokelinejoin="round"
+      strokewidth="2"
+      tag="i"
+    />
+     
+    <gtext-stub
+      color="red-200"
+      variant="body"
+    >
+      
+        Message
+      
+    </gtext-stub>
+  </gbox-stub>
+</gbox-stub>
+`;
+
+exports[`GCard should match snapshot on initial 1`] = `
+<gbox-stub
+  class="g-card"
+  direction="column"
+  flex="true"
+>
+  <gbox-stub
+    align="items-center"
+    flex="true"
+    justify="space-between"
+  >
+    <gbox-stub>
+      <gtext-stub
+        color="main-grey-500"
+        variant="headline-04"
+      >
+        
+          Title
+        
+      </gtext-stub>
+    </gbox-stub>
+     
+    <gbox-stub
+      flex="true"
+    >
+       
+      <!---->
+    </gbox-stub>
+  </gbox-stub>
+   
+  <gbox-stub
+    class="body g-mt-15"
+  />
+</gbox-stub>
+`;

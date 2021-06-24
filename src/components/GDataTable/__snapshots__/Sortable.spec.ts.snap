@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/GDataTable/Sortable.vue should render correctly with default params 1`] = `
+<gbox-stub
+  class="g-sortable-wrapper"
+  flex="true"
+>
+   
+  <div
+    class="sort-icon"
+  >
+    <gicon-stub
+      class="up"
+      fill="var(--mid-grey-500)"
+      name="triangle"
+      size="6px"
+      stroke="currentColor"
+      strokelinecap="round"
+      strokelinejoin="round"
+      strokewidth="2"
+      tag="i"
+    />
+     
+    <gicon-stub
+      class="down rotate180"
+      fill="var(--mid-grey-500)"
+      name="triangle"
+      size="6px"
+      stroke="currentColor"
+      strokelinecap="round"
+      strokelinejoin="round"
+      strokewidth="2"
+      tag="i"
+    />
+  </div>
+</gbox-stub>
+`;

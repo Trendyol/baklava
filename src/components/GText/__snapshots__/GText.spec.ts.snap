@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GText should match snapshot when show is prop is given as false  1`] = `
+<div
+  class="g-text-main-grey-500 -body g-text"
+/>
+`;

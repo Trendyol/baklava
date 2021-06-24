@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GRadioGroupFilter should match with snapshot 1`] = `
+<label
+  class="g-radio-group-filter -checked"
+>
+  <input
+    name="Apple"
+    type="radio"
+    value="apple"
+  />
+   
+  <span />
+</label>
+`;
+
+exports[`GRadioGroupFilter should match with snapshot with unchecked 1`] = `
+<label
+  class="g-radio-group-filter"
+>
+  <input
+    name="Apple"
+    type="radio"
+    value="apple"
+  />
+   
+  <span />
+</label>
+`;

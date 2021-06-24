@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Radio should match with snapshot 1`] = `
+<label
+  class="g-radio"
+>
+  <input
+    name="testName"
+    type="radio"
+    value="Test"
+  />
+   
+  <div
+    class="g-text-main-grey-500 -body g-text"
+  />
+</label>
+`;
+
+exports[`Radio should match with snapshot when disabled attribute is passed 1`] = `
+<label
+  class="g-radio"
+>
+  <input
+    disabled="disabled"
+    name="testName"
+    type="radio"
+    value="Test"
+  />
+   
+  <div
+    class="g-text-main-grey-500 -body g-text -disabled -disabled-checked"
+  />
+</label>
+`;

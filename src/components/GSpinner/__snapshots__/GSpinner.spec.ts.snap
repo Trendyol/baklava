@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GSpinner should match snapshot 1`] = `
+<div
+  class="g-spinner -medium"
+>
+  <div />
+   
+  <div />
+   
+  <div />
+   
+  <div />
+</div>
+`;

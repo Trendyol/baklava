@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GTag should match snapshot when show is prop is given as false  1`] = `
+<gbox-stub
+  class="g-tag -base"
+>
+  <gtext-stub
+    color="white"
+    variant="menu-item"
+  />
+</gbox-stub>
+`;

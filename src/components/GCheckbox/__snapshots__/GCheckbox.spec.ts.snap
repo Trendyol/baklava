@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Checkbox should match snapshot 1`] = `
+<div
+  class="g-d-flex g-d-align-center g-d-direction-row"
+>
+  <label
+    class="g-checkbox"
+  >
+    <input
+      class="-input"
+      type="checkbox"
+      value="test"
+    />
+     
+    <span
+      class="-inner"
+    >
+      <svg
+        class="g-icon feather feather--check"
+        dataName="check"
+        dataTags=""
+        dataType="check"
+        fill="none"
+        height="16px"
+        stroke="var(--white)"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="16px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <polyline
+          points="20 6 9 17 4 12"
+        />
+      </svg>
+    </span>
+  </label>
+   
+  <!---->
+</div>
+`;

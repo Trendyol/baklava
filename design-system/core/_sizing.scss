@@ -1,0 +1,20 @@
+@import "variables";
+
+@mixin sizes-map() {
+  @each $name, $size in $sizes {
+    .g-size-#{$name} {
+      width: $size;
+    }
+  }
+}
+
+/**
+* @tokens Sizing
+* @presenter Sizing
+*/
+:root {
+  @each $name, $size in $sizes {
+    --size-#{$name}: #{$size};
+  }
+}
+@include sizes-map();

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GCardPage should match snapshot when active is false 1`] = `
+<div
+  style="display: none;"
+/>
+`;
+
+exports[`GCardPage should match snapshot when active is true 1`] = `
+<div
+  style=""
+/>
+`;

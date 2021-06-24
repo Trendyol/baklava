@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GTabs should match snapshot given props  1`] = `
+<div
+  class="g-tabs"
+>
+  <div
+    class="tab active all"
+  >
+    <div
+      class="tab-title"
+    >
+      <div
+        class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
+      >
+        
+        TÜMÜ
+        
+        <!---->
+         
+        <!---->
+      </div>
+    </div>
+     
+    <!---->
+     
+    <div
+      class="seperator"
+    />
+  </div>
+  <div
+    class="tab announcement"
+  >
+    <div
+      class="tab-title"
+    >
+      <div
+        class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
+      >
+        
+        DUYURU
+        
+        <!---->
+         
+        <!---->
+      </div>
+    </div>
+     
+    <!---->
+     
+    <div
+      class="seperator"
+    />
+  </div>
+</div>
+`;

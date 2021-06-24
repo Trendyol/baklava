@@ -1,0 +1,5 @@
+test/
+coverage/
+jest.config.js
+storybook-static/
+.loki/

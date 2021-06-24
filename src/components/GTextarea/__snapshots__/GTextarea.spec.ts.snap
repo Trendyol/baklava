@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GTextarea should match snapshot when show is prop is given as false  1`] = `
+<div>
+  <div
+    class="g-field-wrapper -borderline big"
+  >
+    <label />
+     
+    <div
+      class="content"
+    >
+      <textarea />
+       
+      <!---->
+    </div>
+     
+    <!---->
+  </div>
+</div>
+`;

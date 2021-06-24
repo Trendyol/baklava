@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GTooltip should match snapshot when show is prop is given as false  1`] = `
+<div
+  class="g-tooltip"
+>
+   
+  <span
+    class="text -right -dark"
+  >
+    <i
+      class="arrow"
+    />
+     
+    <span>
+      
+      Tooltip Text
+      
+    </span>
+  </span>
+</div>
+`;

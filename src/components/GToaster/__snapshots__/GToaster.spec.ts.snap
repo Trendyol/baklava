@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Toaster should be disappeared after given duration time 1`] = `
+<div
+  class="toaster-wrapper"
+>
+  <transition-group-stub
+    name="fade"
+  >
+    <div
+      class="toaster success"
+    >
+      <div
+        class="success_header header"
+      >
+        <div
+          class="title"
+        >
+          <gtext-stub
+            color="text-white"
+            variant="body"
+          >
+            
+            Test Title 1
+          
+          </gtext-stub>
+        </div>
+         
+        <div
+          class="close"
+        >
+          
+          ×
+        
+        </div>
+      </div>
+       
+      <div
+        class="content"
+      >
+        <gtext-stub
+          color="text-white"
+          variant="body"
+        >
+          
+          This is a test 1
+        
+        </gtext-stub>
+      </div>
+       
+      <div
+        class="duration-wrapper"
+      >
+        <div
+          class="duration hide"
+          style="transition: width 0.05s;"
+        />
+      </div>
+    </div>
+  </transition-group-stub>
+</div>
+`;
+
+exports[`Toaster should match snapshot on initial state 1`] = `
+<div
+  class="toaster-wrapper"
+>
+  <transition-group-stub
+    name="fade"
+  />
+</div>
+`;
+
+exports[`Toaster should match snapshot which is a success toaster, if config is not passed 1`] = `
+<div
+  class="toaster-wrapper"
+>
+  <transition-group-stub
+    name="fade"
+  />
+</div>
+`;
+
+exports[`Toaster should match snapshot which is as changed title and warning message, if title and warning variant is passed 1`] = `
+<div
+  class="toaster-wrapper"
+>
+  <transition-group-stub
+    name="fade"
+  />
+</div>
+`;
+
+exports[`Toaster should not show same group toast if "unique" is passed as true 1`] = `
+<div
+  class="toaster-wrapper"
+>
+  <transition-group-stub
+    name="fade"
+  />
+</div>
+`;
+
+exports[`Toaster should show variant name as a title, if title is not given 1`] = `
+<div
+  class="toaster-wrapper"
+>
+  <transition-group-stub
+    name="fade"
+  />
+</div>
+`;
+
+exports[`Toaster show toasts as reversed 1`] = `
+<div
+  class="toaster-wrapper"
+>
+  <transition-group-stub
+    name="fade"
+  />
+</div>
+`;

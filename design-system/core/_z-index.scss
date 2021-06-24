@@ -1,0 +1,11 @@
+@import "variables";
+
+@mixin z-indexs-map() {
+  @each $name, $size in $z-indexs {
+    .g-zindex-#{$name} {
+      width: var(--zindex-#{$name});
+    }
+  }
+}
+
+@include z-indexs-map();

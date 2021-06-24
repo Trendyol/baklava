@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GLabel should match snapshot when show is prop is given as false  1`] = `
+<span
+  class="g-label"
+>
+  <gicon-stub
+    class="g-mr-10"
+    color="dark-grey-500"
+    fill="none"
+    name="alert-circle"
+    size="20px"
+    stroke="currentColor"
+    strokelinecap="round"
+    strokelinejoin="round"
+    strokewidth="2"
+    tag="i"
+  />
+   
+  <gtext-stub
+    color="dark-grey-500"
+    variant="subtitle-03"
+  />
+</span>
+`;
