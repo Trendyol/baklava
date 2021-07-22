@@ -1,11 +1,11 @@
 <template>
   <GBox
     :mb="30"
-    v-if="palette.name"
     align="items-center"
   >
     <GBox
       flex
+      v-if="palette.name"
       class="g-color-palette"
       direction="column"
     >
@@ -28,7 +28,7 @@
           <GBox
             :class="`g-bg-${palette.tag}-${index+1}00`"
             class="color-box"
-            :mr="4"
+            :mr="8"
           />
           <GBox :mt="10">
             <GText>

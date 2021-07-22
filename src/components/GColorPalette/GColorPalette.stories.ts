@@ -50,16 +50,14 @@ stories
               Background class rule: g-bg-{tag-name}
             </span>
             <GBox
-              :p="10"
-              class="g-bg-red-500"
+              flex
               :mt="20"
             >
-              <GText
-                variant="body"
-                color="bg-grey-900"
+              <span
+                class="g-bg-red-500 g-text-bg-grey-900 g-px-10 g-py-28"
               >
                 g-bg-red-500
-              </GText>
+              </span>
             </GBox>
             <span class="g-fs-18 g-text-main-grey-700 g-pt-20">
               Text class rule: g-text-{tag-name}
