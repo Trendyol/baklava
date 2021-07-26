@@ -1,6 +1,6 @@
 {
   "name": "@trendyol-js/grace",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Design System written with Vue.js",
   "license": "MIT",
   "repository": "https://github.com/Trendyol/grace",
@@ -28,7 +28,7 @@
     "dayjs": "^1.8.28",
     "feather-icons": "^4.28.0",
     "inputmask": "5.0.0",
-    "vue": "2.6.14",
+    "vue": "2.6.11",
     "vue-quill-editor": "^3.0.6",
     "vue2-datepicker": "^3.8.1"
   },
@@ -99,7 +99,7 @@
     "ts-loader": "^7.0.4",
     "typescript": "~3.8.3",
     "vue-loader": "15.9.3",
-    "vue-template-compiler": "2.6.14"
+    "vue-template-compiler": "2.6.11"
   },
   "loki": {
     "configurations": {
