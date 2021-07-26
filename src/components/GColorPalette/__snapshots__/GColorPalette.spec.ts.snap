@@ -1,0 +1,271 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GColorPalette should match snapshot with palette prop 1`] = `
+<div
+  class="g-d-align-items-center g-mb-30"
+>
+  <div
+    class="g-color-palette g-d-flex g-d-direction-column"
+  >
+    <div
+      class="g-d-flex g-pb-20"
+    >
+      <div
+        class="g-text-main-grey-500 -headline-03 g-text"
+      >
+        
+        Main Grey
+      
+      </div>
+    </div>
+     
+    <div
+      class="g-d-flex"
+    >
+      <div
+        class=""
+      >
+        <div
+          class="color-box g-mr-8 g-bg-main-grey-100"
+        />
+         
+        <div
+          class="g-mt-10"
+        >
+          <div
+            class="g-text-main-grey-500 -body g-text"
+          >
+            
+            main-grey-100
+          
+          </div>
+           
+          <div
+            class="color-hex g-text-mid-grey-500 -caption g-text"
+          >
+            
+            #020203
+          
+          </div>
+        </div>
+      </div>
+      <div
+        class=""
+      >
+        <div
+          class="color-box g-mr-8 g-bg-main-grey-200"
+        />
+         
+        <div
+          class="g-mt-10"
+        >
+          <div
+            class="g-text-main-grey-500 -body g-text"
+          >
+            
+            main-grey-200
+          
+          </div>
+           
+          <div
+            class="color-hex g-text-mid-grey-500 -caption g-text"
+          >
+            
+            #0f131a
+          
+          </div>
+        </div>
+      </div>
+      <div
+        class=""
+      >
+        <div
+          class="color-box g-mr-8 g-bg-main-grey-300"
+        />
+         
+        <div
+          class="g-mt-10"
+        >
+          <div
+            class="g-text-main-grey-500 -body g-text"
+          >
+            
+            main-grey-300
+          
+          </div>
+           
+          <div
+            class="color-hex g-text-mid-grey-500 -caption g-text"
+          >
+            
+            #1f2734
+          
+          </div>
+        </div>
+      </div>
+      <div
+        class=""
+      >
+        <div
+          class="color-box g-mr-8 g-bg-main-grey-400"
+        />
+         
+        <div
+          class="g-mt-10"
+        >
+          <div
+            class="g-text-main-grey-500 -body g-text"
+          >
+            
+            main-grey-400
+          
+          </div>
+           
+          <div
+            class="color-hex g-text-mid-grey-500 -caption g-text"
+          >
+            
+            #171d27
+          
+          </div>
+        </div>
+      </div>
+      <div
+        class=""
+      >
+        <div
+          class="color-box g-mr-8 g-bg-main-grey-500"
+        />
+         
+        <div
+          class="g-mt-10"
+        >
+          <div
+            class="g-text-main-grey-500 -body g-text"
+          >
+            
+            main-grey-500
+          
+          </div>
+           
+          <div
+            class="color-hex g-text-mid-grey-500 -caption g-text"
+          >
+            
+            #273142
+          
+          </div>
+        </div>
+      </div>
+      <div
+        class=""
+      >
+        <div
+          class="color-box g-mr-8 g-bg-main-grey-600"
+        />
+         
+        <div
+          class="g-mt-10"
+        >
+          <div
+            class="g-text-main-grey-500 -body g-text"
+          >
+            
+            main-grey-600
+          
+          </div>
+           
+          <div
+            class="color-hex g-text-mid-grey-500 -caption g-text"
+          >
+            
+            #525a68
+          
+          </div>
+        </div>
+      </div>
+      <div
+        class=""
+      >
+        <div
+          class="color-box g-mr-8 g-bg-main-grey-700"
+        />
+         
+        <div
+          class="g-mt-10"
+        >
+          <div
+            class="g-text-main-grey-500 -body g-text"
+          >
+            
+            main-grey-700
+          
+          </div>
+           
+          <div
+            class="color-hex g-text-mid-grey-500 -caption g-text"
+          >
+            
+            #7d838e
+          
+          </div>
+        </div>
+      </div>
+      <div
+        class=""
+      >
+        <div
+          class="color-box g-mr-8 g-bg-main-grey-800"
+        />
+         
+        <div
+          class="g-mt-10"
+        >
+          <div
+            class="g-text-main-grey-500 -body g-text"
+          >
+            
+            main-grey-800
+          
+          </div>
+           
+          <div
+            class="color-hex g-text-mid-grey-500 -caption g-text"
+          >
+            
+            #a9adb3
+          
+          </div>
+        </div>
+      </div>
+      <div
+        class=""
+      >
+        <div
+          class="color-box g-mr-8 g-bg-main-grey-900"
+        />
+         
+        <div
+          class="g-mt-10"
+        >
+          <div
+            class="g-text-main-grey-500 -body g-text"
+          >
+            
+            main-grey-900
+          
+          </div>
+           
+          <div
+            class="color-hex g-text-mid-grey-500 -caption g-text"
+          >
+            
+            #d4d6d9
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
