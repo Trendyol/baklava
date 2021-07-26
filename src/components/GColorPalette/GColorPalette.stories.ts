@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/vue';
-import ColorPalette from './GColorPalette.vue';
+import GColorPalette from './GColorPalette.vue';
 import GText from '../GText/GText.vue';
 import GBox from '../GBox/GBox.vue';
 import GIcon from '../GIcon/GIcon.vue';
@@ -9,14 +9,14 @@ const stories = storiesOf('Core|Colors', module);
 
 stories.addDecorator(withKnobs);
 stories
-  .addParameters({ component: ColorPalette })
+  .addParameters({ component: GColorPalette })
   .add('Default', () => ({
     data () {
       return {
         allColors : colorPalette,
       }
     },
-    components: { ColorPalette, GIcon, GText, GBox },
+    components: { GColorPalette, GIcon, GText, GBox },
     template: `
       <GBox
         class="g-col-lg-shift-2 g-col-lg-8"
@@ -69,7 +69,7 @@ stories
             </span>
           </GBox>
         </GBox>
-        <ColorPalette
+        <GColorPalette
           v-for="(colors,index) in allColors"
           :palette="colors"
           :key="index"
