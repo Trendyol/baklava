@@ -5,6 +5,13 @@ describe('GImage', () => {
   let wrapper: any;
 
   beforeEach(() => {
+    const mockIntersectionObserver = jest.fn();
+    mockIntersectionObserver.mockReturnValue({
+      observe: () => null,
+      unobserve: () => null,
+      disconnect: () => null,
+    });
+    window.IntersectionObserver = mockIntersectionObserver;
     wrapper = shallowMount(GImage);
   });
 
