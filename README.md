@@ -41,6 +41,23 @@ yard add @trendyol-js/grace
 ```
 
 ## 🔨 Usage
+
+#### Font installation:
+Grace uses Google’s Rubik font. Add to style file
+```css
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap');
+```
+or your main ```index.html``` file.
+```html
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+```
+If you want to use another font, follow the instructions above for the font you will use and add the following code to your style file
+```css
+:root {
+    --font-family-base: 'Your Font Name';
+}
+```
+
 ##### Import styles manually:
 ```css
 @import "~@trendyol-js/grace/css/root";
