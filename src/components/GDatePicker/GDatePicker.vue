@@ -28,7 +28,7 @@ import DatePicker from 'vue2-datepicker';
 import GInput from '../GInput/GInput.vue';
 import dayjs from 'dayjs';
 import 'vue2-datepicker/locale/tr';
-var weekOfYear = require('dayjs/plugin/weekOfYear');
+const weekOfYear = require('dayjs/plugin/weekOfYear');
 dayjs.extend(weekOfYear);
 
 const _dateFormat = (value:any, format:any) => {
