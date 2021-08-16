@@ -24,6 +24,9 @@ storiesOf('GDatePicker', module)
           <GButton :disabled="type==='date'" @click="switchToDaily" size="small">
             Günlük
           </GButton>
+          <GButton :disabled="type==='week'" @click="switchToWeekly(emit)" size="small">
+            Haftalık
+          </GButton>
           <GButton :disabled="type==='month'" @click="switchToMonthly(emit)" size="small">
             Aylık
           </GButton>
@@ -118,6 +121,16 @@ storiesOf('GDatePicker', module)
         this.open = false;
         // @ts-ignore
         this.$nextTick(()=>{this.open=true});
+      },
+      switchToWeekly () {
+        // @ts-ignore
+        this.type = 'week';
+        // @ts-ignore
+        this.format = 'w';
+        // @ts-ignore
+        this.open = false;
+        // @ts-ignore
+        this.$nextTick(()=>{this.open = true});
       },
       switchToDaily () {
         // @ts-ignore

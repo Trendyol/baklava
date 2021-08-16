@@ -28,6 +28,8 @@ import DatePicker from 'vue2-datepicker';
 import GInput from '../GInput/GInput.vue';
 import dayjs from 'dayjs';
 import 'vue2-datepicker/locale/tr';
+var weekOfYear = require('dayjs/plugin/weekOfYear');
+dayjs.extend(weekOfYear);
 
 const _dateFormat = (value:any, format:any) => {
   if (!value) {
@@ -42,6 +44,10 @@ export default {
     value: {
       type: [String, Date, Array],
       default: () => null,
+    },
+    type: {
+      type: String,
+      default: () => 'date',
     },
   },
   components: {
@@ -67,6 +73,9 @@ export default {
     },
     getDate: {
       get () {
+        if (this.type === 'week') {
+          return dayjs(this.date).week();
+        }
         if (!this.date) {
           return null;
         } else if (this.date instanceof Array) {
@@ -79,6 +88,7 @@ export default {
     getAttrs () {
       return {
         ...{
+          type: this.type,
           format: 'DD.MM.YYYY',
           placeholder: 'Başlangıç Tarihi',
           'append-to-body': false,
@@ -144,6 +154,13 @@ export default {
         margin-bottom: 0;
       }
       .mx-datepicker-main {
+        .mx-datepicker-header {
+          display: flex;
+          flex-wrap: wrap;
+          padding: 6px 8px;
+          border-bottom: 1px solid #e8e8e8;
+          gap: 3px;
+        }
         .mx-calendar-header{
           .mx-btn{
             color: var(--mid-grey-500);
@@ -158,6 +175,16 @@ export default {
           .mx-table {
             .today {
               color: var(--orange-500);
+            }
+            .mx-date-row {
+              &:hover{
+                color: var(--orange-500);
+                background-color: var(--orange-900);
+              }
+            }
+            .mx-active-week {
+              background-color: var(--orange-500);
+              color: var(--white);
             }
             .cell{
               &.not-current-month{
