@@ -171,20 +171,24 @@ export default {
             }
           }
         }
-        .mx-calendar-content{
-          .mx-table {
-            .today {
-              color: var(--orange-500);
-            }
-            .mx-date-row {
+        .mx-calendar-week-mode{
+          .mx-calendar-content{
+            .mx-date-row{
               &:hover{
                 color: var(--orange-500);
                 background-color: var(--orange-900);
               }
             }
-            .mx-active-week {
+            .mx-active-week{
               background-color: var(--orange-500);
               color: var(--white);
+            }
+          }
+        }
+        .mx-calendar-content{
+          .mx-table {
+            .today {
+              color: var(--orange-500);
             }
             .cell{
               &.not-current-month{
