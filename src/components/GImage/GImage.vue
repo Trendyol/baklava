@@ -1,8 +1,6 @@
 <template>
   <div class="g-image">
     <img
-      lazy
-      :src="isSrcUrl ? src : require(src)"
       :width="width"
       :maxWidth="maxWidth"
       :height="height"
@@ -15,9 +13,6 @@
 </template>
 
 <script lang="ts">
-
-import { isUrl } from '../../utils/regex.ts';
-
 export default {
   name: 'GImage',
   props: {
@@ -47,9 +42,6 @@ export default {
     },
   },
   computed: {
-    isSrcUrl () {
-      return isUrl(this.src);
-    },
     getAttrs () {
       const { src, defaultImage, width, height, maxWidth, maxHeight, ...etc } = this.$attrs;
       return etc;
@@ -64,17 +56,17 @@ export default {
     },
     lazyLoadImage () {
       const { src, $el, defaultImage } = this;
-      $el.src = defaultImage;
+      $el.children[0].src = defaultImage;
 
       if (!('IntersectionObserver' in window) ||
-                !('IntersectionObserverEntry' in window) ||
-                !('intersectionRatio' in window.IntersectionObserverEntry.prototype)) {
-        $el.src = src;
+        !('IntersectionObserverEntry' in window) ||
+        !('intersectionRatio' in window.IntersectionObserverEntry.prototype)) {
+        $el.children[0].src = src;
       }
 
       const observer = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) {
-          $el.src = src;
+          $el.children[0].src = src;
           observer.disconnect();
         }
       });
@@ -97,9 +89,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .g-image {
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-  }
+.g-image {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
 </style>

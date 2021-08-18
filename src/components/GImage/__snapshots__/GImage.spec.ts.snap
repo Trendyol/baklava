@@ -5,7 +5,6 @@ exports[`GImage should match snapshot when show is prop is given as false  1`] =
   class="g-image"
 >
   <img
-    lazy=""
     src="https://cdn.dsmcdn.com/shared/images/trendyol.jpeg"
   />
 </div>
