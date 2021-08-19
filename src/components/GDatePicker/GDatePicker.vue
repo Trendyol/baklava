@@ -3,6 +3,7 @@
     class="g-date-picker"
     v-bind="getAttrs"
     :lang="lang"
+    :show-week-number="showWeekNumber"
     v-model="date"
     @input="onInput"
     v-on="listeners"
@@ -48,6 +49,10 @@ export default {
     type: {
       type: String,
       default: () => 'date',
+    },
+    showWeekNumber: {
+      type: Boolean,
+      default: () => false,
     },
   },
   components: {
