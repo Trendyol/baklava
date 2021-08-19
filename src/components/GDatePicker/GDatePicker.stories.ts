@@ -14,6 +14,7 @@ storiesOf('GDatePicker', module)
       <div style="margin-bottom: 10px"><GDatePicker
         v-model="date"
         @change="onChange"
+        :show-week-number="showWeekNumber"
         :disabled="disabled"
         :placeholder="placeholder"
         :format="format"
@@ -89,6 +90,9 @@ storiesOf('GDatePicker', module)
       },
       open: {
         default: boolean('Open', false),
+      },
+      showWeekNumber: {
+        default: boolean('showWeekNumber', false),
       },
     },
     data () {
