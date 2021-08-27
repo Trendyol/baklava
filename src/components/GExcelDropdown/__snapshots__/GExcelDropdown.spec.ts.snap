@@ -74,9 +74,15 @@ exports[`GExcelDropdown Specs should match snapshot with default props 1`] = `
             <div
               class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
             >
-              
-        İNDİRME İŞLEMLERİ
-        
+               
+              <span
+                class=""
+              >
+                
+            İNDİRME İŞLEMLERİ
+          
+              </span>
+               
               <!---->
                
               <!---->
@@ -98,9 +104,15 @@ exports[`GExcelDropdown Specs should match snapshot with default props 1`] = `
             <div
               class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
             >
-              
-        YÜKLEME İŞLEMLERİ
-        
+               
+              <span
+                class=""
+              >
+                
+            YÜKLEME İŞLEMLERİ
+          
+              </span>
+               
               <!---->
                
               <!---->
@@ -268,9 +280,15 @@ exports[`GExcelDropdown Specs should match snapshot with excel history list 1`] 
             <div
               class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
             >
-              
-        İNDİRME İŞLEMLERİ
-        
+               
+              <span
+                class=""
+              >
+                
+            İNDİRME İŞLEMLERİ
+          
+              </span>
+               
               <!---->
                
               <!---->
@@ -292,9 +310,15 @@ exports[`GExcelDropdown Specs should match snapshot with excel history list 1`] 
             <div
               class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
             >
-              
-        YÜKLEME İŞLEMLERİ
-        
+               
+              <span
+                class=""
+              >
+                
+            YÜKLEME İŞLEMLERİ
+          
+              </span>
+               
               <!---->
                
               <!---->

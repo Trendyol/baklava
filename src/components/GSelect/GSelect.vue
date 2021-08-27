@@ -169,7 +169,7 @@ export default {
         (opt.text || '').toLocaleLowerCase('TR')
           .includes((this.searchText || '').toLocaleLowerCase('TR')));
     },
-    icon  () {
+    icon () {
       return this.isOptionsVisible ? 'chevron-up' : 'chevron-down';
     },
     getValue () {
@@ -202,14 +202,34 @@ export default {
       };
     },
   },
+  watch: {
+    isOptionsVisible (newValue: boolean) {
+      if (!newValue) {
+        this.$emit('blur');
+      }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .g-select {
+
+  &.small {
+    ::v-deep .-borderline {
+      label {
+        top: -3px
+      }
+    }
+  }
+
   ::v-deep .g-field-wrapper {
+    .content .s-content ~ .g-icon {
+      margin: 0 10px 0 0;
+    }
+
     &.-active {
-     .content {
+      .content {
         border-bottom: none;
         border-radius: 0;
         border-top-left-radius: var(--radius-md);
@@ -217,54 +237,67 @@ export default {
         border-color: var(--orange-500);
       }
     }
+
     .content {
+      display: flex;
+      align-items: center;
       select {
         -webkit-appearance: none;
         z-index: 2;
         color: var(--main-grey-500);
       }
     }
-    &.big .content{
+
+    &.big .content {
       height: 38px;
     }
-    &.small .content{
+
+    &.small .content {
       height: 32px;
     }
+
     .g-field-wrapper .content {
-      background:var(--bg-grey-500);
+      background: var(--bg-grey-500);
       border: 1px solid var(--mid-grey-500);
       border-radius: var(--radius-md);
     }
   }
-  .item{
+
+  .item {
     padding-bottom: 10px;
     border-bottom: 1px solid #d5d9e1;
     margin-bottom: 10px;
     line-height: 1.4;
   }
+
   .item:last-child {
     border: none;
     padding: 0;
     margin: 0;
   }
+
   &.-borderless {
     ::v-deep .g-field-wrapper {
       background: var(--bg-grey-500);
       border-radius: var(--radius-md);
+
       .content {
         border: none;
         color: var(--main-grey-500);
+
         .s-content {
           border: 1px solid var(--orange-500);
           border-radius: var(--radius-md);
           margin-top: 15px;
-          .text{
+
+          .text {
             margin-left: 12px;
           }
         }
       }
     }
   }
+
   .s-content {
     width: -webkit-fill-available;
     background: white;
@@ -275,6 +308,7 @@ export default {
     top: 34px;
     z-index: 3;
     margin: -1px;
+
     &:not(.d-none) {
       border-top: none;
       border-radius: 0;
@@ -283,82 +317,105 @@ export default {
       border-color: var(--orange-500);
     }
   }
+
   .text {
     font-family: var(--font-family-base);
     font-size: var(--font-size-14);
     color: var(--dark-grey-500);
     width: 100%;
+
     &:hover {
       color: var(--main-grey-500);
       cursor: pointer;
     }
   }
+
   .valueText {
     font-family: var(--font-family-base);
     font-size: var(--font-size-14);
     color: var(--main-grey-500);
-    padding: 13px 30px 13px 13px;
+    padding: 0 30px 0 13px;
     display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
   &.small {
     ::v-deep .g-field-wrapper {
       label {
         font-size: 8px;
       }
+
       .content {
         height: 24px;
+
         .valueText {
           font-size: 12px;
           padding: 6px;
         }
       }
+
       .g-icon {
-        margin-top: 0px;
+        margin: 0;
+        width: 14px;
       }
     }
+
     .s-content {
       top: 25px;
       padding: 8px;
     }
-    .item{
+
+    .item {
       margin-bottom: 5px;
       padding-bottom: 5px;
+
       &:last-child {
         margin: 0;
         padding: 0;
       }
     }
   }
+
   &.middle {
     ::v-deep .g-field-wrapper {
       label {
         font-size: 12px;
       }
+
       .content {
         height: 32px;
+
         .valueText {
           font-size: 14px;
           padding: 10px;
         }
       }
+
+      .g-icon {
+        margin: 0;
+        width: 18px;
+      }
     }
+
     .s-content {
       top: 30px;
       padding: 10px;
     }
-    .item{
+
+    .item {
       margin-bottom: 10px;
       padding-bottom: 10px;
+
       &:last-child {
         margin: 0;
         padding: 0;
       }
     }
   }
-  .s-content{
+
+  .s-content {
     max-height: 200px;
     overflow: auto;
   }

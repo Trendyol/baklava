@@ -13,9 +13,15 @@ exports[`GTabs should match snapshot given props  1`] = `
       <div
         class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
       >
-        
-        TÜMÜ
-        
+         
+        <span
+          class=""
+        >
+          
+            TÜMÜ
+          
+        </span>
+         
         <!---->
          
         <!---->
@@ -37,9 +43,15 @@ exports[`GTabs should match snapshot given props  1`] = `
       <div
         class="tab-name g-d-flex g-d-align-center g-d-justify-center g-text-mid-grey-500 -subtitle-03 g-text"
       >
-        
-        DUYURU
-        
+         
+        <span
+          class=""
+        >
+          
+            DUYURU
+          
+        </span>
+         
         <!---->
          
         <!---->
