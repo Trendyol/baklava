@@ -37,7 +37,7 @@ npm install --save @trendyol-js/grace
 or
 
 ```
-yard add @trendyol-js/grace
+yarn add @trendyol-js/grace
 ```
 
 ## 🔨 Usage
