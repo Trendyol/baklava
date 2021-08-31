@@ -127,7 +127,7 @@ describe('GSelect', () => {
       wrapper
         .findAll('.text')
         .at(1)
-        .text()
+        .text(),
     ).toEqual('Text2');
   });
 
@@ -143,6 +143,30 @@ describe('GSelect', () => {
     });
 
     expect(wrapper.findAllComponents(GInput).length).toEqual(1);
+  });
+
+  it('should emit blur event if select is closed', async () => {
+    // given
+    wrapper = mount(GSelect, {
+      propsData: {
+        options: [
+          { value: 'Value1', text: 'Text1' },
+          { value: 'Value2', text: 'Text2' },
+        ],
+        placeholder: 'placeholder',
+        isBorderless: true,
+      },
+    });
+
+    wrapper.find('.content').trigger('click'); // open select
+    await wrapper.vm.$nextTick();
+
+    // when
+    wrapper.find('.content').trigger('click'); // close select
+    await wrapper.vm.$nextTick();
+
+    // then
+    expect(wrapper.emitted().blur).toBeTruthy();
   });
 
   it('should checkbox and text disable when disabled prop is true', () => {

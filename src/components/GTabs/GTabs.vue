@@ -6,59 +6,85 @@
       :key="tab.type"
       :class="[{ 'active': tab.type === type }, tab.type]"
       @click="tab.type !== type && handleTabClick(tab.type)"
+      @mouseenter="onMouseEnter(tab)"
+      @mouseleave="onMouseLeave(tab)"
     >
-      <div class="tab-title">
-        <GText
-          class="tab-name g-d-flex g-d-align-center g-d-justify-center"
-          variant="subtitle-03"
-          color="mid-grey-500"
-        >
-          {{ label(tab.label) }}
-          <GTooltip
-            v-if="tab.tooltipText"
-            placement="bottom"
-          >
-            <template #tooltip-trigger>
-              <GIcon
-                class="g-ml-4"
-                name="alert-circle"
-                size="14px"
-              />
-            </template>
-            <template #tooltip-text>
-              {{ label(tab.tooltipText) }}
-            </template>
-          </GTooltip>
-          <GText
-            v-if="tab.isNew"
-            variant="small"
-            :color='tab.isNew.color'
-            :class='"g-bg-" + tab.isNew.bgColor'
-            class="g-rad-sm g-py-4 g-px-10 g-ml-10 is-new">
-            {{ tab.isNew.text }}
-          </GText>
-        </GText>
-      </div>
       <slot
-        name="sub-title"
-        :tab="tab"
+        :name="tab.type"
+        :tab="{
+          ...tab,
+          isActive: tab.type === type,
+          isHovered: tab.type === hoveredTabKey
+        }"
       >
-        <div
-          v-if="showCount && tab.totalElements > -1"
-          class="tab-count"
-        >
+        <div class="tab-title">
           <GText
-            variant="small"
+            class="tab-name g-d-flex g-d-align-center g-d-justify-center"
+            variant="subtitle-03"
             color="mid-grey-500"
           >
-            {{ tab.totalElements | formatted }}
-            <slot name="totalElementText">
-              BİLDİRİM
-            </slot>
+            <slot
+              :name="`left|${tab.type}`"
+              :tab="{
+                ...tab,
+                isActive: tab.type === type,
+                isHovered: tab.type === hoveredTabKey
+              }"
+            />
+            <span :class="{ 'g-ml-4': !!$slots[`left|${tab.type}`] }">
+              {{ label(tab.label) }}
+            </span>
+            <GTooltip
+              v-if="tab.tooltipText"
+              placement="bottom"
+            >
+              <template #tooltip-trigger>
+                <GIcon
+                  class="g-ml-4"
+                  name="alert-circle"
+                  size="14px"
+                />
+              </template>
+              <template #tooltip-text>
+                {{ label(tab.tooltipText) }}
+              </template>
+            </GTooltip>
+            <GText
+              v-if="tab.isNew"
+              variant="small"
+              :color="tab.isNew.color"
+              :class="&quot;g-bg-&quot; + tab.isNew.bgColor"
+              class="g-rad-sm g-py-4 g-px-10 g-ml-10 is-new"
+            >
+              {{ tab.isNew.text }}
+            </GText>
           </GText>
         </div>
+        <slot
+          name="sub-title"
+          :tab="{
+            ...tab,
+            isActive: tab.type === type,
+            isHovered: tab.type === hoveredTabKey
+          }"
+        >
+          <div
+            v-if="showCount && tab.totalElements > -1"
+            class="tab-count"
+          >
+            <GText
+              variant="small"
+              color="mid-grey-500"
+            >
+              {{ tab.totalElements | formatted }}
+              <slot name="totalElementText">
+                BİLDİRİM
+              </slot>
+            </GText>
+          </div>
+        </slot>
+        <div class="seperator" />
       </slot>
-      <div class="seperator" />
     </div>
   </div>
 </template>
@@ -94,6 +120,12 @@ export default {
       default: false,
     },
   },
+  data () {
+    return {
+      hoveredTabKey: '',
+    };
+  },
+
   filters: {
     formatted (val:any) {
       return val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
@@ -108,7 +140,13 @@ export default {
     },
   },
   methods: {
-    handleTabClick (type) {
+    onMouseEnter (tab: any): void {
+      this.hoveredTabKey = tab.type;
+    },
+    onMouseLeave (tab: any): void {
+      this.hoveredTabKey = '';
+    },
+    handleTabClick (type: string): void {
       this.$emit('handleTabClick', type);
     },
     label (label) {
