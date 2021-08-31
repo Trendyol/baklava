@@ -14,7 +14,7 @@
         :tab="{
           ...tab,
           isActive: tab.type === type,
-          isHovered: hoveredTabKey === type
+          isHovered: tab.type === hoveredTabKey
         }"
       >
         <div class="tab-title">
@@ -28,7 +28,7 @@
               :tab="{
                 ...tab,
                 isActive: tab.type === type,
-                isHovered: hoveredTabKey === type
+                isHovered: tab.type === hoveredTabKey
               }"
             />
             <span :class="{ 'g-ml-4': !!$slots[`left|${tab.type}`] }">
@@ -65,7 +65,7 @@
           :tab="{
             ...tab,
             isActive: tab.type === type,
-            isHovered: hoveredTabKey === type
+            isHovered: tab.type === hoveredTabKey
           }"
         >
           <div
