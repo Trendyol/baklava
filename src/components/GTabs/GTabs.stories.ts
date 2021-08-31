@@ -165,7 +165,7 @@ stories
           @handleTabClick="handleTabClick"
         >
           <template v-slot:all="{ tab }">
-            {{ tab.type }}
+            {{ tab.label }} {{ tab.isHovered ? 'Hovered' : '' }}
           </template>
           <template v-slot:[slotName]>
             <GIcon name="database" width="14"></GIcon>
