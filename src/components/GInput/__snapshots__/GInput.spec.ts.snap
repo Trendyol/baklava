@@ -11,7 +11,7 @@ exports[`GInput should match snapshot when show is prop is given as false  1`] =
     <div
       class="g-field-wrapper -borderline big"
     >
-      <label />
+      <!---->
        
       <div
         class="content"

@@ -23,13 +23,16 @@ storiesOf('GSelect', module)
         default: [
           {
             value: 'Value1',
-            text: 'Text Option 1 WİTH İ',
-            checked: false,
+            text: 'Text Option 1 with i',
           },
           {
             value: 'Value2',
             text: 'Text Option 2 with i',
-            checked: true,
+          },
+          {
+            value: 'Value3',
+            text: 'Text Option 3 with i',
+            disabled: true,
           },
         ],
       },

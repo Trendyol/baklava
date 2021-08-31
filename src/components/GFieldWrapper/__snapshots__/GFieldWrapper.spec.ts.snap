@@ -5,7 +5,7 @@ exports[`GFieldWrapper should match snapshot when show is prop is given as false
   <div
     class="g-field-wrapper -borderline big"
   >
-    <label />
+    <!---->
      
     <div
       class="content"

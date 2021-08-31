@@ -8,7 +8,7 @@ exports[`GNativeSelect should match snapshot when show is prop is given as false
     <div
       class="g-field-wrapper -borderline -top big"
     >
-      <label />
+      <!---->
        
       <div
         class="content"
