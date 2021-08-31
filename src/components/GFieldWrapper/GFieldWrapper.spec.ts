@@ -244,4 +244,25 @@ describe('GFieldWrapper', () => {
       'g-field-wrapper': true,
     });
   });
+
+  it('should render label when label prop set', async () => {
+    renderWrapper({
+      propsData: {
+        label: 'dummy text',
+      },
+    });
+
+    expect(wrapper.contains('label')).toBeTruthy();
+    expect(wrapper.get('label').text()).toBe('dummy text');
+  });
+
+  it('should not render label when label prop is not set', async () => {
+    renderWrapper({
+      propsData: {
+        label: '',
+      },
+    });
+
+    expect(wrapper.contains('label')).toBeFalsy();
+  });
 });

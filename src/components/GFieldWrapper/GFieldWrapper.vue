@@ -6,6 +6,7 @@
       @click="clickWrapper"
     >
       <label
+        v-if="hasLabel"
         v-text="label"
       />
       <div class="content">
@@ -132,6 +133,9 @@ export default {
       get () {
         return this.isValue || false;
       },
+    },
+    hasLabel (): Boolean {
+      return !!this.label.length;
     },
   },
   methods: {

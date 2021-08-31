@@ -144,4 +144,25 @@ describe('GSelect', () => {
 
     expect(wrapper.findAllComponents(GInput).length).toEqual(1);
   });
+
+  it('should checkbox and text disable when disabled prop is true', () => {
+    wrapper = mount(GSelect, {
+      propsData: {
+        options: [
+          { value: 'Value1', text: 'Text1' },
+          { value: 'Value2', text: 'Text2', disabled: true },
+          { value: 'Value3', text: 'Text3' },
+        ],
+        isCheckbox: true,
+      },
+    });
+
+    const optionItem = wrapper
+      .findAll('.item')
+      .at(1);
+
+    expect(optionItem.classes().includes('disabled')).toBeTruthy();
+    expect(optionItem.find('.-input').attributes().hasOwnProperty('disabled')).toBeTruthy();
+    expect(optionItem.find('.text').classes().includes('disabled')).toBeTruthy();
+  });
 });

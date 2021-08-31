@@ -33,18 +33,21 @@
           flex
           align="start"
           class="item"
+          :class="{ disabled: isDisabled(item) }"
           v-for="item in filteredOptions"
           :key="item.value"
-          @click.stop="clickItem(item.value)"
+          @click.stop="clickItem(item)"
         >
           <GCheckbox
             v-if="isCheckbox"
             :value="{ id: 1 }"
             :model-value="isSelected(item)"
+            :disabled="isDisabled(item)"
             class="g-mr-4"
           />
           <span
             class="text"
+            :class="{ disabled: isDisabled(item) }"
             v-text="item.text"
           />
         </GBox>
@@ -140,16 +143,22 @@ export default {
       }
       return this.value === item.value;
     },
+    isDisabled (item): Boolean {
+      return !this.isSelected(item) && item.disabled;
+    },
     onSearchChange (text: string | number) {
       this.$emit('onSearchChange', text);
     },
-    clickItem (item: string | number) {
+    clickItem (item) {
+      if (this.isDisabled(item)) {
+        return;
+      }
       if (this.isCheckbox) {
-        return this.clickCheckbox(item);
+        return this.clickCheckbox(item.value);
       }
       this.isOptionsVisible = false;
-      this.$emit('input', item);
-      this.$emit('onChange', item);
+      this.$emit('input', item.value);
+      this.$emit('onChange', item.value);
     },
     clickCheckbox (item: string | number) {
       const array = this.value.slice();
@@ -241,6 +250,12 @@ export default {
     border-bottom: 1px solid #d5d9e1;
     margin-bottom: 10px;
     line-height: 1.4;
+
+    &.disabled {
+      ::v-deep * {
+        cursor: not-allowed !important;
+      }
+    }
   }
   .item:last-child {
     border: none;
@@ -288,7 +303,7 @@ export default {
     font-size: var(--font-size-14);
     color: var(--dark-grey-500);
     width: 100%;
-    &:hover {
+    &:not(.disabled):hover {
       color: var(--main-grey-500);
       cursor: pointer;
     }
