@@ -41,10 +41,13 @@ storiesOf('GSelect', module)
       onChange (value: string | string[]) {
         action('On Change')(value);
       },
+      onBlur (value: string | string[]) {
+        action('On blur')(value);
+      },
     },
     template: `
     <div style="margin: 40px 10vh 10vh">
-      <GSelect class="g-mb-20" :options="options" v-model="value1" label="Email" @onChange="onChange" placeholder="Placeholder" isCheckbox/>
+      <GSelect class="g-mb-20" :options="options" v-model="value1" label="Email" @onChange="onChange" placeholder="Placeholder" isCheckbox @blur="onBlur"/>
       <GSelect class="g-mb-20" :options="options" v-model="value2" label="Email" @onChange="onChange" placeholder="Placeholder" isSearch @onSearchChange="onSearchChange" feedback="feedback" isOutlineLabel/>
       <GSelect class="g-mb-20" :options="options" v-model="value3" label="Email" />
       <GSelect class="g-mb-20" :options="options" v-model="value4" label="Small" size="small" />
