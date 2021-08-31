@@ -6,10 +6,16 @@
       :key="tab.type"
       :class="[{ 'active': tab.type === type }, tab.type]"
       @click="tab.type !== type && handleTabClick(tab.type)"
+      @mouseenter="onMouseEnter(tab)"
+      @mouseleave="onMouseLeave(tab)"
     >
       <slot
         :name="tab.type"
-        :tab="{...tab, isActive: tab.type === type}"
+        :tab="{
+          ...tab,
+          isActive: tab.type === type,
+          isHovered: hoveredTabKey === type
+        }"
       >
         <div class="tab-title">
           <GText
@@ -19,7 +25,11 @@
           >
             <slot
               :name="`left|${tab.type}`"
-              :tab="{...tab, isActive: tab.type === type}"
+              :tab="{
+                ...tab,
+                isActive: tab.type === type,
+                isHovered: hoveredTabKey === type
+              }"
             />
             <span :class="{ 'g-ml-4': !!$slots[`left|${tab.type}`] }">
               {{ label(tab.label) }}
@@ -52,7 +62,11 @@
         </div>
         <slot
           name="sub-title"
-          :tab="tab"
+          :tab="{
+            ...tab,
+            isActive: tab.type === type,
+            isHovered: hoveredTabKey === type
+          }"
         >
           <div
             v-if="showCount && tab.totalElements > -1"
@@ -106,6 +120,12 @@ export default {
       default: false,
     },
   },
+  data () {
+    return {
+      hoveredTabKey: '',
+    };
+  },
+
   filters: {
     formatted (val:any) {
       return val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
@@ -120,7 +140,13 @@ export default {
     },
   },
   methods: {
-    handleTabClick (type) {
+    onMouseEnter (tab: any): void {
+      this.hoveredTabKey = tab.type;
+    },
+    onMouseLeave (tab: any): void {
+      this.hoveredTabKey = '';
+    },
+    handleTabClick (type: string): void {
       this.$emit('handleTabClick', type);
     },
     label (label) {
