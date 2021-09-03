@@ -28,6 +28,7 @@
 import DatePicker from 'vue2-datepicker';
 import GInput from '../GInput/GInput.vue';
 import dayjs from 'dayjs';
+import 'dayjs/locale/tr';
 import 'vue2-datepicker/locale/tr';
 const weekOfYear = require('dayjs/plugin/weekOfYear');
 dayjs.extend(weekOfYear);
@@ -79,7 +80,9 @@ export default {
     getDate: {
       get () {
         if (this.type === 'week') {
-          return dayjs(this.date).week();
+          const startDate = dayjs(this.date).locale('tr').startOf('week').format('DD.MM.YYYY');
+          const endDate = dayjs(this.date).locale('tr').endOf('week').format('DD.MM.YYYY');
+          return startDate + ' - ' + endDate;
         }
         if (!this.date) {
           return null;
