@@ -130,7 +130,7 @@ storiesOf('GDatePicker', module)
         // @ts-ignore
         this.type = 'week';
         // @ts-ignore
-        this.format = 'w';
+        this.format = 'DD.MM.YYYY';
         // @ts-ignore
         this.open = false;
         // @ts-ignore
