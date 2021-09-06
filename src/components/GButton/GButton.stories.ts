@@ -125,4 +125,9 @@ storiesOf('GButton', module)
     template: `
       <GButton variant="gradient-purple" leftIcon="play-circle">TUTORIAL TYPE</GButton>
     `,
+  })).add('link', () => ({
+    components: { GButton },
+    template: `
+    <GButton variant="link">Link</GButton>
+  `,
   }));
