@@ -4,6 +4,7 @@
     v-bind="getAttrs"
     :lang="lang"
     :show-week-number="showWeekNumber"
+    :is-range-mode="isRangeMode"
     v-model="date"
     @input="onInput"
     v-on="listeners"
@@ -30,8 +31,6 @@ import GInput from '../GInput/GInput.vue';
 import dayjs from 'dayjs';
 import 'dayjs/locale/tr';
 import 'vue2-datepicker/locale/tr';
-const weekOfYear = require('dayjs/plugin/weekOfYear');
-dayjs.extend(weekOfYear);
 
 const _dateFormat = (value:any, format:any) => {
   if (!value) {
@@ -52,6 +51,10 @@ export default {
       default: () => 'date',
     },
     showWeekNumber: {
+      type: Boolean,
+      default: () => false,
+    },
+    isRangeMode: {
       type: Boolean,
       default: () => false,
     },
@@ -174,6 +177,24 @@ export default {
             color: var(--mid-grey-500);
           }
           .mx-calendar-header-label{
+            .mx-btn{
+              color: var(--dark-grey-500);
+            }
+          }
+        }
+        .mx-datepicker-footer {
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: row-reverse;
+          padding: 6px 8px;
+          border-bottom: 1px solid #e8e8e8;
+          gap: 3px;
+        }
+        .mx-calendar-footer{
+          .mx-btn{
+            color: var(--mid-grey-500);
+          }
+          .mx-calendar-footer-label{
             .mx-btn{
               color: var(--dark-grey-500);
             }
