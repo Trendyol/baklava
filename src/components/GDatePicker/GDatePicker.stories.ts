@@ -3,6 +3,7 @@ import { withKnobs, boolean, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import GDatePicker from './';
 import GButton from '../GButton/GButton.vue';
+import dayjs from 'dayjs';
 
 storiesOf('GDatePicker', module)
   .addDecorator(withKnobs)
@@ -15,6 +16,7 @@ storiesOf('GDatePicker', module)
         v-model="date"
         @change="onChange"
         :show-week-number="showWeekNumber"
+        :range="isRangeMode"
         :disabled="disabled"
         :placeholder="placeholder"
         :format="format"
@@ -36,8 +38,17 @@ storiesOf('GDatePicker', module)
           </GButton>
         </template>
         <template v-slot:footer="{emit}">
-          <GButton @click="emit(new Date())" size="small">
+          <GButton @click="switchToYesterday(emit)" outline size="small">
+            Dün
+          </GButton>
+          <GButton @click="switchToToday(emit)" outline size="small">
             Bugün
+          </GButton>
+          <GButton @click="switchToLast7Days(emit)" outline size="small">
+            Son 7 Gün
+          </GButton>
+          <GButton @click="switchToLast30Days(emit)" outline size="small">
+            Son 30 Gün
           </GButton>
         </template>
       </GDatePicker></div>
@@ -94,6 +105,9 @@ storiesOf('GDatePicker', module)
       showWeekNumber: {
         default: boolean('showWeekNumber', false),
       },
+      isRangeMode: {
+        default: boolean('isRangeMode', false),
+      },
     },
     data () {
       return {
@@ -106,7 +120,54 @@ storiesOf('GDatePicker', module)
         // @ts-ignore
         this.date = null;
       },
+      switchToLast30Days (emit) {
+        // @ts-ignore
+        this.isRangeMode = true;
+        // @ts-ignore
+        this.type = '';
+        // @ts-ignore
+        this.format = 'DD.MM.YYYY';
+
+        const today = new Date();
+        const dateOfLast30Days = new Date(new Date().setDate(new Date().getDate() - 30));
+        const startDate = new Date(dayjs(dateOfLast30Days).startOf('day').format());
+        const endDate = new Date(dayjs(today).endOf('day').format());
+        const date = [startDate, endDate];
+        emit(date);
+
+        // @ts-ignore
+        this.open = false;
+        // @ts-ignore
+        this.$nextTick(()=>{this.open=true});
+      },
+      switchToLast7Days (emit) {
+        // @ts-ignore
+        this.isRangeMode = true;
+        // @ts-ignore
+        this.type = '';
+        // @ts-ignore
+        this.format = 'DD.MM.YYYY';
+
+        const today = new Date();
+        const dateOfLast7Days = new Date(new Date().setDate(new Date().getDate() - 7));
+        const startDate = new Date(dayjs(dateOfLast7Days).startOf('day').format());
+        const endDate = new Date(dayjs(today).endOf('day').format());
+        const date = [startDate, endDate];
+        emit(date);
+
+        // @ts-ignore
+        this.open = false;
+        // @ts-ignore
+        this.$nextTick(()=>{this.open=true});
+      },
       switchToYearly () {
+        // @ts-ignore
+        if (this.isRangeMode) {
+          // @ts-ignore
+          this.date = new Date();
+          // @ts-ignore
+          this.isRangeMode = false;
+        }
         // @ts-ignore
         this.type = 'year';
         // @ts-ignore
@@ -118,6 +179,13 @@ storiesOf('GDatePicker', module)
       },
       switchToMonthly () {
         // @ts-ignore
+        if (this.isRangeMode) {
+          // @ts-ignore
+          this.date = new Date();
+          // @ts-ignore
+          this.isRangeMode = false;
+        }
+        // @ts-ignore
         this.type = 'month';
         // @ts-ignore
         this.format = 'MM YYYY';
@@ -128,6 +196,13 @@ storiesOf('GDatePicker', module)
       },
       switchToWeekly () {
         // @ts-ignore
+        if (this.isRangeMode) {
+          // @ts-ignore
+          this.date = new Date();
+          // @ts-ignore
+          this.isRangeMode = false;
+        }
+        // @ts-ignore
         this.type = 'week';
         // @ts-ignore
         this.format = 'DD.MM.YYYY';
@@ -137,6 +212,47 @@ storiesOf('GDatePicker', module)
         this.$nextTick(()=>{this.open = true});
       },
       switchToDaily () {
+        // @ts-ignore
+        if (this.isRangeMode) {
+          // @ts-ignore
+          this.date = new Date();
+          // @ts-ignore
+          this.isRangeMode = false;
+        }
+        // @ts-ignore
+        this.type = 'date';
+        // @ts-ignore
+        this.format = 'DD.MM.YYYY';
+        // @ts-ignore
+        this.open = false;
+        // @ts-ignore
+        this.$nextTick(()=>{this.open=true});
+      },
+      switchToToday () {
+        // @ts-ignore
+        if (this.isRangeMode) {
+          // @ts-ignore
+          this.isRangeMode = false;
+        }
+        // @ts-ignore
+        this.date = new Date();
+        // @ts-ignore
+        this.type = 'date';
+        // @ts-ignore
+        this.format = 'DD.MM.YYYY';
+        // @ts-ignore
+        this.open = false;
+        // @ts-ignore
+        this.$nextTick(()=>{this.open=true});
+      },
+      switchToYesterday () {
+        // @ts-ignore
+        if (this.isRangeMode) {
+          // @ts-ignore
+          this.isRangeMode = false;
+        }
+        // @ts-ignore
+        this.date = new Date(new Date().setDate(new Date().getDate() - 1));
         // @ts-ignore
         this.type = 'date';
         // @ts-ignore
