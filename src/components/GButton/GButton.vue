@@ -37,6 +37,30 @@
 import GIcon from '../GIcon/GIcon.vue';
 import $_ from '../../utils/dashUtil.ts';
 
+const VALID_BUTTON_VARIANT = [
+  'passive',
+  'primary',
+  'primary-darker',
+  'secondary',
+  'secondary-darker',
+  'tertiary',
+  'tertiary-darker',
+  'success',
+  'success-darker',
+  'info',
+  'info-darker',
+  'warning',
+  'warning-darker',
+  'danger',
+  'danger-darker',
+  'light',
+  'light-darker',
+  'dark',
+  'dark-darker',
+  'gradient-purple',
+  'link',
+];
+
 export default {
   name: 'GButton',
   components: {
@@ -46,6 +70,13 @@ export default {
     variant: {
       type: String,
       default: 'primary',
+      validator: function (value: string) {
+        if (!VALID_BUTTON_VARIANT.includes(value)) {
+          throw new Error(`Invalid prop. Give of of ${VALID_BUTTON_VARIANT.join(',')}`);
+        }
+
+        return true;
+      },
     },
     size: {
       type: String,
@@ -482,6 +513,26 @@ export default {
     color: white;
     &:hover {
       background-color: var(--main-grey-400);
+    }
+    &.icon {
+      color: white;
+      path {
+        fill: white;
+      }
+    }
+  }
+
+  &.-link {
+    background-color: transparent;
+    color: var( --main-grey-500);
+    text-decoration: underline;
+
+    .content {
+      font-weight: 400;
+    }
+
+    &:hover {
+      text-decoration: underline;
     }
     &.icon {
       color: white;
