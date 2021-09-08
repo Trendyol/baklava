@@ -34,11 +34,13 @@ exports[`GDatePicker should match snapshot 1`] = `
 >
   <template>
     <g-input-stub
+      class="picker-input"
       disabled="true"
       feedback=""
       icon=""
       iconposition=""
       label="Başlangıç Tarihi"
+      readonly=""
       size="big"
       type="text"
     />
@@ -80,11 +82,13 @@ exports[`GDatePicker should match snapshot check attributes object 1`] = `
 >
   <template>
     <g-input-stub
+      class="picker-input"
       disabled="true"
       feedback=""
       icon=""
       iconposition=""
       label="StartDate"
+      readonly=""
       size="big"
       type="text"
     />
