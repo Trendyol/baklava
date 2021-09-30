@@ -83,7 +83,7 @@ export default {
     },
     badgeStyle () {
       return {
-        'border-color': [`var(${this.borderColor})`],
+        'border-color': [`var(--${this.borderColor})`],
       };
     },
     badgeContainerClass () {
