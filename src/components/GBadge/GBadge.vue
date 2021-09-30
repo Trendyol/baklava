@@ -3,17 +3,11 @@
     :class="badgeContainerClass"
   >
     <div
-      v-if="dot"
-      :class="badgeClass"
-      :style="badgeStyle"
-    />
-    <div
-      v-else
       :class="badgeClass"
       :style="badgeStyle"
     >
       <GText
-        v-if="text"
+        v-if="!dot && text"
         variant="caption"
         :color="textColor"
       >
