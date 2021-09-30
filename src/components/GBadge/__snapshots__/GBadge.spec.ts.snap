@@ -5,7 +5,7 @@ exports[`GBadge should match snapshot with default style 1`] = `
   class="g-badge"
 >
   <div
-    class="badge g-border-mid-grey-100 g-bg-orange-100"
+    class="badge g-bg-orange-100"
   >
     <gtext-stub
       color="white"

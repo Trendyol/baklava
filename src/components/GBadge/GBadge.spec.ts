@@ -19,13 +19,12 @@ describe('GBadge', () => {
       bottom: false,
       dot: false,
       'g-bg-orange-100': true,
-      'g-border-mid-grey-100': true,
       inline: false,
       left: false,
       overlap: false,
     });
     expect(wrapper.vm.badgeContainerClass).toEqual({
-      "g-badge": true,
+      'g-badge': true,
       inline: false,
       left: false,
     });
@@ -48,7 +47,6 @@ describe('GBadge', () => {
       bottom: false,
       dot: false,
       'g-bg-green-400': true,
-      'g-border-green-500': true,
       inline: false,
       left: false,
       overlap: false,
@@ -67,7 +65,7 @@ describe('GBadge', () => {
 
     // then
     expect(wrapper.vm.badgeContainerClass).toEqual({
-      "g-badge": true,
+      'g-badge': true,
       inline: true,
       left: true,
     });
