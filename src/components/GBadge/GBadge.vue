@@ -5,10 +5,12 @@
     <div
       v-if="dot"
       :class="badgeClass"
+      :style="badgeStyle"
     />
     <div
       v-else
       :class="badgeClass"
+      :style="badgeStyle"
     >
       <GText
         v-if="text"
@@ -82,8 +84,12 @@ export default {
         dot: this.dot,
         inline: this.inline,
         border: this.border && !this.dot,
-        [`g-border-${this.borderColor}`]: true,
         [`g-bg-${this.backgroundColor}`]: true,
+      };
+    },
+    badgeStyle () {
+      return {
+        'border-color': [`var(${this.borderColor})`],
       };
     },
     badgeContainerClass () {
