@@ -58,7 +58,8 @@ storiesOf('GSelect', module)
       <GSelect class="g-mb-20" :options="options" v-model="value6" label="Big" size="big" />
       <GSelect class="g-mb-20" :options="options" v-model="value7" placeholder="Email" isBorderless />
       <div style="width: 150px">
-        <GSelect class="g-mb-20" :options="options" v-model="value8" label="Email" @onChange="onChange" placeholder="Placeholder" isCheckbox isOutlineLabel/>
+      <GSelect class="g-mb-20" :options="options" v-model="value8" label="Email" @onChange="onChange" placeholder="Placeholder" isCheckbox isOutlineLabel/>
       </div>
+      <GSelect class="g-mb-20" :disable="true" :options="options" v-model="value7" label="Middle" size="middle" placeholder="Disabled" />
     </div>`,
   }));
