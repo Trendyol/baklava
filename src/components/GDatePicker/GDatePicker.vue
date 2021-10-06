@@ -11,15 +11,23 @@
   >
     <template slot="input">
       <g-input
+        class="picker-input"
         v-model="getDate"
         :label="getPlaceholder"
         :disabled="true"
+        readonly
         v-bind="getInputAttrs"
       />
     </template>
 
-    <template v-for="(_, name) in $scopedSlots" v-slot:[name]="{emit}">
-      <slot :name="name" :emit="emit" />
+    <template
+      v-for="(_, name) in $scopedSlots"
+      v-slot:[name]="{emit}"
+    >
+      <slot
+        :name="name"
+        :emit="emit"
+      />
     </template>
   </date-picker>
 </template>
@@ -135,6 +143,9 @@ export default {
 <style lang="scss" scoped>
   @import '~vue2-datepicker/index.css';
   .g-date-picker{
+    ::v-deep .picker-input input {
+      cursor: auto;
+    }
     &[error]{
       ::v-deep .mx-icon-calendar svg{
         stroke: var(--red-500);
