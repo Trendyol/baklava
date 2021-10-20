@@ -213,6 +213,10 @@ export default {
   },
   watch: {
     isOptionsVisible (newValue: boolean) {
+      if(this.disable){
+        this.isOptionsVisible = false;
+        return;
+      }
       if (!newValue) {
         this.$emit('blur');
       }

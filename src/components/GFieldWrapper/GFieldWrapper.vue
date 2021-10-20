@@ -101,7 +101,7 @@ export default {
   },
   watch: {
     isActiveContent (newValue) {
-      this.isActive = newValue;
+      this.isActive = this.disable ? false : newValue;
     },
   },
   computed: {
@@ -140,7 +140,7 @@ export default {
   },
   methods: {
     clickWrapper () {
-      this.isActive = !this.isActive;
+      this.isActive = this.disable ? false: !this.isActive;
       this.$emit('update:isActiveContent', this.isActive);
       this.onClick();
     },
@@ -236,11 +236,18 @@ export default {
   &.-disable {
     .content {
       border-color: var(--mid-grey-800) !important;
+      div,
       input,
       textarea,
       select {
         background: var(--bg-grey-500);
         color: var(--main-grey-500);
+      }
+      div {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
       }
     }
     label,
