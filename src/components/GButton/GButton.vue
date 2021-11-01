@@ -52,6 +52,7 @@ const VALID_BUTTON_VARIANT = [
   'warning',
   'warning-darker',
   'danger',
+  'gray',
   'danger-darker',
   'light',
   'light-darker',
@@ -72,7 +73,8 @@ export default {
       default: 'primary',
       validator: function (value: string) {
         if (!VALID_BUTTON_VARIANT.includes(value)) {
-          throw new Error(`Invalid prop. Give of of ${VALID_BUTTON_VARIANT.join(',')}`);
+          console.error(`Invalid prop ${value}. Give one of the following: ${VALID_BUTTON_VARIANT.join(',')}`);
+          return false;
         }
 
         return true;
