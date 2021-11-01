@@ -64,17 +64,21 @@ export default {
         $el.children[0].src = src;
       }
 
-      const observer = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          $el.children[0].src = src;
-          observer.disconnect();
-        }
-      });
-      observer.observe($el);
+      try {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            $el.children[0].src = src;
+            observer.disconnect();
+          }
+        });
+        observer.observe($el);
 
-      this.$once('hook:beforeDestroy', () => {
-        observer.disconnect();
-      });
+        this.$once('hook:beforeDestroy', () => {
+          observer.disconnect();
+        });
+      } catch {
+        $el.children[0].src = src;
+      }
     },
   },
   mounted () {
