@@ -151,7 +151,7 @@ export default {
     },
     label (label) {
       return label
-        ? label.toLocaleUpperCase('TR')
+        ? label
         : '';
     },
   },
