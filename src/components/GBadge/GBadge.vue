@@ -5,6 +5,7 @@
     <div
       :class="badgeClass"
       :style="badgeStyle"
+      v-if="showBadge"
     >
       <GText
         v-if="!dot && text"
@@ -66,6 +67,10 @@ export default {
     text: {
       type: String,
       default: '0',
+    },
+    showBadge: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
