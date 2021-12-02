@@ -21,7 +21,7 @@
           <GText
             class="tab-name g-d-flex g-d-align-center g-d-justify-center"
             variant="subtitle-03"
-            color="mid-grey-500"
+            :color="titleColor"
           >
             <slot
               :name="`left|${tab.type}`"
@@ -74,7 +74,7 @@
           >
             <GText
               variant="small"
-              color="mid-grey-500"
+              :color="subTitleColor"
             >
               {{ tab.totalElements | formatted }}
               <slot name="totalElementText">
@@ -118,6 +118,14 @@ export default {
     fluid: {
       type: Boolean,
       default: false,
+    },
+    titleColor: {
+      type: String,
+      default: () => 'main-grey-500',
+    },
+    subTitleColor: {
+      type: String,
+      default: () => 'main-grey-500',
     },
   },
   data () {
