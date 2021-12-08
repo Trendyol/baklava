@@ -37,14 +37,14 @@
           variant="gray"
           @click="prevStep"
         >
-          GERİ DÖN
+          {{ backButtonTitle || "GERİ DÖN" }}
         </GButton>
         <GButton @click="nextStep">
           <span v-if="isLastStep">
-            ONAYLA VE BİTİR
+            {{ approveButtonTitle || "ONAYLA VE BİTİR" }}
           </span>
           <span v-else>
-            DEVAM ET
+            {{ continueButtonTitle || "DEVAM ET" }}
           </span>
         </GButton>
       </div>
@@ -68,6 +68,9 @@ export default {
       type: [Function],
       default: () => Promise.resolve({}),
     },
+    continueButtonTitle: [String],
+    backButtonTitle: [String],
+    approveButtonTitle: [String],
   },
   data () {
     return {
