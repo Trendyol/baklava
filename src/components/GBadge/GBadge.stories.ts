@@ -39,6 +39,9 @@ stories
       text: {
         default: text('Text', '2'),
       },
+      showBadge: {
+        default: boolean('ShowBadge', true),
+      },
     },
     components: { GBadge, GIcon },
     template: `
@@ -54,6 +57,7 @@ stories
           :background-color="backgroundColor"
           :font-color="fontColor"
           :border-color="borderColor"
+          :show-badge="showBadge"
         >
           <template>
             <GIcon name="bell"/>
