@@ -71,7 +71,6 @@ export default {
     continueButtonTitle: [String],
     backButtonTitle: [String],
     approveButtonTitle: [String],
-
   },
   data () {
     return {
