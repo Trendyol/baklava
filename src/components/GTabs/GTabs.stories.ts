@@ -30,6 +30,12 @@ stories
       showCount: {
         default: boolean('Show Count', false),
       },
+      titleColor: {
+        default: text('Title Color', 'main-grey-500'),
+      },
+      subTitleColor: {
+        default: text('SubTitle Color', 'main-grey-500'),
+      },
     },
     methods: {
       handleTabClick (type) {
@@ -42,6 +48,8 @@ stories
           :tabs="tabs"
           :type="type"
           :showCount="showCount"
+          :titleColor="titleColor"
+          :subTitleColor="subTitleColor"
           @handleTabClick="handleTabClick"
         />
       </GBox>`,
