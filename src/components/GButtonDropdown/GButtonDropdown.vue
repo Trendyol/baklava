@@ -7,6 +7,7 @@
       >
         <template #tooltip-trigger>
           <GButton
+            v-bind="$attrs"
             :variant="variant"
             :size="size"
             :disabled="isDisabled || isButtonDisabled"
@@ -21,6 +22,7 @@
       </GTooltip>
       <GButton
         v-else
+        v-bind="$attrs"
         :variant="variant"
         :size="size"
         :disabled="isDisabled || isButtonDisabled"
@@ -29,6 +31,7 @@
         <slot />
       </GButton>
       <GButton
+        v-bind="$attrs"
         :icon="icon"
         :variant="darkVariant"
         :size="size"
