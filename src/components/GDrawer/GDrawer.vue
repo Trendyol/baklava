@@ -78,8 +78,6 @@ export default {
 .g-drawer {
   position: fixed;
   right: 0;
-  // top: 100px;
-  // height: calc(100% - 100px);
   width: 424px;
   z-index: 100;
 
