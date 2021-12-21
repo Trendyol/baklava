@@ -11,9 +11,11 @@ storiesOf('GDrawer', module)
     }),
     methods: {
       onShow: function () {
+        // @ts-ignore
         this.show = true;
       },
       onClose () {
+        // @ts-ignore
         this.show = false;
       }
     },
