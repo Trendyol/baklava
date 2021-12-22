@@ -77,15 +77,21 @@ export default {
 <style lang="scss" scoped>
 .g-drawer {
   position: fixed;
+  background-color: var(--white);
   right: 0;
-  width: 424px;
+  width: 425px;
+  border-radius: 6px 0 0 0;
   z-index: 100;
+  box-shadow: 0px 8px 16px rgba(39, 49, 66, 0.2);
+
+  @media only screen and (max-width: 425px) {
+    width: 100%;
+  }
 
   .g-drawer-content {
     width: 100%;
     height: 100%;
     padding: 16px;
-    box-shadow: 0px 8px 16px rgba(39, 49, 66, 0.2);
 
     .g-drawer-header {
       display: flex;
@@ -107,6 +113,7 @@ export default {
     .g-drawer-body {
       width: 100%;
       height: 100%;
+
       iframe {
         border-width: 0;
       }
