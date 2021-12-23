@@ -22,11 +22,11 @@
 
     <template
       v-for="(_, name) in $scopedSlots"
-      v-slot:[name]="{emit}"
+      v-slot:[name]="props"
     >
       <slot
         :name="name"
-        :emit="emit"
+        :emit="props?props.emit:undefined"
       />
     </template>
   </date-picker>
