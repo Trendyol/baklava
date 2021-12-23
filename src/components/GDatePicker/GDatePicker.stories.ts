@@ -3,89 +3,118 @@ import { withKnobs, boolean, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import GDatePicker from './';
 import GButton from '../GButton/GButton.vue';
+import GIcon from '../GIcon/GIcon.vue';
 import dayjs from 'dayjs';
 
 storiesOf('GDatePicker', module)
   .addDecorator(withKnobs)
   .addParameters({ component: GDatePicker })
   .add('Single Select', () => ({
-    components: { GDatePicker, GButton },
+    components: { GDatePicker, GButton, GIcon },
     template: `
-    <div style="margin: 40px 200px 200px">
-      <div style="margin-bottom: 10px"><GDatePicker
-        v-model="date"
-        @change="onChange"
-        :show-week-number="showWeekNumber"
-        :range="isRangeMode"
-        :disabled="disabled"
-        :placeholder="placeholder"
-        :format="format"
-        :type="type"
-        :open.sync="open"
-      >
-        <template v-slot:header="{emit}">
-          <GButton :disabled="type==='date'" @click="switchToDaily" size="small">
-            Günlük
-          </GButton>
-          <GButton :disabled="type==='week'" @click="switchToWeekly(emit)" size="small">
-            Haftalık
-          </GButton>
-          <GButton :disabled="type==='month'" @click="switchToMonthly(emit)" size="small">
-            Aylık
-          </GButton>
-          <GButton :disabled="type==='year'" @click="switchToYearly(emit)" size="small">
-            Yıllık
-          </GButton>
-        </template>
-        <template v-slot:footer="{emit}">
-          <GButton @click="switchToYesterday(emit)" outline size="small">
-            Dün
-          </GButton>
-          <GButton @click="switchToToday(emit)" outline size="small">
-            Bugün
-          </GButton>
-          <GButton @click="switchToLast7Days(emit)" outline size="small">
-            Son 7 Gün
-          </GButton>
-          <GButton @click="switchToLast30Days(emit)" outline size="small">
-            Son 30 Gün
-          </GButton>
-        </template>
-      </GDatePicker></div>
-      <div style="margin-bottom: 10px"><GDatePicker
-        v-model="date"
-        @change="onChange"
-        :disabled="disabled"
-        error
-      >
-      </GDatePicker></div>
-      <div style="margin-bottom: 10px"><GDatePicker
-        v-model="date"
-        @change="onChange"
-        :disabled="disabled"
-        success
-      >
-      </GDatePicker></div>
-      <div style="margin-bottom: 10px"><GDatePicker
-        v-model="date"
-        @change="onChange"
-        :disabled="disabled"
-        disabled
-      >
-      </GDatePicker></div>
-      <div style="margin-bottom: 10px"><GDatePicker
-        v-model="hour"
-        @change="onChange"
-        :disabled="disabled"
-        format="hh:mm a"
-        value-type="format"
-        type="time"
-      >
-      </GDatePicker></div>
+      <div style="margin: 40px 200px 200px">
+      <div style="margin-bottom: 10px">
+        <GDatePicker
+          v-model="date"
+          @change="onChange"
+          :show-week-number="showWeekNumber"
+          :range="isRangeMode"
+          :disabled="disabled"
+          :placeholder="placeholder"
+          :format="format"
+          :type="type"
+          :open.sync="open"
+        >
+          <template v-slot:header="{emit}">
+            <GButton :disabled="type==='date'" @click="switchToDaily" size="small">
+              Günlük
+            </GButton>
+            <GButton :disabled="type==='week'" @click="switchToWeekly(emit)" size="small">
+              Haftalık
+            </GButton>
+            <GButton :disabled="type==='month'" @click="switchToMonthly(emit)" size="small">
+              Aylık
+            </GButton>
+            <GButton :disabled="type==='year'" @click="switchToYearly(emit)" size="small">
+              Yıllık
+            </GButton>
+          </template>
+          <template v-slot:footer="{emit}">
+            <GButton @click="switchToYesterday(emit)" outline size="small">
+              Dün
+            </GButton>
+            <GButton @click="switchToToday(emit)" outline size="small">
+              Bugün
+            </GButton>
+            <GButton @click="switchToLast7Days(emit)" outline size="small">
+              Son 7 Gün
+            </GButton>
+            <GButton @click="switchToLast30Days(emit)" outline size="small">
+              Son 30 Gün
+            </GButton>
+          </template>
+        </GDatePicker>
+      </div>
+      <div style="margin-bottom: 10px">
+        <GDatePicker
+          v-model="date"
+          @change="onChange"
+          :disabled="disabled"
+          error
+        >
+        </GDatePicker>
+      </div>
+      <div style="margin-bottom: 10px">
+        <GDatePicker
+          v-model="date"
+          @change="onChange"
+          :disabled="disabled"
+          success
+        >
+        </GDatePicker>
+      </div>
+      <div style="margin-bottom: 10px">
+        <GDatePicker
+          v-model="date"
+          @change="onChange"
+          :disabled="disabled"
+          disabled
+        >
+        </GDatePicker>
+      </div>
+      <div style="margin-bottom: 10px">
+        <GDatePicker
+          v-model="hour"
+          @change="onChange"
+          :disabled="disabled"
+          format="hh:mm a"
+          value-type="format"
+          type="time"
+        >
+        </GDatePicker>
+      </div>
+      <div style="margin-bottom: 10px">
+        <GDatePicker
+          v-model="hour"
+          type="time"
+          format="HH:mm"
+          @change="onChange"
+          :disabled="disabled"
+        >
+          <template v-slot:icon-calendar>
+            <GIcon name="clock" stroke="#fff" size="16px"/>
+          </template>
+        </GDatePicker>
+      </div>
       <button @click="onClear">Temizle</button>
       <div><a href="https://github.com/mengxiong10/vue2-datepicker">vue2-datepicker</a></div>
-    </div>
-    `,
+      </div>
+      <script>
+      import GIcon from './GIcon';
+      export default {
+        components: { GIcon },
+      };
+      </script>`,
     props: {
       disabled: {
         default: boolean('Disabled', false),
