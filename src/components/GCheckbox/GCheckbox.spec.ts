@@ -116,7 +116,7 @@ describe('Checkbox', () => {
     expect(wrapper.vm.modelValue).toEqual(['test3']);
   });
 
-  it('should remove given object value from v-model array options if Array is given with v-model', async() => {
+  it('should remove given object value from v-model array options if Array is given with v-model', async () => {
     wrapper = mount(GCheckbox, {
       propsData: {
         value: { id: 1 },
@@ -239,5 +239,29 @@ describe('Checkbox', () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.find('.-inner').classes('-invalid')).not.toBe(true);
+  });
+
+  it('should set default color if do not given color as props', async () => {
+    const defaultColor = '.g-bg-orange-500';
+
+    wrapper.find('.-input').trigger('click');
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find(defaultColor).exists()).toBe(true);
+  });
+
+  it('should set color if color given as props', async () => {
+    const color = 'purple-500';
+
+    wrapper.setProps({
+      color: color,
+    });
+
+    wrapper.find('.-input').trigger('click');
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find('.g-bg-purple-500').exists()).toBe(true);
   });
 });

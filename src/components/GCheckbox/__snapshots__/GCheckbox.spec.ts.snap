@@ -14,7 +14,7 @@ exports[`Checkbox should match snapshot 1`] = `
     />
      
     <span
-      class="-inner"
+      class="-inner g-bg-white"
     >
       <svg
         class="g-icon feather feather--check"
