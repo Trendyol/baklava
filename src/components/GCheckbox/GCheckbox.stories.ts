@@ -103,6 +103,7 @@ storiesOf('GCheckbox', module)
         @change="onChange"
         :disabled="disabled"
         :isInvalid="isInvalid"
+        color="turquoise-500"
       >
         <GText variant="body"> Is Selected: {{ isChecked }} </GText>
       </GCheckbox>`,
@@ -127,7 +128,7 @@ storiesOf('GCheckbox', module)
   }))
   .add('Events', () => ({
     components: { GCheckbox },
-    template: `<GCheckbox :value="{ id: 1 }" @change="onChange" @click="onClick" />`,
+    template: '<GCheckbox :value="{ id: 1 }" @change="onChange" @click="onClick" />',
     methods: {
       onChange (event) {
         action('Changed')(event);

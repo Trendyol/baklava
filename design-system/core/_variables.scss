@@ -9,6 +9,7 @@ $colors: (
                 700: #7d838e,
                 800: #a9adb3,
                 900: #d4d6d9,
+                alert: #e9eaec
         ),
         orange: (
                 100: #e71805,
@@ -20,6 +21,7 @@ $colors: (
                 700: #f7af76,
                 800: #facaa3,
                 900: #fce4d1,
+                alert: #fef2e8
         ),
         dark-grey: (
                 100: #161727,
@@ -31,6 +33,7 @@ $colors: (
                 700: #a8adb7,
                 800: #c5c9cf,
                 900: #e2e4e7,
+                alert: #f1f1f3
         ),
         mid-grey: (
                 100: #405579,
@@ -42,6 +45,7 @@ $colors: (
                 700: #bfc7d3,
                 800: #d5d9e1,
                 900: #eaecf0,
+                alert: #f4f6f8
         ),
         light-grey: (
                 100: #6f849f,
@@ -53,6 +57,7 @@ $colors: (
                 700: #cfd6df,
                 800: #dfe4ea,
                 900: #eff1f4,
+                alert: #f7f8fa
         ),
         bg-grey: (
                 100: #d5d8e2,
@@ -64,6 +69,7 @@ $colors: (
                 700: #f7f7fa,
                 800: #f9fafc,
                 900: #fcfcfd,
+                alert: #fefefe
         ),
         green: (
                 100: #028f12,
@@ -75,6 +81,7 @@ $colors: (
                 700: #6dda9d,
                 800: #9de6be,
                 900: #cef3de,
+                alert: #e7f9ef
         ),
         red: (
                 100: #f60000,
@@ -86,6 +93,7 @@ $colors: (
                 700: #ff968e,
                 800: #ffb9b4,
                 900: #ffdcd9,
+                alert: #ffeeec
         ),
         purple: (
                 100: #300fff,
@@ -97,6 +105,7 @@ $colors: (
                 700: #ba95ff,
                 800: #d1b8ff,
                 900: #e8dcff,
+                alert: #f4edff
         ),
         blue: (
                 100: #113eff,
@@ -108,6 +117,7 @@ $colors: (
                 700: #9abfff,
                 800: #bcd4ff,
                 900: #ddeaff,
+                alert: #eef4ff
         ),
         yellow: (
                 100: #ff7b00,
@@ -119,7 +129,20 @@ $colors: (
                 700: #ffd366,
                 800: #ffe299,
                 900: #fff0cc,
+                alert: #fff8e6
         ),
+        turquoise:(
+                100: #0c4d5a,
+                200: #0a7385,
+                300: #0899b0,
+                400: #06c0db,
+                500: #05d3f0,
+                600: #37dcf3,
+                700: #69e5f6,
+                800: #9bedf9,
+                900: #cdf6fc,
+                alert: #e6fbfe
+        )    
 );
 $font-size: (10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 30, 48, 64);
 $sizes: (

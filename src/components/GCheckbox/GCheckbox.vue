@@ -19,7 +19,9 @@
         :class="{
           '-disabled': $attrs.disabled,
           '-invalid': isInvalid,
-          '-checked': isChecked
+          '-checked': isChecked,
+          [`g-bg-${color}`]:isChecked,
+          [`g-bg-white`]:!isChecked
         }"
       >
         <GIcon
@@ -66,6 +68,10 @@ export default {
     isInvalid: {
       type: Boolean,
       default: false,
+    },
+    color: {
+      type: String,
+      default: 'orange-500',
     },
   },
 
@@ -164,12 +170,10 @@ export default {
       text-align: center;
       width: var(--size-full);
       height: var(--size-full);
-      background: var(--white);
       border-radius: var(--radius-sm);
       display: flex;
 
       &.-checked {
-        background-color: var(--orange-500);
         border: solid 1px transparent !important;
       }
 
