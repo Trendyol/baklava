@@ -573,7 +573,7 @@ export default {
       background-image: linear-gradient(96deg,var(--purple-500),var(--blue-500));
       -webkit-background-clip: text;
       background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-text-fill-color: var(--purple-500);
     }
     &:hover {
       background-image: linear-gradient(280deg,var(--blue-500),var(--purple-500));
