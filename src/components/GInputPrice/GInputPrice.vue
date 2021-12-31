@@ -8,7 +8,7 @@ export default {
   extends: GInput,
   computed: {
     getAttrs () {
-      const { suffix = '₺', digits = 2, placeholder, rightAlign = false, allowMinus } = this.$attrs;
+      const { suffix = '₺', digits = 2, placeholder, rightAlign = false, allowMinus = false } = this.$attrs;
       return { suffix, digits, placeholder, rightAlign, allowMinus };
     },
     getValue () {
