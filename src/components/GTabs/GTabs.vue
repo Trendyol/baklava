@@ -178,7 +178,7 @@ export default {
   .tab {
     position: relative;
     text-align: center;
-    padding: 20px 30px;
+    padding: 16px;
     margin-bottom: -2px;
     cursor: pointer;
     border-bottom: 2px solid var(--bg-grey-500);
@@ -194,10 +194,10 @@ export default {
     }
 
     .seperator {
-      height: 15px;
+      height: 16px;
       border-right: 1px solid var(--light-grey-800);;
       position: absolute;
-      top: 21px;
+      top: 18px;
       right: 0;
     }
 
@@ -233,6 +233,9 @@ export default {
           color: var(--main-grey-500);
         }
       }
+    }
+    &:first-child{
+      padding-left: 24px;
     }
   }
 
