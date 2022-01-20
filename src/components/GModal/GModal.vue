@@ -103,7 +103,6 @@ export default {
   watch: {
     value: {
       handler (newValue: boolean) {
-        console.log(newValue);
         if (newValue) {
           document.body.classList.add('g-no-scroll');
         } else {
