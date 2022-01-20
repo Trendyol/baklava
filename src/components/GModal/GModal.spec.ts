@@ -19,7 +19,13 @@ describe('GModal', () => {
   };
 
   beforeEach(() => {
+    jest.spyOn(document.body.classList, 'add');
+    jest.spyOn(document.body.classList, 'remove');
     renderWrapper();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should match with snapshot', async () => {
@@ -73,5 +79,41 @@ describe('GModal', () => {
     modalMask.trigger('click');
 
     expect(wrapper.emitted().input).toBeTruthy();
+  });
+
+  it('should add g-no-scroll if modal is open', async () => {
+    // given
+    jest.clearAllMocks();
+
+    // when
+    await wrapper.setProps({ value: true });
+
+    // then
+    expect(document.body.classList.add).toHaveBeenCalledWith('g-no-scroll');
+    expect(document.body.classList.remove).not.toHaveBeenCalled();
+  });
+
+  it('should remove g-no-scroll if modal is close', async () => {
+    // given
+    jest.clearAllMocks();
+
+    // when
+    await wrapper.setProps({ value: true });
+    await wrapper.setProps({ value: false });
+
+    // then
+    expect(document.body.classList.add).toHaveBeenCalledTimes(1);
+    expect(document.body.classList.remove).toHaveBeenCalledWith('g-no-scroll');
+  });
+
+  it('should remove g-no-scroll before destroy', async () => {
+    // given
+    jest.clearAllMocks();
+
+    // when
+    wrapper.destroy();
+
+    // then
+    expect(document.body.classList.remove).toHaveBeenCalledWith('g-no-scroll');
   });
 });

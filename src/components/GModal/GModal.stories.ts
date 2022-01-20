@@ -9,7 +9,7 @@ storiesOf('GModal', module)
   .add('Default', () => ({
     components: { GBox, GModal, GButton, GText },
     template: `
-      <GBox>
+      <GBox style="height: 1000px">
         <GButton @click="showModal = true">Open Modal</GButton>
         <GModal :title="'Custom Title Here'" v-model="showModal">
           <template #body>
