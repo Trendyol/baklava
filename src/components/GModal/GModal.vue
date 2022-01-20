@@ -95,9 +95,25 @@ export default {
       this.$emit('close');
     },
   },
+
+  beforeDestroy () {
+    document.body.classList.remove('g-no-scroll');
+  },
+
+  watch: {
+    value: {
+      handler (newValue: boolean) {
+        if (newValue) {
+          document.body.classList.add('g-no-scroll');
+        } else {
+          document.body.classList.remove('g-no-scroll');
+        }
+      },
+      immediate: true,
+    },
+  },
 };
 </script>
-
 <style lang="scss" scoped>
 .g-modal-mask {
   position: fixed;
