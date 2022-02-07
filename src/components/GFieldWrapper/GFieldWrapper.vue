@@ -18,11 +18,20 @@
           :color="iconColor"
         />
       </div>
-      <span
-        v-if="feedback"
-        class="sub-label"
-        v-text="feedback"
-      />
+      <div
+        class="bottom-wrapper"
+        :class="[feedback ? 'g-d-justify-space-between': 'g-d-justify-end']"
+        v-if="showBottom"
+      >
+        <span
+          v-if="feedback"
+          class="sub-label"
+          v-text="feedback"
+        />
+        <div class="bottom-right-wrapper">
+          <slot name="bottom_right" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -137,10 +146,13 @@ export default {
     hasLabel (): Boolean {
       return !!this.label.length;
     },
+    showBottom (): Boolean {
+      return !!this.feedback || this.$slots.bottom_right;
+    },
   },
   methods: {
     clickWrapper () {
-      this.isActive = this.disable ? false: !this.isActive;
+      this.isActive = this.disable ? false : !this.isActive;
       this.$emit('update:isActiveContent', this.isActive);
       this.onClick();
     },
@@ -202,7 +214,6 @@ export default {
     font-family: var(--font-family-base);
     font-size: var(--font-size-12);
     font-weight: normal;
-    margin-top: 5px;
     margin-left: 15px;
     color: var(--dark-grey-500);
   }
@@ -336,6 +347,12 @@ export default {
     label{
       left: 50px;
     }
+  }
+
+  .bottom-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
   }
 }
 </style>

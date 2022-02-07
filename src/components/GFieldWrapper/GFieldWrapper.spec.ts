@@ -248,21 +248,51 @@ describe('GFieldWrapper', () => {
   it('should render label when label prop set', async () => {
     renderWrapper({
       propsData: {
+        isValue: false,
         label: 'dummy text',
       },
     });
 
-    expect(wrapper.contains('label')).toBeTruthy();
+    expect(wrapper.find('label').exists()).toBeTruthy();
     expect(wrapper.get('label').text()).toBe('dummy text');
   });
 
   it('should not render label when label prop is not set', async () => {
     renderWrapper({
       propsData: {
+        isValue: false,
         label: '',
       },
     });
 
-    expect(wrapper.contains('label')).toBeFalsy();
+    expect(wrapper.find('label').exists()).toBeFalsy();
+  });
+
+  it('should render bottom-wrapper area if feedback is given', () => {
+    // when
+    renderWrapper({
+      propsData: {
+        isValue: false,
+        feedback: 'feedback',
+      },
+    });
+
+    // then
+    expect(wrapper.find('.bottom-wrapper')).toMatchSnapshot();
+  });
+
+  it('should render bottom-wrapper area if bottom_right slot is given', () => {
+    // when
+    renderWrapper({
+      slots: {
+        bottom_right: 'bottom_right',
+      },
+      propsData: {
+        isValue: false,
+      },
+    });
+
+    // then
+    expect(wrapper.find('.bottom-wrapper')).toMatchSnapshot();
   });
 });
