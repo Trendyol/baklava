@@ -1,5 +1,6 @@
 import { storiesOf } from '@storybook/vue';
 import GTextarea from './GTextarea.vue';
+import { action } from '@storybook/addon-actions';
 
 storiesOf('GTextarea', module)
   .addParameters({ component: GTextarea })
@@ -12,7 +13,7 @@ storiesOf('GTextarea', module)
     },
     methods: {
       onReachMaxLength (maxLength) {
-        console.log(maxLength);
+        action('Reach Max Length')(maxLength);
       },
     },
     template: `
