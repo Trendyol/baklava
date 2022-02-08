@@ -20,7 +20,9 @@ exports[`GDataTable should match snapshot with default style 1`] = `
         <col />
       </colgroup>
        
-      <thead>
+      <thead
+        class=""
+      >
          
         <tr>
           <!---->
@@ -200,7 +202,9 @@ exports[`GDataTable should match snapshot with items is empty 1`] = `
         <col />
       </colgroup>
        
-      <thead>
+      <thead
+        class=""
+      >
          
         <tr>
           <!---->
@@ -285,7 +289,9 @@ exports[`GDataTable should render correctly with default props 1`] = `
          
       </colgroup>
        
-      <thead>
+      <thead
+        class=""
+      >
          
         <tr>
           <!---->
