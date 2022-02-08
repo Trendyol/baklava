@@ -197,11 +197,11 @@ function setStickyHeader ({ stickyHeaderEnabled }) {
     return false;
   }
   document.addEventListener('scroll', (e) => {
-    const offsetTop = getTableWrapper().offsetTop;
+    const offsetTop = getTableWrapper().offsetTop + (getTable().offsetTop - getTableWrapper().offsetTop);
     const { scrollTop } = e.target.scrollingElement;
     if (scrollTop > offsetTop) {
       const top = scrollTop - offsetTop;
-      getThead().style.top = `${top}px`;
+      getThead().style.top = `${top - 1}px`;
     } else {
       getThead().style.top = 0;
     }
@@ -444,7 +444,7 @@ export default {
           top: 0;
           left: 0;
           right: 0;
-          z-index: 11;
+          z-index: 100;
           transition: top .05s ease;
           tr th {
             border-bottom: 0;
