@@ -22,7 +22,9 @@
             :width="header.width"
           >
         </colgroup>
-        <thead>
+        <thead
+          :class="{ 'sticky-header': tableOptions.stickyHeaderEnabled }"
+        >
           <slot
             name="before_header"
             :headers="headers"
@@ -181,6 +183,33 @@ import GPagination from '../GPagination/GPagination.vue';
 import Sortable from './Sortable.vue';
 import GSpinner from '../GSpinner/GSpinner.vue';
 import GText from '../GText/GText.vue';
+export const getTableWrapper = () => {
+  return document.querySelector('.g-table-wrapper');
+};
+export const getTable = () => {
+  return getTableWrapper()?.querySelector('table');
+};
+const getThead = () => {
+  return getTable()?.querySelector('thead');
+};
+function setStickyHeader ({ stickyHeaderEnabled }) {
+  if (!stickyHeaderEnabled) {
+    return false;
+  }
+  document.addEventListener('scroll', (e) => {
+    const offsetTop = getTableWrapper().offsetTop;
+    const { scrollTop } = e.target.scrollingElement;
+    if (scrollTop > offsetTop) {
+      const top = scrollTop - offsetTop;
+      getThead().style.top = `${top}px`;
+    } else {
+      getThead().style.top = 0;
+    }
+  });
+  window.addEventListener('resize', () => {
+    document.dispatchEvent(new Event('scroll'));
+  });
+}
 
 export default {
   name: 'GDataTable',
@@ -227,6 +256,12 @@ export default {
     isLoading: {
       type: Boolean,
       default: false,
+    },
+    tableOptions: {
+      type: Object,
+      default: () => ({
+        stickyHeaderEnabled: false,
+      }),
     },
   },
   data () {
@@ -367,6 +402,9 @@ export default {
       return this.headers.some(h => h.fixed);
     },
   },
+  created () {
+    setStickyHeader(this.tableOptions);
+  },
   watch: {
     items: {
       handler () {
@@ -401,6 +439,27 @@ export default {
         border-style: hidden;
         margin-bottom: 0;
         width: 100%;
+        thead.sticky-header {
+          position: relative;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 11;
+          transition: top .05s ease;
+          tr th {
+            border-bottom: 0;
+          }
+          &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #dee2e6;
+          }
+        }
 
         .fixed-select{
           position: sticky;
