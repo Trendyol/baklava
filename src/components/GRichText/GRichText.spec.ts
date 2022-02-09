@@ -1,7 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import GRichText from './';
 
-
 describe('GRichText', () => {
   let wrapper: any;
 
@@ -72,16 +71,15 @@ describe('GRichText', () => {
     expect(wrapper.element).toMatchSnapshot();
   });
 
-  it('should emit input event when onInput is called', () => {
-    const event = {
-      type: 'test',
-    };
+  it('should delegate listened events from quill-editor', async () => {
+    const handleInput = jest.fn();
+    const handleBlur = jest.fn();
+    renderWrapper({ listeners: { input: handleInput, blur: handleBlur } });
 
-    wrapper.vm.onInput(event);
+    wrapper.find('quill-editor-stub').vm.$emit('input');
+    expect(handleInput).toHaveBeenCalled();
 
-    expect(wrapper.emitted().input.length).toEqual(1);
+    wrapper.find('quill-editor-stub').vm.$emit('blur');
+    expect(handleBlur).toHaveBeenCalled();
   });
-
-
-
 });

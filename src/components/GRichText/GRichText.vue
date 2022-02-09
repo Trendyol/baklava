@@ -3,8 +3,8 @@
     <quill-editor
       :options="options"
       :value="value"
-      @input="onInput"
       :disabled="disable"
+      v-on="$listeners"
     />
     <div class="feedback">
       {{ feedback }}
@@ -76,11 +76,6 @@ export default {
         '-valid': this.success,
         '-disable': this.disable,
       };
-    },
-  },
-  methods: {
-    onInput (event) {
-      this.$emit('input', event);
     },
   },
 };
