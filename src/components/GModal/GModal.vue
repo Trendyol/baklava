@@ -6,7 +6,7 @@
     >
       <GBox
         class="g-modal-mask"
-        @click="close"
+        @click="onClickOutside"
       />
       <GBox
         :class="classNames"
@@ -76,6 +76,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    closeClickOutside: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     classNames () {
@@ -90,6 +94,11 @@ export default {
     },
   },
   methods: {
+    onClickOutside () {
+      if (this.closeClickOutside) {
+        this.close();
+      }
+    },
     close (): void {
       this.$emit('input', !this.value);
       this.$emit('close');
