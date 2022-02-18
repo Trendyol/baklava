@@ -35,7 +35,7 @@
           class="item"
           :class="{ disabled: isDisabled(item) }"
           v-for="item in filteredOptions"
-          :key="item.value"
+          :key="getItemValue(item)"
           @click.stop="clickItem(item)"
         >
           <GCheckbox
@@ -48,7 +48,7 @@
           <span
             class="text"
             :class="{ disabled: isDisabled(item) }"
-            v-text="item.text"
+            v-text="getItemText(item)"
           />
         </GBox>
       </div>
@@ -129,6 +129,14 @@ export default {
       default: 'big',
       type: String,
     },
+    valueKey: {
+      default: 'value',
+      type: String,
+    },
+    textKey: {
+      default: 'text',
+      type: String,
+    },
   },
   data () {
     return {
@@ -137,11 +145,18 @@ export default {
     };
   },
   methods: {
+    getItemValue (item) {
+      return item[this.valueKey];
+    },
+    getItemText (item) {
+      return item[this.textKey];
+    },
     isSelected (item): Boolean {
+      const itemValue = this.getItemValue(item);
       if (Array.isArray(this.value)) {
-        return this.value.includes(item.value);
+        return this.value.includes(itemValue);
       }
-      return this.value === item.value;
+      return this.value === itemValue;
     },
     isDisabled (item): Boolean {
       return !this.isSelected(item) && item.disabled;
@@ -150,15 +165,17 @@ export default {
       this.$emit('onSearchChange', text);
     },
     clickItem (item) {
+      const itemValue = this.getItemValue(item);
+
       if (this.isDisabled(item)) {
         return;
       }
       if (this.isCheckbox) {
-        return this.clickCheckbox(item.value);
+        return this.clickCheckbox(itemValue);
       }
       this.isOptionsVisible = false;
-      this.$emit('input', item.value);
-      this.$emit('onChange', item.value);
+      this.$emit('input', itemValue);
+      this.$emit('onChange', itemValue);
     },
     clickCheckbox (item: string | number) {
       const array = this.value.slice();
@@ -175,7 +192,7 @@ export default {
   computed: {
     filteredOptions () {
       return this.options.filter(opt =>
-        (opt.text || '').toLocaleLowerCase('TR')
+        (this.getItemText(opt) || '').toLocaleLowerCase('TR')
           .includes((this.searchText || '').toLocaleLowerCase('TR')));
     },
     icon () {
@@ -186,16 +203,17 @@ export default {
     },
     getLabel () {
       const selectedOptions = this.options.filter(opt => {
+        const optValue = this.getItemValue(opt);
         if (Array.isArray(this.value)) {
-          return this.value.includes(opt.value);
+          return this.value.includes(optValue);
         }
-        return opt.value === this.value;
+        return optValue === this.value;
       });
       if (!selectedOptions.length) {
         return (this.isOutlineLabel || this.isBorderless) ? this.placeholder : '';
       }
 
-      return selectedOptions.map(opt => opt.text).join(', ');
+      return selectedOptions.map(opt => this.getItemText(opt)).join(', ');
     },
     wrapperClass () {
       return {
@@ -213,7 +231,7 @@ export default {
   },
   watch: {
     isOptionsVisible (newValue: boolean) {
-      if(this.disable){
+      if (this.disable) {
         this.isOptionsVisible = false;
         return;
       }

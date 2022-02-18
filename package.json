@@ -9,6 +9,7 @@
     "build": "npm run scss && node --max_old_space_size=7000 node_modules/rollup/dist/bin/rollup -c rollup.config.ts --environment BUILD:production",
     "clean": "rimraf css && rimraf core && rimraf directives && rimraf plugins",
     "test:unit": "vue-cli-service test:unit",
+    "test:watch": "vue-cli-service test:unit --watch",
     "snap:update": "vue-cli-service test:unit -u",
     "test:cov": "vue-cli-service test:unit --coverage --runInBand --logHeapUsage",
     "lint": "vue-cli-service lint",

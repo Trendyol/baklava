@@ -189,4 +189,23 @@ describe('GSelect', () => {
     expect(optionItem.find('.-input').attributes().hasOwnProperty('disabled')).toBeTruthy();
     expect(optionItem.find('.text').classes().includes('disabled')).toBeTruthy();
   });
+
+  it('should render correct snapshot with given text and value keys', () => {
+    const options =  [
+      { id: 'id1', name: 'name1' },
+      { id: 'id2', name: 'name2' },
+      { id: 'id3', name: 'name3' },
+    ];
+
+    wrapper = shallowMount(GSelect, {
+      propsData: {
+        options,
+        valueKey: 'id',
+        textKey: 'name',
+      },
+    })
+
+    expect(wrapper.find('.text').text()).toEqual(options[0].name)
+    expect(wrapper.html()).toMatchSnapshot()
+  })
 });
