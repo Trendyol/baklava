@@ -16,6 +16,8 @@ storiesOf('GSelect', module)
         value6: 'Value2',
         value7: '',
         value8: [],
+        value9: '',
+        value10: [],
       };
     },
     props: {
@@ -61,5 +63,7 @@ storiesOf('GSelect', module)
       <GSelect class="g-mb-20" :options="options" v-model="value8" label="Email" @onChange="onChange" placeholder="Placeholder" isCheckbox isOutlineLabel/>
       </div>
       <GSelect class="g-mb-20" :disable="true" :options="options" v-model="value7" label="Middle" size="middle" placeholder="Disabled" />
+      <GSelect class="g-mb-20" :options="options" v-model="value9" label="Email Reduce" @onChange="onChange" placeholder="Placeholder" isSearch @onSearchChange="onSearchChange" feedback="feedback" :reduce-value="(item) => ({ asd: item.value + 'reduced' })" />
+      <GSelect class="g-mb-20" :options="options" v-model="value10" label="Email Reduce Multi" @onChange="onChange" placeholder="Placeholder" isSearch @onSearchChange="onSearchChange" feedback="feedback" isCheckbox :reduce-value="(item) => ({ asd: item.value + 'reduced' })" />
     </div>`,
   }));

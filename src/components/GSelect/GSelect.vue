@@ -34,8 +34,8 @@
           align="start"
           class="item"
           :class="{ disabled: isDisabled(item) }"
-          v-for="item in filteredOptions"
-          :key="getItemValue(item)"
+          v-for="(item, index) in filteredOptions"
+          :key="`item_wrapper_${item.toString()}_${index}`"
           @click.stop="clickItem(item)"
         >
           <GCheckbox
@@ -57,11 +57,18 @@
 </template>
 
 <script lang="ts">
-
 import GFieldWrapper from '../GFieldWrapper/GFieldWrapper.vue';
 import GInput from '../GInput/GInput.vue';
 import GCheckbox from '../GCheckbox/GCheckbox.vue';
 import GBox from '../GBox/GBox.vue';
+
+const isEqualValue = (compare: any, to: any) => {
+  if (typeof to === 'object') {
+    return JSON.stringify(compare) === JSON.stringify(to);
+  }
+
+  return compare === to;
+};
 
 export default {
   name: 'GSelect',
@@ -118,7 +125,7 @@ export default {
     },
     value: {
       default: '',
-      type: [String, Array],
+      type: [String, Array, Object],
     },
     options: {
       required: true,
@@ -137,6 +144,12 @@ export default {
       default: 'text',
       type: String,
     },
+    reduceValue: {
+      default (item) {
+        return item[this.valueKey];
+      },
+      type: Function,
+    },
   },
   data () {
     return {
@@ -146,17 +159,21 @@ export default {
   },
   methods: {
     getItemValue (item) {
-      return item[this.valueKey];
+      return this.reduceValue(item);
     },
     getItemText (item) {
       return item[this.textKey];
     },
     isSelected (item): Boolean {
       const itemValue = this.getItemValue(item);
+
       if (Array.isArray(this.value)) {
-        return this.value.includes(itemValue);
+        return this.value.some((val) => {
+          return isEqualValue(val, itemValue);
+        });
       }
-      return this.value === itemValue;
+
+      return isEqualValue(this.value, itemValue);
     },
     isDisabled (item): Boolean {
       return !this.isSelected(item) && item.disabled;
@@ -177,13 +194,15 @@ export default {
       this.$emit('input', itemValue);
       this.$emit('onChange', itemValue);
     },
-    clickCheckbox (item: string | number) {
+    clickCheckbox (itemValue: any) {
       const array = this.value.slice();
-      const i = array.findIndex(x => x === item);
+      const i = array.findIndex(x => {
+        return isEqualValue(x, itemValue);
+      });
       if (i >= 0) {
         array.splice(i, 1);
       } else {
-        array.push(String(item));
+        array.push(itemValue);
       }
       this.$emit('onChange', array);
       this.$emit('input', array);
@@ -203,11 +222,7 @@ export default {
     },
     getLabel () {
       const selectedOptions = this.options.filter(opt => {
-        const optValue = this.getItemValue(opt);
-        if (Array.isArray(this.value)) {
-          return this.value.includes(optValue);
-        }
-        return optValue === this.value;
+        return this.isSelected(opt);
       });
       if (!selectedOptions.length) {
         return (this.isOutlineLabel || this.isBorderless) ? this.placeholder : '';
