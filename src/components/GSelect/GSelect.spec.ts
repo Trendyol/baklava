@@ -127,7 +127,7 @@ describe('GSelect', () => {
       wrapper
         .findAll('.text')
         .at(1)
-        .text(),
+        .text()
     ).toEqual('Text2');
   });
 
@@ -181,12 +181,95 @@ describe('GSelect', () => {
       },
     });
 
-    const optionItem = wrapper
-      .findAll('.item')
-      .at(1);
+    const optionItem = wrapper.findAll('.item').at(1);
 
     expect(optionItem.classes().includes('disabled')).toBeTruthy();
-    expect(optionItem.find('.-input').attributes().hasOwnProperty('disabled')).toBeTruthy();
-    expect(optionItem.find('.text').classes().includes('disabled')).toBeTruthy();
+    expect(
+      optionItem
+        .find('.-input')
+        .attributes()
+        .hasOwnProperty('disabled')
+    ).toBeTruthy();
+    expect(
+      optionItem
+        .find('.text')
+        .classes()
+        .includes('disabled')
+    ).toBeTruthy();
+  });
+
+  it('should render correct snapshot with given text and value keys', () => {
+    const options = [
+      { id: 'id1', name: 'name1' },
+      { id: 'id2', name: 'name2' },
+      { id: 'id3', name: 'name3' },
+    ];
+
+    wrapper = shallowMount(GSelect, {
+      propsData: {
+        options,
+        valueKey: 'id',
+        textKey: 'name',
+      },
+    });
+
+    expect(wrapper.find('.text').text()).toEqual(options[0].name);
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it('given default reduceValue should emit input with value when item text is clicked', () => {
+    const options = [
+      { value: 'Value1', text: 'Text1' },
+      { value: 'Value2', text: 'Text2' },
+    ];
+    wrapper = mount(GSelect, {
+      propsData: {
+        options,
+        placeholder: 'placeholder',
+        isBorderless: true,
+      },
+    });
+
+    wrapper.find('.text').trigger('click');
+
+    const inputValue = wrapper.emitted()?.input?.[0][0];
+    expect(inputValue).toEqual(options[0].value);
+  });
+
+  it('given reduceValue function should emit input its output', async () => {
+    type Item = { value: string; text: string };
+    const options: Item[] = [
+      { value: 'Value1', text: 'Text1' },
+      { value: 'Value2', text: 'Text2' },
+    ];
+    const reduceValue = (item: Item) => {
+      return { asd: item.value + 'reduced' };
+    };
+
+    wrapper = mount({
+      data() {
+        return { value: [], options };
+      },
+      methods: {
+        reduceValue,
+      },
+      template:
+        '<GSelect v-model="value" :options="options" is-checkbox :reduce-value="reduceValue" />',
+      components: { GSelect },
+    });
+
+    const optionWrappers = wrapper.findAll('.text');
+
+    optionWrappers.at(0).trigger('click');
+    expect(wrapper.vm.value).toContainEqual(reduceValue(options[0]));
+
+    await wrapper.vm.$nextTick();
+
+    optionWrappers.at(1).trigger('click');
+    expect(wrapper.vm.value).toContainEqual(reduceValue(options[1]));
+
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('.valueText').text()).toContain(options[0].text);
+    expect(wrapper.find('.valueText').text()).toContain(options[1].text);
   });
 });

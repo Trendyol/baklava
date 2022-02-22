@@ -34,8 +34,8 @@
           align="start"
           class="item"
           :class="{ disabled: isDisabled(item) }"
-          v-for="item in filteredOptions"
-          :key="item.value"
+          v-for="(item, index) in filteredOptions"
+          :key="`item_wrapper_${item.toString()}_${index}`"
           @click.stop="clickItem(item)"
         >
           <GCheckbox
@@ -48,7 +48,7 @@
           <span
             class="text"
             :class="{ disabled: isDisabled(item) }"
-            v-text="item.text"
+            v-text="getItemText(item)"
           />
         </GBox>
       </div>
@@ -57,11 +57,18 @@
 </template>
 
 <script lang="ts">
-
 import GFieldWrapper from '../GFieldWrapper/GFieldWrapper.vue';
 import GInput from '../GInput/GInput.vue';
 import GCheckbox from '../GCheckbox/GCheckbox.vue';
 import GBox from '../GBox/GBox.vue';
+
+const isEqualValue = (compare: any, to: any) => {
+  if (typeof to === 'object') {
+    return JSON.stringify(compare) === JSON.stringify(to);
+  }
+
+  return compare === to;
+};
 
 export default {
   name: 'GSelect',
@@ -118,7 +125,7 @@ export default {
     },
     value: {
       default: '',
-      type: [String, Array],
+      type: [String, Array, Object],
     },
     options: {
       required: true,
@@ -129,6 +136,20 @@ export default {
       default: 'big',
       type: String,
     },
+    valueKey: {
+      default: 'value',
+      type: String,
+    },
+    textKey: {
+      default: 'text',
+      type: String,
+    },
+    reduceValue: {
+      default (item) {
+        return item[this.valueKey];
+      },
+      type: Function,
+    },
   },
   data () {
     return {
@@ -137,11 +158,22 @@ export default {
     };
   },
   methods: {
+    getItemValue (item) {
+      return this.reduceValue(item);
+    },
+    getItemText (item) {
+      return item[this.textKey];
+    },
     isSelected (item): Boolean {
+      const itemValue = this.getItemValue(item);
+
       if (Array.isArray(this.value)) {
-        return this.value.includes(item.value);
+        return this.value.some((val) => {
+          return isEqualValue(val, itemValue);
+        });
       }
-      return this.value === item.value;
+
+      return isEqualValue(this.value, itemValue);
     },
     isDisabled (item): Boolean {
       return !this.isSelected(item) && item.disabled;
@@ -150,23 +182,27 @@ export default {
       this.$emit('onSearchChange', text);
     },
     clickItem (item) {
+      const itemValue = this.getItemValue(item);
+
       if (this.isDisabled(item)) {
         return;
       }
       if (this.isCheckbox) {
-        return this.clickCheckbox(item.value);
+        return this.clickCheckbox(itemValue);
       }
       this.isOptionsVisible = false;
-      this.$emit('input', item.value);
-      this.$emit('onChange', item.value);
+      this.$emit('input', itemValue);
+      this.$emit('onChange', itemValue);
     },
-    clickCheckbox (item: string | number) {
+    clickCheckbox (itemValue: any) {
       const array = this.value.slice();
-      const i = array.findIndex(x => x === item);
+      const i = array.findIndex(x => {
+        return isEqualValue(x, itemValue);
+      });
       if (i >= 0) {
         array.splice(i, 1);
       } else {
-        array.push(String(item));
+        array.push(itemValue);
       }
       this.$emit('onChange', array);
       this.$emit('input', array);
@@ -175,7 +211,7 @@ export default {
   computed: {
     filteredOptions () {
       return this.options.filter(opt =>
-        (opt.text || '').toLocaleLowerCase('TR')
+        (this.getItemText(opt) || '').toLocaleLowerCase('TR')
           .includes((this.searchText || '').toLocaleLowerCase('TR')));
     },
     icon () {
@@ -186,16 +222,13 @@ export default {
     },
     getLabel () {
       const selectedOptions = this.options.filter(opt => {
-        if (Array.isArray(this.value)) {
-          return this.value.includes(opt.value);
-        }
-        return opt.value === this.value;
+        return this.isSelected(opt);
       });
       if (!selectedOptions.length) {
         return (this.isOutlineLabel || this.isBorderless) ? this.placeholder : '';
       }
 
-      return selectedOptions.map(opt => opt.text).join(', ');
+      return selectedOptions.map(opt => this.getItemText(opt)).join(', ');
     },
     wrapperClass () {
       return {
@@ -213,7 +246,7 @@ export default {
   },
   watch: {
     isOptionsVisible (newValue: boolean) {
-      if(this.disable){
+      if (this.disable) {
         this.isOptionsVisible = false;
         return;
       }

@@ -72,3 +72,23 @@ exports[`GSelect should match snapshot when show is prop is given as false  1`] 
   </div>
 </div>
 `;
+
+exports[`GSelect should render correct snapshot with given text and value keys 1`] = `
+<div class="g-select big">
+  <gfieldwrapper-stub label="" size="big" feedback="" icon="chevron-down" iconposition="" onclick="() => {}" onoutlineclick="() => {}">
+    <p class="valueText"></p>
+    <div class="s-content g-d-none">
+      <!---->
+      <gbox-stub flex="true" align="start" class="item">
+        <!----> <span class="text">name1</span>
+      </gbox-stub>
+      <gbox-stub flex="true" align="start" class="item">
+        <!----> <span class="text">name2</span>
+      </gbox-stub>
+      <gbox-stub flex="true" align="start" class="item">
+        <!----> <span class="text">name3</span>
+      </gbox-stub>
+    </div>
+  </gfieldwrapper-stub>
+</div>
+`;
