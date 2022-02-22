@@ -205,7 +205,7 @@ describe('GSelect', () => {
       { id: 'id3', name: 'name3' },
     ];
 
-    wrapper = shallowMount(GSelect, {
+    wrapper = mount(GSelect, {
       propsData: {
         options,
         valueKey: 'id',
