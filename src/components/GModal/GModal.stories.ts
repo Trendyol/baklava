@@ -3,15 +3,24 @@ import GModal from '../GModal';
 import GButton from '../GButton';
 import GBox from '../GBox';
 import GText from '../GText';
+import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 
-storiesOf('GModal', module)
+const stories = storiesOf('GModal', module);
+stories.addDecorator(withKnobs);
+
+stories
   .addParameters({ component: GModal })
   .add('Default', () => ({
+    props: {
+      closeClickOutside: {
+        default: boolean('Close click outside', true),
+      },
+    },
     components: { GBox, GModal, GButton, GText },
     template: `
       <GBox style="height: 1000px">
         <GButton @click="showModal = true">Open Modal</GButton>
-        <GModal :title="'Custom Title Here'" v-model="showModal">
+        <GModal :title="'Custom Title Here'" v-model="showModal" :closeClickOutside="closeClickOutside">
           <template #body>
             <GText variant="body">Cras mattis consectetur purus sit amet fermentum.</GText>
           </template>
