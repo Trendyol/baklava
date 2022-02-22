@@ -116,4 +116,32 @@ describe('GModal', () => {
     // then
     expect(document.body.classList.remove).toHaveBeenCalledWith('g-no-scroll');
   });
+
+  it('should close model if outside of modal is clicked', async () => {
+    // given
+    jest.clearAllMocks();
+
+    // when
+    wrapper.find('.g-modal-mask').trigger('click');
+
+    // then
+    expect(wrapper.emitted().input).toBeTruthy();
+    expect(wrapper.emitted().close).toBeTruthy();
+  });
+
+  it('should not close model if closeClickOutside is false and clicked outside of modal', async () => {
+    // given
+    jest.clearAllMocks();
+
+    wrapper.setProps({
+      closeClickOutside: false,
+    });
+
+    // when
+    wrapper.find('.g-modal-mask').trigger('click');
+
+    // then
+    expect(wrapper.emitted().input).toBeFalsy();
+    expect(wrapper.emitted().close).toBeFalsy();
+  });
 });
