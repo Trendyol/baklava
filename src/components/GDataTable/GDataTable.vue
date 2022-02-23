@@ -183,6 +183,13 @@ import GPagination from '../GPagination/GPagination.vue';
 import Sortable from './Sortable.vue';
 import GSpinner from '../GSpinner/GSpinner.vue';
 import GText from '../GText/GText.vue';
+
+const events = [];
+export const setAddEventListener = (eventName, eventHandler, w = window) => {
+  w.addEventListener(eventName, eventHandler);
+  events.push({ eventName, eventHandler, type: w });
+};
+
 export const getTableWrapper = () => {
   return document.querySelector('.g-table-wrapper');
 };
@@ -196,7 +203,7 @@ function setStickyHeader ({ stickyHeaderEnabled }) {
   if (!stickyHeaderEnabled) {
     return false;
   }
-  document.addEventListener('scroll', (e) => {
+  setAddEventListener('scroll', (e) => {
     const offsetTop = getTableWrapper().offsetTop + (getTable().offsetTop - getTableWrapper().offsetTop);
     const { scrollTop } = e.target.scrollingElement;
     if (scrollTop > offsetTop) {
@@ -205,11 +212,17 @@ function setStickyHeader ({ stickyHeaderEnabled }) {
     } else {
       getThead().style.top = 0;
     }
-  });
-  window.addEventListener('resize', () => {
+  }, document);
+  setAddEventListener('resize', () => {
     document.dispatchEvent(new Event('scroll'));
   });
 }
+
+export const destroyInit = () => {
+  events.forEach(event => {
+    event.type.removeEventListener(event.eventName, event.eventHandler, false);
+  });
+};
 
 export default {
   name: 'GDataTable',
@@ -414,6 +427,9 @@ export default {
       },
       immediate: true,
     },
+  },
+  destroyed () {
+    destroyInit();
   },
 };
 </script>
