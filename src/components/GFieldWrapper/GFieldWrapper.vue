@@ -16,6 +16,7 @@
           v-if="icon"
           :name="icon"
           :color="iconColor"
+          @click="$emit('icon-clicked', $event)"
         />
       </div>
       <div
