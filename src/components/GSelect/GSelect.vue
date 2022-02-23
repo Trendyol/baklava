@@ -2,7 +2,7 @@
   <div :class="wrapperClass">
     <GFieldWrapper
       :is-active-content.sync="isOptionsVisible"
-      :is-value="Array.isArray(value)? !!value.length: !!value"
+      :is-value="hasValue"
       :is-outline-label="isOutlineLabel"
       :feedback="feedback"
       :label="label"
@@ -10,6 +10,7 @@
       :success="success"
       :error="error"
       :disable="disable"
+      @icon-clicked="handleIconClick"
     >
       <p
         class="valueText"
@@ -61,10 +62,11 @@ import GFieldWrapper from '../GFieldWrapper/GFieldWrapper.vue';
 import GInput from '../GInput/GInput.vue';
 import GCheckbox from '../GCheckbox/GCheckbox.vue';
 import GBox from '../GBox/GBox.vue';
+import { isEqualObject, isEmptyObject } from '../../utils/object';
 
 const isEqualValue = (compare: any, to: any) => {
   if (typeof to === 'object') {
-    return JSON.stringify(compare) === JSON.stringify(to);
+    return isEqualObject(compare, to);
   }
 
   return compare === to;
@@ -125,7 +127,7 @@ export default {
     },
     value: {
       default: '',
-      type: [String, Array, Object],
+      type: null,
     },
     options: {
       required: true,
@@ -150,6 +152,10 @@ export default {
       },
       type: Function,
     },
+    showClearButton: {
+      default: true,
+      type: Boolean,
+    },
   },
   data () {
     return {
@@ -168,7 +174,7 @@ export default {
       const itemValue = this.getItemValue(item);
 
       if (Array.isArray(this.value)) {
-        return this.value.some((val) => {
+        return this.value.some(val => {
           return isEqualValue(val, itemValue);
         });
       }
@@ -191,11 +197,10 @@ export default {
         return this.clickCheckbox(itemValue);
       }
       this.isOptionsVisible = false;
-      this.$emit('input', itemValue);
-      this.$emit('onChange', itemValue);
+      this.emitSelection(itemValue);
     },
     clickCheckbox (itemValue: any) {
-      const array = this.value.slice();
+      const array = this.value ? this.value.slice() : [];
       const i = array.findIndex(x => {
         return isEqualValue(x, itemValue);
       });
@@ -204,28 +209,55 @@ export default {
       } else {
         array.push(itemValue);
       }
-      this.$emit('onChange', array);
-      this.$emit('input', array);
+      this.emitSelection(array);
+    },
+    handleIconClick (e: PointerEvent) {
+      if (this.isClearIconDisplayed) {
+        e.stopPropagation();
+        this.$emit('clear');
+        this.emitSelection(this.isCheckbox ? [] : null);
+      }
+    },
+    emitSelection (selection) {
+      this.$emit('input', selection);
+      this.$emit('onChange', selection);
     },
   },
   computed: {
     filteredOptions () {
       return this.options.filter(opt =>
-        (this.getItemText(opt) || '').toLocaleLowerCase('TR')
-          .includes((this.searchText || '').toLocaleLowerCase('TR')));
+        (this.getItemText(opt) || '')
+          .toLocaleLowerCase('TR')
+          .includes((this.searchText || '').toLocaleLowerCase('TR')),
+      );
     },
     icon () {
+      if (this.isClearIconDisplayed) {
+        return 'x';
+      }
+
       return this.isOptionsVisible ? 'chevron-up' : 'chevron-down';
     },
     getValue () {
       return this.value;
+    },
+    hasValue () {
+      if (Array.isArray(this.value)) {
+        return Boolean(this.value.length);
+      }
+
+      if (typeof this.value === 'object') {
+        return !isEmptyObject(this.value);
+      }
+
+      return Boolean(this.value);
     },
     getLabel () {
       const selectedOptions = this.options.filter(opt => {
         return this.isSelected(opt);
       });
       if (!selectedOptions.length) {
-        return (this.isOutlineLabel || this.isBorderless) ? this.placeholder : '';
+        return this.isOutlineLabel || this.isBorderless ? this.placeholder : '';
       }
 
       return selectedOptions.map(opt => this.getItemText(opt)).join(', ');
@@ -242,6 +274,9 @@ export default {
         's-content': true,
         'g-d-none': !this.isOptionsVisible,
       };
+    },
+    isClearIconDisplayed () {
+      return this.showClearButton && this.hasValue;
     },
   },
   watch: {
@@ -260,11 +295,10 @@ export default {
 
 <style lang="scss" scoped>
 .g-select {
-
   &.small {
     ::v-deep .-borderline {
       label {
-        top: -3px
+        top: -3px;
       }
     }
   }
@@ -303,7 +337,7 @@ export default {
     }
 
     .g-field-wrapper .content {
-      background:var(--bg-grey-500);
+      background: var(--bg-grey-500);
       border: 1px solid var(--mid-grey-500);
       border-radius: var(--radius-md);
     }

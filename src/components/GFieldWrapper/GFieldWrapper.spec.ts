@@ -295,4 +295,19 @@ describe('GFieldWrapper', () => {
     // then
     expect(wrapper.find('.bottom-wrapper')).toMatchSnapshot();
   });
+
+  it('should emit icon-clicked event when icon is clicked', () => {
+    renderWrapper({
+      slots: {
+        bottom_right: 'bottom_right',
+      },
+      propsData: {
+        isValue: false,
+        icon: 'x',
+      },
+    });
+
+    wrapper.find('gicon-stub').vm.$emit('click')
+    expect(wrapper.emitted()['icon-clicked']).toBeTruthy()
+  })
 });

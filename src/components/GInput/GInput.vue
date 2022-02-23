@@ -13,6 +13,7 @@
       :error="error"
       :disable="disable"
       :size="size"
+      @icon-clicked="$emit('icon-clicked', $event)"
     >
       <!--
       @slot You can put select, button and box in this field

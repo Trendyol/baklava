@@ -272,4 +272,47 @@ describe('GSelect', () => {
     expect(wrapper.find('.valueText').text()).toContain(options[0].text);
     expect(wrapper.find('.valueText').text()).toContain(options[1].text);
   });
+
+  it('should emit clear and set value null if showClearButton prop is true and clear icon clicked', () => {
+    const options = [
+      { value: 'Value1', text: 'Text1' },
+      { value: 'Value2', text: 'Text2' },
+    ];
+
+    wrapper = mount(GSelect, {
+      propsData: {
+        options,
+        value: options[0].value,
+        showClearButton: true,
+      },
+    });
+
+    wrapper.find('.g-icon.feather.feather--x').trigger('click');
+
+    const emitted = wrapper.emitted()
+    expect(emitted.input?.[0][0]).toEqual(null)
+    expect(emitted.clear).toBeTruthy()
+  })
+
+  it('should emit clear and set value empty array if showClearButton and isCheckbox props are true and clear icon clicked', () => {
+    const options = [
+      { value: 'Value1', text: 'Text1' },
+      { value: 'Value2', text: 'Text2' },
+    ];
+
+    wrapper = mount(GSelect, {
+      propsData: {
+        options,
+        value: [options[0].value],
+        isCheckbox: true,
+        showClearButton: true,
+      },
+    });
+
+    wrapper.find('.g-icon.feather.feather--x').trigger('click');
+
+    const emitted = wrapper.emitted()
+    expect(emitted.input?.[0][0]).toEqual([])
+    expect(emitted.clear).toBeTruthy()
+  })
 });
