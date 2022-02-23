@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/vue';
 import GDataTable from './GDataTable.vue';
 import GBox from '../GBox/GBox.vue';
 import GIcon from '../GIcon/GIcon.vue';
-import { withKnobs, boolean, number } from '@storybook/addon-knobs';
+import { withKnobs, boolean, number, object } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 const stories = storiesOf('GDataTable', module);
@@ -40,6 +40,9 @@ stories
       },
       stickFirstColumn: {
         default: boolean('Sticky First Column', false),
+      },
+      tableOptions: {
+        default: object('Table Options', { stickyHeaderEnabled: false }),
       },
     },
     data () {
@@ -203,6 +206,7 @@ stories
         :is-loading="isLoading"
         :pagination-config="paginationConfig"
         :sort-config="sortConfig"
+        :table-options="tableOptions"
         @select="onItemSelect"
         @page="onPage"
         @size="onSize"
@@ -296,6 +300,9 @@ stories
       },
       stickFirstColumn: {
         default: boolean('Sticky First Column', false),
+      },
+      tableOptions: {
+        default: object('Table Options', { stickyHeaderEnabled: false }),
       },
     },
     data () {
