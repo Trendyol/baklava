@@ -62,10 +62,11 @@ import GFieldWrapper from '../GFieldWrapper/GFieldWrapper.vue';
 import GInput from '../GInput/GInput.vue';
 import GCheckbox from '../GCheckbox/GCheckbox.vue';
 import GBox from '../GBox/GBox.vue';
+import { isEqualObject, isEmptyObject } from '../../utils/object';
 
 const isEqualValue = (compare: any, to: any) => {
   if (typeof to === 'object') {
-    return JSON.stringify(compare) === JSON.stringify(to);
+    return isEqualObject(compare, to);
   }
 
   return compare === to;
@@ -126,7 +127,7 @@ export default {
     },
     value: {
       default: '',
-      type: [String, Array, Object],
+      type: null,
     },
     options: {
       required: true,
@@ -241,7 +242,15 @@ export default {
       return this.value;
     },
     hasValue () {
-      return Boolean(this.isCheckbox ? this.getValue.length : this.getValue);
+      if (Array.isArray(this.value)) {
+        return Boolean(this.value.length);
+      }
+
+      if (typeof this.value === 'object') {
+        return !isEmptyObject(this.value);
+      }
+
+      return Boolean(this.value);
     },
     getLabel () {
       const selectedOptions = this.options.filter(opt => {
