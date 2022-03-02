@@ -276,7 +276,7 @@ export default {
       };
     },
     isClearIconDisplayed () {
-      return this.showClearButton && this.hasValue;
+      return this.showClearButton && !this.disable && this.hasValue;
     },
   },
   watch: {
