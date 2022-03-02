@@ -315,4 +315,23 @@ describe('GSelect', () => {
     expect(emitted.input?.[0][0]).toEqual([])
     expect(emitted.clear).toBeTruthy()
   })
+
+  it('should not display clear icon when disable prop is true', () => {
+    const options = [
+      { value: 'Value1', text: 'Text1' },
+      { value: 'Value2', text: 'Text2' },
+    ];
+
+    wrapper = mount(GSelect, {
+      propsData: {
+        options,
+        value: [options[0].value],
+        isCheckbox: true,
+        showClearButton: true,
+        disable: true,
+      },
+    });
+
+    expect(wrapper.find('.g-icon.feather.feather--x').exists()).toBeFalsy()
+  })
 });
