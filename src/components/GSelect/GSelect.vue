@@ -153,7 +153,7 @@ export default {
       type: Function,
     },
     showClearButton: {
-      default: true,
+      default: false,
       type: Boolean,
     },
   },
