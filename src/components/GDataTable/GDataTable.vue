@@ -409,7 +409,7 @@ export default {
       };
     },
     isAllSelected () {
-      return this.items.length !== 0 && this.items.filter(item => !item.disabled).length === this.selectedItems.filter(item => !item.disabled).length;
+      return this.items.length && this.items.filter(item => !item.disabled).length === this.selectedItems.filter(item => !item.disabled).length;
     },
     hasFixedCol () {
       return this.headers.some(h => h.fixed);
