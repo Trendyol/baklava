@@ -415,7 +415,7 @@ export default {
       return this.headers.some(h => h.fixed);
     },
   },
-  created () {
+  mounted () {
     setStickyHeader(this.tableOptions);
   },
   watch: {
