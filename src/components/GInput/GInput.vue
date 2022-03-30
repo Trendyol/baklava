@@ -21,13 +21,14 @@
       <input
         :type="type"
         @input="onInput"
+        @blur="onBlur"
         v-on="getListeners"
         v-bind="getAttrs"
         ref="input"
         :disabled="disable"
         :class="labelClass"
-        :value="getValue"
-      >
+        :value="valueModal"
+      />
       <!--
       @slot You can put select, button and box in this field
       -->
@@ -40,7 +41,7 @@
 
 import ClickOutside from '../../directives/ClickOutside';
 import GFieldWrapper from '../GFieldWrapper/GFieldWrapper.vue';
-
+import { trimInputValue } from '../../utils/string.util';
 export default {
   name: 'GInput',
   components: {
@@ -94,6 +95,10 @@ export default {
       default: 'big',
       type: String,
     },
+    trim: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     getAttrs () {
@@ -101,7 +106,7 @@ export default {
       return rest;
     },
     getListeners () {
-      const { input, ...rest } = this.$listeners;
+      const { input, blur, ...rest } = this.$listeners;
       return rest;
     },
     wrapperClass () {
@@ -118,13 +123,29 @@ export default {
       if (this.disable) return 'g-text-dark-grey-500';
       return classValue;
     },
-    getValue () {
-      return this.value;
+    valueModal: {
+      get() {
+        return this.value;
+      },
+      set(val) {
+        this.$emit('input', val);
+      }
     },
   },
   methods: {
-    onInput (e: any) {
-      this.$emit('input', e.target.value);
+    onInput (e: InputEvent) {
+      this.formatEventValue(e);
+      this.valueModal = (e.target as HTMLInputElement).value;
+    },
+    formatEventValue (e: InputEvent) {
+      const { value } = (e.target as HTMLInputElement);
+      let formattedValue = value;
+      if (this.trim) formattedValue = trimInputValue(formattedValue);
+      (e.target as HTMLInputElement).value = formattedValue;
+    },
+    onBlur(e: any) {
+      if (this.trim) this.valueModal = (e.target as HTMLInputElement).value.trim();
+      this.$emit('blur');
     },
   },
 };
