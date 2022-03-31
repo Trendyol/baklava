@@ -11,7 +11,7 @@ export default {
       const { suffix = '₺', digits = 2, placeholder, rightAlign = false, allowMinus = false } = this.$attrs;
       return { suffix, digits, placeholder, rightAlign, allowMinus };
     },
-    getValue () {
+    valueModal() {
       return String(this.value).replace(/\./g, ',');
     },
   },

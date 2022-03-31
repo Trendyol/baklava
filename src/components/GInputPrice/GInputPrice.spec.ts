@@ -22,6 +22,6 @@ describe('GInputPrice', () => {
         value: '1234.56',
       },
     });
-    expect(wrapper.vm.getValue).toEqual('1234,56');
+    expect(wrapper.vm.valueModal).toEqual('1234,56');
   });
 });
