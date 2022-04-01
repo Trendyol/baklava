@@ -145,7 +145,7 @@ export default {
     },
     onBlur(e: any) {
       if (this.trim) this.valueModal = (e.target as HTMLInputElement).value.trim();
-      this.$emit('blur');
+      this.$emit('blur', e);
     },
   },
 };
