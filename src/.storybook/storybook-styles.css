@@ -1,0 +1,19 @@
+@import '../../dist/storybook.css';
+
+/*
+ * Due to the specificity of Storybook's styles any of
+ * our overrides must include an important declaration.
+ */
+
+.sbdocs-h1 {
+  @apply mb-4 border-none font-display text-3xl font-black !important;
+}
+.sbdocs-h2 {
+  @apply mb-4 border-none font-display text-2xl font-semibold !important;
+}
+.sbdocs .sbdocs-content {
+  max-width: 2240px;
+}
+.sbdocs-p {
+  @apply mt-0 !important;
+}
