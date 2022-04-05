@@ -109,6 +109,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    onlyShow: {
+      type: Boolean,
+      default: false,
+    },
   },
   data () {
     return {
@@ -155,7 +159,11 @@ export default {
       return this.currentPage === this.pagination.totalPages;
     },
     show (): boolean {
-      return this.pagination && this.pagination.totalPages > 1;
+      if (this.onlyShow) {
+        return true;
+      } else {
+        return this.pagination && this.pagination.totalPages > 1;
+      }
     },
   },
   methods: {
