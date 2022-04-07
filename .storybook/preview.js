@@ -1,6 +1,5 @@
 import customTheme from './CustomTheme';
 import { addParameters } from '@storybook/web-components';
-import './storybook-styles.css';
 
 addParameters({
   actions: {

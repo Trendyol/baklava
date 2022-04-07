@@ -8,11 +8,7 @@ module.exports = {
   css: {
     global: [
       {
-        src: 'src/shared.css',
-        dest: `${destBasePath}/shared.css`,
-      },
-      {
-        src: 'src/.storybook/storybook.css',
+        src: '.storybook/storybook.css',
         dest: `${destBasePath}/storybook.css`,
       },
     ],

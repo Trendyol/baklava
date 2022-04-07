@@ -6,8 +6,7 @@
     "files": [
         "dist/",
         ".prettierrc.json",
-        ".eslintrc.json",
-        "grace.theme.css"
+        ".eslintrc.json"
     ],
     "author": {
         "name": "Trendyol Tech",
@@ -21,7 +20,6 @@
         "prep:component-list": "wca analyze 'src/components/**/!(*.stories|*.lit|*.test).ts' --features --format json --outFile ./src/component-list.json",
         "prep:custom-elements": "wca analyze 'src/components/**/!(*.stories|*.lit|*.test).ts' --format json --outFile ./src/custom-elements.json",
         "prep:assets": "node scripts/bundle-assets.js",
-        "prep:css": "node scripts/styles.js",
         "prebuild": "npm run prep",
         "build": "npm-run-all -s build:tsc build:rollup",
         "build:tsc": "npm run tsc",
@@ -40,10 +38,10 @@
         "storybook:axe:dev:chromium": "npm run axe-storybook --storybook-address=\"http://localhost:1994\" --browser chromium",
         "storybook:axe:dev:firefox": "npm run axe-storybook --storybook-address=\"http://localhost:1994\" --browser firefox",
         "storybook:axe:dev:webkit": "npm run axe-storybook --storybook-address=\"http://localhost:1994\" --browser webkit",
-        "storybook:dev": "start-storybook -c src/.storybook -p 1994",
+        "storybook:dev": "start-storybook -p 1994",
         "storybook:dev:watch": "npm-run-all -p -r watch:css storybook:dev",
         "storybook.prod": "npm run storybook:prod",
-        "storybook:prod": "npm run prep && npm run storybook:wait && NODE_ENV=production build-storybook -c src/.storybook -o storybook-static",
+        "storybook:prod": "npm run prep && npm run storybook:wait && NODE_ENV=production build-storybook -o storybook-static",
         "lint": "npm-run-all -s lint:*",
         "lint:eslint": "eslint .",
         "lint.eslint": "npm run lint:eslint",
@@ -63,7 +61,6 @@
         "clean:modules": "rimraf node_modules",
         "reset": "npm run clean && npm install",
         "reboot": "npm run clean && npm install && npm start",
-        "watch:css": "node scripts/styles.js --watch",
         "test": "npm run build && wtr",
         "prepare": "husky install"
     },

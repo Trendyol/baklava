@@ -4,7 +4,6 @@ custom-elements.json
 .env-local
 .aws
 .hidden
-*.lit.ts
 *.generated.css
 
 *~
