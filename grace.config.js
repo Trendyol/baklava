@@ -3,7 +3,7 @@ module.exports = {
   destBasePath,
   assets: {
     dir: ['src/assets'],
-    sync: ['dist', 'src/.storybook/static/dist'],
+    sync: ['dist', '.storybook/static/dist'],
   },
   css: {
     global: [

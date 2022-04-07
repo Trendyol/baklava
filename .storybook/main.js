@@ -6,8 +6,8 @@ module.exports = {
   },
   staticDirs: ['./static'],
   stories: [
-    './stories/guides/welcome.stories.mdx',
-    '../components/**/*.stories.@(js|ts|mdx)',
+    '../docs/**/*.mdx',
+    '../src/components/**/*.stories.@(js|ts|mdx)',
   ],
   addons: [
     '@storybook/addon-essentials',
@@ -46,7 +46,7 @@ module.exports = {
           },
         },
       ],
-      include: path.resolve(__dirname, '../'),
+      include: path.resolve(__dirname, '../src/'),
     });
 
     return config;
