@@ -134,19 +134,29 @@ export default {
   },
   methods: {
     onInput (e: InputEvent) {
-      this.formatEventValue(e);
-      this.valueModal = (e.target as HTMLInputElement).value;
+      const formattedValue = this.formatEventValue(e);
+      this.updateValue(e, formattedValue);
     },
     formatEventValue (e: InputEvent) {
-      const { value } = (e.target as HTMLInputElement);
-      let formattedValue = value;
+      let formattedValue = (e.target as HTMLInputElement).value;
       if (this.trim) formattedValue = trimInputValue(formattedValue);
-      (e.target as HTMLInputElement).value = formattedValue;
+      return formattedValue;
     },
     onBlur(e: any) {
       if (this.trim) this.valueModal = (e.target as HTMLInputElement).value.trim();
       this.$emit('blur', e);
     },
+    updateValue(e, formattedValue) {
+      switch (this.type) {
+        case 'number':
+          this.valueModal = formattedValue;
+          return;
+        default:
+          e.target.value = formattedValue;
+          this.valueModal = e.target.value;
+          return;
+      }
+    }
   },
 };
 </script>

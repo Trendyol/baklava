@@ -61,6 +61,7 @@ storiesOf('GInput', module)
     data () {
       return {
         text: '',
+        numberModel: '',
         trimText: '',
       };
     },
@@ -72,6 +73,7 @@ storiesOf('GInput', module)
     <GInput label="Email" error icon="info"/>
     <GInput label="Email" success  feedback="feedback" isOutlineLabel/>
     <GInput label="Email" v-model="text" success icon="info"/>
+    <GInput label="Number Input" v-model="numberModel" type="number" style="margin: 20px 0"/>
     <GInput label="Trim Prop" v-model="trimText" trim style="margin: 20px 0"/>
     </div>`,
   }));
