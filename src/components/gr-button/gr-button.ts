@@ -6,8 +6,16 @@ import componentStyles from './gr-button.styles';
 export type ButtonVariant = 'primary' | 'secondary';
 
 /**
- * The Gr Button component
- * @element gr-button
+ * @tag gr-button
+ * @summary Grace Button component
+ *
+ * @property {boolean} disabled - Disables the button
+ * @property {string} variant - Sets the button variant
+ *
+ * @cssproperty --primary-color - Sets the primary color
+ *
+ * @event {CustomEvent} gr-blur - dsdasda
+ *
  */
 @customElement('gr-button')
 export class GrButton extends LitElement {
@@ -18,14 +26,10 @@ export class GrButton extends LitElement {
   @property({ type: String, attribute: 'variant' })
   variant: ButtonVariant = 'primary';
 
-  @property({ type: Boolean, attribute: 'is-disabled' })
-  isDisabled = false;
+  @property({ type: Boolean, attribute: 'disabled' })
+  disabled = false;
 
-  @property() onFocus: () => void;
-  @property() onBlur: () => void;
-  @property() onClick: () => void;
-
-  handleFocus() {
+  private handleFocus() {
     this.hasFocus = true;
 
     const event = new CustomEvent('gr-focus', {
@@ -38,7 +42,7 @@ export class GrButton extends LitElement {
     this.dispatchEvent(event);
   }
 
-  handleBlur() {
+  private handleBlur() {
     this.hasFocus = false;
 
     const event = new CustomEvent('gr-blur', {
@@ -51,8 +55,8 @@ export class GrButton extends LitElement {
     this.dispatchEvent(event);
   }
 
-  handleClick(event: MouseEvent) {
-    if (this.isDisabled) {
+  private handleClick(event: MouseEvent) {
+    if (this.disabled) {
       event.preventDefault();
       event.stopPropagation();
       return;
@@ -65,11 +69,12 @@ export class GrButton extends LitElement {
         'button': true,
         'button--primary': this.variant === 'primary',
         'button--secondary': this.variant === 'secondary',
-        'button--disabled': this.isDisabled,
+        'button--disabled': this.disabled,
         'button--focused': this.hasFocus,
       })}
       type="button"
       @focus=${this.handleFocus}
+      @blur=${this.handleBlur}
       @click=${this.handleClick}
     >
       <slot></slot>

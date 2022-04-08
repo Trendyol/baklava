@@ -6,6 +6,10 @@ export default css`
   position: relative;
   width: auto;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .button {

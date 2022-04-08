@@ -1,0 +1,35 @@
+import { html } from 'lit';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+import './gr-button';
+
+<Meta
+  title="Components/Button"
+  component="gr-button"
+/>
+
+# Button
+
+Button component is the component for triggering actions.
+
+## Primary Button
+
+Primary button is used for main actions of the screens. Like a submit button in a form or main button of a dialog.
+
+<Canvas>
+  <Story name="Primary Button">
+    {html`<gr-button>Save</gr-button>`}
+  </Story>
+</Canvas>
+
+## Secondary Button
+
+<Canvas>
+  <Story name="Secondary Button">
+    {html`<gr-button variabt="secondary">Save</gr-button>`}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="gr-button" />
