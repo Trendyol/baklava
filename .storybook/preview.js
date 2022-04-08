@@ -1,30 +1,18 @@
-import customTheme from './CustomTheme';
-import { addParameters } from '@storybook/web-components';
+import { setCustomElementsManifest } from '@storybook/web-components';
+import customElements from '../src/custom-elements.json';
+import '../src/themes/default.css';
 
-addParameters({
-  actions: {
-    argTypesRegex: '^on[A-Z].*',
-  },
+setCustomElementsManifest(customElements);
+
+export const parameters = {
+  actions: { argTypesRegex: "^on[A-Z].*" },
+  viewMode: 'docs',
   controls: {
-    expanded: true,
-  },
-  options: {
-    storySort: {
-      order: [
-        'Getting Started',
-        'Documentation',
-        'Design Tokens',
-        'Media',
-        'Navigation',
-        'Content',
-        'Templates',
-        'Pages',
-        'Code Examples',
-        'Utility Components',
-      ],
+    matchers: {
+      color: /(background|color)$/i,
+      date: /Date$/,
     },
   },
-  docs: {
-    theme: customTheme,
-  },
-});
+}
+
+// export const decorators = [(Story) => <fwc-theme>{Story()}</fwc-theme>];
