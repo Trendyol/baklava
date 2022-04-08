@@ -12,7 +12,7 @@ export type ButtonVariant = 'primary' | 'secondary';
  * @property {boolean} disabled - Disables the button
  * @property {string} variant - Sets the button variant
  *
- * @cssproperty --primary-color - Sets the primary color
+ * @cssproperty --gr-button-size - Sets the height of button. 40px or 32px
  *
  * @event {CustomEvent} gr-blur - dsdasda
  *
@@ -28,6 +28,12 @@ export class GrButton extends LitElement {
 
   @property({ type: Boolean, attribute: 'disabled' })
   disabled = false;
+
+  @property({ type: Boolean })
+  medium = false;
+
+  @property({ type: Boolean })
+  small = false;
 
   private handleFocus() {
     this.hasFocus = true;

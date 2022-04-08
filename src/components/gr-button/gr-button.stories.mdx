@@ -12,7 +12,7 @@ import './gr-button';
 
 Button component is the component for triggering actions.
 
-## Primary Button
+## Button Variants
 
 Primary button is used for main actions of the screens. Like a submit button in a form or main button of a dialog.
 
@@ -20,13 +20,39 @@ Primary button is used for main actions of the screens. Like a submit button in 
   <Story name="Primary Button">
     {html`<gr-button>Save</gr-button>`}
   </Story>
+  <Story name="Secondary Button">
+    {html`<gr-button variant="secondary">Save</gr-button>`}
+  </Story>
 </Canvas>
 
-## Secondary Button
+
+## Button Sizes
+
+We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `large`.
 
 <Canvas>
-  <Story name="Secondary Button">
-    {html`<gr-button variabt="secondary">Save</gr-button>`}
+  <Story name="Large">
+    {html`<gr-button>Save</gr-button>`}
+  </Story>
+  <Story name="Medium">
+    {html`<gr-button medium>Save</gr-button>`}
+  </Story>
+  <Story name="Small">
+    {html`<gr-button small>Save</gr-button>`}
+  </Story>
+</Canvas>
+
+## Block buttons
+
+By default buttons use size as its content needs. But you can use button with `block` mode to fill it's container.
+
+
+<Canvas columns={1}>
+  <Story name="Block button">
+    {html`<gr-button ?block="${true}">Save</gr-button>`}
+  </Story>
+  <Story name="Secondary Block button">
+    {html`<gr-button secontary block disabled>Save</gr-button>`}
   </Story>
 </Canvas>
 
