@@ -1,0 +1,30 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
+
+<Meta title="Design System/Colors" />
+
+# Grace Color Palette
+
+Grace uses a list of defined color with some default values.
+
+<ColorPalette>
+  <ColorItem
+    title="--gr-color-primary"
+    subtitle="Primary Color"
+    colors={{ Primary: '#F27A1A', Hover: '#EF6114' }}
+  />
+  <ColorItem
+    title="--gr-color-secondary"
+    subtitle="Secondary Color"
+    colors={{ Secondary: '#273142', Hover: '#0F131A' }}
+  />
+  <ColorItem 
+    title="--gr-color-content" 
+    subtitle="Content Colors" 
+    colors={{
+        '--primary': '#273142', 
+        '--secondary': '#6E7787',
+        '--tertiary': '#95A1B5',
+        '--passive': '#AFBBCA',
+    }} 
+  />
+</ColorPalette>
