@@ -1,32 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { playwrightLauncher } from '@web/test-runner-playwright';
 import { legacyPlugin } from '@web/dev-server-legacy';
-import { browserstackLauncher as createBrowserstackLauncher } from '@web/test-runner-browserstack';
 import dotenv from 'dotenv';
 dotenv.config();
-
-// prettier-ignore
-const browserstackEnabled = () => {
-  return (
-    (process.env.BROWSER_STACK_USERNAME &&
-    process.env.BROWSER_STACK_ACCESS_KEY)
-    ? true
-    : false
-  )
-};
-
-const browserstackLauncher = config => {
-  return createBrowserstackLauncher({
-    capabilities: {
-      'browserstack.user': process.env.BROWSER_STACK_USERNAME,
-      'browserstack.key': process.env.BROWSER_STACK_ACCESS_KEY,
-      'project': 'Grace',
-      'name': 'Unit Tests',
-      'build': `Untitled Build`,
-      ...config,
-    },
-  });
-};
 
 const playwrightBrowsers = {
   // local browser testing via playwright
@@ -35,43 +11,10 @@ const playwrightBrowsers = {
   webkit: playwrightLauncher({ product: 'webkit' }),
 };
 
-const browserstackBrowsers = browserstackEnabled()
-  ? {
-      // browser testing via browserstack
-      chromiumBS: browserstackLauncher({
-        browserName: 'Chrome',
-        os: 'Windows',
-        os_version: '10',
-      }),
-      firefoxBS: browserstackLauncher({
-        browserName: 'Firefox',
-        os: 'Windows',
-        os_version: '10',
-      }),
-      edge: browserstackLauncher({
-        browserName: 'MicrosoftEdge',
-        os: 'Windows',
-        os_version: '10',
-      }),
-      ie11: browserstackLauncher({
-        browserName: 'IE',
-        browser_version: '11.0',
-        os: 'Windows',
-        os_version: '10',
-      }),
-      safari: browserstackLauncher({
-        browserName: 'Safari',
-        browser_version: '14.0',
-        os: 'OS X',
-        os_version: 'Big Sur',
-      }),
-    }
-  : {};
+const browsers = Object.assign({}, playwrightBrowsers);
 
-const browsers = Object.assign({}, playwrightBrowsers, browserstackBrowsers);
-
-// Prepend BROWSERS=x,y to `yarn run test` to run a subset of browsers
-// e.g. `BROWSERS=chromium,firefox yarn run test`
+// Prepend BROWSERS=x,y to `npm run test` to run a subset of browsers
+// e.g. `BROWSERS=chromium,firefox npm run test`
 const noBrowser = b => {
   throw new Error(`No browser configured named '${b}'; using defaults`);
 };
@@ -107,7 +50,15 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
       },
     }),
   ],
-
+  coverage: true,
+  coverageConfig: {
+    threshold: {
+      branches: 100,
+      statements: 100,
+      functions: 100,
+      lines: 100
+    }
+  }
   /** Compile JS for older browsers. Requires @web/dev-server-esbuild plugin */
   // esbuildTarget: 'auto',
 

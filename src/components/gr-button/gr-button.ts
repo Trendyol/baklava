@@ -21,44 +21,6 @@ export class GrButton extends LitElement {
   @property({ type: Boolean, attribute: 'is-disabled' })
   isDisabled = false;
 
-  @property() onFocus: () => void;
-  @property() onBlur: () => void;
-  @property() onClick: () => void;
-
-  handleFocus() {
-    this.hasFocus = true;
-
-    const event = new CustomEvent('gr-focus', {
-      bubbles: true,
-      cancelable: false,
-      composed: true,
-      detail: {},
-    });
-
-    this.dispatchEvent(event);
-  }
-
-  handleBlur() {
-    this.hasFocus = false;
-
-    const event = new CustomEvent('gr-blur', {
-      bubbles: true,
-      cancelable: false,
-      composed: true,
-      detail: {},
-    });
-
-    this.dispatchEvent(event);
-  }
-
-  handleClick(event: MouseEvent) {
-    if (this.isDisabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-  }
-
   render(): TemplateResult {
     return html` <button
       class=${classMap({
@@ -69,20 +31,10 @@ export class GrButton extends LitElement {
         'button--focused': this.hasFocus,
       })}
       type="button"
-      @focus=${this.handleFocus}
-      @click=${this.handleClick}
     >
       <slot></slot>
     </button>`;
-  }
-
-  updated() {
-    if (this.hasAttribute('is-disabled')) {
-      this.setAttribute('aria-disabled', 'true');
-    } else {
-      this.setAttribute('aria-disabled', 'false');
-    }
-  }
+  }  
 }
 
 declare global {
