@@ -62,13 +62,6 @@ Button.args = {
   isDisabled: false,
 };
 
-const inlineIconDecorator = [
-  (Story): TemplateResult => html`
-<div class="flex flex-row">
-${Story()}
-</div> `,
-];
-
 const PrimaryButtonsTemplate = (): TemplateResult =>
   html`
   <p>This section of primary buttons demonstrates the button.</p>

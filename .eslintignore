@@ -7,7 +7,6 @@ custom-elements.json
 .history/
 storybook-static/
 *.js
-*.lit.ts
 .github/
 .octane-ci/
 .bin/

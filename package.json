@@ -121,6 +121,7 @@
         "postcss-custom-properties": "^11.0.0",
         "postcss-discard-comments": "^5.1.0",
         "postcss-import": "^14.0.2",
+        "postcss-lit": "^0.4.3",
         "postcss-loader": "^5.2.0",
         "postcss-nested": "^5.0.6",
         "postcss-preset-env": "^7.0.0",
@@ -135,6 +136,11 @@
         "rollup-plugin-typescript2": "^0.31.2",
         "rsync": "^0.6.1",
         "storybook": "^6.4.19",
+        "stylelint": "^14.6.1",
+        "stylelint-config-recommended": "^7.0.0",
+        "stylelint-config-standard": "^25.0.0",
+        "stylelint-config-styled-components": "^0.1.1",
+        "stylelint-processor-styled-components": "^1.10.0",
         "svgo": "^2.7",
         "ts-lit-plugin": "^1.2.1",
         "typescript": "^4.0.0",
@@ -143,7 +149,10 @@
         "webpack": "^5.38.1"
     },
     "lint-staged": {
-        "*.js": "eslint --cache --fix",
-        "*.format:svg": "prettier --write"
+        "**/*.{js,,ts,}": [
+            "npx prettier --write",
+            "npx eslint --fix",
+            "npx stylelint --fix src/components/**/*.styles.ts"
+        ]
     }
 }

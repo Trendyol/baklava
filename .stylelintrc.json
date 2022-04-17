@@ -1,0 +1,7 @@
+{
+    "extends": "stylelint-config-standard",
+    "customSyntax": "postcss-lit",
+    "rules": {
+        "selector-class-pattern": "^[a-z]([a-z0-9-]+)?(__([a-z0-9]+-?)+)?(--([a-z0-9]+-?)+){0,2}$|^Mui.*$"
+    }
+}
