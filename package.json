@@ -100,7 +100,6 @@
         "@web/dev-server": "0.0.29",
         "@web/dev-server-legacy": "^0.1.4",
         "@web/test-runner": "^0.13.15",
-        "@web/test-runner-browserstack": "^0.4.2",
         "@web/test-runner-playwright": "^0.8.6",
         "@webcomponents/webcomponentsjs": "^2.5.0",
         "autoprefixer": "^10.4.0",
