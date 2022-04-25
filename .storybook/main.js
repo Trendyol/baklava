@@ -5,10 +5,7 @@ module.exports = {
     builder: 'webpack5',
   },
   staticDirs: ['./static'],
-  stories: [
-    '../docs/**/*.mdx',
-    '../src/components/**/*.stories.@(js|ts|mdx)',
-  ],
+  stories: ['../docs/**/*.mdx', '../src/components/**/*.stories.@(js|ts|mdx)'],
   addons: [
     '@storybook/addon-essentials',
     {
