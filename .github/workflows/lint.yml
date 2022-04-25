@@ -1,0 +1,16 @@
+name: lint
+on:
+  pull_request:
+    branches: [ next ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up node 
+        uses: actions/setup-node@v3
+      - name: Install dependencies
+        run: npm install
+      - name: Run linter check 
+        run: npm run lint
