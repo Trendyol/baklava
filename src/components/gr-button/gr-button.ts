@@ -21,7 +21,9 @@ export type ButtonVariant = 'primary' | 'secondary';
  */
 @customElement('gr-button')
 export class GrButton extends LitElement {
-  static readonly styles: CSSResultGroup = [style];
+  static get styles(): CSSResultGroup {
+    return [style];
+  }
 
   @state() private hasFocus = false;
 
