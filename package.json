@@ -64,7 +64,7 @@
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token=59b7dcc84c8c"
+    "chromatic": "npx chromatic"
   },
   "keywords": [
     "web-components",
