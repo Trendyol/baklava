@@ -6,6 +6,7 @@ import multi from '@rollup/plugin-multi-entry';
 import typescript from 'rollup-plugin-typescript2';
 import svg from 'rollup-plugin-svg';
 import json from '@rollup/plugin-json';
+import litcss from 'rollup-plugin-lit-css';
 
 export default {
   onwarn(warning) {
@@ -33,6 +34,7 @@ export default {
     replace({ 'Reflect.decorate': 'undefined', 'preventAssignment': true }),
     resolve(),
     typescript(),
+    litcss(),
     json(),
     terser({
       ecma: 2020,

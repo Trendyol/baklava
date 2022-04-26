@@ -1,5 +1,5 @@
-
 import { css } from 'lit';
+
 export default css`
 :host {
   display: inline-block;
@@ -51,38 +51,38 @@ export default css`
   outline: none;
 }
 
-.button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.button--disabled * {
-  pointer-events: none;
-}
-
 .button .button__label {
   padding: 0px 16px;
   line-height: 30px;
 }
 
-.button.button--primary {
+.button {
   background-color: var(--gr-color-primary);
   border-color: var(--gr-color-primary);
   color: #FFFFFF;
 }
 
-.button--primary:hover:not(.button--disabled) {
+.button:hover:not(:disabled) {
   background-color: var(--gr-color-primary-hover);
   border-color: var(--gr-color-primary-hover);
 }
 
-.button.button--secondary {
+:host([secondary]) .button {
   background-color: var(--gr-color-secondary);
   border-color: var(--gr-color-secondary);
   color: #FFFFFF;
 }
 
-.button--secondary:hover:not(.button--disabled) {
+:host([secondary]) .button:hover:not(:disabled) {
   background-color: var(--gr-color-secondary-hover);
   border-color: var(--gr-color-secondary-hover);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button:disabled * {
+  pointer-events: none;
 }`;
