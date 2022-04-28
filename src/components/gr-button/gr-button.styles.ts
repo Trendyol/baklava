@@ -58,7 +58,7 @@ export default css`
 
 .button {
   background-color: var(--gr-color-primary);
-  border-color: var(--gr-color-primary);
+  border-color: var(--gr-color-secondary);
   color: #FFFFFF;
 }
 
