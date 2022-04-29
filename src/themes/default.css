@@ -1,3 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
 :root {
-  --primary-color: #F27A1A;
+  /* Colors */
+  --gr-color-primary: #F27A1A;
+  --gr-color-primary-hover: #EF6114;
+  --gr-color-secondary: #273142;
+  --gr-color-secondary-hover: #0F131A;
+
+  --gr-color-content-primary: #273142;
+  --gr-color-content-secondary: #6E7787;
+  --gr-color-content-tertiary: #95A1B5;
+  --gr-color-content-passive: #AFBBCA;
+  
+  /* Size and Spacing */
+  --gr-size-2xs: 2px;
+  --gr-size-xs: 4px;
+  --gr-size-s: 8px;
+  --gr-size-m: 12px;
+  --gr-size-l: 16px;
+  --gr-size-xl: 24px;
+  --gr-size-2xl: 32px;
+  --gr-size-3xl: 64px;
+  --gr-size-4xl: 80px;
+
+
+  /* Typography */
+  --gr-font-family: 'Rubik', sans-serif;
+
+  --gr-font-weight-light: 300;
+  --gr-font-weight-regular: 400;
+  --gr-font-weight-medium: 500;
+  --gr-font-weight-semibold: 600;
+  --gr-font-weight-bold: 700;
+
+  --gr-font-size-2xs: 8px;
+  --gr-font-size-xs: 10px;
+  --gr-font-size-s: 12px;
+  --gr-font-size-m: 14px;
+  --gr-font-size-l: 16px;
+  --gr-font-size-xl: 20px;
+  --gr-font-size-2xl: 24px;
+  --gr-font-size-3xl: 28px;
+  --gr-font-size-4xl: 32px;
+  --gr-font-size-5xl: 48px;
+  --gr-font-size-6xl: 64px;
+
+  --gr-font-display-1: var(--gr-font-weight-bold) var(--gr-font-size-6xl)/var(--gr-size-4xl) var(--gr-font-family);
+
+  --gr-font-title-1-regular: var(--gr-font-weight-regular) var(--gr-font-size-xl)/var(--gr-size-xl) var(--gr-font-family);
+  --gr-font-title-1-medium: var(--gr-font-weight-medium) var(--gr-font-size-xl)/var(--gr-size-xl) var(--gr-font-family);
+  --gr-font-title-1-semibold: var(--gr-font-weight-semibold) var(--gr-font-size-xl)/var(--gr-size-xl) var(--gr-font-family);
+  --gr-font-title-1-bold: var(--gr-font-weight-bold) var(--gr-font-size-xl)/var(--gr-size-xl) var(--gr-font-family);
+
+  --gr-font-title-2-regular: var(--gr-font-weight-regular) var(--gr-font-size-l)/var(--gr-size-xl) var(--gr-font-family);
+  --gr-font-title-2-medium: var(--gr-font-weight-medium) var(--gr-font-size-l)/var(--gr-size-xl) var(--gr-font-family);
+  --gr-font-title-2-semibold: var(--gr-font-weight-semibold) var(--gr-font-size-l)/var(--gr-size-xl) var(--gr-font-family);
+  --gr-font-title-2-bold: var(--gr-font-weight-bold) var(--gr-font-size-l)/var(--gr-size-xl) var(--gr-font-family);
+
+  --gr-font-title-3-regular: var(--gr-font-weight-regular) var(--gr-font-size-m)/var(--gr-size-l) var(--gr-font-family);
+  --gr-font-title-3-medium: var(--gr-font-weight-medium) var(--gr-font-size-m)/var(--gr-size-l) var(--gr-font-family);
+  --gr-font-title-3-semibold: var(--gr-font-weight-semibold) var(--gr-font-size-m)/var(--gr-size-l) var(--gr-font-family);
+  --gr-font-title-3-bold: var(--gr-font-weight-bold) var(--gr-font-size-m)/var(--gr-size-l) var(--gr-font-family);
+
+  --gr-font-title-4-regular: var(--gr-font-weight-regular) var(--gr-font-size-s)/var(--gr-size-l) var(--gr-font-family);
+  --gr-font-title-4-medium: var(--gr-font-weight-medium) var(--gr-font-size-s)/var(--gr-size-l) var(--gr-font-family);
+  --gr-font-title-4-semibold: var(--gr-font-weight-semibold) var(--gr-font-size-s)/var(--gr-size-l) var(--gr-font-family);
+  --gr-font-title-4-bold: var(--gr-font-weight-bold) var(--gr-font-size-s)/var(--gr-size-l) var(--gr-font-family);
+
+  /* For using with boolean component properties */
+  --ON: initial;
+	--OFF: ;
+}
+
+* {
+  -webkit-user-select: var(--user-select);
+  -moz-user-select: var(--user-select);
+  -ms-user-select: var(--user-select);
+  user-select: var(--user-select);
+}
+
+/* Prevent FOUCE */
+:not(:defined) {
+  visibility: hidden;
 }

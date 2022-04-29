@@ -1,0 +1,66 @@
+import { Meta, Typeset } from '@storybook/addon-docs/blocks';
+
+<Meta
+  title="Design System/Typography"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: {
+        hidden: true,
+      },
+    },
+  }}
+/>
+
+# Grace Typography
+
+export const typography = {
+  type: {
+    primary: '"Rubik", "Helvetica Neue", Helvetica, Arial, sans-serif',
+  },
+  weight: {
+    light: '300',
+    regular: '400',
+    medium: '500',
+    semiabold: '600',
+    bold: '700',
+  },
+  size: {
+    s1: 8,
+    s2: 10,
+    s3: 12,
+    m1: 14,
+    m2: 16,
+    m3: 20,
+    l1: 24,
+    l2: 28,
+    l3: 32,
+    l4: 48,
+    l5: 64,
+  },
+};
+
+export const SampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+
+**Font:** Rubik
+
+**Weights:** 300(light), 400(regular), 500(medium), 600(semibold), 700(bold)
+
+<Typeset
+  fontSizes={[
+    Number(typography.size.s1),
+    Number(typography.size.s2),
+    Number(typography.size.s3),
+    Number(typography.size.m1),
+    Number(typography.size.m2),
+    Number(typography.size.m3),
+    Number(typography.size.l1),
+    Number(typography.size.l2),
+    Number(typography.size.l3),
+    Number(typography.size.l4),
+    Number(typography.size.l5),
+  ]}
+  fontWeight={typography.weight.bold}
+  sampleText={SampleText}
+  fontFamily={typography.type.primary}
+/>

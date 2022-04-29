@@ -1,11 +1,12 @@
-
 import { css } from 'lit';
+
 export default css`
 :host {
   display: inline-block;
   position: relative;
   width: auto;
   cursor: pointer;
+  --user-select: none;
 }
 
 .button {
@@ -13,21 +14,33 @@ export default css`
   align-items: stretch;
   justify-content: center;
   width: 100%;
-  height: 32px;
+  height: var(--gr-button-height, 40px);
   border-style: solid;
   border-width: 1px;
   border-radius: 4px;
   text-decoration: none;
-  user-select: none;
   white-space: nowrap;
   vertical-align: middle;
-  padding: 0;
+  padding: 12px 24px;
   cursor: inherit;
 
-  font-family: 'Rubik', sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
+  font: var(--gr-button-font, var(--gr-font-title-3-medium));
+}
+
+:host([block]) {
+  display: block;
+}
+
+:host([medium]) .button {
+  --gr-button-height: 32px;
+  padding: 8px 16px;
+}
+
+
+:host([small]) .button {
+  --gr-button-height: 24px;
+  --gr-button-font: var(--gr-font-title-4-medium);
+  padding: 4px 8px;
 }
 
 .button::-moz-focus-inner {
@@ -38,38 +51,38 @@ export default css`
   outline: none;
 }
 
-.button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.button--disabled * {
-  pointer-events: none;
-}
-
 .button .button__label {
   padding: 0px 16px;
   line-height: 30px;
 }
 
-.button.button--primary {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-  color: #b64040;
-}
-
-.button--primary:hover:not(.button--disabled) {
-  background-color: #EF6114;
-  border-color: #EF6114;
-}
-
-.button.button--secondary {
-  background-color: #273142;
-  border-color: #273142;
+.button {
+  background-color: var(--gr-color-primary);
+  border-color: var(--gr-color-primary);
   color: #FFFFFF;
 }
 
-.button--secondary:hover:not(.button--disabled) {
-  background-color: #0F131A;
-  border-color: #0F131A;
+.button:hover:not(:disabled) {
+  background-color: var(--gr-color-primary-hover);
+  border-color: var(--gr-color-primary-hover);
+}
+
+:host([secondary]) .button {
+  background-color: var(--gr-color-secondary);
+  border-color: var(--gr-color-secondary);
+  color: #FFFFFF;
+}
+
+:host([secondary]) .button:hover:not(:disabled) {
+  background-color: var(--gr-color-secondary-hover);
+  border-color: var(--gr-color-secondary-hover);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button:disabled * {
+  pointer-events: none;
 }`;

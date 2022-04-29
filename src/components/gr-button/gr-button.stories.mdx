@@ -1,0 +1,105 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+import './gr-button';
+
+<Meta
+  title="Components/Button"
+  component="gr-button"
+  argTypes={{
+    label: {
+      control: {
+        type: 'text'
+      }
+    },
+    variant: {
+      options: ['primary', 'secondary'],
+      control: { type: 'radio' }
+    },
+    disabled: {
+      control: 'boolean'
+    },
+    block: {
+      control: 'boolean'
+    },
+    size: {
+      options: ['large', 'medium', 'small'],
+      control: { type: 'radio' }
+    }
+  }}
+/>
+
+export const Template = (args) => html`<gr-button 
+    ?secondary=${args.variant === 'secondary'} 
+    ?disabled=${args.disabled} 
+    ?block=${args.block} 
+    ?medium=${args.size === 'medium'} 
+    ?small=${args.size === 'small'}>${args.label}</gr-button>`;
+
+# Button
+
+Button component is the component for triggering actions.
+
+## Button Variants
+
+Primary button is used for main actions of the screens. Like a submit button in a form or main button of a dialog.
+
+<Canvas>
+  <Story name="Primary Button" args={{ variant: 'primary', label: 'Save' }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Secondary Button" args={{ variant: 'secondary', label: 'Save' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```html
+<gr-button>Save</gr-button>
+
+<gr-button secondary>Save</gr-button>
+```
+
+## Button Sizes
+
+We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `large`.
+
+<Canvas>
+  <Story name="Large" args={{ label: 'Confirm' }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Medium" args={{ size: 'medium', label: 'Confirm' }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Small" args={{ size: 'small', label: 'Confirm' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+```html
+<gr-button>Confirm</gr-button>
+
+<gr-button medium>Confirm</gr-button>
+
+<gr-button small>Confirm</gr-button>
+```
+
+## Block buttons
+
+By default buttons use size as its content needs. But you can use button with `block` mode to fill it's container.
+
+
+<Canvas columns={1}>
+  <Story name="Secondary Block disabled button"  args={{ disabled: true, variant: 'secondary', block: true, label: 'Fill the form' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+
+```html
+<gr-button secondary block disabled>Fill the form</gr-button>
+```
+
+## Reference
+
+<ArgsTable of="gr-button" />

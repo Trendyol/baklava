@@ -34,12 +34,8 @@
     ]
   },
   "include": [
-    "./src/components/**/*.ts",
-    "./src/components/**/*/*.test.ts",
+    "./src/**/*.ts",
+    "./src/**/*/*.test.ts",
     "./src/imports.d.ts"
-  ],
-  "exclude": [
-    "./src/components/**/*.stories.ts",
-    "./src/components/**/*.lit.ts"
   ]
 }
