@@ -1,31 +1,45 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import componentStyles from './gr-button.styles';
+import style from './gr-button.styles';
 
 export type ButtonVariant = 'primary' | 'secondary';
 
 /**
- * The Gr Button component
- * @element gr-button
+ * @tag gr-button
+ * @summary Grace Button component
+ *
+ * @property {boolean} disabled - Disables the button
+ * @property {boolean} medium - Sets size to medium
+ * @property {boolean} small - Sets size to small
+ * @property {string} variant - Sets the button variant
+ *
+ * @cssproperty --gr-button-size - Sets the height of button. 40px or 32px
+ *
+ * @event {CustomEvent} gr-blur - dsdasda
+ *
  */
 @customElement('gr-button')
 export class GrButton extends LitElement {
-  static styles: CSSResultGroup = [componentStyles];
+  static get styles(): CSSResultGroup {
+    return [style];
+  }
 
   @state() private hasFocus = false;
 
-  @property({ type: String, attribute: 'variant' })
+  @property({ type: String })
   variant: ButtonVariant = 'primary';
 
-  @property({ type: Boolean, attribute: 'is-disabled' })
-  isDisabled = false;
+  @property({ type: Boolean })
+  disabled = false;
 
-  @property() onFocus: () => void;
-  @property() onBlur: () => void;
-  @property() onClick: () => void;
+  @property({ type: Boolean })
+  medium = false;
 
-  handleFocus() {
+  @property({ type: Boolean })
+  small = false;
+
+  private handleFocus() {
     this.hasFocus = true;
 
     const event = new CustomEvent('gr-focus', {
@@ -38,7 +52,7 @@ export class GrButton extends LitElement {
     this.dispatchEvent(event);
   }
 
-  handleBlur() {
+  private handleBlur() {
     this.hasFocus = false;
 
     const event = new CustomEvent('gr-blur', {
@@ -51,8 +65,8 @@ export class GrButton extends LitElement {
     this.dispatchEvent(event);
   }
 
-  handleClick(event: MouseEvent) {
-    if (this.isDisabled) {
+  private handleClick(event: MouseEvent) {
+    if (this.disabled) {
       event.preventDefault();
       event.stopPropagation();
       return;
@@ -63,13 +77,12 @@ export class GrButton extends LitElement {
     return html` <button
       class=${classMap({
         'button': true,
-        'button--primary': this.variant === 'primary',
-        'button--secondary': this.variant === 'secondary',
-        'button--disabled': this.isDisabled,
         'button--focused': this.hasFocus,
       })}
+      ?disabled=${this.disabled}
       type="button"
       @focus=${this.handleFocus}
+      @blur=${this.handleBlur}
       @click=${this.handleClick}
     >
       <slot></slot>
@@ -77,7 +90,7 @@ export class GrButton extends LitElement {
   }
 
   updated() {
-    if (this.hasAttribute('is-disabled')) {
+    if (this.hasAttribute('disabled')) {
       this.setAttribute('aria-disabled', 'true');
     } else {
       this.setAttribute('aria-disabled', 'false');
