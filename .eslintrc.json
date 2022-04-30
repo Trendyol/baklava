@@ -30,7 +30,7 @@
     },
     {
       "files": [
-        "*_test.ts",
+        "*.test.ts",
         "**/custom_typings/*.ts",
         "packages/lit-ssr/src/test/integration/tests/**",
         "packages/lit-ssr/src/lib/util/parse5-utils.ts"

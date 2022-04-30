@@ -21,11 +21,11 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "jsxFactory": "h",
     "useDefineForClassFields": false,
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
+    "jsx": "react",
+    "jsxFactory": "h",
     "plugins": [
       {
         "name": "ts-lit-plugin",
@@ -33,11 +33,7 @@
       }
     ]
   },
-  "include": [
-    "./src/components/**/*.ts",
-    "./src/components/**/*/*.test.ts",
-    "./src/imports.d.ts"
-  ],
+  "include": ["./src/components/**/*.ts", "./src/components/**/*/*.test.ts"],
   "exclude": [
     "./src/components/**/*.stories.ts",
     "./src/components/**/*.lit.ts"
