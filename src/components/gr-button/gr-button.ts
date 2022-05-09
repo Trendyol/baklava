@@ -39,39 +39,6 @@ export class GrButton extends LitElement {
   @property({ type: Boolean })
   small = false;
 
-  private handleFocus() {
-    this.hasFocus = true;
-
-    const event = new CustomEvent('gr-focus', {
-      bubbles: true,
-      cancelable: false,
-      composed: true,
-      detail: {},
-    });
-
-    this.dispatchEvent(event);
-  }
-
-  private handleBlur() {
-    this.hasFocus = false;
-
-    const event = new CustomEvent('gr-blur', {
-      bubbles: true,
-      cancelable: false,
-      composed: true,
-      detail: {},
-    });
-
-    this.dispatchEvent(event);
-  }
-
-  private handleClick(event: MouseEvent) {
-    if (this.disabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-  }
 
   render(): TemplateResult {
     return html` <button
@@ -81,20 +48,9 @@ export class GrButton extends LitElement {
       })}
       ?disabled=${this.disabled}
       type="button"
-      @focus=${this.handleFocus}
-      @blur=${this.handleBlur}
-      @click=${this.handleClick}
     >
       <slot></slot>
     </button>`;
-  }
-
-  updated() {
-    if (this.hasAttribute('disabled')) {
-      this.setAttribute('aria-disabled', 'true');
-    } else {
-      this.setAttribute('aria-disabled', 'false');
-    }
   }
 }
 

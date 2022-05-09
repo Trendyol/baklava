@@ -5,6 +5,7 @@ custom-elements.json
 .aws
 .hidden
 *.generated.css
+coverage
 
 *~
 *.sw[mnpcod]
