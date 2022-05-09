@@ -88,14 +88,6 @@ export class GrButton extends LitElement {
       <slot></slot>
     </button>`;
   }
-
-  updated() {
-    if (this.hasAttribute('disabled')) {
-      this.setAttribute('aria-disabled', 'true');
-    } else {
-      this.setAttribute('aria-disabled', 'false');
-    }
-  }
 }
 
 declare global {
