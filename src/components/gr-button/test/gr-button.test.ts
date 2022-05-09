@@ -12,7 +12,7 @@ describe('gr-button', () => {
     assert.shadowDom.equal(
       el,
       `
-      <button type="button" class="button button--primary">
+      <button type="button" class="button">
         <slot></slot>
       </button>
     `

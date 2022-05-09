@@ -7,6 +7,14 @@ setCustomElementsManifest(customElements);
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   viewMode: 'docs',
+  docs: {
+    transformSource: source =>
+      source
+        // Clean Lit Expression Comments
+        .replace(/<!--\?lit\$[0-9]+\$-->|<!--\??-->/g, '')
+        // Clean empty boolean attribute values
+        .replace(/=\"\"/g, ''),
+  },
   controls: {
     matchers: {
       color: /(background|color)$/i,
@@ -14,5 +22,3 @@ export const parameters = {
     },
   },
 };
-
-// export const decorators = [(Story) => <fwc-theme>{Story()}</fwc-theme>];
