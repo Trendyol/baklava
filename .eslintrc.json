@@ -1,15 +1,16 @@
 {
   "root": true,
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
+  "extends": [
+    "prettier",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "plugins": ["@typescript-eslint"],
   "env": {
     "browser": true
@@ -18,20 +19,7 @@
     "process": "readonly"
   },
   "rules": {
-    "no-prototype-builtins": "off",
-    "no-nested-ternary": 2,
-    "@typescript-eslint/ban-types": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/no-empty-function": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
-      {
-        "argsIgnorePattern": "^_"
-      }
-    ]
+    "strict": ["error", "never"]
   },
   "overrides": [
     {
@@ -42,7 +30,7 @@
     },
     {
       "files": [
-        "*_test.ts",
+        "*.test.ts",
         "**/custom_typings/*.ts",
         "packages/lit-ssr/src/test/integration/tests/**",
         "packages/lit-ssr/src/lib/util/parse5-utils.ts"

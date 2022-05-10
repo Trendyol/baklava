@@ -39,7 +39,6 @@ export class GrButton extends LitElement {
   @property({ type: Boolean })
   small = false;
 
-
   render(): TemplateResult {
     return html` <button
       class=${classMap({

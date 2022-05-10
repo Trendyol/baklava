@@ -56,7 +56,7 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
       branches: 100,
       statements: 100,
       functions: 100,
-      lines: 100
-    }
-  }
+      lines: 100,
+    },
+  },
 });

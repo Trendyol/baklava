@@ -8,7 +8,8 @@ const theme = create({
   colorPrimary: '#F27A1A',
   colorSecondary: '#F27A1A',
   fontBase: 'Equinor, sans-serif',
-  fontCode: '"Operator Mono","Fira Code Retina","Fira Code","FiraCode-Retina","Andale Mono","Lucida Console",Consolas,Monaco,monospace'
+  fontCode:
+    '"Operator Mono","Fira Code Retina","Fira Code","FiraCode-Retina","Andale Mono","Lucida Console",Consolas,Monaco,monospace',
 });
 
-addons.setConfig({theme});
+addons.setConfig({ theme });
