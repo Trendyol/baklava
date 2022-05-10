@@ -15,6 +15,13 @@ export const parameters = {
         // Clean empty boolean attribute values
         .replace(/=\"\"/g, ''),
   },
+  options: {
+    storySort: {
+      method: 'alphabetical',
+      order: ['Documentation', ['Welcome', '*'], 'Components', 'Design System'],
+      locales: 'en-US',
+    },
+  },
   controls: {
     matchers: {
       color: /(background|color)$/i,
