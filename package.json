@@ -78,12 +78,13 @@
     "lit": "^2.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
-    "@commitlint/cli": "^13.2.0",
-    "@commitlint/config-conventional": "^13.2.0",
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.4",
+    "@commitlint/prompt-cli": "^16.2.4",
     "@open-wc/testing": "^3.0.0-next.2",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-multi-entry": "^4.0.0",
