@@ -44,3 +44,13 @@ We have some special rules defined for Grace.
 * `storybook`: Changes related with storybook definitions, configs, pipelines
 
 Also a scope is defined every component. Examples are `button`, `icon`, `select` etc.
+
+## Using provided gitmessage template
+
+We also provide a git message template file (`.gitmessage`) within the repository. To be able to use it with your `git commit` command, you need to run following command inside the repository root path:
+
+```
+git config --local include.path ../.gitconfig
+```
+
+Then once you run `git commit` you will see a template that is providing many example commit messages that you can get inspired.
