@@ -1,0 +1,56 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta
+  title="Documentation/Commit Rules"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: {
+        hidden: true,
+      },
+    },
+  }}
+/>
+
+# Grace Commit Rules
+
+While developing Grace we use [conventional commit messages](https://www.conventionalcommits.org/en/v1.0.0/). When you commit a change to your local branch, a couple of checks will be done including commit message. If you make a mistake while writing your commit message, you'll see an error message like below and your commit will be cancelled:
+
+```
+⧗   input: fix(desing): testing commit
+✖   scope must be one of [storybook, design, button] [scope-enum]
+⚠   subject must be sentence-case [subject-case]
+⚠   subject must end with full stop [subject-full-stop]
+
+✖   found 1 problems, 2 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+husky - commit-msg hook exited with code 1 (error)
+```
+
+If you want you can also use prompt cli to build a commit for staged changes. After adding some files to stage, you can run `npm run commit` to run commitlint prompt. Then you can build a commit message by providing required parts of commit message in an interactive prompt.
+
+Because of we automatically generate library versions and release notes from commit messages, it's critical to write commit messages in proper way. Please check [@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional#subject-full-stop) documentation to see current rules that we use.
+
+## Specific rules for Grace
+
+We have some special rules defined for Grace.
+
+### Scope list
+
+`scope` information is optional but if it's provided it should one of the options below:
+
+* `design`: Changes related with design tokens
+* `storybook`: Changes related with storybook definitions, configs, pipelines
+
+Also a scope is defined every component. Examples are `button`, `icon`, `select` etc.
+
+## Using provided gitmessage template
+
+We also provide a git message template file (`.gitmessage`) within the repository. To be able to use it with your `git commit` command, you need to run following command inside the repository root path:
+
+```
+git config --local include.path ../.gitconfig
+```
+
+Then once you run `git commit` you will see a template that is providing many example commit messages that you can get inspired.
