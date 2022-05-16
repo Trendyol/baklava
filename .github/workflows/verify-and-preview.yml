@@ -7,22 +7,37 @@ on:
     branches: [ next ]
 
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set Node env
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm ci
+      - name: Run linter check 
+        run: npm run lint
+      - name: Set testing environment
+        uses: microsoft/playwright-github-action@v1
+      - name: Run tests
+        run: npm run test
+
   chromatic-deployment:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-      - name: Set up node 
+        with:
+          fetch-depth: 0
+      - name: Set Node env
         uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - name: Install dependencies
         run: npm ci
-      - name: Prepare Build
-        run: npm run prep
-      - name: Run linter check 
-        run: npm run lint
-      - uses: microsoft/playwright-github-action@v1
-      - name: Run tests
-        run: npm run test
       - name: Build Grace
         run: npm run build
       - name: Publish to Chromatic
