@@ -1,5 +1,6 @@
 {
   "name": "@trendyol-js/grace",
+  "version": "1.0.39",
   "description": "Trendyol Grace - Component Design",
   "main": "dist/grace.js",
   "module": "dist/grace.js",
@@ -27,7 +28,7 @@
     "storybook:axe:dev:chromium": "npm run axe-storybook --storybook-address=\"http://localhost:1994\" --browser chromium",
     "storybook:axe:dev:firefox": "npm run axe-storybook --storybook-address=\"http://localhost:1994\" --browser firefox",
     "storybook:axe:dev:webkit": "npm run axe-storybook --storybook-address=\"http://localhost:1994\" --browser webkit",
-    "storybook:dev": "start-storybook -p 1994 --debug-webpack",
+    "storybook:dev": "start-storybook -p 1994",
     "storybook.prod": "npm run storybook:prod",
     "storybook:prod": "npm run prep && npm run storybook:wait && NODE_ENV=production build-storybook -o storybook-static",
     "lint": "npm-run-all -s lint:*",
