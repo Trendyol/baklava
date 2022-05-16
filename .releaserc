@@ -4,7 +4,8 @@
     { "name": "1.0.x", "range": "1.0.x", "channel": "1.0.x" },
     {
       "name": "next",
-      "prerelease": true
+      "prerelease": "beta",
+      "channel": "beta"
     }
   ],
   "plugins": [
