@@ -11,6 +11,8 @@ jobs:
         run: npm ci
       - name: Prepare Build
         run: npm run prep
+      - name: Build Grace
+        run: npm run build
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
