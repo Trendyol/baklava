@@ -4,12 +4,6 @@
     { "name": "1.0.x", "range": "1.0.x", "channel": "1.0.x" },
     {
       "name": "next",
-      "channel": "beta",
-      "prerelease": true
-    },
-    {
-      "name": "67-defining-release-flow-stable-beta-alpha-releases",
-      "channel": "beta",
       "prerelease": true
     }
   ],

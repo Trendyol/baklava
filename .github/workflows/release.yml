@@ -24,6 +24,6 @@ jobs:
       - name: Build Grace
         run: npm run build
       - name: Publish to NPM
-        run: npx semantic-release
+        run: npx semantic-release --dry-run
         env:
           NPM_TOKEN: ${{ secrets.TRENDYOL_JS_NPM_TOKEN }}
