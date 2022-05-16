@@ -5,7 +5,7 @@ on:
     workflows:
       - Verify and Preview
     types: [completed]
-    branches: [main, next, 1.x]
+    branches: [main, next, 1.0.x]
 
 jobs:
   verify:

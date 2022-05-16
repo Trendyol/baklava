@@ -1,24 +1,20 @@
 {
   "branches": [
     "main",
-    { "name": "1.x", "channel": "1.x" },
+    { "name": "1.0.x", "range": "1.0.x", "channel": "1.0.x" },
     {
       "name": "next",
+      "channel": "beta",
       "prerelease": true
     },
     {
       "name": "67-defining-release-flow-stable-beta-alpha-releases",
+      "channel": "beta",
       "prerelease": true
     }
   ],
   "plugins": [
     "@semantic-release/commit-analyzer",
-    "@semantic-release/release-notes-generator",
-    "@semantic-release/npm",
-    ["@semantic-release/github", {
-      "assets": [
-        {"path": "dist" }
-      ]
-    }]
+    "@semantic-release/release-notes-generator"
   ]
 }
