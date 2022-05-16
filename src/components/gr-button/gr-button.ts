@@ -1,7 +1,7 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import style from './gr-button.styles';
+import style from './gr-button.css';
 
 export type ButtonVariant = 'primary' | 'secondary';
 
@@ -20,7 +20,7 @@ export type ButtonVariant = 'primary' | 'secondary';
  *
  */
 @customElement('gr-button')
-export class GrButton extends LitElement {
+export default class GrButton extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }

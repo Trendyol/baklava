@@ -1,5 +1,6 @@
-test/
-coverage/
-jest.config.js
-storybook-static/
-.loki/
+docs/
+.github
+.husky
+.storybook
+*.mdx
+*.test.ts
