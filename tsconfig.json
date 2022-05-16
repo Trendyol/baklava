@@ -34,8 +34,5 @@
     ]
   },
   "include": ["./src/**/*.ts", "./src/**/*/*.test.ts"],
-  "exclude": [
-    "./src/components/**/*.stories.ts",
-    "./src/components/**/*.lit.ts"
-  ]
+  "exclude": []
 }

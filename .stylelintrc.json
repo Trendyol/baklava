@@ -1,4 +1,3 @@
 {
-  "extends": "stylelint-config-standard",
-  "customSyntax": "postcss-lit"
+  "extends": ["stylelint-config-standard", "stylelint-config-prettier"]
 }
