@@ -22,7 +22,12 @@ jobs:
         run: npm ci
       - name: Run build
         run: npm run build
-      - name: Publish to NPM
+      - name: Create build artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: build-output
+          path: dist/
+      - name: Publish
         run: npx semantic-release
         env:
           NPM_TOKEN: ${{ secrets.TRENDYOL_JS_NPM_TOKEN }}
