@@ -1,0 +1,12 @@
+name: 'Verify and Preview'
+
+on:
+  pull_request:
+    branches: [ next ]
+
+jobs:
+  verify:
+    uses: trendyol/grace/.github/workflows/shared/verify.yml@next
+  preview:
+    uses: trendyol/grace/.github/workflows/shared/publish-storybook.yml@next
+    needs: verify

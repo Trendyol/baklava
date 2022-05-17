@@ -1,18 +1,11 @@
-name: 'Release new version'
+name: Release
 
 on:
-  push:
-    branches:
-      - main
-      - next
-      - 1.0.x
+  workflow_call:
 
 jobs:
-  verify:
-    uses: trendyol/grace/.github/workflows/verify.yml@next
-  publish:
+  release:
     runs-on: ubuntu-latest
-    needs: verify
     steps:
       - name: Check out code
         uses: actions/checkout@v3
