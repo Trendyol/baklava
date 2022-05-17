@@ -21,11 +21,6 @@ jobs:
         uses: microsoft/playwright-github-action@v1
       - name: Run tests
         run: npm run test
-      - name: Create build-output artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: build-output
-          path: dist/
       - name: Create coverage artifact
         uses: actions/upload-artifact@master
         with:
