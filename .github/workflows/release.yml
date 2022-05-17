@@ -3,12 +3,12 @@ name: 'Release new version'
 on:
   workflow_run:
     workflows:
-      - Verify and Preview
+      - "Verify and Preview"
     types: [completed]
     branches: [main, next, 1.0.x]
 
 jobs:
-  verify:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
