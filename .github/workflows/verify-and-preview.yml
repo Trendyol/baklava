@@ -10,7 +10,7 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/verify
+      - uses: ./.github/workflows/verify
 
   chromatic-deployment:
     runs-on: ubuntu-latest
