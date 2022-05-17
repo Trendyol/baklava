@@ -1,0 +1,23 @@
+name: 'Verify and Preview'
+
+on:
+  workflow_call:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set Node env
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm ci
+      - name: Run linter check 
+        run: npm run lint
+      - name: Set testing environment
+        uses: microsoft/playwright-github-action@v1
+      - name: Run tests
+        run: npm run test
