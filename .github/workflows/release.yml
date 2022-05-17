@@ -5,8 +5,6 @@ on:
     secrets:
       TRENDYOL_JS_NPM_TOKEN:
         required: true
-      GITHUB_TOKEN:
-        required: true
 
 jobs:
   release:
