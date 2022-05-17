@@ -5,6 +5,8 @@ on:
     secrets:
       TRENDYOL_JS_NPM_TOKEN:
         required: true
+      GITHUB_TOKEN:
+        required: true
 
 jobs:
   release:
@@ -26,3 +28,4 @@ jobs:
         run: npx semantic-release
         env:
           NPM_TOKEN: ${{ secrets.TRENDYOL_JS_NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
