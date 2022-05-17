@@ -23,6 +23,6 @@ jobs:
       - name: Run build
         run: npm run build
       - name: Publish to NPM
-        run: npx semantic-release --dry-run
+        run: npx semantic-release
         env:
           NPM_TOKEN: ${{ secrets.TRENDYOL_JS_NPM_TOKEN }}
