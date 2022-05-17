@@ -2,6 +2,9 @@ name: Publish Storybook
 
 on:
   workflow_call:
+    secrets:
+      CHROMATIC_PROJECT_TOKEN:
+        required: true
 
 jobs:
   publish:

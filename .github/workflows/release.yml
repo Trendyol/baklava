@@ -2,6 +2,9 @@ name: Release
 
 on:
   workflow_call:
+    secrets:
+      TRENDYOL_JS_NPM_TOKEN:
+        required: true
 
 jobs:
   release:

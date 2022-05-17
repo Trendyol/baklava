@@ -13,6 +13,8 @@ jobs:
   preview:
     uses: trendyol/grace/.github/workflows/publish-storybook.yml@next
     needs: verify
+    secrets: inherit
   release:
     uses: trendyol/grace/.github/workflows/release.yml@next
     needs: verify
+    secrets: inherit
