@@ -9,10 +9,10 @@ on:
 
 jobs:
   verify:
-    uses: trendyol/grace/.github/workflows/shared/verify.yml@next
+    uses: trendyol/grace/.github/workflows/verify.yml@next
   preview:
-    uses: trendyol/grace/.github/workflows/shared/publish-storybook.yml@next
+    uses: trendyol/grace/.github/workflows/publish-storybook.yml@next
     needs: verify
   release:
-    uses: trendyol/grace/.github/workflows/shared/release.yml@next
+    uses: trendyol/grace/.github/workflows/release.yml@next
     needs: verify
