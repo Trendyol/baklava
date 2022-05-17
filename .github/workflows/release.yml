@@ -11,7 +11,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/workflows/verify.yml
+      - uses: trendyol/grace/.github/workflows/verify.yml@next
       - name: Publish to NPM
         run: npx semantic-release --dry-run
         env:
