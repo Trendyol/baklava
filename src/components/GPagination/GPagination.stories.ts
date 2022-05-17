@@ -19,6 +19,9 @@ storiesOf('GPagination', module)
       pageSizeText: {
         default: text('pageSizeText', 'Adet'),
       },
+      pageLabelText: {
+        default: text('pageLabelText', 'Her Sayfada'),
+      },
       pageSizeVisible: {
         default: boolean('pageSizeVisible', true),
       },
@@ -41,6 +44,7 @@ storiesOf('GPagination', module)
         :pageSizeVisible="pageSizeVisible"
         :pageLimits="pageLimits"
         :pageSizeText="pageSizeText"
+        :pageLabelText="pageLabelText"
         :reverse="reverse">
       </GPagination>
     `,

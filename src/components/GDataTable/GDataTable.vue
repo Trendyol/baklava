@@ -261,6 +261,7 @@ export default {
           totalPages: undefined,
         },
         pageSizeText: 'Adet',
+        pageLabelText: 'Her Sayfada',
         pageSizeVisible: false,
         pageLimits: undefined,
         reverse: false,
