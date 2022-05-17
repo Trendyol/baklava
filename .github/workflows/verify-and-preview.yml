@@ -7,10 +7,24 @@ on:
     branches: [ next ]
 
 jobs:
-  verify-and-preview:
+  verify:
+    uses: trendyol/grace/.github/workflows/verify.yml@next
+  preview:
     runs-on: ubuntu-latest
+    needs: verify
     steps:
-      - uses: trendyol/grace/.github/workflows/verify.yml@next
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set Node env
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm ci
+      - name: Run build
+        run: npm run build
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
