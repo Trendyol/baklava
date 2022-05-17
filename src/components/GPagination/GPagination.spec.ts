@@ -38,22 +38,22 @@ describe('GPagination', () => {
     expect(wrapper.vm.show).toEqual(false);
   });
 
-  describe('computed/pageLimitsWithText', function() {
-    it('should return pageLimits with pageSizeText', function() {
+  describe('computed/pageLimitsWithText', function () {
+    it('should return pageLimits with pageSizeText', function () {
       expect(wrapper.vm.pageLimitsWithText).toEqual([
         {
           text: '10 adet',
-          value: 10
+          value: 10,
         },
         {
           text: '20 adet',
-          value: 20
+          value: 20,
         },
         {
           text: '50 adet',
-          value: 50
-        }
-      ])
+          value: 50,
+        },
+      ]);
     });
   });
 

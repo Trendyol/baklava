@@ -56,7 +56,7 @@
       class="change-size"
     >
       <GText variant="body">
-        Her Sayfada
+        {{ pageLabelText }}
       </GText>
       <GNativeSelect
         class="g-ml-8"
@@ -92,6 +92,10 @@ export default {
     pageSizeText: {
       type: String,
       default: 'Adet',
+    },
+    pageLabelText: {
+      type: String,
+      default: 'Her Sayfada',
     },
     pageSizeVisible: {
       type: Boolean,
