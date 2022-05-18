@@ -59,7 +59,6 @@ storiesOf('GDatePicker', module)
         <GDatePicker
           v-model="date"
           @change="onChange"
-          lang="en"
           :disabled="disabled"
           error
         >
