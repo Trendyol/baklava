@@ -39,6 +39,7 @@ import GInput from '../GInput/GInput.vue';
 import dayjs from 'dayjs';
 import 'dayjs/locale/tr';
 import 'vue2-datepicker/locale/tr';
+import 'vue2-datepicker/locale/en';
 
 const _dateFormat = (value:any, format:any) => {
   if (!value) {
@@ -58,6 +59,10 @@ export default {
       type: String,
       default: () => 'date',
     },
+    lang: {
+      type: String,
+      default: () => 'tr',
+    },
     showWeekNumber: {
       type: Boolean,
       default: () => false,
@@ -73,12 +78,6 @@ export default {
   },
   data () {
     return {
-      lang: {
-        formatLocale: {
-          firstDayOfWeek: 1,
-        },
-        monthBeforeYear: false,
-      },
       date: null,
     };
   },

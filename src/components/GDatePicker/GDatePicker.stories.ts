@@ -334,4 +334,66 @@ storiesOf('GDatePicker', module)
         action('Change')(event);
       },
     },
+  }))
+  .add('DatePicker Language', () => ({
+    components: { GDatePicker, GButton, GIcon },
+    template: `
+      <div style="margin: 240px 200px 200px">
+        <div style="margin-bottom: 10px">
+          <GDatePicker
+            placeholder="Start Date"
+            v-model="date"
+            @change="onChange"
+            lang="en"
+          >
+          </GDatePicker>
+        </div>
+        <div style="margin-bottom: 10px">
+          <GDatePicker
+            v-model="date"
+            @change="onChange"
+          >
+          </GDatePicker>
+        </div>
+        <div style="margin-bottom: 10px">
+          <button @click="onClear">Temizle</button>
+        </div>
+        <div style="margin-bottom: 10px">
+          <a href="https://github.com/mengxiong10/vue2-datepicker">vue2-datepicker</a>
+        </div>
+      </div>
+      <script>
+      import GIcon from './GIcon';
+      export default {
+        components: { GIcon },
+      };
+      </script>`,
+    props: {
+      lang: {
+        default: text("lang", "tr"),
+      },
+      placeholder: {
+        default: text('Placeholder', ''),
+      },
+      format: {
+        default: text('format', 'DD.MM.YYYY'),
+      },
+      type: {
+        default: text('type', 'date'),
+      },
+    },
+    data () {
+      return {
+        date: new Date(1601141826127),
+      };
+    },
+    methods: {
+      onClear () {
+        // @ts-ignore
+        this.date = null;
+      },
+      onChange (event, data) {
+        action('Change')(event, data);
+      },
+    },
   }));
