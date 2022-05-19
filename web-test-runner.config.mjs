@@ -1,7 +1,6 @@
-import { playwrightLauncher } from '@web/test-runner-playwright';
-import rollupLitCss from "rollup-plugin-lit-css"
 import { fromRollup } from "@web/dev-server-rollup"
 import { esbuildPlugin } from "@web/dev-server-esbuild"
+import rollupLitCss from "rollup-plugin-lit-css"
 
 const litCss = fromRollup(rollupLitCss)
 
@@ -22,12 +21,6 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   mimeTypes: {
     "src/**/*.css": "js",
   },
-
-  browsers: [
-    playwrightLauncher({ product: 'chromium' }),
-    playwrightLauncher({ product: 'firefox' }),
-    playwrightLauncher({ product: 'webkit' })
-  ],
 
   plugins: [
     litCss({
