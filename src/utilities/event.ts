@@ -1,12 +1,20 @@
 export interface EventOptions {
   bubbles?: boolean;
   cancelable?: boolean;
+  composed?: boolean;
 }
 
 export class EventDispatcher<T> {
   constructor(private target: HTMLElement, private eventName: string) {}
 
-  dispatch(value: T, options?: EventOptions) {
+  dispatch(
+    value: T,
+    options: EventOptions = {
+      bubbles: true,
+      cancelable: false,
+      composed: true,
+    }
+  ) {
     this.target.dispatchEvent(
       new CustomEvent<T>(this.eventName, { detail: value, ...options })
     );
@@ -16,24 +24,14 @@ export class EventDispatcher<T> {
 export function event(customName?: string) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (protoOrDescriptor: any, name: string): any => {
-    const eventName = customName || name || protoOrDescriptor.key;
-
     const descriptor = {
       get(this: HTMLElement) {
-        return new EventDispatcher(this, eventName);
+        return new EventDispatcher(this, customName || name);
       },
       enumerable: true,
       configurable: true,
     };
 
-    // if there is no name then this is a TypeScript runtime else its the current native TC39 proposal
-    return name !== undefined
-      ? Object.defineProperty(protoOrDescriptor, eventName, descriptor)
-      : {
-          kind: 'property',
-          placement: 'prototype',
-          key: protoOrDescriptor.key,
-          descriptor,
-        };
+    Object.defineProperty(protoOrDescriptor, name, descriptor);
   };
 }
