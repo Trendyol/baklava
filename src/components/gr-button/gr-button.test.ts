@@ -12,10 +12,23 @@ describe('gr-button', () => {
     assert.shadowDom.equal(
       el,
       `
-      <button type="button" class="button">
+      <button aria-disabled="false" type="button" class="button">
         <slot></slot>
       </button>
     `
     );
+  });
+  describe('attributes', () => {
+    it('is bound to `disabled` attribute', async () => {
+      const el = await fixture(html`<gr-button disabled></gr-button>`);
+      assert.shadowDom.equal(
+        el,
+        `
+        <button aria-disabled="true" type="button" class="button">
+          <slot></slot>
+        </button>
+      `
+      );
+    });
   });
 });

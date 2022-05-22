@@ -12,19 +12,19 @@
   align-items: stretch;
   justify-content: center;
   width: 100%;
-  height: var(--gr-button-height, 40px);
+  height: var(--gr-button-height, 32px);
   border-style: solid;
   border-width: 1px;
-  border-radius: 4px;
+  border-radius: 6px;
   text-decoration: none;
   white-space: nowrap;
   vertical-align: middle;
-  padding: 12px 24px;
+  padding: 8px 16px;
   cursor: inherit;
   background-color: var(--gr-color-primary);
   border-color: var(--gr-color-primary);
-  color: #fff;
-  font: var(--gr-button-font, var(--gr-font-title-3-medium));
+  color: var(--gr-color-content-primary);
+  font: var(--gr-button-font, var(--gr-font-title-3-regular));
 }
 
 :host([block]) {
@@ -35,30 +35,65 @@
   outline: none;
 }
 
-.button:disabled {
+:host([disabled]) {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.button:disabled * {
+:host([disabled]) * {
   pointer-events: none;
 }
 
-:host([medium]) .button {
-  --gr-button-height: 32px;
-
-  padding: 8px 16px;
+.button::-moz-focus-inner {
+  border: 0;
 }
 
-:host([small]) .button {
+:host([size="small"]) .button {
   --gr-button-height: 24px;
   --gr-button-font: var(--gr-font-title-4-medium);
 
   padding: 4px 8px;
 }
 
-.button::-moz-focus-inner {
-  border: 0;
+:host([size="medium"]) .button {
+  --gr-button-height: 32px;
+
+  padding: 8px 16px;
+}
+
+:host([size="large"]) .button {
+  --gr-button-height: 40px;
+
+  padding: 12px 24px;
+}
+
+:host([secondary]) .button {
+  background-color: var(--gr-color-secondary);
+  border-color: var(--gr-color-secondary);
+  color: var(--gr-color-content-secondary);
+}
+
+:host([tertiary]) .button {
+  background-color: var(--gr-color-tertiary);
+  border-color: var(--gr-color-tertiary);
+  color: var(--gr-color-content-tertiary);
+}
+
+:host([success]) .button {
+  background-color: var(--gr-color-success);
+  border-color: var(--gr-color-success);
+  color: var(--gr-color-content-success);
+}
+
+:host([error]) .button {
+  background-color: var(--gr-color-error);
+  border-color: var(--gr-color-error);
+  color: var(--gr-color-content-error);
+}
+
+:host([outline]) .button {
+  background-color: var(--gr-color-primary-outline);
+  color: var(--gr-color-content-outline-primary);
 }
 
 .button:hover:not(:disabled) {
@@ -66,13 +101,74 @@
   border-color: var(--gr-color-primary-hover);
 }
 
-:host([secondary]) .button {
-  background-color: var(--gr-color-secondary);
-  border-color: var(--gr-color-secondary);
-  color: #fff;
+:host([outline][secondary]) .button {
+  background-color: var(--gr-color-secondary-outline);
+  color: var(--gr-color-content-outline-secondary);
+}
+
+:host([outline][tertiary]) .button {
+  background-color: var(--gr-color-tertiary-outline);
+  color: var(--gr-color-content-outline-tertiary);
+}
+
+:host([outline][success]) .button {
+  background-color: var(--gr-color-success-outline);
+  color: var(--gr-color-content-outline-success);
+}
+
+:host([outline][error]) .button {
+  background-color: var(--gr-color-error-outline);
+  color: var(--gr-color-content-outline-error);
 }
 
 :host([secondary]) .button:hover:not(:disabled) {
   background-color: var(--gr-color-secondary-hover);
   border-color: var(--gr-color-secondary-hover);
 }
+
+:host([tertiary]) .button:hover:not(:disabled) {
+  background-color: var(--gr-color-tertiary-hover);
+  border-color: var(--gr-color-tertiary-hover);
+}
+
+:host([success]) .button:hover:not(:disabled) {
+  background-color: var(--gr-color-success-hover);
+  border-color: var(--gr-color-success-hover);
+}
+
+:host([error]) .button:hover:not(:disabled) {
+  background-color: var(--gr-color-error-hover);
+  border-color: var(--gr-color-error-hover);
+}
+
+:host([outline]) .button:hover:not(:disabled) {
+  background-color: var(--gr-color-primary-hover);
+  border-color: var(--gr-color-primary-hover);
+  color: var(--gr-color-content-primary);
+}
+
+:host([outline][secondary]) .button:hover:not(:disabled) {
+  background-color: var(--gr-color-secondary-hover);
+  border-color: var(--gr-color-secondary-hover);
+  color: var(--gr-color-content-secondary);
+}
+
+:host([outline][tertiary]) .button:hover:not(:disabled) {
+  background-color: var(--gr-color-tertiary-hover);
+  border-color: var(--gr-color-tertiary-hover);
+  color: var(--gr-color-content-tertiary);
+}
+
+:host([outline][success]) .button:hover:not(:disabled) {
+  background-color: var(--gr-color-success-hover);
+  border-color: var(--gr-color-success-hover);
+  color: var(--gr-color-content-success);
+}
+
+:host([outline][error]) .button:hover:not(:disabled) {
+  background-color: var(--gr-color-error-hover);
+  border-color: var(--gr-color-error-hover);
+  color: var(--gr-color-content-error);
+}
+
+

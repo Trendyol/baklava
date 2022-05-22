@@ -13,9 +13,20 @@ import { GrButton } from '@trendyol-js/grace';
         type: 'text'
       }
     },
-    variant: {
-      options: ['primary', 'secondary'],
-      control: { type: 'radio' }
+    primary: {
+      control: 'boolean'
+    },
+    secondary: {
+      control: 'boolean'
+    },
+    tertiary: {
+      control: 'boolean'
+    },
+    success: {
+      control: 'boolean'
+    },
+    error: {
+      control: 'boolean'
     },
     disabled: {
       control: 'boolean'
@@ -25,17 +36,22 @@ import { GrButton } from '@trendyol-js/grace';
     },
     size: {
       options: ['large', 'medium', 'small'],
-      control: { type: 'radio' }
+      control: { type: 'select' }
     }
   }}
 />
 
 export const Template = (args) => html`<gr-button 
-    ?secondary=${args.variant === 'secondary'} 
+    ?primary=${args.primary}
+    ?secondary=${args.secondary}
+    ?tertiary=${args.tertiary}
+    ?success=${args.success}
+    ?error=${args.error}
+    ?outline=${args.outline}
     ?disabled=${args.disabled} 
-    ?block=${args.block} 
-    ?medium=${args.size === 'medium'} 
-    ?small=${args.size === 'small'}>${args.label}</gr-button>`;
+    ?block=${args.block}
+    size=${args.size} 
+      >${args.label}</gr-button>`;
 
 # Button
 
@@ -46,20 +62,49 @@ Button component is the component for triggering actions.
 Primary button is used for main actions of the screens. Like a submit button in a form or main button of a dialog.
 
 <Canvas>
-  <Story name="Primary Button" args={{ variant: 'primary', label: 'Save' }}>
+  <Story name="Primary Button" args={{ label: 'Save' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Secondary Button" args={{ variant: 'secondary', label: 'Save' }}>
+  <Story name="Secondary Button" args={{ secondary: true, label: 'Save' }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Tertiary Button" args={{ tertiary: true, label: 'Save' }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Success Button" args={{ success: true, label: 'Save' }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Error Button" args={{ error: true, label: 'Save' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Outline Buttons
+
+<Canvas>
+  <Story name="Primary Outline Button" args={{ primary: true, outline: true, label: 'Save', named: 'asdasd' }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Secondary Outline Button" args={{ secondary: true, outline: true, label: 'Save' }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Tertiary Outline Button" args={{ tertiary: true, outline: true, label: 'Save' }}>
+    {Template.bind({})}
+  </Story>
+   <Story name="Success Outline Button" args={{ success: true, outline: true, label: 'Save' }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Error Outline Button" args={{ error: true, outline: true,  label: 'Save' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
 
 ## Button Sizes
 
-We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `large`.
+We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `medium`.
 
 <Canvas>
-  <Story name="Large" args={{ label: 'Confirm' }}>
+  <Story name="Large" args={{ size: 'large', label: 'Confirm' }}>
     {Template.bind({})}
   </Story>
   <Story name="Medium" args={{ size: 'medium', label: 'Confirm' }}>
@@ -70,13 +115,24 @@ We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `large`.
   </Story>
 </Canvas>
 
+## Button Slots
+
+<Canvas>
+  <Story name="Default Slot" args={{ size: 'large', label: 'Confirm' }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Named Slot" args={{ size: 'medium', label: 'Confirm' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
 ## Block buttons
 
 By default buttons use size as its content needs. But you can use button with `block` mode to fill it's container.
 
 
 <Canvas columns={1}>
-  <Story name="Secondary Block disabled button"  args={{ disabled: true, variant: 'secondary', block: true, label: 'Fill the form' }}>
+  <Story name="Secondary Block disabled button"  args={{ disabled: true, secondary: true, block: true, label: 'Fill the form' }}>
     {Template.bind({})}
   </Story>
 </Canvas>

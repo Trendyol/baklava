@@ -4,11 +4,29 @@
   /* Colors */
   --gr-color-primary: #f27a1a;
   --gr-color-primary-hover: #ef6114;
+  --gr-color-primary-outline: #FFF;
   --gr-color-secondary: #273142;
   --gr-color-secondary-hover: #0f131a;
-  --gr-color-content-primary: #273142;
-  --gr-color-content-secondary: #6e7787;
-  --gr-color-content-tertiary: #95a1b5;
+  --gr-color-secondary-outline: #FFF;
+  --gr-color-tertiary: #F1F2F7;
+  --gr-color-tertiary-hover: #D5D9E1;
+  --gr-color-tertiary-outline: #FFF;
+  --gr-color-success: #0BC15C;
+  --gr-color-success-hover: #09A44E;
+  --gr-color-success-outline: #FFF;
+  --gr-color-error: #FF5043;
+  --gr-color-error-hover: #FF3028;
+  --gr-color-error-outline: #FFF;
+  --gr-color-content-primary: #FFF;
+  --gr-color-content-outline-primary: #f27a1a;
+  --gr-color-content-secondary: #FFF;
+  --gr-color-content-outline-secondary: #273142;
+  --gr-color-content-tertiary: #273142;
+  --gr-color-content-outline-tertiary: #273142;
+  --gr-color-content-success: #FFF;
+  --gr-color-content-outline-success: #0BC15C;
+  --gr-color-content-error: #FFF;
+  --gr-color-content-outline-error: #FF5043;;
   --gr-color-content-passive: #afbbca;
 
   /* Size and Spacing */
