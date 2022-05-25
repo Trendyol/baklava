@@ -1,9 +1,10 @@
 :host {
   display: inline-block;
   position: relative;
-  font-size: var(--gr-icon-size, inherit);
   width: 1em;
   height: 1em;
+  contain: strict;
+  box-sizing: content-box !important;
 }
 
 :host svg {
