@@ -2,16 +2,12 @@ const path = require('path');
 
 module.exports = {
   logLevel: 'debug',
-  stories: [
-    '../*.md',
-    '../docs/**/*.stories.mdx',
-    '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-  ],
+  stories: ['../*.md', '../docs/**/*.stories.mdx', '../src/**/*.stories.mdx'],
   addons: [
     '@storybook/addon-links',
+    '@storybook/addon-docs',
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
-    '@storybook/addon-docs',
   ],
   features: {
     postcss: false,
