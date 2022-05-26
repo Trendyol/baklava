@@ -14,7 +14,7 @@
   "license": "MIT",
   "scripts": {
     "prestart": "npm run prep",
-    "prepare": "git update-index --assume-unchanged playground/index.html; husky install",
+    "prepare": "husky install",
     "start": "npm run storybook:dev:watch",
     "prep": "npm-run-all -s prep:*",
     "prep:component-list": "wca analyze 'src/components/**/!(*.test).ts' --features --format json --outFile ./src/component-list.json",
