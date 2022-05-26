@@ -46,6 +46,7 @@ const args = parseArgs(process.argv.slice(2), {
       const { host, port } = await esbuild.serve(
         {
           servedir: 'playground',
+          host: 'localhost',
         },
         buildOptions
       );
