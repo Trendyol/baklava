@@ -5,9 +5,7 @@
   "main": "dist/grace.js",
   "module": "dist/grace.js",
   "files": [
-    "dist/",
-    ".prettierrc.json",
-    ".eslintrc.json"
+    "dist/"
   ],
   "author": {
     "name": "Trendyol Tech",
@@ -23,7 +21,7 @@
     "prep:custom-elements": "wca analyze 'src/components/**/!(*.test).ts' --format json --outFile ./src/custom-elements.json",
     "prebuild": "npm run prep",
     "build": "node scripts/build.js",
-    "preserve": "npm run prep",
+    "build:dev": "node scripts/build.js",
     "serve": "node scripts/build.js --serve",
     "storybook:axe:prod": "npm run storybook:prod && npm run axe-storybook --build-dir=storybook-static/",
     "storybook:axe:dev": "npm-run-all -s storybook:axe:dev:chromium storybook:axe:dev:firefox",
@@ -90,6 +88,7 @@
     "@web/test-runner-playwright": "^0.8.6",
     "@webcomponents/webcomponentsjs": "^2.5.0",
     "chromatic": "^6.5.4",
+    "del": "^6.1.0",
     "esbuild": "^0.14.39",
     "esbuild-plugin-lit-css": "^2.0.0",
     "eslint": "^8.12.0",

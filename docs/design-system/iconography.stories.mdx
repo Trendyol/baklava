@@ -1,11 +1,21 @@
-import { Meta, Title, IconGallery, IconItem } from '@storybook/addon-docs/';
+import { Meta, Title, IconGallery, IconItem } from '@storybook/addon-docs';
 
-<Meta title="Design System/Iconography" />
+<Meta
+  title="Design System/Iconography"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: {
+        hidden: true,
+      },
+    },
+  }}
+/>
 
 # Iconography
 
 <IconGallery>
-  <IconItem name="mobile">
-    <p>Test</p>
+  <IconItem name="info">
+    <gr-icon name="info"></gr-icon>
   </IconItem>
 </IconGallery>

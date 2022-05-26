@@ -1,0 +1,7 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Size=Xlarge">
+<path id="Vector" d="M18 2L18 3" stroke="currentColor" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M6 2L6 3" stroke="currentColor" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M4 2C1.79086 2 0 3.79086 0 6V20C0 22.2091 1.79086 24 4 24H20C22.2091 24 24 22.2091 24 20V6C24 3.79086 22.2091 2 20 2H4ZM4 5C3.44772 5 3 5.44772 3 6V10H21V6C21 5.44772 20.5523 5 20 5H4Z" fill="currentColor"/>
+</g>
+</svg>
