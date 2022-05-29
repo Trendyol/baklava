@@ -1,6 +1,7 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
+import { getIconPath } from '../../utilities/asset-paths';
 
 import style from './gr-icon.css';
 
@@ -42,7 +43,8 @@ export default class GrIcon extends LitElement {
   @state() private svg: string;
 
   async load() {
-    const fileUrl = `./assets/${this.name}.svg`;
+    const iconPath = getIconPath();
+    const fileUrl = `${iconPath}/${this.name}.svg`;
 
     if (!requestMap.has(fileUrl)) {
       requestMap.set(fileUrl, fetch(fileUrl));

@@ -31,7 +31,7 @@ const args = parseArgs(process.argv.slice(2), {
       bundle: true,
       sourcemap: true,
       format: 'esm',
-      target: 'es2017',
+      target: 'esnext',
       splitting: true,
       metafile: true,
       minify: true,
