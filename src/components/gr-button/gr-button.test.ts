@@ -18,6 +18,7 @@ describe('gr-button', () => {
     `
     );
   });
+  // querySelector testing
   describe('attributes', () => {
     it('is bound to `disabled` attribute', async () => {
       const el = await fixture(html`<gr-button disabled></gr-button>`);

@@ -1,13 +1,17 @@
 :host {
-  display: inline-block;
+  display: var(--gr-button-display, inline-block);
   position: relative;
   width: auto;
   cursor: pointer;
 
-  --user-select: none;
+  --gr-button-main-color: var(--gr-color-primary);
+  --gr-button-padding-vertical: 8px;
+  --gr-button-padding-horizontal: 8px;
+  --gr-button-padding: var(--gr-button-padding-vertical) var(--gr-button-padding-horizontal);
 }
 
 .button {
+
   display: inline-flex;
   align-items: stretch;
   justify-content: center;
@@ -19,16 +23,13 @@
   text-decoration: none;
   white-space: nowrap;
   vertical-align: middle;
-  padding: 8px 16px;
+  padding: var(--gr-button-padding);
   cursor: inherit;
-  background-color: var(--gr-color-primary);
-  border-color: var(--gr-color-primary);
+  background-color: var(--gr-button-main-color);
+  border-color: var(--gr-button-main-color);
   color: var(--gr-color-content-primary);
   font: var(--gr-button-font, var(--gr-font-title-3-regular));
-}
 
-:host([block]) {
-  display: block;
 }
 
 .button:focus {
@@ -52,13 +53,14 @@
   --gr-button-height: 24px;
   --gr-button-font: var(--gr-font-title-4-medium);
 
-  padding: 4px 8px;
+  --gr-button-padding-vertical: var(--gr-size-xs);
+  --gr-button-padding-horizontal: var(--gr-size-s);
 }
 
 :host([size="medium"]) .button {
   --gr-button-height: 32px;
-
-  padding: 8px 16px;
+  --gr-button-padding-vertical: var(--gr-size-s);
+  --gr-button-padding-horizontal: var(--gr-size-m);
 }
 
 :host([size="large"]) .button {
@@ -73,9 +75,14 @@
   color: var(--gr-color-content-secondary);
 }
 
-:host([tertiary]) .button {
-  background-color: var(--gr-color-tertiary);
-  border-color: var(--gr-color-tertiary);
+:host([tertiary]) {
+  --gr-bg-color: var(--gr-color-tertiary);
+  color: var(--gr-color-content-tertiary);
+}
+
+:host() .button {
+  background-color: var(--gr-main-color);
+  border-color: var(--gr-main-color);
   color: var(--gr-color-content-tertiary);
 }
 
@@ -101,8 +108,8 @@
   border-color: var(--gr-color-primary-hover);
 }
 
-:host([outline][secondary]) .button {
-  background-color: var(--gr-color-secondary-outline);
+:host([outline][secondary]) {
+  --gr-button-main-color: var(--gr-color-secondary-outline);
   color: var(--gr-color-content-outline-secondary);
 }
 

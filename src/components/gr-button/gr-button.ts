@@ -15,10 +15,10 @@ import style from './gr-button.css';
  * @property {boolean} success - Sets size to success
  * @property {boolean} error - Sets size to error
  * @property {boolean} outline - Sets button outline version
- * @property {boolean} border - Sets button's display block
  * @property {string} size - Sets the button size
  *
- * @cssproperty --gr-button-size - Sets the height of button. 40px or 32px
+ * test edelim cikti ile.
+ * @cssproperty --gr-button-display - Sets the display property of button. Default value is 'inline-block'.
  *
  * @event {CustomEvent} gr-blur - dsdasda
  *
@@ -53,13 +53,11 @@ export default class GrButton extends LitElement {
   @property({ type: Boolean })
   disabled = false;
 
-  @property({ type: Boolean })
-  block = false;
-
   /*
    * default slot bossa ve icon slotu varsa icon-only mod calisir ve paddingler degisir
    * icon slotuna sadece gr-icon componenti gelebilmesini kontrol edebilsek iyi olur
    * Default slot ve icon slotunun sirasi onemsizdir. icon her turlu solda gorunur
+   * user select none btn.
    */
 
   @state() hasIcon: boolean;

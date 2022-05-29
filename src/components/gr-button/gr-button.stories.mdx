@@ -31,9 +31,6 @@ import { GrButton } from '@trendyol-js/grace';
     disabled: {
       control: 'boolean'
     },
-    block: {
-      control: 'boolean'
-    },
     size: {
       options: ['large', 'medium', 'small'],
       control: { type: 'select' }
@@ -49,8 +46,7 @@ export const Template = (args) => html`<gr-button
     ?error=${args.error}
     ?outline=${args.outline}
     ?disabled=${args.disabled} 
-    ?block=${args.block}
-    size=${args.size} 
+    size="${ifDefined(args.size)}" 
       >${args.label}</gr-button>`;
 
 # Button
@@ -126,13 +122,13 @@ We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `medium`
   </Story>
 </Canvas>
 
-## Block buttons
+## Disabled buttons
 
-By default buttons use size as its content needs. But you can use button with `block` mode to fill it's container.
+By default buttons use size as its content needs.
 
 
 <Canvas columns={1}>
-  <Story name="Secondary Block disabled button"  args={{ disabled: true, secondary: true, block: true, label: 'Fill the form' }}>
+  <Story name="Secondary disabled button"  args={{ disabled: true, secondary: true, label: 'Fill the form' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
