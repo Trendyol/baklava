@@ -77,8 +77,12 @@ const args = parseArgs(process.argv.slice(2), {
         size: `${(data.bytes / 1024).toFixed(2)} KB`,
       }))
       .filter(
-        ({ fileName }) => fileName.endsWith('.js') || fileName.endsWith('.css')
+        ({ fileName }) =>
+          !/icon\/icons\/.*\.js/.test(fileName) &&
+          (fileName.endsWith('.js') || fileName.endsWith('.css'))
       );
+
+    del(`${destinationPath}/components/icon/icons`);
 
     console.table(analyzeResult, ['fileName', 'size']);
 
