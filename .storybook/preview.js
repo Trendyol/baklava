@@ -9,6 +9,7 @@ export const parameters = {
   docs: {
     transformSource: source =>
       source
+        .replace(/<!--\?lit\$[0-9]+\$-->|<!--\??-->/g, '')
         // Clean empty boolean attribute values
         .replace(/=\"\"/g, ''),
   },
