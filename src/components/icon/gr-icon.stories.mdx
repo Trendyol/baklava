@@ -3,6 +3,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
 import { styleMap } from 'lit/directives/style-map.js';
 import { map } from 'lit/directives/map.js';
+import icons from './icon-list';
 
 <Meta
   title="Components/Icon"
@@ -10,16 +11,41 @@ import { map } from 'lit/directives/map.js';
   argTypes={{
     name: {
       control: {
-        type: 'text',
+        type: 'select',
+        options: icons,
         description: 'Name of the icon'
+      }
+    },
+    size: {
+      control: {
+        type: 'number',
+        description: 'Size of the icon (in pixels)',
+        min: 8,
+        max: 64
+      }
+    },
+    color: {
+      control: {
+        type: 'color',
+        description: 'Color of the icon',
+        presetColors: [{
+          color: 'var(--gr-color-primary)',
+          title: 'Primary'
+        },{
+          color: 'var(--gr-color-secondary)',
+          title: 'Secondary'
+        },{
+          color: 'var(--gr-color-success)',
+          title: 'Success'
+        }]
       }
     },
   }}
 />
 
-export const Template = (args) => html`<gr-icon 
+export const Template = (args) => html`<gr-icon
   name="${args.name}"
-  style="${styleMap({'font-size': args.size, 'color': args.color})}"></gr-icon>`;
+  style=${styleMap({'font-size': parseInt(args.size) > 0 ? `${args.size}px` : args.size, 'color': args.color})}></gr-icon>`;
 
 export const SizeVariations = (args) => html`
 <gr-icon name="${args.name}" style="font-size: var(--gr-font-size-m)"></gr-icon>
@@ -36,6 +62,11 @@ export const ColorVariations = (args) => html`
 <gr-icon name="${args.name}" style="color: var(--gr-color-content-passive)"></gr-icon>
 `
 
+export const AllIcons = (args) => html`<div
+  style="${styleMap({'font-size': `${args.size}px`, 'color': args.color})}">\n${
+    icons.map(iconName => html`  <gr-icon name=${iconName} title="${iconName}"></gr-icon> \n`)
+  }</div>`;
+
 # Icon
 
 Icon component is an **internal** component for using inside other Grace components to show some decorative icons.
@@ -47,34 +78,52 @@ Icon component is an **internal** component for using inside other Grace compone
 You can show icons by just using `name` attribute.
 
 <Canvas>
-  <Story name="Info Icon" args={{ name: 'info' }}>
-    {Template.bind({})}
-  </Story>
-  <Story name="Large Alert Icon" args={{ name: 'alert', size: 'var(--gr-font-size-3xl)' }}>
-    {Template.bind({})}
-  </Story>
-  <Story name="Success Check Icon" args={{ name: 'check', color: 'var(--gr-color-success)' }}>
+  <Story name="Single Icon" args={{ name: 'info' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
 
+You can see a list of icons that Grace provides now in our [Iconography](/docs/design-system-iconography--page) page.
+
 ## Sizing Icons
 
-Icon size can be set via CSS with `font-size` property. 
+Icon size can be set via CSS with `font-size` property. By default icons are in the size of current font-size of the tag placement.
 
 <Canvas>
-  <Story name="Icon sizes" args={{ name: 'info' }}>
+  <Story name="Icon sizes" parameters={{
+      controls: {
+        include: ['name']
+      }
+    }} args={{ name: 'info' }}>
     {SizeVariations.bind({})}
   </Story>
 </Canvas>
 
 ## Coloring Icons
 
-Icon color can be set via CSS with `color` property.
+Icon color can be set via CSS with `color` property. By default icons are in the color of current tag placement.
 
 <Canvas>
-  <Story name="Icon colors" args={{ name: 'info' }}>
+  <Story name="Icon colors" parameters={{
+      controls: {
+        include: ['name']
+      }
+    }} args={{ name: 'info' }}>
     {ColorVariations.bind({})}
+  </Story>
+</Canvas>
+
+## List of all icons
+
+Here we provide a list of all provided icons. You can see them in custom size and colors in Canvas tab.
+
+<Canvas>
+  <Story name="Icon list" parameters={{
+      controls: {
+        exclude: ['name']
+      }
+    }} args={{ size: 32 }}>
+    {AllIcons.bind({})}
   </Story>
 </Canvas>
 
