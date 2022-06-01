@@ -6,6 +6,7 @@ export default [
   'add_product',
   'alert',
   'archive',
+  'arrangement',
   'arrow_down',
   'arrow_left',
   'arrow_right',
