@@ -4,6 +4,9 @@
   "description": "Trendyol Baklava Design System",
   "main": "dist/baklava.js",
   "module": "dist/baklava.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist/"
   ],
