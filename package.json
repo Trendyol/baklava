@@ -1,9 +1,9 @@
 {
-  "name": "@trendyol-js/grace",
-  "version": "1.0.39",
-  "description": "Trendyol Grace - Component Design",
-  "main": "dist/grace.js",
-  "module": "dist/grace.js",
+  "name": "@trendyol-js/baklava",
+  "version": "0.0.0-dev",
+  "description": "Trendyol Baklava Design System",
+  "main": "dist/baklava.js",
+  "module": "dist/baklava.js",
   "files": [
     "dist/"
   ],

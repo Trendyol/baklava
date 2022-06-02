@@ -12,7 +12,7 @@
   align-items: stretch;
   justify-content: center;
   width: 100%;
-  height: var(--gr-button-height, 40px);
+  height: var(--bl-button-height, 40px);
   border-style: solid;
   border-width: 1px;
   border-radius: 4px;
@@ -21,10 +21,10 @@
   vertical-align: middle;
   padding: 12px 24px;
   cursor: inherit;
-  background-color: var(--gr-color-primary);
-  border-color: var(--gr-color-primary);
+  background-color: var(--bl-color-primary);
+  border-color: var(--bl-color-primary);
   color: #fff;
-  font: var(--gr-button-font, var(--gr-font-title-3-medium));
+  font: var(--bl-button-font, var(--bl-font-title-3-medium));
 }
 
 :host([block]) {
@@ -45,14 +45,14 @@
 }
 
 :host([medium]) .button {
-  --gr-button-height: 32px;
+  --bl-button-height: 32px;
 
   padding: 8px 16px;
 }
 
 :host([small]) .button {
-  --gr-button-height: 24px;
-  --gr-button-font: var(--gr-font-title-4-medium);
+  --bl-button-height: 24px;
+  --bl-button-font: var(--bl-font-title-4-medium);
 
   padding: 4px 8px;
 }
@@ -62,17 +62,17 @@
 }
 
 .button:hover:not(:disabled) {
-  background-color: var(--gr-color-primary-hover);
-  border-color: var(--gr-color-primary-hover);
+  background-color: var(--bl-color-primary-hover);
+  border-color: var(--bl-color-primary-hover);
 }
 
 :host([secondary]) .button {
-  background-color: var(--gr-color-secondary);
-  border-color: var(--gr-color-secondary);
+  background-color: var(--bl-color-secondary);
+  border-color: var(--bl-color-secondary);
   color: #fff;
 }
 
 :host([secondary]) .button:hover:not(:disabled) {
-  background-color: var(--gr-color-secondary-hover);
-  border-color: var(--gr-color-secondary-hover);
+  background-color: var(--bl-color-secondary-hover);
+  border-color: var(--bl-color-secondary-hover);
 }

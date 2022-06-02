@@ -1,14 +1,14 @@
 import { assert, fixture, html } from '@open-wc/testing';
-import GrButton from './gr-button';
+import BlButton from './bl-button';
 
-describe('gr-button', () => {
+describe('bl-button', () => {
   it('is defined', () => {
-    const el = document.createElement('gr-button');
-    assert.instanceOf(el, GrButton);
+    const el = document.createElement('bl-button');
+    assert.instanceOf(el, BlButton);
   });
 
   it('renders with default values', async () => {
-    const el = await fixture(html`<gr-button></gr-button>`);
+    const el = await fixture(html`<bl-button></bl-button>`);
     assert.shadowDom.equal(
       el,
       `

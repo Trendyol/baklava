@@ -7,7 +7,7 @@ import icons from './icon-list';
 
 <Meta
   title="Components/Icon"
-  component="gr-icon"
+  component="bl-icon"
   argTypes={{
     name: {
       control: {
@@ -29,13 +29,13 @@ import icons from './icon-list';
         type: 'color',
         description: 'Color of the icon',
         presetColors: [{
-          color: 'var(--gr-color-primary)',
+          color: 'var(--bl-color-primary)',
           title: 'Primary'
         },{
-          color: 'var(--gr-color-secondary)',
+          color: 'var(--bl-color-secondary)',
           title: 'Secondary'
         },{
-          color: 'var(--gr-color-success)',
+          color: 'var(--bl-color-success)',
           title: 'Success'
         }]
       }
@@ -43,33 +43,33 @@ import icons from './icon-list';
   }}
 />
 
-export const Template = (args) => html`<gr-icon
+export const Template = (args) => html`<bl-icon
   name="${args.name}"
-  style=${styleMap({'font-size': parseInt(args.size) > 0 ? `${args.size}px` : args.size, 'color': args.color})}></gr-icon>`;
+  style=${styleMap({'font-size': parseInt(args.size) > 0 ? `${args.size}px` : args.size, 'color': args.color})}></bl-icon>`;
 
 export const SizeVariations = (args) => html`
-<gr-icon name="${args.name}" style="font-size: var(--gr-font-size-m)"></gr-icon>
-<gr-icon name="${args.name}" style="font-size: var(--gr-font-size-l)"></gr-icon>
-<gr-icon name="${args.name}" style="font-size: var(--gr-font-size-xl)"></gr-icon>
-<gr-icon name="${args.name}" style="font-size: var(--gr-font-size-2xl)"></gr-icon>
-<gr-icon name="${args.name}" style="font-size: var(--gr-font-size-3xl)"></gr-icon>
+<bl-icon name="${args.name}" style="font-size: var(--bl-font-size-m)"></bl-icon>
+<bl-icon name="${args.name}" style="font-size: var(--bl-font-size-l)"></bl-icon>
+<bl-icon name="${args.name}" style="font-size: var(--bl-font-size-xl)"></bl-icon>
+<bl-icon name="${args.name}" style="font-size: var(--bl-font-size-2xl)"></bl-icon>
+<bl-icon name="${args.name}" style="font-size: var(--bl-font-size-3xl)"></bl-icon>
 `
 
 export const ColorVariations = (args) => html`
-<gr-icon name="${args.name}" style="color: var(--gr-color-content-primary)"></gr-icon>
-<gr-icon name="${args.name}" style="color: var(--gr-color-content-secondary)"></gr-icon>
-<gr-icon name="${args.name}" style="color: var(--gr-color-content-tertiary)"></gr-icon>
-<gr-icon name="${args.name}" style="color: var(--gr-color-content-passive)"></gr-icon>
+<bl-icon name="${args.name}" style="color: var(--bl-color-content-primary)"></bl-icon>
+<bl-icon name="${args.name}" style="color: var(--bl-color-content-secondary)"></bl-icon>
+<bl-icon name="${args.name}" style="color: var(--bl-color-content-tertiary)"></bl-icon>
+<bl-icon name="${args.name}" style="color: var(--bl-color-content-passive)"></bl-icon>
 `
 
 export const AllIcons = (args) => html`<div
   style="${styleMap({'font-size': `${args.size}px`, 'color': args.color})}">\n${
-    icons.map(iconName => html`  <gr-icon name=${iconName} title="${iconName}"></gr-icon> \n`)
+    icons.map(iconName => html`  <bl-icon name=${iconName} title="${iconName}"></bl-icon> \n`)
   }</div>`;
 
 # Icon
 
-Icon component is an **internal** component for using inside other Grace components to show some decorative icons.
+Icon component is an **internal** component for using inside other Baklava components to show some decorative icons.
 
 *Inline styles in examples are only for demo purposes. Use regular CSS classes or tag selectors to set styles.*
 
@@ -83,7 +83,7 @@ You can show icons by just using `name` attribute.
   </Story>
 </Canvas>
 
-You can see a list of icons that Grace provides now in our [Iconography](/docs/design-system-iconography--page) page.
+You can see a list of icons that Baklava provides now in our [Iconography](/docs/design-system-iconography--page) page.
 
 ## Sizing Icons
 
@@ -129,4 +129,4 @@ Here we provide a list of all provided icons. You can see them in custom size an
 
 ## Reference
 
-<ArgsTable of="gr-icon" />
+<ArgsTable of="bl-icon" />
