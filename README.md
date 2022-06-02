@@ -1,3 +1,5 @@
 # Baklava Design System
 
-Work in progress. Please check [Grace Next Issue](https://github.com/Trendyol/grace/issues/63)
+Work in progress.
+
+Please check [Storybook Documentation](https://next--6267ebb4dd54f5004a65f14a.chromatic.com/)
