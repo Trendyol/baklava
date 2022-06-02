@@ -4,7 +4,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 
 <Meta
   title="Components/Button"
-  component="gr-button"
+  component="bl-button"
   argTypes={{
     label: {
       control: {
@@ -28,12 +28,12 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
   }}
 />
 
-export const Template = (args) => html`<gr-button 
-    ?secondary=${args.variant === 'secondary'} 
-    ?disabled=${args.disabled} 
-    ?block=${args.block} 
-    ?medium=${args.size === 'medium'} 
-    ?small=${args.size === 'small'}>${args.label}</gr-button>`;
+export const Template = (args) => html`<bl-button
+    ?secondary=${args.variant === 'secondary'}
+    ?disabled=${args.disabled}
+    ?block=${args.block}
+    ?medium=${args.size === 'medium'}
+    ?small=${args.size === 'small'}>${args.label}</bl-button>`;
 
 # Button
 
@@ -81,4 +81,4 @@ By default buttons use size as its content needs. But you can use button with `b
 
 ## Reference
 
-<ArgsTable of="gr-button" />
+<ArgsTable of="bl-button" />

@@ -1,26 +1,26 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import style from './gr-button.css';
+import style from './bl-button.css';
 
 export type ButtonVariant = 'primary' | 'secondary';
 
 /**
- * @tag gr-button
- * @summary Grace Button component
+ * @tag bl-button
+ * @summary Baklava Button component
  *
  * @property {boolean} disabled - Disables the button
  * @property {boolean} medium - Sets size to medium
  * @property {boolean} small - Sets size to small
  * @property {string} variant - Sets the button variant
  *
- * @cssproperty --gr-button-size - Sets the height of button. 40px or 32px
+ * @cssproperty --bl-button-size - Sets the height of button. 40px or 32px
  *
- * @event {CustomEvent} gr-blur - dsdasda
+ * @event {CustomEvent} bl-blur - dsdasda
  *
  */
-@customElement('gr-button')
-export default class GrButton extends LitElement {
+@customElement('bl-button')
+export default class BlButton extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -55,6 +55,6 @@ export default class GrButton extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-button': GrButton;
+    'bl-button': BlButton;
   }
 }

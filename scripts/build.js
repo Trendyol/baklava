@@ -14,7 +14,7 @@ const args = parseArgs(process.argv.slice(2), {
   try {
     const buildOptions = {
       entryPoints: [
-        'src/grace.ts',
+        'src/baklava.ts',
         ...(await globby([
           'src/components/**/!(*.(test|d)).ts',
           'src/themes/*.css',

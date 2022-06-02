@@ -3,25 +3,25 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { getIconPath } from '../../utilities/asset-paths';
 
-import style from './gr-icon.css';
+import style from './bl-icon.css';
 
 const requestMap = new Map<string, Promise<Response>>();
 
 /**
- * @tag gr-icon
- * @summary Grace Button component
+ * @tag bl-icon
+ * @summary Baklava Icon component
  *
  * @property {string} name - Name of the icon to show
  *
  * @cssproperty font-size - Setting size of icon. Default is current font size in DOM place
  * @cssproperty color - Setting color of icon. Default is `currentColor`
  *
- * @event {CustomEvent} gr-load - Fires when SVG icon loaded
- * @event {CustomEvent} gr-error - Fires when SVG icon failed to load
+ * @event {CustomEvent} bl-load - Fires when SVG icon loaded
+ * @event {CustomEvent} bl-error - Fires when SVG icon failed to load
  *
  */
-@customElement('gr-icon')
-export default class GrIcon extends LitElement {
+@customElement('bl-icon')
+export default class BlIcon extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -56,13 +56,13 @@ export default class GrIcon extends LitElement {
 
       if (res?.ok) {
         this.svg = await res.text();
-        this.event('gr-load', `${this.name} icon loaded`);
+        this.event('bl-load', `${this.name} icon loaded`);
         this.requestUpdate();
       } else {
-        this.event('gr-error', `${this.name} icon failed to load`);
+        this.event('bl-error', `${this.name} icon failed to load`);
       }
     } catch (error) {
-      this.event('gr-error', `${this.name} icon failed to load [${error}]`);
+      this.event('bl-error', `${this.name} icon failed to load [${error}]`);
     }
   }
 
@@ -79,6 +79,6 @@ export default class GrIcon extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-icon': GrIcon;
+    'bl-icon': BlIcon;
   }
 }

@@ -2,80 +2,80 @@
 
 :root {
   /* Colors */
-  --gr-color-primary: #f27a1a;
-  --gr-color-primary-hover: #ef6114;
-  --gr-color-secondary: #273142;
-  --gr-color-secondary-hover: #0f131a;
-  --gr-color-success: #0bc15c;
-  --gr-color-success-hover: #09a44e;
-  --gr-color-content-primary: #273142;
-  --gr-color-content-secondary: #6e7787;
-  --gr-color-content-tertiary: #95a1b5;
-  --gr-color-content-passive: #afbbca;
+  --bl-color-primary: #f27a1a;
+  --bl-color-primary-hover: #ef6114;
+  --bl-color-secondary: #273142;
+  --bl-color-secondary-hover: #0f131a;
+  --bl-color-success: #0bc15c;
+  --bl-color-success-hover: #09a44e;
+  --bl-color-content-primary: #273142;
+  --bl-color-content-secondary: #6e7787;
+  --bl-color-content-tertiary: #95a1b5;
+  --bl-color-content-passive: #afbbca;
 
   /* Size and Spacing */
-  --gr-size-2xs: 2px;
-  --gr-size-xs: 4px;
-  --gr-size-s: 8px;
-  --gr-size-m: 12px;
-  --gr-size-l: 16px;
-  --gr-size-xl: 24px;
-  --gr-size-2xl: 32px;
-  --gr-size-3xl: 64px;
-  --gr-size-4xl: 80px;
+  --bl-size-2xs: 2px;
+  --bl-size-xs: 4px;
+  --bl-size-s: 8px;
+  --bl-size-m: 12px;
+  --bl-size-l: 16px;
+  --bl-size-xl: 24px;
+  --bl-size-2xl: 32px;
+  --bl-size-3xl: 64px;
+  --bl-size-4xl: 80px;
 
   /* Typography */
-  --gr-font-family: 'Rubik', sans-serif;
-  --gr-font-weight-light: 300;
-  --gr-font-weight-regular: 400;
-  --gr-font-weight-medium: 500;
-  --gr-font-weight-semibold: 600;
-  --gr-font-weight-bold: 700;
-  --gr-font-size-2xs: 8px;
-  --gr-font-size-xs: 10px;
-  --gr-font-size-s: 12px;
-  --gr-font-size-m: 14px;
-  --gr-font-size-l: 16px;
-  --gr-font-size-xl: 20px;
-  --gr-font-size-2xl: 24px;
-  --gr-font-size-3xl: 28px;
-  --gr-font-size-4xl: 32px;
-  --gr-font-size-5xl: 48px;
-  --gr-font-size-6xl: 64px;
-  --gr-font-display-1: var(--gr-font-weight-bold) var(--gr-font-size-6xl) /
-    var(--gr-size-4xl) var(--gr-font-family);
-  --gr-font-title-1-regular: var(--gr-font-weight-regular)
-    var(--gr-font-size-xl) / var(--gr-size-xl) var(--gr-font-family);
-  --gr-font-title-1-medium: var(--gr-font-weight-medium) var(--gr-font-size-xl) /
-    var(--gr-size-xl) var(--gr-font-family);
-  --gr-font-title-1-semibold: var(--gr-font-weight-semibold)
-    var(--gr-font-size-xl) / var(--gr-size-xl) var(--gr-font-family);
-  --gr-font-title-1-bold: var(--gr-font-weight-bold) var(--gr-font-size-xl) /
-    var(--gr-size-xl) var(--gr-font-family);
-  --gr-font-title-2-regular: var(--gr-font-weight-regular) var(--gr-font-size-l) /
-    var(--gr-size-xl) var(--gr-font-family);
-  --gr-font-title-2-medium: var(--gr-font-weight-medium) var(--gr-font-size-l) /
-    var(--gr-size-xl) var(--gr-font-family);
-  --gr-font-title-2-semibold: var(--gr-font-weight-semibold)
-    var(--gr-font-size-l) / var(--gr-size-xl) var(--gr-font-family);
-  --gr-font-title-2-bold: var(--gr-font-weight-bold) var(--gr-font-size-l) /
-    var(--gr-size-xl) var(--gr-font-family);
-  --gr-font-title-3-regular: var(--gr-font-weight-regular) var(--gr-font-size-m) /
-    var(--gr-size-l) var(--gr-font-family);
-  --gr-font-title-3-medium: var(--gr-font-weight-medium) var(--gr-font-size-m) /
-    var(--gr-size-l) var(--gr-font-family);
-  --gr-font-title-3-semibold: var(--gr-font-weight-semibold)
-    var(--gr-font-size-m) / var(--gr-size-l) var(--gr-font-family);
-  --gr-font-title-3-bold: var(--gr-font-weight-bold) var(--gr-font-size-m) /
-    var(--gr-size-l) var(--gr-font-family);
-  --gr-font-title-4-regular: var(--gr-font-weight-regular) var(--gr-font-size-s) /
-    var(--gr-size-l) var(--gr-font-family);
-  --gr-font-title-4-medium: var(--gr-font-weight-medium) var(--gr-font-size-s) /
-    var(--gr-size-l) var(--gr-font-family);
-  --gr-font-title-4-semibold: var(--gr-font-weight-semibold)
-    var(--gr-font-size-s) / var(--gr-size-l) var(--gr-font-family);
-  --gr-font-title-4-bold: var(--gr-font-weight-bold) var(--gr-font-size-s) /
-    var(--gr-size-l) var(--gr-font-family);
+  --bl-font-family: 'Rubik', sans-serif;
+  --bl-font-weight-light: 300;
+  --bl-font-weight-regular: 400;
+  --bl-font-weight-medium: 500;
+  --bl-font-weight-semibold: 600;
+  --bl-font-weight-bold: 700;
+  --bl-font-size-2xs: 8px;
+  --bl-font-size-xs: 10px;
+  --bl-font-size-s: 12px;
+  --bl-font-size-m: 14px;
+  --bl-font-size-l: 16px;
+  --bl-font-size-xl: 20px;
+  --bl-font-size-2xl: 24px;
+  --bl-font-size-3xl: 28px;
+  --bl-font-size-4xl: 32px;
+  --bl-font-size-5xl: 48px;
+  --bl-font-size-6xl: 64px;
+  --bl-font-display-1: var(--bl-font-weight-bold) var(--bl-font-size-6xl) /
+    var(--bl-size-4xl) var(--bl-font-family);
+  --bl-font-title-1-regular: var(--bl-font-weight-regular)
+    var(--bl-font-size-xl) / var(--bl-size-xl) var(--bl-font-family);
+  --bl-font-title-1-medium: var(--bl-font-weight-medium) var(--bl-font-size-xl) /
+    var(--bl-size-xl) var(--bl-font-family);
+  --bl-font-title-1-semibold: var(--bl-font-weight-semibold)
+    var(--bl-font-size-xl) / var(--bl-size-xl) var(--bl-font-family);
+  --bl-font-title-1-bold: var(--bl-font-weight-bold) var(--bl-font-size-xl) /
+    var(--bl-size-xl) var(--bl-font-family);
+  --bl-font-title-2-regular: var(--bl-font-weight-regular) var(--bl-font-size-l) /
+    var(--bl-size-xl) var(--bl-font-family);
+  --bl-font-title-2-medium: var(--bl-font-weight-medium) var(--bl-font-size-l) /
+    var(--bl-size-xl) var(--bl-font-family);
+  --bl-font-title-2-semibold: var(--bl-font-weight-semibold)
+    var(--bl-font-size-l) / var(--bl-size-xl) var(--bl-font-family);
+  --bl-font-title-2-bold: var(--bl-font-weight-bold) var(--bl-font-size-l) /
+    var(--bl-size-xl) var(--bl-font-family);
+  --bl-font-title-3-regular: var(--bl-font-weight-regular) var(--bl-font-size-m) /
+    var(--bl-size-l) var(--bl-font-family);
+  --bl-font-title-3-medium: var(--bl-font-weight-medium) var(--bl-font-size-m) /
+    var(--bl-size-l) var(--bl-font-family);
+  --bl-font-title-3-semibold: var(--bl-font-weight-semibold)
+    var(--bl-font-size-m) / var(--bl-size-l) var(--bl-font-family);
+  --bl-font-title-3-bold: var(--bl-font-weight-bold) var(--bl-font-size-m) /
+    var(--bl-size-l) var(--bl-font-family);
+  --bl-font-title-4-regular: var(--bl-font-weight-regular) var(--bl-font-size-s) /
+    var(--bl-size-l) var(--bl-font-family);
+  --bl-font-title-4-medium: var(--bl-font-weight-medium) var(--bl-font-size-s) /
+    var(--bl-size-l) var(--bl-font-family);
+  --bl-font-title-4-semibold: var(--bl-font-weight-semibold)
+    var(--bl-font-size-s) / var(--bl-size-l) var(--bl-font-family);
+  --bl-font-title-4-bold: var(--bl-font-weight-bold) var(--bl-font-size-s) /
+    var(--bl-size-l) var(--bl-font-family);
 }
 
 /* Prevent FOUCE */
