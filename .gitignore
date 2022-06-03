@@ -6,6 +6,7 @@ custom-elements.json
 .hidden
 *.generated.css
 coverage
+playground
 
 *~
 *.sw[mnpcod]

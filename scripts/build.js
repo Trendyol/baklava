@@ -1,23 +1,33 @@
 const esbuild = require('esbuild');
+const parseArgs = require('minimist');
+const del = require('del');
 const { litCssPlugin } = require('esbuild-plugin-lit-css');
+
+const args = parseArgs(process.argv.slice(2), {
+  boolean: true,
+});
 
 (async () => {
   const { globby } = await import('globby');
+  const destinationPath = 'dist';
 
   try {
-    const buildResult = await esbuild.build({
+    const buildOptions = {
       entryPoints: [
         'src/grace.ts',
         ...(await globby([
           'src/components/**/!(*.(test|d)).ts',
           'src/themes/*.css',
+          'src/components/**/*.svg',
         ])),
       ],
       loader: {
         '.woff': 'file',
         '.woff2': 'file',
+        '.svg': 'file',
       },
-      outdir: 'dist',
+      outdir: args.serve ? undefined : destinationPath,
+      assetNames: 'assets/[name]',
       bundle: true,
       sourcemap: true,
       format: 'esm',
@@ -30,7 +40,25 @@ const { litCssPlugin } = require('esbuild-plugin-lit-css');
           filter: /components\/.*\.css$/,
         }),
       ],
-    });
+    };
+
+    if (args.serve) {
+      const { host, port } = await esbuild.serve(
+        {
+          servedir: 'playground',
+          host: 'localhost',
+        },
+        buildOptions
+      );
+
+      console.log(`Playground is served on http://${host}:${port}`);
+
+      return;
+    }
+
+    del.sync(destinationPath);
+
+    const buildResult = await esbuild.build(buildOptions);
 
     if (buildResult.errors.length > 0) {
       console.table(buildResult.errors);
@@ -55,5 +83,8 @@ const { litCssPlugin } = require('esbuild-plugin-lit-css');
     console.table(analyzeResult, ['fileName', 'size']);
 
     console.info('Build Done!');
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
 })();

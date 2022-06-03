@@ -26,8 +26,8 @@
   --gr-color-content-success: #FFF;
   --gr-color-content-outline-success: #0BC15C;
   --gr-color-content-error: #FFF;
-  --gr-color-content-outline-error: #FF5043;;
-  --gr-color-content-passive: #afbbca;
+  --gr-color-content-outline-error: #FF5043;
+
 
   /* Size and Spacing */
   --gr-size-2xs: 2px;
@@ -37,8 +37,9 @@
   --gr-size-l: 16px;
   --gr-size-xl: 24px;
   --gr-size-2xl: 32px;
-  --gr-size-3xl: 64px;
-  --gr-size-4xl: 80px;
+  --gr-size-3xl: 40px;
+  --gr-size-4xl: 64px;
+  --gr-size-5xl: 80px;
 
   /* Typography */
   --gr-font-family: 'Rubik', sans-serif;

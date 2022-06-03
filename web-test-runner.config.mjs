@@ -25,7 +25,7 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
 
   browsers: [
     playwrightLauncher({ product: 'chromium' }),
-    playwrightLauncher({ product: 'firefox' }),
+    playwrightLauncher({ product: 'firefox', concurrency: 1 }),
     playwrightLauncher({ product: 'webkit' })
   ],
 
@@ -34,6 +34,6 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
       include: ["src/**/*.css"],
     }),
 
-    esbuildPlugin({ ts: true, target: "esnext" }),
+    esbuildPlugin({ ts: true, target: 'esnext' }),
   ],
 });

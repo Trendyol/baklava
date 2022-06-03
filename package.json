@@ -5,9 +5,7 @@
   "main": "dist/grace.js",
   "module": "dist/grace.js",
   "files": [
-    "dist/",
-    ".prettierrc.json",
-    ".eslintrc.json"
+    "dist/"
   ],
   "author": {
     "name": "Trendyol Tech",
@@ -16,13 +14,15 @@
   "license": "MIT",
   "scripts": {
     "prestart": "npm run prep",
+    "prepare": "husky install",
     "start": "npm run storybook:dev:watch",
     "prep": "npm-run-all -s prep:*",
     "prep:component-list": "wca analyze 'src/components/**/!(*.test).ts' --features --format json --outFile ./src/component-list.json",
     "prep:custom-elements": "wca analyze 'src/components/**/!(*.test).ts' --format json --outFile ./src/custom-elements.json",
     "prebuild": "npm run prep",
     "build": "node scripts/build.js",
-    "preserve": "npm run prep",
+    "build:dev": "node scripts/build.js",
+    "serve": "node scripts/build.js --serve",
     "storybook:axe:prod": "npm run storybook:prod && npm run axe-storybook --build-dir=storybook-static/",
     "storybook:axe:dev": "npm-run-all -s storybook:axe:dev:chromium storybook:axe:dev:firefox",
     "storybook:axe:dev:chromium": "npm run axe-storybook --storybook-address=\"http://localhost:1994\" --browser chromium",
@@ -50,7 +50,6 @@
     "test": "web-test-runner --coverage",
     "test:component": "npm run test -- --group",
     "test:watch": "web-test-runner --watch",
-    "prepare": "husky install",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic",
@@ -89,6 +88,7 @@
     "@web/test-runner-playwright": "^0.8.6",
     "@webcomponents/webcomponentsjs": "^2.5.0",
     "chromatic": "^6.5.4",
+    "del": "^6.1.0",
     "esbuild": "^0.14.39",
     "esbuild-plugin-lit-css": "^2.0.0",
     "eslint": "^8.12.0",
@@ -97,6 +97,7 @@
     "globby": "^13.1.1",
     "husky": "^7.0.4",
     "lint-staged": "^10.5.4",
+    "minimist": "^1.2.6",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.13",
     "postcss-lit": "^0.4.3",
