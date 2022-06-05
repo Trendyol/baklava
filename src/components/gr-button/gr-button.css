@@ -8,8 +8,11 @@
   --gr-button-padding-horizontal: var(--gr-size-l);
   --gr-bg-color: var(--gr-color-primary);
   --gr-border-color: var(--gr-color-primary);
-  --gr-content-color: var(--gr-color-content-primary);
+  --gr-content-color: #fff;
   --gr-button-font: var(--gr-font-title-3-medium);
+  --gr-button-hover-color: var(--gr-color-primary-hover);
+  --gr-button-outline-content-color: var(--gr-color-primary);
+  --gr-button-link-content-color: var(--gr-color-primary);
 }
 
 .button {
@@ -28,6 +31,11 @@
   border-color: var(--gr-border-color);
   color: var(--gr-content-color);
   font: var(--gr-button-font);
+}
+
+.button:hover {
+  --gr-bg-color: var(--gr-button-hover-color);
+  --gr-border-color: var(--gr-button-hover-color);
 }
 
 :host([size='small']) {
@@ -57,12 +65,12 @@
   background: none;
   text-decoration: underline;
 
-  --gr-content-color: var(--gr-color-content-outline-primary);
+  --gr-content-color: var(--gr-button-link-content-color);
   --gr-button-font: var(--gr-font-title-3-medium);
 }
 
 :host([link]:hover:not([disabled])) .button {
-  --gr-content-color: var(--gr-color-primary-hover);
+  --gr-content-color: var(--gr-button-hover-color);
 }
 
 :host([link][size='small']) .button {
@@ -75,38 +83,6 @@
 
 :host([link][size='large']) .button {
   --gr-button-font: var(--gr-font-title-2-medium);
-}
-
-:host([secondary][link]) .button {
-  --gr-content-color: var(--gr-color-content-outline-secondary);
-}
-
-:host([tertiary][link]) .button {
-  --gr-content-color: var(--gr-color-tertiary-hover);
-}
-
-:host([success][link]) .button {
-  --gr-content-color: var(--gr-color-content-outline-success);
-}
-
-:host([error][link]) .button {
-  --gr-content-color: var(--gr-color-content-outline-error);
-}
-
-:host([secondary][link]:hover:not([disabled])) .button {
-  --gr-content-color: var(--gr-color-secondary-hover);
-}
-
-:host([tertiary][link]:hover:not([disabled])) .button {
-  --gr-content-color: var(--gr-color-content-outline-tertiary);
-}
-
-:host([success][link]:hover:not([disabled])) .button {
-  --gr-content-color: var(--gr-color-success-hover);
-}
-
-:host([error][link]:hover:not([disabled])) .button {
-  --gr-content-color: var(--gr-color-error-hover);
 }
 
 :host ::slotted(gr-icon) {
@@ -130,11 +106,6 @@
   padding: 0;
 }
 
-:host(:hover:not([disabled])) {
-  --gr-bg-color: var(--gr-color-primary-hover);
-  --gr-border-color: var(--gr-color-primary-hover);
-}
-
 :host([disabled]) {
   opacity: 0.5;
   cursor: not-allowed;
@@ -148,99 +119,32 @@
 :host([secondary]) {
   --gr-bg-color: var(--gr-color-secondary);
   --gr-border-color: var(--gr-color-secondary);
-  --gr-content-color: var(--gr-color-content-secondary);
-}
-
-:host([tertiary]) {
-  --gr-bg-color: var(--gr-color-tertiary);
-  --gr-border-color: var(--gr-color-tertiary);
-  --gr-content-color: var(--gr-color-content-tertiary);
+  --gr-button-hover-color: var(--gr-color-secondary-hover);
+  --gr-button-outline-content-color: var(--gr-color-secondary);
+  --gr-button-link-content-color: var(--gr-color-secondary);
 }
 
 :host([success]) {
   --gr-bg-color: var(--gr-color-success);
   --gr-border-color: var(--gr-color-success);
-  --gr-content-color: var(--gr-color-content-success);
+  --gr-button-hover-color: var(--gr-color-success-hover);
+  --gr-button-outline-content-color: var(--gr-color-success);
+  --gr-button-link-content-color: var(--gr-color-success);
 }
 
 :host([error]) {
   --gr-bg-color: var(--gr-color-error);
   --gr-border-color: var(--gr-color-error);
-  --gr-content-color: var(--gr-color-content-error);
+  --gr-button-hover-color: var(--gr-color-error-hover);
+  --gr-button-outline-content-color: var(--gr-color-error);
+  --gr-button-link-content-color: var(--gr-color-error);
 }
 
 :host([outline]) {
-  --gr-bg-color: var(--gr-color-primary-outline);
-  --gr-content-color: var(--gr-color-content-outline-primary);
+  --gr-bg-color: transparent;
+  --gr-content-color: var(--gr-button-outline-content-color);
 }
-
-:host([secondary]:hover:not([disabled])) {
-  --gr-bg-color: var(--gr-color-secondary-hover);
-  --gr-border-color: var(--gr-color-secondary-hover);
-}
-
-:host([tertiary]:hover:not([disabled])) {
-  --gr-bg-color: var(--gr-color-tertiary-hover);
-  --gr-border-color: var(--gr-color-tertiary-hover);
-}
-
-:host([success]:hover:not([disabled])) {
-  --gr-bg-color: var(--gr-color-success-hover);
-  --gr-border-color: var(--gr-color-success-hover);
-}
-
-:host([error]:hover:not([disabled])) {
-  --gr-bg-color: var(--gr-color-error-hover);
-  --gr-border-color: var(--gr-color-error-hover);
-}
-
 
 :host([outline]:hover:not([disabled])) {
-  --gr-bg-color: var(--gr-color-primary-hover);
-  --gr-border-color: var(--gr-color-primary-hover);
-  --gr-content-color: var(--gr-color-content-primary);
-}
-
-:host([outline][secondary]) {
-  --gr-bg-color: var(--gr-color-secondary-outline);
-  --gr-content-color: var(--gr-color-content-outline-secondary);
-}
-
-:host([outline][tertiary]) {
-  --gr-bg-color: var(--gr-color-tertiary-outline);
-  --gr-content-color: var(--gr-color-content-outline-tertiary);
-}
-
-:host([outline][success]) {
-  --gr-bg-color: var(--gr-color-success-outline);
-  --gr-content-color: var(--gr-color-content-outline-success);
-}
-
-:host([outline][error]) {
-  --gr-bg-color: var(--gr-color-error-outline);
-  --gr-content-color: var(--gr-color-content-outline-error);
-}
-
-:host([outline][secondary]:hover:not([disabled])) {
-  --gr-bg-color: var(--gr-color-secondary-hover);
-  --gr-border-color: var(--gr-color-secondary-hover);
-  --gr-content-color: var(--gr-color-content-secondary);
-}
-
-:host([outline][tertiary]:hover:not([disabled])) {
-  --gr-bg-color: var(--gr-color-tertiary-hover);
-  --gr-border-color: var(--gr-color-tertiary-hover);
-  --gr-content-color: var(--gr-color-content-tertiary);
-}
-
-:host([outline][success]:hover:not([disabled])) {
-  --gr-bg-color: var(--gr-color-success-hover);
-  --gr-border-color: var(--gr-color-success-hover);
-  --gr-content-color: var(--gr-color-content-success);
-}
-
-:host([outline][error]:hover:not([disabled])) {
-  --gr-bg-color: var(--gr-color-error-hover);
-  --gr-border-color: var(--gr-color-error-hover);
-  --gr-content-color: var(--gr-color-content-error);
+  --gr-content-color: #fff;
 }

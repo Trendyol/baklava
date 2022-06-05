@@ -8,13 +8,12 @@ import style from './gr-button.css';
  * @tag gr-button
  * @summary Grace Button component
  *
+ * @property {boolean} primary - Sets variant to primary
+ * @property {boolean} secondary - Sets variant to secondary
+ * @property {boolean} success - Sets variant to success
+ * @property {boolean} error - Sets variant to error
+ * @property {boolean} outline - Sets button version to outline
  * @property {boolean} disabled - Disables the button
- * @property {boolean} primary - Sets size to primary
- * @property {boolean} secondary - Sets size to secondary
- * @property {boolean} tertiary - Sets size to tertiary
- * @property {boolean} success - Sets size to success
- * @property {boolean} error - Sets size to error
- * @property {boolean} outline - Sets button outline version
  * @property {string} size - Sets the button size
  * @property {string} link - Sets the button tag, either anchor or button
  * @property {boolean} href - Sets button type to link button
@@ -36,13 +35,28 @@ export default class GrButton extends LitElement {
     return [style];
   }
 
-  @property({ type: String, attribute: 'size' })
+  @property({ type: Boolean, reflect: true })
+  primary = false;
+
+  @property({ type: Boolean, reflect: true })
+  secondary = false;
+
+  @property({ type: Boolean, reflect: true })
+  success = false;
+
+  @property({ type: Boolean, reflect: true })
+  error = false;
+
+  @property({ type: Boolean, reflect: true })
+  outline = false;
+
+  @property({ type: String, reflect: true })
   size: ButtonSize = 'medium';
 
-  @property({ type: String, attribute: 'label' })
+  @property({ type: String })
   label: string;
 
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   disabled = false;
 
   @property({ type: String })

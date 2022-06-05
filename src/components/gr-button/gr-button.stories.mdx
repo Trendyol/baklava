@@ -17,9 +17,6 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
     secondary: {
       control: 'boolean'
     },
-    tertiary: {
-      control: 'boolean'
-    },
     success: {
       control: 'boolean'
     },
@@ -54,7 +51,6 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 export const Template = (args) => html`<gr-button 
     ?primary=${args.primary}
     ?secondary=${args.secondary}
-    ?tertiary=${args.tertiary}
     ?success=${args.success}
     ?error=${args.error}
     ?outline=${args.outline}
@@ -69,7 +65,6 @@ export const Template = (args) => html`<gr-button
 export const IconTemplate = (args) => html`<gr-button 
     ?primary=${args.primary}
     ?secondary=${args.secondary}
-    ?tertiary=${args.tertiary}
     ?success=${args.success}
     ?error=${args.error}
     ?outline=${args.outline}
@@ -84,7 +79,6 @@ export const IconTemplate = (args) => html`<gr-button
 export const IconOnlyTemplate = (args) => html`<gr-button 
     ?primary=${args.primary}
     ?secondary=${args.secondary}
-    ?tertiary=${args.tertiary}
     ?success=${args.success}
     ?error=${args.error}
     ?outline=${args.outline}
@@ -105,10 +99,9 @@ In Baklava Design, we provide 2 types of button:
 * Text Button
 * Link Button
 
-We have 5 variants of each button:
+We have 4 variants of each button:
 * `primary`
 * `secondary`
-* `tertiary`
 * `success`
 * `error`
 
@@ -121,9 +114,6 @@ Primary button is used for main actions of the screens. Like a submit button in 
     {Template.bind({})}
   </Story>
   <Story name="Secondary Button" args={{ secondary: true, label: 'Save' }}>
-    {Template.bind({})}
-  </Story>
-  <Story name="Tertiary Button" args={{ tertiary: true, label: 'Save' }}>
     {Template.bind({})}
   </Story>
   <Story name="Success Button" args={{ success: true, label: 'Save' }}>
@@ -142,9 +132,6 @@ They work with all the variants. You simply add `outline` attribute.
     {Template.bind({})}
   </Story>
   <Story name="Secondary Outline Button" args={{ secondary: true, outline: true, label: 'Save' }}>
-    {Template.bind({})}
-  </Story>
-  <Story name="Tertiary Outline Button" args={{ tertiary: true, outline: true, label: 'Save' }}>
     {Template.bind({})}
   </Story>
    <Story name="Success Outline Button" args={{ success: true, outline: true, label: 'Save' }}>
@@ -166,9 +153,6 @@ To be able to use icon with button, you should define your icons elements slot a
   <Story name="Secondary Outline Icon Button" args={{ secondary: true, outline: true, label: 'Save' }}>
     {IconTemplate.bind({})}
   </Story>
-  <Story name="Tertiary Outline Icon Button" args={{ tertiary: true, outline: true, label: 'Save' }}>
-    {IconTemplate.bind({})}
-  </Story>
    <Story name="Success Outline Icon Button" args={{ success: true, outline: true, label: 'Save' }}>
     {IconTemplate.bind({})}
   </Story>
@@ -187,9 +171,6 @@ Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favor
   <Story name="Secondary Outline Icon Only Button" args={{ secondary: true, label: 'Save' }}>
     {IconOnlyTemplate.bind({})}
   </Story>
-  <Story name="Tertiary Outline Icon Only Button" args={{ tertiary: true, label: 'Save' }}>
-    {IconOnlyTemplate.bind({})}
-  </Story>
    <Story name="Success Outline Icon Only Button" args={{ success: true, label: 'Save' }}>
     {IconOnlyTemplate.bind({})}
   </Story>
@@ -204,9 +185,6 @@ Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favor
     {Template.bind({})}
   </Story>
   <Story name="Secondary Link Button" args={{ link: true, href: "https://trendyol.com", secondary: true, label: 'Save' }}>
-    {Template.bind({})}
-  </Story>
-  <Story name="Tertiary Link Button" args={{ tertiary: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
     {Template.bind({})}
   </Story>
    <Story name="SuccessLink Button" args={{ success: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
@@ -224,9 +202,6 @@ Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favor
     {IconTemplate.bind({})}
   </Story>
   <Story name="Secondary Link Button With Icon" args={{ secondary: true, link: true,  href: "https://trendyol.com", label: 'Save' }}>
-    {IconTemplate.bind({})}
-  </Story>
-  <Story name="Tertiary Link Button With Icon" args={{ tertiary: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
     {IconTemplate.bind({})}
   </Story>
    <Story name="Success Link Button With Icon" args={{ success: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
