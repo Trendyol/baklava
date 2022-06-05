@@ -13,7 +13,7 @@ Fixes #<issue number>
 
 
 # ─── Example: Simple refactor ────────────────────────────────────────────────────────────────────┤
-# refactor(design): rename --grace-title-1 to --grace-title-sm
+# refactor(design): rename --bl-title-1 to --bl-title-sm
 #
 # Improve consistency of CSS variable names
 # ─────────────────────────────────────────────────────────────────────────────────────────────────┤
@@ -42,7 +42,7 @@ Fixes #<issue number>
 # Design team improved default theme design by providing new type of tokens. This commit implements
 # those changes.
 #
-# More information about changes can be found: https://github.com/Trendyol/grace/discussions/1234
+# More information about changes can be found: https://github.com/Trendyol/baklava/discussions/1234
 #
 # BREAKING CHANGE: default theme has UI changes
 #
