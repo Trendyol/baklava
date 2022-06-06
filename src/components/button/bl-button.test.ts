@@ -7,6 +7,7 @@ import {
   html,
 } from '@open-wc/testing';
 import BlButton from './bl-button';
+
 import type typeOfGrButton from './bl-button';
 
 const variants = ['primary', 'secondary', 'tertiary', 'success', 'error'];
@@ -122,17 +123,17 @@ describe('bl-button', () => {
     it('renders with slotted icon content', async () => {
       const el = await fixture<typeOfGrButton>(
         html`<bl-button label="icon-only-button"
-          ><gr-icon name="info" slot="icon"></gr-icon
+          ><bl-icon name="info" slot="icon"></bl-icon
         ></bl-button>`
       );
       expect(el).lightDom.to.equal(
-        `<gr-icon name="info" slot="icon"></gr-icon>`
+        `<bl-icon name="info" slot="icon"></bl-icon>`
       );
     });
     it('has icon-only class', async () => {
       const el = await fixture<typeOfGrButton>(
         html`<bl-button label="icon-only-button"
-          ><gr-icon name="info" slot="icon"></gr-icon
+          ><bl-icon name="info" slot="icon"></bl-icon
         ></bl-button>`
       );
       expect(
