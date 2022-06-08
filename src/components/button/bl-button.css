@@ -19,16 +19,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-style: solid;
-  border-width: 1px;
+  border: none;
   border-radius: 6px;
+  box-shadow: inset 0 0 0 1px var(--bl-border-color);
   text-decoration: none;
   white-space: nowrap;
   vertical-align: middle;
   padding: var(--bl-button-padding-vertical) var(--bl-button-padding-horizontal);
   cursor: inherit;
   background-color: var(--bl-bg-color);
-  border-color: var(--bl-border-color);
   color: var(--bl-content-color);
   font: var(--bl-button-font);
 }
@@ -61,24 +60,15 @@
 }
 
 :host([link]) .button {
-  border: none;
   background: none;
   text-decoration: underline;
 
   --bl-content-color: var(--bl-button-link-content-color);
-  --bl-button-font: var(--bl-font-title-3-medium);
+  --bl-border-color: transparent;
 }
 
 :host([link]:hover:not([disabled])) .button {
   --bl-content-color: var(--bl-button-hover-color);
-}
-
-:host([link][size='small']) .button {
-  --bl-button-font: var(--bl-font-title-4-medium);
-}
-
-:host([link][size='medium']) .button {
-  --bl-button-font: var(--bl-font-title-3-medium);
 }
 
 :host([link][size='large']) .button {
@@ -107,13 +97,19 @@
 }
 
 :host([disabled]) {
-  opacity: 0.5;
   cursor: not-allowed;
-  user-select: none;
 }
 
 :host([disabled]) * {
+  user-select: none;
   pointer-events: none;
+
+  --bl-bg-color: var(--bl-color-tertiary);
+  --bl-border-color: var(--bl-color-tertiary);
+  --bl-content-color: var(--bl-color-content-passive);
+  --bl-button-link-content-color: var(--bl-color-content-passive);
+
+  text-decoration: none !important;
 }
 
 :host([secondary]) {
