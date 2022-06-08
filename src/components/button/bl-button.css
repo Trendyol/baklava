@@ -4,15 +4,17 @@
   width: auto;
   cursor: pointer;
 
+  --bl-main-color: var(--bl-color-primary);
+  --bl-main-hover-color: var(--bl-color-primary-hover);
+  --bl-bg-color: var(--bl-main-color);
+  --bl-border-color: var(--bl-main-color);
+  --bl-button-outline-content-color: var(--bl-main-color);
+  --bl-button-link-content-color: var(--bl-main-color);
+  --bl-button-hover-color: var(--bl-main-hover-color);
   --bl-button-padding-vertical: var(--bl-size-s);
   --bl-button-padding-horizontal: var(--bl-size-l);
-  --bl-bg-color: var(--bl-color-primary);
-  --bl-border-color: var(--bl-color-primary);
   --bl-content-color: #fff;
   --bl-button-font: var(--bl-font-title-3-medium);
-  --bl-button-hover-color: var(--bl-color-primary-hover);
-  --bl-button-outline-content-color: var(--bl-color-primary);
-  --bl-button-link-content-color: var(--bl-color-primary);
 }
 
 .button {
@@ -33,8 +35,8 @@
 }
 
 .button:hover {
-  --bl-bg-color: var(--bl-button-hover-color);
-  --bl-border-color: var(--bl-button-hover-color);
+  --bl-bg-color: var(--bl-main-hover-color);
+  --bl-border-color: var(--bl-main-hover-color);
 }
 
 :host([size='small']) {
@@ -63,12 +65,12 @@
   background: none;
   text-decoration: underline;
 
-  --bl-content-color: var(--bl-button-link-content-color);
+  --bl-content-color: var(--bl-main-color);
   --bl-border-color: transparent;
 }
 
 :host([link]:hover:not([disabled])) .button {
-  --bl-content-color: var(--bl-button-hover-color);
+  --bl-content-color: var(--bl-main-hover-color);
 }
 
 :host([link][size='large']) .button {
@@ -104,36 +106,26 @@
   user-select: none;
   pointer-events: none;
 
-  --bl-bg-color: var(--bl-color-tertiary);
-  --bl-border-color: var(--bl-color-tertiary);
-  --bl-content-color: var(--bl-color-content-passive);
-  --bl-button-link-content-color: var(--bl-color-content-passive);
+  --bl-main-color: var(--bl-color-teritary);
+  --bl-content-color: var(--bl-color-content-passive) !important;
+  --bl-button-link-content-color: var(--bl-color-content-passive) !important;
 
   text-decoration: none !important;
 }
 
 :host([secondary]) {
-  --bl-bg-color: var(--bl-color-secondary);
-  --bl-border-color: var(--bl-color-secondary);
-  --bl-button-hover-color: var(--bl-color-secondary-hover);
-  --bl-button-outline-content-color: var(--bl-color-secondary);
-  --bl-button-link-content-color: var(--bl-color-secondary);
+  --bl-main-color: var(--bl-color-secondary);
+  --bl-main-hover-color: var(--bl-color-secondary-hover);
 }
 
 :host([success]) {
-  --bl-bg-color: var(--bl-color-success);
-  --bl-border-color: var(--bl-color-success);
-  --bl-button-hover-color: var(--bl-color-success-hover);
-  --bl-button-outline-content-color: var(--bl-color-success);
-  --bl-button-link-content-color: var(--bl-color-success);
+  --bl-main-color: var(--bl-color-success);
+  --bl-main-hover-color: var(--bl-color-success-hover);
 }
 
 :host([error]) {
-  --bl-bg-color: var(--bl-color-error);
-  --bl-border-color: var(--bl-color-error);
-  --bl-button-hover-color: var(--bl-color-error-hover);
-  --bl-button-outline-content-color: var(--bl-color-error);
-  --bl-button-link-content-color: var(--bl-color-error);
+  --bl-main-color: var(--bl-color-error);
+  --bl-main-hover-color: var(--bl-color-error-hover);
 }
 
 :host([outline]) {
