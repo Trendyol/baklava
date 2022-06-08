@@ -98,10 +98,10 @@ export default class BlButton extends LitElement {
           class="button ${classMap({
             'icon-only': this._isIconOnly,
           })}"
-          href=${ifDefined(this.href)}
-          target=${ifDefined(this.target)}
           aria-disabled="${ifDefined(this.disabled)}"
           aria-label="${ifDefined(this.label)}"
+          href=${ifDefined(this.href)}
+          target=${ifDefined(this.target)}
           role="button"
         >
           <slot name="icon"></slot>
@@ -111,9 +111,9 @@ export default class BlButton extends LitElement {
           class="button ${classMap({
             'icon-only': this._isIconOnly,
           })}"
-          ?disabled=${this.disabled}
           aria-disabled="${ifDefined(this.disabled)}"
           aria-label="${ifDefined(this.label)}"
+          ?disabled=${this.disabled}
           @click="${this._handleClick}"
         >
           <slot name="icon"></slot>

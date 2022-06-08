@@ -22,6 +22,7 @@
   width: 100%;
   border: none;
   border-radius: 6px;
+  margin: 0;
   box-shadow: inset 0 0 0 1px var(--bl-border-color);
   text-decoration: none;
   white-space: nowrap;
@@ -67,25 +68,13 @@
   --bl-content-color: var(--bl-main-hover-color);
 }
 
-:host([link][size='large']) .button {
-  --bl-button-font: var(--bl-font-title-2-medium);
-}
-
 :host ::slotted(bl-icon) {
   padding: 0 var(--bl-size-s) 0 0;
   font: var(--bl-button-font);
 }
 
 .icon-only {
-  --bl-button-padding-horizontal: var(--bl-size-s);
-}
-
-:host([size='small']) .icon-only {
-  --bl-button-padding-horizontal: var(--bl-size-xs);
-}
-
-:host([size='large']) .icon-only {
-  --bl-button-padding-horizontal: var(--bl-size-m);
+  --bl-button-padding-horizontal: var(--bl-button-padding-vertical);
 }
 
 :host .icon-only ::slotted(bl-icon) {
