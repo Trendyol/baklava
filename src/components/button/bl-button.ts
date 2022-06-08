@@ -95,7 +95,9 @@ export default class BlButton extends LitElement {
 
     return isAnchor
       ? html`<a
-          class="button"
+          class="button ${classMap({
+            'icon-only': this._isIconOnly,
+          })}"
           href=${ifDefined(this.href)}
           target=${ifDefined(this.target)}
           aria-disabled="${ifDefined(this.disabled)}"
@@ -106,10 +108,9 @@ export default class BlButton extends LitElement {
           <slot></slot>
         </a>`
       : html`<button
-          class=${classMap({
-            'button': true,
+          class="button ${classMap({
             'icon-only': this._isIconOnly,
-          })}
+          })}"
           ?disabled=${this.disabled}
           aria-disabled="${ifDefined(this.disabled)}"
           aria-label="${ifDefined(this.label)}"

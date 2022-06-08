@@ -48,7 +48,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
   }}
 />
 
-export const Template = (args) => html`<bl-button 
+export const Template = (args) => html`<bl-button
     ?primary=${args.primary}
     ?secondary=${args.secondary}
     ?success=${args.success}
@@ -56,13 +56,12 @@ export const Template = (args) => html`<bl-button
     ?outline=${args.outline}
     ?disabled=${args.disabled}
     ?link=${args.link}
-    label=${ifDefined(args.label)}
     href=${ifDefined(args.href)}
     target=${ifDefined(args.target)}
-    size="${ifDefined(args.size)}" 
+    size="${ifDefined(args.size)}"
       >${args.label}</bl-button>`;
 
-export const IconTemplate = (args) => html`<bl-button 
+export const IconTemplate = (args) => html`<bl-button
     ?primary=${args.primary}
     ?secondary=${args.secondary}
     ?success=${args.success}
@@ -72,11 +71,10 @@ export const IconTemplate = (args) => html`<bl-button
     ?link=${args.link}
     href=${ifDefined(args.href)}
     target=${ifDefined(args.target)}
-    label=${ifDefined(args.label)}
-    size="${ifDefined(args.size)}" 
+    size="${ifDefined(args.size)}"
       >${args.label} ${html`<bl-icon slot="icon" name="info"></bl-icon>`}</bl-button>`;
-      
-export const IconOnlyTemplate = (args) => html`<bl-button 
+
+export const IconOnlyTemplate = (args) => html`<bl-button
     ?primary=${args.primary}
     ?secondary=${args.secondary}
     ?success=${args.success}
@@ -87,7 +85,7 @@ export const IconOnlyTemplate = (args) => html`<bl-button
     href=${ifDefined(args.href)}
     target=${ifDefined(args.target)}
     label=${ifDefined(args.label)}
-    size="${ifDefined(args.size)}" 
+    size="${ifDefined(args.size)}"
       >${html`<bl-icon slot="icon" name="info"></bl-icon>`}</bl-button>`;
 
 
