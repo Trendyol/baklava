@@ -12,13 +12,12 @@
   --bl-color-success-hover: #09a44e;
   --bl-color-error: #ff5043;
   --bl-color-error-hover: #ff3028;
-  
+
   /* Content Colors */
   --bl-color-content-primary: #273142;
-  --bl-color-content-secondary: #6E7787;
-  --bl-color-content-tertiary: #95A1B5;
-  --bl-color-content-passive: #AFBBCA;
- 
+  --bl-color-content-secondary: #6e7787;
+  --bl-color-content-tertiary: #95a1b5;
+  --bl-color-content-passive: #afbbca;
 
   /* Size and Spacing */
   --bl-size-2xs: 2px;
