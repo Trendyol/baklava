@@ -19,7 +19,7 @@ import style from './bl-button.css';
  * @property {boolean} href - Sets button type to link button
  * @property {boolean} target - Sets button target (should be defined with href)
  *
- * @cssproperty --bl-button-display - Sets the display property of button. Default value is 'inline-flex'.
+ * @cssproperty --bl-button-display - Sets the display property of button. Default value is 'inline-block'.
  *
  * @event {CustomEvent} bl-click
  *
@@ -105,7 +105,7 @@ export default class BlButton extends LitElement {
           role="button"
         >
           <slot name="icon"></slot>
-          <slot></slot>
+          <span class="label"><slot></slot></span>
         </a>`
       : html`<button
           class="button ${classMap({
@@ -117,7 +117,7 @@ export default class BlButton extends LitElement {
           @click="${this._handleClick}"
         >
           <slot name="icon"></slot>
-          <slot></slot>
+          <span class="label"><slot></slot></span>
         </button>`;
   }
 

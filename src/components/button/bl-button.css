@@ -1,14 +1,13 @@
 :host {
   display: var(--bl-button-display, inline-block);
+  max-width: 100%;
   position: relative;
-  cursor: pointer;
 
   --bl-main-color: var(--bl-color-primary);
   --bl-main-hover-color: var(--bl-color-primary-hover);
   --bl-content-color: #fff;
   --bl-bg-color: var(--bl-main-color);
   --bl-border-color: var(--bl-main-color);
-  --bl-button-link-content-color: var(--bl-main-color);
   --bl-button-padding-vertical: var(--bl-size-s);
   --bl-button-padding-horizontal: var(--bl-size-l);
   --bl-button-font: var(--bl-font-title-3-medium);
@@ -25,19 +24,22 @@
   margin: 0;
   box-shadow: inset 0 0 0 1px var(--bl-border-color);
   text-decoration: none;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   padding: var(--bl-button-padding-vertical) var(--bl-button-padding-horizontal);
-  cursor: inherit;
+  cursor: pointer;
   background-color: var(--bl-bg-color);
   color: var(--bl-content-color);
   font: var(--bl-button-font);
-  appearance: none;
 }
 
 .button:hover {
   --bl-bg-color: var(--bl-main-hover-color);
   --bl-border-color: var(--bl-main-hover-color);
+}
+
+.label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 :host([size='small']) {

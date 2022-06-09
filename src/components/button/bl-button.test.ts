@@ -25,7 +25,7 @@ describe('bl-button', () => {
       `
       <button aria-disabled="false" class="button">
         <slot name="icon"></slot>
-        <slot></slot>
+        <span class="label"><slot></slot></span>
       </button>
     `
     );
