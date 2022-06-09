@@ -1,11 +1,4 @@
-import {
-  assert,
-  expect,
-  fixture,
-  elementUpdated,
-  oneEvent,
-  html,
-} from '@open-wc/testing';
+import { assert, expect, fixture, elementUpdated, oneEvent, html } from '@open-wc/testing';
 import BlButton from './bl-button';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
@@ -47,9 +40,7 @@ describe('bl-button', () => {
     );
   });
   it('check default values', async () => {
-    const el = await fixture<typeOfBlButton>(
-      html`<bl-button>Button</bl-button> `
-    );
+    const el = await fixture<typeOfBlButton>(html`<bl-button>Button</bl-button> `);
     expect(el.size).to.equal('medium');
     expect(el.disabled).to.equal(false);
     expect(el.target).to.equal('_self');
@@ -58,9 +49,7 @@ describe('bl-button', () => {
     variants.forEach(variant => {
       it(`should be accessible when attribute is "${variant}"`, async () => {
         const htmlStr = `<bl-button ${variant}>Button</bl-button>`;
-        const el = await fixture<typeOfBlButton>(
-          html`${unsafeHTML(htmlStr)}`
-        );
+        const el = await fixture<typeOfBlButton>(html`${unsafeHTML(htmlStr)}`);
         await expect(el).to.be.accessible();
       });
     });
@@ -68,25 +57,17 @@ describe('bl-button', () => {
 
   describe('Attributes', () => {
     it('is renders with `label` attribute as `aria-label', async () => {
-      const el = await fixture<typeOfBlButton>(
-        html`<bl-button label="simple-button"></bl-button>`
+      const el = await fixture<typeOfBlButton>(html`<bl-button label="simple-button"></bl-button>`);
+      expect(el.shadowRoot?.querySelector('button')?.getAttribute('aria-label')).to.eq(
+        'simple-button'
       );
-      expect(
-        el.shadowRoot?.querySelector('button')?.getAttribute('aria-label')
-      ).to.eq('simple-button');
     });
     it('is bound to `disabled` attribute', async () => {
-      const el = await fixture<typeOfBlButton>(
-        html`<bl-button disabled></bl-button>`
-      );
-      expect(
-        el.shadowRoot?.querySelector('button')?.hasAttribute('disabled')
-      ).to.eq(true);
+      const el = await fixture<typeOfBlButton>(html`<bl-button disabled></bl-button>`);
+      expect(el.shadowRoot?.querySelector('button')?.hasAttribute('disabled')).to.eq(true);
     });
     it('is bound to `size` attribute', async () => {
-      const el = await fixture<typeOfBlButton>(
-        html`<bl-button size=${'large'}>Test</bl-button>`
-      );
+      const el = await fixture<typeOfBlButton>(html`<bl-button size=${'large'}>Test</bl-button>`);
       expect(el.getAttribute('size')).to.eq('large');
 
       el.setAttribute('size', 'medium');
@@ -149,16 +130,12 @@ describe('bl-button', () => {
           ><bl-icon name="info" slot="icon"></bl-icon
         ></bl-button>`
       );
-      expect(
-        el.shadowRoot?.querySelector('button')?.classList.contains('icon-only')
-      ).to.eq(true);
+      expect(el.shadowRoot?.querySelector('button')?.classList.contains('icon-only')).to.eq(true);
     });
   });
   describe('Events', () => {
     it('fires bl-click event on click', async () => {
-      const el = await fixture<typeOfBlButton>(
-        html`<bl-button>button</bl-button>`
-      );
+      const el = await fixture<typeOfBlButton>(html`<bl-button>button</bl-button>`);
       const button = el.shadowRoot?.querySelector('button');
 
       setTimeout(() => button?.click());

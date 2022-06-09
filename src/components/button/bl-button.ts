@@ -98,8 +98,7 @@ export default class BlButton extends LitElement {
   render(): TemplateResult {
     const isAnchor = this.href ? true : false;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
-    const slots = html`<slot name="icon">${icon}</slot>
-      <span class="label"><slot></slot></span>`;
+    const slots = html`<slot name="icon">${icon}</slot> <span class="label"><slot></slot></span>`;
 
     return isAnchor
       ? html`<a
@@ -111,7 +110,8 @@ export default class BlButton extends LitElement {
           href=${ifDefined(this.href)}
           target=${ifDefined(this.target)}
           role="button"
-        >${slots}</a>`
+          >${slots}</a
+        >`
       : html`<button
           class="button ${classMap({
             'icon-only': this._isIconOnly,
@@ -120,7 +120,9 @@ export default class BlButton extends LitElement {
           aria-label="${ifDefined(this.label)}"
           ?disabled=${this.disabled}
           @click="${this._handleClick}"
-        >${slots}</button>`;
+        >
+          ${slots}
+        </button>`;
   }
 
   private _handleClick() {
@@ -128,9 +130,7 @@ export default class BlButton extends LitElement {
   }
 
   private event(name: string, detail: string) {
-    this.dispatchEvent(
-      new CustomEvent(name, { detail, bubbles: true, composed: true })
-    );
+    this.dispatchEvent(new CustomEvent(name, { detail, bubbles: true, composed: true }));
   }
 
   updated() {
