@@ -38,7 +38,7 @@ storiesOf('GButtonDropdown', module)
         default: select('size', [
           'big',
           'medium',
-          'small'
+          'small',
         ], 'medium'),
       },
       isDisabled: {
@@ -64,11 +64,14 @@ storiesOf('GButtonDropdown', module)
           'right',
         ], 'left'),
       },
+      closeOutside: {
+        default: boolean('closeOutside', true),
+      },
     },
     data () {
       return {
         isDropdownOpen: false,
-      }
+      };
     },
     methods: {
       onButtonClick (event) {
@@ -92,6 +95,7 @@ storiesOf('GButtonDropdown', module)
           :tooltip="tooltip"
           :tooltipText="tooltipText"
           :tooltipPlacement="tooltipPlacement"
+          :close-outside="closeOutside"
           @onButtonClick="onButtonClick"
           @onDropdownOpen="onDropdownOpen"
           @onDropdownClose="onDropdownClose"

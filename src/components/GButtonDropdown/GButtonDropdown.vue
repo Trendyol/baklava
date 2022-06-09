@@ -1,5 +1,8 @@
 <template>
-  <div class="g-button-dropdown">
+  <div
+    v-click-outside="onClickOutside"
+    class="g-button-dropdown"
+  >
     <div class="buttons g-d-flex">
       <GTooltip
         v-if="(tooltip && isDisabled) || (tooltip && isButtonDisabled)"
@@ -50,12 +53,16 @@
 
 import GButton from '../GButton/GButton.vue';
 import GTooltip from '../GTooltip/GTooltip.vue';
+import ClickOutside from '../../directives/ClickOutside';
 
 export default {
   name: 'GButtonDropdown',
   components: {
     GButton,
     GTooltip,
+  },
+  directives: {
+    ClickOutside,
   },
   props: {
     variant: {
@@ -93,6 +100,10 @@ export default {
     tooltipPlacement: {
       type: String,
       default: 'left',
+    },
+    closeOutside: {
+      type: Boolean,
+      default: false,
     },
   },
   data () {
@@ -135,6 +146,12 @@ export default {
       (this.isContentVisible && !prevState)
         ? this.$emit('onDropdownOpen')
         : this.$emit('onDropdownClose');
+    },
+    onClickOutside (): void {
+      if (this.closeOutside) {
+        this.isContentVisible = false;
+        this.$emit('onDropdownClose');
+      }
     },
   },
   watch: {
