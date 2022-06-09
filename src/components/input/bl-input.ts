@@ -33,6 +33,9 @@ export default class BlInput extends LitElement {
   @property({})
   value = '';
 
+  @property({ type: Boolean })
+  required: boolean;
+
   @property({ type: Number })
   minlength: number;
 
@@ -45,15 +48,32 @@ export default class BlInput extends LitElement {
   @property({ type: Number })
   max: number;
 
+  @property({ type: Boolean })
+  invalid: boolean;
+
+  @property({ type: Boolean, reflect: true })
+  disabled: boolean;
+
+  @property({ type: String, attribute: 'invalid-text' })
+  customInvalidText: string;
+
+  @property({ type: String, attribute: 'help-text' })
+  helpText: string;
+
+  get _invalidText() {
+    return this.customInvalidText || this.input?.validationMessage;
+  }
+
+  get _invalidState() {
+    return this.invalid || (this.input && !this.input?.validity.valid);
+  }
+
   private inputHandler() {
     this.value = this.input.value;
-    this.input.reportValidity();
     this.event('bl-input', this.input.value);
   }
 
   private changeHandler() {
-    console.log('change', this.input.validity);
-
     this.event('bl-change', this.input.value);
   }
 
@@ -64,17 +84,26 @@ export default class BlInput extends LitElement {
   }
 
   render(): TemplateResult {
+    const invalidMessage = this._invalidState
+      ? html`<p class="invalid-text">${this._invalidText}</p>`
+      : ``;
+    const helpMessage = this.helpText
+      ? html`<p class="help-text">${this.helpText}</p>`
+      : ``;
+
     return html`<input
         type=${this.type}
         placeholder="${this.placeholder || this.label}"
         minlength="${ifDefined(this.minlength)}"
-        maxlength="${ifDefined(this.minlength)}"
+        maxlength="${ifDefined(this.maxlength)}"
         min="${ifDefined(this.min)}"
         max="${ifDefined(this.max)}"
+        ?required=${this.required}
+        ?disabled=${this.disabled}
         @change=${this.changeHandler}
         @input=${this.inputHandler}
       />
-      <p class="error-message"></p> `;
+      ${invalidMessage || helpMessage}`;
   }
 }
 

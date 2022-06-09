@@ -10,6 +10,7 @@ module.exports = {
         // Components as scopes listed below
         'button',
         'icon',
+        'input',
       ],
     ],
   },
