@@ -59,34 +59,9 @@ export const Template = (args) => html`<bl-button
     href=${ifDefined(args.href)}
     target=${ifDefined(args.target)}
     size="${ifDefined(args.size)}"
-      >${args.label}</bl-button>`;
-
-export const IconTemplate = (args) => html`<bl-button
-    ?primary=${args.primary}
-    ?secondary=${args.secondary}
-    ?success=${args.success}
-    ?danger=${args.danger}
-    ?outline=${args.outline}
-    ?disabled=${args.disabled}
-    ?link=${args.link}
-    href=${ifDefined(args.href)}
-    target=${ifDefined(args.target)}
-    size="${ifDefined(args.size)}"
-      >${args.label} ${html`<bl-icon slot="icon" name="info"></bl-icon>`}</bl-button>`;
-
-export const IconOnlyTemplate = (args) => html`<bl-button
-    ?primary=${args.primary}
-    ?secondary=${args.secondary}
-    ?success=${args.success}
-    ?danger=${args.danger}
-    ?outline=${args.outline}
-    ?disabled=${args.disabled}
-    ?link=${args.link}
-    href=${ifDefined(args.href)}
-    target=${ifDefined(args.target)}
-    label=${ifDefined(args.label)}
-    size="${ifDefined(args.size)}"
-      >${html`<bl-icon slot="icon" name="info"></bl-icon>`}</bl-button>`;
+    icon="${ifDefined(args.icon)}"
+    label="${ifDefined(args.label)}"
+      >${args.text}</bl-button>`;
 
 
 # Button
@@ -108,16 +83,16 @@ We have 4 variants of each button:
 Primary button is used for main actions of the screens. Like a submit button in a form or main button of a dialog.
 
 <Canvas>
-  <Story name="Primary Button" args={{ label: 'Save' }}>
+  <Story name="Primary Button" args={{ text: 'Save' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Secondary Button" args={{ secondary: true, label: 'Save' }}>
+  <Story name="Secondary Button" args={{ secondary: true, text: 'Save' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Success Button" args={{ success: true, label: 'Save' }}>
+  <Story name="Success Button" args={{ success: true, text: 'Save' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Danger Button" args={{ danger: true, label: 'Save' }}>
+  <Story name="Danger Button" args={{ danger: true, text: 'Save' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -126,16 +101,16 @@ Primary button is used for main actions of the screens. Like a submit button in 
 Outlined Buttons represent the important actions in the app. But not the primary ones.
 They work with all the variants. You simply add `outline` attribute.
 <Canvas>
-  <Story name="Primary Outline Button" args={{ outline: true, label: 'Save' }}>
+  <Story name="Primary Outline Button" args={{ outline: true, text: 'Save' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Secondary Outline Button" args={{ secondary: true, outline: true, label: 'Save' }}>
+  <Story name="Secondary Outline Button" args={{ secondary: true, outline: true, text: 'Save' }}>
     {Template.bind({})}
   </Story>
-   <Story name="Success Outline Button" args={{ success: true, outline: true, label: 'Save' }}>
+   <Story name="Success Outline Button" args={{ success: true, outline: true, text: 'Save' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Danger Outline Button" args={{ danger: true, outline: true,  label: 'Save' }}>
+  <Story name="Danger Outline Button" args={{ danger: true, outline: true,  text: 'Save' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -143,19 +118,21 @@ They work with all the variants. You simply add `outline` attribute.
 ## Icon Buttons
 To boost `UX`, you might want to add icons to your button. Because human brain recognize `icons` more easily than `plain text`.
 Our icons are defined to be `left` of the default slot.
-To be able to use icon with button, you should define your icons elements slot as `slot="icon"` inside button.
+
+To be able to use icon with button, you should give the name of icon to `icon` attribute.
+
 <Canvas>
-  <Story name="Primary Outline Icon Button" args={{ outline: true, label: 'Save' }}>
-    {IconTemplate.bind({})}
+  <Story name="Primary Outline Icon Button" args={{ outline: true, text: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
-  <Story name="Secondary Outline Icon Button" args={{ secondary: true, outline: true, label: 'Save' }}>
-    {IconTemplate.bind({})}
+  <Story name="Secondary Outline Icon Button" args={{ secondary: true, outline: true, text: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
-   <Story name="Success Outline Icon Button" args={{ success: true, outline: true, label: 'Save' }}>
-    {IconTemplate.bind({})}
+   <Story name="Success Outline Icon Button" args={{ success: true, outline: true, text: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
-  <Story name="Danger Outline Icon Button" args={{ danger: true, outline: true, label: 'Save' }}>
-    {IconTemplate.bind({})}
+  <Story name="Danger Outline Icon Button" args={{ danger: true, outline: true, text: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
 </Canvas>
 
@@ -163,32 +140,32 @@ To be able to use icon with button, you should define your icons elements slot a
 ## Icon Only Buttons
 Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favorites.)
 <Canvas>
-  <Story name="Primary Outline Icon Only Button" args={{ label: 'Save' }}>
-    {IconOnlyTemplate.bind({})}
+  <Story name="Primary Outline Icon Only Button" args={{ label: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
-  <Story name="Secondary Outline Icon Only Button" args={{ secondary: true, label: 'Save' }}>
-    {IconOnlyTemplate.bind({})}
+  <Story name="Secondary Outline Icon Only Button" args={{ secondary: true, label: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
-   <Story name="Success Outline Icon Only Button" args={{ success: true, label: 'Save' }}>
-    {IconOnlyTemplate.bind({})}
+   <Story name="Success Outline Icon Only Button" args={{ success: true, label: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
-  <Story name="Danger Outline Icon Only Button" args={{ danger: true, label: 'Save' }}>
-    {IconOnlyTemplate.bind({})}
+  <Story name="Danger Outline Icon Only Button" args={{ danger: true, label: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
 </Canvas>
 
 ## Link Buttons
 <Canvas>
-  <Story name="Primary Link Button" args={{ href: "https://trendyol.com", link: true, label: 'Save' }}>
+  <Story name="Primary Link Button" args={{ href: "https://trendyol.com", link: true, text: 'Save' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Secondary Link Button" args={{ link: true, href: "https://trendyol.com", secondary: true, label: 'Save' }}>
+  <Story name="Secondary Link Button" args={{ link: true, href: "https://trendyol.com", secondary: true, text: 'Save' }}>
     {Template.bind({})}
   </Story>
-   <Story name="SuccessLink Button" args={{ success: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
+   <Story name="SuccessLink Button" args={{ success: true, link: true, href: "https://trendyol.com", text: 'Save' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Danger Link Button" args={{ danger: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
+  <Story name="Danger Link Button" args={{ danger: true, link: true, href: "https://trendyol.com", text: 'Save' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -196,17 +173,17 @@ Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favor
 ## Link Buttons With Icon
 
 <Canvas>
-  <Story name="Primary Link Button With Icon" args={{ link: true, href: "https://trendyol.com", label: 'Save' }}>
-    {IconTemplate.bind({})}
+  <Story name="Primary Link Button With Icon" args={{ link: true, href: "https://trendyol.com", text: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
-  <Story name="Secondary Link Button With Icon" args={{ secondary: true, link: true,  href: "https://trendyol.com", label: 'Save' }}>
-    {IconTemplate.bind({})}
+  <Story name="Secondary Link Button With Icon" args={{ secondary: true, link: true,  href: "https://trendyol.com", text: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
-   <Story name="Success Link Button With Icon" args={{ success: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
-    {IconTemplate.bind({})}
+   <Story name="Success Link Button With Icon" args={{ success: true, link: true, href: "https://trendyol.com", text: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
-  <Story name="Danger Link Button With Icon" args={{ danger: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
-    {IconTemplate.bind({})}
+  <Story name="Danger Link Button With Icon" args={{ danger: true, link: true, href: "https://trendyol.com", text: 'Save', icon: 'info' }}>
+    {Template.bind({})}
   </Story>
 </Canvas>
 
@@ -216,13 +193,13 @@ Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favor
 We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `medium`.
 
 <Canvas>
-  <Story name="Large" args={{ size: 'large', label: 'Confirm' }}>
+  <Story name="Large" args={{ size: 'large', text: 'Confirm' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Medium" args={{ size: 'medium', label: 'Confirm' }}>
+  <Story name="Medium" args={{ size: 'medium', text: 'Confirm' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Small" args={{ size: 'small', label: 'Confirm' }}>
+  <Story name="Small" args={{ size: 'small', text: 'Confirm' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -233,7 +210,7 @@ By default buttons use size as its content needs.
 
 
 <Canvas columns={1}>
-  <Story name="Secondary disabled button"  args={{ disabled: true, secondary: true, label: 'Fill the form' }}>
+  <Story name="Secondary disabled button"  args={{ disabled: true, secondary: true, text: 'Fill the form' }}>
     {Template.bind({})}
   </Story>
 </Canvas>

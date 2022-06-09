@@ -7,19 +7,35 @@ import {
   html,
 } from '@open-wc/testing';
 import BlButton from './bl-button';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
-import type typeOfGrButton from './bl-button';
+import type typeOfBlButton from './bl-button';
 
 const variants = ['primary', 'secondary', 'tertiary', 'success', 'danger'];
 
 describe('bl-button', () => {
+  const oldFetch = window.fetch;
+
+  before(() => {
+    window.fetch = async (url: RequestInfo) => {
+      if (/info\.svg$/.test(url.toString())) {
+        return new Response('<svg></svg>');
+      }
+      return new Response('', { status: 404 });
+    };
+  });
+
+  after(() => {
+    window.fetch = oldFetch;
+  });
+
   it('is defined', () => {
     const el = document.createElement('bl-button');
     assert.instanceOf(el, BlButton);
   });
 
   it('renders with default values', async () => {
-    const el = await fixture<typeOfGrButton>(html`<bl-button></bl-button>`);
+    const el = await fixture<typeOfBlButton>(html`<bl-button></bl-button>`);
     assert.shadowDom.equal(
       el,
       `
@@ -31,7 +47,7 @@ describe('bl-button', () => {
     );
   });
   it('check default values', async () => {
-    const el = await fixture<typeOfGrButton>(
+    const el = await fixture<typeOfBlButton>(
       html`<bl-button>Button</bl-button> `
     );
     expect(el.size).to.equal('medium');
@@ -41,8 +57,9 @@ describe('bl-button', () => {
   describe('Accessibility tests', () => {
     variants.forEach(variant => {
       it(`should be accessible when attribute is "${variant}"`, async () => {
-        const el = await fixture<typeOfGrButton>(
-          html` <bl-button ${variant}>Button</bl-button> `
+        const htmlStr = `<bl-button ${variant}>Button</bl-button>`;
+        const el = await fixture<typeOfBlButton>(
+          html`${unsafeHTML(htmlStr)}`
         );
         await expect(el).to.be.accessible();
       });
@@ -51,7 +68,7 @@ describe('bl-button', () => {
 
   describe('Attributes', () => {
     it('is renders with `label` attribute as `aria-label', async () => {
-      const el = await fixture<typeOfGrButton>(
+      const el = await fixture<typeOfBlButton>(
         html`<bl-button label="simple-button"></bl-button>`
       );
       expect(
@@ -59,7 +76,7 @@ describe('bl-button', () => {
       ).to.eq('simple-button');
     });
     it('is bound to `disabled` attribute', async () => {
-      const el = await fixture<typeOfGrButton>(
+      const el = await fixture<typeOfBlButton>(
         html`<bl-button disabled></bl-button>`
       );
       expect(
@@ -67,7 +84,7 @@ describe('bl-button', () => {
       ).to.eq(true);
     });
     it('is bound to `size` attribute', async () => {
-      const el = await fixture<typeOfGrButton>(
+      const el = await fixture<typeOfBlButton>(
         html`<bl-button size=${'large'}>Test</bl-button>`
       );
       expect(el.getAttribute('size')).to.eq('large');
@@ -79,7 +96,7 @@ describe('bl-button', () => {
     });
 
     it('is bound to `href` attribute', async () => {
-      const el = await fixture<typeOfGrButton>(
+      const el = await fixture<typeOfBlButton>(
         html`<bl-button href=${'https://trendyol.com'}>Test</bl-button>`
       );
       expect(el.getAttribute('href')).to.eq('https://trendyol.com');
@@ -91,7 +108,7 @@ describe('bl-button', () => {
     });
 
     it('is bound to `target` attribute', async () => {
-      const el = await fixture<typeOfGrButton>(
+      const el = await fixture<typeOfBlButton>(
         html`<bl-button target=${'_blank'}>Test</bl-button>`
       );
       expect(el.getAttribute('target')).to.eq('_blank');
@@ -104,7 +121,7 @@ describe('bl-button', () => {
   });
   describe('Slot', () => {
     it('renders default slot with element', async () => {
-      const el = await fixture<typeOfGrButton>(
+      const el = await fixture<typeOfBlButton>(
         html` <bl-button><strong>https://trendyol.com</strong></bl-button> `
       );
       expect(el.shadowRoot?.querySelector('button')).to.exist;
@@ -112,7 +129,7 @@ describe('bl-button', () => {
   });
   describe('Link button', () => {
     it('renders element with anchor tag', async () => {
-      const el = await fixture<typeOfGrButton>(
+      const el = await fixture<typeOfBlButton>(
         html` <bl-button href="https://trendyol.com"></bl-button> `
       );
       expect(el.shadowRoot?.querySelector('a')).to.exist;
@@ -121,17 +138,13 @@ describe('bl-button', () => {
   });
   describe('Icon only button', () => {
     it('renders with slotted icon content', async () => {
-      const el = await fixture<typeOfGrButton>(
-        html`<bl-button label="icon-only-button"
-          ><bl-icon name="info" slot="icon"></bl-icon
-        ></bl-button>`
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button label="icon-only-button" icon="info"></bl-button>`
       );
-      expect(el).lightDom.to.equal(
-        `<bl-icon name="info" slot="icon"></bl-icon>`
-      );
+      expect(el.shadowRoot?.querySelector('bl-icon')).to.exist;
     });
     it('has icon-only class', async () => {
-      const el = await fixture<typeOfGrButton>(
+      const el = await fixture<typeOfBlButton>(
         html`<bl-button label="icon-only-button"
           ><bl-icon name="info" slot="icon"></bl-icon
         ></bl-button>`
@@ -143,7 +156,7 @@ describe('bl-button', () => {
   });
   describe('Events', () => {
     it('fires bl-click event on click', async () => {
-      const el = await fixture<typeOfGrButton>(
+      const el = await fixture<typeOfBlButton>(
         html`<bl-button>button</bl-button>`
       );
       const button = el.shadowRoot?.querySelector('button');

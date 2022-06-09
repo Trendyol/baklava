@@ -3,8 +3,12 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import style from './bl-button.css';
+import '../icon/bl-icon';
+
+export type ButtonSize = 'small' | 'medium' | 'large';
+export type TargetType = '_blank' | '_parent' | '_self' | '_top';
+
 /**
- *
  * @tag bl-button
  * @summary Baklava Button component
  *
@@ -14,20 +18,18 @@ import style from './bl-button.css';
  * @property {boolean} danger - Sets variant to danger
  * @property {boolean} outline - Sets button version to outline
  * @property {boolean} disabled - Disables the button
+ * @property {boolean} link - Sets the button text style
  * @property {string} size - Sets the button size
- * @property {string} link - Sets the button tag, either anchor or button
- * @property {boolean} href - Sets button type to link button
- * @property {boolean} target - Sets button target (should be defined with href)
+ * @property {string} icon - Sets the name of the icon
+ * @property {string} href - Sets link of the button
+ * @property {string} target - Sets button target (should be defined with href)
+ * @property {string} label - Sets the accessibility text for the button. Use it with icon-only buttons.
  *
  * @cssproperty --bl-button-display - Sets the display property of button. Default value is 'inline-block'.
  *
  * @event {CustomEvent} bl-click
  *
  */
-
-export type ButtonSize = 'small' | 'medium' | 'large';
-export type TargetType = '_blank' | '_parent' | '_self' | '_top';
-
 @customElement('bl-button')
 export default class BlButton extends LitElement {
   static get styles(): CSSResultGroup {
@@ -62,6 +64,9 @@ export default class BlButton extends LitElement {
   href?: string;
 
   @property({ type: String })
+  icon?: string;
+
+  @property({ type: String })
   target?: TargetType = '_self';
 
   get _hasIconSlot() {
@@ -87,11 +92,14 @@ export default class BlButton extends LitElement {
   }
 
   get _isIconOnly() {
-    return !this._hasDefaultSlot && this._hasIconSlot;
+    return !this._hasDefaultSlot && (this.icon || this._hasIconSlot);
   }
 
   render(): TemplateResult {
     const isAnchor = this.href ? true : false;
+    const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
+    const slots = html`<slot name="icon">${icon}</slot>
+      <span class="label"><slot></slot></span>`;
 
     return isAnchor
       ? html`<a
@@ -103,10 +111,7 @@ export default class BlButton extends LitElement {
           href=${ifDefined(this.href)}
           target=${ifDefined(this.target)}
           role="button"
-        >
-          <slot name="icon"></slot>
-          <span class="label"><slot></slot></span>
-        </a>`
+        >${slots}</a>`
       : html`<button
           class="button ${classMap({
             'icon-only': this._isIconOnly,
@@ -115,10 +120,7 @@ export default class BlButton extends LitElement {
           aria-label="${ifDefined(this.label)}"
           ?disabled=${this.disabled}
           @click="${this._handleClick}"
-        >
-          <slot name="icon"></slot>
-          <span class="label"><slot></slot></span>
-        </button>`;
+        >${slots}</button>`;
   }
 
   private _handleClick() {
