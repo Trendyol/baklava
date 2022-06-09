@@ -71,7 +71,7 @@
 }
 
 :host ::slotted(bl-icon) {
-  padding: 0 var(--bl-size-s) 0 0;
+  padding: 0 var(--bl-button-padding-vertical) 0 0;
   font: var(--bl-button-font);
 }
 
@@ -98,25 +98,23 @@
   --bl-main-hover-color: var(--bl-color-error-hover);
 }
 
-:host([outline]) {
-  --bl-bg-color: transparent;
-  --bl-content-color: var(--bl-main-color);
-}
-
-:host([outline]:hover) {
-  --bl-bg-color: var(--bl-main-color);
-  --bl-content-color: #fff;
-}
-
 :host([disabled]) {
   cursor: not-allowed;
   user-select: none;
 
   --bl-main-color: var(--bl-color-tertiary);
-  --bl-main-hover-color: var(--bl-main-color);
+  --bl-main-hover-color: var(--bl-color-tertiary);
   --bl-content-color: var(--bl-color-content-passive);
 
   text-decoration: none;
+}
+
+:host([outline]) {
+  --bl-bg-color: transparent;
+}
+
+:host([outline]:not(:hover):not([disabled])) {
+  --bl-content-color: var(--bl-main-color);
 }
 
 :host([disabled]) * {
