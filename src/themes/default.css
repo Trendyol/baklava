@@ -4,10 +4,10 @@
   /* Colors */
   --bl-color-primary: #f27a1a;
   --bl-color-primary-hover: #ef6114;
-  --bl-color-tertiary: #f1f2f7;
-  --bl-color-tertiary-hover: #d5d9e1;
   --bl-color-secondary: #273142;
   --bl-color-secondary-hover: #0f131a;
+  --bl-color-tertiary: #f1f2f7;
+  --bl-color-tertiary-hover: #d5d9e1;
   --bl-color-success: #0bc15c;
   --bl-color-success-hover: #09a44e;
   --bl-color-danger: #ff5043;
@@ -29,16 +29,22 @@
   --bl-size-l: 24px;
   --bl-size-xl: 32px;
   --bl-size-2xl: 40px;
-  --bl-size-3xl: 64px;
-  --bl-size-4xl: 80px;
+  --bl-size-4xl: 48px;
+  --bl-size-5xl: 56px;
+  --bl-size-6xl: 64px;
+  --bl-size-7xl: 80px;
 
   /* Typography */
-  --bl-font-family: rubikvariable, sans-serif;
+  --bl-font-family: 'RubikVariable', sans-serif;
+
+  /* Font weights */
   --bl-font-weight-light: 300;
   --bl-font-weight-regular: 400;
   --bl-font-weight-medium: 500;
   --bl-font-weight-semibold: 600;
   --bl-font-weight-bold: 700;
+
+  /* Font sizes */
   --bl-font-size-2xs: 8px;
   --bl-font-size-xs: 10px;
   --bl-font-size-s: 12px;
@@ -52,8 +58,16 @@
   --bl-font-size-6xl: 64px;
 
   /* Font Style: Display 1 */
-  --bl-font-display-1: var(--bl-font-weight-bold) var(--bl-font-size-6xl) / var(--bl-size-4xl)
+  --bl-font-display-1: var(--bl-font-weight-bold) var(--bl-font-size-6xl) / var(--bl-size-7xl)
     var(--bl-font-family);
+
+  /* Font Style: Display 2 */
+  --bl-font-display-2: var(--bl-font-size-5xl) / var(--bl-size-4xl) var(--bl-font-family);
+  --bl-font-display-2-light: var(--bl-font-weight-light) var(--bl-font-display-2);
+  --bl-font-display-2-regular: var(--bl-font-weight-regular) var(--bl-font-display-2);
+  --bl-font-display-2-medium: var(--bl-font-weight-medium) var(--bl-font-display-2);
+  --bl-font-display-2-semibold: var(--bl-font-weight-semibold) var(--bl-font-display-2);
+  --bl-font-display-2-bold: var(--bl-font-weight-bold) var(--bl-font-display-2);
 
   /* Font Style: Title 1 */
   --bl-font-title-1: var(--bl-font-size-xl) / var(--bl-size-xl) var(--bl-font-family);
