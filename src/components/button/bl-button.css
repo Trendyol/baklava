@@ -8,13 +8,16 @@
   --bl-content-color: #fff;
   --bl-bg-color: var(--bl-main-color);
   --bl-border-color: var(--bl-main-color);
-  --bl-button-padding-vertical: var(--bl-size-s);
-  --bl-button-padding-horizontal: var(--bl-size-l);
+  --bl-button-padding-vertical: var(--bl-size-2xs);
+  --bl-button-padding-horizontal: var(--bl-size-m);
+  --bl-button-margin-icon: var(--bl-button-padding-vertical);
+  --bl-button-icon-size: var(--bl-size-m);
   --bl-button-font: var(--bl-font-title-3-medium);
 }
 
 .button {
   display: flex;
+  gap: var(--bl-button-margin-icon);
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
@@ -44,14 +47,16 @@
 
 :host([size='small']) {
   --bl-button-font: var(--bl-font-title-4-medium);
-  --bl-button-padding-vertical: var(--bl-size-xs);
-  --bl-button-padding-horizontal: var(--bl-size-s);
+  --bl-button-padding-vertical: var(--bl-size-3xs);
+  --bl-button-padding-horizontal: var(--bl-size-2xs);
+  --bl-button-icon-size: var(--bl-size-s);
 }
 
 :host([size='large']) {
   --bl-button-font: var(--bl-font-title-3-medium);
-  --bl-button-padding-vertical: var(--bl-size-m);
-  --bl-button-padding-horizontal: var(--bl-size-xl);
+  --bl-button-padding-vertical: var(--bl-size-xs);
+  --bl-button-padding-horizontal: var(--bl-size-l);
+  --bl-button-margin-icon: var(--bl-size-2xs);
 }
 
 .button:focus {
@@ -71,16 +76,12 @@
 }
 
 :host ::slotted(bl-icon) {
-  padding: 0 var(--bl-button-padding-vertical) 0 0;
-  font: var(--bl-button-font);
+  font-size: var(--bl-button-icon-size);
 }
 
 .icon-only {
   --bl-button-padding-horizontal: var(--bl-button-padding-vertical);
-}
-
-:host .icon-only ::slotted(bl-icon) {
-  padding: 0;
+  --bl-button-margin-icon: 0;
 }
 
 :host([secondary]) {
