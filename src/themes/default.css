@@ -50,23 +50,33 @@
   --bl-font-size-4xl: 32px;
   --bl-font-size-5xl: 48px;
   --bl-font-size-6xl: 64px;
-  --bl-font-display-1: var(--bl-font-weight-bold) var(--bl-font-size-6xl) /
-    var(--bl-size-4xl) var(--bl-font-family);
-  --bl-font-title-1: var(--bl-font-size-xl) / var(--bl-size-xl) var(--bl-font-family); 
+
+  /* Font Style: Display 1 */
+  --bl-font-display-1: var(--bl-font-weight-bold) var(--bl-font-size-6xl) / var(--bl-size-4xl)
+    var(--bl-font-family);
+
+  /* Font Style: Title 1 */
+  --bl-font-title-1: var(--bl-font-size-xl) / var(--bl-size-xl) var(--bl-font-family);
   --bl-font-title-1-regular: var(--bl-font-weight-regular) var(--bl-font-title-1);
   --bl-font-title-1-medium: var(--bl-font-weight-medium) var(--bl-font-title-1);
   --bl-font-title-1-semibold: var(--bl-font-weight-semibold) var(--bl-font-title-1);
   --bl-font-title-1-bold: var(--bl-font-weight-bold) var(--bl-font-title-1);
+
+  /* Font Style: Title 2 */
   --bl-font-title-2: var(--bl-font-size-l) / var(--bl-size-l) var(--bl-font-family);
   --bl-font-title-2-regular: var(--bl-font-weight-regular) var(--bl-font-title-2);
   --bl-font-title-2-medium: var(--bl-font-weight-medium) var(--bl-font-title-2);
   --bl-font-title-2-semibold: var(--bl-font-weight-semibold) var(--bl-font-title-2);
   --bl-font-title-2-bold: var(--bl-font-weight-bold) var(--bl-font-title-2);
+
+  /* Font Style: Title 3 */
   --bl-font-title-3: var(--bl-font-size-m) / var(--bl-size-m) var(--bl-font-family);
   --bl-font-title-3-regular: var(--bl-font-weight-regular) var(--bl-font-title-3);
   --bl-font-title-3-medium: var(--bl-font-weight-medium) var(--bl-font-title-3);
   --bl-font-title-3-semibold: var(--bl-font-weight-semibold) var(--bl-font-title-3);
   --bl-font-title-3-bold: var(--bl-font-weight-bold) var(--bl-font-title-3);
+
+  /* Font Style: Title 4 */
   --bl-font-title-4: var(--bl-font-size-s) / var(--bl-size-s) var(--bl-font-family);
   --bl-font-title-4-regular: var(--bl-font-weight-regular) var(--bl-font-title-4);
   --bl-font-title-4-medium: var(--bl-font-weight-medium) var(--bl-font-title-4);
