@@ -1,5 +1,8 @@
 <template>
-  <div v-click-outside="onClickOutside" class="g-button-dropdown">
+  <div
+    v-click-outside="onClickOutside"
+    class="g-button-dropdown"
+  >
     <div class="buttons g-d-flex">
       <GTooltip
         v-if="(tooltip && isDisabled) || (tooltip && isButtonDisabled)"
@@ -101,7 +104,7 @@ export default {
     closeOutside: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   data () {
     return {
@@ -145,11 +148,11 @@ export default {
         : this.$emit('onDropdownClose');
     },
     onClickOutside (): void {
-      if(this.closeOutside) {
+      if (this.closeOutside) {
         this.isContentVisible = false;
         this.$emit('onDropdownClose');
       }
-    }
+    },
   },
   watch: {
     isDropdownOpen (newValue) {
