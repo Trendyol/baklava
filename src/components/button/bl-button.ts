@@ -11,7 +11,7 @@ import style from './bl-button.css';
  * @property {boolean} primary - Sets variant to primary
  * @property {boolean} secondary - Sets variant to secondary
  * @property {boolean} success - Sets variant to success
- * @property {boolean} error - Sets variant to error
+ * @property {boolean} danger - Sets variant to danger
  * @property {boolean} outline - Sets button version to outline
  * @property {boolean} disabled - Disables the button
  * @property {string} size - Sets the button size
@@ -44,7 +44,7 @@ export default class BlButton extends LitElement {
   success = false;
 
   @property({ type: Boolean, reflect: true })
-  error = false;
+  danger = false;
 
   @property({ type: Boolean, reflect: true })
   outline = false;

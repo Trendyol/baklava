@@ -20,7 +20,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
     success: {
       control: 'boolean'
     },
-    error: {
+    danger: {
       control: 'boolean'
     },
     disabled: {
@@ -52,7 +52,7 @@ export const Template = (args) => html`<bl-button
     ?primary=${args.primary}
     ?secondary=${args.secondary}
     ?success=${args.success}
-    ?error=${args.error}
+    ?danger=${args.danger}
     ?outline=${args.outline}
     ?disabled=${args.disabled}
     ?link=${args.link}
@@ -65,7 +65,7 @@ export const IconTemplate = (args) => html`<bl-button
     ?primary=${args.primary}
     ?secondary=${args.secondary}
     ?success=${args.success}
-    ?error=${args.error}
+    ?danger=${args.danger}
     ?outline=${args.outline}
     ?disabled=${args.disabled}
     ?link=${args.link}
@@ -78,7 +78,7 @@ export const IconOnlyTemplate = (args) => html`<bl-button
     ?primary=${args.primary}
     ?secondary=${args.secondary}
     ?success=${args.success}
-    ?error=${args.error}
+    ?danger=${args.danger}
     ?outline=${args.outline}
     ?disabled=${args.disabled}
     ?link=${args.link}
@@ -101,7 +101,7 @@ We have 4 variants of each button:
 * `primary`
 * `secondary`
 * `success`
-* `error`
+* `danger`
 
 ## Button Variants
 
@@ -117,7 +117,7 @@ Primary button is used for main actions of the screens. Like a submit button in 
   <Story name="Success Button" args={{ success: true, label: 'Save' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Error Button" args={{ error: true, label: 'Save' }}>
+  <Story name="Danger Button" args={{ danger: true, label: 'Save' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -135,7 +135,7 @@ They work with all the variants. You simply add `outline` attribute.
    <Story name="Success Outline Button" args={{ success: true, outline: true, label: 'Save' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Error Outline Button" args={{ error: true, outline: true,  label: 'Save' }}>
+  <Story name="Danger Outline Button" args={{ danger: true, outline: true,  label: 'Save' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -154,7 +154,7 @@ To be able to use icon with button, you should define your icons elements slot a
    <Story name="Success Outline Icon Button" args={{ success: true, outline: true, label: 'Save' }}>
     {IconTemplate.bind({})}
   </Story>
-  <Story name="Error Outline Icon Button" args={{ error: true, outline: true, label: 'Save' }}>
+  <Story name="Danger Outline Icon Button" args={{ danger: true, outline: true, label: 'Save' }}>
     {IconTemplate.bind({})}
   </Story>
 </Canvas>
@@ -172,7 +172,7 @@ Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favor
    <Story name="Success Outline Icon Only Button" args={{ success: true, label: 'Save' }}>
     {IconOnlyTemplate.bind({})}
   </Story>
-  <Story name="Error Outline Icon Only Button" args={{ error: true, label: 'Save' }}>
+  <Story name="Danger Outline Icon Only Button" args={{ danger: true, label: 'Save' }}>
     {IconOnlyTemplate.bind({})}
   </Story>
 </Canvas>
@@ -188,7 +188,7 @@ Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favor
    <Story name="SuccessLink Button" args={{ success: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
     {Template.bind({})}
   </Story>
-  <Story name="Error Link Button" args={{ error: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
+  <Story name="Danger Link Button" args={{ danger: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -205,7 +205,7 @@ Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favor
    <Story name="Success Link Button With Icon" args={{ success: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
     {IconTemplate.bind({})}
   </Story>
-  <Story name="Error Link Button With Icon" args={{ error: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
+  <Story name="Danger Link Button With Icon" args={{ danger: true, link: true, href: "https://trendyol.com", label: 'Save' }}>
     {IconTemplate.bind({})}
   </Story>
 </Canvas>

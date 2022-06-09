@@ -10,7 +10,7 @@ import BlButton from './bl-button';
 
 import type typeOfGrButton from './bl-button';
 
-const variants = ['primary', 'secondary', 'tertiary', 'success', 'error'];
+const variants = ['primary', 'secondary', 'tertiary', 'success', 'danger'];
 
 describe('bl-button', () => {
   it('is defined', () => {
