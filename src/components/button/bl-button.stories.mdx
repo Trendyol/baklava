@@ -1,5 +1,7 @@
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
 
 <Meta
@@ -48,7 +50,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
   }}
 />
 
-export const BasicTemplate = (args) => html`<bl-button
+export const SingleButtonTemplate = (args) => html`<bl-button
     ?primary=${args.primary}
     ?secondary=${args.secondary}
     ?success=${args.success}
@@ -61,24 +63,25 @@ export const BasicTemplate = (args) => html`<bl-button
     size=${ifDefined(args.size)}
     icon="${ifDefined(args.icon)}"
     label="${ifDefined(args.label)}"
-      >${args.content}</bl-button>`
+    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+      >${unsafeHTML(args.content)}</bl-button>`
 
 export const Template = (args) => html`
-${BasicTemplate({primary: true, ...args})}
-${BasicTemplate({secondary: true, ...args})}
-${BasicTemplate({success: true, ...args})}
-${BasicTemplate({danger: true, ...args})}`;
+${SingleButtonTemplate({primary: true, ...args})}
+${SingleButtonTemplate({secondary: true, ...args})}
+${SingleButtonTemplate({success: true, ...args})}
+${SingleButtonTemplate({danger: true, ...args})}`;
 
 
 export const SizesTemplate = (args) => html`
-${BasicTemplate({size: 'small', ...args})}
-${BasicTemplate({size: 'medium', ...args})}
-${BasicTemplate({size: 'large', ...args})}`;
+${SingleButtonTemplate({size: 'small', ...args})}
+${SingleButtonTemplate({size: 'medium', ...args})}
+${SingleButtonTemplate({size: 'large', ...args})}`;
 
 export const VariousStylesTemplate = (args) => html`
-${BasicTemplate({...args})}
-${BasicTemplate({outline: true, ...args})}
-${BasicTemplate({plain: true, ...args})}`;
+${SingleButtonTemplate({...args})}
+${SingleButtonTemplate({outline: true, ...args})}
+${SingleButtonTemplate({plain: true, ...args})}`;
 
 # Button
 
@@ -155,7 +158,7 @@ Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favor
   </Story>
 </Canvas>
 
-## Button Sizes
+## Sizing Buttons
 
 We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `medium`.
 
@@ -165,12 +168,28 @@ We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `medium`
   </Story>
 </Canvas>
 
+By default our buttons are `inline-block`. If you want to make it a block level button that will fill it's container, you need to set `--bl-button-display` property to `block`.
+
+<Canvas>
+  <Story name="Block Level Buttons" args={{ content: 'Confirm', icon: 'info', styles: { '--bl-button-display': 'block' } }}>
+    {SingleButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
+If button has a limited width and a long text that can not fit in a single line, text will be automatically cropped with three dot at the end.
+
+<Canvas>
+  <Story name="Automatic clipping text" args={{ content: 'A very long text content', icon: 'info', styles: { '--bl-button-display': 'block', 'max-width': '150px' } }}>
+    {SingleButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
 ## Disabled buttons
 
 By default buttons use size as its content needs.
 
 <Canvas columns={1}>
-  <Story name="Secondary disabled button"  args={{ disabled: true, icon: 'info', content: 'Fill the form' }}>
+  <Story name="Secondary disabled button" args={{ disabled: true, icon: 'info', content: 'Fill the form' }}>
     {VariousStylesTemplate.bind({})}
   </Story>
 </Canvas>
