@@ -89,13 +89,13 @@
   --bl-button-main-hover-color: var(--bl-color-danger-hover);
 }
 
-:host([link]) {
+:host([plain]) {
   --bl-button-content-color: var(--bl-button-main-color);
   --bl-button-border-color: transparent;
   --bl-button-bg-color: transparent;
 }
 
-:host([link]) .button {
+:host([plain]) .button {
   text-decoration: underline;
 }
 
@@ -120,7 +120,7 @@
   --bl-button-content-color: var(--bl-button-main-color);
 }
 
-:host([link]:not([disabled])) .button:hover {
+:host([plain]:not([disabled])) .button:hover {
   --bl-button-content-color: var(--bl-button-main-hover-color);
   --bl-button-border-color: transparent;
   --bl-button-bg-color: transparent;

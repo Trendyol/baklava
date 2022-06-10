@@ -18,7 +18,7 @@ export type TargetType = '_blank' | '_parent' | '_self' | '_top';
  * @property {boolean} danger - Sets variant to danger
  * @property {boolean} outline - Sets button version to outline
  * @property {boolean} disabled - Disables the button
- * @property {boolean} link - Sets the button text style
+ * @property {boolean} plain - Sets the button plain text style
  * @property {string} size - Sets the button size
  * @property {string} icon - Sets the name of the icon
  * @property {string} href - Sets link of the button
@@ -50,6 +50,9 @@ export default class BlButton extends LitElement {
 
   @property({ type: Boolean, reflect: true })
   outline = false;
+
+  @property({ type: Boolean, reflect: true })
+  plain = false;
 
   @property({ type: String, reflect: true })
   size: ButtonSize = 'medium';

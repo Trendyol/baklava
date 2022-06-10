@@ -26,7 +26,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
     disabled: {
       control: 'boolean'
     },
-    link: {
+    plain: {
       control: {
         type: 'boolean'
       }
@@ -55,13 +55,13 @@ export const BasicTemplate = (args) => html`<bl-button
     ?danger=${args.danger}
     ?outline=${args.outline}
     ?disabled=${args.disabled}
-    ?link=${args.link}
+    ?plain=${args.plain}
     href=${ifDefined(args.href)}
     target=${ifDefined(args.target)}
     size=${ifDefined(args.size)}
     icon="${ifDefined(args.icon)}"
     label="${ifDefined(args.label)}"
-      >${args.text}</bl-button>`
+      >${args.content}</bl-button>`
 
 export const Template = (args) => html`
 ${BasicTemplate({primary: true, ...args})}
@@ -78,17 +78,20 @@ ${BasicTemplate({size: 'large', ...args})}`;
 export const VariousStylesTemplate = (args) => html`
 ${BasicTemplate({...args})}
 ${BasicTemplate({outline: true, ...args})}
-${BasicTemplate({link: true, ...args})}`;
+${BasicTemplate({plain: true, ...args})}`;
 
 # Button
 
 Button component is the component for triggering actions.
 
-In Baklava Design, we provide 2 types of button:
+In Baklava Design, we provide 3 types of button:
+
+* Contained Button (Default)
+* Outline Button
 * Text Button
-* Link Button
 
 We have 4 variants of each button:
+
 * `primary`
 * `secondary`
 * `success`
@@ -99,7 +102,7 @@ We have 4 variants of each button:
 Primary button is used for main actions of the screens. Like a submit button in a form or main button of a dialog.
 
 <Canvas>
-  <Story name="Variants" args={{ text: 'Save' }}>
+  <Story name="Variants" args={{ content: 'Save' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -108,7 +111,7 @@ Primary button is used for main actions of the screens. Like a submit button in 
 Outlined Buttons represent the important actions in the app. But not the primary ones.
 They work with all the variants. You simply add `outline` attribute.
 <Canvas>
-  <Story name="Outline Buttons" args={{ outline: true, text: 'Save' }}>
+  <Story name="Outline Buttons" args={{ outline: true, content: 'Save' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -120,31 +123,34 @@ Our icons are defined to be `left` of the default slot.
 To be able to use icon with button, you should give the name of icon to `icon` attribute.
 
 <Canvas>
-  <Story name="Outline Icon Buttons" args={{ outline: true, text: 'Save', icon: 'info' }}>
+  <Story name="Outline Icon Buttons" args={{ outline: true, content: 'Save', icon: 'info' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
 
 
 ## Icon Only Buttons
+
 Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favorites.)
+
 <Canvas>
   <Story name="Outline Icon Only Buttons" args={{ label: 'Save', icon: 'info' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
 
-## Link Buttons
+## Plain Buttons
+
 <Canvas>
-  <Story name="Link Buttons" args={{ href: "https://trendyol.com", link: true, text: 'Save' }}>
+  <Story name="Text Buttons" args={{ href: "https://trendyol.com", plain: true, content: 'Save' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
 
-## Link Buttons With Icon
+## Plain Buttons With Icon
 
 <Canvas>
-  <Story name="Link Buttons With Icon" args={{ link: true, href: "https://trendyol.com", text: 'Save', icon: 'info' }}>
+  <Story name="Text Buttons With Icon" args={{ plain: true, href: "https://trendyol.com", content: 'Save', icon: 'info' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -154,7 +160,7 @@ Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favor
 We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `medium`.
 
 <Canvas>
-  <Story name="Button Sizes" args={{ text: 'Confirm', icon: 'info' }}>
+  <Story name="Button Sizes" args={{ content: 'Confirm', icon: 'info' }}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
@@ -164,7 +170,7 @@ We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `medium`
 By default buttons use size as its content needs.
 
 <Canvas columns={1}>
-  <Story name="Secondary disabled button"  args={{ disabled: true, icon: 'info', text: 'Fill the form' }}>
+  <Story name="Secondary disabled button"  args={{ disabled: true, icon: 'info', content: 'Fill the form' }}>
     {VariousStylesTemplate.bind({})}
   </Story>
 </Canvas>
