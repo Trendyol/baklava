@@ -94,20 +94,19 @@ export default class BlButton extends LitElement {
     });
   }
 
-  get _isIconOnly() {
-    return !this._hasDefaultSlot && (this.icon || this._hasIconSlot);
-  }
-
   render(): TemplateResult {
     const isAnchor = this.href ? true : false;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
     const slots = html`<slot name="icon">${icon}</slot> <span class="label"><slot></slot></span>`;
+    const classes = classMap({
+      'button': true,
+      'has-icon': this.icon || this._hasIconSlot,
+      'has-content': this._hasDefaultSlot,
+    });
 
     return isAnchor
       ? html`<a
-          class="button ${classMap({
-            'icon-only': this._isIconOnly,
-          })}"
+          class=${classes}
           aria-disabled="${ifDefined(this.disabled)}"
           aria-label="${ifDefined(this.label)}"
           href=${ifDefined(this.href)}
@@ -116,9 +115,7 @@ export default class BlButton extends LitElement {
           >${slots}</a
         >`
       : html`<button
-          class="button ${classMap({
-            'icon-only': this._isIconOnly,
-          })}"
+          class=${classes}
           aria-disabled="${ifDefined(this.disabled)}"
           aria-label="${ifDefined(this.label)}"
           ?disabled=${this.disabled}
@@ -134,15 +131,6 @@ export default class BlButton extends LitElement {
 
   private event(name: string, detail: string) {
     this.dispatchEvent(new CustomEvent(name, { detail, bubbles: true, composed: true }));
-  }
-
-  updated() {
-    // if element has disabled attribute, aria-disabled will be true, otherwise false.
-    if (this.hasAttribute('disabled')) {
-      this.setAttribute('aria-disabled', 'true');
-    } else {
-      this.setAttribute('aria-disabled', 'false');
-    }
   }
 }
 

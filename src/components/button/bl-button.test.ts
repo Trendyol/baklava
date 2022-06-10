@@ -124,13 +124,21 @@ describe('bl-button', () => {
       );
       expect(el.shadowRoot?.querySelector('bl-icon')).to.exist;
     });
-    it('has icon-only class', async () => {
+    it('should have has-icon class', async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button label="icon-only-button" icon="info"></bl-button>`
+      );
+      expect(el.shadowRoot?.querySelector('button')?.classList.contains('has-icon')).to.eq(true);
+    });
+    it('should not have has-content class', async () => {
       const el = await fixture<typeOfBlButton>(
         html`<bl-button label="icon-only-button"
           ><bl-icon name="info" slot="icon"></bl-icon
         ></bl-button>`
       );
-      expect(el.shadowRoot?.querySelector('button')?.classList.contains('icon-only')).to.eq(true);
+      expect(el.shadowRoot?.querySelector('button')?.classList.contains('has-content')).to.eq(
+        false
+      );
     });
   });
   describe('Events', () => {

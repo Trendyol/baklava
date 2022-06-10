@@ -69,7 +69,7 @@
   font-size: var(--bl-button-icon-size);
 }
 
-.icon-only {
+.has-icon:not(.has-content) {
   --bl-button-padding-horizontal: var(--bl-button-padding-vertical);
   --bl-button-margin-icon: 0;
 }
