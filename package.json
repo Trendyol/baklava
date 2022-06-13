@@ -119,7 +119,7 @@
   "lint-staged": {
     "**/*.{js,,ts,}": [
       "bash -c tsc --noEmit",
-      "npx prettier --write",
+      "npx prettier",
       "npx eslint --fix"
     ],
     "**/*.{css,}": [

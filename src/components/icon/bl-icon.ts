@@ -67,9 +67,7 @@ export default class BlIcon extends LitElement {
   }
 
   private event(name: string, detail: string) {
-    this.dispatchEvent(
-      new CustomEvent(name, { detail, bubbles: true, composed: true })
-    );
+    this.dispatchEvent(new CustomEvent(name, { detail, bubbles: true, composed: true }));
   }
 
   render(): TemplateResult {

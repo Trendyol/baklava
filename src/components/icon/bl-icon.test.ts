@@ -1,11 +1,4 @@
-import {
-  assert,
-  expect,
-  fixture,
-  html,
-  oneEvent,
-  waitUntil,
-} from '@open-wc/testing';
+import { assert, expect, fixture, html, oneEvent, waitUntil } from '@open-wc/testing';
 
 import BlIcon from './bl-icon';
 
@@ -40,10 +33,7 @@ describe('bl-icon', () => {
   it('renders with an icon', async () => {
     const el = await fixture(html`<bl-icon name="info"></bl-icon>`);
 
-    await waitUntil(
-      () => el.shadowRoot?.querySelector('svg'),
-      'Element did not render SVG'
-    );
+    await waitUntil(() => el.shadowRoot?.querySelector('svg'), 'Element did not render SVG');
 
     expect(el.shadowRoot?.querySelector('svg')?.outerHTML).equal(`${infoIcon}`);
   });
