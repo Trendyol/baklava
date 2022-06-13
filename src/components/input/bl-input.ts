@@ -48,8 +48,17 @@ export default class BlInput extends LitElement {
   @property({ type: Number })
   max: number;
 
-  @property({ type: Boolean })
-  invalid: boolean;
+  private _customError = '';
+
+  @property({ type: String })
+  get invalid(): string {
+    return this._customError;
+  }
+
+  set invalid(value: string) {
+    this._customError = value;
+    this.input?.setCustomValidity(this._customError);
+  }
 
   @property({ type: Boolean, reflect: true })
   disabled: boolean;
@@ -60,6 +69,8 @@ export default class BlInput extends LitElement {
   @property({ type: String, attribute: 'help-text' })
   helpText: string;
 
+  validity: ValidityState;
+
   get _invalidText() {
     return this.customInvalidText || this.input?.validationMessage;
   }
@@ -69,6 +80,7 @@ export default class BlInput extends LitElement {
   }
 
   private inputHandler() {
+    this.validity = this.input?.validity;
     this.value = this.input.value;
     this.event('bl-input', this.input.value);
   }
@@ -81,6 +93,15 @@ export default class BlInput extends LitElement {
     this.dispatchEvent(
       new CustomEvent(name, { detail, bubbles: true, composed: true })
     );
+  }
+
+  firstUpdated() {
+    if (this._customError) {
+      this.input?.setCustomValidity(this._customError);
+      this.requestUpdate();
+    }
+
+    this.validity = this.input?.validity;
   }
 
   render(): TemplateResult {
