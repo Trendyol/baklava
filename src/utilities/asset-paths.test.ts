@@ -7,14 +7,9 @@ describe('set-paths utilities', () => {
 
       const testPath = 'src/utilities';
 
-      const testRunnerBasePath = document.baseURI
-        .split('/')
-        .slice(0, -1)
-        .join('/');
+      const testRunnerBasePath = document.baseURI.split('/').slice(0, -1).join('/');
 
-      expect(getIconPath()).to.equal(
-        `${testRunnerBasePath}/${testPath}/assets`
-      );
+      expect(getIconPath()).to.equal(`${testRunnerBasePath}/${testPath}/assets`);
     });
   });
 

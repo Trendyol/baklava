@@ -1,5 +1,7 @@
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
 
 <Meta
@@ -11,71 +13,184 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
         type: 'text'
       }
     },
-    variant: {
-      options: ['primary', 'secondary'],
-      control: { type: 'radio' }
+    primary: {
+      control: 'boolean'
+    },
+    secondary: {
+      control: 'boolean'
+    },
+    success: {
+      control: 'boolean'
+    },
+    danger: {
+      control: 'boolean'
     },
     disabled: {
       control: 'boolean'
     },
-    block: {
-      control: 'boolean'
+    plain: {
+      control: {
+        type: 'boolean'
+      }
+    },
+    href: {
+       control: {
+        type: 'text'
+      }
+    },
+    target: {
+       control: {
+        type: 'text'
+      }
     },
     size: {
       options: ['large', 'medium', 'small'],
-      control: { type: 'radio' }
+      control: { type: 'select' }
     }
   }}
 />
 
-export const Template = (args) => html`<bl-button
-    ?secondary=${args.variant === 'secondary'}
+export const SingleButtonTemplate = (args) => html`<bl-button
+    ?primary=${args.primary}
+    ?secondary=${args.secondary}
+    ?success=${args.success}
+    ?danger=${args.danger}
+    ?outline=${args.outline}
     ?disabled=${args.disabled}
-    ?block=${args.block}
-    ?medium=${args.size === 'medium'}
-    ?small=${args.size === 'small'}>${args.label}</bl-button>`;
+    ?plain=${args.plain}
+    href=${ifDefined(args.href)}
+    target=${ifDefined(args.target)}
+    size=${ifDefined(args.size)}
+    icon="${ifDefined(args.icon)}"
+    label="${ifDefined(args.label)}"
+    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+      >${unsafeHTML(args.content)}</bl-button>`
+
+export const Template = (args) => html`
+${SingleButtonTemplate({primary: true, ...args})}
+${SingleButtonTemplate({secondary: true, ...args})}
+${SingleButtonTemplate({success: true, ...args})}
+${SingleButtonTemplate({danger: true, ...args})}`;
+
+
+export const SizesTemplate = (args) => html`
+${SingleButtonTemplate({size: 'small', ...args})}
+${SingleButtonTemplate({size: 'medium', ...args})}
+${SingleButtonTemplate({size: 'large', ...args})}`;
+
+export const VariousStylesTemplate = (args) => html`
+${SingleButtonTemplate({...args})}
+${SingleButtonTemplate({outline: true, ...args})}
+${SingleButtonTemplate({plain: true, ...args})}`;
 
 # Button
 
 Button component is the component for triggering actions.
+
+In Baklava Design, we provide 3 types of button:
+
+* Contained Button (Default)
+* Outline Button
+* Text Button
+
+We have 4 variants of each button:
+
+* `primary`
+* `secondary`
+* `success`
+* `danger`
 
 ## Button Variants
 
 Primary button is used for main actions of the screens. Like a submit button in a form or main button of a dialog.
 
 <Canvas>
-  <Story name="Primary Button" args={{ variant: 'primary', label: 'Save' }}>
-    {Template.bind({})}
-  </Story>
-  <Story name="Secondary Button" args={{ variant: 'secondary', label: 'Save' }}>
+  <Story name="Variants" args={{ content: 'Save' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
 
-## Button Sizes
+## Outlined Buttons
+Outlined Buttons represent the important actions in the app. But not the primary ones.
+They work with all the variants. You simply add `outline` attribute.
+<Canvas>
+  <Story name="Outline Buttons" args={{ outline: true, content: 'Save' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
 
-We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `large`.
+## Icon Buttons
+To boost `UX`, you might want to add icons to your button. Because human brain recognize `icons` more easily than `plain text`.
+Our icons are defined to be `left` of the default slot.
+
+To be able to use icon with button, you should give the name of icon to `icon` attribute.
 
 <Canvas>
-  <Story name="Large" args={{ label: 'Confirm' }}>
-    {Template.bind({})}
-  </Story>
-  <Story name="Medium" args={{ size: 'medium', label: 'Confirm' }}>
-    {Template.bind({})}
-  </Story>
-  <Story name="Small" args={{ size: 'small', label: 'Confirm' }}>
+  <Story name="Outline Icon Buttons" args={{ outline: true, content: 'Save', icon: 'info' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
 
-## Block buttons
 
-By default buttons use size as its content needs. But you can use button with `block` mode to fill it's container.
+## Icon Only Buttons
 
+Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favorites.)
+
+<Canvas>
+  <Story name="Outline Icon Only Buttons" args={{ label: 'Save', icon: 'info' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Plain Buttons
+
+<Canvas>
+  <Story name="Text Buttons" args={{ href: "https://trendyol.com", plain: true, content: 'Save' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Plain Buttons With Icon
+
+<Canvas>
+  <Story name="Text Buttons With Icon" args={{ plain: true, href: "https://trendyol.com", content: 'Save', icon: 'info' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Sizing Buttons
+
+We have 3 sizes of buttons: `large`, `medium`, `small`. Default size is `medium`.
+
+<Canvas>
+  <Story name="Button Sizes" args={{ content: 'Confirm', icon: 'info' }}>
+    {SizesTemplate.bind({})}
+  </Story>
+</Canvas>
+
+By default our buttons are `inline-block`. If you want to make it a block level button that will fill it's container, you need to set `--bl-button-display` property to `block`.
+
+<Canvas>
+  <Story name="Block Level Buttons" args={{ content: 'Confirm', icon: 'info', styles: { '--bl-button-display': 'block' } }}>
+    {SingleButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
+If button has a limited width and a long text that can not fit in a single line, text will be automatically cropped with three dot at the end.
+
+<Canvas>
+  <Story name="Automatic clipping text" args={{ content: 'A very long text content', icon: 'info', styles: { '--bl-button-display': 'block', 'max-width': '150px' } }}>
+    {SingleButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled buttons
+
+By default buttons use size as its content needs.
 
 <Canvas columns={1}>
-  <Story name="Secondary Block disabled button"  args={{ disabled: true, variant: 'secondary', block: true, label: 'Fill the form' }}>
-    {Template.bind({})}
+  <Story name="Secondary disabled button" args={{ disabled: true, icon: 'info', content: 'Fill the form' }}>
+    {VariousStylesTemplate.bind({})}
   </Story>
 </Canvas>
 
