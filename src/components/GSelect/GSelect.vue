@@ -16,7 +16,10 @@
         class="valueText"
         v-text="getLabel"
       />
-      <div :class="contentClass">
+      <div
+        v-if="showOptionsInDOM"
+        :class="contentClass"
+      >
         <GBox
           :mb="15"
           v-if="isSearch"
@@ -156,6 +159,10 @@ export default {
       default: false,
       type: Boolean,
     },
+    removeOptionsFromDOM: {
+      type: Boolean,
+      default: false,
+    },
   },
   data () {
     return {
@@ -224,6 +231,9 @@ export default {
     },
   },
   computed: {
+    showOptionsInDOM () {
+      return this.removeOptionsFromDOM ? this.isOptionsVisible : true;
+    },
     filteredOptions () {
       return this.options.filter(opt =>
         (this.getItemText(opt) || '')
