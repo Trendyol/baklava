@@ -159,7 +159,7 @@ export default {
       default: false,
       type: Boolean,
     },
-    removeOptionsFromDOM: {
+    removeOptionsFromDom: {
       type: Boolean,
       default: false,
     },
@@ -232,7 +232,7 @@ export default {
   },
   computed: {
     showOptionsInDOM () {
-      return this.removeOptionsFromDOM ? this.isOptionsVisible : true;
+      return this.removeOptionsFromDom ? this.isOptionsVisible : true;
     },
     filteredOptions () {
       return this.options.filter(opt =>
