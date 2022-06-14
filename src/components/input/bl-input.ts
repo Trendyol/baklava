@@ -1,6 +1,8 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import '../icon/bl-icon';
 
 import style from './bl-input.css';
 
@@ -48,6 +50,9 @@ export default class BlInput extends LitElement {
   @property({ type: Number })
   max: number;
 
+  @property({ type: String })
+  icon?: string;
+
   private _customError = '';
 
   @property({ type: String })
@@ -56,6 +61,7 @@ export default class BlInput extends LitElement {
   }
 
   set invalid(value: string) {
+    this._dirty = true;
     this._customError = value;
     this.input?.setCustomValidity(this._customError);
   }
@@ -70,6 +76,12 @@ export default class BlInput extends LitElement {
   helpText: string;
 
   validity: ValidityState;
+
+  @state() private _dirty = false;
+
+  get dirty(): boolean {
+    return this._dirty;
+  }
 
   get _invalidText() {
     return this.customInvalidText || this.input?.validationMessage;
@@ -86,10 +98,12 @@ export default class BlInput extends LitElement {
   }
 
   private changeHandler() {
+    this._dirty = true;
     this.event('bl-change', this.input.value);
   }
 
   private event(name: string, detail: string) {
+    console.log(name);
     this.dispatchEvent(
       new CustomEvent(name, { detail, bubbles: true, composed: true })
     );
@@ -111,9 +125,14 @@ export default class BlInput extends LitElement {
     const helpMessage = this.helpText
       ? html`<p class="help-text">${this.helpText}</p>`
       : ``;
+    const icon = this.icon ? html`<bl-icon class="custom-icon" name=${this.icon}></bl-icon>` : '';
 
     return html`<input
         type=${this.type}
+        class=${classMap({
+          dirty: this._dirty,
+          "has-icon": this.icon || this._invalidState
+        })}
         placeholder="${this.placeholder || this.label}"
         minlength="${ifDefined(this.minlength)}"
         maxlength="${ifDefined(this.maxlength)}"
@@ -124,6 +143,8 @@ export default class BlInput extends LitElement {
         @change=${this.changeHandler}
         @input=${this.inputHandler}
       />
+      <bl-icon class="error-icon" name="alert"></bl-icon>
+      ${icon}
       ${invalidMessage || helpMessage}`;
   }
 }

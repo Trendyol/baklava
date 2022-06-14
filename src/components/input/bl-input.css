@@ -1,8 +1,54 @@
-:host() {
-  display: block;
+:host {
+  display: inline-block;
+  width: 200px; /* ? */
+  position: relative;
 }
 
 input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 32px; /* ? */
   font: var(--bl-font-title-3-regular);
+  padding: 0 var(--bl-size-xs);
+  margin: 0;
+  border: solid 1px var(--bl-color-border); /* ? */
+  border-radius: 4px; /* ? */
 }
 
+input.dirty:invalid {
+  border-color: var(--bl-color-danger);
+}
+
+input.has-icon {
+  padding-right: calc(var(--bl-size-xs) * 2 + var(--bl-size-m));
+}
+
+.error-icon,
+.invalid-text {
+  display: none;
+}
+
+bl-icon {
+  position: absolute;
+  top: var(--bl-size-2xs);
+  right: var(--bl-size-xs);
+  font-size: var(--bl-size-m);
+  z-index: 1;
+  color: var(--bl-color-content-tertiary);
+}
+
+.error-icon {
+  color: var(--bl-color-danger);
+}
+
+input.dirty:invalid ~ .invalid-text {
+  display: block;
+}
+
+input.dirty:invalid ~ .error-icon {
+  display: inline-block;
+}
+
+input.dirty:invalid ~ .custom-icon {
+  display: none;
+}
