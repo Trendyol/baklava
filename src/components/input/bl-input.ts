@@ -126,8 +126,10 @@ export default class BlInput extends LitElement {
       ? html`<p class="help-text">${this.helpText}</p>`
       : ``;
     const icon = this.icon ? html`<bl-icon class="custom-icon" name=${this.icon}></bl-icon>` : '';
+    const label = this.label ? html`<label>${this.label}</label>` : '';
 
-    return html`<input
+    return html`
+      <input
         type=${this.type}
         class=${classMap({
           dirty: this._dirty,
@@ -143,9 +145,10 @@ export default class BlInput extends LitElement {
         @change=${this.changeHandler}
         @input=${this.inputHandler}
       />
-      <bl-icon class="error-icon" name="alert"></bl-icon>
+      ${label}
       ${icon}
-      ${invalidMessage || helpMessage}`;
+      <bl-icon class="error-icon" name="alert"></bl-icon>
+     ${invalidMessage || helpMessage}`;
   }
 }
 
