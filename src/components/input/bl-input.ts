@@ -5,7 +5,9 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import '../icon/bl-icon';
 
 import style from './bl-input.css';
+import { ButtonSize } from '../button/bl-button';
 
+export type InputSize =  'medium' | 'large';
 /**
  * @tag bl-input
  * @summary Baklava Input component
@@ -53,6 +55,9 @@ export default class BlInput extends LitElement {
   @property({ type: String })
   icon?: string;
 
+  @property({ type: String, reflect: true })
+  size?: ButtonSize = 'medium';
+
   private _customError = '';
 
   @property({ type: String })
@@ -69,8 +74,12 @@ export default class BlInput extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled: boolean;
 
+  @property({ type: Boolean, attribute: 'label-fixed' })
+  labelFixed = false;
+
   @property({ type: String, attribute: 'invalid-text' })
   customInvalidText: string;
+
 
   @property({ type: String, attribute: 'help-text' })
   helpText: string;

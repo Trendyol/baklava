@@ -33,16 +33,24 @@ bl-icon {
   color: var(--bl-input-icon-color);
 }
 
+input:focus ~ bl-icon {
+  --bl-input-icon-color: var(--bl-color-primary);
+}
+
+:host([label-fixed]) bl-icon {
+  top: calc(var(--bl-input-padding-vertical) + var(--bl-size-m))
+}
+
 input:focus {
   --bl-input-border-color: var(--bl-color-primary);
 }
 
-::placeholder {
+:host([label]) ::placeholder {
   color: transparent;
   transition: color ease-out .4s;
 }
 
-input:focus::placeholder {
+ :host input:focus::placeholder {
   color: var(--bl-color-content-tertiary);
 }
 
@@ -50,10 +58,6 @@ input:disabled {
   background-color: var(--bl-color-background-primary);
 
   --bl-input-text-color: var(--bl-color-content-tertiary);
-}
-
-input:focus ~ bl-icon {
-  --bl-input-icon-color: var(--bl-color-primary);
 }
 
 input.dirty:invalid {
@@ -89,6 +93,21 @@ label {
   padding: 0 var(--bl-size-3xs);
   background-color: var(--bl-color-background-secondary);
   pointer-events: initial;
+}
+
+:host([label-fixed]) {
+  padding-top: var(--bl-size-m);
+}
+
+:host([label-fixed]) label {
+  top: 0;
+  left: 0;
+  transition: none;
+  transform: none;
+  pointer-events: initial;
+  font: var(--bl-font-form-label);
+  color: var(--bl-color-content-secondary);
+  padding: 0;
 }
 
 .dirty:invalid ~ label {
@@ -131,4 +150,9 @@ label {
 
 .dirty:invalid ~ .custom-icon {
   --bl-input-icon-color: var(--bl-color-danger);
+}
+
+:host([size=large]) {
+  --bl-input-padding-vertical: var(--bl-size-xs);
+  --bl-input-padding-horizontal: var(--bl-size-m);
 }
