@@ -83,6 +83,12 @@ export default class BlInput extends LitElement {
     return this._dirty;
   }
 
+  @state() private _hasValue = false;
+
+  get hasValue(): boolean {
+    return this._hasValue;
+  }
+
   get _invalidText() {
     return this.customInvalidText || this.input?.validationMessage;
   }
@@ -94,6 +100,7 @@ export default class BlInput extends LitElement {
   private inputHandler() {
     this.validity = this.input?.validity;
     this.value = this.input.value;
+    this._hasValue = this.value.length > 0;
     this.event('bl-input', this.input.value);
   }
 
@@ -110,6 +117,7 @@ export default class BlInput extends LitElement {
   }
 
   firstUpdated() {
+    this._hasValue = this.value.length > 0;
     if (this._customError) {
       this.input?.setCustomValidity(this._customError);
       this.requestUpdate();
@@ -133,9 +141,11 @@ export default class BlInput extends LitElement {
         type=${this.type}
         class=${classMap({
           dirty: this._dirty,
-          "has-icon": this.icon || this._invalidState
+          "has-icon": this.icon || this._invalidState,
+          "has-value": this.hasValue
         })}
-        placeholder="${this.placeholder || this.label}"
+        value=${this.value}
+        placeholder="${this.placeholder}"
         minlength="${ifDefined(this.minlength)}"
         maxlength="${ifDefined(this.maxlength)}"
         min="${ifDefined(this.min)}"
@@ -148,7 +158,9 @@ export default class BlInput extends LitElement {
       ${label}
       ${icon}
       <bl-icon class="error-icon" name="alert"></bl-icon>
-     ${invalidMessage || helpMessage}`;
+     ${invalidMessage}
+     ${helpMessage}
+    `;
   }
 }
 

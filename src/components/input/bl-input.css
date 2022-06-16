@@ -1,95 +1,134 @@
 :host {
-    display: inline-block;
-    width: 200px; /* ? */
-    position: relative;
+  display: inline-block;
+  width: 200px; /* ? */
+  position: relative;
 
-    --bl-input-padding-vertical: var(--bl-size-2xs);
-    --bl-input-padding-horizontal: var(--bl-size-xs);
-    --bl-input-border-color: var(--bl-color-border);
-    --bl-input-icon-color: var(--bl-color-content-tertiary);
+  --bl-input-padding-vertical: var(--bl-size-2xs);
+  --bl-input-padding-horizontal: var(--bl-size-xs);
+  --bl-input-border-color: var(--bl-color-border);
+  --bl-input-icon-color: var(--bl-color-content-tertiary);
+  --bl-input-text-color: var(--bl-color-content-primary)
 }
 
 
 input {
-    outline: none; /* ? */
-    box-sizing: border-box;
-    border: none;
-    width: 100%;
-    font: var(--bl-font-title-3-regular);
-    padding: var(--bl-input-padding-vertical) var(--bl-input-padding-horizontal);
-    margin: 0;
-    box-shadow: inset 0 0 0 1px var(--bl-input-border-color);
-    border-radius: 4px; /* ? */
+  outline: none; /* ? */
+  box-sizing: border-box;
+  border: none;
+  width: 100%;
+  font: var(--bl-font-title-3-regular);
+  padding: var(--bl-input-padding-vertical) var(--bl-input-padding-horizontal);
+  margin: 0;
+  box-shadow: inset 0 0 0 1px var(--bl-input-border-color);
+  border-radius: 4px; /* ? */
+  color: var(--bl-input-text-color);
 }
 
 bl-icon {
-    position: absolute;
-    top: var(--bl-input-padding-vertical);
-    right: var(--bl-input-padding-horizontal);
-    font-size: var(--bl-size-m);
-    z-index: 1;
-    color: var(--bl-input-icon-color);
+  position: absolute;
+  top: var(--bl-input-padding-vertical);
+  right: var(--bl-input-padding-horizontal);
+  font-size: var(--bl-size-m);
+  z-index: 1;
+  color: var(--bl-input-icon-color);
 }
 
 input:focus {
-    --bl-input-border-color: var(--bl-color-primary);
+  --bl-input-border-color: var(--bl-color-primary);
+}
+
+::placeholder {
+  color: transparent;
+  transition: color ease-out .4s;
+}
+
+input:focus::placeholder {
+  color: var(--bl-color-content-tertiary);
+}
+
+input:disabled {
+  background-color: var(--bl-color-background-primary);
+
+  --bl-input-text-color: var(--bl-color-content-tertiary);
 }
 
 input:focus ~ bl-icon {
-    --bl-input-icon-color: var(--bl-color-primary);
+  --bl-input-icon-color: var(--bl-color-primary);
 }
 
 input.dirty:invalid {
-    box-shadow: inset 0 0 0 1px var(--bl-color-danger);
+  box-shadow: inset 0 0 0 1px var(--bl-color-danger);
 }
 
 input.has-icon {
-    padding-right: calc(var(--bl-size-xs) * 2 + var(--bl-size-m));
+  padding-right: calc(var(--bl-size-xs) * 2 + var(--bl-size-m));
 }
 
 .error-icon,
 .invalid-text {
-    display: none;
+  display: none;
 }
 
 label {
-    display: none;
-    position: absolute;
-    left: var(--bl-size-2xs);
-    transform: translateY(-50%);
-    font: var(--bl-font-form-label);
-    color: var(--bl-color-content-secondary);
-    padding: 0 var(--bl-size-3xs);
-    background-color: var(--bl-color-background-secondary);
+  position: absolute;
+  top: var(--bl-input-padding-vertical);
+  left: var(--bl-input-padding-horizontal);
+  transition: all ease-in .2s;
+  pointer-events: none;
+  font: var(--bl-font-title-3-regular);
+  color: var(--bl-color-content-tertiary);
+  padding: 0;
+}
+
+:where(input:focus,input.has-value) ~ label {
+  top: 0;
+  left: var(--bl-size-2xs);
+  transform: translateY(-50%);
+  font: var(--bl-font-form-label);
+  color: var(--bl-color-content-secondary);
+  padding: 0 var(--bl-size-3xs);
+  background-color: var(--bl-color-background-secondary);
+  pointer-events: initial;
+}
+
+.dirty:invalid ~ label {
+  color: var(--bl-color-danger);
+}
+
+.invalid-text, .help-text {
+  font: var(--bl-font-title-4-regular);
+  padding: var(--bl-size-3xs) var(--bl-input-padding-horizontal) ;
+  margin: 0;
 }
 
 .invalid-text {
-    color: var(--bl-color-danger);
-    font: var(--bl-font-title-4-regular);
-    padding: 3px 16px;
-    margin: 0;
+  color: var(--bl-color-danger);
 }
 
-:where(input:focus,input:not(:placeholder-shown)) ~ label {
-    display: inline-block;
+.help-text {
+  color: var(--bl-color-content-secondary);
 }
 
 .error-icon {
-    color: var(--bl-color-danger);
+  color: var(--bl-color-danger);
 }
 
 .dirty:invalid ~ .invalid-text {
-    display: block;
+  display: block;
+}
+
+.dirty:invalid ~ .help-text {
+  display: none;
 }
 
 .dirty:invalid ~ .error-icon {
-    display: inline-block;
+  display: inline-block;
 }
 
 .dirty:invalid ~ .custom-icon ~ .error-icon {
-    display: none;
+  display: none;
 }
 
 .dirty:invalid ~ .custom-icon {
-    --bl-input-icon-color: var(--bl-color-danger);
+  --bl-input-icon-color: var(--bl-color-danger);
 }
