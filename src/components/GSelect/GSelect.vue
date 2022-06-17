@@ -33,14 +33,13 @@
             v-model="searchText"
           />
         </GBox>
-        <GBox
-          flex
-          align="start"
+        <GSelectOption
           class="item"
           :class="{ disabled: isDisabled(item) }"
           v-for="(item, index) in filteredOptions"
           :key="`item_wrapper_${item.toString()}_${index}`"
           @click.stop="clickItem(item)"
+          :init-intersection-observer="removeOptionsFromDom"
         >
           <GCheckbox
             v-if="isCheckbox"
@@ -54,7 +53,7 @@
             :class="{ disabled: isDisabled(item) }"
             v-text="getItemText(item)"
           />
-        </GBox>
+        </GSelectOption>
       </div>
     </GFieldWrapper>
   </div>
@@ -65,8 +64,8 @@ import GFieldWrapper from '../GFieldWrapper/GFieldWrapper.vue';
 import GInput from '../GInput/GInput.vue';
 import GCheckbox from '../GCheckbox/GCheckbox.vue';
 import GBox from '../GBox/GBox.vue';
+import GSelectOption from './GSelectOption.vue';
 import { isEqualObject, isEmptyObject } from '../../utils/object';
-
 const isEqualValue = (compare: any, to: any) => {
   if (typeof to === 'object') {
     return isEqualObject(compare, to);
@@ -82,6 +81,7 @@ export default {
     GInput,
     GCheckbox,
     GBox,
+    GSelectOption,
   },
   props: {
     isOutlineLabel: {
@@ -354,6 +354,8 @@ export default {
   }
 
   .item {
+    display: flex;
+    align-items: flex-start;
     padding-bottom: 10px;
     border-bottom: 1px solid #d5d9e1;
     margin-bottom: 10px;
