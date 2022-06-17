@@ -8,7 +8,7 @@ const litCss = fromRollup(rollupLitCss);
 export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   files: 'src/**/*.test.ts',
   nodeResolve: true,
-
+  port: 8765,
   coverageConfig: {
     include: ['src/**/*.ts'],
     threshold: {

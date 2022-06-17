@@ -119,7 +119,6 @@ export default class BlInput extends LitElement {
   }
 
   private event(name: string, detail: string) {
-    console.log(name);
     this.dispatchEvent(
       new CustomEvent(name, { detail, bubbles: true, composed: true })
     );
@@ -131,7 +130,6 @@ export default class BlInput extends LitElement {
       this.input?.setCustomValidity(this._customError);
       this.requestUpdate();
     }
-
     this.validity = this.input?.validity;
   }
 
