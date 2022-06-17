@@ -23,7 +23,7 @@ exports[`GSelect should match snapshot when show is prop is given as false  1`] 
           <!---->
            
           <div
-            class="item g-d-flex g-d-align-start"
+            class="item"
           >
             <!---->
              
@@ -34,7 +34,7 @@ exports[`GSelect should match snapshot when show is prop is given as false  1`] 
             </span>
           </div>
           <div
-            class="item g-d-flex g-d-align-start"
+            class="item"
           >
             <!---->
              
@@ -82,13 +82,13 @@ exports[`GSelect should render correct snapshot with given text and value keys 1
         <p class="valueText"></p>
         <div class="s-content g-d-none">
           <!---->
-          <div class="item g-d-flex g-d-align-start">
+          <div class="item">
             <!----> <span class="text">name1</span>
           </div>
-          <div class="item g-d-flex g-d-align-start">
+          <div class="item">
             <!----> <span class="text">name2</span>
           </div>
-          <div class="item g-d-flex g-d-align-start">
+          <div class="item">
             <!----> <span class="text">name3</span>
           </div>
         </div> <svg dataName="chevron-down" dataTags="" dataType="chevron-down" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="var(--light-grey-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="g-icon feather feather--chevron-down">
