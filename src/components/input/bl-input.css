@@ -7,7 +7,7 @@
   --bl-input-padding-horizontal: var(--bl-size-xs);
   --bl-input-border-color: var(--bl-color-border);
   --bl-input-icon-color: var(--bl-color-content-tertiary);
-  --bl-input-text-color: var(--bl-color-content-primary)
+  --bl-input-text-color: var(--bl-color-content-primary);
 }
 
 
