@@ -58,19 +58,6 @@ export default class BlInput extends LitElement {
   @property({ type: String, reflect: true })
   size?: ButtonSize = 'medium';
 
-  private _customError = '';
-
-  @property({ type: String })
-  get invalid(): string {
-    return this._customError;
-  }
-
-  set invalid(value: string) {
-    this._dirty = true;
-    this._customError = value;
-    this.input?.setCustomValidity(this._customError);
-  }
-
   @property({ type: Boolean, reflect: true })
   disabled: boolean;
 
@@ -79,7 +66,6 @@ export default class BlInput extends LitElement {
 
   @property({ type: String, attribute: 'invalid-text' })
   customInvalidText: string;
-
 
   @property({ type: String, attribute: 'help-text' })
   helpText: string;
@@ -103,7 +89,7 @@ export default class BlInput extends LitElement {
   }
 
   get _invalidState() {
-    return this.invalid || (this.input && !this.input?.validity.valid);
+    return this.input && !this.input?.validity.valid;
   }
 
   private inputHandler() {
@@ -126,11 +112,10 @@ export default class BlInput extends LitElement {
 
   firstUpdated() {
     this._hasValue = this.value.length > 0;
-    if (this._customError) {
-      this.input?.setCustomValidity(this._customError);
+    this.validity = this.input?.validity;
+    if (this._invalidState) {
       this.requestUpdate();
     }
-    this.validity = this.input?.validity;
   }
 
   render(): TemplateResult {
@@ -147,7 +132,7 @@ export default class BlInput extends LitElement {
       <input
         type=${this.type}
         class=${classMap({
-          dirty: this._dirty,
+          dirty: this.dirty,
           "has-icon": this.icon || this._invalidState,
           "has-value": this.hasValue
         })}

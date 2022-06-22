@@ -51,7 +51,7 @@
     "reboot": "npm run clean && npm install && npm start",
     "test": "web-test-runner --coverage",
     "test:component": "npm run test -- --group",
-    "test:watch": "web-test-runner --watch",
+    "test:watch": "web-test-runner --coverage --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic",
