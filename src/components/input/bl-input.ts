@@ -7,7 +7,7 @@ import '../icon/bl-icon';
 import style from './bl-input.css';
 import { ButtonSize } from '../button/bl-button';
 
-export type InputSize =  'medium' | 'large';
+export type InputSize = 'medium' | 'large';
 /**
  * @tag bl-input
  * @summary Baklava Input component
@@ -105,9 +105,7 @@ export default class BlInput extends LitElement {
   }
 
   private event(name: string, detail: string) {
-    this.dispatchEvent(
-      new CustomEvent(name, { detail, bubbles: true, composed: true })
-    );
+    this.dispatchEvent(new CustomEvent(name, { detail, bubbles: true, composed: true }));
   }
 
   firstUpdated() {
@@ -122,9 +120,7 @@ export default class BlInput extends LitElement {
     const invalidMessage = this._invalidState
       ? html`<p class="invalid-text">${this._invalidText}</p>`
       : ``;
-    const helpMessage = this.helpText
-      ? html`<p class="help-text">${this.helpText}</p>`
-      : ``;
+    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
     const icon = this.icon ? html`<bl-icon class="custom-icon" name=${this.icon}></bl-icon>` : '';
     const label = this.label ? html`<label>${this.label}</label>` : '';
 
@@ -132,9 +128,9 @@ export default class BlInput extends LitElement {
       <input
         type=${this.type}
         class=${classMap({
-          dirty: this.dirty,
-          "has-icon": this.icon || this._invalidState,
-          "has-value": this.hasValue
+          'dirty': this.dirty,
+          'has-icon': this.icon || this._invalidState,
+          'has-value': this.hasValue,
         })}
         value=${this.value}
         placeholder="${this.placeholder}"
@@ -147,11 +143,9 @@ export default class BlInput extends LitElement {
         @change=${this.changeHandler}
         @input=${this.inputHandler}
       />
-      ${label}
-      ${icon}
+      ${label} ${icon}
       <bl-icon class="error-icon" name="alert"></bl-icon>
-     ${invalidMessage}
-     ${helpMessage}
+      ${invalidMessage} ${helpMessage}
     `;
   }
 }

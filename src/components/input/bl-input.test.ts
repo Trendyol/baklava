@@ -41,13 +41,10 @@ describe('bl-input', () => {
     );
   });
 
-
   it('should set type number', async () => {
     const el = await fixture<BlInput>(html`<bl-input type="number"></bl-input>`);
     expect(el.type).to.equal('number');
-    expect(el.shadowRoot?.querySelector('input')?.getAttribute('type')).to.equal(
-      'number'
-    );
+    expect(el.shadowRoot?.querySelector('input')?.getAttribute('type')).to.equal('number');
   });
 
   it('should set label', async () => {
@@ -89,9 +86,13 @@ describe('bl-input', () => {
     });
 
     it('should set invalid text', async () => {
-      const errorMessage = "This field is mandatory";
-      const el = await fixture<BlInput>(html`<bl-input required invalid-text="${errorMessage}"></bl-input>`);
-      const errorMessageElement = <HTMLParagraphElement>el.shadowRoot?.querySelector('.invalid-text');
+      const errorMessage = 'This field is mandatory';
+      const el = await fixture<BlInput>(
+        html`<bl-input required invalid-text="${errorMessage}"></bl-input>`
+      );
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector('.invalid-text')
+      );
 
       expect(el.validity.valid).to.be.false;
 
@@ -101,28 +102,26 @@ describe('bl-input', () => {
   });
 
   describe('events', () => {
-    it('should fire bl-input event when user enters a value',async () => {
+    it('should fire bl-input event when user enters a value', async () => {
       const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
       el.input.value = 'some value';
 
-      setTimeout(() => el.input.dispatchEvent(new Event("input")));
+      setTimeout(() => el.input.dispatchEvent(new Event('input')));
 
       const ev = await oneEvent(el, 'bl-input');
       expect(ev).to.exist;
       expect(ev.detail).to.be.equal('some value');
-
     });
 
-    it('should fire bl-input event when input value changes',async () => {
+    it('should fire bl-input event when input value changes', async () => {
       const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
       el.input.value = 'some value';
 
-      setTimeout(() => el.input.dispatchEvent(new Event("change")));
+      setTimeout(() => el.input.dispatchEvent(new Event('change')));
 
       const ev = await oneEvent(el, 'bl-change');
       expect(ev).to.exist;
       expect(ev.detail).to.be.equal('some value');
-
     });
   });
 });
