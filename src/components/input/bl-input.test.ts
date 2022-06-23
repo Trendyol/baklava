@@ -99,6 +99,18 @@ describe('bl-input', () => {
       expect(errorMessageElement).to.exist;
       expect(errorMessageElement?.innerText).to.equal(errorMessage);
     });
+
+    it('should show error when reportValidity method called', async () => {
+      const el = await fixture<BlInput>(
+        html`<bl-input required></bl-input>`
+      );
+      el.reportValidity()
+      expect(el.validity.valid).to.be.false;
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector('.invalid-text')
+      );
+      expect(errorMessageElement).to.visible;
+    });
   });
 
   describe('events', () => {

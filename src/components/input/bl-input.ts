@@ -12,9 +12,25 @@ export type InputSize = 'medium' | 'large';
  * @tag bl-input
  * @summary Baklava Input component
  *
- * @property {string} value - Value of the input
+ * @property {string} label - Sets label of the input
+ * @property {string} type - Sets type of the input
+ * @property {string} placeholder - Sets placeholder of the input
+ * @property {string} value - Sets value of the input
+ * @property {boolean} required - Sets required of the input
+ * @property {boolean} disabled - Disables the input
+ * @property {number} minlength - Sets min length of the input
+ * @property {number} maxlength - Sets max length of the input
+ * @property {number} max - Sets max value of the input
+ * @property {number} min - Sets min value of the input
+ * @property {string} icon - Sets icon name of the input
+ * @property {string} size - Sets size of the input
+ * @property {boolean} label-fixed - Fixes label top of the input
+ * @property {string} help-text - Sets help text of the input
+ * @property {string} invalid-text - Sets invalid text of the input
+ * @method {} reportValidity - Runs input validation
  *
- * @event {CustomEvent} bl-change - Fires when input changed
+ * @event {CustomEvent} bl-input - Fires when the value of an input element has been changed.
+ * @event {CustomEvent} bl-change - Fires when an alteration to the element's value is committed by the user. Unlike the input event, the change event is not necessarily fired for each alteration to an element's value.
  *
  */
 @customElement('bl-input')
@@ -78,10 +94,8 @@ export default class BlInput extends LitElement {
     return this._dirty;
   }
 
-  @state() private _hasValue = false;
-
   get hasValue(): boolean {
-    return this._hasValue;
+    return this.value.length > 0;
   }
 
   get _invalidText() {
@@ -92,10 +106,16 @@ export default class BlInput extends LitElement {
     return this.input && !this.input?.validity.valid;
   }
 
+  reportValidity() {
+    this._dirty = true;
+    this.input.checkValidity();
+  }
+
+
+
   private inputHandler() {
     this.validity = this.input?.validity;
     this.value = this.input.value;
-    this._hasValue = this.value.length > 0;
     this.event('bl-input', this.input.value);
   }
 
@@ -109,7 +129,6 @@ export default class BlInput extends LitElement {
   }
 
   firstUpdated() {
-    this._hasValue = this.value.length > 0;
     this.validity = this.input?.validity;
     if (this._invalidState) {
       this.requestUpdate();
@@ -118,10 +137,11 @@ export default class BlInput extends LitElement {
 
   render(): TemplateResult {
     const invalidMessage = this._invalidState
-      ? html`<p class="invalid-text">${this._invalidText}</p>`
+      ? html`<p class='invalid-text'>${this._invalidText}</p>`
       : ``;
-    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
-    const icon = this.icon ? html`<bl-icon class="custom-icon" name=${this.icon}></bl-icon>` : '';
+    const helpMessage = this.helpText ? html`<p class='help-text'>${this.helpText}</p>` : ``;
+    const icon = this.icon ? html`
+      <bl-icon class='custom-icon' name='${this.icon}'></bl-icon>` : '';
     const label = this.label ? html`<label>${this.label}</label>` : '';
 
     return html`
