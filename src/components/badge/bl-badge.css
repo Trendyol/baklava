@@ -1,0 +1,52 @@
+:host {
+  display: inline-block;
+  max-width: 100%;
+
+  --bl-badge-bg-color: var(--bl-color-accent-primary-background);
+  --bl-badge-color: var(--bl-color-primary);
+  --bl-badge-font: var(--bl-size-2xs);
+  --bl-badge-padding-vertical: var(--bl-size-3xs);
+  --bl-badge-padding-horizontal: var(--bl-size-3xs);
+  --bl-badge-margin-icon: var(--bl-badge-padding-vertical);
+  --bl-badge-icon-size: var(--bl-size-s);
+  --bl-badge-height: var(--bl-size-xl);
+}
+
+.badge {
+  display: flex;
+  gap: var(--bl-badge-margin-icon);
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  border: none;
+  border-radius: var(--bl-size-4xs);
+  margin: 0;
+  padding: var(--bl-badge-padding-vertical) var(--bl-badge-padding-horizontal);
+  background-color: var(--bl-badge-bg-color);
+  color: var(--bl-badge-color, white);
+  font: var(--bl-badge-font);
+  font-kerning: none;
+  height: var(--bl-badge-height);
+}
+
+:host([size='small']) {
+  --bl-badge-font: var(--bl-font-caption-small-text);
+  --bl-badge-height: var(--bl-size-m);
+}
+
+:host([size='medium']) {
+  --bl-badge-font: var(--bl-font-title-4-medium);
+}
+
+:host([size='large']) {
+  --bl-badge-font: var(--bl-font-title-3-medium);
+  --bl-badge-padding-vertical: var(--bl-size-2xs);
+  --bl-badge-padding-horizontal: var(--bl-size-2xs);
+  --bl-badge-height: var(--bl-size-2xl);
+  --bl-badge-icon-size: var(--bl-size-m);
+}
+
+:host slot[name='badge-icon'] {
+  font-size: var(--bl-badge-icon-size);
+}
