@@ -10,7 +10,6 @@
   --bl-input-text-color: var(--bl-color-content-primary);
 }
 
-
 input {
   outline: none; /* ? */
   box-sizing: border-box;
@@ -38,7 +37,7 @@ input:focus ~ bl-icon {
 }
 
 :host([label-fixed]) bl-icon {
-  top: calc(var(--bl-input-padding-vertical) + var(--bl-size-m))
+  top: calc(var(--bl-input-padding-vertical) + var(--bl-size-m));
 }
 
 input:focus {
@@ -47,10 +46,10 @@ input:focus {
 
 :host([label]) ::placeholder {
   color: transparent;
-  transition: color ease-out .4s;
+  transition: color ease-out 0.4s;
 }
 
- :host input:focus::placeholder {
+:host input:focus::placeholder {
   color: var(--bl-color-content-tertiary);
 }
 
@@ -77,14 +76,14 @@ label {
   position: absolute;
   top: var(--bl-input-padding-vertical);
   left: var(--bl-input-padding-horizontal);
-  transition: all ease-in .2s;
+  transition: all ease-in 0.2s;
   pointer-events: none;
   font: var(--bl-font-title-3-regular);
   color: var(--bl-color-content-tertiary);
   padding: 0;
 }
 
-:where(input:focus,input.has-value) ~ label {
+:where(input:focus, input.has-value) ~ label {
   top: 0;
   left: var(--bl-size-2xs);
   transform: translateY(-50%);
@@ -114,9 +113,10 @@ label {
   color: var(--bl-color-danger);
 }
 
-.invalid-text, .help-text {
+.invalid-text,
+.help-text {
   font: var(--bl-font-title-4-regular);
-  padding: var(--bl-size-3xs) var(--bl-input-padding-horizontal) ;
+  padding: var(--bl-size-3xs) var(--bl-input-padding-horizontal);
   margin: 0;
 }
 
@@ -152,7 +152,7 @@ label {
   --bl-input-icon-color: var(--bl-color-danger);
 }
 
-:host([size=large]) {
+:host([size='large']) {
   --bl-input-padding-vertical: var(--bl-size-xs);
   --bl-input-padding-horizontal: var(--bl-size-m);
 }

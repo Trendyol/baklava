@@ -51,7 +51,7 @@
     "reboot": "npm run clean && npm install && npm start",
     "test": "web-test-runner --coverage",
     "test:component": "npm run test -- --group",
-    "test:watch": "web-test-runner --watch",
+    "test:watch": "web-test-runner --coverage --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic",
@@ -83,7 +83,7 @@
     "@storybook/web-components": "^6.5.5",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
-    "@web/dev-server-esbuild": "^0.3.0",
+    "@web/dev-server-esbuild": "0.2.16",
     "@web/dev-server-import-maps": "^0.0.6",
     "@web/dev-server-rollup": "^0.3.17",
     "@web/test-runner": "^0.13.15",
@@ -117,13 +117,15 @@
     "web-component-analyzer": "^1.0.3"
   },
   "lint-staged": {
-    "**/*.{js,,ts,}": [
-      "bash -c tsc --noEmit",
-      "npx prettier",
-      "npx eslint --fix"
+    "**/*.{ts}": [
+      "bash -c tsc --noEmit"
+    ],
+    "**/*.{js}": [
+      "npm run lint:prettier",
+      "npm run lint:eslint"
     ],
     "**/*.{css,}": [
-      "npx stylelint --fix src/components/**/*.css"
+      "npm run lint:style"
     ]
   }
 }

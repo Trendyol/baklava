@@ -7,7 +7,7 @@ import '../icon/bl-icon';
 import style from './bl-input.css';
 import { ButtonSize } from '../button/bl-button';
 
-export type InputSize =  'medium' | 'large';
+export type InputSize = 'medium' | 'large';
 /**
  * @tag bl-input
  * @summary Baklava Input component
@@ -58,19 +58,6 @@ export default class BlInput extends LitElement {
   @property({ type: String, reflect: true })
   size?: ButtonSize = 'medium';
 
-  private _customError = '';
-
-  @property({ type: String })
-  get invalid(): string {
-    return this._customError;
-  }
-
-  set invalid(value: string) {
-    this._dirty = true;
-    this._customError = value;
-    this.input?.setCustomValidity(this._customError);
-  }
-
   @property({ type: Boolean, reflect: true })
   disabled: boolean;
 
@@ -79,7 +66,6 @@ export default class BlInput extends LitElement {
 
   @property({ type: String, attribute: 'invalid-text' })
   customInvalidText: string;
-
 
   @property({ type: String, attribute: 'help-text' })
   helpText: string;
@@ -103,7 +89,7 @@ export default class BlInput extends LitElement {
   }
 
   get _invalidState() {
-    return this.invalid || (this.input && !this.input?.validity.valid);
+    return this.input && !this.input?.validity.valid;
   }
 
   private inputHandler() {
@@ -119,27 +105,22 @@ export default class BlInput extends LitElement {
   }
 
   private event(name: string, detail: string) {
-    this.dispatchEvent(
-      new CustomEvent(name, { detail, bubbles: true, composed: true })
-    );
+    this.dispatchEvent(new CustomEvent(name, { detail, bubbles: true, composed: true }));
   }
 
   firstUpdated() {
     this._hasValue = this.value.length > 0;
-    if (this._customError) {
-      this.input?.setCustomValidity(this._customError);
+    this.validity = this.input?.validity;
+    if (this._invalidState) {
       this.requestUpdate();
     }
-    this.validity = this.input?.validity;
   }
 
   render(): TemplateResult {
     const invalidMessage = this._invalidState
       ? html`<p class="invalid-text">${this._invalidText}</p>`
       : ``;
-    const helpMessage = this.helpText
-      ? html`<p class="help-text">${this.helpText}</p>`
-      : ``;
+    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
     const icon = this.icon ? html`<bl-icon class="custom-icon" name=${this.icon}></bl-icon>` : '';
     const label = this.label ? html`<label>${this.label}</label>` : '';
 
@@ -147,9 +128,9 @@ export default class BlInput extends LitElement {
       <input
         type=${this.type}
         class=${classMap({
-          dirty: this._dirty,
-          "has-icon": this.icon || this._invalidState,
-          "has-value": this.hasValue
+          'dirty': this.dirty,
+          'has-icon': this.icon || this._invalidState,
+          'has-value': this.hasValue,
         })}
         value=${this.value}
         placeholder="${this.placeholder}"
@@ -162,11 +143,9 @@ export default class BlInput extends LitElement {
         @change=${this.changeHandler}
         @input=${this.inputHandler}
       />
-      ${label}
-      ${icon}
+      ${label} ${icon}
       <bl-icon class="error-icon" name="alert"></bl-icon>
-     ${invalidMessage}
-     ${helpMessage}
+      ${invalidMessage} ${helpMessage}
     `;
   }
 }
