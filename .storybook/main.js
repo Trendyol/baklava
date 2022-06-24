@@ -2,7 +2,10 @@ module.exports = {
   stories: ['../*.md', '../docs/**/*.stories.mdx', '../src/**/*.stories.mdx'],
   addons: [
     '@storybook/addon-links',
-    '@storybook/addon-docs',
+    {
+      name: "@storybook/addon-docs",
+      options: { transcludeMarkdown: true },
+    },
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
   ],
