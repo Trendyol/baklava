@@ -49,7 +49,7 @@ input:focus {
   transition: color ease-out 0.4s;
 }
 
-:host input:focus::placeholder {
+:host input:focus::placeholder, :host([label-fixed]) ::placeholder {
   color: var(--bl-color-content-tertiary);
 }
 

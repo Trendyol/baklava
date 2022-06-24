@@ -5,7 +5,6 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import '../icon/bl-icon';
 
 import style from './bl-input.css';
-import { ButtonSize } from '../button/bl-button';
 
 export type InputSize = 'medium' | 'large';
 /**
@@ -72,7 +71,7 @@ export default class BlInput extends LitElement {
   icon?: string;
 
   @property({ type: String, reflect: true })
-  size?: ButtonSize = 'medium';
+  size?: InputSize = 'medium';
 
   @property({ type: Boolean, reflect: true })
   disabled: boolean;
