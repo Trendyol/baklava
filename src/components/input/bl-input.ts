@@ -111,8 +111,6 @@ export default class BlInput extends LitElement {
     this.input.checkValidity();
   }
 
-
-
   private inputHandler() {
     this.validity = this.input?.validity;
     this.value = this.input.value;
@@ -137,11 +135,12 @@ export default class BlInput extends LitElement {
 
   render(): TemplateResult {
     const invalidMessage = this._invalidState
-      ? html`<p class='invalid-text'>${this._invalidText}</p>`
+      ? html`<p class="invalid-text">${this._invalidText}</p>`
       : ``;
-    const helpMessage = this.helpText ? html`<p class='help-text'>${this.helpText}</p>` : ``;
-    const icon = this.icon ? html`
-      <bl-icon class='custom-icon' name='${this.icon}'></bl-icon>` : '';
+    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
+    const icon = this.icon
+      ? html` <bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
+      : '';
     const label = this.label ? html`<label>${this.label}</label>` : '';
 
     return html`
