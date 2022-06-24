@@ -54,7 +54,7 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
 
   testRunnerHtml: testFramework =>
     `<html>
-      <head><link rel="stylesheet" href="./dist/themes/default.css"></script></head>
+      <head><link rel="stylesheet" href="./dist/themes/default.css"></head>
       <body>
         <script type="module" src="${testFramework}"></script>
       </body>
