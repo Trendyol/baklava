@@ -1,5 +1,7 @@
 # Baklava Design System
 
+> This is a work-in-progress version. If you want to work on previous version (Grace) please check `main` branch.
+
 Baklava is a design system provided by [Trendyol](https://github.com/trendyol) to create a consistent UI/UX for app users. 
 
 Web implementation of the design system is created as native web components so it can be used within every type of web frameworks including Vue, React or Angular. Our target is providing a UI library that has neatly designed and developed for providing best possible user experience for the users of applications that uses Baklava DS.
