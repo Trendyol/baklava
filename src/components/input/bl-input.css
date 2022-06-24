@@ -1,7 +1,6 @@
 :host {
   display: inline-block;
   width: 200px;
-  /* ? */
   position: relative;
 
   --bl-input-padding-vertical: var(--bl-size-2xs);
@@ -13,7 +12,6 @@
 
 input {
   outline: none;
-  /* ? */
   box-sizing: border-box;
   border: none;
   width: 100%;
@@ -22,7 +20,6 @@ input {
   margin: 0;
   box-shadow: inset 0 0 0 1px var(--bl-input-border-color);
   border-radius: 4px;
-  /* ? */
   color: var(--bl-input-text-color);
 }
 
@@ -35,7 +32,7 @@ bl-icon {
   color: var(--bl-input-icon-color);
 }
 
-input:focus~bl-icon {
+input:focus ~ bl-icon {
   --bl-input-icon-color: var(--bl-color-primary);
 }
 
@@ -87,7 +84,7 @@ label {
   padding: 0;
 }
 
-:where(input:focus, input.has-value)~label {
+:where(input:focus, input.has-value) ~ label {
   top: 0;
   left: var(--bl-size-2xs);
   transform: translateY(-50%);
@@ -113,7 +110,7 @@ label {
   padding: 0;
 }
 
-.dirty:invalid~label {
+.dirty:invalid ~ label {
   color: var(--bl-color-danger);
 }
 
@@ -136,23 +133,23 @@ label {
   color: var(--bl-color-danger);
 }
 
-.dirty:invalid~.invalid-text {
+.dirty:invalid ~ .invalid-text {
   display: block;
 }
 
-.dirty:invalid~.help-text {
+.dirty:invalid ~ .help-text {
   display: none;
 }
 
-.dirty:invalid~.error-icon {
+.dirty:invalid ~ .error-icon {
   display: inline-block;
 }
 
-.dirty:invalid~.custom-icon~.error-icon {
+.dirty:invalid ~ .custom-icon ~ .error-icon {
   display: none;
 }
 
-.dirty:invalid~.custom-icon {
+.dirty:invalid ~ .custom-icon {
   --bl-input-icon-color: var(--bl-color-danger);
 }
 
