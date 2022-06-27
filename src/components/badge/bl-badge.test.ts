@@ -60,46 +60,46 @@ describe('bl-badge', () => {
     expect(el.shadowRoot?.querySelector('span')).to.exist;
   });
 
-    it('should be rendered with correct size attribute', async () => {
-      //when
-      const el = await fixture<typeOfBlBadge>(html`<bl-badge size='large'>Test</bl-badge>`);
+  it('should be rendered with correct size attribute', async () => {
+    //when
+    const el = await fixture<typeOfBlBadge>(html`<bl-badge size='large'>Test</bl-badge>`);
 
-      //then
-      expect(el.getAttribute('size')).to.eq('large');
-    });
+    //then
+    expect(el.getAttribute('size')).to.eq('large');
+  });
 
-    it('should be rendered with correct size attribute when size attribute was changed', async () => {
-      //given
-      const el = await fixture<typeOfBlBadge>(html`<bl-badge size='large'>Test</bl-badge>`);
-      el.setAttribute('size', 'medium');
+  it('should be rendered with correct size attribute when size attribute was changed', async () => {
+    //given
+    const el = await fixture<typeOfBlBadge>(html`<bl-badge size='large'>Test</bl-badge>`);
+    el.setAttribute('size', 'medium');
 
-      //when
-      await elementUpdated(el);
+    //when
+    await elementUpdated(el);
 
-      //then
-      expect(el.getAttribute('size')).to.eq('medium');
-    });
+    //then
+    expect(el.getAttribute('size')).to.eq('medium');
+  });
 
-    it('should be rendered with icon', async () => {
-      //when
-      const el = await fixture<typeOfBlBadge>(html`<bl-badge icon="info">Test</bl-badge>`);
+  it('should be rendered with icon', async () => {
+    //when
+    const el = await fixture<typeOfBlBadge>(html`<bl-badge icon="info">Test</bl-badge>`);
 
-      //then
-      expect(el.shadowRoot?.querySelector('bl-icon')).to.exist;
-    });
+    //then
+    expect(el.shadowRoot?.querySelector('bl-icon')).to.exist;
+  });
 
-    it('should not have icon when badge size is small', async () => {
-      //when
-      const el = await fixture(
-        html`<bl-badge icon="info" size="small">Test</bl-badge>`
-      );
+  it('should not have icon when badge size is small', async () => {
+    //when
+    const el = await fixture(
+      html`<bl-badge icon="info" size="small">Test</bl-badge>`
+    );
 
-      //then
-      const iconEl = el.shadowRoot?.querySelector('bl-icon');
-      expect(iconEl).to.exist;
+    //then
+    const iconEl = el.shadowRoot?.querySelector('bl-icon');
+    expect(iconEl).to.exist;
 
-      if (iconEl) {
-        expect(getComputedStyle(iconEl).getPropertyValue('display')).to.equal('none');
-      }
-    });
+    if (iconEl) {
+      expect(getComputedStyle(iconEl).getPropertyValue('display')).to.equal('none');
+    }
+  });
 });
