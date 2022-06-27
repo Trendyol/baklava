@@ -52,9 +52,7 @@ describe('bl-badge', () => {
 
   it('should be rendered when there is slot', async () => {
     //when
-    const el = await fixture<typeOfBlBadge>(
-      html` <bl-badge><strong>Test</strong></bl-badge> `
-    );
+    const el = await fixture<typeOfBlBadge>(html` <bl-badge><strong>Test</strong></bl-badge> `);
 
     //then
     expect(el.shadowRoot?.querySelector('span')).to.exist;
@@ -62,7 +60,7 @@ describe('bl-badge', () => {
 
   it('should be rendered with correct size attribute', async () => {
     //when
-    const el = await fixture<typeOfBlBadge>(html`<bl-badge size='large'>Test</bl-badge>`);
+    const el = await fixture<typeOfBlBadge>(html`<bl-badge size="large">Test</bl-badge>`);
 
     //then
     expect(el.getAttribute('size')).to.eq('large');
@@ -70,7 +68,7 @@ describe('bl-badge', () => {
 
   it('should be rendered with correct size attribute when size attribute was changed', async () => {
     //given
-    const el = await fixture<typeOfBlBadge>(html`<bl-badge size='large'>Test</bl-badge>`);
+    const el = await fixture<typeOfBlBadge>(html`<bl-badge size="large">Test</bl-badge>`);
     el.setAttribute('size', 'medium');
 
     //when
@@ -90,9 +88,7 @@ describe('bl-badge', () => {
 
   it('should not have icon when badge size is small', async () => {
     //when
-    const el = await fixture(
-      html`<bl-badge icon="info" size="small">Test</bl-badge>`
-    );
+    const el = await fixture(html`<bl-badge icon="info" size="small">Test</bl-badge>`);
 
     //then
     const iconEl = el.shadowRoot?.querySelector('bl-icon');
