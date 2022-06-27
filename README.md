@@ -1,5 +1,7 @@
 # Baklava Design System
 
+![npm package](https://img.shields.io/npm/v/@trendyol-js/baklava/beta.svg) ![jsDelivr hits (npm scoped)](https://img.shields.io/jsdelivr/npm/hm/@trendyol-js/baklava)
+
 > This is a work-in-progress version. If you want to work on previous version (Grace) please check `main` branch.
 
 Baklava is a design system provided by [Trendyol](https://github.com/trendyol) to create a consistent UI/UX for app users. 
