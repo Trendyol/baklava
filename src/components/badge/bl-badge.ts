@@ -30,9 +30,11 @@ export default class BlBadge extends LitElement {
 
   render(): TemplateResult {
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
-    const slots = html`<slot name="badge-icon">${icon}</slot> <slot></slot>`;
 
-    return html`<span class='badge'>${slots}</span>`;
+    return html`<span class="badge">
+      <slot name="icon">${icon}</slot>
+      <slot></slot>
+    </span>`;
   }
 }
 

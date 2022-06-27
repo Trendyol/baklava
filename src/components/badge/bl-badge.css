@@ -30,12 +30,12 @@
   height: var(--bl-badge-height);
 }
 
-:host([size='small']) {
+:host([size=small]) {
   --bl-badge-font: var(--bl-font-caption-small-text);
   --bl-badge-height: var(--bl-size-m);
 }
 
-:host([size='large']) {
+:host([size=large]) {
   --bl-badge-font: var(--bl-font-title-3-medium);
   --bl-badge-padding-vertical: var(--bl-size-2xs);
   --bl-badge-padding-horizontal: var(--bl-size-2xs);
@@ -43,10 +43,10 @@
   --bl-badge-icon-size: var(--bl-size-m);
 }
 
-:host slot[name='badge-icon'] {
+:host ::slotted(bl-icon) {
   font-size: var(--bl-badge-icon-size);
 }
 
-:host([size='small']) bl-icon {
+:host([size=small]) bl-icon {
   display: none;
 }

@@ -35,7 +35,7 @@ describe('bl-badge', () => {
       el,
       `
         <span class="badge">
-          <slot name="badge-icon"></slot>
+          <slot name="icon"></slot>
           <slot></slot>
         </span>
       `
@@ -95,7 +95,11 @@ describe('bl-badge', () => {
       );
 
       //then
-      expect(el.shadowRoot?.querySelector('bl-icon')).to.exist;
-      // expect(el.shadowRoot?.querySelector('bl-icon')).not.displayed;
+      const iconEl = el.shadowRoot?.querySelector('bl-icon');
+      expect(iconEl).to.exist;
+
+      if (iconEl) {
+        expect(getComputedStyle(iconEl).getPropertyValue('display')).to.equal('none');
+      }
     });
 });
