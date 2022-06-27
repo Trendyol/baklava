@@ -4,10 +4,10 @@
 
   --bl-badge-bg-color: var(--bl-color-accent-primary-background);
   --bl-badge-color: var(--bl-color-primary);
-  --bl-badge-font: var(--bl-size-2xs);
+  --bl-badge-font: var(--bl-font-title-4-medium);
   --bl-badge-padding-vertical: var(--bl-size-3xs);
   --bl-badge-padding-horizontal: var(--bl-size-3xs);
-  --bl-badge-margin-icon: var(--bl-badge-padding-vertical);
+  --bl-badge-margin-icon: var(--bl-size-3xs);
   --bl-badge-icon-size: var(--bl-size-s);
   --bl-badge-height: var(--bl-size-xl);
 }
@@ -35,10 +35,6 @@
   --bl-badge-height: var(--bl-size-m);
 }
 
-:host([size='medium']) {
-  --bl-badge-font: var(--bl-font-title-4-medium);
-}
-
 :host([size='large']) {
   --bl-badge-font: var(--bl-font-title-3-medium);
   --bl-badge-padding-vertical: var(--bl-size-2xs);
@@ -49,4 +45,8 @@
 
 :host slot[name='badge-icon'] {
   font-size: var(--bl-badge-icon-size);
+}
+
+:host([size='small']) bl-icon {
+  display: none;
 }

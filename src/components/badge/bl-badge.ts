@@ -1,6 +1,5 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import style from './bl-badge.css';
 import '../icon/bl-icon';
 
@@ -29,20 +28,11 @@ export default class BlBadge extends LitElement {
   @property({ type: String })
   icon?: string;
 
-  get _hasIconBySize() {
-    const hasIconSizes = ['medium', 'large'];
-
-    return hasIconSizes.includes(this.size);
-  }
-
   render(): TemplateResult {
-    const icon = this.icon && this._hasIconBySize ? html`<bl-icon name=${this.icon} />` : '';
+    const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
     const slots = html`<slot name="badge-icon">${icon}</slot> <slot></slot>`;
-    const classes = classMap({
-      badge: true,
-    });
 
-    return html`<span class=${classes}>${slots}</span>`;
+    return html`<span class='badge'>${slots}</span>`;
   }
 }
 

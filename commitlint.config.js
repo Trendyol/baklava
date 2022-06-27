@@ -11,6 +11,7 @@ module.exports = {
         'button',
         'icon',
         'input',
+        'badge'
       ],
     ],
   },

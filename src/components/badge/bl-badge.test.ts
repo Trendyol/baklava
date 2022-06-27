@@ -18,14 +18,19 @@ describe('bl-badge', () => {
     window.fetch = oldFetch;
   });
 
-  it('is defined', () => {
+  it('should be defined badge instance', () => {
+    //when
     const el = document.createElement('bl-badge');
+
+    //then
     assert.instanceOf(el, BlBadge);
   });
 
-  it('renders with default values', async () => {
+  it('should be rendered with default values', async () => {
+    //when
     const el = await fixture<typeOfBlBadge>(html`<bl-badge></bl-badge>`);
 
+    //then
     assert.shadowDom.equal(
       el,
       `
@@ -37,43 +42,60 @@ describe('bl-badge', () => {
     );
   });
 
-  it('check default values', async () => {
+  it('should have correct default values', async () => {
+    //when
     const el = await fixture<typeOfBlBadge>(html`<bl-badge>Test</bl-badge>`);
 
+    //then
     expect(el.size).to.equal('medium');
   });
 
-  describe('Attributes', () => {
-    it('is bound to `size` attribute', async () => {
-      const el = await fixture<typeOfBlBadge>(html`<bl-badge size=${'large'}>Test</bl-badge>`);
-      expect(el.getAttribute('size')).to.eq('large');
+  it('should be rendered when there is slot', async () => {
+    //when
+    const el = await fixture<typeOfBlBadge>(
+      html` <bl-badge><strong>Test</strong></bl-badge> `
+    );
 
+    //then
+    expect(el.shadowRoot?.querySelector('span')).to.exist;
+  });
+
+    it('should be rendered with correct size attribute', async () => {
+      //when
+      const el = await fixture<typeOfBlBadge>(html`<bl-badge size='large'>Test</bl-badge>`);
+
+      //then
+      expect(el.getAttribute('size')).to.eq('large');
+    });
+
+    it('should be rendered with correct size attribute when size attribute was changed', async () => {
+      //given
+      const el = await fixture<typeOfBlBadge>(html`<bl-badge size='large'>Test</bl-badge>`);
       el.setAttribute('size', 'medium');
+
+      //when
       await elementUpdated(el);
 
+      //then
       expect(el.getAttribute('size')).to.eq('medium');
     });
-  });
 
-  describe('Slot', () => {
-    it('renders default slot with element', async () => {
-      const el = await fixture<typeOfBlBadge>(
-        html` <bl-badge><strong>test badge</strong></bl-badge> `
-      );
-      expect(el.shadowRoot?.querySelector('span')).to.exist;
-    });
-  });
+    it('should be rendered with icon', async () => {
+      //when
+      const el = await fixture<typeOfBlBadge>(html`<bl-badge icon="info">Test</bl-badge>`);
 
-  describe('With icon badge', () => {
-    it('renders with slotted icon content', async () => {
-      const el = await fixture<typeOfBlBadge>(html`<bl-badge icon="info"></bl-badge>`);
+      //then
       expect(el.shadowRoot?.querySelector('bl-icon')).to.exist;
     });
+
     it('should not have icon when badge size is small', async () => {
-      const el = await fixture<typeOfBlBadge>(
-        html`<bl-button icon="info" size="small"></bl-button>`
+      //when
+      const el = await fixture(
+        html`<bl-badge icon="info" size="small">Test</bl-badge>`
       );
-      expect(el.shadowRoot?.querySelector('bl-icon')).not.to.exist;
+
+      //then
+      expect(el.shadowRoot?.querySelector('bl-icon')).to.exist;
+      // expect(el.shadowRoot?.querySelector('bl-icon')).not.displayed;
     });
-  });
 });
