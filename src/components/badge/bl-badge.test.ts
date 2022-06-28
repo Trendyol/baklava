@@ -2,7 +2,6 @@ import { assert, elementUpdated, expect, fixture, html } from '@open-wc/testing'
 import BlBadge from './bl-badge';
 import type typeOfBlBadge from './bl-badge';
 
-
 describe('bl-badge', () => {
   const oldFetch = window.fetch;
 
@@ -96,7 +95,11 @@ describe('bl-badge', () => {
     expect(iconEl).to.exist;
 
     if (iconEl) {
-      const visible = !!( iconEl.offsetWidth || iconEl.offsetHeight || iconEl.getClientRects().length );
+      const visible = !!(
+        iconEl.offsetWidth ||
+        iconEl.offsetHeight ||
+        iconEl.getClientRects().length
+      );
       expect(visible).to.be.false;
     }
   });
