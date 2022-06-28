@@ -1,5 +1,5 @@
 import { playwrightLauncher } from '@web/test-runner-playwright';
-import { chromeLauncher } from '@web/test-runner';
+import { puppeteerLauncher } from '@web/test-runner-puppeteer';
 import rollupLitCss from 'rollup-plugin-lit-css';
 import { fromRollup } from '@web/dev-server-rollup';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
@@ -17,7 +17,13 @@ let browsers = [
 
 if (args.debug) {
   browsers = [
-    chromeLauncher({ launchOptions: { args: ['--no-sandbox'], headless: false } })
+    puppeteerLauncher({
+      launchOptions: {
+        args: ['--no-sandbox'],
+        devtools: true,
+        headless: !!args.headless
+      }
+    })
   ];
 }
 
