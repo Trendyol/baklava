@@ -9,9 +9,9 @@ You are very welcome if you want to contribute Baklava Design System. There can 
 
 ## Making a contribution with an Issue
 
-Did you notice a bug? Or a missing/wrong part in documentation? Or do you have a suggestion about implementation or design? Please feel free to [create an issue](https://github.com/Trendyol/grace/issues/new) for that. Please give clear and detailed information about your request or report as much as possible. Anyone can join for giving their ideas/experience about issue you created.
+Did you notice a bug? Or a missing/wrong part in documentation? Or do you have a suggestion about implementation or design? Please feel free to [create an issue](https://github.com/Trendyol/baklava/issues/new) for that. Please give clear and detailed information about your request or report as much as possible. Anyone can join for giving their ideas/experience about issue you created.
 
-If you just a question about how to use our design system or a specific component, please use our [discussion board](https://github.com/Trendyol/grace/discussions).
+If you just a question about how to use our design system or a specific component, please use our [discussion board](https://github.com/Trendyol/baklava/discussions).
 
 ## Making a contribution with a PR
 
