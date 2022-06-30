@@ -1,0 +1,88 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta
+  title="Frameworks/Vue"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: {
+        hidden: true,
+      },
+    },
+  }}
+/>
+
+# Using Baklava in Vue
+
+Vue is mostly [compatible](https://custom-elements-everywhere.com/#vue) with custom elements.
+
+## Installation
+
+To add Baklava in your app, you can either import it via CDN or npm package. But one way or another, you should tell Vue to ignore custom elements.
+To make the rule more generic, easiest way is ignoring the elements start with `bl-` tag. Thanks to that, every baklava element will be ignored by the Vue.
+
+### Via CDN
+
+To be able to use Baklava via CDN, you should add our default.css and baklava.js at head tag in your index.html file.
+```
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol-js/baklava@latest/dist/themes/default.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol-js/baklava@latest"></script>
+```
+
+### Via NPM
+
+To be able to use Baklava via npm, run ```npm install @trendyol-js/baklava```
+then, 
+```
+@import "@trendyol-js/baklava/dist/themes/default.css";
+import { setIconPath } from '@trendyol-js/baklava'
+setIconPath('https://cdn.jsdelivr.net/npm/@trendyol-js/baklava@latest/dist/assets')
+```
+
+#### Vue2
+  If you use Vue2, you should add ```Vue.config.ignoredElements = [/^bl-/]``` in your main.js.
+#### Vue3
+  If you use Vue3, you can add this
+  ```
+  app.config.compilerOptions.isCustomElement = tag => tag.startsWith('bl-');
+  ```
+  in your main.js before Vue mounts the app.
+  Also, you can add ignore rule as compiler options to your webpack or vite.
+  ```
+  isCustomElement: tag => tag.startsWith('sl-')
+  ```
+  For Vite:
+  ```
+
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => tag.startsWith('sl-')
+        }
+      }
+    })
+  ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  }
+
+  ```
+  For Webpack with `vue-loader`:
+  ```
+  {
+  test: /\.vue$/,
+  use: {
+    loader: "vue-loader",
+    options: {
+      compilerOptions: {
+        isCustomElement: tag => {
+          return tag === "custom";
+        }
+      }
+    }
+  }
+}
+```
