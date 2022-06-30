@@ -32,12 +32,12 @@ bl-icon {
   color: var(--bl-input-icon-color);
 }
 
-input:focus ~ bl-icon {
-  --bl-input-icon-color: var(--bl-color-primary);
-}
-
 :host([label-fixed]) bl-icon {
   top: calc(var(--bl-input-padding-vertical) + var(--bl-size-m));
+}
+
+input:focus ~ bl-icon {
+  --bl-input-icon-color: var(--bl-color-primary);
 }
 
 input:focus {
