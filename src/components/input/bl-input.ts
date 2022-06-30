@@ -139,7 +139,7 @@ export default class BlInput extends LitElement {
     const invalidMessage = this._invalidState
       ? html`<p class="invalid-text">${this._invalidText}</p>`
       : ``;
-    const helpMessage = this.helpText ? html`<p part="help-text" class="help-text">${this.helpText}</p>` : ``;
+    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
     const icon = this.icon
       ? html` <bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
       : '';
