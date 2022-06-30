@@ -1,0 +1,47 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Tooltip"
+  component="bl-tooltip"
+  argTypes={{
+    placement: {
+        control: 'text'
+    },
+    text: {
+        control: 'text'
+    },
+  }}
+/>
+
+export const TooltipTemplate = (args) => html`<bl-tooltip
+placement="${ifDefined(args.placement)}"
+text="${ifDefined(args.text)}">
+<bl-icon name="info"></bl-icon>
+<span slot="tooltip-content"></span></bl-tooltip>`
+
+export const PositionTemplate = (args) => html`
+${TooltipTemplate({text:'Hello',...args})}
+`;
+
+# Tooltip
+Badge component can be used for highlighting a status or labeling an item.
+
+## Tooltip Positions
+test
+
+<Canvas>
+<Story name="Positions">
+    {PositionTemplate.bind({})}
+  </Story>
+</Canvas>
+
+
+## Reference
+
+<ArgsTable of="bl-tooltip" />
+
+

@@ -1,0 +1,39 @@
+:host {
+  --bl-tooltip-left: 0;
+  --bl-tooltip-top: 0;
+  --bl-tooltip-visibility: hidden;
+}
+
+.trigger {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: fixed;
+  box-sizing: border-box;
+  border: none;
+  background-color: var(--bl-color-secondary);
+  color: var(--bl-color-primary-background);
+  border-radius: var(--bl-size-3xs);
+  pointer-events: none;
+  font: var(--bl-font-title-3-regular);
+  padding: var(--bl-size-m);
+  left: var(--bl-tooltip-left);
+  top: var(--bl-tooltip-top);
+  visibility: var(--bl-tooltip-visibility);
+  z-index: 1;
+  max-width: 312px;
+}
+
+.arrow {
+  position: absolute;
+  background-color: var(--bl-color-secondary);
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+}
+
+.tooltip[show='true'] {
+  --bl-tooltip-visibility: show;
+}

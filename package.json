@@ -66,6 +66,7 @@
     "lit"
   ],
   "dependencies": {
+    "@floating-ui/dom": "^0.5.4",
     "@fontsource/rubik": "^4.5.9",
     "@types/estree": "0.0.47",
     "lit": "^2.2.3"
