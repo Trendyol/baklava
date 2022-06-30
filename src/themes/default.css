@@ -119,7 +119,7 @@
   --bl-font-title-4-bold: var(--bl-font-weight-bold) var(--bl-font-title-4);
 
   /* Font Style: Form Label */
-  --bl-font-form-label: var(--bl-font-weight-medium) var(--bl-font-size-xs) / var(--bl-size-xs);
+  --bl-font-form-label: var(--bl-font-weight-medium) var(--bl-font-size-xs) var(--bl-font-family);
 
   /* Font Style: Caption */
   --bl-font-caption-small-text: var(--bl-font-weight-bold) var(--bl-font-size-2xs)
