@@ -5,7 +5,6 @@ module.exports = {
     '@storybook/addon-docs',
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
-    '@storybook/addon-interactions'
   ],
   features: {
     postcss: false,

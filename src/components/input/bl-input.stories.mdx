@@ -6,9 +6,6 @@ import {
   ArgsTable,
   Story,
 } from '@storybook/addon-docs';
-import {
-  userEvent, within,
-} from '@storybook/testing-library';
 
 <Meta
   title="Components/Input"
@@ -170,11 +167,6 @@ Desc...
 <Canvas>
   <Story name="Validation"
          args={{ type: 'text', label: 'User Name', required: true }}
-         play={async ({ canvasElement }) => {
-           const canvas = within(canvasElement);
-           const el = canvas.getByTestId('bl-input-name')
-           el.reportValidity()
-         }}
   >
     {SingleInputTemplate.bind({})}
   </Story>
