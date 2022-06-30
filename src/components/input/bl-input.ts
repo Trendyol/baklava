@@ -11,29 +11,8 @@ export type InputSize = 'medium' | 'large';
  * @tag bl-input
  * @summary Baklava Input component
  *
- * @attribute {string} label - Sets label of the input
- * @attribute {string} type - Sets type of the input
- * @attribute {string} placeholder - Sets placeholder of the input
- * @attribute {string} value - Sets value of the input
- * @attribute {boolean} required - Sets required of the input
- * @attribute {boolean} disabled - Disables the input
- * @attribute {number} minlength - Sets min length of the input
- * @attribute {number} maxlength - Sets max length of the input
- * @attribute {number} max - Sets max value of the input
- * @attribute {number} min - Sets min value of the input
- * @attribute {string} icon - Sets icon name of the input
- * @attribute {string} size - Sets size of the input
- * @attribute {boolean} label-fixed - Fixes label top of the input
- * @attribute {string} help-text - Sets help text of the input
- * @attribute {string} invalid-text - Sets invalid text of the input
- *
- * @property {ValidityState} validity - Current validity state of input
- *
- * @method {} reportValidity - Runs input validation
- *
- * @event {CustomEvent} bl-input - Fires when the value of an input element has been changed.
- * @event {CustomEvent} bl-change - Fires when an alteration to the element's value is committed by the user. Unlike the input event, the change event is not necessarily fired for each alteration to an element's value.
- *
+ * @fires {CustomEvent} bl-input - Fires when the value of an input element has been changed.
+ * @fires {CustomEvent} bl-change - Fires when an alteration to the element's value is committed by the user. Unlike the input event, the change event is not necessarily fired for each alteration to an element's value.
  */
 @customElement('bl-input')
 export default class BlInput extends LitElement {
@@ -41,76 +20,127 @@ export default class BlInput extends LitElement {
     return [style];
   }
 
-  @query('input') input: HTMLInputElement;
+  @query('input') private input: HTMLInputElement;
 
+  /**
+   * Type of the input. It's used to set `type` attribute of native input inside. Only `text` and `number` is supported for now.
+   */
   @property({})
   type: 'text' | 'number' = 'text';
 
+  /**
+   * Sets label of the input
+   */
   @property({})
-  label: string;
+  label?: string;
 
+  /**
+   * Sets placeholder of the input
+   */
   @property({})
-  placeholder: string;
+  placeholder?: string;
 
+  /**
+   * Sets initial value of the input
+   */
   @property({})
-  value = '';
+  value?: string;
 
+  /**
+   * Makes input a mandatory field
+   */
   @property({ type: Boolean })
-  required: boolean;
+  required = false;
 
+  /**
+   * Sets minimum length of the input
+   */
   @property({ type: Number })
-  minlength: number;
+  minlength?: number;
 
+  /**
+   * Sets maximum length of the input
+   */
   @property({ type: Number })
-  maxlength: number;
+  maxlength?: number;
 
+  /**
+   * Sets the smallest number can be entered to a `number` input
+   */
   @property({ type: Number })
-  min: number;
+  min?: number;
 
+  /**
+   * Sets the biggest number can be entered to a `number` input
+   */
   @property({ type: Number })
-  max: number;
+  max?: number;
 
+  /**
+   * Sets the custom icon name. `bl-icon` component is used to show an icon
+   */
   @property({ type: String })
   icon?: string;
 
+  /**
+   * Sets input size.
+   */
   @property({ type: String, reflect: true })
   size?: InputSize = 'medium';
 
+  /**
+   * Disables the input
+   */
   @property({ type: Boolean, reflect: true })
-  disabled: boolean;
+  disabled = false;
 
+  /**
+   * Makes label as fixed positioned
+   */
   @property({ type: Boolean, attribute: 'label-fixed' })
   labelFixed = false;
 
+  /**
+   * Set custom error message
+   */
   @property({ type: String, attribute: 'invalid-text' })
-  customInvalidText: string;
+  customInvalidText?: string;
 
+  /**
+   * Adds help text
+   */
   @property({ type: String, attribute: 'help-text' })
-  helpText: string;
+  helpText?: string;
 
+  /**
+   * Current validity state of input
+   */
   validity: ValidityState;
 
-  @state() private _dirty = false;
-
-  get dirty(): boolean {
-    return this._dirty;
-  }
-
-  get hasValue(): boolean {
-    return this.value.length > 0;
-  }
-
-  get _invalidText() {
-    return this.customInvalidText || this.input?.validationMessage;
-  }
-
-  get _invalidState() {
-    return this.input && !this.input?.validity.valid;
-  }
-
+  /**
+   * Runs input validation
+   */
   reportValidity() {
     this._dirty = true;
     this.input.checkValidity();
+  }
+
+  @state() private _dirty = false;
+
+  private get dirty(): boolean {
+    return this._dirty;
+  }
+
+  private get hasValue(): boolean {
+    return this.input?.value.length > 0;
+  }
+
+  private get _invalidText() {
+    return this.customInvalidText || this.input?.validationMessage;
+  }
+
+  private get _invalidState() {
+    return this.input && !this.input?.validity.valid;
   }
 
   private inputHandler() {
@@ -153,8 +183,8 @@ export default class BlInput extends LitElement {
           'has-icon': this.icon || (this.dirty && this._invalidState),
           'has-value': this.hasValue,
         })}
-        value=${this.value}
-        placeholder="${this.placeholder}"
+        value=${ifDefined(this.value)}
+        placeholder="${ifDefined(this.placeholder)}"
         minlength="${ifDefined(this.minlength)}"
         maxlength="${ifDefined(this.maxlength)}"
         min="${ifDefined(this.min)}"

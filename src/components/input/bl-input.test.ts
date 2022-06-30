@@ -5,7 +5,7 @@ describe('bl-input', () => {
   const oldFetch = window.fetch;
 
   before(() => {
-    window.fetch = async (url: RequestInfo) => {
+    window.fetch = async (url: RequestInfo | URL) => {
       if (/.svg$/.test(url.toString())) {
         return new Response('<svg></svg>');
       }
@@ -28,9 +28,7 @@ describe('bl-input', () => {
       el,
       `
       <input
-        placeholder=""
         type="text"
-        value=""
       >
       <bl-icon
         class="error-icon"
@@ -114,9 +112,13 @@ describe('bl-input', () => {
   describe('events', () => {
     it('should fire bl-input event when user enters a value', async () => {
       const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
-      el.input.value = 'some value';
+      const input = el.shadowRoot?.querySelector('input');
 
-      setTimeout(() => el.input.dispatchEvent(new Event('input')));
+      if (input) {
+        input.value = 'some value';
+      }
+
+      setTimeout(() => input?.dispatchEvent(new Event('input')));
 
       const ev = await oneEvent(el, 'bl-input');
       expect(ev).to.exist;
@@ -125,9 +127,13 @@ describe('bl-input', () => {
 
     it('should fire bl-input event when input value changes', async () => {
       const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
-      el.input.value = 'some value';
+      const input = el.shadowRoot?.querySelector('input');
 
-      setTimeout(() => el.input.dispatchEvent(new Event('change')));
+      if (input) {
+        input.value = 'some value';
+      }
+
+      setTimeout(() => input?.dispatchEvent(new Event('change')));
 
       const ev = await oneEvent(el, 'bl-change');
       expect(ev).to.exist;
