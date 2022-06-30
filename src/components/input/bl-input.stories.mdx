@@ -107,7 +107,10 @@ Input component is the component for taking text input from user.
 Currently, input component supports `text` and `number` types, which default is `text`.
 
 <Canvas>
-  <Story name="Basic Input" args={{ placeholder: 'Enter Your Name' }}>
+  <Story name="Text Input" args={{ placeholder: 'Enter Your Name' }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Number Input" args={{ type: 'number', placeholder: 'Enter Your Age' }}>
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
@@ -146,6 +149,17 @@ You can give extra information to user with `help-text` attribute.
   </Story>
 </Canvas>
 
+## Input With Icon
+
+Input can have an icon. This icon is showed with `bl-icon` component internally and it's color synced with the state of input.
+
+<Canvas>
+  <Story name="Input With Icon"
+         args={{ type: 'text', placeholder: 'Enter Name', required: true, icon: 'calendar' }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
 ## Input Validation
 
 Input supports native HTML validation rules like `required`, `minlength`, `maxlength`,  `min` and `max`. Other validation rules will come soon.
@@ -153,8 +167,13 @@ Input supports native HTML validation rules like `required`, `minlength`, `maxle
 Input validation will run after user enters a value and go out from the input. If there is a validation issue, input will be highlighted in error state. After this state every change will have immediate effect on input to update validation state.
 
 <Canvas>
-  <Story name="Validation"
-         args={{ type: 'text', label: 'User Name', required: true }}
+  <Story name="Validation with Text Input"
+         args={{ type: 'text', label: 'User Name', minlength: 5, maxlength: 20, required: true }}
+  >
+    {SingleInputTemplate.bind({})}
+  </Story>
+    <Story name="Validation with Number Input"
+         args={{ type: 'number', label: 'Age', min: 18, required: true }}
   >
     {SingleInputTemplate.bind({})}
   </Story>

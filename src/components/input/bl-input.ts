@@ -150,7 +150,7 @@ export default class BlInput extends LitElement {
         type=${this.type}
         class=${classMap({
           'dirty': this.dirty,
-          'has-icon': this.icon || this._invalidState,
+          'has-icon': this.icon || (this.dirty && this._invalidState),
           'has-value': this.hasValue,
         })}
         value=${this.value}

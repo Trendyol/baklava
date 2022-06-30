@@ -8,17 +8,18 @@
   --bl-input-border-color: var(--bl-color-border);
   --bl-input-icon-color: var(--bl-color-content-tertiary);
   --bl-input-text-color: var(--bl-color-content-primary);
+  --bl-input-height: var(--bl-size-2xl);
 }
 
 input {
   outline: none;
   box-sizing: border-box;
-  border: none;
+  height: var(--bl-input-height);
+  border: solid 1px var(--bl-input-border-color);
   width: 100%;
   font: var(--bl-font-title-3-regular);
-  padding: var(--bl-input-padding-vertical) var(--bl-input-padding-horizontal);
+  padding: 0 var(--bl-input-padding-horizontal);
   margin: 0;
-  box-shadow: inset 0 0 0 1px var(--bl-input-border-color);
   border-radius: 4px;
   color: var(--bl-input-text-color);
 }
@@ -61,7 +62,7 @@ input:disabled {
 }
 
 input.dirty:invalid {
-  box-shadow: inset 0 0 0 1px var(--bl-color-danger);
+  --bl-input-border-color: var(--bl-color-danger);
 }
 
 input.has-icon {
@@ -154,6 +155,7 @@ label {
 }
 
 :host([size='large']) {
+  --bl-input-height: var(--bl-size-3xl);
   --bl-input-padding-vertical: var(--bl-size-xs);
   --bl-input-padding-horizontal: var(--bl-size-m);
 }
