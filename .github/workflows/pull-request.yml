@@ -6,8 +6,8 @@ on:
 
 jobs:
   verify:
-    uses: trendyol/grace/.github/workflows/verify.yml@next
+    uses: trendyol/baklava/.github/workflows/verify.yml@next
   preview:
-    uses: trendyol/grace/.github/workflows/publish-storybook.yml@next
+    uses: trendyol/baklava/.github/workflows/publish-storybook.yml@next
     needs: verify
     secrets: inherit

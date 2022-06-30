@@ -12,6 +12,23 @@
   --bl-color-success-hover: #09a44e;
   --bl-color-danger: #ff5043;
   --bl-color-danger-hover: #ff3028;
+  --bl-color-warning: #ffb600;
+  --bl-color-warning-hover: #ff9800;
+  --bl-color-alternative: #5794ff;
+  --bl-color-alternative-hover: #3469ff;
+  --bl-color-featured: #8c4eff;
+  --bl-color-featured-hover: #5e2eff;
+
+  /* Background Colors */
+  --bl-color-primary-background: #fff;
+  --bl-color-accent-primary-background: #fef2e8;
+  --bl-color-secondary-background: #f1f2f7;
+  --bl-color-tertiary-background: #f7f7fa;
+  --bl-color-success-background: #e7f9ef;
+  --bl-color-danger-background: #ffeeec;
+  --bl-color-warning-background: #fff8e6;
+  --bl-color-alternative-background: #eef4ff;
+  --bl-color-featured-background: #f4edff;
 
   /* Content Colors */
   --bl-color-content-primary: #273142;
@@ -25,19 +42,19 @@
   --bl-color-background-secondary: #fff;
 
   /* Size and Spacing */
-  --bl-size-4xs: 2px;
-  --bl-size-3xs: 4px;
-  --bl-size-2xs: 8px;
-  --bl-size-xs: 12px;
-  --bl-size-s: 14px;
-  --bl-size-m: 16px;
-  --bl-size-l: 24px;
-  --bl-size-xl: 32px;
-  --bl-size-2xl: 40px;
-  --bl-size-4xl: 48px;
-  --bl-size-5xl: 56px;
-  --bl-size-6xl: 64px;
-  --bl-size-7xl: 80px;
+  --bl-size-4xs: 0.125rem; /* 2px */
+  --bl-size-3xs: 0.25rem; /* 4px */
+  --bl-size-2xs: 0.5rem; /* 8px */
+  --bl-size-xs: 0.75rem; /* 12px */
+  --bl-size-s: 0.875rem; /* 14px */
+  --bl-size-m: 1rem; /* 16px */
+  --bl-size-l: 1.25rem; /* 20px */
+  --bl-size-xl: 1.5rem; /* 24px */
+  --bl-size-2xl: 2rem; /* 32px */
+  --bl-size-3xl: 2.5rem; /* 40px */
+  --bl-size-4xl: 3rem; /* 48px */
+  --bl-size-5xl: 4rem; /* 64px */
+  --bl-size-6xl: 5rem; /* 80px */
 
   /* Typography */
   --bl-font-family: 'RubikVariable', sans-serif;
@@ -50,24 +67,23 @@
   --bl-font-weight-bold: 700;
 
   /* Font sizes */
-  --bl-font-size-2xs: 8px;
-  --bl-font-size-xs: 10px;
-  --bl-font-size-s: 12px;
-  --bl-font-size-m: 14px;
-  --bl-font-size-l: 16px;
-  --bl-font-size-xl: 20px;
-  --bl-font-size-2xl: 24px;
-  --bl-font-size-3xl: 28px;
-  --bl-font-size-4xl: 32px;
-  --bl-font-size-5xl: 48px;
-  --bl-font-size-6xl: 64px;
+  --bl-font-size-2xs: 0.5rem; /* 8px */
+  --bl-font-size-xs: 0.625rem; /* 10px */
+  --bl-font-size-s: 0.75rem; /* 12px */
+  --bl-font-size-m: 0.875rem; /* 14px */
+  --bl-font-size-l: 1rem; /* 16px */
+  --bl-font-size-xl: 1.25rem; /* 20px */
+  --bl-font-size-2xl: 1.5rem; /* 24px */
+  --bl-font-size-3xl: 1.75rem; /* 28px */
+  --bl-font-size-4xl: 2rem; /* 32px */
+  --bl-font-size-5xl: 3rem; /* 48px */
+  --bl-font-size-6xl: 4rem; /* 64px */
 
   /* Font Style: Display 1 */
-  --bl-font-display-1: var(--bl-font-weight-bold) var(--bl-font-size-6xl) / var(--bl-size-7xl)
-    var(--bl-font-family);
+  --bl-font-display-1: var(--bl-font-weight-bold) var(--bl-font-size-6xl) var(--bl-font-family);
 
   /* Font Style: Display 2 */
-  --bl-font-display-2: var(--bl-font-size-5xl) / var(--bl-size-4xl) var(--bl-font-family);
+  --bl-font-display-2: var(--bl-font-size-5xl) var(--bl-font-family);
   --bl-font-display-2-light: var(--bl-font-weight-light) var(--bl-font-display-2);
   --bl-font-display-2-regular: var(--bl-font-weight-regular) var(--bl-font-display-2);
   --bl-font-display-2-medium: var(--bl-font-weight-medium) var(--bl-font-display-2);
@@ -75,35 +91,42 @@
   --bl-font-display-2-bold: var(--bl-font-weight-bold) var(--bl-font-display-2);
 
   /* Font Style: Title 1 */
-  --bl-font-title-1: var(--bl-font-size-xl) / var(--bl-size-xl) var(--bl-font-family);
+  --bl-font-title-1: var(--bl-font-size-xl) var(--bl-font-family);
   --bl-font-title-1-regular: var(--bl-font-weight-regular) var(--bl-font-title-1);
   --bl-font-title-1-medium: var(--bl-font-weight-medium) var(--bl-font-title-1);
   --bl-font-title-1-semibold: var(--bl-font-weight-semibold) var(--bl-font-title-1);
   --bl-font-title-1-bold: var(--bl-font-weight-bold) var(--bl-font-title-1);
 
   /* Font Style: Title 2 */
-  --bl-font-title-2: var(--bl-font-size-l) / var(--bl-size-l) var(--bl-font-family);
+  --bl-font-title-2: var(--bl-font-size-l) var(--bl-font-family);
   --bl-font-title-2-regular: var(--bl-font-weight-regular) var(--bl-font-title-2);
   --bl-font-title-2-medium: var(--bl-font-weight-medium) var(--bl-font-title-2);
   --bl-font-title-2-semibold: var(--bl-font-weight-semibold) var(--bl-font-title-2);
   --bl-font-title-2-bold: var(--bl-font-weight-bold) var(--bl-font-title-2);
 
   /* Font Style: Title 3 */
-  --bl-font-title-3: var(--bl-font-size-m) / var(--bl-size-m) var(--bl-font-family);
+  --bl-font-title-3: var(--bl-font-size-m) var(--bl-font-family);
   --bl-font-title-3-regular: var(--bl-font-weight-regular) var(--bl-font-title-3);
   --bl-font-title-3-medium: var(--bl-font-weight-medium) var(--bl-font-title-3);
   --bl-font-title-3-semibold: var(--bl-font-weight-semibold) var(--bl-font-title-3);
   --bl-font-title-3-bold: var(--bl-font-weight-bold) var(--bl-font-title-3);
 
   /* Font Style: Title 4 */
-  --bl-font-title-4: var(--bl-font-size-s) / var(--bl-size-s) var(--bl-font-family);
+  --bl-font-title-4: var(--bl-font-size-s) var(--bl-font-family);
   --bl-font-title-4-regular: var(--bl-font-weight-regular) var(--bl-font-title-4);
   --bl-font-title-4-medium: var(--bl-font-weight-medium) var(--bl-font-title-4);
   --bl-font-title-4-semibold: var(--bl-font-weight-semibold) var(--bl-font-title-4);
   --bl-font-title-4-bold: var(--bl-font-weight-bold) var(--bl-font-title-4);
 
   /* Font Style: Form Label */
-  --bl-font-form-label: var(--bl-font-weight-medium) var(--bl-font-size-xs) / var(--bl-size-xs)
+  --bl-font-form-label: var(--bl-font-weight-medium) var(--bl-font-size-xs) / var(--bl-size-xs);
+
+  /* Font Style: Caption */
+  --bl-font-caption-small-text: var(--bl-font-weight-bold) var(--bl-font-size-2xs)
+    var(--bl-font-family);
+  --bl-font-caption-text: var(--bl-font-weight-regular) var(--bl-font-size-s) var(--bl-font-family);
+  --bl-font-caption-medium: var(--bl-font-weight-medium) var(--bl-font-size-s) var(--bl-font-family);
+  --bl-font-caption-long-text: var(--bl-font-weight-regular) var(--bl-font-size-s)
     var(--bl-font-family);
 }
 
