@@ -59,10 +59,10 @@ import {
     disabled: {
       control: 'boolean',
     },
-    labelFixed: {
+    'label-fixed': {
       control: 'boolean',
     },
-    customInvalidText: {
+    '': {
       control: 'text',
     },
     helpText: {
@@ -135,34 +135,22 @@ If you want to use always it on top of the input, then you can use `label-fixed`
   </Story>
 </Canvas>
 
-## Label Styles
+## Input Help Text
 
-Desc...
-
-<Canvas>
-  <Story name="Label Float"
-         args={{ type: 'text', label: 'User Name', labelFixed: false }}>
-    {SingleInputTemplate.bind({})}
-  </Story>
-</Canvas>
+You can give extra information to user with `help-text` attribute.
 
 <Canvas>
-  <Story name="Label Fixed"
-         args={{ type: 'text', label: 'User Name', labelFixed: true }}>
-    {SingleInputTemplate.bind({})}
-  </Story>
-</Canvas>
-
-<Canvas>
-  <Story name="Without Label"
-         args={{ type: 'text', placeholder: 'Enter Name' }}>
+  <Story name="Input Help Text"
+         args={{ type: 'text', placeholder: 'Enter Name', helpText: 'Your username should include only letters.' }}>
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
 
 ## Input Validation
 
-Desc...
+Input supports native HTML validation rules like `required`, `minlength`, `maxlength`,  `min` and `max`. Other validation rules will come soon.
+
+Input validation will run after user enters a value and go out from the input. If there is a validation issue, input will be highlighted in error state. After this state every change will have immediate effect on input to update validation state.
 
 <Canvas>
   <Story name="Validation"
@@ -172,7 +160,27 @@ Desc...
   </Story>
 </Canvas>
 
-TBD
+Validation error messages are used from default browser error messages by default. If you want you can override error message by setting `invalid-text` attribute.
+
+<Canvas>
+  <Story name="Custom Error Message"
+         args={{ type: 'text', label: 'User Name', required: true, customInvalidText: 'This field is mandatory' }}
+  >
+    {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Input Sizes
+
+Inputs have 2 size options: `medium` and `large`. `medium` size is default and if you want to show a large input you can set `size` attribute to `large`.
+
+<Canvas>
+  <Story name="Large Input"
+         args={{ type: 'text', label: 'User Name', size: 'large' }}
+  >
+    {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
 
 ## Reference
 

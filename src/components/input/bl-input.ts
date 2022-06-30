@@ -11,21 +11,24 @@ export type InputSize = 'medium' | 'large';
  * @tag bl-input
  * @summary Baklava Input component
  *
- * @property {string} label - Sets label of the input
- * @property {string} type - Sets type of the input
- * @property {string} placeholder - Sets placeholder of the input
- * @property {string} value - Sets value of the input
- * @property {boolean} required - Sets required of the input
- * @property {boolean} disabled - Disables the input
- * @property {number} minlength - Sets min length of the input
- * @property {number} maxlength - Sets max length of the input
- * @property {number} max - Sets max value of the input
- * @property {number} min - Sets min value of the input
- * @property {string} icon - Sets icon name of the input
- * @property {string} size - Sets size of the input
- * @property {boolean} label-fixed - Fixes label top of the input
- * @property {string} help-text - Sets help text of the input
- * @property {string} invalid-text - Sets invalid text of the input
+ * @attribute {string} label - Sets label of the input
+ * @attribute {string} type - Sets type of the input
+ * @attribute {string} placeholder - Sets placeholder of the input
+ * @attribute {string} value - Sets value of the input
+ * @attribute {boolean} required - Sets required of the input
+ * @attribute {boolean} disabled - Disables the input
+ * @attribute {number} minlength - Sets min length of the input
+ * @attribute {number} maxlength - Sets max length of the input
+ * @attribute {number} max - Sets max value of the input
+ * @attribute {number} min - Sets min value of the input
+ * @attribute {string} icon - Sets icon name of the input
+ * @attribute {string} size - Sets size of the input
+ * @attribute {boolean} label-fixed - Fixes label top of the input
+ * @attribute {string} help-text - Sets help text of the input
+ * @attribute {string} invalid-text - Sets invalid text of the input
+ *
+ * @property {ValidityState} validity - Current validity state of input
+ *
  * @method {} reportValidity - Runs input validation
  *
  * @event {CustomEvent} bl-input - Fires when the value of an input element has been changed.
@@ -136,7 +139,7 @@ export default class BlInput extends LitElement {
     const invalidMessage = this._invalidState
       ? html`<p class="invalid-text">${this._invalidText}</p>`
       : ``;
-    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
+    const helpMessage = this.helpText ? html`<p part="help-text" class="help-text">${this.helpText}</p>` : ``;
     const icon = this.icon
       ? html` <bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
       : '';
