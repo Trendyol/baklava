@@ -113,12 +113,12 @@ export default class BlInput extends LitElement {
   /**
    * Fires when an alteration to the element's value is committed by the user. Unlike the input event, the change event is not necessarily fired for each alteration to an element's value.
    */
-  @event('bl-change') private onBlChange: EventDispatcher<string>;
+  @event('bl-change') private onChange: EventDispatcher<string>;
 
   /**
    * Fires when the value of an input element has been changed.
    */
-  @event('bl-input') private onBlInput: EventDispatcher<string>;
+  @event('bl-input') private onInput: EventDispatcher<string>;
 
   /**
    * Current validity state of input
@@ -154,12 +154,12 @@ export default class BlInput extends LitElement {
   private inputHandler() {
     this.validity = this.input?.validity;
     this.value = this.input.value;
-    this.onBlInput(this.input.value);
+    this.onInput(this.input.value);
   }
 
   private changeHandler() {
     this._dirty = true;
-    this.onBlChange(this.input.value);
+    this.onChange(this.input.value);
   }
 
   firstUpdated() {

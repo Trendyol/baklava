@@ -10,16 +10,6 @@ export default {
   plugins: [
     {
       name: 'filter',
-      collectPhase({ts, node, context}){
-        switch (node.kind) {
-          case ts.SyntaxKind.ClassDeclaration: {
-            const className = node.name.getText();
-            if (className == 'BlInput') {
-              // console.log(node);
-            }
-          }
-        }
-      },
       analyzePhase({ ts, node, moduleDoc }) {
         switch (node.kind) {
           case ts.SyntaxKind.ClassDeclaration: {
@@ -52,14 +42,6 @@ export default {
             }
             break;
           }
-          // case ts.SyntaxKind.PropertyDeclaration: {
-          //   if (node.expression.escapedText === 'event') {
-          //     // const className = node.name.getText();
-          //     // console.log('event', className, node.expression.expression);
-          //     console.log(node.arguments[0].text);
-          //     // const classDoc = moduleDoc?.declarations?.find(declaration => declaration.name === className);
-          //   }
-          // }
         }
       },
     }
