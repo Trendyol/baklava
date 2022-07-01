@@ -44,6 +44,7 @@ import GFieldWrapper from '../GFieldWrapper/GFieldWrapper.vue';
 import { trimInputValue } from '../../utils/string.util';
 export default {
   name: 'GInput',
+  inheritAttrs: false,
   components: {
     GFieldWrapper,
   },
