@@ -37,10 +37,6 @@
   --bl-color-content-passive: #afbbca;
   --bl-color-border: #d5d9e1;
 
-  /* Background Colors */
-  --bl-color-background-primary: #f1f2f7;
-  --bl-color-background-secondary: #fff;
-
   /* Size and Spacing */
   --bl-size-4xs: 0.125rem; /* 2px */
   --bl-size-3xs: 0.25rem; /* 4px */

@@ -60,7 +60,7 @@ input:focus {
 }
 
 input:disabled {
-  background-color: var(--bl-color-background-primary);
+  background-color: var(--bl-color-primary-background);
 
   --bl-input-text-color: var(--bl-color-content-tertiary);
 }
@@ -96,7 +96,7 @@ label {
   font: var(--bl-font-form-label);
   color: var(--bl-color-content-secondary);
   padding: 0 var(--bl-size-3xs);
-  background-color: var(--bl-color-background-secondary);
+  background-color: var(--bl-color-secondary-background);
   pointer-events: initial;
 }
 
