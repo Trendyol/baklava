@@ -1,5 +1,5 @@
 import { setCustomElementsManifest } from '@storybook/web-components';
-import customElements from '../src/custom-elements.json';
+import customElements from '../dist/custom-elements.json';
 
 setCustomElementsManifest(customElements);
 
@@ -9,7 +9,6 @@ export const parameters = {
   docs: {
     transformSource: source =>
       source
-        // Clean Lit Expression Comments
         .replace(/<!--\?lit\$[0-9]+\$-->|<!--\??-->/g, '')
         // Clean empty boolean attribute values
         .replace(/=\"\"/g, ''),

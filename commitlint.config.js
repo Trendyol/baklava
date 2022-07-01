@@ -9,6 +9,9 @@ module.exports = {
         'design',
         // Components as scopes listed below
         'button',
+        'icon',
+        'input',
+        'badge'
       ],
     ],
   },

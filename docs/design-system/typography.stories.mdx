@@ -1,66 +1,89 @@
-import { Meta, Typeset } from '@storybook/addon-docs';
+import { Meta, Typeset, Canvas, Story } from '@storybook/addon-docs';
+import { html } from 'lit';
 
 <Meta
   title="Design System/Typography"
   parameters={{
     viewMode: 'docs',
-    previewTabs: {
-      canvas: {
-        hidden: true,
-      },
-    },
   }}
 />
 
-# Grace Typography
+# Baklava Typography
 
-export const typography = {
-  type: {
-    primary: '"Rubik", "Helvetica Neue", Helvetica, Arial, sans-serif',
-  },
-  weight: {
-    light: '300',
-    regular: '400',
-    medium: '500',
-    semiabold: '600',
-    bold: '700',
-  },
-  size: {
-    s1: 8,
-    s2: 10,
-    s3: 12,
-    m1: 14,
-    m2: 16,
-    m3: 20,
-    l1: 24,
-    l2: 28,
-    l3: 32,
-    l4: 48,
-    l5: 64,
-  },
-};
+We use **Rubik** font by default in Baklava Design System.
 
-export const SampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+## Display Titles
 
-**Font:** Rubik
+`Display 1` and `Display 2` titles are our largest titles. We generally use them in landing pages.
 
-**Weights:** 300(light), 400(regular), 500(medium), 600(semibold), 700(bold)
+<Story name="Display 1">
+  {html`<h1 style="font: var(--bl-font-display-1)">Display 1</h1>`}
+</Story>
 
-<Typeset
-  fontSizes={[
-    Number(typography.size.s1),
-    Number(typography.size.s2),
-    Number(typography.size.s3),
-    Number(typography.size.m1),
-    Number(typography.size.m2),
-    Number(typography.size.m3),
-    Number(typography.size.l1),
-    Number(typography.size.l2),
-    Number(typography.size.l3),
-    Number(typography.size.l4),
-    Number(typography.size.l5),
-  ]}
-  fontWeight={typography.weight.bold}
-  sampleText={SampleText}
-  fontFamily={typography.type.primary}
-/>
+<Story name="Display 2">
+  {html`<h1 style="font: var(--bl-font-display-2-light)">Display 2 Light</h1>
+  <h1 style="font: var(--bl-font-display-2-regular)">Display 2 Regular</h1>
+  <h1 style="font: var(--bl-font-display-2-medium)">Display 2 Medium</h1>
+  <h1 style="font: var(--bl-font-display-2-semibold)">Display 2 Semibold</h1>
+  <h1 style="font: var(--bl-font-display-2-bold)">Display 2 Bold</h1>`}
+</Story>
+
+## Sub-Titles
+
+Sub-titles are used widely in many components.
+
+<Story name="Sub Title 1">
+  {html`<h1 style="font: var(--bl-font-title-1-regular)">Sub Title 1 Regular</h1>
+  <h1 style="font: var(--bl-font-title-1-medium)">Sub Title 1 Medium</h1>
+  <h1 style="font: var(--bl-font-title-1-semibold)">Sub Title 1 Semibold</h1>
+  <h1 style="font: var(--bl-font-title-1-bold)">Sub Title 1 Bold</h1>`}
+</Story>
+
+<Story name="Sub Title 2">
+  {html`<h1 style="font: var(--bl-font-title-2-regular)">Sub Title 2 Regular</h1>
+  <h1 style="font: var(--bl-font-title-2-medium)">Sub Title 2 Medium</h1>
+  <h1 style="font: var(--bl-font-title-2-semibold)">Sub Title 2 Semibold</h1>
+  <h1 style="font: var(--bl-font-title-2-bold)">Sub Title 2 Bold</h1>`}
+</Story>
+
+<Story name="Sub Title 3">
+  {html`<h1 style="font: var(--bl-font-title-3-regular)">Sub Title 3 Regular</h1>
+  <h1 style="font: var(--bl-font-title-3-medium)">Sub Title 3 Medium</h1>
+  <h1 style="font: var(--bl-font-title-3-semibold)">Sub Title 3 Semibold</h1>
+  <h1 style="font: var(--bl-font-title-3-bold)">Sub Title 3 Bold</h1>`}
+</Story>
+
+<Story name="Sub Title 4">
+  {html`<h1 style="font: var(--bl-font-title-4-regular)">Sub Title 4 Regular</h1>
+  <h1 style="font: var(--bl-font-title-4-medium)">Sub Title 4 Medium</h1>
+  <h1 style="font: var(--bl-font-title-4-semibold)">Sub Title 4 Semibold</h1>
+  <h1 style="font: var(--bl-font-title-4-bold)">Sub Title 4 Bold</h1>`}
+</Story>
+
+## CSS Variables
+
+Here are the CSS variables provided and used in all of the Baklava components regarding to typography rules:
+
+```css
+--bl-font-family: 'RubikVariable', sans-serif;
+
+/* Font weights */
+--bl-font-weight-light: 300;
+--bl-font-weight-regular: 400;
+--bl-font-weight-medium: 500;
+--bl-font-weight-semibold: 600;
+--bl-font-weight-bold: 700;
+
+/* Font sizes */
+--bl-font-size-2xs: 8px;
+--bl-font-size-xs: 10px;
+--bl-font-size-s: 12px;
+--bl-font-size-m: 14px;
+--bl-font-size-l: 16px;
+--bl-font-size-xl: 20px;
+--bl-font-size-2xl: 24px;
+--bl-font-size-3xl: 28px;
+--bl-font-size-4xl: 32px;
+--bl-font-size-5xl: 48px;
+--bl-font-size-6xl: 64px;
+```

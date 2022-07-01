@@ -1,22 +1,41 @@
-import { fromRollup } from "@web/dev-server-rollup"
-import { esbuildPlugin } from "@web/dev-server-esbuild"
 import { playwrightLauncher } from '@web/test-runner-playwright';
 import { puppeteerLauncher } from '@web/test-runner-puppeteer';
+import rollupLitCss from 'rollup-plugin-lit-css';
+import { fromRollup } from '@web/dev-server-rollup';
+import { esbuildPlugin } from '@web/dev-server-esbuild';
 import parseArgs from 'minimist';
-import rollupLitCss from "rollup-plugin-lit-css"
 
 const args = parseArgs(process.argv.slice(2), {
   boolean: true,
 });
 
-const litCss = fromRollup(rollupLitCss)
+let browsers = [
+  playwrightLauncher({ product: 'chromium' }),
+  playwrightLauncher({ product: 'firefox', concurrency: 1 }),
+  playwrightLauncher({ product: 'webkit' }),
+];
+
+if (args.debug) {
+  browsers = [
+    puppeteerLauncher({
+      launchOptions: {
+        args: ['--no-sandbox'],
+        devtools: true,
+        headless: !!args.headless
+      }
+    })
+  ];
+}
+
+const litCss = fromRollup(rollupLitCss);
 
 export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
-  files: "src/**/*.test.ts",
+  files: 'src/**/*.test.ts',
+  rootDir: './',
   nodeResolve: true,
-
+  port: 8765,
   coverageConfig: {
-    include: ["src/**/*.ts"],
+    include: ['src/**/*.ts'],
     threshold: {
       branches: 100,
       statements: 100,
@@ -26,22 +45,24 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   },
 
   mimeTypes: {
-    "src/**/*.css": "js",
+    'src/components/**/*.css': 'js',
   },
 
-  browsers: args.dev ? [
-    puppeteerLauncher()
-  ] : [
-    playwrightLauncher({ product: 'chromium' }),
-    playwrightLauncher({ product: 'firefox', concurrency: 1 }),
-    playwrightLauncher({ product: 'webkit' })
-  ],
+  browsers,
 
   plugins: [
     litCss({
-      include: ["src/**/*.css"],
+      include: ['src/components/**/*.css'],
     }),
 
     esbuildPlugin({ ts: true, target: 'esnext' }),
   ],
+
+  testRunnerHtml: testFramework =>
+    `<html>
+      <head><link rel="stylesheet" href="./dist/themes/default.css"></head>
+      <body>
+        <script type="module" src="${testFramework}"></script>
+      </body>
+    </html>`,
 });

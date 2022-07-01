@@ -3,11 +3,11 @@ import { create } from '@storybook/theming';
 
 const theme = create({
   base: 'light',
-  brandTitle: 'Grace Design System',
-  brandUrl: 'https://github.com/Trendyol/grace',
+  brandTitle: 'Baklava Design System',
+  brandUrl: 'https://github.com/Trendyol/baklava',
   colorPrimary: '#F27A1A',
-  colorSecondary: '#F27A1A',
-  fontBase: 'Equinor, sans-serif',
+  colorSecondary: '#273142',
+  fontBase: 'RubikVariable, sans-serif',
   fontCode:
     '"Operator Mono","Fira Code Retina","Fira Code","FiraCode-Retina","Andale Mono","Lucida Console",Consolas,Monaco,monospace',
 });

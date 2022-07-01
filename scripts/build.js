@@ -14,7 +14,7 @@ const args = parseArgs(process.argv.slice(2), {
   try {
     const buildOptions = {
       entryPoints: [
-        'src/grace.ts',
+        'src/baklava.ts',
         ...(await globby([
           'src/components/**/!(*.(test|d)).ts',
           'src/themes/*.css',
@@ -31,7 +31,7 @@ const args = parseArgs(process.argv.slice(2), {
       bundle: true,
       sourcemap: true,
       format: 'esm',
-      target: 'es2017',
+      target: 'esnext',
       splitting: true,
       metafile: true,
       minify: true,
@@ -77,8 +77,12 @@ const args = parseArgs(process.argv.slice(2), {
         size: `${(data.bytes / 1024).toFixed(2)} KB`,
       }))
       .filter(
-        ({ fileName }) => fileName.endsWith('.js') || fileName.endsWith('.css')
+        ({ fileName }) =>
+          !/icon\/icons\/.*\.js/.test(fileName) &&
+          (fileName.endsWith('.js') || fileName.endsWith('.css'))
       );
+
+    del(`${destinationPath}/components/icon/icons`);
 
     console.table(analyzeResult, ['fileName', 'size']);
 

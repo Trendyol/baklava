@@ -22,6 +22,7 @@
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": false,
     "strictPropertyInitialization": false,
+    "skipLibCheck": true,
     "resolveJsonModule": true,
     "jsx": "react",
     "jsxFactory": "h",
