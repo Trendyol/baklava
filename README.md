@@ -1,6 +1,6 @@
 # Baklava Design System
 
-![npm package](https://img.shields.io/npm/v/@trendyol-js/baklava/beta.svg) ![jsDelivr hits (npm scoped)](https://img.shields.io/jsdelivr/npm/hm/@trendyol-js/baklava) [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+![npm package](https://img.shields.io/npm/v/@trendyol/baklava/beta.svg) ![jsDelivr hits (npm scoped)](https://img.shields.io/jsdelivr/npm/hm/@trendyol/baklava) [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
 > This is a work-in-progress version. If you want to work on previous version (Grace) please check `main` branch.
 
@@ -13,8 +13,8 @@ Web implementation of the design system is created as native web components so i
 Preferred way of using Baklava is using it via CDN. Just import library JS and CSS files to your main document like below:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol-js/baklava@beta/dist/themes/default.css" />
-<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol-js/baklava@beta/dist/baklava.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/baklava.js"></script>
 ```
 
 This way library will be served from a very high performant CDN and all of the Baklava web components will be ready to use inside your web project.
