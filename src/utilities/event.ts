@@ -15,9 +15,7 @@ export class EventDispatcher<T> {
       composed: true,
     }
   ) {
-    this.target.dispatchEvent(
-      new CustomEvent<T>(this.eventName, { detail: value, ...options })
-    );
+    this.target.dispatchEvent(new CustomEvent<T>(this.eventName, { detail: value, ...options }));
   }
 }
 

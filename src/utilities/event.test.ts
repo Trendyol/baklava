@@ -6,9 +6,7 @@ class EventCustomNameComp extends LitElement {
   @event('gr-test') test: EventDispatcher<string>;
 
   render() {
-    return html`<button
-      @click=${() => this.test.dispatch('test event')}
-    ></button>`;
+    return html`<button @click=${() => this.test.dispatch('test event')}></button>`;
   }
 }
 
@@ -29,9 +27,7 @@ class EventCustomTypeComp extends LitElement {
 
   render() {
     const file = new MyFile('abc.js', 21312312);
-    return html`<button
-      @click=${() => this.uploadDone.dispatch(file)}
-    ></button>`;
+    return html`<button @click=${() => this.uploadDone.dispatch(file)}></button>`;
   }
 }
 
