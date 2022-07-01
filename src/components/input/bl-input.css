@@ -45,6 +45,10 @@ input:focus {
   --bl-input-border-color: var(--bl-color-primary);
 }
 
+:host ::placeholder {
+  color: var(--bl-color-content-tertiary);
+}
+
 :host([label]) ::placeholder {
   color: transparent;
   transition: color ease-out 0.4s;
