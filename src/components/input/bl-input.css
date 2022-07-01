@@ -96,7 +96,7 @@ label {
   font: var(--bl-font-form-label);
   color: var(--bl-color-content-secondary);
   padding: 0 var(--bl-size-3xs);
-  background-color: var(--bl-color-secondary-background);
+  background-color: var(--bl-color-primary-background);
   pointer-events: initial;
 }
 
