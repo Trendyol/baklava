@@ -4,19 +4,22 @@ export interface EventOptions {
   composed?: boolean;
 }
 
-export class EventDispatcher<T> {
-  constructor(private target: HTMLElement, private eventName: string) {}
+export interface EventDispatcher<T> {
+  (value: T, options?: EventOptions): void;
+}
 
-  dispatch(
-    value: T,
-    options: EventOptions = {
-      bubbles: true,
-      cancelable: false,
-      composed: true,
-    }
-  ) {
-    this.target.dispatchEvent(new CustomEvent<T>(this.eventName, { detail: value, ...options }));
-  }
+function dispatcher<T>(target: HTMLElement, eventName: string): EventDispatcher<T> {
+  return function (value: T, options?: EventOptions) {
+    target.dispatchEvent(
+      new CustomEvent<T>(eventName, {
+        detail: value,
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        ...options,
+      })
+    );
+  };
 }
 
 export function event(customName?: string) {
@@ -24,7 +27,7 @@ export function event(customName?: string) {
   return (protoOrDescriptor: any, name: string): any => {
     const descriptor = {
       get(this: HTMLElement) {
-        return new EventDispatcher(this, customName || name);
+        return dispatcher(this, customName || name);
       },
       enumerable: true,
       configurable: true,
