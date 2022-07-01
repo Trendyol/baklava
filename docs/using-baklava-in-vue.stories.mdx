@@ -40,9 +40,9 @@ To be able to use Baklava via npm, run ```npm install @trendyol/baklava```
 then,
 
 ```js
-@import "@trendyol-js/baklava/dist/themes/default.css";
-import { setIconPath } from '@trendyol-js/baklava'
-setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava@latest/dist/assets')
+@import "@trendyol/baklava/dist/themes/default.css";
+import { setIconPath } from '@trendyol/baklava'
+setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/assets')
 ```
 
 #### Vue2
@@ -62,7 +62,7 @@ Also, you can add ignore rule as compiler options to your webpack or vite.
   isCustomElement: tag => tag.startsWith('bl-')
   ```
   For Vite:
-  
+
   ```js
   plugins: [
     vue({
