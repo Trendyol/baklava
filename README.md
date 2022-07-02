@@ -19,4 +19,4 @@ Preferred way of using Baklava is using it via CDN. Just import library JS and C
 
 This way library will be served from a very high performant CDN and all of the Baklava web components will be ready to use inside your web project.
 
-Please check our [Storybook Documentation](https://next--6267ebb4dd54f5004a65f14a.chromatic.com/) for detailed information about design system, components and contribution guideline.
+Please check our [Storybook Documentation](https://trendyol.github.io/baklava/) for detailed information about design system, components and contribution guideline.
