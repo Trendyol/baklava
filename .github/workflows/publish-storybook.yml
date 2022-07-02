@@ -19,5 +19,5 @@ jobs:
         run: npm ci
       - name: Deploy to GH Pages
         run: npm run deploy-storybook
-        with:
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
