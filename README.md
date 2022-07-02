@@ -6,10 +6,10 @@
     <h1>Grace</h1>
     <h3>Design System For Vue Applications</h3>
     <p align="center">
-    <a href="https://trendyol.github.io/grace/"><strong>Explore the docs »</strong></a>
+    <a href="https://main--62c032861cb75ca233ce4f28.chromatic.com/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://trendyol.github.io/grace/">View Demo</a>
+    <a href="https://main--62c032861cb75ca233ce4f28.chromatic.com/">View Demo</a>
     ·
     <a href="https://github.com/Trendyol/grace/issues">Report Bug</a>
     ·

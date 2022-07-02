@@ -3,7 +3,10 @@
   "version": "1.0.46",
   "description": "Design System written with Vue.js",
   "license": "MIT",
-  "repository": "https://github.com/Trendyol/grace",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Trendyol/grace.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "npm run scss && node --max_old_space_size=7000 node_modules/rollup/dist/bin/rollup -c rollup.config.ts --environment BUILD:production",
@@ -19,10 +22,10 @@
     "loki:build:test": "npm run storybook:build && loki --requireReference --reactUri file:./storybook-static",
     "build:watch": "rollup --watch -c --environment BUILD:production",
     "scss": "node-sass design-system/system.scss -o css/ && node-sass design-system/root.scss -o css/",
-    "storybook:build": "npm run scss && build-storybook",
+    "build-storybook": "npm run scss && build-storybook",
     "storybook:start": "npm run scss && start-storybook -s ./ -p 6006",
-    "deploy-storybook": "storybook-to-ghpages -- --source-branch=main",
-    "docs": "bash ./generateDocs.sh"
+    "docs": "bash ./generateDocs.sh",
+    "chromatic": "npx chromatic"
   },
   "dependencies": {
     "core-js": "3.6.5",
@@ -54,7 +57,6 @@
     "@storybook/addon-viewport": "5.3.18",
     "@storybook/addons": "5.3.18",
     "@storybook/source-loader": "5.3.18",
-    "@storybook/storybook-deployer": "^2.8.10",
     "@storybook/vue": "5.3.18",
     "@types/feather-icons": "4.7.0",
     "@types/jest": "23.3.14",
@@ -73,6 +75,7 @@
     "babel-eslint": "^10.1.0",
     "babel-plugin-transform-builtin-classes": "^0.6.1",
     "babel-preset-vue": "^2.0.2",
+    "chromatic": "^6.7.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
@@ -112,5 +115,11 @@
         "mobile": false
       }
     }
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Trendyol/grace/issues"
+  },
+  "readme": "ERROR: No README data found!",
+  "homepage": "https://github.com/Trendyol/grace#readme",
+  "_id": "@trendyol-js/grace@1.0.46"
 }
