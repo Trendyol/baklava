@@ -23,7 +23,7 @@
     "commit": "commit",
     "build": "node scripts/build.js && npm run analyze",
     "build-storybook": "NODE_ENV=production build-storybook -o storybook-static",
-    "deploy-storybook": "storybook-to-ghpages --ci --source-branch=next --host-token-env-variable=GITHUB_TOKEN",
+    "deploy-storybook": "storybook-to-ghpages --ci -e=storybook-static --source-branch=next --host-token-env-variable=GITHUB_TOKEN",
     "serve": "node scripts/build.js --serve",
     "storybook:dev": "start-storybook -p 1994",
     "lint": "npm-run-all -s lint:*",

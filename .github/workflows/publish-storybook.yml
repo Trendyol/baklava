@@ -17,6 +17,8 @@ jobs:
           node-version: 16
       - name: Install dependencies
         run: npm ci
+      - name: Build Storybook
+        run: npm run build-storybook
       - name: Deploy to GH Pages
         run: npm run deploy-storybook
         env:
