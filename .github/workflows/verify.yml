@@ -3,6 +3,9 @@ name: Verify
 on:
   workflow_call:
 
+permissions:
+  pull-requests: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -21,6 +24,11 @@ jobs:
         uses: microsoft/playwright-github-action@v1
       - name: Run tests
         run: npm run test
+      - name: Analyze with SonarCloud         
+        uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Create coverage artifact
         uses: actions/upload-artifact@master
         with:
