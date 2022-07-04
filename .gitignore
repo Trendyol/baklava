@@ -30,3 +30,4 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 src/component-list.json
 coverage/
+build-storybook.log
