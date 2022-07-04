@@ -8,6 +8,6 @@ jobs:
   verify:
     uses: trendyol/baklava/.github/workflows/verify.yml@next
   preview:
-    uses: trendyol/baklava/.github/workflows/publish-storybook.yml@next
+    uses: trendyol/baklava/.github/workflows/publish-chromatic.yml@next
     needs: verify
     secrets: inherit
