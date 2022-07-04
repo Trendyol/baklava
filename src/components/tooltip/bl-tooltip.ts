@@ -1,7 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { computePosition, flip, shift, offset, arrow } from '@floating-ui/dom';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import style from './bl-tooltip.css';
 
 export type Placement =
@@ -35,12 +34,32 @@ export default class BlTooltip extends LitElement {
   text?: string;
 
   @state() private _show = false;
+  @state() private _hasContentSlot = false;
 
-  connectedCallback() {
-    super.connectedCallback();
+  // connectedCallback() {
+  //   super.connectedCallback();
 
-    setTimeout(() => {
-      this.setTooltip();
+  //   setTimeout(() => {
+  //     // this.setTooltip();
+  //   });
+  // }
+
+  firstUpdated() {
+    this._hasContentSlot = this.checkContentSlot;
+  }
+
+  private get checkContentSlot() {
+    const childNodes = [...this.childNodes];
+    return childNodes.some(node => {
+      const nodeType = node.nodeType;
+
+      if (nodeType === node.ELEMENT_NODE) {
+        if ((node as HTMLElement).hasAttribute('slot') && 
+        (node as HTMLElement).getAttribute('slot') === 'tooltip-content') {
+          return true;
+        }
+      }
+      return false;
     });
   }
 
@@ -75,17 +94,23 @@ export default class BlTooltip extends LitElement {
 
   show() {
     this._show = true;
+    this.setTooltip();
   }
 
   hide() {
     this._show = false;
   }
 
-  render(): TemplateResult {
-    return html`<slot class="trigger" @mouseover="${this.show}" @mouseleave="${this.hide}"> </slot>
+  render(): TemplateResult { 
+    const content = this._hasContentSlot ? html`<slot name="tooltip-content"></slot>` : this.text;
+   
+    return html`
+      <slot class="trigger" 
+        @mouseover="${this.show}" 
+        @mouseleave="${this.hide}">
+      </slot>
       <div class="tooltip" show=${this._show}>
-        ${ifDefined(this.text)}
-        <slot name="tooltip-content"></slot>
+        ${content}
         <div class="arrow"></div>
       </div>`;
   }

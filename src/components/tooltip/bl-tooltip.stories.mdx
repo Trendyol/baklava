@@ -21,14 +21,14 @@ export const TooltipTemplate = (args) => html`<bl-tooltip
 placement="${ifDefined(args.placement)}"
 text="${ifDefined(args.text)}">
 <bl-icon name="info"></bl-icon>
-<span slot="tooltip-content"></span></bl-tooltip>`
+<span slot="tooltip-content">test</span></bl-tooltip>`
 
 export const PositionTemplate = (args) => html`
 ${TooltipTemplate({text:'Hello',...args})}
 `;
 
 # Tooltip
-Badge component can be used for highlighting a status or labeling an item.
+Tooltips display informative text when users hover over, focus on, or tap an element.
 
 ## Tooltip Positions
 test
