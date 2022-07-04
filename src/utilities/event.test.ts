@@ -42,8 +42,8 @@ describe('event decorator helpers', () => {
         'Element did not render children'
       );
 
-      el.addEventListener('test', ((event: CustomEvent<string>) => {
-        expect(event.detail).equals('test');
+      el.addEventListener('test', ((testEvent: CustomEvent<string>) => {
+        expect(testEvent.detail).equals('test');
       }) as EventListener);
 
       el.shadowRoot?.querySelector('button')?.click();
@@ -58,8 +58,8 @@ describe('event decorator helpers', () => {
         'Element did not render children'
       );
 
-      el.addEventListener('gr-test', ((event: CustomEvent<string>) => {
-        expect(event.detail).equals('test event');
+      el.addEventListener('gr-test', ((testEvent: CustomEvent<string>) => {
+        expect(testEvent.detail).equals('test event');
       }) as EventListener);
 
       el.shadowRoot?.querySelector('button')?.click();
@@ -74,8 +74,8 @@ describe('event decorator helpers', () => {
         'Element did not render children'
       );
 
-      el.addEventListener('uploadDone', ((event: CustomEvent<MyFile>) => {
-        expect(event.detail).instanceOf(MyFile);
+      el.addEventListener('uploadDone', ((testEvent: CustomEvent<MyFile>) => {
+        expect(testEvent.detail).instanceOf(MyFile);
       }) as EventListener);
 
       el.shadowRoot?.querySelector('button')?.click();
