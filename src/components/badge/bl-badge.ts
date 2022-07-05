@@ -9,11 +9,8 @@ export type BadgeSize = 'small' | 'medium' | 'large';
  * @tag bl-badge
  * @summary Baklava Badge component
  *
- * @property {string} size - Sets the badge size
- * @property {string} icon - Sets the name of the icon
- *
- * @cssproperty --bl-badge-bg-color - Sets the background color of badge. Default value is '--bl-color-accent-primary-background'
- * @cssproperty --bl-badge-color - Sets the color of badge. Default value is '--bl-color-primary'
+ * @cssproperty --bl-badge-bg-color - Sets the background color of badge. Default value is `--bl-color-accent-primary-background`
+ * @cssproperty --bl-badge-color - Sets the color of badge. Default value is `--bl-color-primary`
  */
 
 @customElement('bl-badge')
@@ -22,9 +19,15 @@ export default class BlBadge extends LitElement {
     return [style];
   }
 
+  /**
+   * Sets the badge size
+   */
   @property({ type: String, reflect: true })
   size: BadgeSize = 'medium';
 
+  /**
+   * Sets the name of the icon
+   */
   @property({ type: String })
   icon?: string;
 

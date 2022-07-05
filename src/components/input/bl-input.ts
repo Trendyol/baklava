@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { event, EventDispatcher } from '../../utilities/event';
 import '../icon/bl-icon';
 
 import style from './bl-input.css';
@@ -10,9 +11,6 @@ export type InputSize = 'medium' | 'large';
 /**
  * @tag bl-input
  * @summary Baklava Input component
- *
- * @fires {CustomEvent} bl-input - Fires when the value of an input element has been changed.
- * @fires {CustomEvent} bl-change - Fires when an alteration to the element's value is committed by the user. Unlike the input event, the change event is not necessarily fired for each alteration to an element's value.
  */
 @customElement('bl-input')
 export default class BlInput extends LitElement {
@@ -113,6 +111,16 @@ export default class BlInput extends LitElement {
   helpText?: string;
 
   /**
+   * Fires when an alteration to the element's value is committed by the user. Unlike the input event, the change event is not necessarily fired for each alteration to an element's value.
+   */
+  @event('bl-change') private onChange: EventDispatcher<string>;
+
+  /**
+   * Fires when the value of an input element has been changed.
+   */
+  @event('bl-input') private onInput: EventDispatcher<string>;
+
+  /**
    * Current validity state of input
    */
   validity: ValidityState;
@@ -146,16 +154,12 @@ export default class BlInput extends LitElement {
   private inputHandler() {
     this.validity = this.input?.validity;
     this.value = this.input.value;
-    this.event('bl-input', this.input.value);
+    this.onInput(this.input.value);
   }
 
   private changeHandler() {
     this._dirty = true;
-    this.event('bl-change', this.input.value);
-  }
-
-  private event(name: string, detail: string) {
-    this.dispatchEvent(new CustomEvent(name, { detail, bubbles: true, composed: true }));
+    this.onChange(this.input.value);
   }
 
   firstUpdated() {
