@@ -1,7 +1,8 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
-import { computePosition, flip, shift, offset, arrow } from '@floating-ui/dom';
+import { computePosition, flip, shift, offset, arrow, Strategy } from '@floating-ui/dom';
 import style from './bl-tooltip.css';
+import { classMap } from 'lit/directives/class-map.js';
 
 export type Placement =
   | 'top-start'
@@ -17,100 +18,96 @@ export type Placement =
   | 'right'
   | 'right-end';
 
+  export type Positon = 'absolute' | 'fixed';
+
+  /**
+ * @tag bl-tooltip
+ * @summary Baklava Tooltip component
+ *
+ * @property {string} placement - Sets the tooltip placement
+ *
+ * @cssproperty --bl-tooltip-position Sets the position. Default value is 'absolute'
+ */
+
 @customElement('bl-tooltip')
 export default class BlTooltip extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
 
-  @query('.tooltip') tooltip: HTMLElement;
-  @query('.trigger') trigger: HTMLElement;
-  @query('.arrow') arrow: HTMLElement;
+  @query('.tooltip') private tooltip: HTMLElement;
+  @query('.trigger') private trigger: HTMLElement;
+  @query('.arrow') private arrow: HTMLElement;
 
   @property({ type: String })
   placement: Placement = 'top';
 
-  @property({ type: String })
-  text?: string;
-
   @state() private _show = false;
-  @state() private _hasContentSlot = false;
+  @state() private _position : Strategy = 'absolute';
 
-  // connectedCallback() {
-  //   super.connectedCallback();
+  connectedCallback() {
+    super.connectedCallback();
 
-  //   setTimeout(() => {
-  //     // this.setTooltip();
-  //   });
-  // }
-
-  firstUpdated() {
-    this._hasContentSlot = this.checkContentSlot;
-  }
-
-  private get checkContentSlot() {
-    const childNodes = [...this.childNodes];
-    return childNodes.some(node => {
-      const nodeType = node.nodeType;
-
-      if (nodeType === node.ELEMENT_NODE) {
-        if ((node as HTMLElement).hasAttribute('slot') && 
-        (node as HTMLElement).getAttribute('slot') === 'tooltip-content') {
-          return true;
-        }
-      }
-      return false;
+    setTimeout(() => {
+     const host = this.shadowRoot?.host as HTMLElement;
+     this._position = getComputedStyle(host).getPropertyValue('--bl-tooltip-position') as Strategy;
     });
   }
 
-  setTooltip() {
+  private setTooltip() {
     computePosition(this.trigger, this.tooltip, {
       placement: this.placement,
-      middleware: [offset(8), shift({ padding: 5 }), flip(),arrow({ element: this.arrow })],
+      strategy: this._position,
+      middleware: [offset(8), shift({ padding: 5 }), flip(),arrow({ element: this.arrow, padding: 5 })],
     }).then(({ x, y, placement, middlewareData }) => {
-      this.tooltip.style.left = `${x}px`;
-      this.tooltip.style.top = `${y}px`;
-
       const arrowX = middlewareData.arrow?.x;
       const arrowY = middlewareData.arrow?.y;
 
+      // const arrowX = middlewareData.arrow?.x != null ? `${middlewareData.arrow?.x}px` : '';
+      // const arrowY = middlewareData.arrow?.y != null ? `${middlewareData.arrow?.y}px`  : ' ';
+      const host = this.shadowRoot?.host as HTMLElement;
       const arrowDirections = {
         top: 'bottom',
         right: 'left',
         bottom: 'top',
         left: 'right',
       };
-
       const tooltipPlacement = placement.split('-')[0] as keyof typeof arrowDirections;
       const arrowDirection = arrowDirections[tooltipPlacement];
 
-      Object.assign(this.arrow.style, {
-        left: arrowX ? `${arrowX}px` : '',
-        top: arrowY ? `${arrowY}px` : '',
-        [arrowDirection]: '-3px',
-      });
+      host.style.setProperty('--bl-tooltip-left',`${x}px`);
+      host.style.setProperty('--bl-tooltip-top',`${y}px`)
+      host.style.setProperty('--bl-tooltip-arrow-left',`${arrowX}px`);
+      host.style.setProperty('--bl-tooltip-arrow-top',`${arrowY}px`);
+      host.style.setProperty(`--bl-tooltip-arrow-${arrowDirection}`,'-4px');
     });
   }
 
-  show() {
+  private show() {
     this._show = true;
     this.setTooltip();
   }
 
-  hide() {
+  private hide() {
     this._show = false;
   }
 
   render(): TemplateResult { 
-    const content = this._hasContentSlot ? html`<slot name="tooltip-content"></slot>` : this.text;
-   
+    const classes = classMap({
+      'tooltip': true,
+      'show': this._show,
+      'hidden': !this._show
+    });
+
     return html`
-      <slot class="trigger" 
+      <slot 
+        class="trigger" 
+        name="tooltip-trigger"
         @mouseover="${this.show}" 
         @mouseleave="${this.hide}">
       </slot>
-      <div class="tooltip" show=${this._show}>
-        ${content}
+      <div class=${classes}>  
+        <slot></slot>
         <div class="arrow"></div>
       </div>`;
   }

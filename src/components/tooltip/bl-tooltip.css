@@ -1,7 +1,12 @@
 :host {
+  --bl-tooltip-position: absolute;
   --bl-tooltip-left: 0;
   --bl-tooltip-top: 0;
   --bl-tooltip-visibility: hidden;
+  --bl-tooltip-arrow-top: 0;
+  --bl-tooltip-arrow-bottom: 0;
+  --bl-tooltip-arrow-right: 0;
+  --bl-tooltip-arrow-left: 0;
 }
 
 .trigger {
@@ -10,7 +15,7 @@
 }
 
 .tooltip {
-  position: fixed;
+  position: var(--bl-tooltip-position);
   box-sizing: border-box;
   border: none;
   background-color: var(--bl-color-secondary);
@@ -22,7 +27,7 @@
   left: var(--bl-tooltip-left);
   top: var(--bl-tooltip-top);
   visibility: var(--bl-tooltip-visibility);
-  z-index: 1;
+  z-index: 999;
   max-width: 312px;
 }
 
@@ -32,8 +37,16 @@
   width: 8px;
   height: 8px;
   transform: rotate(45deg);
+  top: var(--bl-tooltip-arrow-top);
+  bottom: var(--bl-tooltip-arrow-bottom);
+  right: var(--bl-tooltip-arrow-right);
+  left: var(--bl-tooltip-arrow-left)
 }
 
-.tooltip[show='true'] {
-  --bl-tooltip-visibility: show;
+.show {
+  --bl-tooltip-visibility: visible;
+}
+
+.hidden {
+  --bl-tooltip-visibility: hidden;
 }

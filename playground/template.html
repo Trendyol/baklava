@@ -28,57 +28,17 @@
       <code>npm run serve</code>.
     </p>
     <br/>
-               <!-- 
- <bl-tooltip>
-        <button slot='tooltip-trigger'>
-          daml
-        </button>
-        <span slot='tooltip-content'>
-          hello kity
-        </span>
-      </bl-tooltip>
 
-
-    <bl-tooltip>
-      <bl-button slot='tooltip-trigger' style="display:inline-block">
-        daml
-      </bl-button>
-      <div  slot='tooltip-content'>    
-      <bl-badge>
-        hello kity
-      </bl-badge>
-      <bl-badge>
-        hello kity
-      </bl-badge></div>
-    </bl-tooltip> -->
-
-
-    <!-- <bl-tooltip>
-      <bl-button slot='tooltip-trigger' icon="copy"></bl-button>     
-      <span  slot='tooltip-content'>    
-        Copy
-      </span>
-    </bl-tooltip> -->
-
-    <div style="border:1px solid orange;padding:15px;">
+    <div style="border:1px solid orange;padding:15px;overflow:hidden">
     <div style="position: relative; border:1px solid purple;padding:15px">
-    <!-- <bl-tooltip style="margin:10px">
-      <bl-button icon="copy"></bl-button>     
-      <span slot="tooltip-content">slotlu</span>
+    <bl-tooltip style="margin:10px">
+      <bl-button  slot="tooltip-trigger" icon="copy"></bl-button>     
+      <span>copy</span>
     </bl-tooltip>
 
-    <bl-tooltip text='proplu textli' style="margin:10px">
-      <bl-button icon="copy"></bl-button>     
-    </bl-tooltip> -->
-
-    <bl-tooltip  style="margin:10px">
-      <bl-button icon="copy"></bl-button>  
-      <span slot="tooltip-content">slotlu</span>
-    </bl-tooltip>
-
-    <bl-tooltip placement="right" style="margin:10px">
-      <bl-icon name="info"></bl-icon>
-      <main  slot='tooltip-content' style="display:flex;flex-direction:column;gap:10px">    
+    <bl-tooltip placement="right" style="margin:10px;--bl-tooltip-position:fixed">
+      <bl-icon  slot="tooltip-trigger" name="info"></bl-icon>
+      <main style="display:flex;flex-direction:column;gap:10px">    
         <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.</span>
         <div style="display:flex;justify-content:space-between">
           <bl-button outline>
@@ -95,156 +55,73 @@
       </main>
     </bl-tooltip>
 
-    <bl-tooltip text='academy' placement="top-start" style="margin:10px">
-      <bl-icon slot="tooltip-trigger" name="academy"></bl-icon>
-      sdgfdjskgfsd
-    </bl-tooltip>
-
     <bl-tooltip placement="top-start" style="margin:10px">
-      <span>more info</span>
-      <bl-badge  slot='tooltip-content'> hello kity </bl-badge>
-    </bl-tooltip>
-
-  </div>
-  </div>
-
-  <!-- <bl-tooltip>
-    <bl-button icon="copy"></bl-button>     
-    <span  slot='tooltip-content'>    
-      Copy
-    </span>
-  </bl-tooltip> -->
-
-  <div style="border:1px solid blue;padding:15px;">
-    <div style="position:relative; border:1px solid red;padding:15px">
-    <bl-tooltip text="text">
-      <bl-button icon="copy"></bl-button>     
-      <span  slot='tooltip-content'>    
-        Copy
-      </span>
+      <span slot='tooltip-trigger'>more info</span>
+      <bl-badge> hello </bl-badge>
     </bl-tooltip>
   </div>
   </div>
 
-
-  <!-- <div style="position:relative; border:1px solid blue;padding:15px;">
-    <div style="position:relative; border:1px solid red;padding:15px">
-    <bl-tooltip text="text">
-      <bl-button icon="copy"></bl-button>     
-      <span  slot='tooltip-content'>    
-        Copy
-      </span>
-    </bl-tooltip>
-  </div>
-  </div>
-
-
-
-    <bl-tooltip>
-      <bl-button slot='tooltip-trigger' icon="copy"></bl-button>     
-      <span  slot='tooltip-content'>    
-        Copy
-      </span>
-    </bl-tooltip> -->
-
-    <div style="margin-top: 20px;">
+    <div style="margin-top: 20px;display:flex;justify-content:center">
       <bl-tooltip placement="top-start">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">top-start</span>
+        <bl-icon  slot="tooltip-trigger" name="info"></bl-icon>
+        <span>top-start</span>
       </bl-tooltip>
       <bl-tooltip placement="top">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">top</span>
+        <bl-icon slot="tooltip-trigger" name="info"></bl-icon>
+        <span>top</span>
       </bl-tooltip>
       <bl-tooltip placement="top-end">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">top-end</span>
+        <bl-icon slot="tooltip-trigger" name="info" style="float:right"></bl-icon>
+        <span>top-end</span>
       </bl-tooltip>
     </div>
 
     <div style="margin-top: 20px;">
       <bl-tooltip placement="bottom-start">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">bottom-start</span>
+        <bl-icon  slot="tooltip-trigger" name="info"></bl-icon>
+        <span>bottom-start</span>
       </bl-tooltip>
       <bl-tooltip placement="bottom">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">bottom</span>
+        <bl-icon  slot="tooltip-trigger"  name="info"></bl-icon>
+        <span>bottom</span>
       </bl-tooltip>
       <bl-tooltip placement="bottom-end">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">bottom-end</span>
+        <bl-icon  slot="tooltip-trigger"  name="info"></bl-icon>
+        <span>bottom-end</span>
       </bl-tooltip>
     </div>
 
     <div style="margin: 50px;">
       <bl-tooltip placement="left-start">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">left-start</span>
+        <bl-icon  slot="tooltip-trigger"  name="info"></bl-icon>
+        <span>left-start</span>
       </bl-tooltip>
       <bl-tooltip placement="left">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">left</span>
+        <bl-icon  slot="tooltip-trigger"  name="info"></bl-icon>
+        <span>left</span>
       </bl-tooltip>
       <bl-tooltip placement="left-end">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">left-end</span>
+        <bl-icon  slot="tooltip-trigger"  name="info"></bl-icon>
+        <span>left-end</span>
       </bl-tooltip>
     </div>
 
     <div style="margin-top: 20px;">
       <bl-tooltip placement="right-start">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">right-start</span>
+        <bl-icon  slot="tooltip-trigger"  name="info"></bl-icon>
+        <span>right-start</span>
       </bl-tooltip>
       <bl-tooltip placement="right">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">right</span>
+        <bl-icon  slot="tooltip-trigger"  name="info"></bl-icon>
+        <span>right</span>
       </bl-tooltip>
       <bl-tooltip placement="right-end">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">right-end</span>
+        <bl-icon  slot="tooltip-trigger"  name="info"></bl-icon>
+        <span>right-end</span>
       </bl-tooltip>
     </div>
 
-     <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>  
-
-    <div style="margin-top: 20px;">
-      <bl-tooltip placement="bottom-start">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">bottom-start</span>
-      </bl-tooltip>
-      <bl-tooltip placement="bottom">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">bottom</span>
-      </bl-tooltip>
-      <bl-tooltip placement="bottom-end">
-        <bl-icon  name="info"></bl-icon>
-        <span slot="tooltip-content">bottom-end</span>
-      </bl-tooltip>
-    </div>
-
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>  
-    <div style="margin:50px"><bl-button>Baklava is ready</bl-button></div>   
 
   </body>
 </html>
