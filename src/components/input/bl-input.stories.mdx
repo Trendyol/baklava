@@ -6,6 +6,7 @@ import {
   ArgsTable,
   Story,
 } from '@storybook/addon-docs';
+import { screen, userEvent, waitFor, within, getByRole } from '@storybook/testing-library';
 
 <Meta
   title="Components/Input"
@@ -90,6 +91,7 @@ export const SingleInputTemplate = (args) => html`<bl-input
     max='${ifDefined(args.max)}'
     icon='${ifDefined(args.icon)}'
     size='${ifDefined(args.size)}'
+    data-testid=${ifDefined(args.testid)}
   ></bl-input>`
 
 export const LabelStylesTemplate = args => html`
@@ -198,6 +200,20 @@ Inputs have 2 size options: `medium` and `large`. `medium` size is default and i
          args={{ type: 'text', label: 'User Name', size: 'large' }}
   >
     {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Input Focus State
+
+<Canvas>
+  <Story name="Input Focus State"
+    args={{ type: 'text', label: 'User Name', size: 'large', testid: 'focusinput' }}
+    play={async ({ canvasElement }) => {
+      const canvas = within(canvasElement);
+      const blInput = canvas.getByTestId('focusinput');
+      await userEvent.click(blInput);
+    }}
+    >{SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
 
