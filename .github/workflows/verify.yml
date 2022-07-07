@@ -6,9 +6,6 @@ on:
       SONAR_TOKEN:
         required: true
 
-permissions:
-  pull-requests: read
-
 jobs:
   verify:
     runs-on: ubuntu-latest
