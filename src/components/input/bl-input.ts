@@ -133,10 +133,6 @@ export default class BlInput extends LitElement {
     this.input.checkValidity();
   }
 
-  focus() {
-    this.input.focus();
-  }
-
   @state() private _dirty = false;
 
   private get dirty(): boolean {
