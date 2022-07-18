@@ -2,6 +2,9 @@ name: Verify
 
 on:
   workflow_call:
+    secrets:
+      SONAR_TOKEN:
+        required: true
 
 jobs:
   verify:
@@ -13,14 +16,20 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: 'npm'
+      - name: Install Playwright dependencies
+        run: npx playwright install-deps
       - name: Install dependencies
         run: npm ci
       - name: Run linter check 
         run: npm run lint
-      - name: Set testing environment
-        uses: microsoft/playwright-github-action@v1
       - name: Run tests
         run: npm run test
+      - name: Analyze with SonarCloud
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Create coverage artifact
         uses: actions/upload-artifact@master
         with:

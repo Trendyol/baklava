@@ -13,6 +13,7 @@
   --bl-button-margin-icon: var(--bl-button-padding-vertical);
   --bl-button-icon-size: var(--bl-size-m);
   --bl-button-font: var(--bl-font-title-3-medium);
+  --bl-button-height: var(--bl-size-2xl);
 }
 
 .button {
@@ -22,10 +23,9 @@
   align-items: center;
   box-sizing: border-box;
   width: 100%;
-  border: none;
+  height: var(--bl-button-height);
+  border: solid 1px var(--bl-button-border-color);
   border-radius: 6px;
-  margin: 0;
-  box-shadow: inset 0 0 0 1px var(--bl-button-border-color);
   text-decoration: none;
   padding: var(--bl-button-padding-vertical) var(--bl-button-padding-horizontal);
   cursor: pointer;
@@ -52,13 +52,15 @@
   --bl-button-padding-vertical: var(--bl-size-3xs);
   --bl-button-padding-horizontal: var(--bl-size-2xs);
   --bl-button-icon-size: var(--bl-size-s);
+  --bl-button-height: var(--bl-size-xl);
 }
 
 :host([size='large']) {
   --bl-button-font: var(--bl-font-title-3-medium);
   --bl-button-padding-vertical: var(--bl-size-xs);
-  --bl-button-padding-horizontal: var(--bl-size-l);
+  --bl-button-padding-horizontal: var(--bl-size-xl);
   --bl-button-margin-icon: var(--bl-size-2xs);
+  --bl-button-height: var(--bl-size-3xl);
 }
 
 .button:focus {
@@ -89,13 +91,13 @@
   --bl-button-main-hover-color: var(--bl-color-danger-hover);
 }
 
-:host([plain]) {
+:host([text]) {
   --bl-button-content-color: var(--bl-button-main-color);
   --bl-button-border-color: transparent;
   --bl-button-bg-color: transparent;
 }
 
-:host([plain]) .button {
+:host([text]) .button {
   text-decoration: underline;
 }
 
@@ -105,6 +107,7 @@
   --bl-button-main-color: var(--bl-color-tertiary);
   --bl-button-main-hover-color: var(--bl-color-tertiary);
   --bl-button-content-color: var(--bl-color-content-passive);
+  --bl-button-bg-color: var(--bl-button-main-color);
 }
 
 :host([disabled]) .button {
@@ -120,7 +123,7 @@
   --bl-button-content-color: var(--bl-button-main-color);
 }
 
-:host([plain]:not([disabled])) .button:hover {
+:host([text]:not([disabled])) .button:hover {
   --bl-button-content-color: var(--bl-button-main-hover-color);
   --bl-button-border-color: transparent;
   --bl-button-bg-color: transparent;

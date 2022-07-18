@@ -1,5 +1,5 @@
 import { setCustomElementsManifest } from '@storybook/web-components';
-import customElements from '../src/custom-elements.json';
+import customElements from '../dist/custom-elements.json';
 
 setCustomElementsManifest(customElements);
 
@@ -16,7 +16,7 @@ export const parameters = {
   options: {
     storySort: {
       method: 'alphabetical',
-      order: ['Documentation', ['Welcome', '*'], 'Components', 'Design System'],
+      order: ['Documentation', ['Welcome', '*'], 'Frameworks', 'Components', 'Design System'],
       locales: 'en-US',
     },
   },
