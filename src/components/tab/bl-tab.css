@@ -1,3 +1,59 @@
 /*
  Avoid empty file error in linter
 */
+
+:host {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 16px 24px 18px;
+    background-color: var(--bl-color-primary-background);
+
+    --bl-tab-title-padding-vertical: var(--bl-size-m);
+    --bl-tab-title-padding-horizontal: var(--bl-size-xl);
+    --bl-tab-title-color: var(--bl-color-secondary);
+}
+
+.border-bottom {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 24px;
+    width: calc(100% - 48px);
+    border-bottom: 2px solid var(--bl-color-primary);
+}
+
+:host([active]) {
+    --bl-tab-title-color: var(--bl-color-primary)
+}
+
+:host([active]) .border-bottom {
+    display: inline-block;
+}
+
+
+.border-right {
+    position: absolute;
+    right: 0;
+    top: 16px;
+    height: calc(100% - 32px);
+    border-right: 2px solid var(--bl-color-tertiary-hover);
+}
+
+.title {
+    font-size: var(--bl-size-s);
+    font-weight: var(--bl-font-weight-medium);
+    color: var(--bl-tab-title-color);
+    line-height: var(--bl-size-m);
+}
+
+.caption {
+    font-size: var(--bl-size-xs);
+    font-weight: var(--bl-font-weight-regular);
+    color: var(--bl-color-secondary);
+    text-align: center;
+    margin-top: var(--bl-size-4xs);
+}
+
+
+

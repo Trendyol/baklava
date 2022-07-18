@@ -19,9 +19,9 @@ export default class BlTabGroup extends LitElement {
 
     this.updateComplete.then(() => {
       if(!this._activeTabName) {
-        const [firstTab] = this._getTabs;
+        const [firstTab] = this.getTabs;
         this.activeTabName = firstTab.name
-        this.activePanelName = firstTab.name
+        this.activePanelName = firstTab.panel
       }
     })
   }
@@ -29,6 +29,9 @@ export default class BlTabGroup extends LitElement {
   private _activeTabName: string;
   set activeTabName(name: string) {
     this._activeTabName = name
+    this.getTabs.map(t => {
+      t.active = name === t.name
+    })
   }
 
   private _activePanelName: string;
@@ -41,16 +44,17 @@ export default class BlTabGroup extends LitElement {
   }
 
   private _handleTabClicked(e: CustomEvent) {
-    this.activeTabName = e.detail.name
-    this.activePanelName = e.detail.name
+    this.activeTabName = e.detail.panel
+    this.activePanelName = e.detail.panel
   }
+
 
   get getPanels() {
     const slot = this.panels.querySelector('slot')!;
     return [...slot.assignedElements()].filter(el => el.tagName.toLowerCase() === 'bl-tab-panel') as [BlTabPanel];
   }
 
-  get _getTabs() {
+  get getTabs() {
     const slot = this.tabs.querySelector('slot')!;
     return [...slot.assignedElements()].filter(el => el.tagName.toLowerCase() === 'bl-tab') as [BlTab];
   }
