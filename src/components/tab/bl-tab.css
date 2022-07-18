@@ -6,7 +6,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    padding: 16px 24px 18px;
+    padding: var(--bl-size-m) var(--bl-size-xl) calc(var(--bl-size-m) + var(--bl-size-4xs));
     background-color: var(--bl-color-primary-background);
 
     --bl-tab-title-padding-vertical: var(--bl-size-m);
@@ -18,8 +18,8 @@
     display: none;
     position: absolute;
     bottom: 0;
-    left: 24px;
-    width: calc(100% - 48px);
+    left: var(--bl-size-xl);
+    width: calc(100% - var(--bl-size-4xl));
     border-bottom: 2px solid var(--bl-color-primary);
 }
 
@@ -35,8 +35,8 @@
 .border-right {
     position: absolute;
     right: 0;
-    top: 16px;
-    height: calc(100% - 32px);
+    top: var(--bl-size-m);
+    height: calc(100% - var(--bl-size-2xl));
     border-right: 2px solid var(--bl-color-tertiary-hover);
 }
 
