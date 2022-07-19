@@ -11,8 +11,8 @@ export default class BlTabGroup extends LitElement {
     return [style]
   }
 
-  @query('.panels') private panels: HTMLDivElement;
-  @query('.tabs') private tabs: HTMLDivElement;
+  @query('[role="tabpanel"]') private panels: HTMLDivElement;
+  @query('[role="tablist"]') private tabs: HTMLDivElement;
 
   connectedCallback() {
     super.connectedCallback()
@@ -72,10 +72,10 @@ export default class BlTabGroup extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="container">
-        <div class="tabs" @tabClicked=${this._handleTabClicked}>
+        <div role="tablist" class="tabs" @tabClicked=${this._handleTabClicked}>
           <slot name="tabs" class="tab"></slot>
         </div>
-        <div class="panels">
+        <div role="tabpanel" class="panels">
           <slot></slot>
         </div>
       </div>`

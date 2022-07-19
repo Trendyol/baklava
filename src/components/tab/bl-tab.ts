@@ -45,14 +45,14 @@ export default class BlTab extends LitElement {
       </div>` : null;
 
     return html`
-      <div class='container' @click='${this.handleClick}'>
+      <button role="tab" class='container' @click='${this.handleClick}'>
         <div class='title-caption-container'>
           <div class="title">
             ${title}
           </div>
           ${caption}
         </div>
-      </div>
+      </button>
     `;
   }
 }

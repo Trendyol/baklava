@@ -6,7 +6,6 @@
     position: relative;
     display: flex;
     align-items: center;
-    padding: var(--bl-size-m) var(--bl-size-xl) calc(var(--bl-size-m) + var(--bl-size-4xs));
     background-color: var(--bl-color-primary-background);
 
     --bl-tab-title-padding-vertical: var(--bl-size-m);
@@ -49,6 +48,14 @@
     display: inline-block;
 }
 
+button[role="tab"] {
+    border: none;
+    cursor: pointer;
+    background-color: initial;
+    width: 100%;
+    height: 100%;
+    padding: var(--bl-size-m) var(--bl-size-xl) calc(var(--bl-size-m) + var(--bl-size-4xs));
+}
 
 .border-right {
     position: absolute;
