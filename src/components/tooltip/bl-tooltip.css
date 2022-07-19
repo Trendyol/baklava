@@ -1,8 +1,8 @@
 :host {
   --bl-tooltip-position: absolute;
+  --bl-tooltip-visibility: hidden;
   --bl-tooltip-left: 0;
   --bl-tooltip-top: 0;
-  --bl-tooltip-visibility: hidden;
   --bl-tooltip-arrow-top: 0;
   --bl-tooltip-arrow-bottom: 0;
   --bl-tooltip-arrow-right: 0;
@@ -34,8 +34,8 @@
 .arrow {
   position: absolute;
   background-color: var(--bl-color-secondary);
-  width: 8px;
-  height: 8px;
+  width: var(--bl-size-2xs);
+  height: var(--bl-size-2xs);
   transform: rotate(45deg);
   top: var(--bl-tooltip-arrow-top);
   bottom: var(--bl-tooltip-arrow-bottom);
@@ -43,7 +43,7 @@
   left: var(--bl-tooltip-arrow-left)
 }
 
-.show {
+.visible {
   --bl-tooltip-visibility: visible;
 }
 

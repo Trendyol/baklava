@@ -1,4 +1,5 @@
 import { assert, elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { sendMouse } from '@web/test-runner-commands';
 import BlTooltip from './bl-tooltip';
 import type typeOfBlTooltip from './bl-tooltip';
 
@@ -71,37 +72,45 @@ describe('bl-tooltip', () => {
     //then
     expect(el.getAttribute('placement')).to.eq('right-start');
   });
+   
+  it('should have `visible` class when mouse over of trigger', async () => {
+    //given
+    const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip placement="top-end"><h1 slot='tooltip-trigger'>Test</h1> Test Tooltip</bl-tooltip>`);
+    const tooltip = el.shadowRoot?.querySelector('.tooltip') as HTMLElement;
+    const trigger = document.querySelector('h1') as HTMLElement;
+    const { x, y } = getMiddleOfElement(trigger);
 
-//   it('should have `show` class when mouse over', async () => {
-//     //given
-//     const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip placement="top-end"><bl-button slot='tooltip-trigger'>Test</bl-button> Test Tooltip</bl-tooltip>`);
-//     const button = document.querySelector('bl-button');
-//     const mouseoverEvent = new Event('mouseover');
+    //when
+    await sendMouse({ type: 'move', position: [x, y] });
 
-//     setTimeout(() => {
-//         //when
-//         button?.dispatchEvent(mouseoverEvent);
+    //then
+    expect(tooltip).to.have.class('visible');
+  });
 
-//         //then
-//         expect(el.shadowRoot?.querySelector('.show')).to.exist;
-//     },100)
-//   });
+  it('should have `hidden` class when mouse leave of trigger', async () => {
+    //given
+    const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip placement="left-end"><h1 slot='tooltip-trigger'>Test</h1> Test Tooltip</bl-tooltip>`);
+    const tooltip = el.shadowRoot?.querySelector('.tooltip') as HTMLElement;
+    const trigger = document.querySelector('h1') as HTMLElement;
+    const body = document.querySelector('body') as HTMLElement;
 
+    const { x:triggerX, y:triggerY } = getMiddleOfElement(trigger);
+    const { x:bodyX, y:bodyY } = getMiddleOfElement(body);
 
-//   it('should have `hidden` class when mouse leave', async () => {
-//     //given
-//     const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip placement="top-end"><bl-button slot='tooltip-trigger'>Test</bl-button> Test Tooltip</bl-tooltip>`);
-//     const button = document.querySelector('bl-button');
-//     const mouseoverEvent = new Event('mouseover');
-//     const mouseleaveEvent = new Event('mouseleave');
+    //when
+    await sendMouse({ type: 'move', position: [triggerX, triggerY] });
+    await sendMouse({ type: 'move', position: [bodyX, bodyY] });
 
-//     setTimeout(() => {
-//         //when
-//         button?.dispatchEvent(mouseoverEvent);
-//         button?.dispatchEvent(mouseleaveEvent);
-
-//         //then
-//         expect(el.shadowRoot?.querySelector('.hidden')).to.exist;
-//     },100)
-//   });
+    //then
+    expect(tooltip).to.have.class('hidden');
+  });
 });
+
+function getMiddleOfElement(element: Element) {
+  const { x, y, width, height } = element.getBoundingClientRect();
+
+  return {
+    x: Math.floor(x + window.pageXOffset + width / 2),
+    y: Math.floor(y + window.pageYOffset + height / 2),
+  };
+}
