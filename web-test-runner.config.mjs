@@ -31,7 +31,6 @@ if (args.debug) {
 const litCss = fromRollup(rollupLitCss);
 const replace = fromRollup(rollupReplace);
 
-
 export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   files: 'src/**/*.test.ts',
   rootDir: './',
@@ -60,7 +59,7 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
     replace({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
-    esbuildPlugin({ ts: true, target: 'esnext', define: {'process.env.NODE_ENV': 'production'} }),
+    esbuildPlugin({ ts: true, target: 'esnext'}),
   ],
 
   testRunnerHtml: testFramework =>
