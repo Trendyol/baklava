@@ -14,13 +14,31 @@
     --bl-tab-title-color: var(--bl-color-secondary);
 }
 
-.border-bottom {
-    display: none;
+:host::before {
     position: absolute;
+    opacity: 0;
+    content: '';
     bottom: 0;
-    left: var(--bl-size-xl);
+    left: 24px;
     width: calc(100% - var(--bl-size-4xl));
     border-bottom: 2px solid var(--bl-color-primary);
+}
+
+:host([active])::before {
+    opacity: 1;
+}
+
+:host::after {
+    position: absolute;
+    content: '';
+    right: 0;
+    top: var(--bl-size-m);
+    height: calc(100% - var(--bl-size-2xl));
+    border-right: 2px solid var(--bl-color-tertiary-hover);
+}
+
+:host([active])::after {
+    opacity: 1;
 }
 
 :host([active]) {

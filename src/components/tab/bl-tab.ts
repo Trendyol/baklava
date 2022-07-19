@@ -36,26 +36,24 @@ export default class BlTab extends LitElement {
 
 
   render(): TemplateResult {
-    const title = this.title ? html`<div class="title">
-      ${this.title}
-    </div>` : html`
-      <slot></slot>`;
+    const title = this.title || html`<slot></slot>`;
+
 
     const caption =
       this.caption ?  html`<div class="caption">
         ${this.caption}
       </div>` : null;
+
     return html`
       <div class='container' @click='${this.handleClick}'>
         <div class='title-caption-container'>
-          ${title}
+          <div class="title">
+            ${title}
+          </div>
           ${caption}
         </div>
       </div>
-      <div class="border-bottom"></div>
-      <div class="border-right"></div>
     `;
-
   }
 }
 
