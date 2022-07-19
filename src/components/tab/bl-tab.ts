@@ -23,7 +23,7 @@ export default class BlTab extends LitElement {
   name: string;
 
   @property({ type: Boolean, reflect: true })
-  active: boolean;
+  selected: boolean;
 
   handleClick(e: Event) {
     const detail = { panel: this.panel, tab: this.tab };

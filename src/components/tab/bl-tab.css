@@ -24,7 +24,7 @@
     border-bottom: 2px solid var(--bl-color-primary);
 }
 
-:host([active])::before {
+:host([selected])::before {
     opacity: 1;
 }
 
@@ -37,15 +37,15 @@
     border-right: 2px solid var(--bl-color-tertiary-hover);
 }
 
-:host([active])::after {
+:host([selected])::after {
     opacity: 1;
 }
 
-:host([active]) {
+:host([selected]) {
     --bl-tab-title-color: var(--bl-color-primary)
 }
 
-:host([active]) .border-bottom {
+:host([selected]) .border-bottom {
     display: inline-block;
 }
 

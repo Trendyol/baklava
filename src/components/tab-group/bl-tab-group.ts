@@ -18,34 +18,43 @@ export default class BlTabGroup extends LitElement {
     super.connectedCallback()
 
     this.updateComplete.then(() => {
-      if(!this._activeTabName) {
+      const [hasSelected] = this.getTabs.filter(t => t.selected)
+      if (hasSelected) {
+        this.selectedTabName = hasSelected.name
+        this.selectedPanelName = hasSelected.panel
+      } else {
         const [firstTab] = this.getTabs;
-        this.activeTabName = firstTab.name
-        this.activePanelName = firstTab.panel
+        this.selectedTabName = firstTab.name
+        this.selectedPanelName = firstTab.panel
       }
     })
   }
 
-  private _activeTabName: string;
-  set activeTabName(name: string) {
-    this._activeTabName = name
+  private _selectedTabName: string;
+  set selectedTabName(name: string) {
+    this._selectedTabName = name
     this.getTabs.map(t => {
-      t.active = name === t.name
+      t.selected = name === t.name
     })
   }
 
-  private _activePanelName: string;
-  get activePanelName(): string {
-    return this._activePanelName;
+  get selectedTabName() {
+    return this._selectedTabName;
   }
-  set activePanelName(name: string) {
-    this._activePanelName = name;
+
+  private _selectedPanelName: string;
+  get selectedPanelName(): string {
+    return this._selectedPanelName;
+  }
+
+  set selectedPanelName(name: string) {
+    this._selectedPanelName = name;
     this.getPanels.map(p => p.visible = p.name === name)
   }
 
   private _handleTabClicked(e: CustomEvent) {
-    this.activeTabName = e.detail.panel
-    this.activePanelName = e.detail.panel
+    this.selectedTabName = e.detail.panel
+    this.selectedPanelName = e.detail.panel
   }
 
 
