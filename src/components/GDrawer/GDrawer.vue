@@ -21,7 +21,9 @@
         </div>
       </div>
       <div class="g-drawer-body">
+        <slot />
         <iframe
+          v-if='url'
           :src="url"
           height="100%"
           width="100%"
@@ -111,6 +113,9 @@ export default {
     }
 
     .g-drawer-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
       height: 100%;
 
