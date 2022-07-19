@@ -35,6 +35,7 @@
   --bl-color-content-secondary: #6e7787;
   --bl-color-content-tertiary: #95a1b5;
   --bl-color-content-passive: #afbbca;
+  --bl-color-border: #d5d9e1;
 
   /* Size and Spacing */
   --bl-size-4xs: 0.125rem; /* 2px */
@@ -112,6 +113,9 @@
   --bl-font-title-4-medium: var(--bl-font-weight-medium) var(--bl-font-title-4);
   --bl-font-title-4-semibold: var(--bl-font-weight-semibold) var(--bl-font-title-4);
   --bl-font-title-4-bold: var(--bl-font-weight-bold) var(--bl-font-title-4);
+
+  /* Font Style: Form Label */
+  --bl-font-form-label: var(--bl-font-weight-medium) var(--bl-font-size-xs) var(--bl-font-family);
 
   /* Font Style: Caption */
   --bl-font-caption-small-text: var(--bl-font-weight-bold) var(--bl-font-size-2xs)

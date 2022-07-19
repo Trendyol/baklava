@@ -1,13 +1,18 @@
 name: 'Verify and Preview'
 
 on:
-  pull_request:
-    branches: [ next ]
+  pull_request_target:
+    branches:
+      - next
+
+permissions:
+  pull-requests: read
 
 jobs:
   verify:
     uses: trendyol/baklava/.github/workflows/verify.yml@next
+    secrets: inherit
   preview:
-    uses: trendyol/baklava/.github/workflows/publish-storybook.yml@next
+    uses: trendyol/baklava/.github/workflows/publish-chromatic.yml@next
     needs: verify
     secrets: inherit

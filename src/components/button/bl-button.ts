@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-button.css';
 import '../icon/bl-icon';
 
@@ -17,8 +18,8 @@ export type TargetType = '_blank' | '_parent' | '_self' | '_top';
  * @property {boolean} success - Sets variant to success
  * @property {boolean} danger - Sets variant to danger
  * @property {boolean} outline - Sets button version to outline
+ * @property {boolean} text - Sets the button version to text
  * @property {boolean} disabled - Disables the button
- * @property {boolean} plain - Sets the button plain text style
  * @property {string} size - Sets the button size
  * @property {string} icon - Sets the name of the icon
  * @property {string} href - Sets link of the button
@@ -26,8 +27,6 @@ export type TargetType = '_blank' | '_parent' | '_self' | '_top';
  * @property {string} label - Sets the accessibility text for the button. Use it with icon-only buttons.
  *
  * @cssproperty --bl-button-display - Sets the display property of button. Default value is 'inline-block'.
- *
- * @event {CustomEvent} bl-click
  *
  */
 @customElement('bl-button')
@@ -52,7 +51,7 @@ export default class BlButton extends LitElement {
   outline = false;
 
   @property({ type: Boolean, reflect: true })
-  plain = false;
+  text = false;
 
   @property({ type: String, reflect: true })
   size: ButtonSize = 'medium';
@@ -71,6 +70,11 @@ export default class BlButton extends LitElement {
 
   @property({ type: String })
   target?: TargetType = '_self';
+
+  /**
+   * Fires when button clicked
+   */
+  @event('bl-click') private onClick: EventDispatcher<string>;
 
   get _hasIconSlot() {
     return this.querySelector(':scope > [slot="icon"]') !== null;
@@ -126,11 +130,7 @@ export default class BlButton extends LitElement {
   }
 
   private _handleClick() {
-    this.event('bl-click', 'Click event fired!');
-  }
-
-  private event(name: string, detail: string) {
-    this.dispatchEvent(new CustomEvent(name, { detail, bubbles: true, composed: true }));
+    this.onClick('Click event fired!');
   }
 }
 

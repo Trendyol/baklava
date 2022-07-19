@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { getIconPath } from '../../utilities/asset-paths';
+import { event, EventDispatcher } from '../../utilities/event';
 
 import style from './bl-icon.css';
 
@@ -11,14 +12,8 @@ const requestMap = new Map<string, Promise<Response>>();
  * @tag bl-icon
  * @summary Baklava Icon component
  *
- * @property {string} name - Name of the icon to show
- *
  * @cssproperty font-size - Setting size of icon. Default is current font size in DOM place
  * @cssproperty color - Setting color of icon. Default is `currentColor`
- *
- * @event {CustomEvent} bl-load - Fires when SVG icon loaded
- * @event {CustomEvent} bl-error - Fires when SVG icon failed to load
- *
  */
 @customElement('bl-icon')
 export default class BlIcon extends LitElement {
@@ -28,6 +23,9 @@ export default class BlIcon extends LitElement {
 
   private _iconName: string;
 
+  /**
+   * Name of the icon to show
+   */
   @property()
   get name(): string {
     return this._iconName;
@@ -39,6 +37,16 @@ export default class BlIcon extends LitElement {
       this.load();
     }
   }
+
+  /**
+   * Fires when SVG icon loaded
+   */
+  @event('bl-load') private onLoad: EventDispatcher<string>;
+
+  /**
+   * Fires when SVG icon failed to load
+   */
+  @event('bl-error') private onError: EventDispatcher<string>;
 
   @state() private svg: string;
 
@@ -56,18 +64,14 @@ export default class BlIcon extends LitElement {
 
       if (res?.ok) {
         this.svg = await res.text();
-        this.event('bl-load', `${this.name} icon loaded`);
+        this.onLoad(`${this.name} icon loaded`);
         this.requestUpdate();
       } else {
-        this.event('bl-error', `${this.name} icon failed to load`);
+        this.onError(`${this.name} icon failed to load`);
       }
     } catch (error) {
-      this.event('bl-error', `${this.name} icon failed to load [${error}]`);
+      this.onError(`${this.name} icon failed to load [${error}]`);
     }
-  }
-
-  private event(name: string, detail: string) {
-    this.dispatchEvent(new CustomEvent(name, { detail, bubbles: true, composed: true }));
   }
 
   render(): TemplateResult {
