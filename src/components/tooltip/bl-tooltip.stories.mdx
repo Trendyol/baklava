@@ -65,11 +65,14 @@ ${PlacementTemplate({placement:'right-end',...args})}
 `;
 
 # Tooltip
+
 Tooltips display informative text when users hover over an element.
 
 ## Basic Usage
+
 Tooltip can be used with any trigger such as button, icon, text, etc.
 Only you have to give slot name as `tooltip-trigger`. The remaining content will be shown in the tooltip hovering over the trigger component.
+
 Tooltip position is absolute as default. If your wrapper has `position:relative` and `overflow:hidden` the tooltip is clipped and isn't shown correctly.
 In this case, you should give `position:fixed` as below.
 
@@ -86,7 +89,9 @@ In this case, you should give `position:fixed` as below.
 </Canvas>
 
 ## Placement
+
 You can give `placement` for tooltip direction.The position of the tooltip and arrow change according to this property.  Default placement is `top`.
+
 You can use the other options:
 
 * `top-start`
@@ -117,7 +122,6 @@ For example, if there is not enough room on the top, the tooltip is shown on the
   </Story>
 </Canvas>
 
-
 <Canvas>
   <Story name="Left Placement">
       {LeftPlacementTemplate.bind({})}
@@ -130,8 +134,8 @@ For example, if there is not enough room on the top, the tooltip is shown on the
   </Story>
 </Canvas>
 
-
 ## Reference
+
 <ArgsTable of="bl-tooltip" />
 
 
