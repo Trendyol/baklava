@@ -4,6 +4,6 @@
 
 :host([visible]) {
     display: block;
-    margin: 10px;
-    background-color: darkgrey;
+    padding: 24px;
+    background-color: white;
 }

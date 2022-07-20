@@ -1,4 +1,7 @@
 .tabs {
     display: flex;
     flex-direction: row;
+    overflow-x: scroll;
+    background-color: var(--bl-color-primary-background);
+    border-bottom: 2px solid var(--bl-color-secondary-background);
 }

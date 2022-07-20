@@ -11,20 +11,18 @@
     --bl-tab-title-padding-vertical: var(--bl-size-m);
     --bl-tab-title-padding-horizontal: var(--bl-size-xl);
     --bl-tab-title-color: var(--bl-color-secondary);
+    --bl-tab-border-bottom-width: var(--bl-size-4xs);
+    --bl-tab-border-left-space: var(--bl-size-xl);
 }
 
 :host::before {
     position: absolute;
     opacity: 0;
     content: '';
-    bottom: 0;
-    left: 24px;
+    bottom: calc(0*var(--bl-tab-border-bottom-width)) ;
+    left: var(--bl-tab-border-left-space);
     width: calc(100% - var(--bl-size-4xl));
-    border-bottom: 2px solid var(--bl-color-primary);
-}
-
-:host([selected])::before {
-    opacity: 1;
+    border-bottom: var(--bl-tab-border-bottom-width) solid var(--bl-color-primary);
 }
 
 :host::after {
@@ -36,8 +34,13 @@
     border-right: 2px solid var(--bl-color-tertiary-hover);
 }
 
-:host([selected])::after {
+:host([selected])::before {
     opacity: 1;
+}
+
+:host([last-tab])::after {
+    opacity: 0;
+
 }
 
 :host([selected]) {
@@ -57,19 +60,12 @@ button[role="tab"] {
     padding: var(--bl-size-m) var(--bl-size-xl) calc(var(--bl-size-m) + var(--bl-size-4xs));
 }
 
-.border-right {
-    position: absolute;
-    right: 0;
-    top: var(--bl-size-m);
-    height: calc(100% - var(--bl-size-2xl));
-    border-right: 2px solid var(--bl-color-tertiary-hover);
-}
-
 .title {
     font-size: var(--bl-size-s);
     font-weight: var(--bl-font-weight-medium);
     color: var(--bl-tab-title-color);
     line-height: var(--bl-size-m);
+    white-space: nowrap;
 }
 
 .caption {

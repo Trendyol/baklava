@@ -25,6 +25,9 @@ export default class BlTab extends LitElement {
   @property({ type: Boolean, reflect: true })
   selected: boolean;
 
+  @property({ type: Boolean, reflect: true, attribute:'last-tab' })
+  lastTab: boolean;
+
   handleClick(e: Event) {
     const detail = { panel: this.panel, tab: this.tab };
     const event = new CustomEvent('tabClicked', { detail, bubbles: true, composed: true, cancelable: true });

@@ -18,6 +18,8 @@ export default class BlTabGroup extends LitElement {
     super.connectedCallback()
 
     this.updateComplete.then(() => {
+      const lastTab =  this.getTabs[this.getTabs.length-1]
+      lastTab.lastTab = true
       const [hasSelected] = this.getTabs.filter(t => t.selected)
       if (hasSelected) {
         this.selectedTabName = hasSelected.name
