@@ -18,8 +18,6 @@ export default class BlTabGroup extends LitElement {
     super.connectedCallback()
 
     this.updateComplete.then(() => {
-      const lastTab =  this.getTabs[this.getTabs.length-1]
-      lastTab.lastTab = true
       const [hasSelected] = this.getTabs.filter(t => t.selected)
       if (hasSelected) {
         this.selectedTabName = hasSelected.name
@@ -74,8 +72,10 @@ export default class BlTabGroup extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="container">
-        <div role="tablist" class="tabs" @tabClicked=${this._handleTabClicked}>
-          <slot name="tabs" class="tab"></slot>
+        <div role="tablist" class="tabs-list" @tabClicked=${this._handleTabClicked}>
+          <div class="tabs">
+            <slot name="tabs" class="tab"></slot>
+          </div>
         </div>
         <div role="tabpanel" class="panels">
           <slot></slot>
