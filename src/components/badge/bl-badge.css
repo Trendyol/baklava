@@ -2,8 +2,8 @@
   display: inline-block;
   max-width: 100%;
 
-  --bl-badge-bg-color: var(--bl-color-accent-primary-background);
-  --bl-badge-color: var(--bl-color-primary);
+  --bg-color: var(--bl-badge-bg-color, var(--bl-color-accent-primary-background));
+  --badge-color: var(--bl-badge-color, var(--bl-color-primary));
   --bl-badge-font: var(--bl-font-title-4-medium);
   --bl-badge-padding-vertical: var(--bl-size-3xs);
   --bl-badge-padding-horizontal: var(--bl-size-3xs);
@@ -23,8 +23,8 @@
   border-radius: var(--bl-size-4xs);
   margin: 0;
   padding: var(--bl-badge-padding-vertical) var(--bl-badge-padding-horizontal);
-  background-color: var(--bl-badge-bg-color);
-  color: var(--bl-badge-color, white);
+  background-color: var(--bg-color);
+  color: var(--badge-color, white);
   font: var(--bl-badge-font);
   font-kerning: none;
   height: var(--bl-badge-height);

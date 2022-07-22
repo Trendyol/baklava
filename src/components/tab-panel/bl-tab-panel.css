@@ -1,0 +1,9 @@
+:host {
+    display: none;
+}
+
+:host([visible]) {
+    display: block;
+    padding: 24px;
+    background-color: white;
+}

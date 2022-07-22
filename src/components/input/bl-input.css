@@ -37,10 +37,6 @@ bl-icon {
   top: calc(var(--bl-input-padding-vertical) + var(--bl-size-m));
 }
 
-input:focus ~ bl-icon {
-  --bl-input-icon-color: var(--bl-color-primary);
-}
-
 input:focus {
   --bl-input-border-color: var(--bl-color-primary);
 }

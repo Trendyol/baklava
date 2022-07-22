@@ -1,0 +1,108 @@
+/*
+ Avoid empty file error in linter
+*/
+
+:host {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: var(--bl-color-primary-background);
+
+    --bl-tab-title-padding-vertical: var(--bl-size-m);
+    --bl-tab-title-padding-horizontal: var(--bl-size-xl);
+    --bl-tab-title-color: var(--bl-color-secondary);
+    --bl-tab-border-bottom-width: var(--bl-size-4xs);
+    --bl-tab-border-left-space: var(--bl-size-xl);
+}
+
+:host::after {
+    position: absolute;
+    content: '';
+    right: 0;
+    top: var(--bl-size-m);
+    height: calc(100% - var(--bl-size-2xl));
+    border-right: 1px solid var(--bl-color-tertiary-hover);
+}
+
+:host(:last-of-type)::after {
+  border-right: none;
+}
+
+:host::before {
+    content: '';
+    position: absolute;
+    opacity: 0;
+    bottom: -2px;
+    left: var(--bl-tab-border-left-space);
+    width: calc(100% - var(--bl-size-4xl));
+    border-bottom: var(--bl-tab-border-bottom-width) solid var(--bl-color-primary);
+}
+
+:host([selected])::before {
+    opacity: 1;
+}
+
+:host([selected]) {
+    --bl-tab-title-color: var(--bl-color-primary)
+}
+
+:host([selected]) .border-bottom {
+    display: inline-block;
+}
+
+button.container {
+    display: flex;
+    border: none;
+    cursor: pointer;
+    background-color: initial;
+    width: 100%;
+    height: 100%;
+    padding: var(--bl-size-m) var(--bl-size-xl) ;
+}
+
+:host([help-text]) button {
+    padding-right: 0;
+}
+
+.help-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 100%;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: var(--bl-size-s);
+    font-weight: var(--bl-font-weight-medium);
+    color: var(--bl-tab-title-color);
+    line-height: var(--bl-size-m);
+    white-space: nowrap;
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.badge-container {
+    padding-left: var(--bl-size-3xs);
+}
+
+.caption {
+    font-size: var(--bl-size-xs);
+    font-weight: var(--bl-font-weight-regular);
+    color: var(--bl-color-secondary);
+    text-align: center;
+    margin-top: var(--bl-size-4xs);
+}
+
+
+
