@@ -4,6 +4,7 @@ import { computePosition, flip, shift, offset, arrow, Strategy } from '@floating
 import { classMap } from 'lit/directives/class-map.js';
 import { ReferenceElement } from '@floating-ui/core';
 import style from './bl-tooltip.css';
+import { event, EventDispatcher } from '../../utilities/event';
 
 export type Placement =
   | 'top-start'
@@ -48,6 +49,16 @@ export default class BlTooltip extends LitElement {
   @state() private _position : Strategy = 'absolute';
   @state() private host : HTMLElement;
 
+  /**
+  * Fires when hovering over a trigger
+  */
+  @event('bl-tooltip-show') private onShow: EventDispatcher<string>;
+
+  /**
+  * Fires when leaving over from trigger
+  */
+  @event('bl-tooltip-hide') private onHide: EventDispatcher<string>;
+
   connectedCallback() {
     super.connectedCallback();
 
@@ -78,6 +89,8 @@ export default class BlTooltip extends LitElement {
       this.host.style.setProperty('--bl-tooltip-top',`${y}px`)
       this.host.style.setProperty('--bl-tooltip-arrow-left',arrowX);
       this.host.style.setProperty('--bl-tooltip-arrow-top',arrowY);
+      this.host.style.setProperty('--bl-tooltip-arrow-bottom','0');
+      this.host.style.setProperty('--bl-tooltip-arrow-right','0');
       this.host.style.setProperty(`--bl-tooltip-arrow-${arrowDirection}`,'-4px');
     });
   }
@@ -85,17 +98,18 @@ export default class BlTooltip extends LitElement {
   private show() {
     this._visible = true;
     this.setTooltip();
+    this.onShow('Show event fired!');
   }
 
   private hide() {
     this._visible = false;
+    this.onHide('Hide event fired!');
   }
 
   render(): TemplateResult { 
     const classes = classMap({
       'tooltip': true,
       'visible': this._visible,
-      'hidden': !this._visible
     });
 
     return html`

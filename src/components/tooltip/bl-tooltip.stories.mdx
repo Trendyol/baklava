@@ -16,7 +16,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 
 export const IconTriggerTemplate = (args) => html`
 <bl-tooltip placement="${ifDefined(args.placement)}" style='--bl-tooltip-position:fixed'>
-  <bl-icon slot="tooltip-trigger" name="settings"></bl-icon>
+  <bl-button slot="tooltip-trigger" icon="settings" text label="Settings" secondary></bl-button>
   Settings
 </bl-tooltip>`
 
@@ -27,16 +27,10 @@ export const ButtonTriggerTemplate = (args) => html`
 </bl-tooltip>`
 
 
-export const TextTriggerTemplate = (args) => html`
-<bl-tooltip placement="${ifDefined(args.placement)}" style='--bl-tooltip-position:fixed'>
-  <span slot="tooltip-trigger">Status</span>
-  Whether the user account is enabled or disabled.
-</bl-tooltip>`
-
 export const PlacementTemplate = (args) => html`
 <bl-tooltip placement="${ifDefined(args.placement)}" 
 style='--bl-tooltip-position:fixed;margin:5px'>
-  <bl-icon slot="tooltip-trigger" name="help"></bl-icon>
+  <bl-button slot="tooltip-trigger" icon="help" text label="Help" secondary></bl-button>
   You can use this section to cancel your order.
 </bl-tooltip>`
 
@@ -74,14 +68,12 @@ Tooltip can be used with any trigger such as button, icon, text, etc.
 Only you have to give slot name as `tooltip-trigger`. The remaining content will be shown in the tooltip hovering over the trigger component.
 
 Tooltip position is absolute as default. If your wrapper has `position:relative` and `overflow:hidden` the tooltip is clipped and isn't shown correctly.
+
 In this case, you should give `position:fixed` as below.
 
 <Canvas>
-  <Story name="Usage With Icon">
+  <Story name="Usage With Icon Button">
       {IconTriggerTemplate.bind({})}
-  </Story>
-  <Story name="Usage With Text">
-      {TextTriggerTemplate.bind({})}
   </Story>
   <Story name="Usage With Button">
       {ButtonTriggerTemplate.bind({})}
@@ -107,7 +99,8 @@ You can use the other options:
 * `right`
 * `right-end`
 
-If there is not enough room for the tooltip in the given placement, the tooltip is repositioned automatically according to the empty area. 
+If there is not enough room for the tooltip in the given placement, the tooltip is repositioned automatically according to the empty area.
+
 For example, if there is not enough room on the top, the tooltip is shown on the bottom.
 
 <Canvas>
