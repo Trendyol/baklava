@@ -83,7 +83,7 @@
     "@web/test-runner-puppeteer": "^0.10.5",
     "@webcomponents/webcomponentsjs": "^2.5.0",
     "del": "^6.1.0",
-    "esbuild": "^0.14.39",
+    "esbuild": "^0.14.50",
     "esbuild-plugin-lit-css": "^2.0.0",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
