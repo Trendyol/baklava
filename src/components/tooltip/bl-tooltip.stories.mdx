@@ -9,7 +9,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
   component="bl-tooltip"
   argTypes={{
     placement: {
-        control: 'text'
+      control: 'text'
     }
   }}
 />
@@ -28,7 +28,7 @@ export const ButtonTriggerTemplate = (args) => html`
 
 
 export const PlacementTemplate = (args) => html`
-<bl-tooltip placement="${ifDefined(args.placement)}" 
+<bl-tooltip placement="${ifDefined(args.placement)}"
 style='--bl-tooltip-position:fixed;margin:5px'>
   <bl-button slot="tooltip-trigger" icon="help" text label="Help" secondary></bl-button>
   You can use this section to cancel your order.
@@ -73,10 +73,10 @@ In this case, you should give `position:fixed` as below.
 
 <Canvas>
   <Story name="Usage With Icon Button">
-      {IconTriggerTemplate.bind({})}
+    {IconTriggerTemplate.bind({})}
   </Story>
   <Story name="Usage With Button">
-      {ButtonTriggerTemplate.bind({})}
+    {ButtonTriggerTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -105,30 +105,28 @@ For example, if there is not enough room on the top, the tooltip is shown on the
 
 <Canvas>
   <Story name="Top Placement">
-      {TopPlacementTemplate.bind({})}
+    {TopPlacementTemplate.bind({})}
   </Story>
 </Canvas>
 
 <Canvas>
   <Story name="Bottom Placement">
-      {BottomPlacementTemplate.bind({})}
+    {BottomPlacementTemplate.bind({})}
   </Story>
 </Canvas>
 
 <Canvas>
   <Story name="Left Placement">
-      {LeftPlacementTemplate.bind({})}
+    {LeftPlacementTemplate.bind({})}
   </Story>
 </Canvas>
 
 <Canvas>
   <Story name="Right Placement">
-      {RightPlacementTemplate.bind({})}
+    {RightPlacementTemplate.bind({})}
   </Story>
 </Canvas>
 
 ## Reference
 
 <ArgsTable of="bl-tooltip" />
-
-
