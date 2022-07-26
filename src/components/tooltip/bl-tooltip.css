@@ -40,7 +40,7 @@
   top: var(--bl-tooltip-arrow-top);
   bottom: var(--bl-tooltip-arrow-bottom);
   right: var(--bl-tooltip-arrow-right);
-  left: var(--bl-tooltip-arrow-left)
+  left: var(--bl-tooltip-arrow-left);
 }
 
 .visible {
