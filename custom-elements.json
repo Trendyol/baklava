@@ -1,0 +1,549 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/components/badge/bl-badge.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "BlBadge",
+          "cssProperties": [
+            {
+              "description": "Sets the background color of badge. Default value is `--bl-color-accent-primary-background`",
+              "name": "--bl-badge-bg-color"
+            },
+            {
+              "description": "Sets the color of badge. Default value is `--bl-color-primary`",
+              "name": "--bl-badge-color"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "size",
+              "type": {
+                "text": "BadgeSize"
+              },
+              "default": "'medium'",
+              "description": "Sets the badge size",
+              "fieldName": "size"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Sets the name of the icon",
+              "fieldName": "icon"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "bl-badge",
+          "summary": "Baklava Badge component",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "BlBadge",
+            "module": "src/components/badge/bl-badge.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "bl-badge",
+          "declaration": {
+            "name": "BlBadge",
+            "module": "src/components/badge/bl-badge.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/button/bl-button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "BlButton",
+          "cssProperties": [
+            {
+              "description": "Sets the display property of button. Default value is 'inline-block'.",
+              "name": "--bl-button-display"
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<string>"
+              },
+              "description": "Fires when button clicked",
+              "name": "bl-click"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "primary",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Sets variant to primary",
+              "fieldName": "primary"
+            },
+            {
+              "name": "secondary",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Sets variant to secondary",
+              "fieldName": "secondary"
+            },
+            {
+              "name": "success",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Sets variant to success",
+              "fieldName": "success"
+            },
+            {
+              "name": "danger",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Sets variant to danger",
+              "fieldName": "danger"
+            },
+            {
+              "name": "outline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Sets button version to outline",
+              "fieldName": "outline"
+            },
+            {
+              "name": "text",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Sets the button version to text",
+              "fieldName": "text"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "string"
+              },
+              "default": "'medium'",
+              "description": "Sets the button size",
+              "fieldName": "size"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Sets the accessibility text for the button. Use it with icon-only buttons.",
+              "fieldName": "label"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the button",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "description": "Sets link of the button",
+              "fieldName": "href"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "description": "Sets the name of the icon",
+              "fieldName": "icon"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "'_self'",
+              "description": "Sets button target (should be defined with href)",
+              "fieldName": "target"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "bl-button",
+          "summary": "Baklava Button component",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "BlButton",
+            "module": "src/components/button/bl-button.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "bl-button",
+          "declaration": {
+            "name": "BlButton",
+            "module": "src/components/button/bl-button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/icon/bl-icon.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "BlIcon",
+          "cssProperties": [
+            {
+              "description": "Setting size of icon. Default is current font size in DOM place",
+              "name": "font-size"
+            },
+            {
+              "description": "Setting color of icon. Default is `currentColor`",
+              "name": "color"
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<string>"
+              },
+              "description": "Fires when SVG icon loaded",
+              "name": "bl-load"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<string>"
+              },
+              "description": "Fires when SVG icon failed to load",
+              "name": "bl-error"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Name of the icon to show",
+              "fieldName": "name"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "bl-icon",
+          "summary": "Baklava Icon component",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "BlIcon",
+            "module": "src/components/icon/bl-icon.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "bl-icon",
+          "declaration": {
+            "name": "BlIcon",
+            "module": "src/components/icon/bl-icon.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/input/bl-input.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "BlInput",
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<string>"
+              },
+              "description": "Fires when an alteration to the element's value is committed by the user. Unlike the input event, the change event is not necessarily fired for each alteration to an element's value.",
+              "name": "bl-change"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<string>"
+              },
+              "description": "Fires when the value of an input element has been changed.",
+              "name": "bl-input"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "type",
+              "type": {
+                "text": "'text' | 'number'"
+              },
+              "default": "'text'",
+              "description": "Type of the input. It's used to set `type` attribute of native input inside. Only `text` and `number` is supported for now.",
+              "fieldName": "type"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Sets label of the input",
+              "fieldName": "label"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Sets placeholder of the input",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Sets initial value of the input",
+              "fieldName": "value"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes input a mandatory field",
+              "fieldName": "required"
+            },
+            {
+              "name": "minlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Sets minimum length of the input",
+              "fieldName": "minlength"
+            },
+            {
+              "name": "maxlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Sets maximum length of the input",
+              "fieldName": "maxlength"
+            },
+            {
+              "name": "min",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Sets the smallest number can be entered to a `number` input",
+              "fieldName": "min"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Sets the biggest number can be entered to a `number` input",
+              "fieldName": "max"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Sets the custom icon name. `bl-icon` component is used to show an icon",
+              "fieldName": "icon"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "InputSize | undefined"
+              },
+              "default": "'medium'",
+              "description": "Sets input size.",
+              "fieldName": "size"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the input",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "label-fixed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes label as fixed positioned",
+              "fieldName": "labelFixed"
+            },
+            {
+              "name": "invalid-text",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Set custom error message",
+              "fieldName": "customInvalidText"
+            },
+            {
+              "name": "help-text",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Adds help text",
+              "fieldName": "helpText"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "bl-input",
+          "summary": "Baklava Input component",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "BlInput",
+            "module": "src/components/input/bl-input.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "bl-input",
+          "declaration": {
+            "name": "BlInput",
+            "module": "src/components/input/bl-input.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/tooltip/bl-tooltip.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "BlTooltip",
+          "cssProperties": [
+            {
+              "description": "Sets the position. Default value is 'absolute'",
+              "name": "--bl-tooltip-position"
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<string>"
+              },
+              "description": "Fires when hovering over a trigger",
+              "name": "bl-tooltip-show"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<string>"
+              },
+              "description": "Fires when leaving over from trigger",
+              "name": "bl-tooltip-hide"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "placement",
+              "type": {
+                "text": "string"
+              },
+              "default": "'top'",
+              "description": "Sets the tooltip placement",
+              "fieldName": "placement"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "bl-tooltip",
+          "summary": "Baklava Tooltip component",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "BlTooltip",
+            "module": "src/components/tooltip/bl-tooltip.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "bl-tooltip",
+          "declaration": {
+            "name": "BlTooltip",
+            "module": "src/components/tooltip/bl-tooltip.ts"
+          }
+        }
+      ]
+    }
+  ]
+}
