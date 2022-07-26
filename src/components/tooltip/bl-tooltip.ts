@@ -20,7 +20,7 @@ export type Placement =
   | 'right'
   | 'right-end';
 
-  /**
+/**
  * @tag bl-tooltip
  * @summary Baklava Tooltip component
  *
@@ -41,30 +41,32 @@ export default class BlTooltip extends LitElement {
 
   /**
    * Sets placement of the tooltip
-  */
+   */
   @property({ type: String })
   placement: Placement = 'top';
 
   @state() private _visible = false;
-  @state() private _position : Strategy = 'absolute';
-  @state() private host : HTMLElement;
+  @state() private _position: Strategy = 'absolute';
+  @state() private host: HTMLElement;
 
   /**
-  * Fires when hovering over a trigger
-  */
+   * Fires when hovering over a trigger
+   */
   @event('bl-tooltip-show') private onShow: EventDispatcher<string>;
 
   /**
-  * Fires when leaving over from trigger
-  */
+   * Fires when leaving over from trigger
+   */
   @event('bl-tooltip-hide') private onHide: EventDispatcher<string>;
 
   connectedCallback() {
     super.connectedCallback();
 
     setTimeout(() => {
-     this.host = this.shadowRoot?.host as HTMLElement;
-     this._position = getComputedStyle(this.host).getPropertyValue('--bl-tooltip-position') as Strategy; 
+      this.host = this.shadowRoot?.host as HTMLElement;
+      this._position = getComputedStyle(this.host).getPropertyValue(
+        '--bl-tooltip-position'
+      ) as Strategy;
     });
   }
 
@@ -72,10 +74,15 @@ export default class BlTooltip extends LitElement {
     computePosition(this.trigger, this.tooltip, {
       placement: this.placement,
       strategy: this._position,
-      middleware: [offset(8), shift({ padding: 5 }), flip(),arrow({ element: this.arrow,padding: 5})],
+      middleware: [
+        offset(8),
+        shift({ padding: 5 }),
+        flip(),
+        arrow({ element: this.arrow, padding: 5 }),
+      ],
     }).then(({ x, y, placement, middlewareData }) => {
       const arrowX = middlewareData.arrow?.x != null ? `${middlewareData.arrow?.x}px` : ' ';
-      const arrowY = middlewareData.arrow?.y != null ? `${middlewareData.arrow?.y}px`  : ' ';
+      const arrowY = middlewareData.arrow?.y != null ? `${middlewareData.arrow?.y}px` : ' ';
       const arrowDirections = {
         top: 'bottom',
         right: 'left',
@@ -85,13 +92,13 @@ export default class BlTooltip extends LitElement {
       const tooltipPlacement = placement.split('-')[0] as keyof typeof arrowDirections;
       const arrowDirection = arrowDirections[tooltipPlacement];
 
-      this.host.style.setProperty('--bl-tooltip-left',`${x}px`);
-      this.host.style.setProperty('--bl-tooltip-top',`${y}px`)
-      this.host.style.setProperty('--bl-tooltip-arrow-left',arrowX);
-      this.host.style.setProperty('--bl-tooltip-arrow-top',arrowY);
-      this.host.style.setProperty('--bl-tooltip-arrow-bottom','0');
-      this.host.style.setProperty('--bl-tooltip-arrow-right','0');
-      this.host.style.setProperty(`--bl-tooltip-arrow-${arrowDirection}`,'-4px');
+      this.host.style.setProperty('--bl-tooltip-left', `${x}px`);
+      this.host.style.setProperty('--bl-tooltip-top', `${y}px`);
+      this.host.style.setProperty('--bl-tooltip-arrow-left', arrowX);
+      this.host.style.setProperty('--bl-tooltip-arrow-top', arrowY);
+      this.host.style.setProperty('--bl-tooltip-arrow-bottom', '0');
+      this.host.style.setProperty('--bl-tooltip-arrow-right', '0');
+      this.host.style.setProperty(`--bl-tooltip-arrow-${arrowDirection}`, '-4px');
     });
   }
 
@@ -106,20 +113,20 @@ export default class BlTooltip extends LitElement {
     this.onHide('Hide event fired!');
   }
 
-  render(): TemplateResult { 
+  render(): TemplateResult {
     const classes = classMap({
-      'tooltip': true,
-      'visible': this._visible,
+      tooltip: true,
+      visible: this._visible,
     });
 
-    return html`
-      <slot 
-        class="trigger" 
+    return html` <slot
+        class="trigger"
         name="tooltip-trigger"
-        @mouseover="${this.show}" 
-        @mouseleave="${this.hide}">
+        @mouseover="${this.show}"
+        @mouseleave="${this.hide}"
+      >
       </slot>
-      <div class=${classes}>  
+      <div class=${classes}>
         <slot></slot>
         <div class="arrow"></div>
       </div>`;
