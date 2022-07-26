@@ -1,8 +1,7 @@
-import { assert, elementUpdated, expect, fixture, html,oneEvent } from '@open-wc/testing';
+import { assert, elementUpdated, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendMouse } from '@web/test-runner-commands';
 import BlTooltip from './bl-tooltip';
 import type typeOfBlTooltip from './bl-tooltip';
-
 
 describe('bl-tooltip', () => {
   it('should be defined tooltip instance', () => {
@@ -43,8 +42,9 @@ describe('bl-tooltip', () => {
 
   it('should be rendered with slot', async () => {
     //when
-    const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip><button slot='tooltip-trigger'>Test</button>
-    Tooltip Test </bl-tooltip>`);
+    const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip
+      ><button slot="tooltip-trigger">Test</button> Tooltip Test
+    </bl-tooltip>`);
 
     //then
     expect(el.shadowRoot?.querySelector('.trigger')).to.exist;
@@ -52,10 +52,13 @@ describe('bl-tooltip', () => {
     expect(el.shadowRoot?.querySelector('.tooltip')).to.exist;
   });
 
-
   it('should be rendered with correct placement attribute', async () => {
     //when
-    const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip placement="top-end"><button slot='tooltip-trigger'>Test</button> Test Tooltip</bl-tooltip>`);
+    const el = await fixture<typeOfBlTooltip>(
+      html`<bl-tooltip placement="top-end"
+        ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
+      >`
+    );
 
     //then
     expect(el.getAttribute('placement')).to.eq('top-end');
@@ -63,7 +66,11 @@ describe('bl-tooltip', () => {
 
   it('should be rendered with correct placement attribute when placement attribute was changed', async () => {
     //given
-    const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip placement="top-end"><button slot='tooltip-trigger'>Test</button> Test Tooltip</bl-tooltip>`);
+    const el = await fixture<typeOfBlTooltip>(
+      html`<bl-tooltip placement="top-end"
+        ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
+      >`
+    );
     el.setAttribute('placement', 'right-start');
 
     //when
@@ -72,10 +79,14 @@ describe('bl-tooltip', () => {
     //then
     expect(el.getAttribute('placement')).to.eq('right-start');
   });
-   
+
   it('should have `visible` class when mouse over of trigger', async () => {
     //given
-    const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip placement="top-end"><button slot='tooltip-trigger'>Test</button> Test Tooltip</bl-tooltip>`);
+    const el = await fixture<typeOfBlTooltip>(
+      html`<bl-tooltip placement="top-end"
+        ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
+      >`
+    );
     const tooltip = el.shadowRoot?.querySelector('.tooltip') as HTMLElement;
     const trigger = document.querySelector('button') as HTMLElement;
     const { x, y } = getMiddleOfElement(trigger);
@@ -89,13 +100,17 @@ describe('bl-tooltip', () => {
 
   it('should not have `show` class when mouse leave of trigger', async () => {
     //given
-    const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip placement="left-end"><button slot='tooltip-trigger'>Test</button> Test Tooltip</bl-tooltip>`);
+    const el = await fixture<typeOfBlTooltip>(
+      html`<bl-tooltip placement="left-end"
+        ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
+      >`
+    );
     const tooltip = el.shadowRoot?.querySelector('.tooltip') as HTMLElement;
     const trigger = document.querySelector('button') as HTMLElement;
     const body = document.querySelector('body') as HTMLElement;
 
-    const { x:triggerX, y:triggerY } = getMiddleOfElement(trigger);
-    const { x:bodyX, y:bodyY } = getMiddleOfElement(body);
+    const { x: triggerX, y: triggerY } = getMiddleOfElement(trigger);
+    const { x: bodyX, y: bodyY } = getMiddleOfElement(body);
 
     //when
     await sendMouse({ type: 'move', position: [triggerX, triggerY] });
@@ -107,7 +122,11 @@ describe('bl-tooltip', () => {
 
   it('should fires bl-tooltip-show on mouse over', async () => {
     //given
-    const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip placement="top-end"><button slot='tooltip-trigger'>Test</button> Test Tooltip</bl-tooltip>`);
+    const el = await fixture<typeOfBlTooltip>(
+      html`<bl-tooltip placement="top-end"
+        ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
+      >`
+    );
     const trigger = document.querySelector('button') as HTMLElement;
     const { x, y } = getMiddleOfElement(trigger);
 
@@ -117,21 +136,25 @@ describe('bl-tooltip', () => {
     //then
     const ev = await oneEvent(el, 'bl-tooltip-show');
     expect(ev).to.exist;
-    expect(ev.detail).to.be.equal('Show event fired!');  
+    expect(ev.detail).to.be.equal('Show event fired!');
   });
 
   it('should fires bl-tooltip-hide on mouse leave', async () => {
     //given
-    const el = await fixture<typeOfBlTooltip>(html`<bl-tooltip placement="left-end"><button slot='tooltip-trigger'>Test</button> Test Tooltip</bl-tooltip>`);
+    const el = await fixture<typeOfBlTooltip>(
+      html`<bl-tooltip placement="left-end"
+        ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
+      >`
+    );
     const trigger = document.querySelector('button') as HTMLElement;
     const body = document.querySelector('body') as HTMLElement;
-    const { x:triggerX, y:triggerY } = getMiddleOfElement(trigger);
-    const { x:bodyX, y:bodyY } = getMiddleOfElement(body);
+    const { x: triggerX, y: triggerY } = getMiddleOfElement(trigger);
+    const { x: bodyX, y: bodyY } = getMiddleOfElement(body);
 
     //when
-    await sendMouse({ type: 'move', position: [triggerX, triggerY]});
-    setTimeout(() =>  {
-      sendMouse({ type: 'move', position: [bodyX, bodyY]})
+    await sendMouse({ type: 'move', position: [triggerX, triggerY] });
+    setTimeout(() => {
+      sendMouse({ type: 'move', position: [bodyX, bodyY] });
     });
 
     //then
