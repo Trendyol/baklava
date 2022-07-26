@@ -22,9 +22,9 @@ if (args.debug) {
       launchOptions: {
         args: ['--no-sandbox'],
         devtools: true,
-        headless: !!args.headless
-      }
-    })
+        headless: !!args.headless,
+      },
+    }),
   ];
 }
 
@@ -53,6 +53,29 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   browsers,
 
   plugins: [
+    {
+      name: 'mock-icon-component',
+      async transformImport({ source }) {
+        if (source.endsWith('bl-icon.ts')) {
+          return `${source}?_=${Date.now()}`;
+        }
+      },
+      serve(context) {
+        if (context.headers.referer) {
+          const ref = new URL(context.headers.referer);
+
+          if (
+            context.path === '/src/components/icon/bl-icon.ts' &&
+            ref.pathname !== '/' &&
+            // Use actual component in bl-icon test
+            !ref.pathname.includes('bl-icon.test.ts')
+          ) {
+            return `export default customElements.define('bl-icon', class extends HTMLElement {});`;
+          }
+        }
+      },
+    },
+    
     litCss({
       include: ['src/components/**/*.css'],
     }),

@@ -7,21 +7,6 @@ import type typeOfBlButton from './bl-button';
 const variants = ['primary', 'secondary', 'tertiary', 'success', 'danger'];
 
 describe('bl-button', () => {
-  const oldFetch = window.fetch;
-
-  before(() => {
-    window.fetch = async (url: RequestInfo) => {
-      if (/info\.svg$/.test(url.toString())) {
-        return new Response('<svg></svg>');
-      }
-      return new Response('', { status: 404 });
-    };
-  });
-
-  after(() => {
-    window.fetch = oldFetch;
-  });
-
   it('is defined', () => {
     const el = document.createElement('bl-button');
     assert.instanceOf(el, BlButton);
