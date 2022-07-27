@@ -1,6 +1,6 @@
 {
   "name": "@trendyol-js/grace",
-  "version": "1.0.48",
+  "version": "1.0.49",
   "description": "Design System written with Vue.js",
   "license": "MIT",
   "repository": {
@@ -31,7 +31,7 @@
     "core-js": "3.6.5",
     "dayjs": "^1.8.28",
     "feather-icons": "^4.28.0",
-    "inputmask": "^5.0.7",
+    "inputmask": "4.0.9",
     "vue": "2.6.11",
     "vue-quill-editor": "^3.0.6",
     "vue2-datepicker": "^3.8.1"
