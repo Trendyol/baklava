@@ -229,12 +229,6 @@ Inputs have 2 size options: `medium` and `large`. `medium` size is default and i
 <Canvas>
   <Story name="Input Focus State"
     args={{ type: 'text', label: 'User Name', size: 'large', testid: 'focusinput' }}
-    play={async ({ canvasElement }) => {
-      const BlInput = deepQuerySelector(canvasElement, "bl-input");
-      await new Promise(resolve => setTimeout(resolve, 300));
-      const input = deepQuerySelector(BlInput, 'input');
-      await input.focus()
-    }}
     >{SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
