@@ -56,7 +56,9 @@
     "lit"
   ],
   "dependencies": {
+    "@floating-ui/dom": "^0.5.4",
     "@fontsource/rubik": "^4.5.9",
+    "@rollup/plugin-replace": "^4.0.0",
     "@types/estree": "0.0.47",
     "lit": "^2.2.3"
   },
@@ -82,14 +84,13 @@
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "@web/dev-server-esbuild": "0.2.16",
-    "@web/dev-server-import-maps": "^0.0.6",
     "@web/dev-server-rollup": "^0.3.17",
     "@web/test-runner": "^0.13.15",
     "@web/test-runner-playwright": "^0.8.6",
     "@web/test-runner-puppeteer": "^0.10.5",
     "@webcomponents/webcomponentsjs": "^2.5.0",
     "del": "^6.1.0",
-    "esbuild": "^0.14.39",
+    "esbuild": "^0.14.50",
     "esbuild-plugin-lit-css": "^2.0.0",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",

@@ -3,21 +3,6 @@ import BlBadge from './bl-badge';
 import type typeOfBlBadge from './bl-badge';
 
 describe('bl-badge', () => {
-  const oldFetch = window.fetch;
-
-  before(() => {
-    window.fetch = async (url: RequestInfo) => {
-      if (/info\.svg$/.test(url.toString())) {
-        return new Response('<svg></svg>');
-      }
-      return new Response('', { status: 404 });
-    };
-  });
-
-  after(() => {
-    window.fetch = oldFetch;
-  });
-
   it('should be defined badge instance', () => {
     //when
     const el = document.createElement('bl-badge');

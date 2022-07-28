@@ -2,21 +2,6 @@ import { assert, expect, fixture, oneEvent, html } from '@open-wc/testing';
 import BlInput from './bl-input';
 
 describe('bl-input', () => {
-  const oldFetch = window.fetch;
-
-  before(() => {
-    window.fetch = async (url: RequestInfo | URL) => {
-      if (/.svg$/.test(url.toString())) {
-        return new Response('<svg></svg>');
-      }
-      return new Response('', { status: 404 });
-    };
-  });
-
-  after(() => {
-    window.fetch = oldFetch;
-  });
-
   it('is defined', () => {
     const el = document.createElement('bl-input');
     assert.instanceOf(el, BlInput);

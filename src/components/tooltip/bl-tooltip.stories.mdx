@@ -1,0 +1,132 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Tooltip"
+  component="bl-tooltip"
+  argTypes={{
+    placement: {
+      control: 'text'
+    }
+  }}
+/>
+
+export const IconTriggerTemplate = (args) => html`
+<bl-tooltip placement="${ifDefined(args.placement)}" style='--bl-tooltip-position:fixed'>
+  <bl-button slot="tooltip-trigger" icon="settings" text label="Settings" secondary></bl-button>
+  Settings
+</bl-tooltip>`
+
+export const ButtonTriggerTemplate = (args) => html`
+<bl-tooltip placement="${ifDefined(args.placement)}" style='--bl-tooltip-position:fixed'>
+  <bl-button slot="tooltip-trigger" icon="plus_fill"></bl-button>
+  You can add text, photos and graphics.
+</bl-tooltip>`
+
+
+export const PlacementTemplate = (args) => html`
+<bl-tooltip placement="${ifDefined(args.placement)}"
+style='--bl-tooltip-position:fixed;margin:5px'>
+  <bl-button slot="tooltip-trigger" icon="help" text label="Help" secondary></bl-button>
+  You can use this section to cancel your order.
+</bl-tooltip>`
+
+export const TopPlacementTemplate = (args) => html`
+${PlacementTemplate({placement:'top-start',...args})}
+${PlacementTemplate({placement:'top',...args})}
+${PlacementTemplate({placement:'top-end',...args})}
+`;
+
+export const BottomPlacementTemplate = (args) => html`
+${PlacementTemplate({placement:'bottom-start',...args})}
+${PlacementTemplate({placement:'bottom',...args})}
+${PlacementTemplate({placement:'bottom-end',...args})}
+`;
+
+export const LeftPlacementTemplate = (args) => html`
+${PlacementTemplate({placement:'left-start',...args})}
+${PlacementTemplate({placement:'left',...args})}
+${PlacementTemplate({placement:'left-end',...args})}
+`;
+
+export const RightPlacementTemplate = (args) => html`
+${PlacementTemplate({placement:'right-start',...args})}
+${PlacementTemplate({placement:'right',...args})}
+${PlacementTemplate({placement:'right-end',...args})}
+`;
+
+# Tooltip
+
+Tooltips display informative text when users hover over an element.
+
+## Basic Usage
+
+Tooltip can be used with any trigger such as button, icon, text, etc.
+Only you have to give slot name as `tooltip-trigger`. The remaining content will be shown in the tooltip hovering over the trigger component.
+
+Tooltip position is absolute as default. If your wrapper has `position:relative` and `overflow:hidden` the tooltip is clipped and isn't shown correctly.
+
+In this case, you should give `position:fixed` as below.
+
+<Canvas>
+  <Story name="Usage With Icon Button">
+    {IconTriggerTemplate.bind({})}
+  </Story>
+  <Story name="Usage With Button">
+    {ButtonTriggerTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Placement
+
+You can give `placement` for tooltip direction.The position of the tooltip and arrow change according to this property.  Default placement is `top`.
+
+You can use the other options:
+
+* `top-start`
+* `top`
+* `top-end`
+* `bottom-start`
+* `bottom`
+* `bottom-end`
+* `left-start`
+* `left`
+* `left-end`
+* `right-start`
+* `right`
+* `right-end`
+
+If there is not enough room for the tooltip in the given placement, the tooltip is repositioned automatically according to the empty area.
+
+For example, if there is not enough room on the top, the tooltip is shown on the bottom.
+
+<Canvas>
+  <Story name="Top Placement">
+    {TopPlacementTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Bottom Placement">
+    {BottomPlacementTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Left Placement">
+    {LeftPlacementTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Right Placement">
+    {RightPlacementTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-tooltip" />
