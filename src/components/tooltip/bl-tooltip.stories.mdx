@@ -3,16 +3,26 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
 
 <Meta
   title="Components/Tooltip"
   component="bl-tooltip"
+  parameters={{
+    layout: 'centered',
+    chromatic: { viewports: [800] },
+  }}
   argTypes={{
     placement: {
       control: 'text'
     }
   }}
 />
+
+export const tooltipOpener = async ({ canvasElement }) => {
+  const button = canvasElement.querySelector('bl-button')
+  await userEvent.click(button);
+}
 
 export const IconTriggerTemplate = (args) => html`
 <bl-tooltip placement="${ifDefined(args.placement)}" style='--bl-tooltip-position:fixed'>
@@ -28,35 +38,10 @@ export const ButtonTriggerTemplate = (args) => html`
 
 
 export const PlacementTemplate = (args) => html`
-<bl-tooltip placement="${ifDefined(args.placement)}"
-style='--bl-tooltip-position:fixed;margin:5px'>
-  <bl-button slot="tooltip-trigger" icon="help" text label="Help" secondary></bl-button>
+<bl-tooltip placement="${ifDefined(args.placement)}" style="--bl-tooltip-position:fixed">
+  <bl-button slot="tooltip-trigger" small>${args.placement}</bl-button>
   You can use this section to cancel your order.
 </bl-tooltip>`
-
-export const TopPlacementTemplate = (args) => html`
-${PlacementTemplate({placement:'top-start',...args})}
-${PlacementTemplate({placement:'top',...args})}
-${PlacementTemplate({placement:'top-end',...args})}
-`;
-
-export const BottomPlacementTemplate = (args) => html`
-${PlacementTemplate({placement:'bottom-start',...args})}
-${PlacementTemplate({placement:'bottom',...args})}
-${PlacementTemplate({placement:'bottom-end',...args})}
-`;
-
-export const LeftPlacementTemplate = (args) => html`
-${PlacementTemplate({placement:'left-start',...args})}
-${PlacementTemplate({placement:'left',...args})}
-${PlacementTemplate({placement:'left-end',...args})}
-`;
-
-export const RightPlacementTemplate = (args) => html`
-${PlacementTemplate({placement:'right-start',...args})}
-${PlacementTemplate({placement:'right',...args})}
-${PlacementTemplate({placement:'right-end',...args})}
-`;
 
 # Tooltip
 
@@ -104,26 +89,65 @@ If there is not enough room for the tooltip in the given placement, the tooltip 
 For example, if there is not enough room on the top, the tooltip is shown on the bottom.
 
 <Canvas>
-  <Story name="Top Placement">
-    {TopPlacementTemplate.bind({})}
+  <Story name="Top-Start Placement"
+    args={{ placement: 'top-start' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
   </Story>
-</Canvas>
-
-<Canvas>
-  <Story name="Bottom Placement">
-    {BottomPlacementTemplate.bind({})}
+  <Story name="Top Placement"
+    args={{ placement: 'top' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
   </Story>
-</Canvas>
-
-<Canvas>
-  <Story name="Left Placement">
-    {LeftPlacementTemplate.bind({})}
+  <Story name="Top-End Placement"
+    args={{ placement: 'top-end' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
   </Story>
-</Canvas>
-
-<Canvas>
-  <Story name="Right Placement">
-    {RightPlacementTemplate.bind({})}
+  <Story name="Bottom-Start Placement"
+    args={{ placement: 'bottom-start' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Bottom Placement"
+    args={{ placement: 'bottom' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Bottom-End Placement"
+    args={{ placement: 'bottom-end' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Left-Start Placement"
+    args={{ placement: 'left-start' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Left Placement"
+    args={{ placement: 'left' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Left-End Placement"
+    args={{ placement: 'left-end' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Right-Start Placement"
+    args={{ placement: 'right-start' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Right Placement"
+    args={{ placement: 'right' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Right-End Placement"
+    args={{ placement: 'right-end' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
   </Story>
 </Canvas>
 
