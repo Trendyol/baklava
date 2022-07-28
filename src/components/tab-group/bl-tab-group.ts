@@ -63,7 +63,7 @@ export default class BlTabGroup extends LitElement {
     return [...slot.assignedElements()].filter(el => el.tagName.toLowerCase() === 'bl-tab-panel') as [BlTabPanel];
   }
 
-  get getTabs() {
+  get getTabs  () {
     const slot = this.tabs.querySelector('slot')!;
     return [...slot.assignedElements()].filter(el => el.tagName.toLowerCase() === 'bl-tab') as [BlTab];
   }

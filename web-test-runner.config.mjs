@@ -1,6 +1,7 @@
 import { playwrightLauncher } from '@web/test-runner-playwright';
 import { puppeteerLauncher } from '@web/test-runner-puppeteer';
 import rollupLitCss from 'rollup-plugin-lit-css';
+import rollupReplace from '@rollup/plugin-replace';
 import { fromRollup } from '@web/dev-server-rollup';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import parseArgs from 'minimist';
@@ -21,13 +22,14 @@ if (args.debug) {
       launchOptions: {
         args: ['--no-sandbox'],
         devtools: true,
-        headless: !!args.headless
-      }
-    })
+        headless: !!args.headless,
+      },
+    }),
   ];
 }
 
 const litCss = fromRollup(rollupLitCss);
+const replace = fromRollup(rollupReplace);
 
 export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   files: 'src/**/*.test.ts',
@@ -51,11 +53,36 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   browsers,
 
   plugins: [
+    {
+      name: 'mock-icon-component',
+      async transformImport({ source }) {
+        if (source.endsWith('bl-icon.ts')) {
+          return `${source}?_=${Date.now()}`;
+        }
+      },
+      serve(context) {
+        if (context.headers.referer) {
+          const ref = new URL(context.headers.referer);
+
+          if (
+            context.path === '/src/components/icon/bl-icon.ts' &&
+            ref.pathname !== '/' &&
+            // Use actual component in bl-icon test
+            !ref.pathname.includes('bl-icon.test.ts')
+          ) {
+            return `export default customElements.define('bl-icon', class extends HTMLElement {});`;
+          }
+        }
+      },
+    },
+    
     litCss({
       include: ['src/components/**/*.css'],
     }),
-
-    esbuildPlugin({ ts: true, target: 'esnext' }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
+    esbuildPlugin({ ts: true, target: 'esnext'}),
   ],
 
   testRunnerHtml: testFramework =>
