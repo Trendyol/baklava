@@ -62,9 +62,7 @@ export default class BlTooltip extends LitElement {
     super.connectedCallback();
 
     setTimeout(() => {
-      this._position = getComputedStyle(this).getPropertyValue(
-        '--bl-tooltip-position'
-      ) as Strategy;
+      this._position = getComputedStyle(this).getPropertyValue('--bl-tooltip-position') as Strategy;
     });
   }
 
