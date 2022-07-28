@@ -31,7 +31,7 @@ export default class BlTab extends LitElement {
   @property({type: String})
   icon = '';
 
-  @property({type: Boolean})
+  @property({type: Boolean,reflect: true})
   notify = false;
 
   @property({type: String})
@@ -39,6 +39,9 @@ export default class BlTab extends LitElement {
 
   @property({type: Boolean, reflect: true})
   selected = false;
+
+  @property({type: Boolean, reflect: false})
+  disabled = false;
 
   handleClick(e: Event) {
     const detail = {panel: this.panel, tab: this.tab};
@@ -58,9 +61,19 @@ export default class BlTab extends LitElement {
         <bl-icon name="info" title="${this.helpText}"></bl-icon>
       </div>` : null
 
+    const icon = this.icon ? html`
+      <div class="icon">
+        <bl-icon name="${this.icon}"></bl-icon>
+      </div>` : null
+
     const badge = this.badge ? html`
       <div class="badge-container">
         <bl-badge size="small">${this.badge}</bl-badge>
+      </div>` : null
+
+    const notify = this.notify ? html`
+      <div class="notify">
+
       </div>` : null
 
     const caption =
@@ -70,11 +83,13 @@ export default class BlTab extends LitElement {
         </div>` : null;
 
     return html`
-      <button role="tab" class='container' @click='${this.handleClick}'>
+      <button ?disabled='${this.disabled}' role="tab" class='container' @click='${this.handleClick}'>
         <div class="title-container">
           <div class="title">
+            ${icon}
             ${title}
             ${badge}
+            ${notify}
           </div>
           ${caption}
         </div>
