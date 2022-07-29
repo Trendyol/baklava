@@ -28,7 +28,7 @@
   top: var(--bl-tooltip-top);
   visibility: var(--bl-tooltip-visibility);
   z-index: 999;
-  max-width: 312px;
+  max-width: 424px;
 }
 
 .arrow {
