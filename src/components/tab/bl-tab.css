@@ -129,7 +129,8 @@ button.container {
     font-size: var(--bl-font-size-l);
 }
 
-.notify{
+:host([notify]) .title::after{
+    content: '';
     height: var(--bl-size-2xs);
     width: var(--bl-size-2xs);
     border-radius: var(--bl-size-3xs);

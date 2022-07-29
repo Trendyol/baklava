@@ -25,13 +25,13 @@ export default class BlTab extends LitElement {
   @property({type: String, reflect: true})
   name: string;
 
-  @property({type: String, attribute: 'help-text',reflect: true})
+  @property({type: String, attribute: 'help-text', reflect: true})
   helpText: string;
 
   @property({type: String})
   icon = '';
 
-  @property({type: Boolean,reflect: true})
+  @property({type: Boolean, reflect: true})
   notify = false;
 
   @property({type: String})
@@ -71,11 +71,6 @@ export default class BlTab extends LitElement {
         <bl-badge size="small">${this.badge}</bl-badge>
       </div>` : null
 
-    const notify = this.notify ? html`
-      <div class="notify">
-
-      </div>` : null
-
     const caption =
       this.caption ? html`
         <div class="caption">
@@ -83,13 +78,12 @@ export default class BlTab extends LitElement {
         </div>` : null;
 
     return html`
-      <button ?disabled='${this.disabled}' role="tab" class='container' @click='${this.handleClick}'>
+      <button ?disabled='${this.disabled}' role="tab" class="container" @click='${this.handleClick}'>
         <div class="title-container">
           <div class="title">
             ${icon}
             ${title}
             ${badge}
-            ${notify}
           </div>
           ${caption}
         </div>
