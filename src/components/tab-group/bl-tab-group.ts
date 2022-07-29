@@ -16,7 +16,6 @@ export default class BlTabGroup extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-
     this.updateComplete.then(() => {
       const [hasSelected] = this.getTabs.filter(t => t.selected && !t.disabled)
       if (hasSelected) {
@@ -57,13 +56,12 @@ export default class BlTabGroup extends LitElement {
     this.selectedPanelName = e.detail.panel
   }
 
-
   get getPanels() {
     const slot = this.panels.querySelector('slot')!;
     return [...slot.assignedElements()].filter(el => el.tagName.toLowerCase() === 'bl-tab-panel') as [BlTabPanel];
   }
 
-  get getTabs  () {
+  get getTabs() {
     const slot = this.tabs.querySelector('slot')!;
     return [...slot.assignedElements()].filter(el => el.tagName.toLowerCase() === 'bl-tab') as [BlTab];
   }
