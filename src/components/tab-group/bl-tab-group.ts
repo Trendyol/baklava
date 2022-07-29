@@ -70,7 +70,7 @@ export default class BlTabGroup extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="container">
-        <div role="tablist" class="tabs-list" @tabClicked=${this._handleTabClicked}>
+        <div role="tablist" class="tabs-list" @bl-tab-show=${this._handleTabClicked}>
           <div class="tabs">
             <slot name="tabs" class="tab"></slot>
           </div>

@@ -1,21 +1,21 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
-import '../badge/bl-badge';
-import '../icon/bl-icon';
-import '../tooltip/bl-tooltip';
-import '../button/bl-button';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property, query } from "lit/decorators.js";
+import "../badge/bl-badge";
+import "../icon/bl-icon";
+import "../tooltip/bl-tooltip";
+import "../button/bl-button";
 
-import style from './bl-tab.css';
+import style from "./bl-tab.css";
 
-@customElement('bl-tab')
+@customElement("bl-tab")
 export default class BlTab extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
 
-  @query('.container') private tab: HTMLDivElement;
+  @query(".container") private tab: HTMLDivElement;
 
-  @query('.help-container') private helpIcon: HTMLDivElement;
+  @query(".help-container") private helpIcon: HTMLDivElement;
 
   @property({ type: String })
   title: string;
@@ -29,17 +29,17 @@ export default class BlTab extends LitElement {
   @property({ type: String, reflect: true })
   name: string;
 
-  @property({ type: String, attribute: 'help-text', reflect: true })
+  @property({ type: String, attribute: "help-text", reflect: true })
   helpText: string;
 
   @property({ type: String })
-  icon = '';
+  icon = "";
 
   @property({ type: Boolean, reflect: true })
   notify = false;
 
   @property({ type: String })
-  badge = '';
+  badge = "";
 
   @property({ type: Boolean, reflect: true })
   selected = false;
@@ -52,10 +52,10 @@ export default class BlTab extends LitElement {
 
     this.updateComplete.then(() => {
       if (this.helpIcon) {
-        this.helpIcon.addEventListener('mouseover', e => {
+        this.helpIcon.addEventListener("mouseover", e => {
           this.helpIconHovered(e, true);
         });
-        this.helpIcon.addEventListener('mouseleave', e => {
+        this.helpIcon.addEventListener("mouseleave", e => {
           this.helpIconHovered(e, false);
         });
       }
@@ -65,14 +65,14 @@ export default class BlTab extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     if (this.helpIcon) {
-      this.helpIcon.removeEventListener('mouseover', this.helpIconHovered);
-      this.helpIcon.removeEventListener('mouseleave', this.helpIconHovered);
+      this.helpIcon.removeEventListener("mouseover", this.helpIconHovered);
+      this.helpIcon.removeEventListener("mouseleave", this.helpIconHovered);
     }
   }
 
   handleClick(e: Event) {
     const detail = { panel: this.panel, tab: this.tab };
-    const event = new CustomEvent('tabClicked', {
+    const event = new CustomEvent("bl-tab-show", {
       detail,
       bubbles: true,
       composed: true,
@@ -85,7 +85,7 @@ export default class BlTab extends LitElement {
   }
 
   helpIconHovered(e?: Event, isHover?: boolean) {
-    const event = new CustomEvent('helpIconHovered', {
+    const event = new CustomEvent("helpIconHovered", {
       detail: { isHover },
       bubbles: true,
       composed: true,
@@ -148,6 +148,6 @@ export default class BlTab extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-tab': BlTab;
+    "bl-tab": BlTab;
   }
 }
