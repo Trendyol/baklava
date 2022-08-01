@@ -1,9 +1,5 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import "../badge/bl-badge";
-import "../icon/bl-icon";
-import "../tooltip/bl-tooltip";
-import "../button/bl-button";
 
 import style from "./bl-tab.css";
 
@@ -13,9 +9,12 @@ export default class BlTab extends LitElement {
     return [style];
   }
 
-  @query(".container") private tab: HTMLDivElement;
+  protected _panel = "";
+  get panel(): string {
+    return this.name;
+  }
 
-  @query(".help-container") private helpIcon: HTMLDivElement;
+  @query(".container") private tab: HTMLDivElement;
 
   @property({ type: String })
   title: string;
@@ -24,10 +23,8 @@ export default class BlTab extends LitElement {
   caption: string;
 
   @property({ type: String, reflect: true })
-  panel: string;
-
-  @property({ type: String, reflect: true })
   name: string;
+
 
   @property({ type: String, attribute: "help-text", reflect: true })
   helpText: string;
@@ -47,29 +44,6 @@ export default class BlTab extends LitElement {
   @property({ type: Boolean, reflect: false })
   disabled = false;
 
-  connectedCallback() {
-    super.connectedCallback();
-
-    this.updateComplete.then(() => {
-      if (this.helpIcon) {
-        this.helpIcon.addEventListener("mouseover", e => {
-          this.helpIconHovered(e, true);
-        });
-        this.helpIcon.addEventListener("mouseleave", e => {
-          this.helpIconHovered(e, false);
-        });
-      }
-    });
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    if (this.helpIcon) {
-      this.helpIcon.removeEventListener("mouseover", this.helpIconHovered);
-      this.helpIcon.removeEventListener("mouseleave", this.helpIconHovered);
-    }
-  }
-
   handleClick(e: Event) {
     const detail = { panel: this.panel, tab: this.tab };
     const event = new CustomEvent("bl-tab-show", {
@@ -84,19 +58,6 @@ export default class BlTab extends LitElement {
     }
   }
 
-  helpIconHovered(e?: Event, isHover?: boolean) {
-    const event = new CustomEvent("helpIconHovered", {
-      detail: { isHover },
-      bubbles: true,
-      composed: true,
-      cancelable: true,
-    });
-    this.dispatchEvent(event);
-    if (event.defaultPrevented) {
-      e && e.preventDefault();
-    }
-  }
-
   render(): TemplateResult {
     const title = this.title || html` <slot></slot>`;
 
@@ -107,7 +68,7 @@ export default class BlTab extends LitElement {
               slot="tooltip-trigger"
               icon="info"
               text
-              label=${this.helpText}
+              label="${this.helpText}"
               secondary
             ></bl-button>
             ${this.helpText}
