@@ -9,9 +9,9 @@ export default class BlTab extends LitElement {
     return [style];
   }
 
-  protected _panel = "";
-  get panel(): string {
-    return this.name;
+  protected _name = "";
+  get name(): string {
+    return this.panel;
   }
 
   @query(".container") private tab: HTMLDivElement;
@@ -23,7 +23,7 @@ export default class BlTab extends LitElement {
   caption: string;
 
   @property({ type: String, reflect: true })
-  name: string;
+  panel: string;
 
 
   @property({ type: String, attribute: "help-text", reflect: true })
