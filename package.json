@@ -2,8 +2,8 @@
   "name": "@trendyol/baklava",
   "version": "0.0.0-dev",
   "description": "Trendyol Baklava Design System",
-  "main": "dist/baklava.js",
-  "module": "dist/baklava.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "publishConfig": {
     "access": "public"
   },
@@ -21,7 +21,7 @@
     "start": "npm run storybook:dev",
     "analyze": "cem analyze",
     "commit": "commit",
-    "build": "node scripts/build.js && npm run analyze",
+    "build": "npm run generate-react-exports && node scripts/build.js && npm run analyze",
     "build-storybook": "NODE_ENV=production build-storybook -o storybook-static",
     "deploy-storybook": "storybook-to-ghpages --ci --source-branch=next --host-token-env-variable=GITHUB_TOKEN",
     "serve": "node scripts/build.js --serve",
@@ -46,7 +46,8 @@
     "test:component": "npm run test -- --group",
     "test:watch": "web-test-runner --coverage --watch",
     "test:debug": "web-test-runner --coverage --watch --debug",
-    "test:headless": "web-test-runner --coverage --watch --debug --headless"
+    "test:headless": "web-test-runner --coverage --watch --debug --headless",
+    "generate-react-exports": "node scripts/generate-react-exports.js"
   },
   "keywords": [
     "web-components",
@@ -56,6 +57,7 @@
   "dependencies": {
     "@floating-ui/dom": "^0.5.4",
     "@fontsource/rubik": "^4.5.9",
+    "@lit-labs/react": "^1.0.7",
     "@rollup/plugin-replace": "^4.0.0",
     "@types/estree": "0.0.47",
     "lit": "^2.2.3"
@@ -76,6 +78,7 @@
     "@storybook/addon-storysource": "6.5.9",
     "@storybook/storybook-deployer": "^2.8.11",
     "@storybook/web-components": "6.5.9",
+    "@types/prettier": "^2.6.4",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "@web/dev-server-esbuild": "0.2.16",
