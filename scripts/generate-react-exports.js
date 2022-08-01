@@ -1,61 +1,69 @@
 const fs = require('fs-extra');
 const prettier = require('prettier');
 
-function getExportData(baklavaFileContent) {
-  const imports = {};
+function getComponentNameDict(baklavaFileContent) {
+  const componentNameDict = {};
   const lines = baklavaFileContent.split(/\r\n|\n/).filter(line => line !== '');
 
   for (const line of lines) {
     try {
       const {
-        groups: { exportName, fileName },
-      } = line.match(/as (?<exportName>.*) } from ['`"](?<path>.*\/(?<fileName>[\w-]*))['`"];$/);
+        groups: { componentName, fileName },
+      } = line.match(/as (?<componentName>.*) } from ['`"](?<path>.*\/(?<fileName>[\w-]*))['`"];$/);
 
-      imports[exportName] = fileName;
+      componentNameDict[componentName] = fileName;
     } catch (error) {}
   }
 
-  return imports;
+  return componentNameDict;
 }
 
-function addImports(fileContentParts, exportName, fileName) {
+function addImports(fileContentParts, componentName, fileName) {
   fileContentParts.imports.push(
-    `import ${exportName} from '../components/${fileName.replace('bl-', '')}/${fileName}';`
+    `import ${componentName} from '../components/${fileName.replace('bl-', '')}/${fileName}';`
   );
 }
 
-function addComponentConverts(fileContentParts, exportName, fileName) {
+function addComponentConverts(fileContentParts, componentName, fileName) {
   const eventOptions = getEventOptions(fileName);
 
   fileContentParts.componentConverts.push(
-    `const _${exportName} = createComponent(
+    `const _${componentName} = createComponent(
       React,
       '${fileName}',
-      ${exportName},
+      ${componentName},
       ${JSON.stringify(eventOptions)}
     );`
   );
 }
 
-function addExports(fileContentParts, exportName) {
-  fileContentParts.exports.push(`export { _${exportName} as ${exportName} };`);
+function addExports(fileContentParts, componentName) {
+  fileContentParts.exports.push(`export { _${componentName} as ${componentName} };`);
 }
 
 function getEventOptions(fileName) {
   const eventDict = {};
   const componentFileContent = fs.readFileSync(
-    `${process.cwd()}/src/components/${fileName.replace('bl-', '')}/${fileName}.ts`,
+    `${__dirname}/../src/components/${fileName.replace('bl-', '')}/${fileName}.ts`,
     {
       encoding: 'utf8',
     }
   );
 
   const eventMatches = componentFileContent.matchAll(
-    /(?<=@event\(')(?<eventName>[\w-]*).*(?<reactEventName>on\w*)/g
+    /(?<=@event\(')(?<eventName>[\w-]*).*(?<reactEventName>on\w*)|CustomEvent\([`'"](?<litEventName>[\w-]*)/g
   );
 
   for (const eventMatch of eventMatches) {
-    eventDict[eventMatch.groups.reactEventName] = eventMatch.groups.eventName;
+    const litEventName = eventMatch.groups.litEventName;
+    const slicedLitEvent = litEventName?.slice(3);
+
+    if (litEventName) {
+      const reactEventName = `on${slicedLitEvent[0].toUpperCase()}${slicedLitEvent.slice(1)}`;
+      eventDict[reactEventName] = litEventName;
+    } else {
+      eventDict[eventMatch.groups.reactEventName] = eventMatch.groups.eventName;
+    }
   }
 
   return eventDict;
@@ -71,30 +79,31 @@ function writeBaklavaReactFile(fileContentParts) {
     fileContentText += `${valueArray.join('\n')}\n\n`;
   }
 
-  fs.mkdirSync(`${process.cwd()}/src/react`, { recursive: true });
+  fs.mkdirSync(`${__dirname}/../src/react`, { recursive: true });
   fs.writeFileSync(
-    `${process.cwd()}/src/react/index.ts`,
+    `${__dirname}/../src/react/index.ts`,
     prettier.format(fileContentText.trim(), { parser: 'babel' })
   );
 }
 
-const baklavaFileContent = fs.readFileSync(process.cwd() + '/src/index.ts', {
+const baklavaFileContent = fs.readFileSync(`${__dirname}/../src/index.ts`, {
   encoding: 'utf8',
 });
 
-const exportData = getExportData(baklavaFileContent);
+const componentNameDict = getComponentNameDict(baklavaFileContent);
+
 const fileContentParts = {
   imports: [],
   componentConverts: [],
   exports: [],
 };
 
-for (const exportName in exportData) {
-  const fileName = exportData[exportName];
+for (const componentName in componentNameDict) {
+  const fileName = componentNameDict[componentName];
 
-  addImports(fileContentParts, exportName, fileName);
-  addComponentConverts(fileContentParts, exportName, fileName);
-  addExports(fileContentParts, exportName);
+  addImports(fileContentParts, componentName, fileName);
+  addComponentConverts(fileContentParts, componentName, fileName);
+  addExports(fileContentParts, componentName);
 }
 
 writeBaklavaReactFile(fileContentParts);
