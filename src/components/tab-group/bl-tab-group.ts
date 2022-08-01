@@ -2,7 +2,7 @@ import {CSSResultGroup, html, LitElement, TemplateResult} from "lit";
 import {customElement, query} from "lit/decorators.js";
 import style from "./bl-tab-group.css";
 import BlTabPanel from "../tab-panel/bl-tab-panel";
-import BlTab from "../tab/bl-tab";
+import BlTab from "./tab/bl-tab";
 
 @customElement('bl-tab-group')
 export default class BlTabGroup extends LitElement {
