@@ -1,0 +1,68 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta
+  title="Frameworks/React"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: {
+        hidden: true,
+      },
+    },
+  }}
+/>
+
+# Using Baklava in React
+
+React does not [compatible](https://custom-elements-everywhere.com/#react) with most of the web component features.
+React passes all props as string to Custom Components so object and array props don't pass in correct way.
+Also, since React uses its own synthetic event system, it can't listen events that dispatches from Custom Elements.
+For this reasons, we used [@lit-labs/react](https://www.npmjs.com/package/@lit-labs/react) package to convert Custom Elements to React components.
+
+## Installation
+
+To add Baklava in your app, you can either import it via CDN or npm package.
+
+### Via CDN
+
+To be able to use Baklava via CDN, you should add our default.css and `react/index.js` at head tag in your `index.html` file.
+
+> Baklava is currently in beta version. So, if you want to keep updated for new changes, you can add `@beta` tag like the example below.
+  However, you can simply use any version you want by adding the version number.
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/react/index.js"></script>
+```
+
+### Via NPM
+
+To be able to use Baklava via npm, install with:
+
+```bash
+npm install @trendyol/baklava
+```
+
+## Usage
+
+Simple usage is as follows:
+
+```javascript
+import { BlButton } from "@trendyol/baklava/dist/react";
+import { setIconPath } from "@trendyol/baklava";
+import "@trendyol/baklava/dist/themes/default.css";
+
+setIconPath("https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/assets");
+
+function App() {
+  return (
+    <div className="App">
+      <BlButton primary onClick={(a) => alert("Clicked!")}>
+        Button
+      </BlButton>
+    </div>
+  );
+}
+
+export default App;
+```
