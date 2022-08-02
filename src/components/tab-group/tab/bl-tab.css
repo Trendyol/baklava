@@ -40,13 +40,10 @@
   opacity: 1;
 }
 
-:host([selected]) {
+
+:host(:hover), :host([selected]) {
   --bl-tab-title-color: var(--bl-color-primary);
   --bl-tab-icon-color: var(--bl-color-primary);
-}
-
-:host([selected]) .border-bottom {
-  display: inline-block;
 }
 
 :host([disabled]) {
@@ -55,6 +52,14 @@
   --bl-tab-title-color: var(--bl-color-content-passive);
   --bl-tab-caption-color: var(--bl-color-content-passive);
   --bl-tab-icon-color: var(--bl-color-content-passive);
+}
+
+:host(:hover) :where(.title,.icon) {
+  transition: color 120ms ease-out;
+}
+
+:host([selected]) .border-bottom {
+  display: inline-block;
 }
 
 :host([disabled]) .container:hover {
