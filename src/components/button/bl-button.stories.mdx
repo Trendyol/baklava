@@ -218,18 +218,75 @@ We have 2 types of disabled buttons: **Contained** and **Text**. Disable version
 </Canvas>
 
 
-## Button Hover State
+## Button Hover States
+
+export const hoverButton = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const BlButton = canvas.getByTestId('buttonhover');
+  await waitFor(async () => {
+    await userEvent.hover(canvas.getByTestId('buttonhover'));
+  });
+}
 
 <Canvas>
   <Story name="Primary Button Hover State"
     args={{content: 'Primary Button', icon: 'info', testid: 'buttonhover' }}
-    play={async ({ canvasElement }) => {
-      const canvas = within(canvasElement);
-      const BlButton = canvas.getByTestId('buttonhover');
-      await waitFor(async () => {
-        await userEvent.hover(canvas.getByTestId('buttonhover'));
-      });
-    }}
+    play={hoverButton}
+    >{SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Secondary Button Hover State"
+    args={{content: 'Secondary Button', secondary: true, icon: 'info', testid: 'buttonhover' }}
+    play={hoverButton}
+    >{SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Success Button Hover State"
+    args={{content: 'Success Button', success: true, icon: 'info', testid: 'buttonhover' }}
+    play={hoverButton}
+    >{SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Danger Button Hover State"
+    args={{content: 'Danger Button', danger: true, icon: 'info', testid: 'buttonhover' }}
+    play={hoverButton}
+    >{SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Primary Outline Button Hover State"
+    args={{content: 'Primary Outline Button', outline: true, icon: 'info', testid: 'buttonhover' }}
+    play={hoverButton}
+    >{SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Secondary Outline Button Hover State"
+    args={{content: 'Secondary Outline Button', outline: true, secondary: true, icon: 'info', testid: 'buttonhover' }}
+    play={hoverButton}
+    >{SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Success Outline Button Hover State"
+    args={{content: 'Success Outline Button', outline: true, success: true, icon: 'info', testid: 'buttonhover' }}
+    play={hoverButton}
+    >{SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Danger Outline Button Hover State"
+    args={{content: 'Danger Outline Button', outline: true, danger: true, icon: 'info', testid: 'buttonhover' }}
+    play={hoverButton}
+    >{SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Primary Text Button Hover State"
+    args={{content: 'Primary Text Button', text: true, icon: 'info', testid: 'buttonhover' }}
+    play={hoverButton}
+    >{SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Secondary Text Button Hover State"
+    args={{content: 'Secondary Text Button', text: true, secondary: true, icon: 'info', testid: 'buttonhover' }}
+    play={hoverButton}
+    >{SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Success Text Button Hover State"
+    args={{content: 'Success Text Button', text: true, success: true, icon: 'info', testid: 'buttonhover' }}
+    play={hoverButton}
+    >{SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Danger Text Button Hover State"
+    args={{content: 'Danger Text Button', text: true, danger: true, icon: 'info', testid: 'buttonhover' }}
+    play={hoverButton}
     >{SingleButtonTemplate.bind({})}
   </Story>
 </Canvas>
