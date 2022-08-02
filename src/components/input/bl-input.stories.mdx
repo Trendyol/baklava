@@ -6,10 +6,6 @@ import {
   ArgsTable,
   Story,
 } from '@storybook/addon-docs';
-import { userEvent, waitFor, within, getByRole, getByTestId } from '@storybook/testing-library';
-import { getByShadowRole, findByShadowLabelText, queryAllByShadowTitle, getByShadowTestId, deepQuerySelectorAll, deepQuerySelector } from "shadow-dom-testing-library";
-import { screen } from "shadow-dom-testing-library"
-
 
 <Meta
   title="Components/Input"
@@ -94,7 +90,6 @@ export const SingleInputTemplate = (args) => html`<bl-input
     max='${ifDefined(args.max)}'
     icon='${ifDefined(args.icon)}'
     size='${ifDefined(args.size)}'
-    data-testid=${ifDefined(args.testid)}
   ></bl-input>`
 
 export const LabelStylesTemplate = args => html`
@@ -169,6 +164,8 @@ Input can have an icon. This icon is showed with `bl-icon` component internally 
 
 Input supports native HTML validation rules like `required`, `minlength`, `maxlength`,  `min` and `max`. Other validation rules will come soon.
 
+Input validation will run after user enters a value and go out from the input. If there is a validation issue, input will be highlighted in error state. After this state every change will have immediate effect on input to update validation state.
+
 <Canvas>
   <Story name="Validation with Text Input"
          args={{ type: 'text', label: 'User Name', minlength: 5, maxlength: 20, required: true }}
@@ -192,26 +189,6 @@ Validation error messages are used from default browser error messages by defaul
   </Story>
 </Canvas>
 
-Input validation will run after user enters a value and go out from the input. If there is a validation issue, input will be highlighted in error state. After this state every change will have immediate effect on input to update validation state.
-
-<Canvas>
-  <Story name="Input Invalid State"
-    args={{ type: 'text', label: 'User Name', minlength: 5, maxlength: 20, required: true }}
-    play={async ({ canvasElement }) => {
-      const BlInput = deepQuerySelector(canvasElement, "bl-input");
-      await new Promise(resolve => setTimeout(resolve, 300));
-      const input = deepQuerySelector(BlInput, 'input');
-      console.log(input);
-      BlInput.addEventListener('bl-input', (e) => console.log(`Event: ${e}`));
-      await userEvent.click(input);
-      await userEvent.type(input, 'a');
-      await userEvent.type(input, 'a');
-      await userEvent.tab();
-    }}
-    >{SingleInputTemplate.bind({})}
-  </Story>
-</Canvas>
-
 ## Input Sizes
 
 Inputs have 2 size options: `medium` and `large`. `medium` size is default and if you want to show a large input you can set `size` attribute to `large`.
@@ -221,15 +198,6 @@ Inputs have 2 size options: `medium` and `large`. `medium` size is default and i
          args={{ type: 'text', label: 'User Name', size: 'large' }}
   >
     {SingleInputTemplate.bind({})}
-  </Story>
-</Canvas>
-
-## Input Focus State
-
-<Canvas>
-  <Story name="Input Focus State"
-    args={{ type: 'text', label: 'User Name', size: 'large', testid: 'focusinput' }}
-    >{SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
 
