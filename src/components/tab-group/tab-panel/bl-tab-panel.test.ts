@@ -8,7 +8,7 @@ describe("bl-tab-panel", function () {
   });
 
   it("should render with default values", async function () {
-    const el = await fixture<BlTabPanel>(html` <bl-tab-panel name="test-panel"></bl-tab-panel>`);
+    const el = await fixture<BlTabPanel>(html` <bl-tab-panel tab="test-panel"></bl-tab-panel>`);
     const expected = `
       <slot></slot>
     `;
@@ -17,7 +17,7 @@ describe("bl-tab-panel", function () {
 
   it("should set name property", async function() {
     const name = 'test-panel'
-    const el = await fixture<BlTabPanel>(html` <bl-tab-panel name="${name}"></bl-tab-panel>`);
-    assert.equal(el.name, name)
+    const el = await fixture<BlTabPanel>(html` <bl-tab-panel tab="${name}"></bl-tab-panel>`);
+    assert.equal(el.tab, name)
   });
 });

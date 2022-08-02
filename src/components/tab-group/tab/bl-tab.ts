@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
+import { event, EventDispatcher } from "../../../utilities/event";
 
 import style from "./bl-tab.css";
 
@@ -9,12 +10,23 @@ export default class BlTab extends LitElement {
     return [style];
   }
 
-  protected _name = "";
-  get name(): string {
-    return this.panel;
+  protected _panel = "";
+  get panel(): string {
+    return this.name;
   }
 
-  @query(".container") private tab: HTMLDivElement;
+  connectedCallback() {
+    super.connectedCallback();
+
+    this.updateComplete.then(() => {
+      const el = this.closest("bl-tab-group");
+      if(el) {
+        el.registerTab(this)
+      } else {
+        throw new Error('bl-tab should be used inside bl-tab-group.')
+      }
+    });
+  }
 
   @property({ type: String })
   title: string;
@@ -23,8 +35,7 @@ export default class BlTab extends LitElement {
   caption: string;
 
   @property({ type: String, reflect: true })
-  panel: string;
-
+  name: string;
 
   @property({ type: String, attribute: "help-text", reflect: true })
   helpText: string;
@@ -44,18 +55,10 @@ export default class BlTab extends LitElement {
   @property({ type: Boolean, reflect: false })
   disabled = false;
 
-  handleClick(e: Event) {
-    const detail = { panel: this.panel, tab: this.tab };
-    const event = new CustomEvent("bl-tab-show", {
-      detail,
-      bubbles: true,
-      composed: true,
-      cancelable: true,
-    });
-    this.dispatchEvent(event);
-    if (event.defaultPrevented) {
-      e.preventDefault();
-    }
+  @event('bl-tab-selected') private _onSelect: EventDispatcher<string>;
+
+  select() {
+    this._onSelect(this.name)
   }
 
   render(): TemplateResult {
@@ -95,7 +98,7 @@ export default class BlTab extends LitElement {
         ?disabled="${this.disabled}"
         role="tab"
         class="container"
-        @click="${this.handleClick}"
+        @click="${() => this.select()}"
       >
         <div class="title-container">
           <div class="title">${icon} ${title} ${badge}</div>

@@ -1,9 +1,4 @@
-import {
-  assert,
-  fixture,
-  html,
-  fixtureCleanup,
-} from "@open-wc/testing";
+import { assert, fixture, html, fixtureCleanup, expect } from "@open-wc/testing";
 import BlTabGroup from "./bl-tab-group";
 
 describe("bl-tab-group", function () {
@@ -35,41 +30,35 @@ describe("bl-tab-group", function () {
   it("should render panels", async function () {
     const el = await fixture<BlTabGroup>(
       html` <bl-tab-group>
-        <bl-tab panel="test" slot="tabs" title="Test Tab"></bl-tab>
-        <bl-tab-panel name="test"></bl-tab-panel>
+        <bl-tab name="test" slot="tabs" title="Test Tab"></bl-tab>
+        <bl-tab-panel tab="test"></bl-tab-panel>
       </bl-tab-group>`
     );
-    assert.equal(el.getPanels.length, 1);
+
+    await assert.equal(el.tabs.length, 1);
   });
 
-  // TODO make it more efficient
   it("should select correct tab if has selected attr", async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
-      <bl-tab panel="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
-      <bl-tab panel="test-2" slot="tabs" title="Test 2 Tab" selected></bl-tab>
-      <bl-tab-panel name="test-1"></bl-tab-panel>
-      <bl-tab-panel name="test-2"></bl-tab-panel>
+      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
+      <bl-tab name="test-2" slot="tabs" title="Test 2 Tab" selected></bl-tab>
+      <bl-tab-panel tab="test-1"></bl-tab-panel>
+      <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
-    const tab = el.querySelector('bl-tab[selected=""]');
-    const selectedTabName = tab?.attributes.getNamedItem("panel")?.value;
-    assert.equal(selectedTabName, "test-2");
+    const selectedPanel = el.panels.find(p => p.tab === "test-2");
+
+    expect(el.selectedTabName).to.be.equal("test-2");
+    expect(selectedPanel?.visible).to.be.true;
   });
 
-  it("should handle bl-tab-show event", async function () {
-    // const el = await fixture<BlTabGroup>(html` <bl-tab-group>
-    //   <bl-tab panel="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
-    //   <bl-tab panel="test-2" slot="tabs" title="Test 2 Tab" selected></bl-tab>
-    //   <bl-tab-panel name="test-1"></bl-tab-panel>
-    //   <bl-tab-panel name="test-2"></bl-tab-panel>
-    // </bl-tab-group>`);
-    // const customDetailData = {
-    //   panel: "test-1",
-    // };
-    // document?.dispatchEvent(new CustomEvent("bl-tab-show", { detail: customDetailData }));
-    // el.requestUpdate();
-    // await el.updateComplete;
-    // // expect(el._handleClick)
-    // setTimeout(() => console.log(el.selectedPanelName))
-    // expect(el._handleTabClicked).to.have.calledOnce
+  it("should handle bl-tab-selected event", async function () {
+    const el = await fixture<BlTabGroup>(html` <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
+      <bl-tab name="test-2" slot="tabs" title="Test 2 Tab" selected></bl-tab>
+      <bl-tab-panel tab="test-1"></bl-tab-panel>
+      <bl-tab-panel tab="test-2"></bl-tab-panel>
+    </bl-tab-group>`);
+    el.tabs[0].select()
+    expect(el.selectedTabName).to.be.equal('test-1')
   });
 });

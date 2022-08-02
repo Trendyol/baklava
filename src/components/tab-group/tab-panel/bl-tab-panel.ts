@@ -8,8 +8,22 @@ export default class BlTabPanel extends LitElement {
     return [styles]
   }
 
+  connectedCallback() {
+    super.connectedCallback()
+
+    this.updateComplete.then(() => {
+      const el = this.closest('bl-tab-group')
+      if(el) {
+        el.registerTabPanel(this)
+      } else {
+        throw new Error('bl-tab-panel should be used inside bl-tab-group.')
+      }
+
+    })
+  }
+
   @property({type: String, reflect: true})
-  name: string;
+  tab: string;
 
   @property({type: Boolean, reflect: true})
   visible = false;
