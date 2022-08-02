@@ -226,7 +226,7 @@ We have 2 types of disabled buttons: **Contained** and **Text**. Disable version
     play={async ({ canvasElement }) => {
       const canvas = within(canvasElement);
       const BlButton = canvas.getByTestId('buttonhover');
-      console.log(BlButton);
+
       await waitFor(async () => {
         await userEvent.hover(canvas.getByTestId('buttonhover'));
       });
