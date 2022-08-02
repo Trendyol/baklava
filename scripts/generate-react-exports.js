@@ -1,74 +1,6 @@
 const fs = require('fs-extra');
 const prettier = require('prettier');
 
-function getComponentNameDict(baklavaFileContent) {
-  const componentNameDict = {};
-  const lines = baklavaFileContent.split(/\r\n|\n/).filter(line => line !== '');
-
-  for (const line of lines) {
-    try {
-      const {
-        groups: { componentName, fileName },
-      } = line.match(/as (?<componentName>.*) } from ['`"](?<path>.*\/(?<fileName>[\w-]*))['`"];$/);
-
-      componentNameDict[componentName] = fileName;
-    } catch (error) {}
-  }
-
-  return componentNameDict;
-}
-
-function addImports(fileContentParts, componentName, fileName) {
-  fileContentParts.imports.push(
-    `import ${componentName} from '../components/${fileName.replace('bl-', '')}/${fileName}';`
-  );
-}
-
-function addComponentConverts(fileContentParts, componentName, fileName) {
-  const eventOptions = getEventOptions(fileName);
-
-  fileContentParts.componentConverts.push(
-    `const _${componentName} = createComponent(
-      React,
-      '${fileName}',
-      ${componentName},
-      ${JSON.stringify(eventOptions)}
-    );`
-  );
-}
-
-function addExports(fileContentParts, componentName) {
-  fileContentParts.exports.push(`export { _${componentName} as ${componentName} };`);
-}
-
-function getEventOptions(fileName) {
-  const eventDict = {};
-  const componentFileContent = fs.readFileSync(
-    `${__dirname}/../src/components/${fileName.replace('bl-', '')}/${fileName}.ts`,
-    {
-      encoding: 'utf8',
-    }
-  );
-
-  const eventMatches = componentFileContent.matchAll(
-    /(?<=@event\(')(?<eventName>[\w-]*).*(?<reactEventName>on\w*)|CustomEvent\([`'"](?<litEventName>[\w-]*)/g
-  );
-
-  for (const eventMatch of eventMatches) {
-    const litEventName = eventMatch.groups.litEventName;
-    const slicedLitEvent = litEventName?.slice(3);
-
-    if (litEventName) {
-      const reactEventName = `on${slicedLitEvent[0].toUpperCase()}${slicedLitEvent.slice(1)}`;
-      eventDict[reactEventName] = litEventName;
-    } else {
-      eventDict[eventMatch.groups.reactEventName] = eventMatch.groups.eventName;
-    }
-  }
-
-  return eventDict;
-}
-
 function writeBaklavaReactFile(fileContentParts) {
   let fileContentText = `
     import React from 'react';
@@ -79,31 +11,47 @@ function writeBaklavaReactFile(fileContentParts) {
     fileContentText += `${valueArray.join('\n')}\n\n`;
   }
 
-  fs.mkdirSync(`${__dirname}/../src/react`, { recursive: true });
   fs.writeFileSync(
-    `${__dirname}/../src/react/index.ts`,
-    prettier.format(fileContentText.trim(), { parser: 'babel' })
+    `${__dirname}/../src/baklava-react.ts`,
+    prettier.format(fileContentText.trim(), { parser: 'babel', singleQuote: true })
   );
 }
 
-const baklavaFileContent = fs.readFileSync(`${__dirname}/../src/index.ts`, {
-  encoding: 'utf8',
-});
+function getReactEventName(baklavaEventName) {
+  const rawEventName = baklavaEventName.match(/(\w+)/g).at(-1);
+  return `on${rawEventName[0].toUpperCase()}${rawEventName.slice(1)}`;
+}
 
-const componentNameDict = getComponentNameDict(baklavaFileContent);
-
-const fileContentParts = {
+const customElements = fs.readJSONSync(`${__dirname}/../dist/custom-elements.json`);
+const customElementsModules = customElements.modules;
+const baklavaReactFileParts = {
   imports: [],
   componentConverts: [],
   exports: [],
 };
 
-for (const componentName in componentNameDict) {
-  const fileName = componentNameDict[componentName];
+for (const module of customElementsModules) {
+  const { path, declarations } = module;
+  const { events, name: componentName, tagName: fileName } = declarations[0];
+  const relativePath = path.replace('src', '.').replace('.ts', '');
 
-  addImports(fileContentParts, componentName, fileName);
-  addComponentConverts(fileContentParts, componentName, fileName);
-  addExports(fileContentParts, componentName);
+  const eventNames = events
+    ? events.reduce((prev, curr) => {
+        prev[getReactEventName(curr.name)] = curr.name;
+        return prev;
+      }, {})
+    : {};
+
+  baklavaReactFileParts.imports.push(`import ${componentName} from '${relativePath}'`);
+  baklavaReactFileParts.componentConverts.push(
+    `const _${componentName} = createComponent(
+      React,
+      '${fileName}',
+      ${componentName},
+      ${JSON.stringify(eventNames)}
+    );`
+  );
+  baklavaReactFileParts.exports.push(`export { _${componentName} as ${componentName} };`);
 }
 
-writeBaklavaReactFile(fileContentParts);
+writeBaklavaReactFile(baklavaReactFileParts);

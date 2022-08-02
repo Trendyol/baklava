@@ -7,6 +7,7 @@ custom-elements.json
 *.generated.css
 coverage
 playground
+baklava-react.ts
 
 *~
 *.sw[mnpcod]
@@ -29,5 +30,7 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 src/component-list.json
+
+src
 coverage/
 build-storybook.log
