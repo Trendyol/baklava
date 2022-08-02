@@ -32,7 +32,7 @@ To be able to use Baklava via CDN, you should add our default.css and `react/ind
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css" />
-<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/react/index.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/baklava-react.js"></script>
 ```
 
 ### Via NPM
@@ -45,7 +45,30 @@ npm install @trendyol/baklava
 
 ## Usage
 
-Simple usage is as follows:
+Using with CDN:
+
+```css
+// main style file
+@import "https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css";
+```
+
+```javascript
+import { BlButton } from "https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/baklava-react.js";
+
+function App() {
+  return (
+    <div className="App">
+      <BlButton primary onClick={(a) => alert("Clicked!")}>
+        Button
+      </BlButton>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Using with NPM:
 
 ```javascript
 import { BlButton } from "@trendyol/baklava/dist/react";
