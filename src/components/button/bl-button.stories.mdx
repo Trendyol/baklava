@@ -2,8 +2,7 @@ import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { Meta, Canvas, ArgsTable, Story, Source } from '@storybook/addon-docs';
-import { userEvent, waitFor, within, getByTestId } from '@storybook/testing-library';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
 
 <Meta
   title="Components/Button"
@@ -64,7 +63,6 @@ export const SingleButtonTemplate = (args) => html`<bl-button
     size=${ifDefined(args.size)}
     icon="${ifDefined(args.icon)}"
     label="${ifDefined(args.label)}"
-    data-testid=${ifDefined(args.testid)}
     style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
       >${unsafeHTML(args.content)}</bl-button>`
 
@@ -94,16 +92,13 @@ ${SingleButtonTemplate({text: true, ...args})}`;
 Buttons allow users to take actions, and make choices with a single tap.
 
 ### Usage
-
 * A button should contain at least one text, icon or both (text + icon).
 * The first letter of the word on the buttons is capitalized and the rest is lowercase.
 * The icons on the buttons are left aligned.
 * Button texts are limited to one line.
 
 ## Button Variants
-
 We have 4 variants for each button: **Primary**, **Secondary**, **Success** and **Danger**.
-
 <Canvas>
   <Story name="Variants">
     {Template.bind({})}
@@ -111,9 +106,7 @@ We have 4 variants for each button: **Primary**, **Secondary**, **Success** and 
 </Canvas>
 
 ## Button Types
-
 We have 3 types of buttons: **Contained** (Default), **Outline** and **Text**.
-
 <Canvas>
   <Story name="Types" args={{ content: 'Primary Button' }}>
     {ButtonTypesTemplate.bind({})}
@@ -121,9 +114,7 @@ We have 3 types of buttons: **Contained** (Default), **Outline** and **Text**.
 </Canvas>
 
 ### Contained Buttons
-
 Contained buttons ared used for main actions of the screens. Like a submit button in a form or main button of a dialog.
-
 <Canvas>
   <Story name="Contained Buttons">
     {Template.bind({})}
@@ -131,10 +122,8 @@ Contained buttons ared used for main actions of the screens. Like a submit butto
 </Canvas>
 
 ### Outline Buttons
-
 Outlined Buttons represent the important actions in the app. But not the primary ones.
 They work with all the variants. You simply add `outline` attribute.
-
 <Canvas>
   <Story name="Outline Buttons" args={{ outline: true }}>
     {Template.bind({})}
@@ -142,9 +131,7 @@ They work with all the variants. You simply add `outline` attribute.
 </Canvas>
 
 ### Text Buttons
-
 TBD
-
 <Canvas>
   <Story name="Text Buttons" args={{ text: true }}>
     {Template.bind({})}
@@ -152,9 +139,8 @@ TBD
 </Canvas>
 
 ## Icon Buttons
-
-To boost UX, you might want to add icons to your button. Because human brain recognize icons more easily than text.
-Our icons are defined to be left of the default slot.
+To boost `UX`, you might want to add icons to your button. Because human brain recognize `icons` more easily than `text text`.
+Our icons are defined to be `left` of the default slot.
 
 To be able to use icon with button, you should give the name of icon to `icon` attribute.
 
@@ -208,86 +194,10 @@ If button has a limited width and a long text that can not fit in a single line,
 </Canvas>
 
 ## Disabled buttons
-
 We have 2 types of disabled buttons: **Contained** and **Text**. Disable version of Contained and Outline buttons is the same.
-
 <Canvas columns={1}>
   <Story name="Disabled buttons" args={{ disabled: true, content: 'Passive Button' }}>
     {SizesTemplate.bind({})}
-  </Story>
-</Canvas>
-
-
-## Button Hover States
-
-export const hoverButton = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  const BlButton = canvas.getByTestId('buttonhover');
-  await waitFor(async () => {
-    await userEvent.hover(canvas.getByTestId('buttonhover'));
-  });
-}
-
-<Canvas>
-  <Story name="Primary Button Hover State"
-    args={{content: 'Primary Button', icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Secondary Button Hover State"
-    args={{content: 'Secondary Button', secondary: true, icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Success Button Hover State"
-    args={{content: 'Success Button', success: true, icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Danger Button Hover State"
-    args={{content: 'Danger Button', danger: true, icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Primary Outline Button Hover State"
-    args={{content: 'Primary Outline Button', outline: true, icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Secondary Outline Button Hover State"
-    args={{content: 'Secondary Outline Button', outline: true, secondary: true, icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Success Outline Button Hover State"
-    args={{content: 'Success Outline Button', outline: true, success: true, icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Danger Outline Button Hover State"
-    args={{content: 'Danger Outline Button', outline: true, danger: true, icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Primary Text Button Hover State"
-    args={{content: 'Primary Text Button', text: true, icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Secondary Text Button Hover State"
-    args={{content: 'Secondary Text Button', text: true, secondary: true, icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Success Text Button Hover State"
-    args={{content: 'Success Text Button', text: true, success: true, icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Danger Text Button Hover State"
-    args={{content: 'Danger Text Button', text: true, danger: true, icon: 'info', testid: 'buttonhover' }}
-    play={hoverButton}
-    >{SingleButtonTemplate.bind({})}
   </Story>
 </Canvas>
 
