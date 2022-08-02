@@ -113,6 +113,14 @@ button.container {
 .badge-container {
   padding-left: var(--bl-size-3xs);
   display: flex;
+
+  --bl-badge-bg-color: var(--bl-color-danger);
+  --bl-badge-color: var(--bl-color-primary-background)
+}
+
+:host([disabled]) .badge-container {
+  --bl-badge-bg-color: var(--bl-color-accent-primary-background);
+  --bl-badge-color: var(--bl-color-primary)
 }
 
 .caption {
