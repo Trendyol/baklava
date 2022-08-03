@@ -45,11 +45,11 @@ export default class BlTabGroup extends LitElement {
 
   set selectedTabName(name: string) {
     this._selectedTabName = name;
-    this._connectedTabs.map(t => {
+    this._connectedTabs.forEach(t => {
       t.selected = name === t.name;
     });
-    this._connectedPanels.map(p => {
-      return (p.visible = p.tab === this._selectedTabName);
+    this._connectedPanels.forEach(p => {
+       p.visible = p.tab === this._selectedTabName
     });
   }
 
