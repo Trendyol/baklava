@@ -49,7 +49,7 @@ export default class BlTabGroup extends LitElement {
       t.selected = name === t.name;
     });
     this._connectedPanels.forEach(p => {
-       p.visible = p.tab === this._selectedTabName
+      p.visible = p.tab === this._selectedTabName;
     });
   }
 
