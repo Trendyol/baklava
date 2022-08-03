@@ -1,4 +1,4 @@
-import { assert, fixture, html, fixtureCleanup, expect } from "@open-wc/testing";
+import { fixture, html, fixtureCleanup, expect } from "@open-wc/testing";
 import BlTabGroup from "./bl-tab-group";
 
 describe("bl-tab-group", function () {
@@ -7,7 +7,7 @@ describe("bl-tab-group", function () {
   });
   it("should defined", async () => {
     const el = document.createElement("bl-tab-group");
-    await assert.instanceOf(el, BlTabGroup);
+    expect(el).to.be.instanceof(BlTabGroup)
   });
 
   it("render with default values", async function () {
@@ -24,7 +24,7 @@ describe("bl-tab-group", function () {
       </div>
     `;
     const el = await fixture<BlTabGroup>(html` <bl-tab-group></bl-tab-group>`);
-    assert.shadowDom.equal(el, expected);
+    expect(el).to.be.shadowDom.equal(expected)
   });
 
   it("should render panels", async function () {
@@ -35,7 +35,7 @@ describe("bl-tab-group", function () {
       </bl-tab-group>`
     );
 
-    await assert.equal(el.tabs.length, 1);
+    expect(el.tabs.length).to.be.equal(1)
   });
 
   it("should select correct tab if has selected attr", async function () {

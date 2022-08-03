@@ -1,4 +1,4 @@
-import { assert, oneEvent, fixture, html,expect } from "@open-wc/testing";
+import { oneEvent, fixture, html,expect } from "@open-wc/testing";
 import BlTab from "./bl-tab";
 import BlIcon from "../../icon/bl-icon";
 import "../../icon/bl-icon";
@@ -6,7 +6,7 @@ import "../../icon/bl-icon";
 describe("bl-tab", function () {
   it("should defined", async function () {
     const el = document.createElement("bl-tab");
-    assert.instanceOf(el, BlTab);
+    expect(el).to.be.an.instanceof(BlTab)
   });
 
   it("renders with default values", async () => {
@@ -23,7 +23,7 @@ describe("bl-tab", function () {
         </div>
       </button>
     `;
-    assert.shadowDom.equal(el, expected);
+    expect(el).to.be.shadowDom.equal(expected)
   });
 
   it("renders with a badge", async () => {
