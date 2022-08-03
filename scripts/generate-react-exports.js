@@ -6,12 +6,11 @@ function writeBaklavaReactFile(fileContentParts) {
     /* eslint-disable @typescript-eslint/ban-ts-comment */
     // @ts-nocheck
     import React from 'react';
-    import { createComponent } from '@lit-labs/react';
+    import { createComponent } from '@lit-labs/react';\n
   `;
 
-  for (const valueArray of Object.values(fileContentParts)) {
-    fileContentText += `${valueArray.join('\n')}\n\n`;
-  }
+  fileContentText += `${fileContentParts.componentConverts.join('\n')}\n\n`;
+  fileContentText += `export { ${fileContentParts.exports.join(', ')} }\n`;
 
   fs.writeFileSync(
     `${__dirname}/../src/baklava-react.ts`,
@@ -36,21 +35,21 @@ for (const module of customElementsModules) {
   const { events, name: componentName, tagName: fileName } = declarations[0];
 
   const eventNames = events
-    ? events.reduce((prev, curr) => {
-        prev[getReactEventName(curr.name)] = curr.name;
-        return prev;
+    ? events.reduce((acc, curr) => {
+        acc[getReactEventName(curr.name)] = curr.name;
+        return acc;
       }, {})
     : {};
 
   baklavaReactFileParts.componentConverts.push(
-    `const _${componentName} = createComponent(
+    `const ${componentName} = createComponent(
       React,
       '${fileName}',
       customElements.get('${fileName}'),
       ${JSON.stringify(eventNames)}
     );`
   );
-  baklavaReactFileParts.exports.push(`export { _${componentName} as ${componentName} };`);
+  baklavaReactFileParts.exports.push(componentName);
 }
 
 writeBaklavaReactFile(baklavaReactFileParts);
