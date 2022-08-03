@@ -98,7 +98,7 @@ export default App;
 
 ## Event Handling
 
-Baklava components emit [custom events](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent). For example, the input component emits the `bl-input` event when it receives input. In React, you can listen for the event using `onBlInput`.
+Baklava components emit [custom events](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent). For example, the input component emits the `bl-input` event when it receives input. In React, you can listen for the event using `onInput`.
 
 Example:
 
@@ -109,7 +109,7 @@ import { BlInput } from '@trendyol/baklava/dist/baklava-react';
 function MyComponent() {
   const [value, setValue] = useState('');
 
-  return <BlInput value={value} onBlInput={event => setValue(event.target.value)} />;
+  return <BlInput value={value} onInput={event => setValue(event.target.value)} />;
 }
 
 export default MyComponent;
