@@ -58,8 +58,6 @@ const args = parseArgs(process.argv.slice(2), {
       return;
     }
 
-    del.sync(destinationPath);
-
     const buildResult = await esbuild.build(buildOptions);
 
     if (buildResult.errors.length > 0) {
