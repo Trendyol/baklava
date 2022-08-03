@@ -3,6 +3,8 @@ const prettier = require('prettier');
 
 function writeBaklavaReactFile(fileContentParts) {
   let fileContentText = `
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
+    // @ts-nocheck
     import React from 'react';
     import { createComponent } from '@lit-labs/react';
   `;
@@ -25,15 +27,13 @@ function getReactEventName(baklavaEventName) {
 const customElements = fs.readJSONSync(`${__dirname}/../dist/custom-elements.json`);
 const customElementsModules = customElements.modules;
 const baklavaReactFileParts = {
-  imports: [],
   componentConverts: [],
   exports: [],
 };
 
 for (const module of customElementsModules) {
-  const { path, declarations } = module;
+  const { declarations } = module;
   const { events, name: componentName, tagName: fileName } = declarations[0];
-  const relativePath = path.replace('src', '.').replace('.ts', '');
 
   const eventNames = events
     ? events.reduce((prev, curr) => {
@@ -42,12 +42,11 @@ for (const module of customElementsModules) {
       }, {})
     : {};
 
-  baklavaReactFileParts.imports.push(`import ${componentName} from '${relativePath}'`);
   baklavaReactFileParts.componentConverts.push(
     `const _${componentName} = createComponent(
       React,
       '${fileName}',
-      ${componentName},
+      customElements.get('${fileName}'),
       ${JSON.stringify(eventNames)}
     );`
   );

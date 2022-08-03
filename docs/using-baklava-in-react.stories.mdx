@@ -21,69 +21,53 @@ For this reasons, we used [@lit-labs/react](https://www.npmjs.com/package/@lit-l
 
 ## Installation
 
-To add Baklava in your app, you can either import it via CDN or npm package.
-
-### Via CDN
-
-To be able to use Baklava via CDN, you should add our default.css and `react/index.js` at head tag in your `index.html` file.
-
-> Baklava is currently in beta version. So, if you want to keep updated for new changes, you can add `@beta` tag like the example below.
-  However, you can simply use any version you want by adding the version number.
-
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css" />
-<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/baklava-react.js"></script>
-```
-
-### Via NPM
-
-To be able to use Baklava via npm, install with:
-
+To add Baklava in your app, you can install the npm package.
 ```bash
 npm install @trendyol/baklava
 ```
 
 ## Usage
 
-Using with CDN:
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Added Section - Start -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css"
+    />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/baklava.js"
+    ></script>
+    <!-- Added Section - End -->
 
-```css
-// main style file
-@import "https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css";
+    <title>Baklava React Demo</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
 ```
 
 ```javascript
-import { BlButton } from "https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/baklava-react.js";
+import { BlTooltip, BlButton } from "@trendyol/baklava/dist/baklava-react";
 
 function App() {
   return (
-    <div className="App">
-      <BlButton primary onClick={(a) => alert("Clicked!")}>
-        Button
-      </BlButton>
-    </div>
-  );
-}
-
-export default App;
-```
-
-Using with NPM:
-
-```javascript
-import { BlButton } from "@trendyol/baklava/dist/react";
-import { setIconPath } from "@trendyol/baklava";
-import "@trendyol/baklava/dist/themes/default.css";
-
-setIconPath("https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/assets");
-
-function App() {
-  return (
-    <div className="App">
-      <BlButton primary onClick={(a) => alert("Clicked!")}>
-        Button
-      </BlButton>
-    </div>
+    <BlTooltip
+      style={{ "--bl-tooltip-position": "fixed" }}
+      onHide={() => alert("Custom event (onHide) triggered!")}
+    >
+      <BlButton slot="tooltip-trigger">BlButton:</BlButton>
+      Tooltip description.
+    </BlTooltip>
   );
 }
 
