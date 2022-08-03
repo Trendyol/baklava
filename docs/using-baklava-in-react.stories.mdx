@@ -14,62 +14,103 @@ import { Meta } from '@storybook/addon-docs';
 
 # Using Baklava in React
 
-React does not [compatible](https://custom-elements-everywhere.com/#react) with most of the web component features.
-React passes all props as string to Custom Components so object and array props don't pass in correct way.
-Also, since React uses its own synthetic event system, it can't listen events that dispatches from Custom Elements.
-For this reasons, we used [@lit-labs/react](https://www.npmjs.com/package/@lit-labs/react) package to convert Custom Elements to React components.
+React does not [compatible](https://custom-elements-everywhere.com/#react) with most of the web component features. React passes all props as string to Custom Components so object and array props don't pass in correct way. Also, since React uses its own synthetic event system, it can't listen events that dispatches from Custom Elements. For this reasons, we used [@lit-labs/react](https://www.npmjs.com/package/@lit-labs/react) package to convert Custom Elements to React components.
 
-## Installation
+## Using with CDN
 
-To add Baklava in your app, you can install the npm package.
+Install the NPM package to your project.
+
 ```bash
 npm install @trendyol/baklava
 ```
 
-## Usage
+Include Baklava library from CDN to your project's `index.html` file's `<head>` section.
 
 ```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Added Section - Start -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css"
-    />
-    <script
-      type="module"
-      src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/baklava.js"
-    ></script>
-    <!-- Added Section - End -->
-
-    <title>Baklava React Demo</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css"/>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/baklava.js"></script>
 ```
 
-```javascript
+Then you can use Baklava React components in your project by importing them from `@trendyol/baklava/dist/baklava-react` in your code.
+
+```jsx
 import { BlTooltip, BlButton } from "@trendyol/baklava/dist/baklava-react";
 
 function App() {
   return (
-    <BlTooltip
-      style={{ "--bl-tooltip-position": "fixed" }}
-      onHide={() => alert("Custom event (onHide) triggered!")}
-    >
-      <BlButton slot="tooltip-trigger">BlButton:</BlButton>
-      Tooltip description.
+    <BlTooltip>
+      <BlButton slot="tooltip-trigger" icon="info" text label="Show Info" />
+      Some extra information.
     </BlTooltip>
   );
 }
 
 export default App;
+```
+
+By using via CDN, you'll have a very thin React wrapper package in your project bundle, and you'll be able to use Baklava React components in your project with a very fast and optimized CDN. In this way you don't need to do any special thing for including assets.
+
+## Using with NPM
+
+If you want to include Baklava to your project bundle, you can import it via NPM.
+
+Install the NPM package to your project.
+
+```bash
+npm install @trendyol/baklava
+```
+
+Then import Baklava library and styles in a central place of your app. Like `main.jsx` file. You need to use provided `setIconPath` function to set icon location via CDN. Or you can download those icons to your project's asset folder and set the path manually.
+
+```jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "@trendyol/baklava";
+import { setIconPath } from "@trendyol/baklava";
+import "@trendyol/baklava/dist/themes/default.css";
+setIconPath("https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/assets");
+
+import App from "./App";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+Now you are able to use Baklava React components in your project by importing them from `@trendyol/baklava/dist/baklava-react` in your code.
+
+```jsx
+import { BlTooltip, BlButton } from "@trendyol/baklava/dist/baklava-react";
+
+function App() {
+  return (
+    <BlTooltip>
+      <BlButton slot="tooltip-trigger" icon="info" text label="Show Info" />
+      Some extra information.
+    </BlTooltip>
+  );
+}
+
+export default App;
+```
+
+## Event Handling
+
+Baklava components emit [custom events](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent). For example, the input component emits the `bl-input` event when it receives input. In React, you can listen for the event using `onBlInput`.
+
+Example:
+
+```jsx
+import { useState } from 'react';
+import { BlInput } from '@trendyol/baklava/dist/baklava-react';
+
+function MyComponent() {
+  const [value, setValue] = useState('');
+
+  return <BlInput value={value} onBlInput={event => setValue(event.target.value)} />;
+}
+
+export default MyComponent;
 ```
