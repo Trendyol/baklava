@@ -15,7 +15,7 @@
 
 :host::after {
   position: absolute;
-  content: "";
+  content: '';
   right: 0;
   top: var(--bl-size-m);
   height: calc(100% - var(--bl-size-2xl));
@@ -27,7 +27,7 @@
 }
 
 :host::before {
-  content: "";
+  content: '';
   position: absolute;
   opacity: 0;
   bottom: -2px;
@@ -40,8 +40,8 @@
   opacity: 1;
 }
 
-
-:host(:hover), :host([selected]) {
+:host(:hover),
+:host([selected]) {
   --bl-tab-title-color: var(--bl-color-primary);
   --bl-tab-icon-color: var(--bl-color-primary);
 }
@@ -54,7 +54,7 @@
   --bl-tab-icon-color: var(--bl-color-content-passive);
 }
 
-:host(:hover) :where(.title,.icon) {
+:host(:hover) :where(.title, .icon) {
   transition: color 120ms ease-out;
 }
 
@@ -115,12 +115,12 @@ button.container {
   display: flex;
 
   --bl-badge-bg-color: var(--bl-color-danger);
-  --bl-badge-color: var(--bl-color-primary-background)
+  --bl-badge-color: var(--bl-color-primary-background);
 }
 
 :host([disabled]) .badge-container {
   --bl-badge-bg-color: var(--bl-color-accent-primary-background);
-  --bl-badge-color: var(--bl-color-primary)
+  --bl-badge-color: var(--bl-color-primary);
 }
 
 .caption {
@@ -139,7 +139,7 @@ button.container {
 }
 
 :host([notify]) .title::after {
-  content: "";
+  content: '';
   height: var(--bl-size-2xs);
   width: var(--bl-size-2xs);
   border-radius: var(--bl-size-3xs);
