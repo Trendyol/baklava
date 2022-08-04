@@ -71,13 +71,17 @@ button.container {
   border: none;
   cursor: pointer;
   background-color: initial;
-  width: 100%;
+  width: max-content;
   height: 100%;
   padding: var(--bl-size-m) var(--bl-size-xl);
 }
 
 :host([help-text]) button {
   padding-right: 0;
+}
+
+.tab-button {
+  width: max-content;
 }
 
 .help-container {
