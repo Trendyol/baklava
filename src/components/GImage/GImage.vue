@@ -84,7 +84,6 @@ export default {
     onError(el) {
       if (this.hasError) return;
       if (this.allowRetry) {
-        console.log('retry');
         this.retryCount += 1;
         return this.lazyLoadImage();
       }
