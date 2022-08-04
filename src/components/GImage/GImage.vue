@@ -7,8 +7,8 @@
       :maxHeight="maxHeight"
       v-bind="getAttrs"
       v-on="getListeners"
-      @error="errImage"
-    >
+      @error="onError"
+    />
   </div>
 </template>
 
@@ -40,27 +40,66 @@ export default {
       type: String,
       default: () => '',
     },
+    errorImage: {
+      type: String,
+      default: () => '',
+    },
+    retry: {
+      type: [Boolean, Number],
+      default: false,
+    },
+  },
+  data() {
+    return {
+      retryCount: 0,
+      hasError: false,
+    };
   },
   computed: {
-    getAttrs () {
-      const { src, defaultImage, width, height, maxWidth, maxHeight, ...etc } = this.$attrs;
+    getAttrs() {
+      const {
+        src,
+        defaultImage,
+        errorImage,
+        width,
+        height,
+        maxWidth,
+        maxHeight,
+        retry,
+        ...etc
+      } = this.$attrs;
       return etc;
     },
-    getListeners () {
+    getListeners() {
       return this.$listeners;
+    },
+    allowRetry() {
+      const numberCounter =
+        typeof this.retry === 'number' && this.retry > this.retryCount;
+      const booleanCounter = typeof this.retry === 'boolean' && this.retry;
+      return booleanCounter || numberCounter;
     },
   },
   methods: {
-    errImage (el) {
-      el.target.src = this.defaultImage;
+    onError(el) {
+      if (this.hasError) return;
+      if (this.allowRetry) {
+        console.log('retry');
+        this.retryCount += 1;
+        return this.lazyLoadImage();
+      }
+      this.hasError = true;
+      el.target.src = this.errorImage || this.defaultImage;
     },
-    lazyLoadImage () {
+    lazyLoadImage() {
       const { src, $el, defaultImage } = this;
       $el.children[0].src = defaultImage;
 
-      if (!('IntersectionObserver' in window) ||
+      if (
+        !('IntersectionObserver' in window) ||
         !('IntersectionObserverEntry' in window) ||
-        !('intersectionRatio' in window.IntersectionObserverEntry.prototype)) {
+        !('intersectionRatio' in window.IntersectionObserverEntry.prototype)
+      ) {
         $el.children[0].src = src;
       }
 
@@ -81,11 +120,11 @@ export default {
       }
     },
   },
-  mounted () {
+  mounted() {
     this.lazyLoadImage();
   },
   watch: {
-    src () {
+    src() {
       this.lazyLoadImage();
     },
   },
