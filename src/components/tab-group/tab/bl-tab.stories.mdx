@@ -1,0 +1,60 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Tab"
+  component="bl-tab"
+/>
+
+export const TabsTemplate = (args) => html`
+    <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" title="Tab 1" disabled></bl-tab>
+      <bl-tab name="test-2" slot="tabs" title="Tab 2" selected ></bl-tab>
+      <bl-tab name="test-3" slot="tabs" title="Tab 3" ></bl-tab>
+    </bl-tab-group>
+  `
+
+export const TabsTemplate2 = (args) => html`
+    <bl-tab-group>
+        <bl-tab name="test-1" slot="tabs" title="Tab 1" caption="Caption"></bl-tab>
+        <bl-tab name="test-2" slot="tabs" title="Tab 2" help-text="Help Text" ></bl-tab>
+        <bl-tab name="test-3" slot="tabs" title="Tab 3" notify></bl-tab>
+        <bl-tab name="test-4" slot="tabs" title="Tab 4" badge="Badge"></bl-tab>
+        <bl-tab name="test-5" slot="tabs" title="Tab 5" icon="heart"></bl-tab>
+        <bl-tab name="test-6" slot="tabs" title="Tab 6" badge="Badge" icon="heart" notify help-text="Help Text" caption="Caption"></bl-tab>
+    </bl-tab-group>
+    `
+
+export const Tabs = (args) => html`
+${TabsTemplate({ icon:'heart',...args})}
+`;
+export const Tabs2 = (args) => html`
+${TabsTemplate2({...args})}
+`;
+
+# Tab
+Within tab groups, tabs are used to represent and activate tab panels.
+
+<Canvas>
+<Story name="Basic Usage">
+    {Tabs.bind({})}
+  </Story>
+</Canvas>
+
+## Tab Attributes
+Tabs can be detailed with caption, help Text, notification dot, badge and icon
+
+<Canvas>
+<Story name="Usage with attributes">
+    {Tabs2.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-tab" />
+
+

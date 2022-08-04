@@ -1,0 +1,93 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/TabGroup"
+  component="bl-tab-group"
+  argTypes={{
+    icon: {
+        control: 'text'
+    }
+  }}
+/>
+
+export const TabGroupTemplate = (args) => html`
+    <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" title="Disabled" disabled></bl-tab>
+      <bl-tab name="test-2" slot="tabs" title="Selected" selected ></bl-tab>
+      <bl-tab name="test-3" slot="tabs" title="Tab" ></bl-tab>
+      <bl-tab-panel tab="test-1">Panel 1</bl-tab-panel>
+      <bl-tab-panel tab="test-2">Panel 2</bl-tab-panel>
+      <bl-tab-panel tab="test-3">Panel 3</bl-tab-panel>
+    </bl-tab-group>
+  `
+  export const ScrollableTabGroupTemplate = (args) => html`
+      <bl-tab-group>
+        <bl-tab name="tab-1" slot="tabs" title="Tab 1" ></bl-tab>
+        <bl-tab name="tab-2" slot="tabs" title="Tab 2" ></bl-tab>
+        <bl-tab name="tab-3" slot="tabs" title="Tab 3" ></bl-tab>
+        <bl-tab name="tab-4" slot="tabs" title="Tab 4" ></bl-tab>
+        <bl-tab name="tab-5" slot="tabs" title="Tab 5" ></bl-tab>
+        <bl-tab name="tab-6" slot="tabs" title="Tab 6" ></bl-tab>
+        <bl-tab name="tab-7" slot="tabs" title="Tab 7" ></bl-tab>
+        <bl-tab name="tab-8" slot="tabs" title="Tab 8" ></bl-tab>
+        <bl-tab name="tab-9" slot="tabs" title="Tab 9" ></bl-tab>
+        <bl-tab name="tab-10" slot="tabs" title="Tab 10" ></bl-tab>
+        <bl-tab name="tab-11" slot="tabs" title="Tab 11" ></bl-tab>
+        <bl-tab name="tab-12" slot="tabs" title="Tab 12" ></bl-tab>
+        <bl-tab name="tab-13" slot="tabs" title="Tab 13" ></bl-tab>
+        <bl-tab name="tab-14" slot="tabs" title="Tab 14" ></bl-tab>
+        <bl-tab name="tab-15" slot="tabs" title="Tab 15" ></bl-tab>
+        <bl-tab name="tab-16" slot="tabs" title="Tab 16" ></bl-tab>
+        <bl-tab name="tab-17" slot="tabs" title="Tab 17" ></bl-tab>
+        <bl-tab name="tab-18" slot="tabs" title="Tab 18" ></bl-tab>
+        <bl-tab-panel tab="tab-1">Panel 1</bl-tab-panel>
+        <bl-tab-panel tab="tab-2">Panel 2</bl-tab-panel>
+        <bl-tab-panel tab="tab-3">Panel 3</bl-tab-panel>
+        <bl-tab-panel tab="tab-4">Panel 4</bl-tab-panel>
+        <bl-tab-panel tab="tab-5">Panel 5</bl-tab-panel>
+        <bl-tab-panel tab="tab-6">Panel 6</bl-tab-panel>
+        <bl-tab-panel tab="tab-7">Panel 7</bl-tab-panel>
+        <bl-tab-panel tab="tab-8">Panel 8</bl-tab-panel>
+        <bl-tab-panel tab="tab-9">Panel 9</bl-tab-panel>
+        <bl-tab-panel tab="tab-10">Panel 10</bl-tab-panel>
+        <bl-tab-panel tab="tab-11">Panel 11</bl-tab-panel>
+        <bl-tab-panel tab="tab-12">Panel 12</bl-tab-panel>
+        <bl-tab-panel tab="tab-13">Panel 13</bl-tab-panel>
+        <bl-tab-panel tab="tab-14">Panel 14</bl-tab-panel>
+        <bl-tab-panel tab="tab-15">Panel 15</bl-tab-panel>
+        <bl-tab-panel tab="tab-16">Panel 16</bl-tab-panel>
+        <bl-tab-panel tab="tab-17">Panel 17</bl-tab-panel>
+        <bl-tab-panel tab="tab-18">Panel 18</bl-tab-panel>
+      </bl-tab-group>
+    `
+
+export const TabGroup = (args) => html`
+${TabGroupTemplate({ icon:'heart',...args})}
+`;
+
+export const ScrollableTabGroup = (args) => html`
+${ScrollableTabGroupTemplate({ icon:'heart',...args})}
+`;
+
+# Tab Group
+Tab groups organizes the content in a way that each of Tab groups displays a section at a time.
+
+<Canvas>
+<Story name="Basic Usage">
+    {TabGroup.bind({})}
+  </Story>
+</Canvas>
+
+## Scrolling Tabs
+The navigation will scroll if there are more tabs than the horizontal space can allow.
+
+<Canvas>
+<Story name="Scroll Usage">
+    {ScrollableTabGroup.bind({})}
+  </Story>
+</Canvas>
+
