@@ -1,10 +1,10 @@
 :host {
-    display: none;
-    border-radius: 0 0 6px 6px;
+  display: none;
+  border-radius: 0 0 6px 6px;
 }
 
 :host([visible]) {
-    display: block;
-    padding: 24px;
-    background-color: white;
+  display: block;
+  padding: 24px;
+  background-color: white;
 }

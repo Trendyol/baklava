@@ -49,8 +49,6 @@ export default class BlTooltip extends LitElement {
   @state() private _position: Strategy = 'absolute';
   @state() private host: HTMLElement;
 
-
-
   /**
    * Fires when hovering over a trigger
    */
@@ -128,10 +126,12 @@ export default class BlTooltip extends LitElement {
         @mouseleave="${this.hide}"
       >
       </slot>
-      <div class=${classMap({
-        "tooltip": true,
-        "visible": this._visible,
-      })}>
+      <div
+        class=${classMap({
+          tooltip: true,
+          visible: this._visible,
+        })}
+      >
         <slot></slot>
         <div class="arrow"></div>
       </div>`;

@@ -1,16 +1,16 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { event, EventDispatcher } from "../../../utilities/event";
+import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { event, EventDispatcher } from '../../../utilities/event';
 
-import style from "./bl-tab.css";
+import style from './bl-tab.css';
 
-@customElement("bl-tab")
+@customElement('bl-tab')
 export default class BlTab extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
 
-  protected _panel = "";
+  protected _panel = '';
   get panel(): string {
     return this.name;
   }
@@ -19,11 +19,11 @@ export default class BlTab extends LitElement {
     super.connectedCallback();
 
     this.updateComplete.then(() => {
-      const el = this.closest("bl-tab-group");
-      if(el) {
-        el.registerTab(this)
+      const el = this.closest('bl-tab-group');
+      if (el) {
+        el.registerTab(this);
       } else {
-        throw new Error('bl-tab should be used inside bl-tab-group.')
+        throw new Error('bl-tab should be used inside bl-tab-group.');
       }
     });
   }
@@ -37,17 +37,17 @@ export default class BlTab extends LitElement {
   @property({ type: String, reflect: true })
   name: string;
 
-  @property({ type: String, attribute: "help-text", reflect: true })
+  @property({ type: String, attribute: 'help-text', reflect: true })
   helpText: string;
 
   @property({ type: String })
-  icon = "";
+  icon = '';
 
   @property({ type: Boolean, reflect: true })
   notify = false;
 
   @property({ type: String })
-  badge = "";
+  badge = '';
 
   @property({ type: Boolean, reflect: true })
   selected = false;
@@ -58,7 +58,7 @@ export default class BlTab extends LitElement {
   @event('bl-tab-selected') private _onSelect: EventDispatcher<string>;
 
   select() {
-    this._onSelect(this.name)
+    this._onSelect(this.name);
   }
 
   render(): TemplateResult {
@@ -112,6 +112,6 @@ export default class BlTab extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "bl-tab": BlTab;
+    'bl-tab': BlTab;
   }
 }
