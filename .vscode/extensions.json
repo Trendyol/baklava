@@ -1,0 +1,9 @@
+{
+	"recommendations": [
+		"EditorConfig.EditorConfig",
+		"dbaeumer.vscode-eslint",
+		"runem.lit-plugin",
+		"silvenon.mdx",
+	],
+	"unwantedRecommendations": []
+}
