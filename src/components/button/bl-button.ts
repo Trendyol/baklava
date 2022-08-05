@@ -6,25 +6,14 @@ import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-button.css';
 import '../icon/bl-icon';
 
+export type ButtonVariant = 'primary' | 'secondary' | 'success' | 'danger';
+export type ButtonFill = 'contained' | 'outline' | 'text';
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type TargetType = '_blank' | '_parent' | '_self' | '_top';
 
 /**
  * @tag bl-button
  * @summary Baklava Button component
- *
- * @property {boolean} primary - Sets variant to primary
- * @property {boolean} secondary - Sets variant to secondary
- * @property {boolean} success - Sets variant to success
- * @property {boolean} danger - Sets variant to danger
- * @property {boolean} outline - Sets button version to outline
- * @property {boolean} text - Sets the button version to text
- * @property {boolean} disabled - Disables the button
- * @property {string} size - Sets the button size
- * @property {string} icon - Sets the name of the icon
- * @property {string} href - Sets link of the button
- * @property {string} target - Sets button target (should be defined with href)
- * @property {string} label - Sets the accessibility text for the button. Use it with icon-only buttons.
  *
  * @cssproperty --bl-button-display - Sets the display property of button. Default value is 'inline-block'.
  *
@@ -35,39 +24,51 @@ export default class BlButton extends LitElement {
     return [style];
   }
 
-  @property({ type: Boolean, reflect: true })
-  primary = false;
+  /**
+   * Sets the button variant
+   */
+  @property({ type: String, reflect: true })
+  variant: ButtonVariant = 'primary';
 
-  @property({ type: Boolean, reflect: true })
-  secondary = false;
+  /**
+   * Sets the button fill
+   */
+  @property({ type: String, reflect: true })
+  fill: ButtonFill = 'contained';
 
-  @property({ type: Boolean, reflect: true })
-  success = false;
-
-  @property({ type: Boolean, reflect: true })
-  danger = false;
-
-  @property({ type: Boolean, reflect: true })
-  outline = false;
-
-  @property({ type: Boolean, reflect: true })
-  text = false;
-
+  /**
+   * Sets the button size
+   */
   @property({ type: String, reflect: true })
   size: ButtonSize = 'medium';
 
+  /**
+   * Sets the button label. Used for accessibility.
+   */
   @property({ type: String })
   label: string;
 
+  /**
+   * Sets button as disabled
+   */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  /**
+   * Set link url. If set, button will be rendered as anchor tag.
+   */
   @property({ type: String })
   href?: string;
 
+  /**
+   * Sets the icon name. Shows icon with bl-icon component
+   */
   @property({ type: String })
   icon?: string;
 
+  /**
+   * Sets the anchor target. Used when `href` is set.
+   */
   @property({ type: String })
   target?: TargetType = '_self';
 

@@ -26,7 +26,7 @@ export const tooltipOpener = async ({ canvasElement }) => {
 
 export const IconTriggerTemplate = (args) => html`
 <bl-tooltip placement="${ifDefined(args.placement)}" style='--bl-tooltip-position:fixed'>
-  <bl-button slot="tooltip-trigger" icon="settings" text label="Settings" secondary></bl-button>
+  <bl-button slot="tooltip-trigger" icon="settings" fill="text" label="Settings" secondary></bl-button>
   Settings
 </bl-tooltip>`
 
@@ -39,7 +39,7 @@ export const ButtonTriggerTemplate = (args) => html`
 
 export const PlacementTemplate = (args) => html`
 <bl-tooltip placement="${ifDefined(args.placement)}" style="--bl-tooltip-position:fixed">
-  <bl-button slot="tooltip-trigger" small>${args.placement}</bl-button>
+  <bl-button slot="tooltip-trigger">${args.placement}</bl-button>
   You can use this section to cancel your order.
 </bl-tooltip>`
 

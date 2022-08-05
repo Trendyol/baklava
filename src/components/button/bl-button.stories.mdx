@@ -51,31 +51,27 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 />
 
 export const SingleButtonTemplate = (args) => html`<bl-button
-    ?primary=${args.primary}
-    ?secondary=${args.secondary}
-    ?success=${args.success}
-    ?danger=${args.danger}
-    ?outline=${args.outline}
-    ?disabled=${args.disabled}
-    ?text=${args.text}
+    variant=${ifDefined(args.variant)}
+    fill=${ifDefined(args.fill)}
     href=${ifDefined(args.href)}
     target=${ifDefined(args.target)}
     size=${ifDefined(args.size)}
     icon="${ifDefined(args.icon)}"
     label="${ifDefined(args.label)}"
+    ?disabled=${args.disabled}
     style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
       >${unsafeHTML(args.content)}</bl-button>`
 
 export const Template = (args) => html`
-${SingleButtonTemplate({primary: true, content: 'Primary Button', ...args})}
-${SingleButtonTemplate({secondary: true, content: 'Secondary Button', ...args})}
-${SingleButtonTemplate({success: true, content: 'Success Button', ...args})}
-${SingleButtonTemplate({danger: true, content: 'Danger Button', ...args})}`;
+${SingleButtonTemplate({content: 'Primary Button', ...args})}
+${SingleButtonTemplate({variant: 'secondary', content: 'Secondary Button', ...args})}
+${SingleButtonTemplate({variant: 'success', content: 'Success Button', ...args})}
+${SingleButtonTemplate({variant: 'danger', content: 'Danger Button', ...args})}`;
 
 export const ButtonTypesTemplate = (args) => html`
 ${SingleButtonTemplate({...args})}
-${SingleButtonTemplate({outline: true, ...args})}
-${SingleButtonTemplate({text: true, ...args})}`;
+${SingleButtonTemplate({fill: 'outline', ...args})}
+${SingleButtonTemplate({fill: 'text', ...args})}`;
 
 export const SizesTemplate = (args) => html`
 ${SingleButtonTemplate({size: 'large', ...args})}
@@ -84,8 +80,8 @@ ${SingleButtonTemplate({size: 'small', ...args})}`;
 
 export const VariousStylesTemplate = (args) => html`
 ${SingleButtonTemplate({...args})}
-${SingleButtonTemplate({outline: true, ...args})}
-${SingleButtonTemplate({text: true, ...args})}`;
+${SingleButtonTemplate({fill: 'outline', ...args})}
+${SingleButtonTemplate({fill: 'text', ...args})}`;
 
 # Button
 
@@ -125,7 +121,7 @@ Contained buttons ared used for main actions of the screens. Like a submit butto
 Outlined Buttons represent the important actions in the app. But not the primary ones.
 They work with all the variants. You simply add `outline` attribute.
 <Canvas>
-  <Story name="Outline Buttons" args={{ outline: true }}>
+  <Story name="Outline Buttons" args={{ fill: 'outline' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -133,7 +129,7 @@ They work with all the variants. You simply add `outline` attribute.
 ### Text Buttons
 TBD
 <Canvas>
-  <Story name="Text Buttons" args={{ text: true }}>
+  <Story name="Text Buttons" args={{ fill: 'text' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -151,7 +147,7 @@ To be able to use icon with button, you should give the name of icon to `icon` a
 </Canvas>
 
 <Canvas>
-  <Story name="Text Buttons With Icon" args={{ text: true, href: "https://trendyol.com", content: 'Save', icon: 'info' }}>
+  <Story name="Text Buttons With Icon" args={{ fill: 'text', href: "https://trendyol.com", content: 'Save', icon: 'info' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
