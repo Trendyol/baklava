@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
 
 import style from './bl-tab.css';
+import type BlTabGroup from "../bl-tab-group";
 /**
  * @tag bl-tab
  * @summary Baklava Tab component
@@ -18,17 +19,24 @@ export default class BlTab extends LitElement {
     return this.name;
   }
 
+  private tabGroup: BlTabGroup | null;
+
   connectedCallback() {
     super.connectedCallback();
 
     this.updateComplete.then(() => {
-      const el = this.closest('bl-tab-group');
-      if (el) {
-        el.registerTab(this);
+      this.tabGroup = this.closest<BlTabGroup>('bl-tab-group');
+      if (this.tabGroup) {
+        this.tabGroup.registerTab(this);
       } else {
         throw new Error('bl-tab should be used inside bl-tab-group.');
       }
     });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.tabGroup?.unregisterTab(this)
   }
 
   /**
@@ -82,7 +90,7 @@ export default class BlTab extends LitElement {
   /**
    * Set `tab` as disabled.
    */
-  @property({ type: Boolean, reflect: false })
+  @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**

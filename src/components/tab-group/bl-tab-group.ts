@@ -41,12 +41,31 @@ export default class BlTabGroup extends LitElement {
   }
 
   /**
+   * This method is used by `tab` component to unregister them self to the tab group.
+   * @param tab BlTab reference to be unregistered
+   */
+  unregisterTab(tab: BlTab) {
+    this._connectedTabs.splice(this._connectedTabs.indexOf(tab),1)
+    if(tab.selected) {
+      this._connectedTabs.find(t => !t.disabled)?.select();
+    }
+  }
+
+  /**
    * This method is used by `tab-panel` component to register them self to the tab group.
    * @param panel BlTabPanel reference to be registered
    */
   registerTabPanel(panel: BlTabPanel) {
     panel.visible = panel.tab === this.selectedTabName;
     this._connectedPanels.push(panel);
+  }
+
+  /**
+   * This method is used by `tab-panel` component to unregister them self to the tab group.
+   * @param panel BlTabPanel reference to be unregistered
+   */
+  unregisterTabPanel(panel: BlTabPanel) {
+    this._connectedTabs.splice(this._connectedPanels.indexOf(panel),1)
   }
 
   private _selectedTabName: string;

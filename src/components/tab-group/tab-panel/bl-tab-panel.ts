@@ -1,6 +1,7 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import styles from './bl-tab-panel.css';
+import type BlTabGroup from "../bl-tab-group";
 
 /**
  * @tag bl-tab-panel
@@ -12,17 +13,24 @@ export default class BlTabPanel extends LitElement {
     return [styles];
   }
 
+  private tabGroup: BlTabGroup | null;
+
   connectedCallback() {
     super.connectedCallback();
 
     this.updateComplete.then(() => {
-      const el = this.closest('bl-tab-group');
-      if (el) {
-        el.registerTabPanel(this);
+      this.tabGroup = this.closest('bl-tab-group');
+      if (this.tabGroup) {
+        this.tabGroup.registerTabPanel(this);
       } else {
         throw new Error('bl-tab-panel should be used inside bl-tab-group.');
       }
     });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.tabGroup?.unregisterTabPanel(this)
   }
 
   /**
