@@ -45,8 +45,8 @@ export default class BlTabGroup extends LitElement {
    * @param tab BlTab reference to be unregistered
    */
   unregisterTab(tab: BlTab) {
-    this._connectedTabs.splice(this._connectedTabs.indexOf(tab),1)
-    if(tab.selected) {
+    this._connectedTabs.splice(this._connectedTabs.indexOf(tab), 1);
+    if (tab.selected) {
       this._connectedTabs.find(t => !t.disabled)?.select();
     }
   }
@@ -65,7 +65,7 @@ export default class BlTabGroup extends LitElement {
    * @param panel BlTabPanel reference to be unregistered
    */
   unregisterTabPanel(panel: BlTabPanel) {
-    this._connectedTabs.splice(this._connectedPanels.indexOf(panel),1)
+    this._connectedTabs.splice(this._connectedPanels.indexOf(panel), 1);
   }
 
   private _selectedTabName: string;

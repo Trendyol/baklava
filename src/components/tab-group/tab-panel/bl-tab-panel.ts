@@ -1,7 +1,7 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import styles from './bl-tab-panel.css';
-import type BlTabGroup from "../bl-tab-group";
+import type BlTabGroup from '../bl-tab-group';
 
 /**
  * @tag bl-tab-panel
@@ -30,7 +30,7 @@ export default class BlTabPanel extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.tabGroup?.unregisterTabPanel(this)
+    this.tabGroup?.unregisterTabPanel(this);
   }
 
   /**

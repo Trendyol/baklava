@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
 
 import style from './bl-tab.css';
-import type BlTabGroup from "../bl-tab-group";
+import type BlTabGroup from '../bl-tab-group';
 /**
  * @tag bl-tab
  * @summary Baklava Tab component
@@ -36,7 +36,7 @@ export default class BlTab extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.tabGroup?.unregisterTab(this)
+    this.tabGroup?.unregisterTab(this);
   }
 
   /**
