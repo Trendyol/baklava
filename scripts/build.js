@@ -15,6 +15,7 @@ const args = parseArgs(process.argv.slice(2), {
     const buildOptions = {
       entryPoints: [
         'src/baklava.ts',
+        'src/baklava-react.ts',
         ...(await globby([
           'src/components/**/!(*.(test|d)).ts',
           'src/themes/*.css',
@@ -31,16 +32,11 @@ const args = parseArgs(process.argv.slice(2), {
       bundle: true,
       sourcemap: true,
       format: 'esm',
-      target: [
-        'es2020',
-        'chrome73',
-        'edge79',
-        'firefox63',
-        'safari12',
-      ],
+      target: ['es2020', 'chrome73', 'edge79', 'firefox63', 'safari12'],
       splitting: true,
       metafile: true,
       minify: true,
+      external: ['react'],
       plugins: [
         litCssPlugin({
           filter: /components\/.*\.css$/,
@@ -61,8 +57,6 @@ const args = parseArgs(process.argv.slice(2), {
 
       return;
     }
-
-    del.sync(destinationPath);
 
     const buildResult = await esbuild.build(buildOptions);
 
