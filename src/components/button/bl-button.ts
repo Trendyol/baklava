@@ -99,22 +99,18 @@ export default class BlButton extends LitElement {
   }
 
   render(): TemplateResult {
-    const isAnchor = this.href ? true : false;
+    const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
     const slots = html`<slot name="icon">${icon}</slot> <span class="label"><slot></slot></span>`;
-    // const classes = classMap({
-    //   'button': true,
-    //   'has-icon': this.icon || this._hasIconSlot,
-    //   'has-content': this._hasDefaultSlot,
-    // });
+    const classes = classMap({
+      'button': true,
+      'has-icon': this.icon || this._hasIconSlot,
+      'has-content': this._hasDefaultSlot,
+    });
 
     return isAnchor
       ? html`<a
-          class=${classMap({
-            'button': true,
-            'has-icon': this.icon || this._hasIconSlot,
-            'has-content': this._hasDefaultSlot,
-          })}
+          class=${classes}
           aria-disabled="${ifDefined(this.disabled)}"
           aria-label="${ifDefined(this.label)}"
           href=${ifDefined(this.href)}
@@ -123,11 +119,7 @@ export default class BlButton extends LitElement {
           >${slots}</a
         >`
       : html`<button
-          class=${classMap({
-            'button': true,
-            'has-icon': this.icon || this._hasIconSlot,
-            'has-content': this._hasDefaultSlot,
-          })}
+          class=${classes}
           aria-disabled="${ifDefined(this.disabled)}"
           aria-label="${ifDefined(this.label)}"
           ?disabled=${this.disabled}
@@ -136,6 +128,7 @@ export default class BlButton extends LitElement {
           ${slots}
         </button>`;
   }
+
 
   private _handleClick() {
     this.onClick('Click event fired!');
