@@ -3,7 +3,10 @@ import { customElement, property } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
 
 import style from './bl-tab.css';
-
+/**
+ * @tag bl-tab
+ * @summary Baklava Tab component
+ */
 @customElement('bl-tab')
 export default class BlTab extends LitElement {
   static get styles(): CSSResultGroup {
@@ -28,35 +31,68 @@ export default class BlTab extends LitElement {
     });
   }
 
+  /**
+   * Title of tab
+   */
   @property({ type: String })
   title: string;
 
+  /**
+   * Sets the caption of tab
+   */
   @property({ type: String })
   caption: string;
 
+  /**
+   * Name of the tab that should match `tab-panel`'s `tab` attribute
+   */
   @property({ type: String, reflect: true })
   name: string;
 
+  /**
+   * Set tooltip text. Should be set to display information icon.
+   */
   @property({ type: String, attribute: 'help-text', reflect: true })
   helpText: string;
 
+  /**
+   * Name of the icon which display on the left side of the tab.
+   */
   @property({ type: String })
   icon = '';
 
+  /**
+   * Shows notification dot.
+   */
   @property({ type: Boolean, reflect: true })
   notify = false;
 
+  /**
+   * Sets the content of the badge.
+   */
   @property({ type: String })
   badge = '';
 
+  /**
+   * Set `tab` as selected.
+   */
   @property({ type: Boolean, reflect: true })
   selected = false;
 
+  /**
+   * Set `tab` as disabled.
+   */
   @property({ type: Boolean, reflect: false })
   disabled = false;
 
+  /**
+   * Fires when tab is selected.
+   */
   @event('bl-tab-selected') private _onSelect: EventDispatcher<string>;
 
+  /**
+   * Set tab selected.
+   */
   select() {
     this._onSelect(this.name);
   }

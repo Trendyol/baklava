@@ -6,6 +6,10 @@ import './tab/bl-tab';
 import type BlTabPanel from './tab-panel/bl-tab-panel';
 import type BlTab from './tab/bl-tab';
 
+/**
+ * @tag bl-tab-group
+ * @summary Baklava Tab group component
+ */
 @customElement('bl-tab-group')
 export default class BlTabGroup extends LitElement {
   static get styles(): CSSResultGroup {
@@ -23,6 +27,10 @@ export default class BlTabGroup extends LitElement {
     return this._connectedPanels;
   }
 
+  /**
+   * This method is used by `tab` component to register them self to the tab group.
+   * @param tab BlTab reference to be registered
+   */
   registerTab(tab: BlTab) {
     const isFirstAndNotDisabled =
       this._connectedTabs.filter(t => !t.disabled).length === 0 && !tab.disabled;
@@ -32,6 +40,10 @@ export default class BlTabGroup extends LitElement {
     }
   }
 
+  /**
+   * This method is used by `tab-panel` component to register them self to the tab group.
+   * @param panel BlTabPanel reference to be registered
+   */
   registerTabPanel(panel: BlTabPanel) {
     panel.visible = panel.tab === this.selectedTabName;
     this._connectedPanels.push(panel);
