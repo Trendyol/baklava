@@ -51,12 +51,12 @@
 }
 
 :host(:hover) .container,
-:host([selected]) .container{
+:host([selected]) .container {
   --title-color: var(--bl-color-primary);
   --icon-color: var(--bl-color-primary);
 }
 
-:host([disabled]) .container{
+:host([disabled]) .container {
   cursor: not-allowed;
 
   --title-color: var(--bl-color-content-passive);

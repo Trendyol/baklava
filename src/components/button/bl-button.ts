@@ -129,7 +129,6 @@ export default class BlButton extends LitElement {
         </button>`;
   }
 
-
   private _handleClick() {
     this.onClick('Click event fired!');
   }
