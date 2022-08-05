@@ -11,45 +11,121 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 
 export const TabsTemplate = (args) => html`
     <bl-tab-group>
-      <bl-tab name="test-1" slot="tabs" title="Tab 1" disabled></bl-tab>
-      <bl-tab name="test-2" slot="tabs" title="Tab 2" selected ></bl-tab>
-      <bl-tab name="test-3" slot="tabs" title="Tab 3" ></bl-tab>
+      <bl-tab name="test-1" slot="tabs" title="Disabled" disabled></bl-tab>
+      <bl-tab name="test-2" slot="tabs" title="Selected" selected ></bl-tab>
+      <bl-tab name="test-3" slot="tabs" title="Tab" ></bl-tab>
     </bl-tab-group>
   `
 
 export const TabsAttributeTemplate = (args) => html`
     <bl-tab-group>
-        <bl-tab name="test-1" slot="tabs" title="Tab 1" caption="Caption"></bl-tab>
-        <bl-tab name="test-2" slot="tabs" title="Tab 2" help-text="Help Text" ></bl-tab>
-        <bl-tab name="test-3" slot="tabs" title="Tab 3" notify></bl-tab>
-        <bl-tab name="test-4" slot="tabs" title="Tab 4" badge="Badge"></bl-tab>
-        <bl-tab name="test-5" slot="tabs" title="Tab 5" icon="heart"></bl-tab>
-        <bl-tab name="test-6" slot="tabs" title="Tab 6" badge="Badge" icon="heart" notify help-text="Help Text" caption="Caption"></bl-tab>
+        <bl-tab name="test-1" slot="tabs" title="Tab 1" Caption='${ifDefined(args.caption)}' help-text='${ifDefined(args.helpText)}' badge='${ifDefined(args.badge)}' ></bl-tab>
+        <bl-tab name="test-2" slot="tabs" title="Tab 2"  ></bl-tab>
+        <bl-tab name="test-3" slot="tabs" title="Tab 3" Caption='${ifDefined(args.caption)}' help-text='${ifDefined(args.helpText)}' badge='${ifDefined(args.badge)}'  disabled ></bl-tab>
     </bl-tab-group>
     `
+export const NotifyTemplate = (args) => html`
+    <bl-tab-group>
+         <bl-tab name="test-1" slot="tabs" title="Tab 1" notify ></bl-tab>
+         <bl-tab name="test-2" slot="tabs" title="Tab 2" selected notify ></bl-tab>
+         <bl-tab name="test-3" slot="tabs" title="Tab 3" disabled notify ></bl-tab>
+    </bl-tab-group>
+        `
+export const IconTemplate = (args) => html`
+    <bl-tab-group>
+         <bl-tab name="test-1" slot="tabs" title="Tab 1" icon='${ifDefined(args.icon1)}' ></bl-tab>
+         <bl-tab name="test-2" slot="tabs" title="Tab 2" icon='${ifDefined(args.icon2)}' ></bl-tab>
+         <bl-tab name="test-3" slot="tabs" title="Tab 3" icon='${ifDefined(args.icon3)}' disabled ></bl-tab>
+    </bl-tab-group>
+        `
+export const MoreThanOneSelectedTemplate = (args) => html`
+    <bl-tab-group>
+         <bl-tab name="test-1" slot="tabs" title="Selected Tab 1" selected ></bl-tab>
+         <bl-tab name="test-2" slot="tabs" title="Selected Tab 2" selected ></bl-tab>
+         <bl-tab name="test-3" slot="tabs" title="Tab 3" ></bl-tab>
+    </bl-tab-group>
+        `
 
-export const Tabs = (args) => html`
-${TabsTemplate({ icon:'heart',...args})}
-`;
-export const TabAttributes = (args) => html`
-${TabsAttributeTemplate({...args})}
-`;
+export const SelectedDisabledTogetherTemplate = (args) => html`
+    <bl-tab-group>
+         <bl-tab name="test-1" slot="tabs" title="Tab 1" ></bl-tab>
+         <bl-tab name="test-2" slot="tabs" title="Selected and Disabled Tab 2" selected disabled ></bl-tab>
+         <bl-tab name="test-3" slot="tabs" title="Tab 3" ></bl-tab>
+    </bl-tab-group>
+        `
 
 # Tab
-Within tab groups, tabs are used to represent and activate tab panels.
+Within tab groups, tabs are used to represent and activate tab panels. A tab can be disabled by setting the disabled prop and can be selected by selected prop.
 
 <Canvas>
 <Story name="Basic Usage">
-    {Tabs.bind({})}
+    {TabsTemplate.bind({})}
   </Story>
 </Canvas>
 
-## Tab Attributes
-Tabs can be detailed with caption, help text, notification dot, badge and icon
+
+## Tab with Caption
+Title can be clarified with caption attribute. Caption is located just below the tab title
 
 <Canvas>
-<Story name="Usage With Attributes">
-    {TabAttributes.bind({})}
+<Story name="Tab With Caption"  args={{ caption: 'Caption' }}>>
+    {TabsAttributeTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Tab With Help Text
+You can give extra information to user with help-text attribute. help-text attribute adds a `bl-tooltip` component at right of the tab
+
+<Canvas>
+<Story name="Tab With Help Text"  args={{helpText:'helpText' }}>>
+    {TabsAttributeTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Tab With Badge
+A Badge can be added to tab. This Badge is showed with `bl-badge` component internally
+
+<Canvas>
+<Story name="Tab With Badge"  args={{badge:'New' }}>>
+    {TabsAttributeTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Tab With Icon
+An icon can be added to tab. This icon is showed with `bl-icon` component internally and it's color synced with tab's title color
+
+<Canvas>
+<Story name="Tab With Icon" args={{icon1:'heart', icon2:'settings', icon3:'book', icon4:'academy', icon5:'account', icon6:'attach', icon7:'award', icon8:'browser' }}>>
+    {IconTemplate.bind({})}
+ </Story>
+</Canvas>
+
+## Tab With Notification Dot
+A notification dot can be used in tab compnenet in order for user to get notified by updates in related content
+
+<Canvas>
+<Story name="Tab With Notification Dot">>
+    {NotifyTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Edge Cases
+
+#### More Than One Selected Tab
+If more than one selected tabs are used, the last one is picked as selected
+
+<Canvas>
+<Story name="More Than One Selected Tab">
+    {MoreThanOneSelectedTemplate.bind({})}
+  </Story>
+</Canvas>
+
+#### Using Disabled and Selected Props Together
+If disabled and selected props are used in same table, disabled prop overrides selected prop
+
+<Canvas>
+<Story name="Using Disabled and Selected Props Together">
+    {SelectedDisabledTogetherTemplate.bind({})}
   </Story>
 </Canvas>
 
