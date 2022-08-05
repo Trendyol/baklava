@@ -110,10 +110,10 @@ export default class BlTooltip extends LitElement {
   }
 
   render(): TemplateResult {
-    //  const classes = classMap({
-    //   "tooltip": true,
-    //   "visible": this._visible,
-    // });
+    const classes = classMap({
+      tooltip: true,
+      visible: this._visible,
+    });
 
     return html` <slot
         class="trigger"
@@ -122,12 +122,7 @@ export default class BlTooltip extends LitElement {
         @mouseleave="${this.hide}"
       >
       </slot>
-      <div
-        class=${classMap({
-          tooltip: true,
-          visible: this._visible,
-        })}
-      >
+      <div class=${classes}>
         <slot></slot>
         <div class="arrow"></div>
       </div>`;

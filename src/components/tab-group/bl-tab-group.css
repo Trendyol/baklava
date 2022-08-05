@@ -1,15 +1,18 @@
 .tabs {
   background-color: var(--bl-color-primary-background);
-  border-bottom: 2px solid var(--bl-color-secondary-background);
+  border-bottom: var(--bl-size-4xs) solid var(--bl-color-secondary-background);
   display: flex;
   flex-direction: row;
 }
 
 .tabs-list {
   overflow-x: scroll;
+
+  /* FIXME: use variables */
   border-radius: 6px 6px 0 0;
 }
 
 .panels {
+  /* FIXME: use variables */
   border-radius: 0 0 6px 6px;
 }
