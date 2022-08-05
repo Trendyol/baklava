@@ -30,12 +30,12 @@
   height: var(--height);
 }
 
-:host([size=small]) .badge {
+:host([size='small']) .badge {
   --font: var(--bl-font-caption-small-text);
   --height: var(--bl-size-m);
 }
 
-:host([size=large]) .badge {
+:host([size='large']) .badge {
   --font: var(--bl-font-title-3-medium);
   --padding-vertical: var(--bl-size-2xs);
   --padding-horizontal: var(--bl-size-2xs);
@@ -47,6 +47,6 @@
   font-size: var(--icon-size);
 }
 
-:host([size=small]) bl-icon {
+:host([size='small']) bl-icon {
   display: none;
 }
