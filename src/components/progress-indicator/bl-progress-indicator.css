@@ -1,16 +1,14 @@
-:host {
-  --bl-progress-indicator-max: 100;
-  --bl-progress-indicator-value: 0;
-  --bl-progress-indicator-value-color: var(--bl-color-success);
-  --bl-progress-indicator-height: var(--bl-size-2xs);
-  --bl-progress-indicator-radius: var(--bl-size-3xs);
-}
-
 .progress-indicator {
+  --max: 100;
+  --value: 0;
+  --value-color: var(--bl-color-success);
+  --height: var(--bl-size-2xs);
+  --radius: var(--bl-size-3xs);
+
   position: relative;
   background-color: var(--bl-color-secondary-background);
-  height: var(--bl-progress-indicator-height);
-  border-radius: var(--bl-progress-indicator-radius);
+  height: var(--height);
+  border-radius: var(--radius);
   width: 100%;
 }
 
@@ -18,21 +16,21 @@
   content: '';
   position: absolute;
   height: 100%;
-  width: calc(100% / var(--bl-progress-indicator-max) * var(--bl-progress-indicator-value));
-  background-color: var(--bl-progress-indicator-value-color);
-  border-radius: var(--bl-progress-indicator-radius);
+  width: calc(100% / var(--max) * var(--value));
+  background-color: var(--value-color);
+  border-radius: var(--radius);
 }
 
-:host([size='small']) {
-  --bl-progress-indicator-height: var(--bl-size-3xs);
-  --bl-progress-indicator-radius: var(--bl-size-4xs);
+:host([size='small']) .progress-indicator {
+  --height: var(--bl-size-3xs);
+  --radius: var(--bl-size-4xs);
 }
 
-:host([size='large']) {
-  --bl-progress-indicator-height: var(--bl-size-xs);
-  --bl-progress-indicator-radius: 6px;
+:host([size='large']) .progress-indicator {
+  --height: var(--bl-size-xs);
+  --radius: 6px;
 }
 
-:host([failed]) {
-  --bl-progress-indicator-value-color: var(--bl-color-danger);
+:host([failed]) .progress-indicator {
+  --value-color: var(--bl-color-danger);
 }

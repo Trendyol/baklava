@@ -39,8 +39,8 @@ describe('bl-progress-indicator', () => {
 
     //then
     expect(el.size).to.equal('medium');
-    expect(el.max).to.equal('100');
-    expect(el.value).to.equal('0');
+    expect(el.max).to.equal(100);
+    expect(el.value).to.equal(0);
     expect(el.failed).to.equal(false);
   });
 
@@ -51,10 +51,16 @@ describe('bl-progress-indicator', () => {
     );
 
     //then
+    const wrapper = el.shadowRoot?.querySelector('.progress-indicator') as HTMLDivElement;
+    const cssMaxVariable = getComputedStyle(wrapper).getPropertyValue('--max');
+    const cssValueVariable = getComputedStyle(wrapper).getPropertyValue('--value');
+
     expect(el.size).to.eq('large');
-    expect(el.max).to.eq('8');
-    expect(el.value).to.eq('3');
+    expect(el.max).to.eq(8);
+    expect(el.value).to.eq(3);
     expect(el.failed).to.eq(true);
+    expect(cssMaxVariable).to.eq('8');
+    expect(cssValueVariable).to.eq('3');
   });
 
   it('should be rendered with correct size,max,failed,value attributes when size,max,failed,value attributes was changed', async () => {
@@ -64,7 +70,7 @@ describe('bl-progress-indicator', () => {
     );
     el.setAttribute('size', 'small');
     el.setAttribute('max', '5');
-    el.setAttribute('value', '3');
+    el.setAttribute('value', '4');
     el.setAttribute('failed', 'true');
 
     //when
@@ -72,8 +78,8 @@ describe('bl-progress-indicator', () => {
 
     //then
     expect(el.size).to.eq('small');
-    expect(el.max).to.eq('5');
-    expect(el.value).to.eq('3');
+    expect(el.max).to.eq(5);
+    expect(el.value).to.eq(4);
     expect(el.failed).to.eq(true);
   });
 });

@@ -1,7 +1,6 @@
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
 
 <Meta
@@ -11,17 +10,17 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
     size: {
       control: {
         type: 'select',
-        options: ['medium', 'large']
+        options: ['small','medium', 'large']
       },
       type: 'string'
     },
     max: {
       control: 'text',
-      type: 'string'
+      type: 'number'
     },
     value: {
       control: 'text',
-      type: 'string'
+      type: 'number'
     },
     failed: {
       control: 'boolean',
@@ -34,7 +33,7 @@ export const ProgressIndicatorTemplate = (args) => html`
     size='${ifDefined(args.size)}'
     max='${ifDefined(args.max)}'
     value='${ifDefined(args.value)}'
-    failed='${ifDefined(args.failed)}'
+    ?failed=${args.failed}
     style='${ifDefined(args.styles ? styleMap(args.styles) : undefined)}'></bl-progress-indicator>`
 
 export const FailedTemplate = (args) => html`
@@ -46,13 +45,6 @@ export const WithMaxTemplate = (args) => html`
 <div>
 <p style='color: var(--bl-color-content-secondary); margin: var(--bl-size-3xs)'> Completed Tasks: <b style='color: var(--bl-color-success)'> 5/8 </b></p>${ProgressIndicatorTemplate({ max:'8', value: '5', ...args })}
 </div>`;
-
-
-export const SizeTemplate = (args) => html`
-${ProgressIndicatorTemplate({value:'45', size:'small', styles: { 'margin' : 'var(--bl-size-2xs)' },...args })}
-${ProgressIndicatorTemplate({value:'45', size:'medium', styles: { 'margin' : 'var(--bl-size-2xs)' }, ...args })}
-${ProgressIndicatorTemplate({value:'45', size:'large',styles: { 'margin' : 'var(--bl-size-2xs)' }, ...args })}
-`;
 
 # Progress Indicator
 
@@ -72,7 +64,7 @@ By default, the `max` is 100 and the progress indicator is evaluated over 100. S
   </Story>
 </Canvas>
 
-You don't have to pass the `value` according to 100 percent. For example, if you have a total of 8 tasks and completed 5 tasks you can pass parameters like `max='8' value='5'`. The progress indicator will divide into 8 parts and 5 parts will be full.
+You don't have to pass the `value` according to 100 percent. For example, if you have a total of 8 tasks and completed 5 tasks you can pass parameters like `max="8" value="5"`. The progress indicator will divide into 8 parts and 5 parts will be full.
 
 <Canvas>
   <Story name="Usage With Max Value">
@@ -93,10 +85,16 @@ The progress indicator appears in success mode (green) by default. But if you ne
 
 We have 3 sizes of progress indicator: `large`, `medium`, `small`. Default size is `medium`.
 
-<Canvas>
-  <Story name="Progress Indicator Sizes">
-    {SizeTemplate.bind({})}
-  </Story>
+<Canvas isColumn>
+   <Story name="Progress Indicator Small" args={{ size: 'small', value: '45' }}>
+     {ProgressIndicatorTemplate.bind({})}
+   </Story>
+   <Story name="Progress Indicator Medium" args={{ size: 'medium', value: '45' }}>
+     {ProgressIndicatorTemplate.bind({})}
+   </Story>
+   <Story name="Progress Indicator Large" args={{ size: 'large', value: '45' }}>
+     {ProgressIndicatorTemplate.bind({})}
+   </Story>
 </Canvas>
 
 <ArgsTable of="bl-progress-indicator" />
