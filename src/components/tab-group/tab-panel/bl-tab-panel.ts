@@ -20,11 +20,8 @@ export default class BlTabPanel extends LitElement {
 
     this.updateComplete.then(() => {
       this.tabGroup = this.closest('bl-tab-group');
-      if (this.tabGroup) {
-        this.tabGroup.registerTabPanel(this);
-      } else {
-        throw new Error('bl-tab-panel should be used inside bl-tab-group.');
-      }
+      // FIXME: We need to warn if parent is not tab-group
+      this.tabGroup?.registerTabPanel(this);
     });
   }
 

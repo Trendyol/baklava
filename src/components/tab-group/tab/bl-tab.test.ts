@@ -1,7 +1,6 @@
 import { oneEvent, fixture, html, expect } from '@open-wc/testing';
 import BlTab from './bl-tab';
-import BlIcon from '../../icon/bl-icon';
-import '../../icon/bl-icon';
+import type BlIcon from '../../icon/bl-icon';
 
 describe('bl-tab', function () {
   it('should defined', async function () {

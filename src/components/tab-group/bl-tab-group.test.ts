@@ -60,5 +60,9 @@ describe('bl-tab-group', function () {
     </bl-tab-group>`);
     el.tabs[0].select();
     expect(el.selectedTabName).to.be.equal('test-1');
+    expect(el.tabs[0].selected).to.be.true;
+    expect(el.tabs[1].selected).to.be.false;
+    expect(el.panels.find(p => p.tab === el.tabs[0].name)?.visible).to.be.true
+    expect(el.panels.find(p => p.tab === el.tabs[1].name)?.visible).to.be.false
   });
 });
