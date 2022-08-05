@@ -17,7 +17,7 @@ export const TabsTemplate = (args) => html`
     </bl-tab-group>
   `
 
-export const TabsTemplate2 = (args) => html`
+export const TabsAttributeTemplate = (args) => html`
     <bl-tab-group>
         <bl-tab name="test-1" slot="tabs" title="Tab 1" caption="Caption"></bl-tab>
         <bl-tab name="test-2" slot="tabs" title="Tab 2" help-text="Help Text" ></bl-tab>
@@ -31,8 +31,8 @@ export const TabsTemplate2 = (args) => html`
 export const Tabs = (args) => html`
 ${TabsTemplate({ icon:'heart',...args})}
 `;
-export const Tabs2 = (args) => html`
-${TabsTemplate2({...args})}
+export const TabAttributes = (args) => html`
+${TabsAttributeTemplate({...args})}
 `;
 
 # Tab
@@ -45,11 +45,11 @@ Within tab groups, tabs are used to represent and activate tab panels.
 </Canvas>
 
 ## Tab Attributes
-Tabs can be detailed with caption, help Text, notification dot, badge and icon
+Tabs can be detailed with caption, help text, notification dot, badge and icon
 
 <Canvas>
-<Story name="Usage with attributes">
-    {Tabs2.bind({})}
+<Story name="Usage With Attributes">
+    {TabAttributes.bind({})}
   </Story>
 </Canvas>
 
