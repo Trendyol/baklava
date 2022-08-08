@@ -94,6 +94,10 @@
   pointer-events: visible;
 }
 
+bl-tooltip {
+  --bl-tooltip-position: fixed;
+}
+
 .title {
   display: flex;
   align-items: center;
