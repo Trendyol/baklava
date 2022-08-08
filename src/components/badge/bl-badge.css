@@ -1,20 +1,20 @@
 :host {
   display: inline-block;
   max-width: 100%;
-
-  --bl-badge-bg-color: var(--bl-color-accent-primary-background);
-  --bl-badge-color: var(--bl-color-primary);
-  --bl-badge-font: var(--bl-font-title-4-medium);
-  --bl-badge-padding-vertical: var(--bl-size-3xs);
-  --bl-badge-padding-horizontal: var(--bl-size-3xs);
-  --bl-badge-margin-icon: var(--bl-size-3xs);
-  --bl-badge-icon-size: var(--bl-size-s);
-  --bl-badge-height: var(--bl-size-xl);
 }
 
 .badge {
+  --bg-color: var(--bl-badge-bg-color, var(--bl-color-accent-primary-background));
+  --color: var(--bl-badge-color, var(--bl-color-primary));
+  --font: var(--bl-font-title-4-medium);
+  --padding-vertical: var(--bl-size-3xs);
+  --padding-horizontal: var(--bl-size-3xs);
+  --margin-icon: var(--bl-size-3xs);
+  --icon-size: var(--bl-size-s);
+  --height: var(--bl-size-xl);
+
   display: flex;
-  gap: var(--bl-badge-margin-icon);
+  gap: var(--margin-icon);
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
@@ -22,29 +22,29 @@
   border: none;
   border-radius: var(--bl-size-4xs);
   margin: 0;
-  padding: var(--bl-badge-padding-vertical) var(--bl-badge-padding-horizontal);
-  background-color: var(--bl-badge-bg-color);
-  color: var(--bl-badge-color, white);
-  font: var(--bl-badge-font);
+  padding: var(--padding-vertical) var(--padding-horizontal);
+  background-color: var(--bg-color);
+  color: var(--color, white);
+  font: var(--font);
   font-kerning: none;
-  height: var(--bl-badge-height);
+  height: var(--height);
 }
 
-:host([size='small']) {
-  --bl-badge-font: var(--bl-font-caption-small-text);
-  --bl-badge-height: var(--bl-size-m);
+:host([size='small']) .badge {
+  --font: var(--bl-font-caption-small-text);
+  --height: var(--bl-size-m);
 }
 
-:host([size='large']) {
-  --bl-badge-font: var(--bl-font-title-3-medium);
-  --bl-badge-padding-vertical: var(--bl-size-2xs);
-  --bl-badge-padding-horizontal: var(--bl-size-2xs);
-  --bl-badge-height: var(--bl-size-2xl);
-  --bl-badge-icon-size: var(--bl-size-m);
+:host([size='large']) .badge {
+  --font: var(--bl-font-title-3-medium);
+  --padding-vertical: var(--bl-size-2xs);
+  --padding-horizontal: var(--bl-size-2xs);
+  --height: var(--bl-size-2xl);
+  --icon-size: var(--bl-size-m);
 }
 
 :host ::slotted(bl-icon) {
-  font-size: var(--bl-badge-icon-size);
+  font-size: var(--icon-size);
 }
 
 :host([size='small']) bl-icon {
