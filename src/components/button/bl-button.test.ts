@@ -33,7 +33,9 @@ describe('bl-button', () => {
   xdescribe('Accessibility tests', () => {
     variants.forEach(variant => {
       it(`should be accessible when attribute is "${variant}"`, async () => {
-        const el = await fixture<typeOfBlButton>(`<bl-button variant=${variant}>Button</bl-button>`);
+        const el = await fixture<typeOfBlButton>(
+          `<bl-button variant=${variant}>Button</bl-button>`
+        );
         await expect(el).to.be.accessible();
       });
     });
