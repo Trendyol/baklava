@@ -76,28 +76,28 @@
   --bl-button-margin-icon: 0;
 }
 
-:host([variant=secondary]) {
+:host([variant='secondary']) {
   --bl-button-main-color: var(--bl-color-secondary);
   --bl-button-main-hover-color: var(--bl-color-secondary-hover);
 }
 
-:host([variant=success]) {
+:host([variant='success']) {
   --bl-button-main-color: var(--bl-color-success);
   --bl-button-main-hover-color: var(--bl-color-success-hover);
 }
 
-:host([variant=danger]) {
+:host([variant='danger']) {
   --bl-button-main-color: var(--bl-color-danger);
   --bl-button-main-hover-color: var(--bl-color-danger-hover);
 }
 
-:host([fill=text]) {
+:host([fill='text']) {
   --bl-button-content-color: var(--bl-button-main-color);
   --bl-button-border-color: transparent;
   --bl-button-bg-color: transparent;
 }
 
-:host([fill=text]) .button {
+:host([fill='text']) .button {
   text-decoration: underline;
 }
 
@@ -115,15 +115,15 @@
   text-decoration: none;
 }
 
-:host([fill=outline]) {
+:host([fill='outline']) {
   --bl-button-bg-color: transparent;
 }
 
-:host([fill=outline]:not(:hover):not([disabled])) {
+:host([fill='outline']:not(:hover):not([disabled])) {
   --bl-button-content-color: var(--bl-button-main-color);
 }
 
-:host([fill=text]:not([disabled])) .button:hover {
+:host([fill='text']:not([disabled])) .button:hover {
   --bl-button-content-color: var(--bl-button-main-hover-color);
   --bl-button-border-color: transparent;
   --bl-button-bg-color: transparent;
