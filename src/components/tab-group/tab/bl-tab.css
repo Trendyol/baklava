@@ -45,7 +45,7 @@
   content: '';
   position: absolute;
   opacity: 0;
-  bottom: calc(-1*var(--bl-size-4xs));
+  bottom: calc(-1 * var(--bl-size-4xs));
   left: var(--border-left-space);
   width: calc(100% - var(--bl-size-4xl));
   border-bottom: var(--border-bottom-width) solid var(--bl-color-primary);
