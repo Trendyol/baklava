@@ -15,11 +15,6 @@ export default class BlTab extends LitElement {
     return [style];
   }
 
-  protected _panel = '';
-  get panel(): string {
-    return this.name;
-  }
-
   private tabGroup: BlTabGroup | null;
 
   connectedCallback() {

@@ -1,5 +1,15 @@
-import { fixture, html, fixtureCleanup, expect } from '@open-wc/testing';
+import { fixture, html, fixtureCleanup, expect, nextFrame } from '@open-wc/testing';
 import BlTabGroup from './bl-tab-group';
+
+const createTab = () => {
+  const tabName = Date.now().toString();
+  const tab = document.createElement('bl-tab');
+  tab.slot = 'tabs';
+  tab.name = tabName;
+  tab.title = 'Add Player';
+
+  return tab;
+};
 
 describe('bl-tab-group', function () {
   afterEach(() => {
@@ -64,5 +74,115 @@ describe('bl-tab-group', function () {
     expect(el.tabs[1].selected).to.be.false;
     expect(el.panels.find(p => p.tab === el.tabs[0].name)?.visible).to.be.true;
     expect(el.panels.find(p => p.tab === el.tabs[1].name)?.visible).to.be.false;
+  });
+});
+
+describe('should selected tab functionality works when add or remove tabs ', function () {
+  it('should new tab selected', async function () {
+    const el = await fixture<BlTabGroup>(html` <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
+      <bl-tab-panel tab="test-2"></bl-tab-panel>
+    </bl-tab-group>`);
+    expect(el.tabs[0].selected).to.be.true;
+
+    // add new tab with selected flag
+    const tab = createTab();
+    tab.selected = true;
+    el.appendChild(tab);
+
+    await nextFrame();
+
+    expect(el.tabs.length).to.be.equal(2);
+    expect(el.tabs[0].selected).to.be.false;
+    expect(el.tabs[1].selected).to.be.true;
+  });
+
+  it('add a tab with disabled flag', async function () {
+    const el = await fixture<BlTabGroup>(html` <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
+      <bl-tab-panel tab="test-2"></bl-tab-panel>
+    </bl-tab-group>`);
+    expect(el.tabs[0].selected).to.be.true;
+
+    // add new tab with disabled flag
+    const tab = createTab();
+    tab.disabled = true;
+    el.appendChild(tab);
+
+    await nextFrame();
+
+    expect(el.tabs.length).to.be.equal(2);
+    expect(el.tabs[0].selected).to.be.true;
+    expect(el.tabs[1].selected).to.be.false;
+  });
+
+  it('first tab is disabled', async function () {
+    const el = await fixture<BlTabGroup>(html` <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab" disabled></bl-tab>
+      <bl-tab-panel tab="test-2"></bl-tab-panel>
+    </bl-tab-group>`);
+    expect(el.tabs[0].selected).to.be.false;
+
+    // add new tab
+    const tab = createTab();
+    el.appendChild(tab);
+
+    await nextFrame();
+
+    expect(el.tabs.length).to.be.equal(2);
+    expect(el.tabs[0].selected).to.be.false;
+    expect(el.tabs[1].selected).to.be.true;
+  });
+
+  it('added two tabs that first is disabled and second is selected', async function () {
+    const el = await fixture<BlTabGroup>(html` <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab" disabled></bl-tab>
+      <bl-tab-panel tab="test-2"></bl-tab-panel>
+    </bl-tab-group>`);
+    expect(el.tabs[0].selected).to.be.false;
+
+    // add new tabs
+    const disabledTab = createTab();
+    const selectedTab = createTab();
+    disabledTab.disabled = true;
+    selectedTab.selected = true;
+    el.appendChild(disabledTab);
+    el.appendChild(selectedTab);
+
+    await nextFrame();
+
+    expect(el.tabs.length).to.be.equal(3);
+    expect(el.tabs[0].selected).to.be.false;
+    expect(el.tabs[2].selected).to.be.true;
+  });
+
+  it('add a disabled and selected tab then remove selected tab', async function () {
+    const el = await fixture<BlTabGroup>(html` <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
+      <bl-tab-panel tab="test-2"></bl-tab-panel>
+    </bl-tab-group>`);
+
+    // add new tabs
+    const disabledTab = createTab();
+    const selectedTab = createTab();
+    disabledTab.disabled = true;
+    selectedTab.selected = true;
+    el.appendChild(disabledTab);
+    await nextFrame();
+    expect(el.tabs[0].selected).to.be.true;
+    el.appendChild(selectedTab);
+    await nextFrame();
+    expect(el.tabs[0].selected).to.be.false;
+    expect(el.tabs[2].selected).to.be.true;
+
+    // remove last tab that selected
+    el.removeChild(el.tabs[el.tabs.length - 1]);
+
+    await nextFrame();
+
+    expect(el.tabs.length).to.be.equal(2);
+    expect(el.tabs[0].selected).to.be.true;
+    expect(el.tabs[1].selected).to.be.false;
+    expect(el.tabs[1].disabled).to.be.true;
   });
 });

@@ -61,9 +61,4 @@ describe('bl-tab', function () {
 
     expect(caption).is.exist;
   });
-
-  it('should has correct panel name when name is given', async function () {
-    const el = await fixture<BlTab>(html`<bl-tab name="test-tab"></bl-tab>`);
-    expect(el.panel).to.equal('test-tab');
-  });
 });
