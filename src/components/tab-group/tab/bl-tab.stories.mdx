@@ -11,46 +11,47 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 
 export const TabsTemplate = (args) => html`
     <bl-tab-group>
-      <bl-tab name="test-1" slot="tabs" title="Disabled" disabled></bl-tab>
-      <bl-tab name="test-2" slot="tabs" title="Selected" selected ></bl-tab>
-      <bl-tab name="test-3" slot="tabs" title="Tab" ></bl-tab>
+      <bl-tab name="test-1" slot="tabs" disabled>Disabled</bl-tab>
+      <bl-tab name="test-2" slot="tabs" selected >Selected</bl-tab>
+      <bl-tab name="test-3" slot="tabs">Tab</bl-tab>
     </bl-tab-group>
   `
 
 export const TabsAttributeTemplate = (args) => html`
     <bl-tab-group>
-        <bl-tab name="test-1" slot="tabs" title="Tab 1" Caption='${ifDefined(args.caption)}' help-text='${ifDefined(args.helpText)}' badge='${ifDefined(args.badge)}' ></bl-tab>
-        <bl-tab name="test-2" slot="tabs" title="Tab 2"  ></bl-tab>
-        <bl-tab name="test-3" slot="tabs" title="Tab 3" Caption='${ifDefined(args.caption)}' help-text='${ifDefined(args.helpText)}' badge='${ifDefined(args.badge)}'  disabled ></bl-tab>
+        <bl-tab name="test-1" slot="tabs" Caption='${ifDefined(args.caption)}' help-text='${ifDefined(args.helpText)}' badge='${ifDefined(args.badge)}' >Tab 1</bl-tab>
+        <bl-tab name="test-2" slot="tabs">Tab 2</bl-tab>
+        <bl-tab name="test-3" slot="tabs" Caption='${ifDefined(args.caption)}' help-text='${ifDefined(args.helpText)}
+        ' badge='${ifDefined(args.badge)}'  disabled >Tab 3</bl-tab>
     </bl-tab-group>
     `
 export const NotifyTemplate = (args) => html`
     <bl-tab-group>
-         <bl-tab name="test-1" slot="tabs" title="Tab 1" notify ></bl-tab>
-         <bl-tab name="test-2" slot="tabs" title="Tab 2" selected notify ></bl-tab>
-         <bl-tab name="test-3" slot="tabs" title="Tab 3" disabled notify ></bl-tab>
+         <bl-tab name="test-1" slot="tabs" notify >Tab 1</bl-tab>
+         <bl-tab name="test-2" slot="tabs" selected notify >Tab 2</bl-tab>
+         <bl-tab name="test-3" slot="tabs" disabled notify >Tab 3</bl-tab>
     </bl-tab-group>
         `
 export const IconTemplate = (args) => html`
     <bl-tab-group>
-         <bl-tab name="test-1" slot="tabs" title="Tab 1" icon='${ifDefined(args.icon1)}' ></bl-tab>
-         <bl-tab name="test-2" slot="tabs" title="Tab 2" icon='${ifDefined(args.icon2)}' ></bl-tab>
-         <bl-tab name="test-3" slot="tabs" title="Tab 3" icon='${ifDefined(args.icon3)}' disabled ></bl-tab>
+         <bl-tab name="test-1" slot="tabs" icon='${ifDefined(args.icon1)}' >Tab 1</bl-tab>
+         <bl-tab name="test-2" slot="tabs" icon='${ifDefined(args.icon2)}' >Tab 2</bl-tab>
+         <bl-tab name="test-3" slot="tabs" icon='${ifDefined(args.icon3)}' disabled >Tab 3</bl-tab>
     </bl-tab-group>
         `
 export const MoreThanOneSelectedTemplate = (args) => html`
     <bl-tab-group>
-         <bl-tab name="test-1" slot="tabs" title="Selected Tab 1" selected ></bl-tab>
-         <bl-tab name="test-2" slot="tabs" title="Selected Tab 2" selected ></bl-tab>
-         <bl-tab name="test-3" slot="tabs" title="Tab 3" ></bl-tab>
+         <bl-tab name="test-1" slot="tabs" selected >Selected Tab 1</bl-tab>
+         <bl-tab name="test-2" slot="tabs" selected >Selected Tab 2</bl-tab>
+         <bl-tab name="test-3" slot="tabs">Tab 3</bl-tab>
     </bl-tab-group>
         `
 
 export const SelectedDisabledTogetherTemplate = (args) => html`
     <bl-tab-group>
-         <bl-tab name="test-1" slot="tabs" title="Tab 1" ></bl-tab>
-         <bl-tab name="test-2" slot="tabs" title="Selected and Disabled Tab 2" selected disabled ></bl-tab>
-         <bl-tab name="test-3" slot="tabs" title="Tab 3" ></bl-tab>
+         <bl-tab name="test-1" slot="tabs" >Tab 1</bl-tab>
+         <bl-tab name="test-2" slot="tabs" selected disabled >Selected and Disabled Tab 2</bl-tab>
+         <bl-tab name="test-3" slot="tabs" >Tab 3</bl-tab>
     </bl-tab-group>
         `
 

@@ -13,14 +13,19 @@
   --icon-color: var(--bl-color-secondary);
   --border-bottom-width: var(--bl-size-4xs);
   --border-left-space: var(--bl-size-xl);
+  --font-title: var(--bl-font-title-3-medium);
+  --font-caption: var(--bl-font-title-4-regular);
+  --tab-right-padding: var(--bl-size-xl);
+  --help-container-width: var(--bl-size-2xl);
+  --tab-height: calc(var(--bl-size-3xl) + var(--bl-size-s));
 
   display: flex;
   border: none;
   cursor: pointer;
   background-color: initial;
   width: max-content;
-  height: 100%;
-  padding: var(--bl-size-m) var(--bl-size-xl);
+  height: var(--tab-height);
+  padding: 0 var(--tab-right-padding);
 }
 
 .container::after {
@@ -40,7 +45,7 @@
   content: '';
   position: absolute;
   opacity: 0;
-  bottom: -2px;
+  bottom: calc(-1*var(--bl-size-4xs));
   left: var(--border-left-space);
   width: calc(100% - var(--bl-size-4xl));
   border-bottom: var(--border-bottom-width) solid var(--bl-color-primary);
@@ -88,10 +93,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 32px;
+  width: var(--help-container-width);
   height: 100%;
   font-size: var(--bl-font-size-m);
   pointer-events: visible;
+  padding-right: var(--tab-right-padding);
 }
 
 bl-tooltip {
@@ -102,9 +108,7 @@ bl-tooltip {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  font-size: var(--bl-size-s);
-  font-weight: var(--bl-font-weight-medium);
+  font: var(--font-title);
   color: var(--title-color);
   line-height: var(--bl-size-m);
   white-space: nowrap;
@@ -115,7 +119,7 @@ bl-tooltip {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 100%;
+  margin: auto;
 }
 
 .badge-container {
@@ -124,8 +128,8 @@ bl-tooltip {
 }
 
 .caption {
-  font-size: var(--bl-size-xs);
-  font-weight: var(--bl-font-weight-regular);
+  font: var(--font-caption);
+  line-height: var(--bl-size-xs);
   color: var(--caption-color);
   text-align: center;
   margin-top: var(--bl-size-4xs);
