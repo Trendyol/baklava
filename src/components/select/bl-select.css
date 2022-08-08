@@ -1,0 +1,14 @@
+:host {
+    width: 200px;
+    display: inline-block;
+    position: relative;
+
+    --bl-select-padding-vertical: var(--bl-size-2xs);
+    --bl-select-padding-horizontal: var(--bl-size-xs);
+    --bl-select-border-color: var(--bl-color-border);
+    --bl-select-icon-color: var(--bl-color-content-tertiary);
+    --bl-select-text-color: var(--bl-color-content-primary);
+    --bl-select-height: var(--bl-size-2xl);
+    --bl-select-menu-padding: var(--bl-size-m);
+}
+
