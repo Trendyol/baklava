@@ -103,7 +103,7 @@ export default class BlTab extends LitElement {
 
     const helpTooltip = this.helpText
       ? html` <div class="help-container">
-          <bl-tooltip placement="bottom" style="--bl-tooltip-position:fixed">
+          <bl-tooltip style="--bl-tooltip-position:fixed">
             <bl-button
               slot="tooltip-trigger"
               icon="info"
