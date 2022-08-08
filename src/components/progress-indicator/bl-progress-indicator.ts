@@ -7,6 +7,9 @@ export type ProgressIndicatorSize = 'small' | 'medium' | 'large';
 /**
  * @tag bl-progress-indicator
  * @summary Baklava Progress Indicator component
+ *
+ * @property {max} [max=100]
+ * @property {number} [value=0]
  */
 
 @customElement('bl-progress-indicator')
@@ -30,7 +33,7 @@ export default class BlProgressIndicator extends LitElement {
   failed = false;
 
   /**
-   * [max=100] - Sets the max
+   * Sets the max
    */
   @property({ type: Number })
   get max() {
@@ -42,7 +45,7 @@ export default class BlProgressIndicator extends LitElement {
   }
 
   /**
-   * [value=0] - Sets the value
+   * Sets the value
    */
   @property({ type: Number })
   get value() {
