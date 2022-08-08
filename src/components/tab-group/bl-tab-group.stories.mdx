@@ -14,7 +14,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
   }}
 />
 
-export const TabGroupTemplate = (args) => html`
+export const TabGroup = (args) => html`
     <bl-tab-group>
       <bl-tab name="test-1" slot="tabs" title="Disabled" disabled></bl-tab>
       <bl-tab name="test-2" slot="tabs" title="Selected" selected ></bl-tab>
@@ -24,7 +24,7 @@ export const TabGroupTemplate = (args) => html`
       <bl-tab-panel tab="test-3">Panel 3</bl-tab-panel>
     </bl-tab-group>
   `
-  export const ScrollableTabGroupTemplate = (args) => html`
+  export const ScrollableTabGroup = (args) => html`
       <bl-tab-group>
         <bl-tab name="tab-1" slot="tabs" title="Tab 1" ></bl-tab>
         <bl-tab name="tab-2" slot="tabs" title="Tab 2" ></bl-tab>
@@ -64,14 +64,6 @@ export const TabGroupTemplate = (args) => html`
         <bl-tab-panel tab="tab-18">Panel 18</bl-tab-panel>
       </bl-tab-group>
     `
-
-export const TabGroup = (args) => html`
-${TabGroupTemplate({ icon:'heart',...args})}
-`;
-
-export const ScrollableTabGroup = (args) => html`
-${ScrollableTabGroupTemplate({ icon:'heart',...args})}
-`;
 
 # Tab Group
 Tab groups organizes the content in a way that each of Tab groups displays a section at a time.

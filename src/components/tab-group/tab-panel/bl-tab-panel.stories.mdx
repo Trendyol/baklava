@@ -14,7 +14,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
   }}
 />
 
-export const TabGroupTemplate = (args) => html`
+export const TabGroup = (args) => html`
     <bl-tab-group>
       <bl-tab name="test-1" slot="tabs" title="Tab 1"></bl-tab>
       <bl-tab name="test-2" slot="tabs" title="Tab 2"></bl-tab>
@@ -24,9 +24,6 @@ export const TabGroupTemplate = (args) => html`
       <bl-tab-panel tab="test-3">Panel 3</bl-tab-panel>
     </bl-tab-group>
   `
-export const TabGroup = (args) => html`
-${TabGroupTemplate({ icon:'heart',...args})}
-`;
 
 # Tab Panel
 Tab panels are utilized inside tab groups to show tabbed content
