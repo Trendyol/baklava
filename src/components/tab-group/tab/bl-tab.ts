@@ -33,12 +33,6 @@ export default class BlTab extends LitElement {
   }
 
   /**
-   * Title of tab
-   */
-  @property({ type: String })
-  title: string;
-
-  /**
    * Sets the caption of tab
    */
   @property({ type: String })
@@ -99,7 +93,7 @@ export default class BlTab extends LitElement {
   }
 
   render(): TemplateResult {
-    const title = this.title || html` <slot></slot>`;
+    const title = html` <slot></slot>`;
 
     const helpTooltip = this.helpText
       ? html` <div class="help-container">
