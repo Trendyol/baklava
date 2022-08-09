@@ -40,7 +40,7 @@ describe('bl-tab-group', function () {
   it('should render panels', async function () {
     const el = await fixture<BlTabGroup>(
       html` <bl-tab-group>
-        <bl-tab name="test" slot="tabs" title="Test Tab"></bl-tab>
+        <bl-tab name="test" slot="tabs">Test Tab</bl-tab>
         <bl-tab-panel tab="test"></bl-tab-panel>
       </bl-tab-group>`
     );
@@ -50,8 +50,8 @@ describe('bl-tab-group', function () {
 
   it('should select correct tab if has selected attr', async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
-      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
-      <bl-tab name="test-2" slot="tabs" title="Test 2 Tab" selected></bl-tab>
+      <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
+      <bl-tab name="test-2" slot="tabs" selected>Test 2 Tab</bl-tab>
       <bl-tab-panel tab="test-1"></bl-tab-panel>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
@@ -63,8 +63,8 @@ describe('bl-tab-group', function () {
 
   it('should handle bl-tab-selected event', async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
-      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
-      <bl-tab name="test-2" slot="tabs" title="Test 2 Tab" selected></bl-tab>
+      <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
+      <bl-tab name="test-2" slot="tabs" selected>Test 2 Tab</bl-tab>
       <bl-tab-panel tab="test-1"></bl-tab-panel>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
@@ -80,7 +80,7 @@ describe('bl-tab-group', function () {
 describe('should selected tab functionality works when add or remove tabs ', function () {
   it('should new tab selected', async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
-      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
+      <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
     expect(el.tabs[0].selected).to.be.true;
@@ -99,7 +99,7 @@ describe('should selected tab functionality works when add or remove tabs ', fun
 
   it('add a tab with disabled flag', async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
-      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
+      <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
     expect(el.tabs[0].selected).to.be.true;
@@ -118,7 +118,7 @@ describe('should selected tab functionality works when add or remove tabs ', fun
 
   it('first tab is disabled', async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
-      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab" disabled></bl-tab>
+      <bl-tab name="test-1" slot="tabs" disabled>Test 1 Tab</bl-tab>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
     expect(el.tabs[0].selected).to.be.false;
@@ -136,7 +136,7 @@ describe('should selected tab functionality works when add or remove tabs ', fun
 
   it('added two tabs that first is disabled and second is selected', async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
-      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab" disabled></bl-tab>
+      <bl-tab name="test-1" slot="tabs" disabled>Test 1 Tab</bl-tab>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
     expect(el.tabs[0].selected).to.be.false;
@@ -158,7 +158,7 @@ describe('should selected tab functionality works when add or remove tabs ', fun
 
   it('add a disabled and selected tab then remove selected tab', async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
-      <bl-tab name="test-1" slot="tabs" title="Test 1 Tab"></bl-tab>
+      <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
 
