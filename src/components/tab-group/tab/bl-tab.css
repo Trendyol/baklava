@@ -125,6 +125,7 @@ bl-tooltip {
 .badge-container {
   padding-left: var(--bl-size-3xs);
   display: flex;
+  margin-bottom: 1px;
 }
 
 .caption {
@@ -138,8 +139,9 @@ bl-tooltip {
 .icon {
   display: flex;
   color: var(--icon-color);
-  margin-right: var(--bl-size-3xs);
   font-size: var(--bl-font-size-l);
+  margin-right: var(--bl-size-3xs);
+  margin-bottom: 1px;
 }
 
 :host([notify]) .title::after {
@@ -149,4 +151,5 @@ bl-tooltip {
   border-radius: var(--bl-size-3xs);
   margin-left: var(--bl-size-3xs);
   background-color: var(--bl-color-danger);
+  margin-bottom: 1px;
 }
