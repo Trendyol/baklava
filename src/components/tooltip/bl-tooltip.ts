@@ -47,7 +47,6 @@ export default class BlTooltip extends LitElement {
 
   @state() private _visible = false;
   @state() private _position: Strategy = 'absolute';
-  @state() private host: HTMLElement;
 
   /**
    * Fires when hovering over a trigger
@@ -63,10 +62,7 @@ export default class BlTooltip extends LitElement {
     super.connectedCallback();
 
     setTimeout(() => {
-      this.host = this.shadowRoot?.host as HTMLElement;
-      this._position = getComputedStyle(this.host).getPropertyValue(
-        '--bl-tooltip-position'
-      ) as Strategy;
+      this._position = getComputedStyle(this).getPropertyValue('--bl-tooltip-position') as Strategy;
     });
   }
 
@@ -92,13 +88,13 @@ export default class BlTooltip extends LitElement {
       const tooltipPlacement = placement.split('-')[0] as keyof typeof arrowDirections;
       const arrowDirection = arrowDirections[tooltipPlacement];
 
-      this.host.style.setProperty('--bl-tooltip-left', `${x}px`);
-      this.host.style.setProperty('--bl-tooltip-top', `${y}px`);
-      this.host.style.setProperty('--bl-tooltip-arrow-left', arrowX);
-      this.host.style.setProperty('--bl-tooltip-arrow-top', arrowY);
-      this.host.style.setProperty('--bl-tooltip-arrow-bottom', '0');
-      this.host.style.setProperty('--bl-tooltip-arrow-right', '0');
-      this.host.style.setProperty(`--bl-tooltip-arrow-${arrowDirection}`, '-4px');
+      this.style.setProperty('--bl-tooltip-left', `${x}px`);
+      this.style.setProperty('--bl-tooltip-top', `${y}px`);
+      this.style.setProperty('--bl-tooltip-arrow-left', arrowX);
+      this.style.setProperty('--bl-tooltip-arrow-top', arrowY);
+      this.style.setProperty('--bl-tooltip-arrow-bottom', '0');
+      this.style.setProperty('--bl-tooltip-arrow-right', '0');
+      this.style.setProperty(`--bl-tooltip-arrow-${arrowDirection}`, '-4px');
     });
   }
 

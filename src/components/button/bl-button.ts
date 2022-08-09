@@ -99,7 +99,7 @@ export default class BlButton extends LitElement {
   }
 
   render(): TemplateResult {
-    const isAnchor = this.href ? true : false;
+    const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
     const slots = html`<slot name="icon">${icon}</slot> <span class="label"><slot></slot></span>`;
     const classes = classMap({
