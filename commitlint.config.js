@@ -13,7 +13,8 @@ module.exports = {
         'input',
         'badge',
         'tab',
-        'tooltip'
+        'tooltip',
+        'progress-indicator'
       ],
     ],
   },
