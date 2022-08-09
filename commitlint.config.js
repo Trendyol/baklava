@@ -12,6 +12,7 @@ module.exports = {
         'icon',
         'input',
         'badge',
+        'tab',
         'tooltip'
       ],
     ],

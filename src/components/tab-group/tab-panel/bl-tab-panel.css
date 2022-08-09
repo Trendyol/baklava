@@ -1,0 +1,12 @@
+:host {
+  display: none;
+
+  /* FIXME: use variables */
+  border-radius: 0 0 6px 6px;
+}
+
+:host([visible]) {
+  display: block;
+  padding: var(--bl-size-xl);
+  background-color: var(--bl-color-primary-background);
+}
