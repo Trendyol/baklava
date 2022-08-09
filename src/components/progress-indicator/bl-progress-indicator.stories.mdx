@@ -38,12 +38,12 @@ export const ProgressIndicatorTemplate = (args) => html`
 
 export const FailedTemplate = (args) => html`
 <div>
-<p style='color: var(--bl-color-danger); margin: var(--bl-size-3xs)'>Upload Failed - Image must not be larger than 3mb.</p>${ProgressIndicatorTemplate({ value:'100', failed:true, ...args })}
+<p style='color: var(--bl-color-danger); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'>Upload Failed - Image must not be larger than 3mb.</p>${ProgressIndicatorTemplate({ value:'100', failed:true, ...args })}
 </div>`;
 
 export const WithMaxTemplate = (args) => html`
 <div>
-<p style='color: var(--bl-color-content-secondary); margin: var(--bl-size-3xs)'> Completed Tasks: <b style='color: var(--bl-color-success)'> 5/8 </b></p>${ProgressIndicatorTemplate({ max:'8', value: '5', ...args })}
+<p style='color: var(--bl-color-content-secondary); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'> Completed Tasks: <b style='color: var(--bl-color-success)'> 5/8 </b></p>${ProgressIndicatorTemplate({ max:'8', value: '5', ...args })}
 </div>`;
 
 # Progress Indicator
