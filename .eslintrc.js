@@ -5,7 +5,6 @@ module.exports = {
     sourceType: 'module',
   },
   extends: [
-    // 'prettier',
     'eslint:recommended',
   ],
   env: {
