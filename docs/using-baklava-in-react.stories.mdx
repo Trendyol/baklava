@@ -114,3 +114,55 @@ function MyComponent() {
 
 export default MyComponent;
 ```
+
+## Styling Components
+You can customize components with css variables or general theme variables.
+
+#### Inline CSS
+
+```jsx
+import { BlButton } from "@trendyol/baklava/dist/baklava-react";
+
+function MyComponent() {
+  const buttonStyle = {
+    "--bl-color-primary": "purple",
+    "--bl-color-primary-hover": "rebeccapurple",
+  }
+
+  return (
+    <BlButton style={buttonStyle}>button</BlButton>
+  );
+}
+
+export default MyComponent;
+```
+
+#### Styled Components
+
+```jsx
+import { BlTooltip, BlButton } from "@trendyol/baklava/dist/baklava-react";
+import styled from "styled-components"
+
+const Wrapper = styled.div`
+   .button-class {
+     --bl-color-primary: purple;
+   }
+
+   .tooltip-class {
+     --bl-tooltip-position: fixed;
+   }
+`;
+
+function MyComponent() {
+  return (
+    <Wrapper>
+      <BlTooltip className="tooltip-class">
+        <BlButton className="button-class" slot="tooltip-trigger" icon="info" text label="Show Info" />
+        Some extra information.
+      </BlTooltip>
+    </Wrapper>
+  );
+}
+
+export default MyComponent;
+```
