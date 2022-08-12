@@ -23,7 +23,6 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
     '@storybook/addon-interactions',
-    'storybook-addon-pseudo-states',
   ],
   features: {
     postcss: false,

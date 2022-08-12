@@ -111,7 +111,6 @@
     "rimraf": "^3.0.2",
     "rollup-plugin-lit-css": "^4.0.0",
     "storybook": "6.5.9",
-    "storybook-addon-pseudo-states": "^1.15.1",
     "stylelint": "^14.6.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",

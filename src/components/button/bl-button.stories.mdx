@@ -201,25 +201,6 @@ We have 2 types of disabled buttons: **Contained** and **Text**. Disable version
   </Story>
 </Canvas>
 
-## Hover States
-
-export const hover = {
-  pseudo: {
-    hover: true
-  }
-}
-
-<Canvas isColumn>
-  <Story name="Contained Buttons Hover" args={{ content: 'Save', icon: 'info' }} parameters={hover}>
-    {Template.bind({})}
-  </Story>
-  <Story name="Outline Buttons Hover" args={{ content: 'Save', outline: true, icon: 'info' }} parameters={hover}>
-    {Template.bind({})}
-  </Story>
-    <Story name="Text Buttons Hover" args={{ content: 'Save', text: true, icon: 'info' }} parameters={hover}>
-    {Template.bind({})}
-  </Story>
-</Canvas>
 
 ## Reference
 
