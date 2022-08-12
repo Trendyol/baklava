@@ -5,7 +5,7 @@
 
   --bl-button-main-color: var(--bl-color-primary);
   --bl-button-main-hover-color: var(--bl-color-primary-hover);
-  --bl-button-content-color: #fff;
+  --bl-button-content-color: var(--bl-color-primary-background);
   --bl-button-bg-color: var(--bl-button-main-color);
   --bl-button-border-color: var(--bl-button-main-color);
   --bl-button-padding-vertical: var(--bl-size-2xs);
@@ -91,16 +91,6 @@
   --bl-button-main-hover-color: var(--bl-color-danger-hover);
 }
 
-:host([fill='text']) {
-  --bl-button-content-color: var(--bl-button-main-color);
-  --bl-button-border-color: transparent;
-  --bl-button-bg-color: transparent;
-}
-
-:host([fill='text']) .button {
-  text-decoration: underline;
-}
-
 :host([disabled]) {
   cursor: not-allowed;
 
@@ -115,16 +105,26 @@
   text-decoration: none;
 }
 
-:host([fill='outline']) {
+:host([fill='text']) {
+  --bl-button-content-color: var(--bl-button-main-color);
+  --bl-button-border-color: transparent;
   --bl-button-bg-color: transparent;
 }
 
-:host([fill='outline']:not(:hover):not([disabled])) {
+:host([fill='text']) .button {
+  text-decoration: underline;
+}
+
+:host([fill='outline']) {
+  --bl-button-bg-color: transparent;
   --bl-button-content-color: var(--bl-button-main-color);
 }
 
-:host([fill='text']:not([disabled])) .button:hover {
+:host([fill='outline']:hover:not([disabled])) {
+  --bl-button-content-color: var(--bl-color-primary-background);
+  --bl-button-bg-color: var(--bl-button-main-hover-color);
+}
+
+:host([fill='text']:hover:not([disabled])) {
   --bl-button-content-color: var(--bl-button-main-hover-color);
-  --bl-button-border-color: transparent;
-  --bl-button-bg-color: transparent;
 }

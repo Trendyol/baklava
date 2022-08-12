@@ -19,7 +19,8 @@ log.txt
 
 .history/
 .idea/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 .sass-cache/
 .versions/
 node_modules/
