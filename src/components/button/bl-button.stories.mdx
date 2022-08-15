@@ -18,7 +18,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
       default: 'primary',
       control: { type: 'select' }
     },
-    fill: {
+    kind: {
       options: ['contained', 'outline', 'text'],
       default: 'contained',
       control: { type: 'select' }
@@ -50,7 +50,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 
 export const SingleButtonTemplate = (args) => html`<bl-button
     variant=${ifDefined(args.variant)}
-    fill=${ifDefined(args.fill)}
+    kind=${ifDefined(args.kind)}
     href=${ifDefined(args.href)}
     target=${ifDefined(args.target)}
     size=${ifDefined(args.size)}
@@ -68,8 +68,8 @@ ${SingleButtonTemplate({variant: 'danger', content: 'Danger Button', ...args})}`
 
 export const ButtonTypesTemplate = (args) => html`
 ${SingleButtonTemplate({...args})}
-${SingleButtonTemplate({fill: 'outline', ...args})}
-${SingleButtonTemplate({fill: 'text', ...args})}`;
+${SingleButtonTemplate({kind: 'outline', ...args})}
+${SingleButtonTemplate({kind: 'text', ...args})}`;
 
 export const SizesTemplate = (args) => html`
 ${SingleButtonTemplate({size: 'large', ...args})}
@@ -78,8 +78,8 @@ ${SingleButtonTemplate({size: 'small', ...args})}`;
 
 export const VariousStylesTemplate = (args) => html`
 ${SingleButtonTemplate({...args})}
-${SingleButtonTemplate({fill: 'outline', ...args})}
-${SingleButtonTemplate({fill: 'text', ...args})}`;
+${SingleButtonTemplate({kind: 'outline', ...args})}
+${SingleButtonTemplate({kind: 'text', ...args})}`;
 
 # Button
 
@@ -128,7 +128,7 @@ Outlined Buttons represent the important actions in the app. But not the primary
 They work with all the variants. You simply add `outline` attribute.
 
 <Canvas>
-  <Story name="Outline Buttons" args={{ fill: 'outline' }}>
+  <Story name="Outline Buttons" args={{ kind: 'outline' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -136,7 +136,7 @@ They work with all the variants. You simply add `outline` attribute.
 ### Text Buttons
 TBD
 <Canvas>
-  <Story name="Text Buttons" args={{ fill: 'text' }}>
+  <Story name="Text Buttons" args={{ kind: 'text' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -155,7 +155,7 @@ To be able to use icon with button, you should give the name of icon to `icon` a
 </Canvas>
 
 <Canvas>
-  <Story name="Text Buttons With Icon" args={{ fill: 'text', href: "https://trendyol.com", content: 'Save', icon: 'info' }}>
+  <Story name="Text Buttons With Icon" args={{ kind: 'text', href: "https://trendyol.com", content: 'Save', icon: 'info' }}>
     {Template.bind({})}
   </Story>
 </Canvas>

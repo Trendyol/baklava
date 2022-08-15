@@ -7,7 +7,7 @@ import style from './bl-button.css';
 import '../icon/bl-icon';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'success' | 'danger';
-export type ButtonFill = 'contained' | 'outline' | 'text';
+export type ButtonKind = 'contained' | 'outline' | 'text';
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type TargetType = '_blank' | '_parent' | '_self' | '_top';
 
@@ -31,10 +31,10 @@ export default class BlButton extends LitElement {
   variant: ButtonVariant = 'primary';
 
   /**
-   * Sets the button fill
+   * Sets the button kind
    */
   @property({ type: String, reflect: true })
-  fill: ButtonFill = 'contained';
+  kind: ButtonKind = 'contained';
 
   /**
    * Sets the button size
