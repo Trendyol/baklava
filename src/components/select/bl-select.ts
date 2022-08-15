@@ -56,6 +56,25 @@ export default class BlSelect extends LitElement {
 
   private _connectedOptions: BlSelectOption[] = [];
 
+  clickOutsideHandler = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+
+    if (!this.contains(target) && this._isOpen) {
+      this._isOpen = false;
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    document.addEventListener('click', this.clickOutsideHandler);
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback();
+
+    document.removeEventListener('click', this.clickOutsideHandler);
+  }
+
   inputTemplate() {
     const inputSelectedOptions = html`<ul class="selected-options">
       ${this._selectedItems.map(item => html`<li>${item.text}</li>`)}
@@ -116,6 +135,7 @@ export default class BlSelect extends LitElement {
       this._selectedItems = [...this._selectedItems, optionDetail]
     }
   }
+
   private _handleSingleInput(optionItem: ISelectOption) {
     const { value } = optionItem;
 
