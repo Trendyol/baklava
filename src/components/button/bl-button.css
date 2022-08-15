@@ -76,17 +76,17 @@
   --bl-button-margin-icon: 0;
 }
 
-:host([secondary]) {
+:host([variant='secondary']) {
   --bl-button-main-color: var(--bl-color-secondary);
   --bl-button-main-hover-color: var(--bl-color-secondary-hover);
 }
 
-:host([success]) {
+:host([variant='success']) {
   --bl-button-main-color: var(--bl-color-success);
   --bl-button-main-hover-color: var(--bl-color-success-hover);
 }
 
-:host([danger]) {
+:host([variant='danger']) {
   --bl-button-main-color: var(--bl-color-danger);
   --bl-button-main-hover-color: var(--bl-color-danger-hover);
 }
@@ -105,26 +105,26 @@
   text-decoration: none;
 }
 
-:host([text]) {
+:host([kind='text']) {
   --bl-button-content-color: var(--bl-button-main-color);
   --bl-button-border-color: transparent;
   --bl-button-bg-color: transparent;
 }
 
-:host([text]) .button {
+:host([kind='text']) .button {
   text-decoration: underline;
 }
 
-:host([outline]) {
+:host([kind='outline']) {
   --bl-button-bg-color: transparent;
   --bl-button-content-color: var(--bl-button-main-color);
 }
 
-:host([outline]:hover:not([disabled])) {
+:host([kind='outline']:hover:not([disabled])) {
   --bl-button-content-color: var(--bl-color-primary-background);
   --bl-button-bg-color: var(--bl-button-main-hover-color);
 }
 
-:host([text]:hover:not([disabled])) {
+:host([kind='text']:hover:not([disabled])) {
   --bl-button-content-color: var(--bl-button-main-hover-color);
 }
