@@ -1,3 +1,31 @@
 :host {
     font: var(--bl-font-title-3-regular);
 }
+
+.select-option {
+    display: flex;
+    align-items: center;
+    gap: var(--bl-size-2xs);
+    cursor: pointer;
+}
+
+span {
+    font-size: var(--bl-font-size-m);
+}
+
+.selected {
+    color: var(--bl-color-primary);
+}
+
+input[type="checkbox"] {
+    margin: 0;
+    accent-color: var(--bl-color-primary-hover);
+    height: 1rem;
+    width: 1rem;
+}
+
+.select-option-seperator {
+    height: 1px;
+    margin-top: 12px;
+    background-color: #D5D9E1;
+}
