@@ -1,0 +1,67 @@
+:host {
+    display: inline-block;
+
+    --bg-color: var(--bl-checkbox-bg-color, var(--bl-color-primary));
+    --bg-color-disabled: var(--bl-color-tertiary, var(--bl-color-disabled));
+    --color: var(--bl-checkbox-color, var(--bl-color-secondary));
+    --box-radius: var(--bl-checkbox-radius, var(--bl-size-4xs));
+    --font: var(--bl-font-title-3);
+    --border-color: var(--bl-color-border);
+    --width: var(--bl-size-m);
+    --height: var(--bl-size-m);
+    --gap: var(--bl-size-2xs);
+    --icon-color: var(--bl-color-primary-background);
+    --icon-color-passive: var(--bl-color-content-passive);
+}
+
+.box {
+    box-sizing: border-box;
+    width: var(--width);
+    height: var(--height);
+    border: 1px solid var(--border-color);
+    border-radius: var(--box-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box .icon {
+    font-size: 8px;
+    color: var(--icon-color);
+}
+
+:host([checked]) .box {
+    background-color: var(--bg-color);
+    border: none;
+    color: var(--bg-color);
+}
+
+:host([indeterminate]) .box {
+    background-color: var(--bg-color);
+    border: none;
+}
+
+:host([disabled]) .box {
+    background-color: var(--bg-color-disabled);
+}
+
+:host([disabled]) .box .icon {
+    color: var(--icon-color-passive);
+}
+
+:host([checked]) .text {
+    color: var(--bg-color);
+}
+
+#checkbox {
+    appearance: none;
+    position: absolute;
+}
+
+.label {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    color: var(--color);
+    font: var(--font);
+}
