@@ -1,0 +1,11 @@
+:host {
+  --bl-alert-padding-vertical: var(--bl-size-m);
+  --bl-alert-padding-horizontal: var(--bl-size-m);
+}
+
+.alert {
+  padding: var(--bl-alert-padding-horizontal) var(--bl-alert-padding-vertical);
+  background-color: var(--bl-color-success-background);
+  color: var(--bl-color-secondary);
+  border: 1px solid var(--bl-color-success);
+}
