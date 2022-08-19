@@ -16,6 +16,10 @@
   border-radius: var(--bl-size-3xs);
 }
 
+.alert bl-button {
+  --bl-button-content-color: var(--bl-alert-main-color);
+}
+
 .description {
   font-size: var(--bl-alert-description-font-size);
 }
@@ -23,26 +27,39 @@
 .content {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  flex: auto;
+}
+
+.left-content {
+  display: flex;
+  align-items: center;
 }
 
 .icon {
   margin-right: var(--bl-size-2xs);
-  color:var(--bl-alert-main-color);
+  color: var(--bl-alert-main-color);
 }
 
 .close {
   display: flex;
-  margin-right: var(--bl-size-2xs);
+  padding: var(--bl-size-2xs);
+  cursor: pointer;
 }
 
-.text-content{
+.text-content {
   display: flex;
   flex-direction: column;
 }
 
 .title {
   color:var(--bl-alert-main-color);
-  font-size: var(--bl-font-size-m);
+  font: var(--bl-font-title-3-medium);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
 }
 
 :host([title]){

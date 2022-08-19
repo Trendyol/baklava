@@ -1,11 +1,12 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../utilities/event';
-import '../icon/bl-icon';
 import style from './bl-alert.css';
+import '../icon/bl-icon';
+import "../button/bl-button";
 
 export type AlertVariant = 'info' | 'warning' | 'success' | 'error';
-export type AlertSize = 'medium';
+export type TargetType = '_blank' | '_parent' | '_self' | '_top';
 
 /**
  * @tag bl-alert
@@ -25,7 +26,7 @@ export default class BlAlert extends LitElement {
   description: string;
 
   @property()
-  icon: string;
+  icon?: string;
 
   @property({type: Boolean})
   hideIcon = false;
@@ -36,10 +37,24 @@ export default class BlAlert extends LitElement {
   @property()
   title: string;
 
+  @property()
+  actionLabel: string;
+
+  @property()
+  href: string;
+
+  @property()
+  target: TargetType = '_blank';
+
   @event('close') private onClose: EventDispatcher<string>;
 
   closeHandler() {
     this.onClose('close clicked!')
+  }
+
+  shouldRender(value: undefined | boolean | string, html: TemplateResult) {
+    if (!value) return null;
+    return html;
   }
 
   predefinedIcons() {
@@ -53,7 +68,7 @@ export default class BlAlert extends LitElement {
     }
   }
 
-  getIcon() {
+  getIcon(): string {
     if (!this.icon) {
       return this.predefinedIcons();
     }
@@ -61,21 +76,30 @@ export default class BlAlert extends LitElement {
   }
 
   render(): TemplateResult {
-    const titleTemp = this.title ? html`<span class="title">${this.title}</span>` : null;
-    const iconTemp = !this.hideIcon ? html`<bl-icon class="icon" name=${this.getIcon()}></bl-icon>` : null;
-    const closableTemp = this.closable ? html`<bl-icon @click=${this.closeHandler} class="close" name="close"></bl-icon>` : null;
+    const titleTemp = html`<span class="title">${this.title}</span>`;
+    const iconTemp = html`<bl-icon class="icon" name=${this.getIcon()}></bl-icon>`;
+    const closableTemp = html`<bl-icon @click=${this.closeHandler} class="close" name="close"></bl-icon>`;
+    const linkTemp = html`<bl-button href=${this.href} target=${this.target} kind="text" class="link">${this.actionLabel}</bl-button>`;
+
+    const title = this.shouldRender(this.title, titleTemp);
+    const icon = this.shouldRender(!this.hideIcon, iconTemp);
+    const closable = this.shouldRender(this.closable, closableTemp);
+    const link = this.shouldRender(this.href && this.actionLabel, linkTemp);
 
     return html`
       <div class="alert">
         <div class="content">
-          ${iconTemp}
-          <div class="text-content">
-            ${titleTemp}
-            <span class="description">${this.description}</span>
+          <div class="left-content">
+            ${icon}
+            <div class="text-content">
+              ${title}
+              <span class="description">${this.description}</span>
+            </div>
           </div>
+          ${link}
         </div>
         <div class="actions">
-          ${closableTemp}
+          ${closable}
         </div>
       </div>
     `;
