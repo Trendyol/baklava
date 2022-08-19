@@ -1,6 +1,5 @@
 :host {
-  --bl-alert-padding-vertical: var(--bl-size-m);
-  --bl-alert-padding-horizontal: var(--bl-size-m);
+  --bl-alert-padding: var(--bl-size-m);
   --bl-alert-main-color: var(--bl-color-success);
   --bl-alert-main-bg-color: var(--bl-color-success-background);
   --bl-alert-description-font-size: var(--bl-font-size-m);
@@ -8,24 +7,40 @@
 
 .alert {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  padding: var(--bl-alert-padding-horizontal) var(--bl-alert-padding-vertical);
+  padding: var(--bl-alert-padding);
   background-color: var(--bl-alert-main-bg-color);
   color: var(--bl-color-content-primary);
   border: 1px solid var(--bl-alert-main-color);
   border-radius: var(--bl-size-3xs);
 }
 
-.description{
+.description {
   font-size: var(--bl-alert-description-font-size);
 }
 
-.content{
+.content {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: var(--bl-size-2xs);
+  color:var(--bl-alert-main-color);
+}
+
+.close {
+  display: flex;
+  margin-right: var(--bl-size-2xs);
+}
+
+.text-content{
   display: flex;
   flex-direction: column;
 }
 
-.title{
+.title {
   color:var(--bl-alert-main-color);
   font-size: var(--bl-font-size-m);
 }
