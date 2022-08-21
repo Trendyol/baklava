@@ -1,0 +1,66 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Checkbox"
+  component="bl-checkbox"
+  argTypes={{
+    label: {
+      control: ''
+    },
+    disabled: {
+      control: false
+    },
+    checked: {
+      control: false
+    }
+  }}
+/>
+
+export const CheckboxTemplate = (args) => html`
+  <bl-checkbox
+    label="${ifDefined(args.label)}"
+    disabled="${ifDefined(args.disabled)}"
+    checked="${ifDefined(args.checked)}">
+  </bl-checkbox>
+`;
+
+export const DisabledChecboxesTemplate = (args) => html`
+${CheckboxTemplate({label: 'checked', disabled: true, checked: true, ...args})}
+${CheckboxTemplate({label: 'unchecked', disabled: true, ...args})}`;
+
+# Checkbox
+Checkbox component can be used to control checked / unchecked statuses.
+
+### Usage
+* A checkbox should contain a label
+* Label is right aligned
+* Single checkbox cannot be indeterminate
+
+## Basic
+You can show label by just using label attribute.
+<Canvas>
+  <Story name="Basic Usage" args={{ label: 'checkbox' }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Checked
+You can show label by just using label attribute.
+<Canvas>
+  <Story name="Checked" args={{ label: 'checkbox', checked: true }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled
+You can make checkbox disabled by just using disabled attribute.
+<Canvas>
+  <Story name="Disabled">
+    {DisabledChecboxesTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+<ArgsTable of="bl-checkbox" />
