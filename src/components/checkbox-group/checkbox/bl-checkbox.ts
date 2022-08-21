@@ -34,7 +34,7 @@ export default class BlCheckbox extends LitElement {
   labelEl: HTMLLabelElement;
 
   @property({ type: String, reflect: true })
-  label = '';
+  label? = '';
 
   @property({ type: Boolean, reflect: true })
   checked = false;
