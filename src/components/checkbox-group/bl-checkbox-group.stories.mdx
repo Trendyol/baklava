@@ -1,0 +1,43 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/CheckboxGroup"
+  component="bl-checkbox-group"
+  argTypes={{
+    label: {
+      control: ''
+    }
+  }}
+/>
+
+export const CheckboxGroupTemplate = (args) => html`
+  <bl-checkbox-group
+  label="${ifDefined(args.label)}">
+    <bl-checkbox label="child checbox 1" checked></bl-checkbox>
+    <bl-checkbox label="child checbox 2"></bl-checkbox>
+    <bl-checkbox label="child checbox 3"></bl-checkbox>
+  </bl-checkbox-group>
+`;
+
+# Checkbox Group
+Checkbox groups organizes the multiple checkbox states and parent checkbox shows the result.
+
+### Usage
+* Parent checkbox automatically shows up and it can has indeterminate state.
+* Child checkboxes should be written as Checkbox Group's slot
+* Parent checkbox is checked when all child checkboxes are checked
+* Parent checkbox is unchecked when all child checkboxes are unchecked
+* Otherwise parent checkbox has indeterminate state
+
+## Basic usage
+You can show label by just using label attribute.
+<Canvas>
+  <Story name="Basic Usage" args={{ label: 'parent checkbox' }}>
+    {CheckboxGroupTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+<ArgsTable of="bl-checkbox-group" />
