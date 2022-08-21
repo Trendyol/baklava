@@ -1,56 +1,41 @@
-:host {
-    display: inline-block;
-
-    --bg-color: var(--bl-checkbox-bg-color, var(--bl-color-primary));
-    --bg-color-disabled: var(--bl-color-tertiary, var(--bl-color-disabled));
-    --color: var(--bl-checkbox-color, var(--bl-color-secondary));
-    --box-radius: var(--bl-checkbox-radius, var(--bl-size-4xs));
-    --font: var(--bl-font-title-3);
-    --border-color: var(--bl-color-border);
-    --width: var(--bl-size-m);
-    --height: var(--bl-size-m);
-    --gap: var(--bl-size-2xs);
-    --icon-color: var(--bl-color-primary-background);
-    --icon-color-passive: var(--bl-color-content-passive);
-}
-
 .box {
-    box-sizing: border-box;
-    width: var(--width);
-    height: var(--height);
-    border: 1px solid var(--border-color);
-    border-radius: var(--box-radius);
     display: flex;
     align-items: center;
     justify-content: center;
+
+    box-sizing: border-box;
+    width: var(--bl-size-m);
+    height: var(--bl-size-m);
+    border: 1px solid var(--bl-color-border);
+    border-radius: var(--bl-size-4xs);
 }
 
 .box .icon {
-    font-size: 8px;
-    color: var(--icon-color);
+    font-size: var(--bl-font-size-2xs);
+    color: var(--bl-color-primary-background);
 }
 
 :host([checked]) .box {
-    background-color: var(--bg-color);
+    background-color: var(--bl-color-primary);
     border: none;
-    color: var(--bg-color);
+    color: var(--bl-color-primary);
 }
 
-:host([indeterminate]) .box {
-    background-color: var(--bg-color);
+:host([indeterminate][indeterminateAllowed]) .box {
+    background-color: var(--bl-color-primary);
     border: none;
 }
 
 :host([disabled]) .box {
-    background-color: var(--bg-color-disabled);
+    background-color: var(--bl-color-tertiary);
 }
 
 :host([disabled]) .box .icon {
-    color: var(--icon-color-passive);
+    color: var(--bl-color-content-passive);
 }
 
 :host([checked]) .text {
-    color: var(--bg-color);
+    color: var(--bl-color-primary);
 }
 
 #checkbox {
@@ -59,9 +44,9 @@
 }
 
 .label {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: var(--gap);
-    color: var(--color);
-    font: var(--font);
+    gap: var(--bl-size-2xs);
+    color: var(--bl-color-secondary);
+    font: var(--bl-font-title-3);
 }
