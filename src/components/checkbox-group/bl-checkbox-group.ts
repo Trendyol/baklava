@@ -1,16 +1,23 @@
-import { html, LitElement, TemplateResult } from 'lit';
+import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import './checkbox/bl-checkbox';
+import style from './bl-checkbox-group.css';
 
 /**
  * @tag bl-checkbox-group
  * @summary Baklava Checkbox Group component
+ *
+ * @property {string} label - Sets the label for parent checkbox
  */
 
 @customElement('bl-checkbox-group')
 export default class BlCheckboxGroup extends LitElement {
-  @query('#parentCheckbox')
-  parentCheckbox: any;
+  static get styles(): CSSResultGroup {
+    return [style];
+  }
+
+  @query('#parent-checkbox')
+  parentCheckbox: HTMLInputElement;
 
   @property({ type: String, reflect: true })
   label = '';
@@ -49,8 +56,8 @@ export default class BlCheckboxGroup extends LitElement {
     }
   }
 
-  handleParentCheckboxChange(event: any) {
-    if (event.target.checked) {
+  handleParentCheckboxChange(event: CustomEvent) {
+    if ((event.target as HTMLInputElement).checked) {
       this._slottedChildren.forEach(item => {
         item.checked = true;
       });
@@ -63,13 +70,16 @@ export default class BlCheckboxGroup extends LitElement {
 
   render(): TemplateResult {
     return html`
-        <div style="display: flex; flex-direction: column;">
-          <bl-checkbox id="parentCheckbox"
+        <div class="container">
+          <bl-checkbox id="parent-checkbox"
             ?indeterminate=${this._indeterminate}
+            indeterminateAllowed
             ?checked=${this._checked}
             label=${this.label}
             @bl-checkbox-change=${this.handleParentCheckboxChange}></bl-checkbox>
-          <slot></slot>
+          <div class="container">
+            <slot></slot>
+          </div>
         </div>
     `;
   }
