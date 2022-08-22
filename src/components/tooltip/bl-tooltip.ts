@@ -25,8 +25,6 @@ export type Placement =
  * @summary Baklava Tooltip component
  *
  * @property {string} placement - Sets the tooltip placement
- *
- * @cssproperty --bl-tooltip-position - Sets the position. Default value is 'absolute'
  */
 
 @customElement('bl-tooltip')
@@ -79,13 +77,13 @@ export default class BlTooltip extends LitElement {
       const tooltipPlacement = placement.split('-')[0] as keyof typeof arrowDirections;
       const arrowDirection = arrowDirections[tooltipPlacement];
 
-      this.tooltip.style.setProperty('--bl-tooltip-left', `${x}px`);
-      this.tooltip.style.setProperty('--bl-tooltip-top', `${y}px`);
-      this.arrow.style.setProperty('--bl-tooltip-arrow-left', arrowX);
-      this.arrow.style.setProperty('--bl-tooltip-arrow-top', arrowY);
-      this.arrow.style.setProperty('--bl-tooltip-arrow-bottom', '0');
-      this.arrow.style.setProperty('--bl-tooltip-arrow-right', '0');
-      this.arrow.style.setProperty(`--bl-tooltip-arrow-${arrowDirection}`, '-4px');
+      this.tooltip.style.setProperty('--left', `${x}px`);
+      this.tooltip.style.setProperty('--top', `${y}px`);
+      this.arrow.style.setProperty('--arrow-left', arrowX);
+      this.arrow.style.setProperty('--arrow-top', arrowY);
+      this.arrow.style.setProperty('--arrow-bottom', '0');
+      this.arrow.style.setProperty('--arrow-right', '0');
+      this.arrow.style.setProperty(`--arrow-${arrowDirection}`, '-4px');
     });
   }
 
