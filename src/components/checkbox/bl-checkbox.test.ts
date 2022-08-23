@@ -16,6 +16,7 @@ describe('bl-checkbox', () => {
         <label id="label" class="label">
             <input id="checkbox" type="checkbox" name="checkbox" />
             <div class="box"></div>
+            <span class="text"><slot></slot></span>
         </label>
       `
     );
