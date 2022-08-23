@@ -1,51 +1,51 @@
 .box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    width: var(--bl-size-m);
-    height: var(--bl-size-m);
-    border: 1px solid var(--bl-color-border);
-    border-radius: var(--bl-size-4xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--bl-size-m);
+  height: var(--bl-size-m);
+  border: 1px solid var(--bl-color-border);
+  border-radius: var(--bl-size-4xs);
 }
 
 .box .icon {
-    font-size: var(--bl-font-size-2xs);
-    color: var(--bl-color-primary-background);
+  font-size: var(--bl-font-size-2xs);
+  color: var(--bl-color-primary-background);
 }
 
 :host([checked]) .box {
-    background-color: var(--bl-color-primary);
-    border: none;
-    color: var(--bl-color-primary);
+  background-color: var(--bl-color-primary);
+  border: none;
+  color: var(--bl-color-primary);
 }
 
 :host([indeterminate]) .box {
-    background-color: var(--bl-color-primary);
-    border: none;
+  background-color: var(--bl-color-primary);
+  border: none;
 }
 
 :host([disabled]) .box {
-    background-color: var(--bl-color-tertiary);
+  background-color: var(--bl-color-tertiary);
 }
 
 :host([disabled]) .box .icon {
-    color: var(--bl-color-content-passive);
+  color: var(--bl-color-content-passive);
 }
 
 :host([checked]) .text {
-    color: var(--bl-color-primary);
+  color: var(--bl-color-primary);
 }
 
 #checkbox {
-    appearance: none;
-    position: absolute;
+  appearance: none;
+  position: absolute;
 }
 
 .label {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--bl-size-2xs);
-    color: var(--bl-color-secondary);
-    font: var(--bl-font-title-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bl-size-2xs);
+  color: var(--bl-color-secondary);
+  font: var(--bl-font-title-3);
 }
