@@ -7,6 +7,5 @@ export { default as BlTabGroup } from './components/tab-group/bl-tab-group';
 export { default as BlTabPanel } from './components/tab-group/tab-panel/bl-tab-panel';
 export { default as BlTooltip } from './components/tooltip/bl-tooltip';
 export { default as BlProgressIndicator } from './components/progress-indicator/bl-progress-indicator';
-export { default as BlCheckbox } from './components/checkbox-group/checkbox/bl-checkbox';
-export { default as BlCheckboxGroup } from './components/checkbox-group/bl-checkbox-group';
+export { default as BlCheckbox } from './components/checkbox/bl-checkbox';
 export { getIconPath, setIconPath } from './utilities/asset-paths';
