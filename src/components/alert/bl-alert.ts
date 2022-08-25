@@ -11,8 +11,8 @@ export type AlertVariant = 'info' | 'warning' | 'success' | 'error';
 type AlertItem = {
   alertTitle?: string,
   icon?: string,
-  href?: string,
-  target?: TargetType,
+  actionHref?: string,
+  actionTarget?: TargetType,
   actionLabel?: string,
   description?: string,
   variant: AlertVariant,
@@ -39,13 +39,13 @@ export default class BlAlert extends LitElement {
   private model: Array<AlertItem>;
 
   @property({type: Object})
-  item?: AlertItem;
+  alert?: AlertItem;
 
   @property({type: Array})
-  items?: Array<AlertItem>;
+  alerts?: Array<AlertItem>;
 
   @property()
-  variant: AlertItem["variant"] = 'success';
+  variant: AlertItem["variant"] = 'info';
 
   @property()
   description?: AlertItem["description"];
@@ -66,12 +66,12 @@ export default class BlAlert extends LitElement {
   actionLabel?: AlertItem["actionLabel"];
 
   @property()
-  href?: AlertItem["href"];
+  actionHref?: AlertItem["actionHref"];
 
   @property()
-  target?: AlertItem["target"] = '_blank';
+  actionTarget?: AlertItem["actionTarget"] = '_blank';
 
-  @event('close') private onClose: EventDispatcher<boolean>;
+  @event('bl-close') private onClose: EventDispatcher<boolean>;
 
   closeHandler() {
     this.onClose(true);
@@ -105,8 +105,8 @@ export default class BlAlert extends LitElement {
       alertTitle: this.alertTitle,
       description: this.description,
       icon: this.icon,
-      href: this.href,
-      target: this.target,
+      actionHref: this.actionHref,
+      actionTarget: this.actionTarget,
       actionLabel: this.actionLabel,
       variant: this.variant,
     };
@@ -117,11 +117,11 @@ export default class BlAlert extends LitElement {
   }
 
   initModel() {
-    if (this.items) {
-      return this.items.map(item => this.mergeInitialValues(item));
+    if (this.alerts) {
+      return this.alerts.map(alert => this.mergeInitialValues(alert));
     }
-    if (this.item) {
-      return [this.mergeInitialValues(this.item)];
+    if (this.alert) {
+      return [this.mergeInitialValues(this.alert)];
     }
     return [this.mergeInitialValues()];
   }
@@ -150,7 +150,7 @@ export default class BlAlert extends LitElement {
     const titleTemp = html`<span class="title">${this.currentItem.alertTitle}</span>`;
     const iconTemp = html`<bl-icon class="icon" name=${this.getIcon()}></bl-icon>`;
     const closableTemp = html`<bl-icon @click=${this.closeHandler} class="close" name="close"></bl-icon>`;
-    const linkTemp = html`<bl-button href=${ifDefined(this.href)} target=${ifDefined(this.currentItem.target)} kind="text" class="link">${this.currentItem.actionLabel}</bl-button>`;
+    const linkTemp = html`<bl-button href=${ifDefined(this.currentItem.actionHref)} target=${ifDefined(this.currentItem.actionTarget)} kind="text" class="link">${this.currentItem.actionLabel}</bl-button>`;
     const paginationTemp = html`
     <div class="pagination">
       <bl-icon @click="${this.decrementHandler}" class="arrow" name="arrow_left"></bl-icon>
@@ -166,7 +166,7 @@ export default class BlAlert extends LitElement {
     const title = this.shouldRender(this.currentItem.alertTitle, titleTemp);
     const icon = this.shouldRender(!this.hideIcon, iconTemp);
     const closable = this.shouldRender(this.closable, closableTemp);
-    const link = this.shouldRender(this.currentItem.href && this.currentItem.actionLabel, linkTemp);
+    const link = this.shouldRender(this.currentItem.actionHref && this.currentItem.actionLabel, linkTemp);
     const pagination = this.shouldRender(this.model.length > 1, paginationTemp);
 
     return html`
