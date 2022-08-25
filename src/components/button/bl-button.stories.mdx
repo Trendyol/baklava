@@ -199,7 +199,7 @@ If button has a limited width and a long text that can not fit in a single line,
   </Story>
 </Canvas>
 
-## Disabled buttons
+## Disabled Buttons
 
 We have 2 types of disabled buttons: **Contained** and **Text**. Disable version of Contained and Outline buttons is the same.
 
@@ -208,6 +208,28 @@ We have 2 types of disabled buttons: **Contained** and **Text**. Disable version
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
+
+## Hover States
+
+export const states = {
+  pseudo: {
+    hover: ["bl-button"]
+  }
+}
+
+<Canvas isColumn>
+  <Story name="Contained Buttons Hover" args={{ content: 'Save', icon: 'info' }} parameters={states}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Outline Buttons Hover" args={{ content: 'Save', kind: 'outline', icon: 'info' }} parameters={states}>
+    {Template.bind({})}
+  </Story>
+    <Story name="Text Buttons Hover" args={{ content: 'Save', kind: 'text', icon: 'info' }} parameters={states}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+
 
 
 ## Reference
