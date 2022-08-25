@@ -7,9 +7,11 @@
 
 .tabs-list {
   overflow-x: scroll;
-  border-radius: var(--bl-border-radius-m) var(--bl-border-radius-m) var(--bl-border-radius-0) var(--bl-border-radius-0);
+  border-radius: var(--bl-border-radius-m) var(--bl-border-radius-m) var(--bl-border-radius-0)
+    var(--bl-border-radius-0);
 }
 
 .panels {
-  border-radius: var(--bl-border-radius-0) var(--bl-border-radius-0) var(--bl-border-radius-m) var(--bl-border-radius-m);
+  border-radius: var(--bl-border-radius-0) var(--bl-border-radius-0) var(--bl-border-radius-m)
+    var(--bl-border-radius-m);
 }
