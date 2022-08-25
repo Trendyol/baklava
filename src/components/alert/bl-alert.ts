@@ -155,9 +155,9 @@ export default class BlAlert extends LitElement {
     <div class="pagination">
       <bl-icon @click="${this.decrementHandler}" class="arrow" name="arrow_left"></bl-icon>
       <div class="counter">
-        <span>${this.activeIndex + 1}</span>
-        <span class="separator">/</span>
-        <span>${this.model.length}</span>
+        <span class="page-number" >${this.activeIndex + 1}</span>
+        <span>/</span>
+        <span class="page-number">${this.model.length}</span>
       </div>
       <bl-icon @click="${this.incrementHandler}" class="arrow" name="arrow_right"></bl-icon>
     </div>
@@ -168,7 +168,12 @@ export default class BlAlert extends LitElement {
     const closable = this.shouldRender(this.closable, closableTemp);
     const link = this.shouldRender(this.currentItem.actionHref && this.currentItem.actionLabel, linkTemp);
     const pagination = this.shouldRender(this.model.length > 1, paginationTemp);
-
+    const actionsTemp = html `
+      <div class="actions">
+        ${pagination}
+        ${closable}
+      </div>`;
+    const actions = this.shouldRender(!!pagination || !!closable, actionsTemp);
     return html`
       <div class="alert">
         <div class="content">
@@ -181,10 +186,7 @@ export default class BlAlert extends LitElement {
           </div>
           ${link}
         </div>
-        <div class="actions">
-          ${pagination}
-          ${closable}
-        </div>
+        ${actions}
       </div>
     `;
   }

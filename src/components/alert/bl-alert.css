@@ -9,11 +9,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--bl-alert-padding);
   background-color: var(--bl-alert-main-bg-color);
   color: var(--bl-color-content-primary);
   border: 1px solid var(--bl-alert-main-color);
   border-radius: var(--bl-size-3xs);
+  padding: 0 var(--bl-alert-padding);
 }
 
 .alert bl-button {
@@ -22,6 +22,7 @@
 
 .description {
   font-size: var(--bl-alert-description-font-size);
+  line-height: var(--bl-alert-description-font-size);
 }
 
 .content {
@@ -34,6 +35,7 @@
 .left-content {
   display: flex;
   align-items: center;
+  padding: calc(var(--bl-alert-padding) - var(--bl-size-4xs) / 2 ) 0;
 }
 
 .icon {
@@ -55,6 +57,7 @@
 .title {
   color:var(--bl-alert-main-color);
   font: var(--bl-font-title-3-medium);
+  margin-bottom: var(--bl-size-3xs);
 }
 
 .actions {
@@ -66,7 +69,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: var(--bl-size-3xs);
+  margin-right: var(--bl-size-2xs);
   user-select: none;
 }
 
@@ -83,13 +86,12 @@
   color: var(--bl-color-content-secondary)
 }
 
-.separator {
-  margin-left: var(--bl-size-3xs);
-  margin-right: var(--bl-size-3xs);
+.page-number{
+  min-width: 20px;
+  text-align: center;
 }
 
 .arrow {
-  padding: var(--bl-size-3xs);
   font: var(--bl-size-xs);
   color: var(--bl-color-content-primary);
   cursor: pointer;
