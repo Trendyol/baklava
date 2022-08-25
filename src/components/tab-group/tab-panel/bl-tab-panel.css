@@ -1,7 +1,6 @@
 :host {
   display: none;
-  border-radius: var(--bl-border-radius-0) var(--bl-border-radius-0) var(--bl-border-radius-m)
-    var(--bl-border-radius-m);
+  border-radius: 0 0 var(--bl-border-radius-m) var(--bl-border-radius-m);
 }
 
 :host([visible]) {
