@@ -1,8 +1,6 @@
 :host {
   display: none;
-
-  /* FIXME: use variables */
-  border-radius: 0 0 6px 6px;
+  border-radius: var(--bl-border-radius-0) var(--bl-border-radius-0) var(--bl-border-radius-m) var(--bl-border-radius-m);
 }
 
 :host([visible]) {
