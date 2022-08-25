@@ -1,31 +1,61 @@
 :host {
-    font: var(--bl-font-title-3-regular);
+  --bl-select-option-font: var(--bl-font-title-3-regular);
+  --bl-select-option-padding: var(--bl-size-xs) 0;
+  --bl-select-option-selected-color: var(--bl-color-primary);
+  --bl-select-option-hover-color: var(--bl-color-primary-hover);
+  --bl-select-option-color: var(--bl-color-secondary);
+  --bl-select-option-disabled-color: var(--bl-color-secondary);
+  --bl-select-option-seperator: 1px solid var(--bl-color-border);
+  --bl-select-option-gap: var(--bl-size-2xs);
+  --bl-select-option-transition: color 120ms ease-out;
+
+  position: relative;
 }
 
 .select-option {
-    display: flex;
-    align-items: center;
-    gap: var(--bl-size-2xs);
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--bl-select-option-color);
+  padding: var(--bl-select-option-padding);
+  gap: var(--bl-select-option-gap);
+  transition: var(--bl-select-option-transition);
+  font: var(--bl-select-option-font);
 }
 
-span {
-    font-size: var(--bl-font-size-m);
+.select-option::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  bottom: 0;
+  border-bottom: var(--bl-select-option-seperator);
 }
 
-.selected {
-    color: var(--bl-color-primary);
+:host(:hover) .select-option {
+  color: var(--bl-select-option-hover-color);
 }
 
-input[type="checkbox"] {
-    margin: 0;
-    accent-color: var(--bl-color-primary-hover);
-    height: 1rem;
-    width: 1rem;
+:host([selected]) .select-option {
+  color: var(--bl-select-option-selected-color);
 }
 
-.select-option-seperator {
-    height: 1px;
-    margin-top: 12px;
-    background-color: #D5D9E1;
+:host(:last-of-type) .select-option::after {
+  border-bottom: none;
+}
+
+input[type='checkbox'] {
+  margin: 0;
+  accent-color: var(--bl-color-primary-hover);
+  height: 1rem;
+  width: 1rem;
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+}
+
+:host([disabled]) .select-option,
+:host([disabled]) input[type='checkbox'] {
+  color: var(--bl-select-option-disabled-color);
+  pointer-events: none;
 }

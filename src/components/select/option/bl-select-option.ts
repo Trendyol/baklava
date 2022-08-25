@@ -1,9 +1,8 @@
 import { LitElement, html, CSSResultGroup } from 'lit';
-import { customElement, property, state, queryAssignedNodes } from 'lit/decorators.js';
-import style from './bl-select-option.css';
+import { customElement, property, state } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
-import { ISelectOption } from './bl-select-option.type';
-import { classMap } from 'lit/directives/class-map.js';
+import { ISelectOption } from '../types';
+import style from './bl-select-option.css';
 
 @customElement('bl-select-option')
 export default class BlSelectOption extends LitElement {
@@ -11,42 +10,50 @@ export default class BlSelectOption extends LitElement {
     return [style];
   }
 
-  // Declare reactive properties
+  /* Declare reactive properties */
+  /**
+   * Sets the value for the option
+   */
   @property({})
   value: string;
 
+  /**
+   * Sets option as disabled
+   */
   @property({ type: Boolean })
   disabled?: boolean = false;
 
-  @property({ type: Boolean })
-  selected = false;
+  /**
+   * Sets option as selected state
+   */
+  @property({ type: Boolean, reflect: true })
+  selected?: boolean = false;
 
   @state()
   isCheckbox?: boolean = false;
 
-  @queryAssignedNodes()
-  _slotText!: Array<HTMLElement>;
-
+  /**
+   * Fires when clicked on the option
+   */
   @event('bl-select-option') private _onSelect: EventDispatcher<ISelectOption>;
 
   render() {
-    return html`<div class=${classMap({
-      'select-option': true,
-      'selected': this.selected,
-    })} @click=${this.onClickOption}>
-      ${this.isCheckbox ? html`<input type="checkbox" .checked="${this.selected}" />` : ''}
+    const checkbox = this.isCheckbox
+      ? html`<input type="checkbox" .checked="${this.selected}" />`
+      : '';
+
+    return html`<div class="select-option" @click=${this.onClickOption}>
+      ${checkbox}
       <span>
         <slot></slot>
       </span>
-    </div>
-    <div class="select-option-seperator" />
-    `
+    </div> `;
   }
 
   onClickOption() {
     this._onSelect({
       value: this.value,
-      text: this._slotText?.[0].textContent,
+      text: this.textContent,
     } as ISelectOption);
   }
 
