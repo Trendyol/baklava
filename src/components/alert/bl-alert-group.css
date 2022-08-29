@@ -1,0 +1,100 @@
+:host {
+  --bl-alert-group-padding: var(--bl-size-m);
+  --bl-alert-group-main-color: var(--bl-color-success);
+  --bl-alert-group-main-bg-color: var(--bl-color-success-background);
+  --bl-alert-group-description-font-size: var(--bl-font-size-m);
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bl-alert-group-main-bg-color);
+  color: var(--bl-color-content-primary);
+  border: 1px solid var(--bl-alert-group-main-color);
+  border-radius: var(--bl-size-3xs);
+  padding: 0 var(--bl-alert-group-padding);
+}
+
+.alert-content::slotted(*) {
+  --bl-alert-item-left-content-padding: calc(var(--bl-alert-group-padding) - 1px) 0;
+}
+
+.close {
+  display: flex;
+  padding: var(--bl-size-2xs);
+  cursor: pointer;
+}
+
+.text-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--bl-size-2xs);
+  user-select: none;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--bl-size-3xs);
+  margin-left: var(--bl-size-3xs);
+  font: var(--bl-font-title-3-medium);
+}
+
+.counter span:not(:first-child) {
+  color: var(--bl-color-content-secondary)
+}
+
+.page-number{
+  min-width: 20px;
+  text-align: center;
+}
+
+.arrow {
+  font: var(--bl-size-xs);
+  color: var(--bl-color-content-primary);
+  cursor: pointer;
+}
+
+:host([title]){
+  --bl-alert-group-description-font-size: var(--bl-font-size-s);
+}
+
+:host([variant='info']){
+  --bl-alert-group-main-color: var(--bl-color-primary);
+  --bl-alert-group-main-bg-color: var(--bl-color-accent-primary-background);
+}
+
+:host([variant='info']) .alert-content::slotted(*) {
+  --bl-alert-item-main-color: var(--bl-color-primary);
+}
+
+:host([variant='warning']){
+  --bl-alert-group-main-color: var(--bl-color-warning);
+  --bl-alert-group-main-bg-color: var(--bl-color-warning-background);
+}
+
+:host([variant='warning']) .alert-content::slotted(*) {
+  --bl-alert-item-main-color: var(--bl-color-warning);
+}
+
+:host([variant='error']){
+  --bl-alert-group-main-color: var(--bl-color-danger);
+  --bl-alert-group-main-bg-color: var(--bl-color-danger-background);
+}
+
+:host([variant='error']) .alert-content::slotted(*) {
+  --bl-alert-item-main-color: var(--bl-color-danger);
+}
