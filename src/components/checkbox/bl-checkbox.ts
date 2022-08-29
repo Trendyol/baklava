@@ -1,46 +1,41 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../utilities/event';
+import '../icon/bl-icon';
 import style from './bl-checkbox.css';
 
 /**
  * @tag bl-checkbox
  * @summary Baklava Checkbox component
- *
- * @property {boolean} checked - Sets the checked state for checkbox
- * @property {boolean} disabled - Sets the disabled state for checkbox
- * @property {boolean} indeterminate - Sets the indeterminate state for checkbox
- *
- * @cssproperty --bl-color-primary - Sets the color of checkbox label and box.
- * @cssproperty --bl-color-tertiary - Sets the color of disabled checkbox box.
- * @cssproperty --bl-color-content-passive - Sets the color of disabled checkbox icon.
- * @cssproperty --bl-font-size-2xs - Sets the icon font size.
  */
-
 @customElement('bl-checkbox')
 export default class BlCheckbox extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
 
-  @query('#checkbox')
-  checkbox: HTMLInputElement;
-
+  /**
+   * Sets the checked state for checkbox
+   */
   @property({ type: Boolean, reflect: true })
   checked = false;
 
+  /**
+   * Sets the disabled state for checkbox
+   */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  /**
+   * Sets the indeterminate state for checkbox
+   */
   @property({ type: Boolean, reflect: true })
   indeterminate = false;
 
+  /**
+   * Fires whenever user change the value of the checkbox.
+   */
   @event('bl-checkbox-change') private onChange: EventDispatcher<boolean>;
-
-  icons = {
-    checked: html`<bl-icon class="icon" name="check"></bl-icon>`,
-    indeterminate: html`<bl-icon class="icon" name="minus"></bl-icon>`,
-  };
 
   handleChange(event: CustomEvent) {
     const target = event.target as HTMLInputElement;
@@ -49,32 +44,23 @@ export default class BlCheckbox extends LitElement {
     this.indeterminate = false;
   }
 
-  updated() {
-    this.checkbox.checked = this.checked;
-
-    if (this.indeterminate && !this.checked) {
-      this.checkbox.indeterminate = true;
-    } else {
-      this.checkbox.indeterminate = false;
-    }
-  }
-
   render(): TemplateResult {
+    let icon = '';
+    if (this.checked) icon = 'check';
+    if (this.indeterminate) icon = 'minus';
+
     return html`
-      <label id="label" class="label">
+      <label>
         <input
-          id="checkbox"
           type="checkbox"
           name="checkbox"
           ?checked=${this.checked}
           ?disabled=${this.disabled}
+          .indeterminate=${this.indeterminate}
           @change=${this.handleChange}
         />
-        <div class="box">
-          ${this.checked ? this.icons.checked : null}
-          ${this.indeterminate && !this.checked ? this.icons.indeterminate : null}
-        </div>
-        <span class="text"><slot></slot></span>
+        <div class="check-mark">${icon ? html`<bl-icon name="${icon}"></bl-icon>` : null}</div>
+        <span class="label"><slot></slot></span>
       </label>
     `;
   }
