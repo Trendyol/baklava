@@ -13,17 +13,15 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
         type: 'text'
       }
     },
-    primary: {
-      control: 'boolean'
+    variant: {
+      options: ['primary', 'secondary', 'success', 'danger'],
+      default: 'primary',
+      control: { type: 'select' }
     },
-    secondary: {
-      control: 'boolean'
-    },
-    success: {
-      control: 'boolean'
-    },
-    danger: {
-      control: 'boolean'
+    kind: {
+      options: ['contained', 'outline', 'text'],
+      default: 'contained',
+      control: { type: 'select' }
     },
     disabled: {
       control: 'boolean'
@@ -51,31 +49,27 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 />
 
 export const SingleButtonTemplate = (args) => html`<bl-button
-    ?primary=${args.primary}
-    ?secondary=${args.secondary}
-    ?success=${args.success}
-    ?danger=${args.danger}
-    ?outline=${args.outline}
-    ?disabled=${args.disabled}
-    ?text=${args.text}
+    variant=${ifDefined(args.variant)}
+    kind=${ifDefined(args.kind)}
     href=${ifDefined(args.href)}
     target=${ifDefined(args.target)}
     size=${ifDefined(args.size)}
     icon="${ifDefined(args.icon)}"
     label="${ifDefined(args.label)}"
+    ?disabled=${args.disabled}
     style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
       >${unsafeHTML(args.content)}</bl-button>`
 
 export const Template = (args) => html`
-${SingleButtonTemplate({primary: true, content: 'Primary Button', ...args})}
-${SingleButtonTemplate({secondary: true, content: 'Secondary Button', ...args})}
-${SingleButtonTemplate({success: true, content: 'Success Button', ...args})}
-${SingleButtonTemplate({danger: true, content: 'Danger Button', ...args})}`;
+${SingleButtonTemplate({content: 'Primary Button', ...args})}
+${SingleButtonTemplate({variant: 'secondary', content: 'Secondary Button', ...args})}
+${SingleButtonTemplate({variant: 'success', content: 'Success Button', ...args})}
+${SingleButtonTemplate({variant: 'danger', content: 'Danger Button', ...args})}`;
 
 export const ButtonTypesTemplate = (args) => html`
 ${SingleButtonTemplate({...args})}
-${SingleButtonTemplate({outline: true, ...args})}
-${SingleButtonTemplate({text: true, ...args})}`;
+${SingleButtonTemplate({kind: 'outline', ...args})}
+${SingleButtonTemplate({kind: 'text', ...args})}`;
 
 export const SizesTemplate = (args) => html`
 ${SingleButtonTemplate({size: 'large', ...args})}
@@ -84,21 +78,26 @@ ${SingleButtonTemplate({size: 'small', ...args})}`;
 
 export const VariousStylesTemplate = (args) => html`
 ${SingleButtonTemplate({...args})}
-${SingleButtonTemplate({outline: true, ...args})}
-${SingleButtonTemplate({text: true, ...args})}`;
+${SingleButtonTemplate({kind: 'outline', ...args})}
+${SingleButtonTemplate({kind: 'text', ...args})}`;
 
 # Button
 
 Buttons allow users to take actions, and make choices with a single tap.
 
+> **Note:** *Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.*
+
 ### Usage
+
 * A button should contain at least one text, icon or both (text + icon).
 * The first letter of the word on the buttons is capitalized and the rest is lowercase.
 * The icons on the buttons are left aligned.
 * Button texts are limited to one line.
 
 ## Button Variants
+
 We have 4 variants for each button: **Primary**, **Secondary**, **Success** and **Danger**.
+
 <Canvas>
   <Story name="Variants">
     {Template.bind({})}
@@ -106,7 +105,9 @@ We have 4 variants for each button: **Primary**, **Secondary**, **Success** and 
 </Canvas>
 
 ## Button Types
+
 We have 3 types of buttons: **Contained** (Default), **Outline** and **Text**.
+
 <Canvas>
   <Story name="Types" args={{ content: 'Primary Button' }}>
     {ButtonTypesTemplate.bind({})}
@@ -114,7 +115,9 @@ We have 3 types of buttons: **Contained** (Default), **Outline** and **Text**.
 </Canvas>
 
 ### Contained Buttons
+
 Contained buttons ared used for main actions of the screens. Like a submit button in a form or main button of a dialog.
+
 <Canvas>
   <Story name="Contained Buttons">
     {Template.bind({})}
@@ -122,10 +125,12 @@ Contained buttons ared used for main actions of the screens. Like a submit butto
 </Canvas>
 
 ### Outline Buttons
+
 Outlined Buttons represent the important actions in the app. But not the primary ones.
 They work with all the variants. You simply add `outline` attribute.
+
 <Canvas>
-  <Story name="Outline Buttons" args={{ outline: true }}>
+  <Story name="Outline Buttons" args={{ kind: 'outline' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -133,14 +138,15 @@ They work with all the variants. You simply add `outline` attribute.
 ### Text Buttons
 TBD
 <Canvas>
-  <Story name="Text Buttons" args={{ text: true }}>
+  <Story name="Text Buttons" args={{ kind: 'text' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
 
 ## Icon Buttons
-To boost `UX`, you might want to add icons to your button. Because human brain recognize `icons` more easily than `text text`.
-Our icons are defined to be `left` of the default slot.
+
+To boost UX, you might want to add icons to your button. Because human brain recognize icons more easily than text.
+Our icons are defined to be left of the default slot.
 
 To be able to use icon with button, you should give the name of icon to `icon` attribute.
 
@@ -151,7 +157,7 @@ To be able to use icon with button, you should give the name of icon to `icon` a
 </Canvas>
 
 <Canvas>
-  <Story name="Text Buttons With Icon" args={{ text: true, href: "https://trendyol.com", content: 'Save', icon: 'info' }}>
+  <Story name="Text Buttons With Icon" args={{ kind: 'text', href: "https://trendyol.com", content: 'Save', icon: 'info' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -194,12 +200,15 @@ If button has a limited width and a long text that can not fit in a single line,
 </Canvas>
 
 ## Disabled buttons
+
 We have 2 types of disabled buttons: **Contained** and **Text**. Disable version of Contained and Outline buttons is the same.
+
 <Canvas columns={1}>
   <Story name="Disabled buttons" args={{ disabled: true, content: 'Passive Button' }}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
+
 
 ## Reference
 

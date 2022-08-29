@@ -101,9 +101,9 @@ export default class BlTab extends LitElement {
             <bl-button
               slot="tooltip-trigger"
               icon="info"
-              text
+              variant="secondary"
+              kind="text"
               label="${this.helpText}"
-              secondary
             ></bl-button>
             ${this.helpText}
           </bl-tooltip>

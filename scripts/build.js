@@ -39,6 +39,7 @@ const args = parseArgs(process.argv.slice(2), {
       external: ['react'],
       plugins: [
         litCssPlugin({
+          uglify: true,
           filter: /components\/.*\.css$/,
         }),
       ],
