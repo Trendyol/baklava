@@ -2,6 +2,8 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { FormControlMixin } from '@open-wc/form-control';
+import { submit } from '@open-wc/form-helpers';
 import { event, EventDispatcher } from '../../utilities/event';
 import '../icon/bl-icon';
 
@@ -13,12 +15,13 @@ export type InputSize = 'medium' | 'large';
  * @summary Baklava Input component
  */
 @customElement('bl-input')
-export default class BlInput extends LitElement {
+export default class BlInput extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
 
-  @query('input') private input: HTMLInputElement;
+  @query('input')
+  validationTarget: HTMLInputElement;
 
   /**
    * Type of the input. It's used to set `type` attribute of native input inside. Only `text` and `number` is supported for now.
@@ -41,8 +44,8 @@ export default class BlInput extends LitElement {
   /**
    * Sets initial value of the input
    */
-  @property({})
-  value?: string;
+  @property()
+  value = '';
 
   /**
    * Makes input a mandatory field
@@ -125,12 +128,34 @@ export default class BlInput extends LitElement {
    */
   validity: ValidityState;
 
-  /**
-   * Runs input validation
-   */
-  reportValidity() {
-    this._dirty = true;
-    this.input.checkValidity();
+  // /**
+  //  * Runs input validation
+  //  */
+  // reportValidity() {
+  //   this._dirty = true;
+  //   this.validationTarget.checkValidity();
+  // }
+
+  constructor() {
+    super();
+    this.addEventListener('keydown', this.onKeydown);
+    // this.addEventListener('invalid', this.onInvalid);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.removeEventListener('keydown', this.onKeydown);
+    // this.removeEventListener('invalid', this.onInvalid);
+  }
+
+  validationMessageCallback(message: string): void {
+    this.customInvalidText = message;
+  }
+
+  private onKeydown = (event: KeyboardEvent): void => {
+    if (event.code === 'Enter' && this.form) {
+      submit(this.form);
+    }
   }
 
   @state() private _dirty = false;
@@ -140,30 +165,34 @@ export default class BlInput extends LitElement {
   }
 
   private get hasValue(): boolean {
-    return this.input?.value.length > 0;
+    return this.validationTarget?.value.length > 0;
   }
 
   private get _invalidText() {
-    return this.customInvalidText || this.input?.validationMessage;
+    return this.customInvalidText || this.validationTarget?.validationMessage;
   }
 
   private get _invalidState() {
-    return this.input && !this.input?.validity.valid;
+    return this.validationTarget && !this.validationTarget?.validity.valid;
   }
 
   private inputHandler() {
-    this.validity = this.input?.validity;
-    this.value = this.input.value;
-    this.onInput(this.input.value);
+    this.value = this.validationTarget.value;
+    this.onInput(this.validationTarget.value);
   }
 
   private changeHandler() {
     this._dirty = true;
-    this.onChange(this.input.value);
+    this.onChange(this.validationTarget.value);
+  }
+
+  updated(changedProperties: Map<string, unknown>): void {
+    if (changedProperties.has('value')) {
+      this.setValue(this.value);
+    }
   }
 
   firstUpdated() {
-    this.validity = this.input?.validity;
     if (this._invalidState) {
       this.requestUpdate();
     }

@@ -85,7 +85,7 @@ describe('bl-input', () => {
 
     it('should show error when reportValidity method called', async () => {
       const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
-      el.reportValidity();
+      el.checkValidity();
       expect(el.validity.valid).to.be.false;
       const errorMessageElement = <HTMLParagraphElement>(
         el.shadowRoot?.querySelector('.invalid-text')
