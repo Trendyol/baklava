@@ -13,10 +13,10 @@ describe('bl-checkbox', () => {
     assert.shadowDom.equal(
       el,
       `
-        <label id="label" class="label">
-            <input id="checkbox" type="checkbox" name="checkbox" />
-            <div class="box"></div>
-            <span class="text"><slot></slot></span>
+        <label>
+            <input type="checkbox" name="checkbox" />
+            <div class="check-mark"></div>
+            <span class="label"><slot></slot></span>
         </label>
       `
     );

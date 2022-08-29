@@ -7,52 +7,54 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
   component="bl-checkbox"
   argTypes={{
     label: {
-      control: ''
+      control: 'text'
     },
     disabled: {
-      control: false
+      control: 'boolean',
+      default: false
     },
     checked: {
-      control: false
+      control: 'boolean',
+      default: false
     },
     indeterminate: {
-      control: false
+      control: 'boolean',
+      default: false
     }
   }}
 />
 
 export const CheckboxTemplate = (args) => html`
-  <bl-checkbox
-    disabled="${ifDefined(args.disabled)}"
-    checked="${ifDefined(args.checked)}"
-    indeterminate="${ifDefined(args.indeterminate)}">
-    ${args.label}
-  </bl-checkbox>
+<bl-checkbox
+    ?disabled=${args.disabled}
+    ?checked=${args.checked}
+    ?indeterminate=${args.indeterminate}>${args.label}</bl-checkbox>
 `;
-
-export const DisabledChecboxesTemplate = (args) => html`
-${CheckboxTemplate({label: 'checked', disabled: true, checked: true, ...args})}
-${CheckboxTemplate({label: 'unchecked', disabled: true, ...args})}`;
 
 # Checkbox
 Checkbox component can be used to control checked / unchecked statuses.
 
 ### Usage
-* A checkbox is not required to have a label
-* Label is right aligned
-* Single checkbox can be indeterminate
-* A checkbox that has both checked and indeterminate state will have only checked state
+
+Use checkbox component for getting true/false input from users.
+
+* Don't use checkbox as an action button.
+* Checkbox label is not required but if you want to use checbox without a label, set `aria-label` attribute.
 
 ## Basic
+
 You can show label by just using slot.
+
 <Canvas>
-  <Story name="Basic Usage" args={{ label: 'checkbox' }}>
+  <Story name="Basic Usage" args={{ label: 'Label' }}>
     {CheckboxTemplate.bind({})}
   </Story>
 </Canvas>
 
 ## Checked
-You can set checked state by just using checked attribute.
+
+Checked state can be set via `checked` attribute.
+
 <Canvas>
   <Story name="Checked" args={{ label: 'checkbox', checked: true }}>
     {CheckboxTemplate.bind({})}
@@ -60,7 +62,12 @@ You can set checked state by just using checked attribute.
 </Canvas>
 
 ## Indeterminate
-You can set indeterminate state by just using indeterminate attribute.
+
+Indeterminate state is regardless with `checked` state. A checkbox can be both `checked` and `indeterminate` at the
+same time.Indeterminate state is mainly used for parent/child selections while parent checkbox represents if all of
+the child will/should be checked or not. User interaction with checkbox (if checkbox is not disabled) takes checkbox
+from `indeterminate` state. Checkbox doesn't go this state with a user interaction.
+
 <Canvas>
   <Story name="Indeterminate" args={{ label: 'checkbox', indeterminate: true }}>
     {CheckboxTemplate.bind({})}
@@ -68,12 +75,21 @@ You can set indeterminate state by just using indeterminate attribute.
 </Canvas>
 
 ## Disabled
-You can set disabled state by just using disabled attribute.
+
+Disabled state can be set via `disabled` attribute. A checkbox can be `disabled` and `checked` (and even `indeterminate`) at the same time.
+
 <Canvas>
-  <Story name="Disabled">
-    {DisabledChecboxesTemplate.bind({})}
+  <Story name="Disabled" args={{ label: 'Disabled', disabled: true }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+  <Story name="Disabled and Checked" args={{ label: 'Disabled and Checked', disabled: true, checked: true }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+  <Story name="Disabled, Checked and Indeterminate" args={{ label: 'Disabled, Checked and Indeterminate', disabled: true, checked: true, indeterminate: true }}>
+    {CheckboxTemplate.bind({})}
   </Story>
 </Canvas>
 
 ## Reference
+
 <ArgsTable of="bl-checkbox" />
