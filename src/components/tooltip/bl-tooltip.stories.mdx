@@ -25,21 +25,21 @@ export const tooltipOpener = async ({ canvasElement }) => {
 }
 
 export const IconTriggerTemplate = (args) => html`
-<bl-tooltip placement="${ifDefined(args.placement)}" style='--bl-tooltip-position:fixed'>
-  <bl-button slot="tooltip-trigger" icon="settings" text label="Settings" secondary></bl-button>
+<bl-tooltip placement="${ifDefined(args.placement)}">
+  <bl-button slot="tooltip-trigger" icon="settings" kind="text" label="Settings" variant="secondary"></bl-button>
   Settings
 </bl-tooltip>`
 
 export const ButtonTriggerTemplate = (args) => html`
-<bl-tooltip placement="${ifDefined(args.placement)}" style='--bl-tooltip-position:fixed'>
+<bl-tooltip placement="${ifDefined(args.placement)}">
   <bl-button slot="tooltip-trigger" icon="plus_fill"></bl-button>
   You can add text, photos and graphics. If you put a very long text, it will be wrapped after max-length of the tooltip.
 </bl-tooltip>`
 
 
 export const PlacementTemplate = (args) => html`
-<bl-tooltip placement="${ifDefined(args.placement)}" style="--bl-tooltip-position:fixed">
-  <bl-button slot="tooltip-trigger" small>${args.placement}</bl-button>
+<bl-tooltip placement="${ifDefined(args.placement)}">
+  <bl-button slot="tooltip-trigger">${args.placement}</bl-button>
   You can use this section to cancel your order.
 </bl-tooltip>`
 
@@ -47,14 +47,12 @@ export const PlacementTemplate = (args) => html`
 
 Tooltips display informative text when users hover over an element.
 
+> **Note:** *Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.*
+
 ## Basic Usage
 
 Tooltip can be used with any trigger such as button, icon, text, etc.
 Only you have to give slot name as `tooltip-trigger`. The remaining content will be shown in the tooltip hovering over the trigger component.
-
-Tooltip position is absolute as default. If your wrapper has `position:relative` and `overflow:hidden` the tooltip is clipped and isn't shown correctly.
-
-In this case, you should give `position:fixed` as below.
 
 <Canvas>
   <Story name="Usage With Icon Button" play={tooltipOpener}>

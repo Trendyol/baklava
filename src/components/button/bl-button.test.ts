@@ -1,6 +1,5 @@
 import { assert, expect, fixture, elementUpdated, oneEvent, html } from '@open-wc/testing';
 import BlButton from './bl-button';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 import type typeOfBlButton from './bl-button';
 
@@ -34,8 +33,9 @@ describe('bl-button', () => {
   xdescribe('Accessibility tests', () => {
     variants.forEach(variant => {
       it(`should be accessible when attribute is "${variant}"`, async () => {
-        const htmlStr = `<bl-button ${variant}>Button</bl-button>`;
-        const el = await fixture<typeOfBlButton>(html`${unsafeHTML(htmlStr)}`);
+        const el = await fixture<typeOfBlButton>(
+          `<bl-button variant=${variant}>Button</bl-button>`
+        );
         await expect(el).to.be.accessible();
       });
     });
