@@ -32,17 +32,13 @@ input {
   color: var(--bl-color-primary-background);
 }
 
-:host(:is([checked], [indeterminate])) {
+:host([checked]) .label {
   color: var(--bl-color-primary);
 }
 
 :host(:is([checked], [indeterminate])) .check-mark {
   background-color: var(--bl-color-primary);
   border: none;
-}
-
-:host([checked]) .label {
-  color: var(--bl-color-primary);
 }
 
 :host([disabled]) .check-mark {
