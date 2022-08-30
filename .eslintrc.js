@@ -23,6 +23,18 @@ module.exports = {
       extends: [
         'plugin:@typescript-eslint/recommended'
       ],
+      rules: {
+        "@typescript-eslint/indent": [
+          "error",
+          2,
+          {
+            "ignoredNodes": [
+              "PropertyDefinition[decorators]",
+              "TSUnionType"
+            ]
+          }
+        ],
+      },
       plugins: ['@typescript-eslint'],
     },
     {
