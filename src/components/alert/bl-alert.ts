@@ -1,22 +1,13 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-alert.css';
 import '../icon/bl-icon';
 import "../button/bl-button";
-import { TargetType } from '../button/bl-button';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { iconConverter } from './icon.converter';
 
 export type AlertVariant = 'info' | 'warning' | 'success' | 'error';
-type AlertItem = {
-  alertTitle?: string,
-  icon?: string,
-  actionHref?: string,
-  actionTarget?: TargetType,
-  actionLabel?: string,
-  description?: string,
-  variant: AlertVariant,
-};
 
 /**
  * @tag bl-alert
@@ -29,47 +20,20 @@ export default class BlAlert extends LitElement {
     return [style];
   }
 
-  @state()
-  private activeIndex = 0;
-
-  @state()
-  private currentItem: AlertItem;
-
-  @state()
-  private model: Array<AlertItem>;
-
-  @property({type: Object})
-  alert?: AlertItem;
-
-  @property({type: Array})
-  alerts?: Array<AlertItem>;
-
   @property()
-  variant: AlertItem["variant"] = 'info';
+  variant: AlertVariant = 'info';
 
-  @property()
-  description?: AlertItem["description"];
+  @property({ attribute: 'alert-description' })
+  alertDescription: 'string';
 
-  @property()
-  icon?: AlertItem["icon"];
-
-  @property({type: Boolean})
-  hideIcon = false;
+  @property({ converter: iconConverter() })
+  icon?: boolean | string;
 
   @property({type: Boolean})
   closable = false;
 
-  @property({ attribute: 'title' })
-  alertTitle?: AlertItem["alertTitle"];
-
-  @property()
-  actionLabel?: AlertItem["actionLabel"];
-
-  @property()
-  actionHref?: AlertItem["actionHref"];
-
-  @property()
-  actionTarget?: AlertItem["actionTarget"] = '_blank';
+  @property({ attribute: 'alert-title' })
+  alertTitle?: string;
 
   @event('bl-close') private onClose: EventDispatcher<boolean>;
 
@@ -93,87 +57,29 @@ export default class BlAlert extends LitElement {
     }
   }
 
-  getIcon(): string {
-    if (!this.currentItem.icon) {
+  getIcon(): string | undefined {
+    if (!this.icon) return;
+    if (typeof this.icon === 'boolean') {
       return this.predefinedIcons();
     }
-    return this.currentItem.icon;
-  }
-
-  mergeInitialValues(object?: AlertItem) {
-    const initialValues = {
-      alertTitle: this.alertTitle,
-      description: this.description,
-      icon: this.icon,
-      actionHref: this.actionHref,
-      actionTarget: this.actionTarget,
-      actionLabel: this.actionLabel,
-      variant: this.variant,
-    };
-    return {
-      ...initialValues,
-      ...object
-    }
-  }
-
-  initModel() {
-    if (this.alerts) {
-      return this.alerts.map(alert => this.mergeInitialValues(alert));
-    }
-    if (this.alert) {
-      return [this.mergeInitialValues(this.alert)];
-    }
-    return [this.mergeInitialValues()];
-  }
-
-  incrementHandler() {
-    const modelLength = this.model.length;
-    if (this.activeIndex + 1 < modelLength) {
-      this.activeIndex++;
-      return;
-    }
-    this.activeIndex = 0;
-  }
-
-  decrementHandler() {
-    const modelLength = this.model.length;
-    if (this.activeIndex > 0) {
-      this.activeIndex--;
-      return;
-    }
-    this.activeIndex = modelLength - 1;
+    return this.icon;
   }
 
   render(): TemplateResult {
-    this.model = this.initModel();
-    this.currentItem = this.model[this.activeIndex];
-    const titleTemp = html`<span class="title">${this.currentItem.alertTitle}</span>`;
-    const iconTemp = html`<bl-icon class="icon" name=${this.getIcon()}></bl-icon>`;
+    const titleTemp = html`<span class="title">${this.alertTitle}</span>`;
+    const iconTemp = html`<bl-icon class="icon" name=${ifDefined(this.getIcon())}></bl-icon>`;
     const closableTemp = html`<bl-icon @click=${this.closeHandler} class="close" name="close"></bl-icon>`;
-    const linkTemp = html`<bl-button href=${ifDefined(this.currentItem.actionHref)} target=${ifDefined(this.currentItem.actionTarget)} kind="text" class="link">${this.currentItem.actionLabel}</bl-button>`;
-    const paginationTemp = html`
-    <div class="pagination">
-      <bl-icon @click="${this.decrementHandler}" class="arrow" name="arrow_left"></bl-icon>
-      <div class="counter">
-        <span class="page-number" >${this.activeIndex + 1}</span>
-        <span>/</span>
-        <span class="page-number">${this.model.length}</span>
-      </div>
-      <bl-icon @click="${this.incrementHandler}" class="arrow" name="arrow_right"></bl-icon>
-    </div>
-    `;
 
-    const title = this.shouldRender(this.currentItem.alertTitle, titleTemp);
-    const icon = this.shouldRender(!this.hideIcon, iconTemp);
+    const title = this.shouldRender(this.alertTitle, titleTemp);
+    const icon = this.shouldRender(this.getIcon(), iconTemp);
     const closable = this.shouldRender(this.closable, closableTemp);
-    const link = this.shouldRender(this.currentItem.actionHref && this.currentItem.actionLabel, linkTemp);
-    const pagination = this.shouldRender(this.model.length > 1, paginationTemp);
+
     const actionsTemp = html `
       <div class="actions">
-        ${pagination}
         ${closable}
       </div>`;
-    const actions = this.shouldRender(!!pagination || !!closable, actionsTemp);
+    const actions = this.shouldRender(!!closable, actionsTemp);
+
     return html`
       <div class="alert">
         <div class="content">
@@ -181,10 +87,14 @@ export default class BlAlert extends LitElement {
             ${icon}
             <div class="text-content">
               ${title}
-              <span class="description">${this.currentItem.description}</span>
+              <span class="description">
+                <slot>
+                  ${this.alertDescription}
+                </slot>
+              </span>
             </div>
           </div>
-          ${link}
+          <slot name="action"></slot>
         </div>
         ${actions}
       </div>
