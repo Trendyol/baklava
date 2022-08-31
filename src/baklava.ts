@@ -7,6 +7,5 @@ export { default as BlTabGroup } from './components/tab-group/bl-tab-group';
 export { default as BlTabPanel } from './components/tab-group/tab-panel/bl-tab-panel';
 export { default as BlTooltip } from './components/tooltip/bl-tooltip';
 export { default as BlProgressIndicator } from './components/progress-indicator/bl-progress-indicator';
-export { default as BlAlertGroup } from './components/alert/bl-alert-group';
-export { default as BlAlertItem } from './components/alert/bl-alert-item';
+export { default as BlAlert } from './components/alert/bl-alert';
 export { getIconPath, setIconPath } from './utilities/asset-paths';
