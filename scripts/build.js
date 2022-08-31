@@ -10,7 +10,22 @@ const args = parseArgs(process.argv.slice(2), {
 (async () => {
   const { globby } = await import('globby');
   const destinationPath = 'dist';
-  const isProduction = process.env.NODE_ENV === 'production';
+  const isRelease = process.env.RELEASE || false;
+
+  const cssPluginOptions = {
+    uglify: true,
+    filter: /components\/.*\.css$/
+  };
+  
+  if (!isRelease) {
+    cssPluginOptions.transform = (content) => content.replace(/.*:hover[^{]*/g, matched => {
+      // Replace :hover with special class. (There will be additional classes for focus, etc. Should be implemented in here.)
+      const replacedWithNewClass = matched.replace(/:hover/, '.__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__')
+      // Concat strings
+      return matched.concat(', ', replacedWithNewClass)
+    })
+  }
+  
 
   try {
     const buildOptions = {
@@ -39,17 +54,7 @@ const args = parseArgs(process.argv.slice(2), {
       minify: true,
       external: ['react'],
       plugins: [
-        litCssPlugin({
-          uglify: true,
-          filter: /components\/.*\.css$/,
-          // Match line containing ':hover'
-          transform: (content) => isProduction ? content : content.replace(/.*:hover[^{]*/g, matched => {
-            // Replace :hover with special class. (There will be additional classes for focus, etc. Should be implemented in here.)
-            const replacedWithNewClass = matched.replace(/:hover/, '.__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__')
-            // Concat strings
-            return matched.concat(', ', replacedWithNewClass)
-          })
-        }),
+        litCssPlugin(cssPluginOptions),
       ],
     };
 

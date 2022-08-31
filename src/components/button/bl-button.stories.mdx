@@ -206,18 +206,7 @@ We have 2 types of disabled buttons: **Contained** and **Text**. Disable version
 
 ## Hover States
 
-export const SingleButtonHoverTemplate = (args) => html`<bl-button
-    class="__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__"
-    variant=${ifDefined(args.variant)}
-    kind=${ifDefined(args.kind)}
-    href=${ifDefined(args.href)}
-    target=${ifDefined(args.target)}
-    size=${ifDefined(args.size)}
-    icon="${ifDefined(args.icon)}"
-    label="${ifDefined(args.label)}"
-    ?disabled=${args.disabled}
-    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
-      >${unsafeHTML(args.content)}</bl-button>`
+export const SingleButtonHoverTemplate = (args) => html`${SingleButtonTemplate({ class: '__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__', ...args})}`;
 
 export const HoverTemplate = (args) => html`
 ${SingleButtonHoverTemplate({content: 'Primary Button', ...args})}
