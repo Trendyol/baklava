@@ -211,21 +211,34 @@ We have 2 types of disabled buttons: **Contained** and **Text**. Disable version
 
 ## Hover States
 
-export const states = {
-  pseudo: {
-    hover: ["bl-button"]
-  }
-}
+export const SingleButtonHoverTemplate = (args) => html`<bl-button
+    class="__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__"
+    variant=${ifDefined(args.variant)}
+    kind=${ifDefined(args.kind)}
+    href=${ifDefined(args.href)}
+    target=${ifDefined(args.target)}
+    size=${ifDefined(args.size)}
+    icon="${ifDefined(args.icon)}"
+    label="${ifDefined(args.label)}"
+    ?disabled=${args.disabled}
+    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+      >${unsafeHTML(args.content)}</bl-button>`
+
+export const HoverTemplate = (args) => html`
+${SingleButtonHoverTemplate({content: 'Primary Button', ...args})}
+${SingleButtonHoverTemplate({variant: 'secondary', content: 'Secondary Button', ...args})}
+${SingleButtonHoverTemplate({variant: 'success', content: 'Success Button', ...args})}
+${SingleButtonHoverTemplate({variant: 'danger', content: 'Danger Button', ...args})}`;
 
 <Canvas isColumn>
-  <Story name="Contained Buttons Hover" args={{ content: 'Save', icon: 'info' }} parameters={states}>
-    {Template.bind({})}
+  <Story name="Contained Buttons Hover" args={{ content: 'Save', icon: 'info' }}>
+    {HoverTemplate.bind({})}
   </Story>
-  <Story name="Outline Buttons Hover" args={{ content: 'Save', kind: 'outline', icon: 'info' }} parameters={states}>
-    {Template.bind({})}
+  <Story name="Outline Buttons Hover" args={{ content: 'Save', kind: 'outline', icon: 'info' }}>
+    {HoverTemplate.bind({})}
   </Story>
-    <Story name="Text Buttons Hover" args={{ content: 'Save', kind: 'text', icon: 'info' }} parameters={states}>
-    {Template.bind({})}
+    <Story name="Text Buttons Hover" args={{ content: 'Save', kind: 'text', icon: 'info' }}>
+    {HoverTemplate.bind({})}
   </Story>
 </Canvas>
 
