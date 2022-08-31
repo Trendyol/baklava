@@ -22,6 +22,7 @@
     "analyze": "cem analyze",
     "commit": "commit",
     "build": "del-cli dist/ && npm run analyze && npm run generate-react-exports && node scripts/build.js",
+    "build:production": "NODE_ENV=production npm run build",
     "build-storybook": "NODE_ENV=production build-storybook -o storybook-static",
     "build-storybook-docs": "build-storybook --docs",
     "deploy-storybook": "storybook-to-ghpages --ci --source-branch=next --host-token-env-variable=GITHUB_TOKEN",
