@@ -20,8 +20,12 @@ jobs:
           node-version: 16
       - name: Install dependencies
         run: npm ci
+      - name: create env file
+        run: |
+          touch .env
+          echo NODE_ENV=PRODUCTION >> .env
       - name: Run build
-        run: npm run build:production
+        run: npm run build
       - name: Create build artifact
         uses: actions/upload-artifact@master
         with:
