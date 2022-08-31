@@ -20,7 +20,7 @@ jobs:
           node-version: 16
       - name: Install dependencies
         run: npm ci
-      - name: create env file
+      - name: Create env file for production build
         run: |
           touch .env
           echo NODE_ENV=PRODUCTION >> .env
