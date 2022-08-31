@@ -39,12 +39,6 @@
   color: var(--bl-alert-main-color);
 }
 
-.close {
-  display: flex;
-  padding: var(--bl-size-2xs);
-  cursor: pointer;
-}
-
 .text-content {
   display: flex;
   flex-direction: column;

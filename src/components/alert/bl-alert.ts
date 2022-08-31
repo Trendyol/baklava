@@ -68,7 +68,7 @@ export default class BlAlert extends LitElement {
   render(): TemplateResult {
     const titleTemp = html`<span class="title">${this.alertTitle}</span>`;
     const iconTemp = html`<bl-icon class="icon" name=${ifDefined(this.getIcon())}></bl-icon>`;
-    const closableTemp = html`<bl-icon @click=${this.closeHandler} class="close" name="close"></bl-icon>`;
+    const closableTemp = html`<bl-button kind="text" icon="close" variant="secondary" @click=${this.closeHandler}></bl-button>`;
 
     const title = this.shouldRender(this.alertTitle, titleTemp);
     const icon = this.shouldRender(this.getIcon(), iconTemp);
