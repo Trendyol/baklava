@@ -49,6 +49,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 />
 
 export const SingleButtonTemplate = (args) => html`<bl-button
+    class=${ifDefined(args.class)}  
     variant=${ifDefined(args.variant)}
     kind=${ifDefined(args.kind)}
     href=${ifDefined(args.href)}
