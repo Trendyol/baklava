@@ -41,6 +41,13 @@ const args = parseArgs(process.argv.slice(2), {
         litCssPlugin({
           uglify: true,
           filter: /components\/.*\.css$/,
+          // Match line containing ':hover'
+          transform: (content) => content.replace(/.*:hover[^{]*/g, matched => {
+            // Replace :hover with special class. (There will be additional classes for focus, etc. Should be implemented in here.)
+            const replacedWithNewClass = matched.replace(/:hover/, '.__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__')
+            // Concat strings
+            return matched.concat(', ', replacedWithNewClass)
+          })
         }),
       ],
     };
