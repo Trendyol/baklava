@@ -30,7 +30,7 @@
     "lint": "npm-run-all -s lint:*",
     "lint:tsc": "tsc --noEmit",
     "lint:eslint": "eslint .",
-    "lint:style": "stylelint src/components/**/*.css",
+    "lint:style": "stylelint src/**/*.css",
     "format": "npm-run-all -s format:*",
     "format:code": "eslint --fix ./src && prettier --write ./src",
     "fix": "npm run format && npm run lint",
@@ -113,13 +113,12 @@
     "wait-on": "^5.3.0"
   },
   "lint-staged": {
-    "**/*.{js,,ts,}": [
+    "**/*.{js,ts}": [
       "bash -c tsc --noEmit",
-      "npx prettier",
-      "npx eslint --fix"
+      "npx eslint"
     ],
-    "**/*.{css,}": [
-      "npx stylelint --fix src/components/**/*.css"
+    "**/*.css": [
+      "npx stylelint src/**/*.css"
     ]
   },
   "customElements": "dist/custom-elements.json"
