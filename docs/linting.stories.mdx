@@ -16,9 +16,9 @@ import { Meta } from '@storybook/addon-docs';
 
 To keep a consistent codebase we use some linters and running them in our pipelines automatically.
 
-Linters that we use are `[eslint](https://eslint.org)`, `[stylelint](https://stylelint.io)` and
-`[commitlint](https://commitlint.js.org)`. When make a git commit, some staged files processed with linters (via
-`[husky](https://typicode.github.io/husky/)`) to check some syntax issues. `eslint` run for `ts` and `js` files and
+Linters that we use are [`eslint`](https://eslint.org), [`stylelint`](https://stylelint.io) and
+[`commitlint`](https://commitlint.js.org). When make a git commit, some staged files processed with linters (via
+[`husky`](https://typicode.github.io/husky/)) to check some syntax issues. `eslint` run for `ts` and `js` files and
 `stylelint` run for `css` files. Also we check commit message with `commitlint`. [More information about our commit
 rules](/docs/documentation-commit-rules--page). If there are any issues commit will be
 interrupted with the message.
@@ -26,6 +26,6 @@ interrupted with the message.
 Same rules also apply in pipeline flow for every push. In the pipelines, we run `npm run lint` which is doing same
 checks for all of the files this time and makes sure this push doesn't break any coding rules that we have.
 
-We also use `prettier` and `eslint` as a formatter to easily fix some linting issues. You can run `npm run format` to
-fix some issues automatically. We don't run this command in every commit automatically because we want to be in control
-what and why we are doing some fixes.
+We also use [`prettier`](https://prettier.io) and `eslint` as a formatter to easily fix some linting issues. You can
+run `npm run format` to fix some issues automatically. We don't run this command in every commit automatically because
+we want to be in control what and why we are doing some fixes.
