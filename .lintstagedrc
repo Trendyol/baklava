@@ -1,8 +1,11 @@
 {
-  "*.{ts,tsx,js,md,mdx}": [
+  "*.ts": [
+    "tsc --noEmit"
+  ],
+  "*.{ts,js}": [
     "eslint ."
   ],
   "*.css": [
-    "stylelint src/components/**/*.css"
+    "stylelint src/**/*.css"
   ]
 }
