@@ -3,9 +3,9 @@ import { customElement, property } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-alert.css';
 import '../icon/bl-icon';
-import "../button/bl-button";
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { iconConverter } from './icon.converter';
+import { ButtonVariant, ButtonKind } from '../button/bl-button';
 
 export type AlertVariant = 'info' | 'warning' | 'success' | 'error';
 
@@ -35,9 +35,21 @@ export default class BlAlert extends LitElement {
   @property({ attribute: 'alert-title' })
   alertTitle?: string;
 
+  @property({ type: Boolean, reflect: true })
+  hidden = false;
+
   @event('bl-close') private onClose: EventDispatcher<boolean>;
 
+  get _hasAlertTitleSlot() {
+    return this.querySelector(':scope > [slot="alert-title"]') !== null;
+  }
+
+  get _getAlertActionSlot() {
+    return this.querySelector(':scope > [slot="alert-action"]');
+  }
+
   closeHandler() {
+    this.hidden = true;
     this.onClose(true);
   }
 
@@ -65,12 +77,22 @@ export default class BlAlert extends LitElement {
     return this.icon;
   }
 
+  initAlertActionSlot() {
+    const actionSlot = this._getAlertActionSlot;
+    if(!actionSlot) return;
+    if(actionSlot?.tagName !== 'BL-BUTTON') throw new Error("Action slot must contain bl-button component as child!");
+    actionSlot.setAttribute('variant','secondary' as ButtonVariant);
+    actionSlot.setAttribute('kind','text' as ButtonKind);
+    actionSlot.removeAttribute('icon');
+  }
+
   render(): TemplateResult {
-    const titleTemp = html`<span class="title">${this.alertTitle}</span>`;
+    this.initAlertActionSlot();
+    const titleTemp = html`<span class="title"><slot name="alert-title">${this.alertTitle}</slot></span>`;
     const iconTemp = html`<bl-icon class="icon" name=${ifDefined(this.getIcon())}></bl-icon>`;
     const closableTemp = html`<bl-button kind="text" icon="close" variant="secondary" @click=${this.closeHandler}></bl-button>`;
 
-    const title = this.shouldRender(this.alertTitle, titleTemp);
+    const title = this.shouldRender((this.alertTitle || this._hasAlertTitleSlot), titleTemp);
     const icon = this.shouldRender(this.getIcon(), iconTemp);
     const closable = this.shouldRender(this.closable, closableTemp);
 
@@ -82,8 +104,8 @@ export default class BlAlert extends LitElement {
 
     return html`
       <div class="alert">
-        <div class="content">
-          <div class="left-content">
+        <div class="wrapper">
+          <div class="content">
             ${icon}
             <div class="text-content">
               ${title}
@@ -94,7 +116,7 @@ export default class BlAlert extends LitElement {
               </span>
             </div>
           </div>
-          <slot name="action"></slot>
+          <slot name="alert-action"></slot>
         </div>
         ${actions}
       </div>
