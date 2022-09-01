@@ -9,7 +9,7 @@
   --bl-select-label-color: var(--bl-color-content-secondary);
   --bl-select-placeholder-color: var(--bl-color-content-tertiary);
   --bl-select-height: var(--bl-size-2xl);
-  --bl-select-menu-padding: var(--bl-size-3xs);
+  --bl-select-menu-padding: 0 var(--bl-size-m);
   --bl-select-menu-margin-top: var(--bl-size-2xs);
   --bl-select-font-size: var(--bl-font-size-m);
   --bl-select-menu-height: 250px;
@@ -129,27 +129,26 @@
 }
 
 .select-menu {
+  --left: 0;
+  --top: 0;
+
   position: absolute;
   visibility: hidden;
-  margin-top: var(--bl-select-menu-margin-top);
-  width: 100%;
   border: solid 1px var(--bl-select-border-color);
   background-color: var(--bl-select-background-color);
   font: var(--bl-font-title-3-regular);
   border-radius: var(--bl-size-3xs);
-  padding: 0 6px 0 1rem;
+  padding: var(--bl-select-menu-padding);
   outline: none;
   box-sizing: border-box;
-  z-index: var(--bl-select-menu-z-index);
-}
-
-.select-menu-container {
   max-height: var(--bl-select-menu-height);
   overflow-y: auto;
-  padding: var(--bl-select-menu-padding) 0;
-  padding-right: 10px;
   display: flex;
   flex-direction: column;
+  z-index: var(--bl-select-menu-z-index);
+  width: 100%;
+  top: var(--top);
+  left: var(--left);
 }
 
 .select-open .select-menu {

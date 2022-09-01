@@ -1,6 +1,7 @@
 import { LitElement, html, CSSResultGroup, PropertyValues } from 'lit';
 import { customElement, property, state, query, queryAll } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { computePosition, flip, MiddlewareArguments, offset, size } from '@floating-ui/dom';
 import style from '../select/bl-select.css';
 import '../icon/bl-icon';
 import '../select/option/bl-select-option';
@@ -93,6 +94,12 @@ export default class BlSelect extends LitElement {
   @queryAll('.selected-options li')
   private _selectedOptionsItems!: Array<HTMLElement>;
 
+  @query('.select-menu')
+  private _selectMenu: HTMLElement;
+
+  @query('.select-input')
+  private _selectInput: HTMLElement;
+
   private _connectedOptions: BlSelectOption[] = [];
 
   clickOutsideHandler = (event: MouseEvent) => {
@@ -102,6 +109,35 @@ export default class BlSelect extends LitElement {
       this._isOpen = false;
     }
   };
+
+  private _setSelectMenu() {
+    const defaultMaxHeight = parseInt(
+      getComputedStyle(this._selectMenu)
+        .getPropertyValue('--bl-select-menu-height')
+        .replace('px', '')
+    );
+
+    computePosition(this._selectInput, this._selectMenu, {
+      placement: 'bottom',
+      strategy: 'absolute',
+      middleware: [
+        flip(),
+        offset(8),
+        size({
+          apply(args: MiddlewareArguments & { availableHeight: number }) {
+            Object.assign(args.elements.floating.style, {
+              maxHeight: `${
+                args.availableHeight > defaultMaxHeight ? defaultMaxHeight : args.availableHeight
+              }px`,
+            });
+          },
+        }),
+      ],
+    }).then(({ x, y }) => {
+      this._selectMenu.style.setProperty('--left', `${x}px`);
+      this._selectMenu.style.setProperty('--top', `${y}px`);
+    });
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -115,10 +151,8 @@ export default class BlSelect extends LitElement {
   }
 
   get showPlaceHolder() {
-    if (this.label) {
-      return this.labelFixed
-        ? !this._selectedItems.length
-        : !this._selectedItems.length && this._isOpen;
+    if (this.label && !this.labelFixed) {
+      return !this._selectedItems.length && this._isOpen;
     }
     return !this._selectedItems.length;
   }
@@ -129,14 +163,17 @@ export default class BlSelect extends LitElement {
     </ul>`;
     const _selectedItemCount = this._additionalItemCount
       ? html`<span>+${this._additionalItemCount}</span>`
-      : '';
-    const removeIcon = html`<bl-icon
-      class="remove-all"
-      name="close"
-      title="close"
-      style="font-size: var(--bl-font-size-xs);"
-      @click=${this._onClickRemove}
-    ></bl-icon>`;
+      : null;
+    const removeIcon = this._isRemoveIconShow
+      ? html`<bl-icon
+          class="remove-all"
+          name="close"
+          title="close"
+          style="font-size: var(--bl-font-size-xs);"
+          @click=${this._onClickRemove}
+        ></bl-icon>`
+      : null;
+
     const placeholder = this.showPlaceHolder
       ? html`<span class="placeholder">${this.placeholder}</span>`
       : '';
@@ -160,9 +197,7 @@ export default class BlSelect extends LitElement {
 
   menuTemplate() {
     return html`<div class="select-menu" @bl-select-option=${this._handleSelectOptionEvent}>
-      <div class="select-menu-container">
-        <slot></slot>
-      </div>
+      <slot></slot>
     </div>`;
   }
 
@@ -183,11 +218,20 @@ export default class BlSelect extends LitElement {
     </div> `;
   }
 
+  private get _isRemoveIconShow() {
+    return this._selectedItems.length;
+  }
+
   private _onClickSelectInput(e: MouseEvent) {
     const isRemoveAll =
       e.target instanceof HTMLElement && e.target.classList.contains('remove-all');
+
     if (!isRemoveAll) {
       this._isOpen = !this._isOpen;
+
+      if (this._isOpen) {
+        this._setSelectMenu();
+      }
     }
   }
 
@@ -301,6 +345,8 @@ export default class BlSelect extends LitElement {
       } else {
         this._selectedItems = [optionItem];
       }
+
+      this.requestUpdate();
     }
   }
 }
