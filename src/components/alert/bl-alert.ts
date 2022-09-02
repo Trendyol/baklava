@@ -23,7 +23,7 @@ export default class BlAlert extends LitElement {
     return [style];
   }
 
-  @property()
+  @property({ reflect: true })
   variant: AlertVariant = 'info';
 
   @property()
