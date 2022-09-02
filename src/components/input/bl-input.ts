@@ -5,6 +5,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { FormControlMixin } from '@open-wc/form-control';
 import { submit } from '@open-wc/form-helpers';
 import { event, EventDispatcher } from '../../utilities/event';
+import 'element-internals-polyfill';
 import '../icon/bl-icon';
 
 import style from './bl-input.css';

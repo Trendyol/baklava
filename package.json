@@ -62,6 +62,7 @@
     "@lit-labs/react": "^1.0.7",
     "@open-wc/form-control": "^0.4.1",
     "@open-wc/form-helpers": "^0.1.2",
+    "element-internals-polyfill": "^1.1.11",
     "@rollup/plugin-replace": "^4.0.0",
     "@types/estree": "0.0.47",
     "lit": "^2.2.3"
