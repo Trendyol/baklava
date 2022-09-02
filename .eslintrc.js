@@ -38,7 +38,7 @@ module.exports = {
       plugins: ['@typescript-eslint'],
     },
     {
-      files: ['rollup.config.js', 'web-test-runner.config.js'],
+      files: ['web-test-runner.config.js'],
       env: {
         node: true,
       },
