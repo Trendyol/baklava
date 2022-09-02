@@ -14,7 +14,7 @@
   color: var(--bl-color-content-primary);
   border: 1px solid var(--bl-alert-main-color);
   border-radius: var(--bl-size-3xs);
-  padding: 0 var(--bl-alert-padding);
+  padding: 0 calc(var(--bl-alert-padding) - 1px);
 }
 
 .description {
@@ -32,7 +32,7 @@
 .content {
   display: flex;
   align-items: center;
-  padding: calc(var(--bl-alert-padding) - 1px ) 0;
+  padding: calc(var(--bl-alert-padding) - 1px) 0;
 }
 
 .icon {
@@ -45,10 +45,10 @@
   flex-direction: column;
 }
 
-.title {
+.caption {
   color:var(--bl-alert-main-color);
   font: var(--bl-font-title-3-medium);
-  margin-bottom: var(--bl-size-3xs);
+  margin-bottom: var(--bl-size-4xs);
 }
 
 .actions {
@@ -56,7 +56,7 @@
   align-items: center;
 }
 
-.title + .description{
+.caption + .description {
   --bl-alert-description-font-size: var(--bl-font-size-s);
 }
 
