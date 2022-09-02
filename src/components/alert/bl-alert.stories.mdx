@@ -1,0 +1,142 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
+
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Alert"
+  component="bl-alert"
+  argTypes={{
+    variant: {
+      options: ['info', 'warning', 'success', 'error'],
+      default: 'info',
+      control: { type: 'select' }
+    },
+    description: {
+      control: {
+        type: 'text'
+      }
+    },
+    icon: {
+      control: {
+        type: 'text'
+      }
+    },
+    closable: {
+      control: {
+        type: 'boolean'
+      }
+    },
+    caption: {
+      control: {
+        type: 'text'
+      }
+    },
+    hidden: {
+      control: {
+        type: 'boolean'
+      }
+    },
+  }}
+/>
+
+export const SingleAlertTemplate = (args) => html`<bl-alert
+    variant=${ifDefined(args.variant)}
+    icon=${ifDefined(args.icon)}
+    closable=${ifDefined(args.closable)}
+    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+    caption=${ifDefined(args.caption)}>
+    ${unsafeHTML(args.content)}
+    </bl-alert>`
+
+export const Template = (args) => html`
+${SingleAlertTemplate({content: 'Info Variant', ...args})}
+${SingleAlertTemplate({variant: 'warning', icon: true, content: 'Warning Variant', ...args})}
+${SingleAlertTemplate({variant: 'success', content: 'Success Variant', ...args})}
+${SingleAlertTemplate({variant: 'error', icon: true, content: 'Error Variant', ...args})}`;
+
+export const CaptionlessTemplate = (args) => html`
+${SingleAlertTemplate({content: "Informational Text", icon: true, ...args})}
+${SingleAlertTemplate({variant: "warning", content: "Warning Text", ...args})}
+${SingleAlertTemplate({variant: "success",content: "Success Text", icon: true, closable: true, ...args})}
+${SingleAlertTemplate({variant: "error", content: "<bl-button slot=action >Action Link</bl-button> Error Text", ...args})}`;
+
+export const CaptionedTemplate = (args) => html`
+${SingleAlertTemplate({caption: "Informational Caption", content: "Detailed description.", icon: true, ...args})}
+${SingleAlertTemplate({variant: "warning", caption: "Warning Caption", content: "<bl-button slot=action >Action Link</bl-button> Detailed description.", ...args})}
+${SingleAlertTemplate({variant: "success", caption: "Success Caption", content: "Detailed description.", closable: true, ...args})}
+${SingleAlertTemplate({variant: "error", caption: "Error Caption", content: "<bl-button slot=action >Action Link</bl-button> Detailed description.", ...args})}`;
+
+export const ResponsiveTemplate = (args) => html`
+${SingleAlertTemplate({caption: "Informational Caption", content: "Detailed description.", icon: true, closable: true, ...args})}`;
+
+# Alert
+Alert component displays an informational message to users with additional features if desired.
+
+### Usage
+
+* Explain how to resolve the issue by including any troubleshooting actions or next steps.
+* You can include links within the notification body that redirect the user to next steps by using an actionable notification.
+* Alerts can be closable, use the icon button for closing action on the right.
+* Default alert is Captionless Informational Alert without icon.
+* We have default icons that we recommend in our icon alert variants but these icons can be changed from the icon list.
+
+## Alert Variants
+
+We have 4 variants for each alert: **Info**, **Warning**, **Success** and **Error**.
+
+<Canvas>
+  <Story name="Variants">
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Alert Types
+
+We have 2 types of alerts: **Captionless** (Default) and **Captioned**.
+
+### Captioned Alert
+
+The caption should be one line, short and descriptive. In detailed description be concise and avoid repeating or paraphrasing the caption.
+
+<Canvas>
+  <Story name="Captioned Alert">
+    {CaptionedTemplate.bind({})}
+  </Story>
+</Canvas>
+
+### Captionless Alert
+
+Alerts don't always have to have a caption, you can use plain text to explain the situation.
+
+<Canvas>
+  <Story name="Captionless Alert">
+    {CaptionlessTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Responsivity
+
+To maintain usability level of alert component, after 1024px width screen size or less (such as tablets and mobile screens):
+Don't show actionable link as a button. Instead, give action link to all alert component area and show clickability with arrow icon.
+
+<Canvas>
+  <Story name="Responsive Alert"
+  parameters={{
+    viewport: {
+      defaultViewport: 'responsive',
+      viewports: { responsive: {
+        name:'Responsive',
+        styles: {
+          width: '1024px',
+          height: '200px',
+        },
+      }}
+    },
+  }}>
+    {ResponsiveTemplate.bind({})}
+  </Story>
+</Canvas>
