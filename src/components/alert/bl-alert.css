@@ -17,6 +17,10 @@
   padding: 0 calc(var(--bl-alert-padding) - 1px);
 }
 
+.alert.hidden {
+  --bl-alert-display: none;
+}
+
 .description {
   font-size: var(--bl-alert-description-font-size);
   line-height: var(--bl-alert-description-font-size);
@@ -73,8 +77,4 @@
 :host([variant='error']){
   --bl-alert-main-color: var(--bl-color-danger);
   --bl-alert-main-bg-color: var(--bl-color-danger-background);
-}
-
-:host([hidden]) {
-  --bl-alert-display: none;
 }
