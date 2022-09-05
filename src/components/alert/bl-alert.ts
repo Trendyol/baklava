@@ -1,11 +1,12 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-alert.css';
 import '../icon/bl-icon';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { iconConverter } from './icon.converter';
 import { ButtonVariant, ButtonKind, ButtonSize } from '../button/bl-button';
+import { classMap } from 'lit/directives/class-map.js';
 
 export type AlertVariant = 'info' | 'warning' | 'success' | 'error';
 
@@ -23,6 +24,8 @@ export default class BlAlert extends LitElement {
     return [style];
   }
 
+  @state() private _visible = false;
+
   @property({ reflect: true })
   variant: AlertVariant = 'info';
 
@@ -38,9 +41,6 @@ export default class BlAlert extends LitElement {
   @property()
   caption?: string;
 
-  @property({ type: Boolean, reflect: true })
-  hidden = false;
-
   @event('bl-close') private onClose: EventDispatcher<boolean>;
 
   get _hasAlertCaptionSlot() {
@@ -52,7 +52,7 @@ export default class BlAlert extends LitElement {
   }
 
   closeHandler() {
-    this.hidden = true;
+    this._visible = true;
     this.onClose(true);
   }
 
@@ -105,8 +105,13 @@ export default class BlAlert extends LitElement {
       </slot>
     </span>`
 
+    const classes = classMap({
+      'alert': true,
+      'hidden': this._visible
+    })
+
     return html`
-      <div class="alert">
+      <div class=${classes}>
         <div class="wrapper">
           <div class="content">
             ${icon}
