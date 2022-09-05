@@ -7,6 +7,7 @@ import '../icon/bl-icon';
 import '../select/option/bl-select-option';
 import type BlSelectOption from './option/bl-select-option';
 import { ISelectOption, SelectSize } from './types';
+import { event, EventDispatcher } from '../../utilities/event';
 
 @customElement('bl-select')
 export default class BlSelect extends LitElement {
@@ -100,13 +101,20 @@ export default class BlSelect extends LitElement {
   @query('.select-input')
   private _selectInput: HTMLElement;
 
+  @event('bl-select') private _onBlSelect: EventDispatcher<ISelectOption[]>;
+
   private _connectedOptions: BlSelectOption[] = [];
+
+  get options() {
+    return this._connectedOptions;
+  }
 
   clickOutsideHandler = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
 
     if (!this.contains(target) && this._isOpen) {
       this._isOpen = false;
+      this._checkRequired();
     }
   };
 
@@ -235,54 +243,49 @@ export default class BlSelect extends LitElement {
     }
   }
 
-  set setValue(optionDetail: ISelectOption) {
-    const { value } = optionDetail;
+  private _handleSelectEvent() {
+    this._onBlSelect(this._selectedItems);
+  }
 
-    const exist = this._selectedItems.find(item => item.value === value);
-    if (exist) {
+  private _handleSingleSelect(
+    optionItem: ISelectOption,
+    target: HTMLElement & { selected: boolean }
+  ) {
+    const oldItem = this._connectedOptions.find(option => option.selected);
+
+    if (oldItem) {
+      oldItem.selected = false;
+    }
+    target.selected = true;
+
+    this._selectedItems = [optionItem];
+    this._handleSelectEvent();
+  }
+
+  private _handleMultipleSelect(
+    optionItem: ISelectOption,
+    target: HTMLElement & { selected: boolean }
+  ) {
+    const { value } = optionItem;
+
+    if (target.selected) {
       this._selectedItems = this._selectedItems.filter(item => item.value !== value);
     } else {
-      this._selectedItems = [...this._selectedItems, optionDetail];
+      this._selectedItems = [...this._selectedItems, optionItem];
     }
-  }
+    target.selected = !target.selected;
 
-  private _handleSingleInput(optionItem: ISelectOption) {
-    const { value } = optionItem;
-
-    const oldItem = this._connectedOptions.find(option => option.selected);
-    if (oldItem && oldItem.value === value) {
-      oldItem.selected = false;
-      this._selectedItems = [];
-    } else {
-      const newItem = this._connectedOptions.find(option => option.value === value);
-
-      if (newItem) {
-        if (oldItem) {
-          oldItem.selected = false;
-        }
-        newItem.selected = true;
-        this._selectedItems = [optionItem];
-      }
-    }
-  }
-
-  private _handleMultipleInput(optionItem: ISelectOption) {
-    const { value } = optionItem;
-
-    const option = this._connectedOptions.find(option => value === option.value);
-    if (option) {
-      this.setValue = optionItem;
-      option.selected = !option.selected;
-    }
+    this._handleSelectEvent();
   }
 
   private _handleSelectOptionEvent(e: CustomEvent) {
     const optionItem = e.detail as ISelectOption;
+    const target = e.target as HTMLElement & { selected: boolean };
 
     if (this.multiple) {
-      this._handleMultipleInput(optionItem);
+      this._handleMultipleSelect(optionItem, target);
     } else {
-      this._handleSingleInput(optionItem);
+      this._handleSingleSelect(optionItem, target);
     }
   }
 
@@ -294,6 +297,7 @@ export default class BlSelect extends LitElement {
       });
 
     this._selectedItems = [];
+    this._handleSelectEvent();
   }
 
   private _checkAdditionalItemCount() {
@@ -326,7 +330,11 @@ export default class BlSelect extends LitElement {
       _changedProperties.has('multiple') &&
       typeof _changedProperties.get('multiple') === 'boolean'
     ) {
-      this._connectedOptions.forEach(option => (option.isCheckbox = this.multiple));
+      this._connectedOptions.forEach(option => {
+        option.isCheckbox = this.multiple;
+        option.selected = false;
+      });
+      this._selectedItems = [];
     }
   }
 
@@ -341,7 +349,7 @@ export default class BlSelect extends LitElement {
       } as ISelectOption;
 
       if (this.multiple) {
-        this._selectedItems.push(optionItem);
+        this._selectedItems = [...this._selectedItems, optionItem];
       } else {
         this._selectedItems = [optionItem];
       }

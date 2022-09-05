@@ -62,11 +62,9 @@ export default class BlSelectOption extends LitElement {
 
     this.updateComplete.then(() => {
       const el = this.closest('bl-select');
-      if (el) {
-        el.registerOption(this);
-      } else {
-        throw new Error('bl-select-option should be used inside bl-select.');
-      }
+      // FIXME: We should warn when parent is not bl-select
+
+      el?.registerOption(this);
     });
   }
 }
