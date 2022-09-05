@@ -25,11 +25,8 @@ input {
   height: var(--bl-size-m);
   border: 1px solid var(--bl-color-border);
   border-radius: var(--bl-border-radius-xs);
-}
-
-.check-mark bl-icon {
-  font-size: var(--bl-font-size-2xs);
   color: var(--bl-color-primary-background);
+  font-size: var(--bl-font-size-2xs);
 }
 
 :host([checked]) .label {
@@ -41,7 +38,12 @@ input {
   border: none;
 }
 
-:host([disabled]) .check-mark {
-  background-color: var(--bl-color-tertiary);
+
+:host([disabled]) .check-mark,
+:host([disabled]) .label {
   color: var(--bl-color-content-passive);
+}
+
+:host([disabled]) .check-mark {
+  background-color: var(--bl-color-secondary-background);
 }
