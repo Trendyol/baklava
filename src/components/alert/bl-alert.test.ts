@@ -59,9 +59,11 @@ describe('Attributes', () => {
     const kind = closeButton?.getAttribute('kind');
     const icon = closeButton?.getAttribute('icon');
     const variant = closeButton?.getAttribute('variant');
+    const label = closeButton?.getAttribute('label');
     expect(kind).to.eq('text');
     expect(icon).to.eq('close');
     expect(variant).to.eq('secondary');
+    expect(label).to.eq('close');
   });
   it('is bound to `icon` attribute', async () => {
     const infoEl = await fixture<typeofBlAlert>(html`<bl-alert icon>Description</bl-alert>`);
