@@ -36,7 +36,14 @@ describe('bl-alert', () => {
     const el = await fixture<typeofBlAlert>(html`<bl-alert></bl-alert> `);
     expect(el.variant).to.equal('info');
     expect(el.closable).to.equal(false);
-    expect(el._hidden).to.equal(false);
+    expect(el.closed).to.equal(false);
+  });
+  it('should check open/close public functions', async () => {
+    const el = await fixture<typeofBlAlert>(html`<bl-alert></bl-alert> `);
+    el.close();
+    expect(el.closed).to.eq(true);
+    el.open();
+    expect(el.closed).to.eq(false);
   });
 });
 
@@ -127,16 +134,11 @@ describe('Slot', () => {
     const actionSlot = el.shadowRoot?.querySelector('slot[name="action"]');
     expect(actionSlot).to.exist;
   });
-  it('renders `action` slot without bl-button element', async () => {
-    try {
-      await fixture<typeofBlAlert>(
-        html`<bl-alert>
-          <any-tag slot="action"> Action Slot </any-tag>
-        </bl-alert>`
-      );
-    } catch (err) {
-      expect(String(err)).to.eq('Error: Action slot must contain bl-button component as child!');
-    }
+  it('renders `action` slot empty when bl-button is not used', async () => {
+    const el = await fixture<typeofBlAlert>(
+      html`<bl-alert><span slot="action"> Action Slot </span></bl-alert>`
+    );
+    expect(el.outerHTML).to.eq('<bl-alert variant="info"></bl-alert>');
   });
 });
 
@@ -147,7 +149,7 @@ describe('Events', () => {
 
     setTimeout(() => button?.click());
     const ev = await oneEvent(el, 'bl-close');
-    expect(el._hidden).to.equal(true);
+    expect(el.closed).to.equal(true);
     expect(ev).to.exist;
     expect(ev.detail).to.eq(true);
   });

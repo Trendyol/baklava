@@ -1,20 +1,17 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-alert.css';
 import '../icon/bl-icon';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { iconConverter } from './icon.converter';
+import { stringBooleanConverter } from '../../converters/string-boolean.converter';
 import { ButtonVariant, ButtonKind, ButtonSize } from '../button/bl-button';
-import { classMap } from 'lit/directives/class-map.js';
 
 export type AlertVariant = 'info' | 'warning' | 'success' | 'error';
 
 /**
  * @tag bl-alert
  * @summary Baklava Alert component
- *
- * @cssproperty --bl-alert-display - Sets the display property of button. Default value is 'inline-block'.
  */
 
 @customElement('bl-alert')
@@ -23,45 +20,71 @@ export default class BlAlert extends LitElement {
     return [style];
   }
 
+  /**
+   * Sets alert variant
+   */
   @property({ reflect: true })
   variant: AlertVariant = 'info';
 
+  /**
+   * Sets alert description
+   */
   @property()
-  description: 'string';
+  description?: 'string';
 
-  @property({ converter: iconConverter() })
+  /**
+   * Allows to customize alert icon
+   */
+  @property({ converter: stringBooleanConverter() })
   icon?: boolean | string;
 
-  @property({ type: Boolean })
+  /**
+   * Displays a close button.
+   */
+  @property({ type: Boolean, reflect: true })
   closable = false;
 
+  /**
+   * Sets alert caption.
+   */
   @property()
   caption?: string;
 
-  @state()
-  _hidden = false;
+  /**
+   * Sets alert components display state.
+   */
+  @property({ type: Boolean, reflect: true })
+  closed = false;
 
+  /**
+   * Opens alert component.
+   */
+  public open() {
+    this.closed = false;
+  }
+
+  /**
+   * Closes alert component.
+   */
+  public close() {
+    this.closed = true;
+  }
+
+  /**
+   * Fires when close button clicked.
+   */
   @event('bl-close') private onClose: EventDispatcher<boolean>;
 
-  get _hasAlertCaptionSlot() {
+  private get _hasAlertCaptionSlot() {
     return this.querySelector(':scope > [slot="caption"]') !== null;
   }
 
-  get _getAlertActionSlot() {
-    return this.querySelector(':scope > [slot="action"]');
-  }
-
-  _closeHandler() {
-    this._hidden = true;
+  private _closeHandler() {
+    this.closed = true;
     this.onClose(true);
   }
 
-  shouldRender(value: undefined | boolean | string, html: TemplateResult) {
-    if (!value) return null;
-    return html;
-  }
-
-  predefinedIcons() {
+  private _predefinedIcons() {
     switch (this.variant) {
       case 'success':
         return 'check_fill';
@@ -72,19 +95,21 @@ export default class BlAlert extends LitElement {
     }
   }
 
-  getIcon(): string | undefined {
+  private _getIcon(): string | undefined {
     if (!this.icon) return;
     if (typeof this.icon === 'boolean') {
-      return this.predefinedIcons();
+      return this._predefinedIcons();
     }
     return this.icon;
   }
 
-  initAlertActionSlot() {
-    const actionSlot = this._getAlertActionSlot;
+  private _initAlertActionSlot(event: Event) {
+    const [actionSlot] = (event.target as HTMLSlotElement).assignedElements();
     if (!actionSlot) return;
-    if (actionSlot?.tagName !== 'BL-BUTTON')
-      throw new Error('Action slot must contain bl-button component as child!');
+    if (actionSlot?.tagName !== 'BL-BUTTON') {
+      actionSlot.parentNode?.removeChild(actionSlot);
+      return;
+    }
     actionSlot.setAttribute('variant', 'secondary' as ButtonVariant);
     actionSlot.setAttribute('kind', 'text' as ButtonKind);
     actionSlot.setAttribute('size', 'medium' as ButtonSize);
@@ -92,39 +117,36 @@ export default class BlAlert extends LitElement {
   }
 
   render(): TemplateResult {
-    this.initAlertActionSlot();
-    const captionTemp = html`<span class="caption"
-      ><slot name="caption">${this.caption}</slot></span
-    >`;
-    const iconTemp = html`<bl-icon class="icon" name=${ifDefined(this.getIcon())}></bl-icon>`;
-    const closableTemp = html`<bl-button
-      label="close"
-      kind="text"
-      icon="close"
-      variant="secondary"
-      @click=${this._closeHandler}
-    ></bl-button>`;
-
-    const caption = this.shouldRender(this.caption || this._hasAlertCaptionSlot, captionTemp);
-    const icon = this.shouldRender(this.getIcon(), iconTemp);
-    const closable = this.shouldRender(this.closable, closableTemp);
+    const caption =
+      this.caption || this._hasAlertCaptionSlot
+        ? html`<span class="caption">
+            <slot name="caption"> ${this.caption} </slot>
+          </span>`
+        : null;
+    const icon = this._getIcon()
+      ? html`<bl-icon class="icon" name=${ifDefined(this._getIcon())}></bl-icon>`
+      : null;
+    const closable = this.closable
+      ? html`<bl-button
+          label="close"
+          kind="text"
+          icon="close"
+          variant="secondary"
+          @click=${this._closeHandler}
+        ></bl-button>`
+      : null;
     const description = html`<span class="description">
       <slot> ${this.description} </slot>
     </span>`;
 
-    const classes = classMap({
-      alert: true,
-      hidden: this._hidden,
-    });
-
     return html`
-      <div class=${classes}>
+      <div class="alert">
         <div class="wrapper">
           <div class="content">
             ${icon}
             <div class="text-content">${caption} ${description}</div>
           </div>
-          <slot name="action"></slot>
+          <slot name="action" @slotchange=${this._initAlertActionSlot}></slot>
         </div>
         ${closable}
       </div>

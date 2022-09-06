@@ -1,9 +1,9 @@
-import { iconConverter } from './icon.converter';
+import { stringBooleanConverter } from './string-boolean.converter';
 import { expect } from '@open-wc/testing';
 
 describe('bl-alert', () => {
   it('is defined', () => {
-    const { fromAttribute } = iconConverter();
+    const { fromAttribute } = stringBooleanConverter();
     if (!fromAttribute) return;
     const trueResult = fromAttribute('true');
     const falseResult = fromAttribute('false');

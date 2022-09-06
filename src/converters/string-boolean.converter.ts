@@ -1,6 +1,6 @@
 import type { ComplexAttributeConverter } from 'lit';
 
-export const iconConverter = (): ComplexAttributeConverter<string | boolean> => {
+export const stringBooleanConverter = (): ComplexAttributeConverter<string | boolean> => {
   return {
     fromAttribute: (value: string): string | boolean => {
       if (!value || value === 'true') return true;

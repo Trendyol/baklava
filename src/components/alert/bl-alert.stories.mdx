@@ -16,24 +16,16 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
       control: { type: 'select' }
     },
     description: {
-      control: {
-        type: 'text'
-      }
+      type: 'text'
     },
     icon: {
-      control: {
-        type: 'text'
-      }
+      control: 'text'
     },
     closable: {
-      control: {
-        type: 'boolean'
-      }
+      control: 'boolean'
     },
     caption: {
-      control: {
-        type: 'text'
-      }
+      control: 'text'
     },
   }}
 />
@@ -42,31 +34,17 @@ export const SingleAlertTemplate = (args) => html`<bl-alert
     variant=${ifDefined(args.variant)}
     icon=${ifDefined(args.icon)}
     closable=${ifDefined(args.closable)}
-    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
     caption=${ifDefined(args.caption)}>
     ${unsafeHTML(args.content)}
-    </bl-alert>`
+  </bl-alert>`
 
-export const Template = (args) => html`
-${SingleAlertTemplate({content: 'Info Variant', ...args})}
-${SingleAlertTemplate({variant: 'warning', icon: true, content: 'Warning Variant', ...args})}
-${SingleAlertTemplate({variant: 'success', content: 'Success Variant', ...args})}
-${SingleAlertTemplate({variant: 'error', icon: true, content: 'Error Variant', ...args})}`;
-
-export const CaptionlessTemplate = (args) => html`
-${SingleAlertTemplate({content: "Informational Text", icon: true, ...args})}
-${SingleAlertTemplate({variant: "warning", content: "Warning Text", ...args})}
-${SingleAlertTemplate({variant: "success",content: "Success Text", icon: true, closable: true, ...args})}
-${SingleAlertTemplate({variant: "error", content: "<bl-button slot=action >Action Link</bl-button> Error Text", ...args})}`;
-
-export const CaptionedTemplate = (args) => html`
-${SingleAlertTemplate({caption: "Informational Caption", content: "Detailed description.", icon: true, ...args})}
-${SingleAlertTemplate({variant: "warning", caption: "Warning Caption", content: "<bl-button slot=action >Action Link</bl-button> Detailed description.", ...args})}
-${SingleAlertTemplate({variant: "success", caption: "Success Caption", content: "Detailed description.", closable: true, ...args})}
-${SingleAlertTemplate({variant: "error", caption: "Error Caption", content: "<bl-button slot=action >Action Link</bl-button> Detailed description.", ...args})}`;
-
-export const ResponsiveTemplate = (args) => html`
-${SingleAlertTemplate({caption: "Informational Caption", content: "Detailed description.", icon: true, closable: true, ...args})}`;
+export const actionSlot = `<bl-button
+  slot="action"
+  href="https://github.com/Trendyol/baklava"
+  target="_blank"
+  >
+    Action Link
+  </bl-button>`
 
 # Alert
 Alert component displays an informational message to users with additional features if desired.
@@ -83,9 +61,18 @@ Alert component displays an informational message to users with additional featu
 
 We have 4 variants for each alert: **Info**, **Warning**, **Success** and **Error**.
 
-<Canvas>
-  <Story name="Variants" args={{styles: {'display': 'block', 'margin-bottom': '20px'}}}>
-    {Template.bind({})}
+<Canvas isColumn>
+  <Story name="Info Variant" args={{content: 'Info Variant'}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Warning Variant" args={{variant: 'warning', icon: true, content: 'Warning Variant'}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Success Variant" args={{variant: 'success', content: 'Success Variant'}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Error Variant" args={{variant: 'error', icon: true, content: 'Error Variant'}}>
+      {SingleAlertTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -97,9 +84,18 @@ We have 2 types of alerts: **Captionless** (Default) and **Captioned**.
 
 The caption should be one line, short and descriptive. In detailed description be concise and avoid repeating or paraphrasing the caption.
 
-<Canvas>
-  <Story name="Captioned Alert" args={{styles: {'display': 'block', 'margin-bottom': '20px'}}}>
-    {CaptionedTemplate.bind({})}
+<Canvas isColumn>
+  <Story name="Captioned Info Alert">
+    {SingleAlertTemplate({caption: "Info Caption", content: "Detailed description.", icon: true})}
+  </Story>
+  <Story name="Captioned Warning Alert">
+      {SingleAlertTemplate({variant: "warning", caption: "Warning Caption", content: `${actionSlot} Detailed description.`})}
+  </Story>
+  <Story name="Captioned Success Alert">
+    {SingleAlertTemplate({variant: "success", caption: "Success Caption", content: "Detailed description.", closable: true})}
+  </Story>
+  <Story name="Captioned Error Alert">
+    {SingleAlertTemplate({variant: "error", caption: "Error Caption", content: `${actionSlot} Detailed description.`})}
   </Story>
 </Canvas>
 
@@ -107,9 +103,18 @@ The caption should be one line, short and descriptive. In detailed description b
 
 Alerts don't always have to have a caption, you can use plain text to explain the situation.
 
-<Canvas>
-  <Story name="Captionless Alert" args={{styles: {'display': 'block', 'margin-bottom': '20px'}}}>
-    {CaptionlessTemplate.bind({})}
+<Canvas isColumn>
+  <Story name="Captionless Info Alert">
+    {SingleAlertTemplate({content: "Informational Text", icon: true})}
+  </Story>
+  <Story name="Captionless Warning Alert">
+    {SingleAlertTemplate({variant: "warning", content: "Warning Text"})}
+  </Story>
+  <Story name="Captionless Success Alert">
+    {SingleAlertTemplate({variant: "success",content: "Success Text", icon: true, closable: true})}
+  </Story>
+  <Story name="Captionless Error Alert">
+    {SingleAlertTemplate({variant: "error", content: `${actionSlot} Error Text`})}
   </Story>
 </Canvas>
 
@@ -132,6 +137,10 @@ Don't show actionable link as a button. Instead, give action link to all alert c
       }}
     },
   }}>
-    {ResponsiveTemplate.bind({})}
+    {SingleAlertTemplate({caption: "Informational Caption", content: "Detailed description.", icon: true, closable: true})}
   </Story>
 </Canvas>
+
+## Reference
+
+<ArgsTable of="bl-alert" />
