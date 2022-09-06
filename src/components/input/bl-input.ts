@@ -179,14 +179,16 @@ export default class BlInput extends LitElement {
       : '';
     const label = this.label ? html`<label>${this.label}</label>` : '';
 
+    const classes = {
+      'dirty': this.dirty,
+      'has-icon': this.icon || (this.dirty && this._invalidState),
+      'has-value': this.hasValue,
+    };
+
     return html`
       <input
         type=${this.type}
-        class=${classMap({
-          'dirty': this.dirty,
-          'has-icon': this.icon || (this.dirty && this._invalidState),
-          'has-value': this.hasValue,
-        })}
+        class=${classMap(classes)}
         value=${ifDefined(this.value)}
         placeholder="${ifDefined(this.placeholder)}"
         minlength="${ifDefined(this.minlength)}"

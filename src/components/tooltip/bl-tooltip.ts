@@ -1,6 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
-import { computePosition, flip, shift, offset, arrow, Strategy } from '@floating-ui/dom';
+import { computePosition, flip, shift, offset, arrow } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { ReferenceElement } from '@floating-ui/core';
 import style from './bl-tooltip.css';
@@ -25,8 +25,6 @@ export type Placement =
  * @summary Baklava Tooltip component
  *
  * @property {string} placement - Sets the tooltip placement
- *
- * @cssproperty --bl-tooltip-position - Sets the position. Default value is 'absolute'
  */
 
 @customElement('bl-tooltip')
@@ -46,7 +44,6 @@ export default class BlTooltip extends LitElement {
   placement: Placement = 'top';
 
   @state() private _visible = false;
-  @state() private _position: Strategy = 'absolute';
 
   /**
    * Fires when hovering over a trigger
@@ -58,18 +55,10 @@ export default class BlTooltip extends LitElement {
    */
   @event('bl-tooltip-hide') private onHide: EventDispatcher<string>;
 
-  connectedCallback() {
-    super.connectedCallback();
-
-    setTimeout(() => {
-      this._position = getComputedStyle(this).getPropertyValue('--bl-tooltip-position') as Strategy;
-    });
-  }
-
   private setTooltip() {
     computePosition(this.trigger, this.tooltip, {
       placement: this.placement,
-      strategy: this._position,
+      strategy: 'fixed',
       middleware: [
         offset(8),
         shift({ padding: 5 }),
@@ -88,13 +77,13 @@ export default class BlTooltip extends LitElement {
       const tooltipPlacement = placement.split('-')[0] as keyof typeof arrowDirections;
       const arrowDirection = arrowDirections[tooltipPlacement];
 
-      this.style.setProperty('--bl-tooltip-left', `${x}px`);
-      this.style.setProperty('--bl-tooltip-top', `${y}px`);
-      this.style.setProperty('--bl-tooltip-arrow-left', arrowX);
-      this.style.setProperty('--bl-tooltip-arrow-top', arrowY);
-      this.style.setProperty('--bl-tooltip-arrow-bottom', '0');
-      this.style.setProperty('--bl-tooltip-arrow-right', '0');
-      this.style.setProperty(`--bl-tooltip-arrow-${arrowDirection}`, '-4px');
+      this.tooltip.style.setProperty('--left', `${x}px`);
+      this.tooltip.style.setProperty('--top', `${y}px`);
+      this.arrow.style.setProperty('--arrow-left', arrowX);
+      this.arrow.style.setProperty('--arrow-top', arrowY);
+      this.arrow.style.setProperty('--arrow-bottom', '0');
+      this.arrow.style.setProperty('--arrow-right', '0');
+      this.arrow.style.setProperty(`--arrow-${arrowDirection}`, '-4px');
     });
   }
 

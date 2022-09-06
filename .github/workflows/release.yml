@@ -20,6 +20,10 @@ jobs:
           node-version: 16
       - name: Install dependencies
         run: npm ci
+      - name: Create env file with release config 
+        run: |
+          touch .env
+          echo RELEASE=true >> .env
       - name: Run build
         run: npm run build
       - name: Create build artifact
