@@ -15,7 +15,6 @@ export type AlertVariant = 'info' | 'warning' | 'success' | 'error';
  * @summary Baklava Alert component
  *
  * @cssproperty --bl-alert-display - Sets the display property of button. Default value is 'inline-block'.
- *
  */
 
 @customElement('bl-alert')
@@ -33,7 +32,7 @@ export default class BlAlert extends LitElement {
   @property({ converter: iconConverter() })
   icon?: boolean | string;
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   closable = false;
 
   @property()
