@@ -1,8 +1,8 @@
 import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import BlAlert, { AlertVariant } from './bl-alert';
-import type typeofBlAlert from './bl-alert'
+import type typeofBlAlert from './bl-alert';
 
-const variants: Array<AlertVariant> = ['info', 'warning', 'success', 'error']
+const variants: Array<AlertVariant> = ['info', 'warning', 'success', 'error'];
 
 describe('bl-alert', () => {
   it('is defined', () => {
@@ -67,10 +67,18 @@ describe('Attributes', () => {
   });
   it('is bound to `icon` attribute', async () => {
     const infoEl = await fixture<typeofBlAlert>(html`<bl-alert icon>Description</bl-alert>`);
-    const successEl = await fixture<typeofBlAlert>(html`<bl-alert variant="success" icon>Description</bl-alert>`);
-    const warningEl = await fixture<typeofBlAlert>(html`<bl-alert variant="warning" icon>Description</bl-alert>`);
-    const errorEl = await fixture<typeofBlAlert>(html`<bl-alert variant="error" icon>Description</bl-alert>`);
-    const customEl = await fixture<typeofBlAlert>(html`<bl-alert icon="download">Description</bl-alert>`);
+    const successEl = await fixture<typeofBlAlert>(
+      html`<bl-alert variant="success" icon>Description</bl-alert>`
+    );
+    const warningEl = await fixture<typeofBlAlert>(
+      html`<bl-alert variant="warning" icon>Description</bl-alert>`
+    );
+    const errorEl = await fixture<typeofBlAlert>(
+      html`<bl-alert variant="error" icon>Description</bl-alert>`
+    );
+    const customEl = await fixture<typeofBlAlert>(
+      html`<bl-alert icon="download">Description</bl-alert>`
+    );
     const infoIconEl = infoEl.shadowRoot?.querySelector('bl-icon');
     const successIconEl = successEl.shadowRoot?.querySelector('bl-icon');
     const warningIconEl = warningEl.shadowRoot?.querySelector('bl-icon');
@@ -90,7 +98,9 @@ describe('Attributes', () => {
     expect(captionEl?.innerHTML).to.contain('test caption');
   });
   it('is bound to `description` attribute', async () => {
-    const el = await fixture<typeofBlAlert>(html`<bl-alert description="test description"></bl-alert>`);
+    const el = await fixture<typeofBlAlert>(
+      html`<bl-alert description="test description"></bl-alert>`
+    );
     const descriptionEl = el?.shadowRoot?.querySelector('.description');
     expect(descriptionEl).to.exist;
     expect(descriptionEl?.tagName).to.eq('SPAN');
@@ -125,7 +135,7 @@ describe('Slot', () => {
         </bl-alert>`
       );
     } catch (err) {
-      expect(String(err)).to.eq("Error: Action slot must contain bl-button component as child!")
+      expect(String(err)).to.eq('Error: Action slot must contain bl-button component as child!');
     }
   });
 });

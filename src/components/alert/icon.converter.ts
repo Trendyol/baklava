@@ -1,4 +1,4 @@
-import type {ComplexAttributeConverter} from 'lit';
+import type { ComplexAttributeConverter } from 'lit';
 
 export const iconConverter = (): ComplexAttributeConverter<string | boolean> => {
   return {
@@ -7,5 +7,5 @@ export const iconConverter = (): ComplexAttributeConverter<string | boolean> => 
       if (value === 'false') return false;
       return value;
     },
-  }
+  };
 };

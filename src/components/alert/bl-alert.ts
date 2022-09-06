@@ -63,9 +63,9 @@ export default class BlAlert extends LitElement {
 
   predefinedIcons() {
     switch (this.variant) {
-      case ('success'):
+      case 'success':
         return 'check_fill';
-      case ('error'):
+      case 'error':
         return 'close_fill';
       default:
         return this.variant;
@@ -82,43 +82,47 @@ export default class BlAlert extends LitElement {
 
   initAlertActionSlot() {
     const actionSlot = this._getAlertActionSlot;
-    if(!actionSlot) return;
-    if(actionSlot?.tagName !== 'BL-BUTTON') throw new Error("Action slot must contain bl-button component as child!");
-    actionSlot.setAttribute('variant','secondary' as ButtonVariant);
-    actionSlot.setAttribute('kind','text' as ButtonKind);
-    actionSlot.setAttribute('size','medium' as ButtonSize);
+    if (!actionSlot) return;
+    if (actionSlot?.tagName !== 'BL-BUTTON')
+      throw new Error('Action slot must contain bl-button component as child!');
+    actionSlot.setAttribute('variant', 'secondary' as ButtonVariant);
+    actionSlot.setAttribute('kind', 'text' as ButtonKind);
+    actionSlot.setAttribute('size', 'medium' as ButtonSize);
     actionSlot.removeAttribute('icon');
   }
 
   render(): TemplateResult {
     this.initAlertActionSlot();
-    const captionTemp = html`<span class="caption"><slot name="caption">${this.caption}</slot></span>`;
+    const captionTemp = html`<span class="caption"
+      ><slot name="caption">${this.caption}</slot></span
+    >`;
     const iconTemp = html`<bl-icon class="icon" name=${ifDefined(this.getIcon())}></bl-icon>`;
-    const closableTemp = html`<bl-button label="close" kind="text" icon="close" variant="secondary" @click=${this._closeHandler}></bl-button>`;
+    const closableTemp = html`<bl-button
+      label="close"
+      kind="text"
+      icon="close"
+      variant="secondary"
+      @click=${this._closeHandler}
+    ></bl-button>`;
 
-    const caption = this.shouldRender((this.caption || this._hasAlertCaptionSlot), captionTemp);
+    const caption = this.shouldRender(this.caption || this._hasAlertCaptionSlot, captionTemp);
     const icon = this.shouldRender(this.getIcon(), iconTemp);
     const closable = this.shouldRender(this.closable, closableTemp);
     const description = html`<span class="description">
-      <slot>
-        ${this.description}
-      </slot>
-    </span>`
+      <slot> ${this.description} </slot>
+    </span>`;
 
     const classes = classMap({
-      'alert': true,
-      'hidden': this._hidden
-    })
+      alert: true,
+      hidden: this._hidden,
+    });
 
     return html`
       <div class=${classes}>
         <div class="wrapper">
           <div class="content">
             ${icon}
-            <div class="text-content">
-              ${caption}
-              ${description}
-            </div>
+            <div class="text-content">${caption} ${description}</div>
           </div>
           <slot name="action"></slot>
         </div>
