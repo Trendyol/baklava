@@ -63,6 +63,25 @@
   --bl-description-font-size: var(--bl-font-size-s);
 }
 
+@media (max-width: 1024px) {
+  .alert {
+    align-items: flex-start;
+  }
+
+  .content {
+    padding-bottom: var(--bl-size-2xs);
+  }
+
+  .close {
+    margin-top: var(--bl-size-2xs);
+  }
+  
+  .wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: var(--bl-padding);
+  }
+}
 
 :host([closed]) {
   --bl-display: none;

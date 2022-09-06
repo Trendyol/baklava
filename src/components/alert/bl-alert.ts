@@ -128,6 +128,7 @@ export default class BlAlert extends LitElement {
       : null;
     const closable = this.closable
       ? html`<bl-button
+          class="close"
           label="close"
           kind="text"
           icon="close"

@@ -123,8 +123,8 @@ Alerts don't always have to have a caption, you can use plain text to explain th
 To maintain usability level of alert component, after 1024px width screen size or less (such as tablets and mobile screens):
 Don't show actionable link as a button. Instead, give action link to all alert component area and show clickability with arrow icon.
 
-<Canvas>
-  <Story name="Responsive Alert"
+<Canvas isColumn>
+  <Story name="Responsive Alert without Action Slot"
   parameters={{
     viewport: {
       defaultViewport: 'responsive',
@@ -138,6 +138,21 @@ Don't show actionable link as a button. Instead, give action link to all alert c
     },
   }}>
     {SingleAlertTemplate({caption: "Informational Caption", content: "Detailed description.", icon: true, closable: true})}
+  </Story>
+  <Story name="Responsive Alert with Action Slot"
+  parameters={{
+    viewport: {
+      defaultViewport: 'responsive',
+      viewports: { responsive: {
+        name:'Responsive',
+        styles: {
+          width: '1024px',
+          height: '200px',
+        },
+      }}
+    },
+  }}>
+    {SingleAlertTemplate({caption: "Informational Caption", content: `${actionSlot} Detailed description.`, icon: true, closable: true})}
   </Story>
 </Canvas>
 
