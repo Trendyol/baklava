@@ -33,7 +33,7 @@
 .content {
   display: flex;
   align-items: center;
-  padding: 8px 0;
+  padding: calc(var(--padding) / 2) 0;
   flex: 20;
 }
 
@@ -65,7 +65,7 @@
 }
 
 .close-spaced {
-  margin-top: 8px;
+  margin-top: calc(var(--padding) / 2);
 }
 
 :host([closed]) {
