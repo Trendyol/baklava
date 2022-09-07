@@ -4,8 +4,9 @@ import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-alert.css';
 import '../icon/bl-icon';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { stringBooleanConverter } from '../../converters/string-boolean.converter';
+import { stringBooleanConverter } from '../../utilities/string-boolean.converter';
 import { ButtonVariant, ButtonKind, ButtonSize } from '../button/bl-button';
+import { classMap } from 'lit/directives/class-map.js';
 
 export type AlertVariant = 'info' | 'warning' | 'success' | 'error';
 
@@ -97,23 +98,22 @@ export default class BlAlert extends LitElement {
 
   private _getIcon(): string | undefined {
     if (!this.icon) return;
-    if (typeof this.icon === 'boolean') {
-      return this._predefinedIcons();
-    }
+    if (this.icon === true) return this._predefinedIcons();
     return this.icon;
   }
 
   private _initAlertActionSlot(event: Event) {
-    const [actionSlot] = (event.target as HTMLSlotElement).assignedElements();
-    if (!actionSlot) return;
-    if (actionSlot?.tagName !== 'BL-BUTTON') {
-      actionSlot.parentNode?.removeChild(actionSlot);
-      return;
-    }
-    actionSlot.setAttribute('variant', 'secondary' as ButtonVariant);
-    actionSlot.setAttribute('kind', 'text' as ButtonKind);
-    actionSlot.setAttribute('size', 'medium' as ButtonSize);
-    actionSlot.removeAttribute('icon');
+    const slotElements = (event.target as HTMLSlotElement).assignedElements();
+    slotElements.forEach(element => {
+      if (element.tagName !== 'BL-BUTTON') {
+        element.parentNode?.removeChild(element);
+        return;
+      }
+      element.setAttribute('variant', 'secondary' as ButtonVariant);
+      element.setAttribute('kind', 'text' as ButtonKind);
+      element.setAttribute('size', 'medium' as ButtonSize);
+      element.removeAttribute('icon');
+    });
   }
 
   render(): TemplateResult {
@@ -126,9 +126,15 @@ export default class BlAlert extends LitElement {
     const icon = this._getIcon()
       ? html`<bl-icon class="icon" name=${ifDefined(this._getIcon())}></bl-icon>`
       : null;
+
+    const closeClasses = classMap({
+      'close': true,
+      'close-spaced': !!caption,
+    });
+
     const closable = this.closable
       ? html`<bl-button
-          class="close"
+          class=${closeClasses}
           label="close"
           kind="text"
           icon="close"
@@ -147,7 +153,7 @@ export default class BlAlert extends LitElement {
             ${icon}
             <div class="text-content">${caption} ${description}</div>
           </div>
-          <slot name="action" @slotchange=${this._initAlertActionSlot}></slot>
+          <slot class="action" name="action" @slotchange=${this._initAlertActionSlot}></slot>
         </div>
         ${closable}
       </div>

@@ -126,30 +126,20 @@ Don't show actionable link as a button. Instead, give action link to all alert c
 <Canvas isColumn>
   <Story name="Responsive Alert without Action Slot"
   parameters={{
+    chromatic: { viewports: [375] },
     viewport: {
-      defaultViewport: 'responsive',
-      viewports: { responsive: {
-        name:'Responsive',
-        styles: {
-          width: '1024px',
-          height: '200px',
-        },
-      }}
+      defaultViewport: "iphone6",
+      viewports: INITIAL_VIEWPORTS
     },
   }}>
     {SingleAlertTemplate({caption: "Informational Caption", content: "Detailed description.", icon: true, closable: true})}
   </Story>
   <Story name="Responsive Alert with Action Slot"
   parameters={{
+    chromatic: { viewports: [375] },
     viewport: {
-      defaultViewport: 'responsive',
-      viewports: { responsive: {
-        name:'Responsive',
-        styles: {
-          width: '1024px',
-          height: '200px',
-        },
-      }}
+      defaultViewport: "iphone6",
+      viewports: INITIAL_VIEWPORTS,
     },
   }}>
     {SingleAlertTemplate({caption: "Informational Caption", content: `${actionSlot} Detailed description.`, icon: true, closable: true})}
@@ -159,3 +149,15 @@ Don't show actionable link as a button. Instead, give action link to all alert c
 ## Reference
 
 <ArgsTable of="bl-alert" />
+
+## Public Functions
+
+* `open()`: Can be used to reopen closed alert.
+* `close()`: Can be used to close alert.
+
+Example usage;
+
+```
+document.querySelector('bl-alert').open();
+document.querySelector('bl-alert').close();
+```

@@ -25,7 +25,10 @@ describe('bl-alert', () => {
               </span>
             </div>
           </div>
-          <slot name="action">
+          <slot
+            class="action"
+            name="action"
+          >
           </slot>
         </div>
       </div>
