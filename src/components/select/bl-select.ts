@@ -65,6 +65,12 @@ export default class BlSelect extends LitElement {
   helpText?: string;
 
   /**
+   * Set custom error message
+   */
+  @property({ type: String, attribute: 'invalid-text' })
+  customInvalidText?: string;
+
+  /**
    * Shows the component in error state
    */
   @property({ type: Boolean })
@@ -78,16 +84,16 @@ export default class BlSelect extends LitElement {
 
   /* Declare internal reactive properties */
   @state()
-  _isOpen = false;
+  private _isMenuOpen = false;
 
   @state()
-  _selectedItems: ISelectOption[] = [];
+  private _selectedOptions: ISelectOption[] = [];
 
   @state()
-  _additionalItemCount = 0;
+  private _additionalSelectedOptionCount = 0;
 
   @state()
-  _isInvalid = false;
+  private _isInvalid = false;
 
   @query('.selected-options')
   private _selectedOptionsContainer!: HTMLElement;
@@ -109,16 +115,32 @@ export default class BlSelect extends LitElement {
     return this._connectedOptions;
   }
 
+  get isMenuOpen() {
+    return this._isMenuOpen;
+  }
+
+  get selectedOptions() {
+    return this._selectedOptions;
+  }
+
+  get additionalSelectedOptionCount() {
+    return this._additionalSelectedOptionCount;
+  }
+
+  get isInvalid() {
+    return this._isInvalid;
+  }
+
   clickOutsideHandler = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
 
-    if (!this.contains(target) && this._isOpen) {
-      this._isOpen = false;
+    if (!this.contains(target) && this._isMenuOpen) {
+      this._isMenuOpen = false;
       this._checkRequired();
     }
   };
 
-  private _setSelectMenu() {
+  private _showSelectMenu() {
     const defaultMaxHeight = parseInt(
       getComputedStyle(this._selectMenu)
         .getPropertyValue('--bl-select-menu-height')
@@ -158,19 +180,12 @@ export default class BlSelect extends LitElement {
     document.removeEventListener('click', this.clickOutsideHandler);
   }
 
-  get showPlaceHolder() {
-    if (this.label && !this.labelFixed) {
-      return !this._selectedItems.length && this._isOpen;
-    }
-    return !this._selectedItems.length;
-  }
-
   inputTemplate() {
     const inputSelectedOptions = html`<ul class="selected-options">
-      ${this._selectedItems.map(item => html`<li>${item.text}</li>`)}
+      ${this._selectedOptions.map(item => html`<li>${item.text}</li>`)}
     </ul>`;
-    const _selectedItemCount = this._additionalItemCount
-      ? html`<span>+${this._additionalItemCount}</span>`
+    const _selectedItemCount = this._additionalSelectedOptionCount
+      ? html`<span>+${this._additionalSelectedOptionCount}</span>`
       : null;
     const removeIcon = this._isRemoveIconShow
       ? html`<bl-icon
@@ -182,7 +197,7 @@ export default class BlSelect extends LitElement {
         ></bl-icon>`
       : null;
 
-    const placeholder = this.showPlaceHolder
+    const placeholder = this._showPlaceHolder
       ? html`<span class="placeholder">${this.placeholder}</span>`
       : '';
 
@@ -195,7 +210,7 @@ export default class BlSelect extends LitElement {
       <div class="actions">
         ${removeIcon}
         <bl-icon
-          name="${this._isOpen ? 'arrow_up' : 'arrow_down'}"
+          name="${this._isMenuOpen ? 'arrow_up' : 'arrow_down'}"
           title="arrow_down"
           style="font-size: var(--bl-font-size-m)"
         ></bl-icon>
@@ -210,24 +225,36 @@ export default class BlSelect extends LitElement {
   }
 
   render() {
-    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
+    const invalidMessage =
+      this._isInvalid && this.customInvalidText
+        ? html`<p class="invalid-text">${this.customInvalidText}</p>`
+        : ``;
+    const helpMessage =
+      this.helpText && !invalidMessage ? html`<p class="help-text">${this.helpText}</p>` : ``;
     const label = this.label ? html`<label>${this.label}</label>` : '';
 
     return html`<div
       class=${classMap({
         'select-wrapper': true,
-        'select-open': this._isOpen,
-        'selected': this._selectedItems.length > 0,
+        'select-open': this._isMenuOpen,
+        'selected': this._selectedOptions.length > 0,
         'invalid': this._isInvalid,
       })}
       tabindex="-1"
     >
-      ${label} ${this.inputTemplate()} ${this.menuTemplate()} ${helpMessage}
+      ${label} ${this.inputTemplate()} ${this.menuTemplate()} ${helpMessage} ${invalidMessage}
     </div> `;
   }
 
+  private get _showPlaceHolder() {
+    if (this.label && !this.labelFixed) {
+      return !this._selectedOptions.length && this._isMenuOpen;
+    }
+    return !this._selectedOptions.length;
+  }
+
   private get _isRemoveIconShow() {
-    return this._selectedItems.length;
+    return this._selectedOptions.length;
   }
 
   private _onClickSelectInput(e: MouseEvent) {
@@ -235,16 +262,16 @@ export default class BlSelect extends LitElement {
       e.target instanceof HTMLElement && e.target.classList.contains('remove-all');
 
     if (!isRemoveAll) {
-      this._isOpen = !this._isOpen;
+      this._isMenuOpen = !this._isMenuOpen;
 
-      if (this._isOpen) {
-        this._setSelectMenu();
+      if (this._isMenuOpen) {
+        this._showSelectMenu();
       }
     }
   }
 
   private _handleSelectEvent() {
-    this._onBlSelect(this._selectedItems);
+    this._onBlSelect(this._selectedOptions);
   }
 
   private _handleSingleSelect(
@@ -258,8 +285,9 @@ export default class BlSelect extends LitElement {
     }
     target.selected = true;
 
-    this._selectedItems = [optionItem];
+    this._selectedOptions = [optionItem];
     this._handleSelectEvent();
+    this._isMenuOpen = false;
   }
 
   private _handleMultipleSelect(
@@ -269,9 +297,9 @@ export default class BlSelect extends LitElement {
     const { value } = optionItem;
 
     if (target.selected) {
-      this._selectedItems = this._selectedItems.filter(item => item.value !== value);
+      this._selectedOptions = this._selectedOptions.filter(item => item.value !== value);
     } else {
-      this._selectedItems = [...this._selectedItems, optionItem];
+      this._selectedOptions = [...this._selectedOptions, optionItem];
     }
     target.selected = !target.selected;
 
@@ -296,7 +324,7 @@ export default class BlSelect extends LitElement {
         option.selected = false;
       });
 
-    this._selectedItems = [];
+    this._selectedOptions = [];
     this._handleSelectEvent();
   }
 
@@ -310,19 +338,19 @@ export default class BlSelect extends LitElement {
       }
     }
 
-    this._additionalItemCount = this._selectedOptionsItems.length - visibleItems;
+    this._additionalSelectedOptionCount = this._selectedOptionsItems.length - visibleItems;
   }
 
   private _checkRequired() {
     if (this.required) {
-      this._isInvalid = this._selectedItems.length === 0;
+      this._isInvalid = this._selectedOptions.length === 0;
     }
   }
 
   protected updated(_changedProperties: PropertyValues) {
     if (
-      _changedProperties.has('_selectedItems') &&
-      _changedProperties.get('_selectedItems') instanceof Array
+      _changedProperties.has('_selectedOptions') &&
+      _changedProperties.get('_selectedOptions') instanceof Array
     ) {
       this._checkAdditionalItemCount();
       this._checkRequired();
@@ -334,7 +362,7 @@ export default class BlSelect extends LitElement {
         option.isCheckbox = this.multiple;
         option.selected = false;
       });
-      this._selectedItems = [];
+      this._selectedOptions = [];
     }
   }
 
@@ -349,9 +377,9 @@ export default class BlSelect extends LitElement {
       } as ISelectOption;
 
       if (this.multiple) {
-        this._selectedItems = [...this._selectedItems, optionItem];
+        this._selectedOptions = [...this._selectedOptions, optionItem];
       } else {
-        this._selectedItems = [optionItem];
+        this._selectedOptions = [optionItem];
       }
 
       this.requestUpdate();

@@ -200,13 +200,22 @@ label {
   padding: 0;
 }
 
-.help-text {
+.help-text,
+.invalid-text {
   margin: var(--bl-size-3xs) 0 0 var(--bl-size-2xs);
-  color: var(--bl-color-content-secondary);
   font: var(--bl-font-title-4-regular);
   padding: var(--bl-size-3xs) var(--bl-input-padding-horizontal);
 }
 
-.select-open .help-text {
+.help-text {
+  color: var(--bl-color-content-secondary);
+}
+
+.invalid-text {
+  color: var(--bl-color-danger);
+}
+
+.select-open .help-text,
+.select-open .invalid-text {
   visibility: hidden;
 }

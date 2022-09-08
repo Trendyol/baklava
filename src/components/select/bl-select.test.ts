@@ -32,6 +32,7 @@ describe('bl-select', () => {
     const labelText = 'Some Label';
     const el = await fixture<BlSelect>(html`<bl-select label="${labelText}"></bl-select>`);
     const label = el.shadowRoot?.querySelector('label');
+
     expect(label).to.exist;
     expect(label?.innerText).to.equal(labelText);
   });
@@ -39,6 +40,7 @@ describe('bl-select', () => {
     const helpText = 'Some help text';
     const el = await fixture<BlSelect>(html`<bl-select help-text="${helpText}"></bl-select>`);
     const helpMessage = <HTMLParagraphElement>el.shadowRoot?.querySelector('.help-text');
+
     expect(helpMessage).to.exist;
     expect(helpMessage?.innerText).to.equal(helpText);
   });
@@ -65,7 +67,7 @@ describe('bl-select', () => {
     </bl-select>`);
 
     expect(el.options.length).to.equal(2);
-    expect(el._selectedItems.length).to.equal(1);
+    expect(el.selectedOptions.length).to.equal(1);
   });
   it('should render bl-select-options when multiple options is true and there are selected options', async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
@@ -77,8 +79,8 @@ describe('bl-select', () => {
     </bl-select>`);
 
     expect(el.options.length).to.equal(5);
-    expect(el._selectedItems.length).to.equal(4);
-    expect(el._additionalItemCount).to.equal(1);
+    expect(el.selectedOptions.length).to.equal(4);
+    expect(el.additionalSelectedOptionCount).to.equal(1);
   });
   it('should open select menu', async () => {
     const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
@@ -86,11 +88,11 @@ describe('bl-select', () => {
     const selectInput = <HTMLDivElement>el.shadowRoot?.querySelector('.select-input');
     selectInput?.click();
 
-    expect(el._isOpen).to.true;
+    expect(el.isMenuOpen).to.true;
   });
-  it('should close select menu when click outside', async () => {
+  it('should close select menu when click outside & run validations', async () => {
     const el = await fixture<BlSelect>(html`<body>
-      <bl-select required></bl-select>
+      <bl-select required invalid-text="This field is mandatory"></bl-select>
     </body>`);
 
     const selectInput = <HTMLDivElement>el.shadowRoot?.querySelector('.select-input');
@@ -99,7 +101,13 @@ describe('bl-select', () => {
     const body = <HTMLBodyElement>el.closest('body');
     body.click();
 
-    expect(el._isOpen).to.false;
+    setTimeout(() => {
+      const invalidText = <HTMLParagraphElement>el.shadowRoot?.querySelector('.invalid-text');
+
+      expect(el.isMenuOpen).to.false;
+      expect(el.isInvalid).to.true;
+      expect(invalidText).to.exist;
+    });
   });
   it('should remove selected options', async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
@@ -115,7 +123,7 @@ describe('bl-select', () => {
     expect(event).to.exist;
     expect(event.detail).to.eql([]);
     expect(el.options.length).to.equal(2);
-    expect(el._selectedItems.length).to.equal(0);
+    expect(el.selectedOptions.length).to.equal(0);
   });
   it('should fire event when click select option', async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
@@ -133,7 +141,7 @@ describe('bl-select', () => {
 
     expect(event).to.exist;
     expect(event.detail.length).to.equal(2);
-    expect(el._selectedItems.length).to.equal(2);
+    expect(el.selectedOptions.length).to.equal(2);
   });
   it('should fire event when click select option', async () => {
     const el = await fixture<BlSelect>(html`<bl-select>
@@ -151,7 +159,7 @@ describe('bl-select', () => {
 
     expect(event).to.exist;
     expect(event.detail.length).to.equal(1);
-    expect(el._selectedItems.length).to.equal(1);
+    expect(el.selectedOptions.length).to.equal(1);
   });
   it('should remove selected item if it is already selected', async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
@@ -169,7 +177,7 @@ describe('bl-select', () => {
 
     expect(event).to.exist;
     expect(event.detail.length).to.equal(0);
-    expect(el._selectedItems.length).to.equal(0);
+    expect(el.selectedOptions.length).to.equal(0);
   });
   it('should clear connected options & selected items when multiple property has changed', async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
@@ -204,7 +212,7 @@ describe('bl-select', () => {
       const selectInputRect = selectInput?.getBoundingClientRect();
       const selectMenuTop = parseInt(selectMenu.style.getPropertyValue('--top').replace('px', ''));
       expect(selectMenuTop).to.lessThan(selectInputRect?.top);
-      expect(blSelect._isOpen).to.true;
+      expect(blSelect.isMenuOpen).to.true;
     });
   });
 });

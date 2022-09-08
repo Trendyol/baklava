@@ -1,0 +1,61 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import {
+  Meta,
+  Canvas,
+  ArgsTable,
+  Story,
+} from '@storybook/addon-docs';
+
+<Meta
+  title="Components/SelectOption"
+  component="bl-select-option"
+  argTypes={{
+    value: {
+      control: 'text',
+    },
+    disabled: {
+      control: 'boolean',
+    },
+    selected: {
+      control: 'boolean',
+    },
+  }}
+/>
+
+# Select Option
+Select option component is a component should be used inside a select component. It is used to display a single option in the select component.
+
+export const Template = (args) => html`
+  <bl-select-option
+    value='${ifDefined(args.value)}'
+    ?disabled='${args.disabled}'
+    ?selected='${args.selected}'
+  >${args.slot}</bl-select-option>
+`
+
+## Basic Usage
+<Canvas>
+  <Story name="Basic Usage" args={{ value: 'bl', slot: 'baklava' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Selected
+If you want to select an option by default, you can use the `selected` attribute.
+<Canvas>
+  <Story name="Selected" args={{ value: 'bl', slot: 'baklava', selected: true }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled
+If you want to disable an option, you can use the `disabled` attribute.
+<Canvas>
+  <Story name="Disabled" args={{ value: 'bl', slot: 'baklava', disabled: true }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+
+<ArgsTable of="bl-select-option" />
