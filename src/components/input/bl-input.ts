@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { live } from 'lit/directives/live.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import '../icon/bl-icon';
 
@@ -41,8 +42,8 @@ export default class BlInput extends LitElement {
   /**
    * Sets initial value of the input
    */
-  @property({})
-  value?: string;
+  @property()
+  value = '';
 
   /**
    * Makes input a mandatory field
@@ -189,7 +190,7 @@ export default class BlInput extends LitElement {
       <input
         type=${this.type}
         class=${classMap(classes)}
-        value=${ifDefined(this.value)}
+        .value=${live(this.value)}
         placeholder="${ifDefined(this.placeholder)}"
         minlength="${ifDefined(this.minlength)}"
         maxlength="${ifDefined(this.maxlength)}"
