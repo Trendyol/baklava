@@ -34,7 +34,7 @@
   display: flex;
   align-items: center;
   padding: calc(var(--padding) / 2) 0;
-  flex: 20;
+  flex: 20 1 70%;
 }
 
 .icon {
@@ -45,7 +45,6 @@
 .text-content {
   display: flex;
   flex-direction: column;
-  min-width: 200px;
 }
 
 .caption {
@@ -57,7 +56,7 @@
 .action {
   display: flex;
   align-items: center;
-  flex: 1;
+  flex: 1 1 0%;
 }
 
 .caption + .description {
