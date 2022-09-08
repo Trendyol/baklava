@@ -8,7 +8,7 @@ import { stringBooleanConverter } from '../../utilities/string-boolean.converter
 import { ButtonVariant, ButtonKind, ButtonSize } from '../button/bl-button';
 import { classMap } from 'lit/directives/class-map.js';
 
-export type AlertVariant = 'info' | 'warning' | 'success' | 'error';
+export type AlertVariant = 'info' | 'warning' | 'success' | 'danger';
 
 /**
  * @tag bl-alert
@@ -89,7 +89,7 @@ export default class BlAlert extends LitElement {
     switch (this.variant) {
       case 'success':
         return 'check_fill';
-      case 'error':
+      case 'danger':
         return 'close_fill';
       default:
         return this.variant;

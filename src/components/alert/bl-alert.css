@@ -81,7 +81,7 @@
   --main-bg-color: var(--bl-color-warning-background);
 }
 
-:host([variant='error']) .alert {
+:host([variant='danger']) .alert {
   --main-color: var(--bl-color-danger);
   --main-bg-color: var(--bl-color-danger-background);
 }

@@ -2,7 +2,7 @@ import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import BlAlert, { AlertVariant } from './bl-alert';
 import type typeofBlAlert from './bl-alert';
 
-const variants: Array<AlertVariant> = ['info', 'warning', 'success', 'error'];
+const variants: Array<AlertVariant> = ['info', 'warning', 'success', 'danger'];
 
 describe('bl-alert', () => {
   it('is defined', () => {
@@ -83,8 +83,8 @@ describe('Attributes', () => {
     const warningEl = await fixture<typeofBlAlert>(
       html`<bl-alert variant="warning" icon>Description</bl-alert>`
     );
-    const errorEl = await fixture<typeofBlAlert>(
-      html`<bl-alert variant="error" icon>Description</bl-alert>`
+    const dangerEl = await fixture<typeofBlAlert>(
+      html`<bl-alert variant="danger" icon>Description</bl-alert>`
     );
     const customEl = await fixture<typeofBlAlert>(
       html`<bl-alert icon="download">Description</bl-alert>`
@@ -92,12 +92,12 @@ describe('Attributes', () => {
     const infoIconEl = infoEl.shadowRoot?.querySelector('bl-icon');
     const successIconEl = successEl.shadowRoot?.querySelector('bl-icon');
     const warningIconEl = warningEl.shadowRoot?.querySelector('bl-icon');
-    const errorIconEl = errorEl.shadowRoot?.querySelector('bl-icon');
+    const dangerIconEl = dangerEl.shadowRoot?.querySelector('bl-icon');
     const customIconEl = customEl.shadowRoot?.querySelector('bl-icon');
     expect(infoIconEl?.getAttribute('name')).to.eq('info');
     expect(successIconEl?.getAttribute('name')).to.eq('check_fill');
     expect(warningIconEl?.getAttribute('name')).to.eq('warning');
-    expect(errorIconEl?.getAttribute('name')).to.eq('close_fill');
+    expect(dangerIconEl?.getAttribute('name')).to.eq('close_fill');
     expect(customIconEl?.getAttribute('name')).to.eq('download');
   });
   it('is bound to `caption` attribute', async () => {
