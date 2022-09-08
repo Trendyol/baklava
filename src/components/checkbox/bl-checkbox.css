@@ -9,6 +9,7 @@ label {
   gap: var(--bl-size-2xs);
   color: var(--bl-color-secondary);
   font: var(--bl-font-title-3);
+  user-select: none;
 }
 
 input {
