@@ -12,6 +12,7 @@
   --bl-select-menu-padding: 0 var(--bl-size-m);
   --bl-select-menu-margin-top: var(--bl-size-2xs);
   --bl-select-font-size: var(--bl-font-size-m);
+  --bl-select-disabled-color: var(--bl-color-tertiary);
   --bl-select-menu-height: 250px;
   --bl-select-menu-z-index: 1;
 
@@ -92,14 +93,17 @@
   visibility: visible;
 }
 
-.select-input[disabled] {
-  cursor: not-allowed;
-  pointer-events: none;
-  background-color: #f1f2f7;
-}
-
 .select-open .select-input {
   border: solid 1px var(--bl-select-border-focus-color);
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+}
+
+:host([disabled]) .select-input {
+  pointer-events: none;
+  background-color: var(--bl-select-disabled-color);
 }
 
 .select-input .selected-options {
