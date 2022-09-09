@@ -34,6 +34,7 @@
   display: flex;
   align-items: center;
   padding: calc(var(--padding) / 2) 0;
+  margin-right: var(--bl-size-2xs);
   flex: 20 1 70%;
 }
 
