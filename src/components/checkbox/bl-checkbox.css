@@ -9,6 +9,7 @@ label {
   gap: var(--bl-size-2xs);
   color: var(--bl-color-secondary);
   font: var(--bl-font-title-3);
+  cursor: pointer;
   user-select: none;
 }
 
@@ -38,7 +39,6 @@ input {
   background-color: var(--bl-color-primary);
   border: none;
 }
-
 
 :host([disabled]) .check-mark,
 :host([disabled]) .label {
