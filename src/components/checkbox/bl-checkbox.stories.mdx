@@ -74,6 +74,17 @@ from `indeterminate` state. Checkbox doesn't go this state with a user interacti
   </Story>
 </Canvas>
 
+## Indeterminate And Checked
+
+Indeterminate state is regardless with `checked` state. A checkbox cannot be both `checked` and `indeterminate` at the
+same time. Unless there is a user interaction, when `indeterminate` state is active `checked` state changes ignored.
+
+<Canvas>
+  <Story name="Indeterminate And Checked" args={{ label: 'checkbox', indeterminate: true, checked: true }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+</Canvas>
+
 ## Disabled
 
 Disabled state can be set via `disabled` attribute. A checkbox can be `disabled` and `checked` (and even `indeterminate`) at the same time.
