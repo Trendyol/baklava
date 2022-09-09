@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { live } from 'lit/directives/live.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import '../icon/bl-icon';
 import style from './bl-checkbox.css';
@@ -44,6 +45,14 @@ export default class BlCheckbox extends LitElement {
     this.indeterminate = false;
   }
 
+  update(changedProperties: Map<string, unknown>) {
+    super.update(changedProperties);
+    if (this.indeterminate && this.checked) {
+      this.checked = false;
+      this.requestUpdate('checked', true);
+    }
+  }
+
   render(): TemplateResult {
     let icon = '';
     if (this.checked) icon = 'check';
@@ -54,7 +63,7 @@ export default class BlCheckbox extends LitElement {
         <input
           type="checkbox"
           name="checkbox"
-          ?checked=${this.checked}
+          .checked=${live(this.checked)}
           ?disabled=${this.disabled}
           .indeterminate=${this.indeterminate}
           @change=${this.handleChange}

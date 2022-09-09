@@ -46,12 +46,12 @@ describe('bl-checkbox', () => {
     expect(iconEl?.getAttribute('name')).to.eq('check');
   });
 
-  describe('attributes', () => {
-    it('should render with `checked` attribute as checked', async () => {
-      const el = await fixture(html`<bl-checkbox checked></bl-checkbox>`);
-      expect(el.shadowRoot?.querySelector('input')?.hasAttribute('checked')).to.eq(true);
-    });
+  it('should render with `checked` attribute as checked value', async () => {
+    const el = await fixture(html`<bl-checkbox checked></bl-checkbox>`);
+    expect(el.shadowRoot?.querySelector('input')?.checked).to.eq(true);
+  });
 
+  describe('attributes', () => {
     it('should render with `disabled` attribute as disabled', async () => {
       const el = await fixture(html`<bl-checkbox disabled></bl-checkbox>`);
       expect(el.shadowRoot?.querySelector('input')?.hasAttribute('disabled')).to.eq(true);
@@ -60,6 +60,21 @@ describe('bl-checkbox', () => {
     it('should not render with `indeterminate` attribute as indeterminate', async () => {
       const el = await fixture(html`<bl-checkbox indeterminate></bl-checkbox>`);
       expect(el.shadowRoot?.querySelector('input')?.hasAttribute('indeterminate')).to.eq(false);
+    });
+  });
+
+  describe('update', () => {
+    it('should set checked to false when indeterminate set to true', async () => {
+      const el = await fixture(html`<bl-checkbox checked></bl-checkbox>`);
+
+      el.setAttribute('indeterminate', 'true');
+      await elementUpdated(el);
+
+      expect(el.hasAttribute('checked')).to.eq(false);
+    });
+    it('should set checked to false when indeterminate and checked set to true at start', async () => {
+      const el = await fixture(html`<bl-checkbox indeterminate checked></bl-checkbox>`);
+      expect(el.hasAttribute('checked')).to.eq(false);
     });
   });
 
