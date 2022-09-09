@@ -33,22 +33,19 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
   }}
 />
 
-export const actionSlot = (actionLabel) => `<bl-button
-  slot="action"
-  href="https://github.com/Trendyol/baklava"
-  target="_blank"
-  >
-    ${actionLabel}
-  </bl-button>`
+export const actionSlot = (actionLabel) => html`
+  <bl-button slot="action">${unsafeHTML(actionLabel)}</bl-button>
+`;
 
 export const SingleAlertTemplate = (args) => html`<bl-alert
-    variant=${ifDefined(args.variant)}
-    .icon=${ifDefined(args.icon)}
-    .closable=${ifDefined(args.closable)}
-    caption=${ifDefined(args.caption)}>
-    ${unsafeHTML(args.content)}
-    ${args.actionLabel ? unsafeHTML(actionSlot(args.actionLabel)) : null}
-  </bl-alert>`
+  variant=${ifDefined(args.variant)}
+  caption=${ifDefined(args.caption)}
+  ?icon=${ifDefined(args.icon)}
+  ?closable=${ifDefined(args.closable)}>${
+    unsafeHTML(args.content)
+  }${
+    args.actionLabel ? actionSlot(args.actionLabel) : null
+  }</bl-alert>`;
 
 # Alert
 Alert component displays an informational message to users with additional features if desired.
