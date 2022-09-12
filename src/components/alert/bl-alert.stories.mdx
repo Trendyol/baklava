@@ -1,0 +1,170 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
+
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Alert"
+  component="bl-alert"
+  argTypes={{
+    variant: {
+      options: ['info', 'warning', 'success', 'danger'],
+      default: 'info',
+      control: { type: 'select' }
+    },
+    description: {
+      control: 'text'
+    },
+    icon: {
+      control: 'text'
+    },
+    closable: {
+      control: 'boolean'
+    },
+    caption: {
+      control: 'text'
+    },
+    actionLabel: {
+      control: 'text'
+    }
+  }}
+/>
+
+export const actionSlot = (actionLabel) => html`
+  <bl-button slot="action">${unsafeHTML(actionLabel)}</bl-button>
+`;
+
+export const SingleAlertTemplate = (args) => html`<bl-alert
+  variant=${ifDefined(args.variant)}
+  caption=${ifDefined(args.caption)}
+  ?icon=${ifDefined(args.icon)}
+  ?closable=${ifDefined(args.closable)}>${
+    unsafeHTML(args.content)
+  }${
+    args.actionLabel ? actionSlot(args.actionLabel) : null
+  }</bl-alert>`;
+
+# Alert
+Alert component displays an informational message to users with additional features if desired.
+
+### Usage
+
+* Explain how to resolve the issue by including any troubleshooting actions or next steps.
+* You can include links within the notification body that redirect the user to next steps by using an actionable notification.
+* Alerts can be closable, use the icon button for closing action on the right.
+* Default alert is Captionless Informational Alert without icon.
+* We have default icons that we recommend in our icon alert variants but these icons can be changed from the icon list.
+
+## Alert Variants
+
+We have 4 variants for each alert: **Info**, **Warning**, **Success** and **Danger**.
+
+<Canvas isColumn>
+  <Story name="Info Variant" args={{content: 'Info Variant'}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Warning Variant" args={{variant: 'warning', icon: true, content: 'Warning Variant'}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Success Variant" args={{variant: 'success', content: 'Success Variant'}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Danger Variant" args={{variant: 'danger', icon: true, content: 'Danger Variant'}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Alert Types
+
+We have 2 types of alerts: **Captionless** (Default) and **Captioned**.
+
+### Captioned Alert
+
+The caption should be one line, short and descriptive. In detailed description be concise and avoid repeating or paraphrasing the caption.
+
+<Canvas isColumn>
+  <Story name="Captioned Info Alert" args={{caption: "Info Caption", content: "Detailed description.", icon: true}}>
+    {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Captioned Warning Alert" args={{variant: "warning", caption: "Warning Caption", content: `Detailed description.`, actionLabel: 'Action Link'}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Captioned Success Alert" args={{variant: "success", caption: "Success Caption", content: "Detailed description.", closable: true}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Captioned Danger Alert" args={{variant: "danger", caption: "Danger Caption", content: "Detailed description.", actionLabel: 'Action Link'}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+</Canvas>
+
+### Captionless Alert
+
+Alerts don't always have to have a caption, you can use plain text to explain the situation.
+
+<Canvas isColumn>
+  <Story name="Captionless Info Alert" args={{content: "Informational Text", icon: true}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Captionless Warning Alert" args={{variant: "warning", content: "Warning Text"}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Captionless Success Alert" args={{variant: "success",content: "Success Text", icon: true, closable: true}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story name="Captionless Danger Alert" args={{variant: "danger", content: "Danger Text", actionLabel: 'Action Link'}}>
+      {SingleAlertTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Responsivity
+
+To maintain usability level of alert component, after 1024px width screen size or less (such as tablets and mobile screens):
+Don't show actionable link as a button. Instead, give action link to all alert component area and show clickability with arrow icon.
+
+<Canvas isColumn>
+  <Story
+    name="Responsive Alert without Action Slot"
+    parameters={{
+      chromatic: { viewports: [375] },
+      viewport: {
+        defaultViewport: "responsive",
+        viewports: INITIAL_VIEWPORTS
+      },
+    }}
+    args={{caption: "Informational Caption", content: "Detailed description.", icon: true, closable: true}}
+  >
+      {SingleAlertTemplate.bind({})}
+  </Story>
+  <Story
+    name="Responsive Alert with Action Slot"
+    parameters={{
+      chromatic: { viewports: [375] },
+      viewport: {
+        defaultViewport: "responsive",
+        viewports: INITIAL_VIEWPORTS,
+      },
+    }}
+    args={{caption: "Informational Caption", content: `Detailed description.`, icon: true, closable: true, actionLabel: 'Action Link'}}
+  >
+      {SingleAlertTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-alert" />
+
+## Public Functions
+
+* `open()`: Can be used to reopen closed alert.
+* `close()`: Can be used to close alert.
+
+Example usage;
+
+```
+document.querySelector('bl-alert').open();
+document.querySelector('bl-alert').close();
+```

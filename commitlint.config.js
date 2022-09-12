@@ -14,7 +14,8 @@ module.exports = {
         'badge',
         'tab',
         'tooltip',
-        'progress-indicator'
+        'progress-indicator',
+        'alert'
       ],
     ],
   },
