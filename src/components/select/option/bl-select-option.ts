@@ -3,6 +3,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
 import { ISelectOption } from '../types';
 import style from './bl-select-option.css';
+import BlSelect from '../bl-select';
 
 @customElement('bl-select-option')
 export default class BlSelectOption extends LitElement {
@@ -21,21 +22,23 @@ export default class BlSelectOption extends LitElement {
    * Sets option as disabled
    */
   @property({ type: Boolean })
-  disabled?: boolean = false;
+  disabled = false;
 
   /**
    * Sets option as selected state
    */
   @property({ type: Boolean, reflect: true })
-  selected?: boolean = false;
+  selected = false;
 
   @state()
-  isCheckbox?: boolean = false;
+  isCheckbox = false;
 
   /**
    * Fires when clicked on the option
    */
   @event('bl-select-option') private _onSelect: EventDispatcher<ISelectOption>;
+
+  private blSelect: BlSelect | null;
 
   render() {
     const checkbox = this.isCheckbox
@@ -61,11 +64,17 @@ export default class BlSelectOption extends LitElement {
     super.connectedCallback();
 
     this.updateComplete.then(() => {
-      const el = this.closest('bl-select');
+      this.blSelect = this.closest<BlSelect>('bl-select');
       // FIXME: We should warn when parent is not bl-select
 
-      el?.registerOption(this);
+      this.isCheckbox = this.blSelect?.multiple || false;
+      this.blSelect?.registerOption(this);
     });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.blSelect?.unregisterOption(this);
   }
 }
 

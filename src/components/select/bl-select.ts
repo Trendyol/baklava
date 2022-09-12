@@ -32,25 +32,25 @@ export default class BlSelect extends LitElement {
    * Sets the size value. Select component's height value will be changed accordingly
    */
   @property({ type: String, reflect: true })
-  size?: SelectSize = 'medium';
+  size: SelectSize = 'medium';
 
   /**
    * When option is not selected, shows component in error state
    */
   @property({ type: Boolean })
-  required?: boolean = false;
+  required = false;
 
   /**
    * Shows the component in disabled state.
    */
   @property({ type: Boolean })
-  disabled?: boolean = false;
+  disabled = false;
 
   /**
    * Allows multiple options to be selected
    */
   @property({ type: Boolean })
-  multiple?: boolean = false;
+  multiple = false;
 
   /**
    * Makes label as fixed positioned
@@ -69,18 +69,6 @@ export default class BlSelect extends LitElement {
    */
   @property({ type: String, attribute: 'invalid-text' })
   customInvalidText?: string;
-
-  /**
-   * Shows the component in error state
-   */
-  @property({ type: Boolean })
-  error?: boolean = false;
-
-  /**
-   * Shows the component in success state
-   */
-  @property({ type: Boolean })
-  success?: boolean = false;
 
   /* Declare internal reactive properties */
   @state()
@@ -131,7 +119,7 @@ export default class BlSelect extends LitElement {
     return this._isInvalid;
   }
 
-  clickOutsideHandler = (event: MouseEvent) => {
+  private _clickOutsideHandler = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
 
     if (!this.contains(target) && this._isMenuOpen) {
@@ -172,12 +160,12 @@ export default class BlSelect extends LitElement {
   connectedCallback() {
     super.connectedCallback();
 
-    document.addEventListener('click', this.clickOutsideHandler);
+    document.addEventListener('click', this._clickOutsideHandler);
   }
   disconnectedCallback() {
     super.disconnectedCallback();
 
-    document.removeEventListener('click', this.clickOutsideHandler);
+    document.removeEventListener('click', this._clickOutsideHandler);
   }
 
   inputTemplate() {
@@ -187,7 +175,7 @@ export default class BlSelect extends LitElement {
     const _selectedItemCount = this._additionalSelectedOptionCount
       ? html`<span>+${this._additionalSelectedOptionCount}</span>`
       : null;
-    const removeIcon = this._isRemoveIconShow
+    const removeIcon = this._isRemoveIconVisible
       ? html`<bl-icon
           class="remove-all"
           name="close"
@@ -253,7 +241,7 @@ export default class BlSelect extends LitElement {
     return !this._selectedOptions.length;
   }
 
-  private get _isRemoveIconShow() {
+  private get _isRemoveIconVisible() {
     return this._selectedOptions.length;
   }
 
@@ -352,8 +340,10 @@ export default class BlSelect extends LitElement {
       _changedProperties.has('_selectedOptions') &&
       _changedProperties.get('_selectedOptions') instanceof Array
     ) {
-      this._checkAdditionalItemCount();
       this._checkRequired();
+      if (this.multiple) {
+        this._checkAdditionalItemCount();
+      }
     } else if (
       _changedProperties.has('multiple') &&
       typeof _changedProperties.get('multiple') === 'boolean'
@@ -366,10 +356,13 @@ export default class BlSelect extends LitElement {
     }
   }
 
+  /**
+   * This method is used by `bl-select-option` component to register itself to bl-select.
+   * @param option BlSelectOption reference to be registered
+   */
   registerOption(option: BlSelectOption) {
     this._connectedOptions.push(option);
 
-    option.isCheckbox = this.multiple;
     if (option.selected) {
       const optionItem = {
         value: option.value,
@@ -384,6 +377,15 @@ export default class BlSelect extends LitElement {
 
       this.requestUpdate();
     }
+  }
+
+  /**
+   * This method is used by `bl-select-option` component to unregister itself from bl-select.
+   * @param option BlSelectOption reference to be unregistered
+   */
+  unregisterOption(option: BlSelectOption) {
+    this._connectedOptions.splice(this._connectedOptions.indexOf(option), 1);
+    this._selectedOptions = this._selectedOptions.filter(item => item.value !== option.value);
   }
 }
 

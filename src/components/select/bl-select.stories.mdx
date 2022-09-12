@@ -35,12 +35,6 @@ import {
     helpText: {
       control: 'text'
     },
-    error: {
-      control: 'boolean'
-    },
-    success: {
-      control: 'boolean'
-    },
   }}
 />
 
@@ -60,7 +54,6 @@ export const SelectTemplate = (args) => html`<bl-select
     ?multiple='${args.multiple}'
     ?required='${args.required}'
     ?disabled='${args.disabled}'
-    ?error='${args.error}'
     ?success='${args.success}'
     size='${ifDefined(args.size)}'
     help-text='${ifDefined(args.helpText)}'
@@ -173,19 +166,6 @@ Select have 3 size options: `small`, `medium` and `large`. `medium` size is defa
   </Story>
   <Story name="Large Select" args={{ label: 'Choose country', size: 'large' }}>
     {SelectTemplate.bind({})}
-  </Story>
-</Canvas>
-
-## Select Success and Error States
-
-Select component supports success and error states. You can set `success` attribute to `true` to show success state or `error` attribute to `true` to show error state.
-
-<Canvas>
-  <Story name="Select Success" args={{ slot: SelectOptionsSelectedTemplate(), label: 'Choose country', success: true }}>
-    {WrapperTemplate.bind({})}
-  </Story>
-  <Story name="Select Error" args={{ slot: SelectOptionsTemplate(), label: 'Choose country', error: true }}>
-    {WrapperTemplate.bind({})}
   </Story>
 </Canvas>
 
