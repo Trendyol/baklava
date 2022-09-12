@@ -5,7 +5,7 @@
 
   --bl-button-main-color: var(--bl-color-primary);
   --bl-button-main-hover-color: var(--bl-color-primary-hover);
-  --bl-button-secondary-hover-color: var(--bl-color-secondary-background);
+  --bl-button-text-hover-color: var(--bl-color-secondary-background);
   --bl-button-content-color: var(--bl-color-primary-background);
   --bl-button-bg-color: var(--bl-button-main-color);
   --bl-button-border-color: var(--bl-button-main-color);
@@ -124,5 +124,5 @@
 
 :host([kind='text']:hover:not([disabled])) {
   --bl-button-content-color: var(--bl-button-main-hover-color);
-  --bl-button-bg-color: var(--bl-button-secondary-hover-color);
+  --bl-button-bg-color: var(--bl-button-text-hover-color);
 }
