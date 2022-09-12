@@ -1,0 +1,106 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Checkbox"
+  component="bl-checkbox"
+  argTypes={{
+    label: {
+      control: 'text'
+    },
+    disabled: {
+      control: 'boolean',
+      default: false
+    },
+    checked: {
+      control: 'boolean',
+      default: false
+    },
+    indeterminate: {
+      control: 'boolean',
+      default: false
+    }
+  }}
+/>
+
+export const CheckboxTemplate = (args) => html`
+<bl-checkbox
+    ?disabled=${args.disabled}
+    ?checked=${args.checked}
+    ?indeterminate=${args.indeterminate}>${args.label}</bl-checkbox>
+`;
+
+# Checkbox
+Checkbox component can be used to control checked / unchecked statuses.
+
+### Usage
+
+Use checkbox component for getting true/false input from users.
+
+* Don't use checkbox as an action button.
+* Checkbox label is not required but if you want to use checbox without a label, set `aria-label` attribute.
+
+## Basic
+
+You can show label by just using slot.
+
+<Canvas>
+  <Story name="Basic Usage" args={{ label: 'Label' }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Checked
+
+Checked state can be set via `checked` attribute.
+
+<Canvas>
+  <Story name="Checked" args={{ label: 'checkbox', checked: true }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Indeterminate
+
+Indeterminate state is regardless with `checked` state. A checkbox can be both `checked` and `indeterminate` at the
+same time.Indeterminate state is mainly used for parent/child selections while parent checkbox represents if all of
+the child will/should be checked or not. User interaction with checkbox (if checkbox is not disabled) takes checkbox
+from `indeterminate` state. Checkbox doesn't go this state with a user interaction.
+
+<Canvas>
+  <Story name="Indeterminate" args={{ label: 'checkbox', indeterminate: true }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Indeterminate And Checked
+
+Indeterminate state is regardless with `checked` state. A checkbox cannot be both `checked` and `indeterminate` at the
+same time. Unless there is a user interaction, when `indeterminate` state is active `checked` state changes ignored.
+
+<Canvas>
+  <Story name="Indeterminate And Checked" args={{ label: 'checkbox', indeterminate: true, checked: true }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled
+
+Disabled state can be set via `disabled` attribute. A checkbox can be `disabled` and `checked` (and even `indeterminate`) at the same time.
+
+<Canvas>
+  <Story name="Disabled" args={{ label: 'Disabled', disabled: true }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+  <Story name="Disabled and Checked" args={{ label: 'Disabled and Checked', disabled: true, checked: true }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+  <Story name="Disabled, Checked and Indeterminate" args={{ label: 'Disabled, Checked and Indeterminate', disabled: true, checked: true, indeterminate: true }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-checkbox" />

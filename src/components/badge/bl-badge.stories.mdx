@@ -52,6 +52,8 @@ ${BadgeTemplate({ content:'In Progress', size:'large', ...args })}
 # Badge
 Badge component can be used for highlighting a status or labeling an item.
 
+> **Note:** *Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.*
+
 ## Badge Variants
 There are no specific variants for the badge but we suggest using our color palette for badge colors. If you need else colors you can change color by using `--bl-badge-bg-color` and `--bl-badge-color` variables.
 You dont have to give style parameter you can change color by giving css class like this:
@@ -69,7 +71,7 @@ You can use the color model like this ways;
 * `hex`
 * `variables`
 
-Default background color is `--bl-color-accent-primary-background` and default color is `--bl-color-primary`. 
+Default background color is `--bl-color-accent-primary-background` and default color is `--bl-color-primary`.
 
 <Canvas>
 <Story name="Variants">
@@ -79,15 +81,22 @@ Default background color is `--bl-color-accent-primary-background` and default c
 
 ## Icon Badges
 To boost UX, you might want to add icons to your badge.Our icons are defined to be left of the default slot.
-To be able to use icon with badge, you should give the name of icon to `icon` attribute. 
+To be able to use icon with badge, you should give the name of icon to `icon` attribute.
 
 And you can only add icon for `large` or `medium` badge.
 
-<Canvas>
-    <Story name='Badge With Icons'>
-        {WithIconTemplate.bind({})}
-    </Story>
+<Canvas isColumn>
+  <Story name='Badge With Icons'>
+    {WithIconTemplate.bind({})}
+  </Story>
+  <Story name='Small Badge With Icon' args={{ icon: 'info', size: 'small', content: 'Show Info'}}>
+    {BadgeTemplate.bind({})}
+  </Story>
+  <Story name='Large Badge With Icon' args={{ icon: 'info', size: 'large', content: 'Show Info'}}>
+    {BadgeTemplate.bind({})}
+  </Story>
 </Canvas>
+
 
 ## Sizing Badges
 

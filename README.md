@@ -1,6 +1,6 @@
 # Baklava Design System
 
-![npm package](https://img.shields.io/npm/v/@trendyol/baklava/beta.svg) ![jsDelivr hits (npm scoped)](https://img.shields.io/jsdelivr/npm/hm/@trendyol/baklava) [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+[![npm package](https://img.shields.io/npm/v/@trendyol/baklava/beta.svg)](https://www.npmjs.com/package/@trendyol/baklava) [![jsDelivr hits (npm scoped)](https://img.shields.io/jsdelivr/npm/hm/@trendyol/baklava)](https://www.jsdelivr.com/package/npm/@trendyol/baklava) [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
 > This is a work-in-progress version. If you want to work on previous version (Grace) please check `main` branch.
 

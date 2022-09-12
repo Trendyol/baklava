@@ -10,11 +10,28 @@ const args = parseArgs(process.argv.slice(2), {
 (async () => {
   const { globby } = await import('globby');
   const destinationPath = 'dist';
+  const isRelease = process.env.RELEASE || false;
+
+  const cssPluginOptions = {
+    uglify: true,
+    filter: /components\/.*\.css$/
+  };
+  
+  if (!isRelease) {
+    cssPluginOptions.transform = (content) => content.replace(/.*:hover[^{]*/g, matched => {
+      // Replace :hover with special class. (There will be additional classes for focus, etc. Should be implemented in here.)
+      const replacedWithNewClass = matched.replace(/:hover/, '.__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__')
+      // Concat strings
+      return matched.concat(', ', replacedWithNewClass)
+    })
+  }
+  
 
   try {
     const buildOptions = {
       entryPoints: [
         'src/baklava.ts',
+        'src/baklava-react.ts',
         ...(await globby([
           'src/components/**/!(*.(test|d)).ts',
           'src/themes/*.css',
@@ -31,20 +48,13 @@ const args = parseArgs(process.argv.slice(2), {
       bundle: true,
       sourcemap: true,
       format: 'esm',
-      target: [
-        'es2020',
-        'chrome73',
-        'edge79',
-        'firefox63',
-        'safari12',
-      ],
+      target: ['es2020', 'chrome73', 'edge79', 'firefox63', 'safari12'],
       splitting: true,
       metafile: true,
       minify: true,
+      external: ['react'],
       plugins: [
-        litCssPlugin({
-          filter: /components\/.*\.css$/,
-        }),
+        litCssPlugin(cssPluginOptions),
       ],
     };
 
@@ -61,8 +71,6 @@ const args = parseArgs(process.argv.slice(2), {
 
       return;
     }
-
-    del.sync(destinationPath);
 
     const buildResult = await esbuild.build(buildOptions);
 

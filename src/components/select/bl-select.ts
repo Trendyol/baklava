@@ -6,8 +6,14 @@ import style from '../select/bl-select.css';
 import '../icon/bl-icon';
 import '../select/option/bl-select-option';
 import type BlSelectOption from './option/bl-select-option';
-import { ISelectOption, SelectSize } from './types';
 import { event, EventDispatcher } from '../../utilities/event';
+
+export interface ISelectOption {
+  value: string;
+  text: string;
+}
+
+export type SelectSize = 'medium' | 'large' | 'small';
 
 @customElement('bl-select')
 export default class BlSelect extends LitElement {
