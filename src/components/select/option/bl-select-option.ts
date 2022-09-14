@@ -40,24 +40,45 @@ export default class BlSelectOption extends LitElement {
 
   private blSelect: BlSelect | null;
 
-  render() {
-    const checkbox = this.isCheckbox
-      ? html`<input type="checkbox" .checked="${this.selected}" />`
-      : '';
-
-    return html`<div class="select-option" @click=${this.onClickOption}>
-      ${checkbox}
-      <span>
-        <slot></slot>
-      </span>
-    </div> `;
+  private singleOptionTemplate() {
+    return html`<div class="single-option" @click="${this._onClickOption}">
+      <slot></slot>
+    </div>`;
   }
 
-  onClickOption() {
+  private checkboxOptionTemplate() {
+    return html`<bl-checkbox
+      class="checkbox-option"
+      .checked="${this.selected}"
+      .disabled="${this.disabled}"
+      @bl-checkbox-change="${this._onCheckboxChange}"
+    >
+      <slot></slot>
+    </bl-checkbox>`;
+  }
+
+  render() {
+    return html`<div class="option-container">
+      ${this.isCheckbox ? this.checkboxOptionTemplate() : this.singleOptionTemplate()}
+    </div>`;
+  }
+
+  private _handleEvent() {
     this._onSelect({
       value: this.value,
       text: this.textContent,
+      selected: this.selected,
     } as ISelectOption);
+  }
+
+  private _onClickOption() {
+    this.selected = !this.selected;
+    this._handleEvent();
+  }
+
+  private _onCheckboxChange(event: CustomEvent) {
+    this.selected = event.detail;
+    this._handleEvent();
   }
 
   connectedCallback() {

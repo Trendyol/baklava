@@ -1,6 +1,7 @@
 import BlSelect from './bl-select';
 import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { BlIcon, BlSelectOption } from '../../baklava';
+import BlCheckbox from '../checkbox/bl-checkbox';
 
 describe('bl-select', () => {
   it('is defined', () => {
@@ -125,22 +126,20 @@ describe('bl-select', () => {
     expect(el.options.length).to.equal(2);
     expect(el.selectedOptions.length).to.equal(0);
   });
-  it('should fire event when click select option', async () => {
+  it('should fire event when click select option when it is not selected', async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);
 
     const selectOption = <BlSelectOption>el.querySelector('bl-select-option[value="1"]');
-    const selectOptionDiv = <HTMLDivElement>(
-      selectOption.shadowRoot?.querySelector('.select-option')
-    );
 
-    setTimeout(() => selectOptionDiv?.click());
-    const event = await oneEvent(el, 'bl-select');
+    const selectOptionCheckbox = <BlCheckbox>selectOption.shadowRoot?.querySelector('bl-checkbox');
+    const checkboxEvent = new CustomEvent('bl-checkbox-change', {
+      detail: true,
+    });
+    selectOptionCheckbox?.dispatchEvent(checkboxEvent);
 
-    expect(event).to.exist;
-    expect(event.detail.length).to.equal(2);
     expect(el.selectedOptions.length).to.equal(2);
   });
   it('should fire event when click select option', async () => {
@@ -151,7 +150,7 @@ describe('bl-select', () => {
 
     const selectOption = <BlSelectOption>el.querySelector('bl-select-option[value="1"]');
     const selectOptionDiv = <HTMLDivElement>(
-      selectOption.shadowRoot?.querySelector('.select-option')
+      selectOption.shadowRoot?.querySelector('.single-option')
     );
 
     setTimeout(() => selectOptionDiv?.click());
@@ -168,15 +167,12 @@ describe('bl-select', () => {
     </bl-select>`);
 
     const selectOption = <BlSelectOption>el.querySelector('bl-select-option[value="2"]');
-    const selectOptionDiv = <HTMLDivElement>(
-      selectOption.shadowRoot?.querySelector('.select-option')
-    );
+    const selectOptionCheckbox = <BlCheckbox>selectOption.shadowRoot?.querySelector('bl-checkbox');
+    const checkboxEvent = new CustomEvent('bl-checkbox-change', {
+      detail: true,
+    });
+    selectOptionCheckbox?.dispatchEvent(checkboxEvent);
 
-    setTimeout(() => selectOptionDiv?.click());
-    const event = await oneEvent(el, 'bl-select');
-
-    expect(event).to.exist;
-    expect(event.detail.length).to.equal(0);
     expect(el.selectedOptions.length).to.equal(0);
   });
   it('should clear connected options & selected items when multiple property has changed', async () => {

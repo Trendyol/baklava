@@ -11,6 +11,7 @@ import { event, EventDispatcher } from '../../utilities/event';
 export interface ISelectOption {
   value: string;
   text: string;
+  selected: boolean;
 }
 
 export type SelectSize = 'medium' | 'large' | 'small';
@@ -174,7 +175,7 @@ export default class BlSelect extends LitElement {
     document.removeEventListener('click', this._clickOutsideHandler);
   }
 
-  inputTemplate() {
+  private inputTemplate() {
     const inputSelectedOptions = html`<ul class="selected-options">
       ${this._selectedOptions.map(item => html`<li>${item.text}</li>`)}
     </ul>`;
@@ -182,13 +183,7 @@ export default class BlSelect extends LitElement {
       ? html`<span>+${this._additionalSelectedOptionCount}</span>`
       : null;
     const removeIcon = this._isRemoveIconVisible
-      ? html`<bl-icon
-          class="remove-all"
-          name="close"
-          title="close"
-          style="font-size: var(--bl-font-size-xs);"
-          @click=${this._onClickRemove}
-        ></bl-icon>`
+      ? html` <bl-icon class="remove-all" name="close" @click=${this._onClickRemove}></bl-icon>`
       : null;
 
     const placeholder = this._showPlaceHolder
@@ -204,15 +199,14 @@ export default class BlSelect extends LitElement {
       <div class="actions">
         ${removeIcon}
         <bl-icon
+          class="dropdown-icon"
           name="${this._isMenuOpen ? 'arrow_up' : 'arrow_down'}"
-          title="arrow_down"
-          style="font-size: var(--bl-font-size-m)"
         ></bl-icon>
       </div>
     </div>`;
   }
 
-  menuTemplate() {
+  private menuTemplate() {
     return html`<div class="select-menu" @bl-select-option=${this._handleSelectOptionEvent}>
       <slot></slot>
     </div>`;
@@ -268,46 +262,37 @@ export default class BlSelect extends LitElement {
     this._onBlSelect(this._selectedOptions);
   }
 
-  private _handleSingleSelect(
-    optionItem: ISelectOption,
-    target: HTMLElement & { selected: boolean }
-  ) {
+  private _handleSingleSelect(optionItem: ISelectOption) {
     const oldItem = this._connectedOptions.find(option => option.selected);
 
     if (oldItem) {
       oldItem.selected = false;
     }
-    target.selected = true;
 
     this._selectedOptions = [optionItem];
     this._handleSelectEvent();
     this._isMenuOpen = false;
   }
 
-  private _handleMultipleSelect(
-    optionItem: ISelectOption,
-    target: HTMLElement & { selected: boolean }
-  ) {
+  private _handleMultipleSelect(optionItem: ISelectOption) {
     const { value } = optionItem;
 
-    if (target.selected) {
+    if (!optionItem.selected) {
       this._selectedOptions = this._selectedOptions.filter(item => item.value !== value);
     } else {
       this._selectedOptions = [...this._selectedOptions, optionItem];
     }
-    target.selected = !target.selected;
 
     this._handleSelectEvent();
   }
 
   private _handleSelectOptionEvent(e: CustomEvent) {
     const optionItem = e.detail as ISelectOption;
-    const target = e.target as HTMLElement & { selected: boolean };
 
     if (this.multiple) {
-      this._handleMultipleSelect(optionItem, target);
+      this._handleMultipleSelect(optionItem);
     } else {
-      this._handleSingleSelect(optionItem, target);
+      this._handleSingleSelect(optionItem);
     }
   }
 
@@ -373,6 +358,7 @@ export default class BlSelect extends LitElement {
       const optionItem = {
         value: option.value,
         text: option.textContent,
+        selected: option.selected,
       } as ISelectOption;
 
       if (this.multiple) {
