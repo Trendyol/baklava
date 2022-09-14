@@ -6,19 +6,21 @@ import { Meta } from '@storybook/addon-docs';
 
 Baklava uses a list of defined size variables.Using the right sizes will create consistency and hierarchy in user interface.
 
+In our provided themes, we are using `rem` values for the sizing variables to provide better accessibility. You can see pixel equivalents in the table below, with default browser sizing (1rem = 16px)
+
 | Variable                |      Value      |   <div style={{ width: '25rem' }}>Example</div>  |
 |-----------------------|:-------------:|:----------:|
-| --bl-size-4xs |  0.125rem (2px)   | <div style={{ width: '5rem', height: '0.125rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-3xs |  0.25rem  (4px)   | <div style={{ width: '5rem', height: '0.25rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-2xs |  0.5rem  (8px)    | <div style={{ width: '5rem', height: '0.5rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-xs  |  0.75rem  (12px)  | <div style={{ width: '5rem', height: '0.75rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-s   |  0.875rem  (14px) | <div style={{ width: '5rem', height: '0.875rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-m   |  1rem  (16px)     | <div style={{ width: '5rem', height: '1rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-l   |  1.25rem  (20px)  | <div style={{ width: '5rem', height: '1.25rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-xl  |  1.5rem  (24px)   | <div style={{ width: '5rem', height: '1.5rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-2xl |  2rem  (32px)     | <div style={{ width: '5rem', height: '2rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-3xl |  2.5rem  (40px)   | <div style={{ width: '5rem', height: '2.5rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-4xl |  3rem  (48px)     | <div style={{ width: '5rem', height: '3rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-5xl |  4rem  (64px)     | <div style={{ width: '5rem', height: '4rem', backgroundColor: '#d9e0e8' }}></div> |
-| --bl-size-6xl |  5rem  (80px)     | <div style={{ width: '5rem', height: '5rem', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-4xs |  0.125rem (2px)   | <div style={{ width: '5rem', height: 'var(--bl-size-4xs)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-3xs |  0.25rem  (4px)   | <div style={{ width: '5rem', height: 'var(--bl-size-3xs)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-2xs |  0.5rem  (8px)    | <div style={{ width: '5rem', height: 'var(--bl-size-2xs)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-xs  |  0.75rem  (12px)  | <div style={{ width: '5rem', height: 'var(--bl-size-xs)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-s   |  0.875rem  (14px) | <div style={{ width: '5rem', height: 'var(--bl-size-s)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-m   |  1rem  (16px)     | <div style={{ width: '5rem', height: 'var(--bl-size-m)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-l   |  1.25rem  (20px)  | <div style={{ width: '5rem', height: 'var(--bl-size-l)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-xl  |  1.5rem  (24px)   | <div style={{ width: '5rem', height: 'var(--bl-size-xl)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-2xl |  2rem  (32px)     | <div style={{ width: '5rem', height: 'var(--bl-size-2xl)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-3xl |  2.5rem  (40px)   | <div style={{ width: '5rem', height: 'var(--bl-size-3xl)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-4xl |  3rem  (48px)     | <div style={{ width: '5rem', height: 'var(--bl-size-4xl)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-5xl |  4rem  (64px)     | <div style={{ width: '5rem', height: 'var(--bl-size-5xl)', backgroundColor: '#d9e0e8' }}></div> |
+| --bl-size-6xl |  5rem  (80px)     | <div style={{ width: '5rem', height: 'var(--bl-size-6xl)', backgroundColor: '#d9e0e8' }}></div> |
 
