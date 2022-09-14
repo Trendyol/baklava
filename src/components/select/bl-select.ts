@@ -138,7 +138,7 @@ export default class BlSelect extends LitElement {
   private _showSelectMenu() {
     const defaultMaxHeight = parseInt(
       getComputedStyle(this._selectMenu)
-        .getPropertyValue('--bl-select-menu-height')
+        .getPropertyValue('--menu-height')
         .replace('px', '')
     );
 
@@ -183,7 +183,10 @@ export default class BlSelect extends LitElement {
       ? html`<span>+${this._additionalSelectedOptionCount}</span>`
       : null;
     const removeIcon = this._isRemoveIconVisible
-      ? html` <bl-icon class="remove-all" name="close" @click=${this._onClickRemove}></bl-icon>`
+      ? html` <bl-icon
+        class="remove-all"
+        name="close"
+        @click=${this._onClickRemove}></bl-icon>`
       : null;
 
     const placeholder = this._showPlaceHolder

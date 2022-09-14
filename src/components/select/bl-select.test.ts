@@ -19,7 +19,7 @@ describe('bl-select', () => {
           <span class="placeholder"></span>
           <ul class="selected-options"></ul>
           <div class="actions">
-            <bl-icon title="arrow_down" style="font-size: var(--bl-font-size-m)" name="arrow_down"></bl-icon>
+          <bl-icon  class="dropdown-icon" name="arrow_down"></bl-icon>
           </div>
         </div>
         <div class="select-menu">
@@ -169,7 +169,7 @@ describe('bl-select', () => {
     const selectOption = <BlSelectOption>el.querySelector('bl-select-option[value="2"]');
     const selectOptionCheckbox = <BlCheckbox>selectOption.shadowRoot?.querySelector('bl-checkbox');
     const checkboxEvent = new CustomEvent('bl-checkbox-change', {
-      detail: true,
+      detail: false,
     });
     selectOptionCheckbox?.dispatchEvent(checkboxEvent);
 
@@ -190,7 +190,7 @@ describe('bl-select', () => {
   });
   it('should open select menu above input when there is not enough space below', async () => {
     const el = await fixture(html`<div
-      style="max-height: 200px; padding-top: 5rem; overflow: hidden;"
+      style="max-height: 200px; padding-top: 4rem; overflow: hidden;"
     >
       <bl-select multiple>
         <bl-select-option value="1">Option 1</bl-select-option>
