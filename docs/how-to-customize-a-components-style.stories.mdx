@@ -1,0 +1,74 @@
+import { Meta, Description } from '@storybook/addon-docs';
+import cssCustomPropertiesStorybookImage from './images/css-custom-properties-storybook.png'
+import cssCustomPropertiesComponentImage from './images/css-custom-properties-component.png'
+
+<Meta
+  title="Documentation/How To Customize A Components Style"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: {
+        hidden: true,
+      },
+    },
+  }}
+/>
+
+# How to customize a component's style?
+> You can look at our [discussion](https://github.com/Trendyol/baklava/discussions/164) to know more about our decision process.
+
+All __private__ CSS variables should be defined under a wrapping element (For example: [.badge](https://github.com/Trendyol/baklava/blob/4ea8f5aca610a97c73898c8d13173da079a2c776/src/components/badge/bl-badge.css#L6)
+for the badge component) __inside__ the component.
+By doing this, we apply a __safer__ approach. We prevented developers to style components __unintentionally__. Thanks to this, we don't need to specify variables
+with prefixes in every component. Therefore, should be no prefixes in local variables. Because those are only used inside a component. 
+
+### What about public variables?
+Let's take a badge component as an example:
+```css
+/* bl-badge.css */
+:host {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.badge {
+    /* Variable definition start */
+  --bg-color: var(--bl-badge-bg-color, var(--bl-color-accent-primary-background));
+  --color: var(--bl-badge-color, var(--bl-color-primary));
+  --font: var(--bl-font-title-4-medium);
+  --padding-vertical: var(--bl-size-3xs);
+  --padding-horizontal: var(--bl-size-3xs);
+  --margin-icon: var(--bl-size-3xs);
+  --icon-size: var(--bl-size-s);
+  --height: var(--bl-size-xl);
+    /* Variable definition stop */
+
+  /* ... */
+  /* Using variables start */
+  gap: var(--margin-icon);
+  border-radius: var(--bl-size-4xs);
+  padding: var(--padding-vertical) var(--padding-horizontal);
+  background-color: var(--bg-color);
+  color: var(--color, white);
+  font: var(--font);
+  height: var(--height);
+  /* ... */
+  /* Using variables end */
+}
+```
+By the __nature__ of this component, we let users to change background color and color. To accomplish this,
+we define a default variables `--bl-badge-bg-color` and `--bl-badge-color` and fill it with our default definitions like this:
+
+```css
+--bg-color: var(--bl-badge-bg-color, var(--bl-color-accent-primary-background));
+--color: var(--bl-badge-color, var(--bl-color-primary));
+```
+Therefore, if users want to change its background color and/or color, they should change `--bl-badge-bg-color` and/or `--bl-badge-color`.
+
+We __must__ define public variables in the component like this:
+
+<img src={cssCustomPropertiesComponentImage} />
+
+It will be shown in the storybook like this:
+
+<img src={cssCustomPropertiesStorybookImage} />
