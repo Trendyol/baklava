@@ -17,12 +17,21 @@ import cssCustomPropertiesComponentImage from './images/css-custom-properties-co
 # How to customize a component's style?
 > You can look at our [discussion](https://github.com/Trendyol/baklava/discussions/164) to know more about our decision process.
 
+Design system is the set of design tokens and principles that aims to create consistency in terms of both experience and development.
+Therefore, it has intentionally limited flexibility. To prevent the loss of standarts and experience, we don't want and let users to change directly component's style.
+
+In Baklava, we create __web components__. Our components works in an Shadow DOM, obviously. Therefore, components are isolated from the page DOM and their styles are scoped to their DOM. Thanks to this, style rules don't leak out and we can decide whether this rule can change or not by the user while developing the component.
+To create flexibility in components, we use CSS custom properties. If we need to allow users customize styling options, we define them as a CSS custom variables.
+
+### For Contributors
+
 All __private__ CSS variables should be defined under a wrapping element (For example: [.badge](https://github.com/Trendyol/baklava/blob/4ea8f5aca610a97c73898c8d13173da079a2c776/src/components/badge/bl-badge.css#L6)
 for the badge component) __inside__ the component.
 By doing this, we apply a __safer__ approach. We prevented developers to style components __unintentionally__. Thanks to this, we don't need to specify variables
-with prefixes in every component. Therefore, should be no prefixes in local variables. Because those are only used inside a component. 
+with prefixes in every component. Therefore, should be no prefixes in local variables. Because those are only used inside a component.
+However, if we want to add some flexibility, customizability, we define variables with components prefix like `--bl-badge-bg-color`.
 
-### What about public variables?
+#### Example
 Let's take a badge component as an example:
 ```css
 /* bl-badge.css */
