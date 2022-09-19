@@ -39,14 +39,18 @@
   --font-size: var(--bl-font-size-s);
 }
 
+.placeholder {
+  color: var(--placeholder-color);
+}
+
+:host([disabled]) .placeholder {
+  --placeholder-color: var(--bl-color-content-passive);
+}
+
 .invalid {
   --border-color: var(--bl-color-danger);
   --border-focus-color: var(--bl-color-danger-hover);
   --label-color: var(--bl-color-danger);
-}
-
-.placeholder {
-  color: var(--placeholder-color);
 }
 
 .select-input {
@@ -112,6 +116,11 @@
 
 .selected-options li:not(:last-child)::after {
   content: ', ';
+}
+
+:host([disabled]) .selected-options li
+{
+  color: var(--bl-color-content-passive);
 }
 
 .select-input .actions {

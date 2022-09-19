@@ -11,9 +11,6 @@ import {
   title="Components/SelectOption"
   component="bl-select-option"
   argTypes={{
-    value: {
-      control: 'text',
-    },
     disabled: {
       control: 'boolean',
     },
@@ -28,15 +25,15 @@ Select option component is a component should be used inside a select component.
 
 export const Template = (args) => html`
   <bl-select-option
-    value='${ifDefined(args.value)}'
+    value="bl"
     ?disabled='${args.disabled}'
     ?selected='${args.selected}'
-  >${args.slot}</bl-select-option>
+  >baklava</bl-select-option>
 `
 
 ## Basic Usage
 <Canvas>
-  <Story name="Basic Usage" args={{ value: 'bl', slot: 'baklava' }}>
+  <Story name="Basic Usage">
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -44,7 +41,7 @@ export const Template = (args) => html`
 ## Selected
 If you want to select an option by default, you can use the `selected` attribute.
 <Canvas>
-  <Story name="Selected" args={{ value: 'bl', slot: 'baklava', selected: true }}>
+  <Story name="Selected" args={{ selected: true }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -52,7 +49,7 @@ If you want to select an option by default, you can use the `selected` attribute
 ## Disabled
 If you want to disable an option, you can use the `disabled` attribute.
 <Canvas>
-  <Story name="Disabled" args={{ value: 'bl', slot: 'baklava', disabled: true }}>
+  <Story name="Disabled" args={{ disabled: true }}>
     {Template.bind({})}
   </Story>
 </Canvas>

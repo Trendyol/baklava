@@ -38,16 +38,6 @@ import {
   }}
 />
 
-export const SelectOptionsTemplate = () => html`
-    <bl-select-option value="tr">Turkey</bl-select-option>
-    <bl-select-option value="nl">Netherlands</bl-select-option>
-    `
-
-export const SelectOptionsSelectedTemplate = () => html`
-    <bl-select-option value="tr" selected>Turkey</bl-select-option>
-    <bl-select-option value="nl">Netherlands</bl-select-option>
-    `
-
 export const SelectTemplate = (args) => html`<bl-select
     label='${ifDefined(args.label)}'
     ?label-fixed='${args.labelFixed}'
@@ -58,23 +48,37 @@ export const SelectTemplate = (args) => html`<bl-select
     size='${ifDefined(args.size)}'
     help-text='${ifDefined(args.helpText)}'
     invalid-text='${ifDefined(args.customInvalidText)}'
-    placeholder='${ifDefined(args.placeholder)}'>${args.slot}</bl-select>`
+    placeholder='${ifDefined(args.placeholder)}'>
+    <bl-select-option value="tr">Turkey</bl-select-option>
+    <bl-select-option value="nl">Netherlands</bl-select-option>
+</bl-select>`
 
-export const WrapperTemplate = (args) => html`
-<div style="height: 7rem;">
-  ${SelectTemplate(args)}
-</div>`
+export const SelectOptionsSelectedTemplate = (args) => html`<bl-select
+    label='${ifDefined(args.label)}'
+    ?label-fixed='${args.labelFixed}'
+    ?multiple='${args.multiple}'
+    ?required='${args.required}'
+    ?disabled='${args.disabled}'
+    ?success='${args.success}'
+    size='${ifDefined(args.size)}'
+    help-text='${ifDefined(args.helpText)}'
+    invalid-text='${ifDefined(args.customInvalidText)}'
+    placeholder='${ifDefined(args.placeholder)}'>
+    <bl-select-option value="tr">Turkey</bl-select-option>
+    <bl-select-option value="nl" selected>Netherlands</bl-select-option>
+</bl-select>`
 
 # Select
 Select component is a component for selecting a value from a list of options.
+Each option should be wrapped with `bl-select-option` component.
 
 ## Basic Usage
 <Canvas>
-  <Story name="Basic Usage" args={{ slot: SelectOptionsTemplate(), placeholder: "Choose country" }}>
-    {WrapperTemplate.bind({})}
-  </Story>
-  <Story name="Select With Selected Option" args={{ slot: SelectOptionsSelectedTemplate(), placeholder: "Choose country"  }}>
+  <Story name="Basic Usage" height="8rem" args={{ placeholder: "Choose country" }}>
     {SelectTemplate.bind({})}
+  </Story>
+  <Story name="Select With Selected Option" args={{ placeholder: "Choose country"  }}>
+    {SelectOptionsSelectedTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -82,11 +86,11 @@ Select component is a component for selecting a value from a list of options.
 There will be checkboxes in select menu when `multiple` attribute is set to true.
 Selected options will be visible on input seperated by commas.
 <Canvas>
-  <Story name="Multiple Select" args={{ slot: SelectOptionsTemplate(), placeholder: "Choose countries", multiple: true }}>
-    {WrapperTemplate.bind({})}
-  </Story>
-  <Story name="Multiple Select With Selected Options" args={{ slot: SelectOptionsSelectedTemplate(), placeholder: "Choose countries", multiple: true  }}>
+  <Story name="Multiple Select" height="8rem" args={{ placeholder: "Choose countries", multiple: true }}>
     {SelectTemplate.bind({})}
+  </Story>
+  <Story name="Multiple Select With Selected Options" args={{ placeholder: "Choose countries", multiple: true  }}>
+    {SelectOptionsSelectedTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -113,11 +117,11 @@ If you want to use always it on top of the input, then you can use `label-fixed`
 Select component can be disabled by using `disabled` attribute.
 
 <Canvas>
-  <Story name="Disabled Select" args={{ slot: SelectOptionsTemplate(), placeholder: "Choose country", disabled: true }}>
+  <Story name="Disabled Select" args={{ placeholder: "Choose country", disabled: true }}>
     {SelectTemplate.bind({})}
   </Story>
-  <Story name="Disabled Select with Selected Option" args={{ slot: SelectOptionsSelectedTemplate(), placeholder: "Choose country", disabled: true }}>
-    {SelectTemplate.bind({})}
+  <Story name="Disabled Select with Selected Option" args={{ placeholder: "Choose country", disabled: true }}>
+    {SelectOptionsSelectedTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -126,7 +130,7 @@ Select component can be disabled by using `disabled` attribute.
 You can give extra information to user with `help-text` attribute.
 
 <Canvas>
-  <Story name="Select Help Text" args={{ helpText: 'You should select your country' }}>
+  <Story name="Select Help Text" height="8rem" args={{ helpText: 'You should select your country' }}>
     {SelectTemplate.bind({})}
   </Story>
 </Canvas>
@@ -138,8 +142,8 @@ Select component supports only `required` rule just for now. Other validation ru
 Select validation will run after user selects a value and go out from the input. If there is a validation issue, select will be highlighted in error state. After this state every change will have immediate effect on input to update validation state.
 
 <Canvas>
-  <Story name="Validation with Text Input" args={{ slot: SelectOptionsTemplate(), label: 'Choose country', required: true }}>
-    {WrapperTemplate.bind({})}
+  <Story name="Validation with Select" height="8rem" args={{ label: 'Choose country', required: true }}>
+    {SelectTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -147,9 +151,10 @@ You can set an error message by setting `invalid-text` attribute.
 
 <Canvas>
   <Story name="Custom Error Message"
-         args={{ slot: SelectOptionsTemplate(), label: 'Choose country', required: true, customInvalidText: 'This field is mandatory' }}
+         height="8rem"
+         args={{ label: 'Choose country', required: true, customInvalidText: 'This field is mandatory' }}
   >
-    {WrapperTemplate.bind({})}
+    {SelectTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -158,7 +163,7 @@ You can set an error message by setting `invalid-text` attribute.
 Select have 3 size options: `small`, `medium` and `large`. `medium` size is default and if you want to show select in another size you can set `size` attribute to `large` or `small`.
 
 <Canvas>
-  <Story name="Small Select" args={{ label: 'Choose country', size: 'small' }}>
+  <Story name="Small Select" height="8rem" args={{ label: 'Choose country', size: 'small' }}>
     {SelectTemplate.bind({})}
   </Story>
   <Story name="Medium Select" args={{ label: 'Choose country' }}>
