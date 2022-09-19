@@ -71,7 +71,20 @@ we define a default variables `--bl-badge-bg-color` and `--bl-badge-color` and f
 --bg-color: var(--bl-badge-bg-color, var(--bl-color-accent-primary-background));
 --color: var(--bl-badge-color, var(--bl-color-primary));
 ```
+
 Therefore, if users want to change its background color and/or color, they should change `--bl-badge-bg-color` and/or `--bl-badge-color`.
+```css
+.wrapper {
+  --bl-badge-bg-color: red;
+  --bl-badge-color: white;
+}
+```
+```js
+<div class="wrapper">
+  <bl-badge>badge component</bl-badge>
+</div>
+```
+
 
 We __must__ define public variables in the component like this:
 
