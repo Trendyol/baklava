@@ -9,4 +9,5 @@ export { default as BlTooltip } from './components/tooltip/bl-tooltip';
 export { default as BlProgressIndicator } from './components/progress-indicator/bl-progress-indicator';
 export { default as BlCheckbox } from './components/checkbox/bl-checkbox';
 export { default as BlAlert } from './components/alert/bl-alert';
+export { default as BlPagination } from './components/pagination/bl-pagination';
 export { getIconPath, setIconPath } from './utilities/asset-paths';

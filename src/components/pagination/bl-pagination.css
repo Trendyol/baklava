@@ -1,0 +1,40 @@
+:host {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination {
+  --bl-pagination-main-color: var(--bl-color-secondary);
+  --arrow-disabled-color: var(--bl-color-content-passive);
+
+  display: flex;
+}
+
+.pagination * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.page-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.page-list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  user-select: none;
+}
+
+.dotted-pages {
+  cursor: not-allowed;
+  pointer-events: none;
+  padding: 0 var(--bl-size-2xs) 0.375rem;
+}
+
+.pagination-helpers {
+  margin-right: var(--bl-size-2xs);
+}
