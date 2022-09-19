@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { FormControlMixin } from '@open-wc/form-control';
 import { submit } from '@open-wc/form-helpers';
+import { live } from 'lit/directives/live.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import 'element-internals-polyfill';
 import '../icon/bl-icon';
@@ -219,7 +220,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
       <input
         type=${this.type}
         class=${classMap(classes)}
-        value=${ifDefined(this.value)}
+        .value=${live(this.value)}
         placeholder="${ifDefined(this.placeholder)}"
         minlength="${ifDefined(this.minlength)}"
         maxlength="${ifDefined(this.maxlength)}"
