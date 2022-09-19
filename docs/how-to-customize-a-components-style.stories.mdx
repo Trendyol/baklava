@@ -17,11 +17,9 @@ import cssCustomPropertiesComponentImage from './images/css-custom-properties-co
 # How to customize a component's style?
 > You can look at our [discussion](https://github.com/Trendyol/baklava/discussions/164) to know more about our decision process.
 
-Design system is the set of design tokens and principles that aims to create consistency in terms of both experience and development. Also, it represents a branding in terms of design. Every components are written with the design language that Baklava provides. It has intentionally limited flexibility. To prevent the loss of standarts and experience, we don't want and let users to change directly component's style.
-However, we allow users to create their own theme and use it for Baklava.
+A design system is a set of design tokens and principles that aims to create consistency in terms of both experience and development. Also, it represents branding in terms of design. Every component is written with the design language that Baklava provides. It has intentionally limited flexibility. To prevent the loss of standards and experience, we don't want and let users change directly component's style. However, we allow users to create their theme and use it for Baklava.
 
-In Baklava, we create __web components__. Our components works in an Shadow DOM, obviously. Therefore, components are isolated from the page DOM and their styles are scoped to their DOM. Thanks to this, style rules don't leak out and we can decide whether this rule can change or not by the user while developing the component.
-To create flexibility in components, we use CSS custom properties. If we need to allow users customize styling options, we define them as a CSS custom variables.
+In Baklava, we create __web components__. Our components work in a Shadow DOM. Therefore, components are isolated from the page DOM and their styles are scoped to their DOM. Thanks to this, style rules don't leak out and we can decide whether this rule can change or not by the user while developing the component. To create flexibility in components, we use CSS custom properties. If we need to allow users to customize styling options, we define them as CSS custom variables.
 
 
 ### For Contributors
