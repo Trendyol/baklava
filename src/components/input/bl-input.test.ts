@@ -64,6 +64,7 @@ describe('bl-input', () => {
 
     it('should be invalid with required attribute', async () => {
       const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
+      console.log(el.validity);
 
       expect(el.validity.valid).to.be.false;
     });

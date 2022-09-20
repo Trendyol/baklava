@@ -125,19 +125,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
    */
   @event('bl-input') private onInput: EventDispatcher<string>;
 
-  /**
-   * Current validity state of input
-   */
-  validity: ValidityState;
-
-  // /**
-  //  * Runs input validation
-  //  */
-  // reportValidity() {
-  //   this._dirty = true;
-  //   this.validationTarget.checkValidity();
-  // }
-
   constructor() {
     super();
     this.addEventListener('keydown', this.onKeydown);
