@@ -15,12 +15,11 @@ import playgroundLandingPage from './images/playground-landing-page.png'
 
 # How to use playground?
 Playground is a demonstration area for developers. It stays under the `playground` folder in the root. It helps you to test your features & components by eliminating the need for stories.
+Every change in your `html` file will be served immediately.
 
-<bl-alert variant="warning" caption="Note">You should not commit the changes in the playground folder.</bl-alert>
+<bl-alert variant="warning" caption="Note" icon>Playground folder is ignored from Git index except template.html file. It's not intended to make changes on template.html file unless you want to suggest something on template that you consider it will be helpful for everyone.</bl-alert>
 
-You can run it with `npm run serve`, then it builds project and run the build in `watch mode` at port `8000`. You can either create a `foo.html` file and work on it or simply use `template.html`.
-It looks like this,
+You can run it with `npm run serve`, then it builds project and run the build in `watch mode` at port `8000`.
 
 <img src={playgroundLandingPage}></img>
 
-Every change in your `html` file will be served immediately. However, if you change your component, you should rebuild the project by using `npm run build`.
