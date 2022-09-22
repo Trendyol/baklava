@@ -22,6 +22,7 @@
   visibility: var(--visibility);
   z-index: 999;
   max-width: 424px;
+  width: max-content;
 }
 
 .arrow {
