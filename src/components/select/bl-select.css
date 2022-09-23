@@ -85,12 +85,21 @@
   display: block;
 }
 
+:host([disabled]) .remove-all,
+:host([disabled]) .remove-all::after {
+  display: none;
+}
+
 .dropdown-icon {
   font-size: var(--bl-font-size-m);
 }
 
 .selected .dropdown-icon {
   --icon-color: var(--bl-color-secondary);
+}
+
+:host([disabled]) .dropdown-icon {
+  --icon-color: var(--bl-color-content-passive);
 }
 
 .select-open .select-input {

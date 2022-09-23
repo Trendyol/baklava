@@ -191,7 +191,7 @@ export default class BlSelect extends LitElement {
     const _selectedItemCount = this._additionalSelectedOptionCount
       ? html`<span>+${this._additionalSelectedOptionCount}</span>`
       : null;
-    const removeButton = html` <bl-button
+    const removeButton = html`<bl-button
         class="remove-all"
         variant="secondary"
         size="small"
@@ -311,8 +311,8 @@ export default class BlSelect extends LitElement {
     if (!this.multiple) return;
 
     let visibleItems = 0;
-    for (let i = 0; i < this._selectedOptionsItems.length; i++) {
-      if (this._selectedOptionsItems[i].offsetLeft < this._selectedOptionsContainer.offsetWidth) {
+    for(const value of this._selectedOptionsItems) {
+      if (value.offsetLeft < this._selectedOptionsContainer.offsetWidth) {
         visibleItems++;
       } else {
         break;

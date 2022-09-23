@@ -1,9 +1,8 @@
 import { LitElement, html, CSSResultGroup } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
-import { ISelectOption } from '../bl-select';
+import BlSelect, { ISelectOption } from '../bl-select';
 import style from './bl-select-option.css';
-import BlSelect from '../bl-select';
 
 @customElement('bl-select-option')
 export default class BlSelectOption extends LitElement {
