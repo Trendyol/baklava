@@ -47,7 +47,7 @@ export default class BlPagination extends LitElement {
    * Sets the jumper label
    */
   @property({ attribute: 'jumper-label', type: String })
-  jumperLabel = "Go To";
+  jumperLabel = 'Go To';
 
   /**
    *  Adds itemsPerPage element if provided as true
@@ -70,60 +70,35 @@ export default class BlPagination extends LitElement {
   }
 
   private _paginate() {
-    // clean up the previous pages
     this.pages = [];
-    const pageListLength = Math.ceil(Math.abs(this.totalResults / this.resultPerPage));
+    const pageListLength = Math.ceil(Math.abs(this.totalResults / this.resultPerPage)) || 1;
 
     if (pageListLength <= 8) {
-      // Create a new array with the range numbers
       this.pages = Array.from(Array(pageListLength), (_, index) => index + 1);
       return;
     }
 
-    for (let i = 1; i <= pageListLength; i++) {
-      // If the current page is 5 or less, show pages 1-5, then ellipses, then the last page
+    this.pages.push(1);
 
-      if (this.currentPage < 5 && i < 6) {
-        this.pages.push(i);
-        continue;
-      }
-
-      if (i == 7 && this.currentPage < 5) {
-        this.pages.push('...');
-        continue;
-      }
-
-      // if the current page is within five places of the last page, show the last five pages.
-      if (this.currentPage > pageListLength - 4 && i > pageListLength - 5) {
-        this.pages.push(i);
-        continue;
-      }
-
-      if (i == pageListLength - 6 && this.currentPage > pageListLength - 4) {
-        this.pages.push('...');
-        continue;
-      }
-
-      // Show the first page, then ellipses,  then the current page surrounded by a page and last page
-      if (i < 2) {
-        this.pages.push(i);
-      } else if (i == this.currentPage - 1) {
-        this.pages.push('...');
-        this.pages.push(i);
-      } else if (i == this.currentPage) {
-        this.pages.push(i);
-        continue;
-      } else if (i == this.currentPage + 1 && this.currentPage < pageListLength - 3) {
-        this.pages.push(i);
-        this.pages.push('...');
-      }
-
-      if (i == pageListLength) {
-        this.pages.push(i);
-      }
+    if (this.currentPage < 5) {
+      this.pages.push(2, 3, 4, 5, '...');
     }
 
-    this.renderPages();
+    if (this.currentPage > pageListLength - 4) {
+      this.pages.push(
+        '...',
+        pageListLength - 4,
+        pageListLength - 3,
+        pageListLength - 2,
+        pageListLength - 1
+      );
+    }
+
+    if (this.currentPage >= 5 && this.currentPage <= pageListLength - 4) {
+      this.pages.push('...', this.currentPage - 1, this.currentPage, this.currentPage + 1, '...');
+    }
+
+    this.pages.push(pageListLength);
   }
 
   private _changePage(page: number | string): void {
@@ -189,13 +164,12 @@ export default class BlPagination extends LitElement {
   `;
   }
 
-  render(): TemplateResult | null {
+  render(): TemplateResult {
     const jumperEl = html`
     <div class="jumper">
       <label>${this.jumperLabel}</label>
       <bl-input value="${this.currentPage}"
         @bl-change="${this._inputHandler}"
-        type="number"
       ></bl-input>
     </div>`;
 
@@ -207,9 +181,6 @@ export default class BlPagination extends LitElement {
         ${this.hasItemPerPage ? selectEl : null}
        </div>
        `;
-
-    // we can warn the user if resultPerPage or totalResults is 0 or not provided
-    if (!this.resultPerPage || !this.totalResults) return null;
 
     return html`
     <div class="pagination">
