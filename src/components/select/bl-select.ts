@@ -1,7 +1,7 @@
 import { LitElement, html, CSSResultGroup, PropertyValues } from 'lit';
 import { customElement, property, state, query, queryAll } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { computePosition, flip, MiddlewareArguments, offset, size } from '@floating-ui/dom';
+import { computePosition, flip, MiddlewareArguments, offset, size, autoUpdate } from '@floating-ui/dom';
 import style from '../select/bl-select.css';
 import '../icon/bl-icon';
 import '../select/option/bl-select-option';
@@ -15,6 +15,8 @@ export interface ISelectOption {
 }
 
 export type SelectSize = 'medium' | 'large' | 'small';
+
+export type CleanUpFunction = () => void;
 
 @customElement('bl-select')
 export default class BlSelect extends LitElement {
@@ -79,7 +81,7 @@ export default class BlSelect extends LitElement {
 
   /* Declare internal reactive properties */
   @state()
-  private _isMenuOpen = false;
+  private _isPopoverOpen = false;
 
   @state()
   private _selectedOptions: ISelectOption[] = [];
@@ -96,8 +98,8 @@ export default class BlSelect extends LitElement {
   @queryAll('.selected-options li')
   private _selectedOptionsItems!: Array<HTMLElement>;
 
-  @query('.select-menu')
-  private _selectMenu: HTMLElement;
+  @query('.popover')
+  private _popover: HTMLElement;
 
   @query('.select-input')
   private _selectInput: HTMLElement;
@@ -106,12 +108,14 @@ export default class BlSelect extends LitElement {
 
   private _connectedOptions: BlSelectOption[] = [];
 
+  private _cleanUpPopover: CleanUpFunction | null = null;
+
   get options() {
     return this._connectedOptions;
   }
 
-  get isMenuOpen() {
-    return this._isMenuOpen;
+  get isPopoverOpen() {
+    return this._isPopoverOpen;
   }
 
   get selectedOptions() {
@@ -126,41 +130,45 @@ export default class BlSelect extends LitElement {
     return this._isInvalid;
   }
 
+  open() {
+    this._isPopoverOpen = true;
+    this._setupPopover();
+  }
+
+  close() {
+    this._isPopoverOpen = false;
+    this._cleanUpPopover && this._cleanUpPopover();
+  }
+
   private _clickOutsideHandler = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
 
-    if (!this.contains(target) && this._isMenuOpen) {
-      this._isMenuOpen = false;
+    if (!this.contains(target) && this._isPopoverOpen) {
+      this.close();
       this._checkRequired();
     }
   };
 
-  private _showSelectMenu() {
-    const defaultMaxHeight = parseInt(
-      getComputedStyle(this._selectMenu)
-        .getPropertyValue('--menu-height')
-        .replace('px', '')
-    );
-
-    computePosition(this._selectInput, this._selectMenu, {
-      placement: 'bottom',
-      strategy: 'absolute',
-      middleware: [
-        flip(),
-        offset(8),
-        size({
-          apply(args: MiddlewareArguments & { availableHeight: number }) {
-            Object.assign(args.elements.floating.style, {
-              maxHeight: `${
-                args.availableHeight > defaultMaxHeight ? defaultMaxHeight : args.availableHeight
-              }px`,
-            });
-          },
-        }),
-      ],
-    }).then(({ x, y }) => {
-      this._selectMenu.style.setProperty('--left', `${x}px`);
-      this._selectMenu.style.setProperty('--top', `${y}px`);
+  private _setupPopover() {
+    this._cleanUpPopover = autoUpdate(this._selectInput, this._popover, () => {
+      computePosition(this._selectInput, this._popover, {
+        placement: 'bottom',
+        strategy: 'fixed',
+        middleware: [
+          flip(),
+          offset(8),
+          size({
+            apply(args: MiddlewareArguments) {
+              Object.assign(args.elements.floating.style, {
+                width: `${args.elements.reference.getBoundingClientRect().width}px`,
+              });
+            },
+          }),
+        ],
+      }).then(({ x, y }) => {
+        this._popover.style.setProperty('--left', `${x}px`);
+        this._popover.style.setProperty('--top', `${y}px`);
+      });
     });
   }
 
@@ -173,6 +181,7 @@ export default class BlSelect extends LitElement {
     super.disconnectedCallback();
 
     document.removeEventListener('click', this._clickOutsideHandler);
+    this._cleanUpPopover && this._cleanUpPopover();
   }
 
   private inputTemplate() {
@@ -182,13 +191,13 @@ export default class BlSelect extends LitElement {
     const _selectedItemCount = this._additionalSelectedOptionCount
       ? html`<span>+${this._additionalSelectedOptionCount}</span>`
       : null;
-    const removeIcon = this._isRemoveIconVisible
-      ? html` <bl-icon
+    const removeButton = html` <bl-button
         class="remove-all"
-        name="close"
-        @click=${this._onClickRemove}></bl-icon>`
-      : null;
-
+        variant="secondary"
+        size="small"
+        kind="text"
+        icon="close"
+        @click=${this._onClickRemove}></bl-button>`;
     const placeholder = this._showPlaceHolder
       ? html`<span class="placeholder">${this.placeholder}</span>`
       : '';
@@ -200,37 +209,36 @@ export default class BlSelect extends LitElement {
     >
       ${placeholder} ${inputSelectedOptions} ${_selectedItemCount}
       <div class="actions">
-        ${removeIcon}
+        ${removeButton}
         <bl-icon
           class="dropdown-icon"
-          name="${this._isMenuOpen ? 'arrow_up' : 'arrow_down'}"
+          name="${this._isPopoverOpen ? 'arrow_up' : 'arrow_down'}"
         ></bl-icon>
       </div>
     </div>`;
   }
 
   private menuTemplate() {
-    return html`<div class="select-menu" @bl-select-option=${this._handleSelectOptionEvent}>
+    return html`<div class="popover" @bl-select-option=${this._handleSelectOptionEvent}>
       <slot></slot>
     </div>`;
   }
 
   render() {
-    const invalidMessage =
-      this._isInvalid && this.customInvalidText
-        ? html`<p class="invalid-text">${this.customInvalidText}</p>`
-        : ``;
-    const helpMessage =
-      this.helpText && !invalidMessage ? html`<p class="help-text">${this.helpText}</p>` : ``;
-    const label = this.label ? html`<label>${this.label}</label>` : '';
+    const invalidMessage = this._isInvalid && this.customInvalidText
+      ? html`<p class="invalid-text">${this.customInvalidText}</p>` : ``;
+    const helpMessage = this.helpText && !invalidMessage
+      ? html`<p class="help-text">${this.helpText}</p>` : ``;
+    const label = this.label
+      ? html`<label>${this.label}</label>` : '';
 
     return html`<div
       class=${classMap({
-        'select-wrapper': true,
-        'select-open': this._isMenuOpen,
-        'selected': this._selectedOptions.length > 0,
-        'invalid': this._isInvalid,
-      })}
+      'select-wrapper': true,
+      'select-open': this._isPopoverOpen,
+      'selected': this._selectedOptions.length > 0,
+      'invalid': this._isInvalid,
+    })}
       tabindex="-1"
     >
       ${label} ${this.inputTemplate()} ${this.menuTemplate()} ${helpMessage} ${invalidMessage}
@@ -239,26 +247,13 @@ export default class BlSelect extends LitElement {
 
   private get _showPlaceHolder() {
     if (this.label && !this.labelFixed) {
-      return !this._selectedOptions.length && this._isMenuOpen;
+      return !this._selectedOptions.length && this._isPopoverOpen;
     }
     return !this._selectedOptions.length;
   }
 
-  private get _isRemoveIconVisible() {
-    return this._selectedOptions.length;
-  }
-
-  private _onClickSelectInput(e: MouseEvent) {
-    const isRemoveAll =
-      e.target instanceof HTMLElement && e.target.classList.contains('remove-all');
-
-    if (!isRemoveAll) {
-      this._isMenuOpen = !this._isMenuOpen;
-
-      if (this._isMenuOpen) {
-        this._showSelectMenu();
-      }
-    }
+  private _onClickSelectInput() {
+    this._isPopoverOpen ? this.close() : this.open();
   }
 
   private _handleSelectEvent() {
@@ -274,7 +269,7 @@ export default class BlSelect extends LitElement {
 
     this._selectedOptions = [optionItem];
     this._handleSelectEvent();
-    this._isMenuOpen = false;
+    this._isPopoverOpen = false;
   }
 
   private _handleMultipleSelect(optionItem: ISelectOption) {
@@ -299,7 +294,9 @@ export default class BlSelect extends LitElement {
     }
   }
 
-  private _onClickRemove() {
+  private _onClickRemove(e: MouseEvent) {
+    e.stopPropagation();
+
     this._connectedOptions
       .filter(option => option.selected)
       .forEach(option => {
@@ -311,6 +308,8 @@ export default class BlSelect extends LitElement {
   }
 
   private _checkAdditionalItemCount() {
+    if (!this.multiple) return;
+
     let visibleItems = 0;
     for (let i = 0; i < this._selectedOptionsItems.length; i++) {
       if (this._selectedOptionsItems[i].offsetLeft < this._selectedOptionsContainer.offsetWidth) {
@@ -335,15 +334,13 @@ export default class BlSelect extends LitElement {
       _changedProperties.get('_selectedOptions') instanceof Array
     ) {
       this._checkRequired();
-      if (this.multiple) {
-        this._checkAdditionalItemCount();
-      }
+      this._checkAdditionalItemCount();
     } else if (
       _changedProperties.has('multiple') &&
       typeof _changedProperties.get('multiple') === 'boolean'
     ) {
       this._connectedOptions.forEach(option => {
-        option.isCheckbox = this.multiple;
+        option.multiple = this.multiple;
         option.selected = false;
       });
       this._selectedOptions = [];

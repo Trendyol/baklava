@@ -31,7 +31,7 @@ export default class BlSelectOption extends LitElement {
   selected = false;
 
   @state()
-  isCheckbox = false;
+  multiple = false;
 
   /**
    * Fires when clicked on the option
@@ -59,7 +59,7 @@ export default class BlSelectOption extends LitElement {
 
   render() {
     return html`<div class="option-container">
-      ${this.isCheckbox ? this.checkboxOptionTemplate() : this.singleOptionTemplate()}
+      ${this.multiple ? this.checkboxOptionTemplate() : this.singleOptionTemplate()}
     </div>`;
   }
 
@@ -88,7 +88,7 @@ export default class BlSelectOption extends LitElement {
       this.blSelect = this.closest<BlSelect>('bl-select');
       // FIXME: We should warn when parent is not bl-select
 
-      this.isCheckbox = this.blSelect?.multiple || false;
+      this.multiple = this.blSelect?.multiple || false;
       this.blSelect?.registerOption(this);
     });
   }

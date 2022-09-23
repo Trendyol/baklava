@@ -19,10 +19,18 @@ describe('bl-select', () => {
           <span class="placeholder"></span>
           <ul class="selected-options"></ul>
           <div class="actions">
+          <bl-button
+            class="remove-all"
+            icon="close"
+            kind="text"
+            size="small"
+            variant="secondary"
+          >
+          </bl-button>
           <bl-icon  class="dropdown-icon" name="arrow_down"></bl-icon>
           </div>
         </div>
-        <div class="select-menu">
+        <div class="popover">
           <slot></slot>
         </div>
       </div>
@@ -89,7 +97,16 @@ describe('bl-select', () => {
     const selectInput = <HTMLDivElement>el.shadowRoot?.querySelector('.select-input');
     selectInput?.click();
 
-    expect(el.isMenuOpen).to.true;
+    expect(el.isPopoverOpen).to.true;
+  });
+  it('should close select menu', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
+
+    const selectInput = <HTMLDivElement>el.shadowRoot?.querySelector('.select-input');
+    selectInput?.click();
+    selectInput?.click();
+
+    expect(el.isPopoverOpen).to.false;
   });
   it('should close select menu when click outside & run validations', async () => {
     const el = await fixture<BlSelect>(html`<body>
@@ -105,7 +122,7 @@ describe('bl-select', () => {
     setTimeout(() => {
       const invalidText = <HTMLParagraphElement>el.shadowRoot?.querySelector('.invalid-text');
 
-      expect(el.isMenuOpen).to.false;
+      expect(el.isPopoverOpen).to.false;
       expect(el.isInvalid).to.true;
       expect(invalidText).to.exist;
     });
@@ -186,29 +203,6 @@ describe('bl-select', () => {
       const selectOption = <BlSelectOption>el.querySelector('bl-select-option[selected]');
 
       expect(selectOption).is.not.exist;
-    });
-  });
-  it('should open select menu above input when there is not enough space below', async () => {
-    const el = await fixture(html`<div
-      style="max-height: 200px; padding-top: 4rem; overflow: hidden;"
-    >
-      <bl-select multiple>
-        <bl-select-option value="1">Option 1</bl-select-option>
-        <bl-select-option value="2" selected>Option 2</bl-select-option>
-      </bl-select>
-    </div>`);
-
-    const blSelect = <BlSelect>el.querySelector('bl-select');
-
-    const selectInput = <HTMLDivElement>blSelect.shadowRoot?.querySelector('.select-input');
-    selectInput?.click();
-
-    setTimeout(() => {
-      const selectMenu = <HTMLDivElement>blSelect.shadowRoot?.querySelector('.select-menu');
-      const selectInputRect = selectInput?.getBoundingClientRect();
-      const selectMenuTop = parseInt(selectMenu.style.getPropertyValue('--top').replace('px', ''));
-      expect(selectMenuTop).to.lessThan(selectInputRect?.top);
-      expect(blSelect.isMenuOpen).to.true;
     });
   });
 });

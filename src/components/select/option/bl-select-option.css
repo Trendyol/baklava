@@ -34,6 +34,7 @@
   padding: var(--option-padding);
   transition: var(--option-transition);
   font: var(--option-font);
+  user-select: none;
 }
 
 :host(:hover) .single-option {

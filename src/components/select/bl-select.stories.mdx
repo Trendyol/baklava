@@ -6,14 +6,15 @@ import {
   ArgsTable,
   Story,
 } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
 
 <Meta
   title="Components/Select"
   component="bl-select"
-  decorators={[
-    (story, attrs) => !['Select With Label', 'Select With Fixed Label', 'Select Without Label'].includes(attrs.name) ?
-    html`<div style="height: 7rem;">${story()}</div>` : story(),
-  ]}
+  parameters={{
+    layout: 'centered',
+    chromatic: { viewports: [1000] },
+  }}
   argTypes={{
     label: {
       control: 'text'
@@ -41,6 +42,14 @@ import {
     },
   }}
 />
+
+export const selectOpener = async ({ canvasElement }) => {
+  const select = canvasElement?.querySelector('bl-select')
+  if(select.shadowRoot) {
+    const selectInput = select.shadowRoot.querySelector('.select-input')
+    await userEvent.click(selectInput);
+  }
+}
 
 export const SelectTemplate = (args) => html`<bl-select
     label='${ifDefined(args.label)}'
@@ -78,10 +87,10 @@ Each option should be wrapped with `bl-select-option` component.
 
 ## Basic Usage
 <Canvas>
-  <Story name="Basic Usage" args={{ placeholder: "Choose country" }}>
+  <Story name="Basic Usage" args={{ placeholder: "Choose country" }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
-  <Story name="Select With Selected Option" args={{ placeholder: "Choose country"  }}>
+  <Story name="Select With Selected Option" args={{ placeholder: "Choose country"  }} play={selectOpener}>
     {SelectOptionsSelectedTemplate.bind({})}
   </Story>
 </Canvas>
@@ -90,10 +99,10 @@ Each option should be wrapped with `bl-select-option` component.
 There will be checkboxes in select menu when `multiple` attribute is set to true.
 Selected options will be visible on input seperated by commas.
 <Canvas>
-  <Story name="Multiple Select" args={{ placeholder: "Choose countries", multiple: true }}>
+  <Story name="Multiple Select" args={{ placeholder: "Choose countries", multiple: true }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
-  <Story name="Multiple Select With Selected Options" args={{ placeholder: "Choose countries", multiple: true  }}>
+  <Story name="Multiple Select With Selected Options" args={{ placeholder: "Choose countries", multiple: true  }} play={selectOpener}>
     {SelectOptionsSelectedTemplate.bind({})}
   </Story>
 </Canvas>
