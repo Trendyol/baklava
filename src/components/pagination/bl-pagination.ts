@@ -7,8 +7,6 @@ import '../input/bl-input';
 
 import style from './bl-pagination.css';
 
-// export type PaginationVariant = 'simple' | 'jumper' | 'itemsPerPage';
-
 /**
  * @tag bl-pagination
  * @summary Baklava Pagination component
@@ -24,32 +22,38 @@ export default class BlPagination extends LitElement {
   /**
    * Sets the current page
    */
-  @property({ type: Number, reflect: true })
+  @property({ attribute: 'current-page', type: Number, reflect: true })
   currentPage = 1;
 
   /**
    * Sets the total results to be paginated
    */
-  @property({ type: Number })
+  @property({ attribute: 'total-results', type: Number })
   totalResults = 0;
 
   /**
    * Sets the number of results per page
    */
-  @property({ type: Number })
-  resultPerPage? = 10;
+  @property({ attribute: 'result-per-page', type: Number })
+  resultPerPage = 10;
 
   /**
    * Adds jumper element if provided as true
    */
-  @property({ type: Boolean })
-  jumper = false;
+  @property({ attribute: 'has-jumper', type: Boolean })
+  hasJumper = false;
+
+  /**
+   * Sets the jumper label
+   */
+  @property({ attribute: 'jumper-label', type: String })
+  jumperLabel = "Go To";
 
   /**
    *  Adds itemsPerPage element if provided as true
    */
-  @property({ type: Boolean })
-  itemsPerPage = false;
+  @property({ attribute: 'has-item-per-page', type: Boolean })
+  hasItemPerPage = false;
 
   @state() private pages: Array<number | string> = [];
 
@@ -68,7 +72,7 @@ export default class BlPagination extends LitElement {
   private _paginate() {
     // clean up the previous pages
     this.pages = [];
-    const pageListLength = Math.ceil(Math.abs(this.totalResults / (this.resultPerPage || 10)));
+    const pageListLength = Math.ceil(Math.abs(this.totalResults / this.resultPerPage));
 
     if (pageListLength <= 8) {
       // Create a new array with the range numbers
@@ -122,7 +126,8 @@ export default class BlPagination extends LitElement {
     this.renderPages();
   }
 
-  private _changePage(page: number): void {
+  private _changePage(page: number | string): void {
+    if (typeof page === 'string') return;
     this.currentPage = page;
   }
 
@@ -142,27 +147,22 @@ export default class BlPagination extends LitElement {
 
   private _inputHandler(event: CustomEvent) {
     const inputValue = +(event.target as HTMLInputElement).value;
-    if (inputValue > this._getLastPage()) {
-      this._changePage(this._getLastPage());
-      return;
-    }
-    this._changePage(inputValue);
+
+    const newPage = inputValue > 0 ? Math.min(this._getLastPage(), inputValue) : 1;
+    this._changePage(newPage);
   }
 
   private renderSinglePage(page: number | string) {
-    const pageElement =
-      page === '...'
-        ? html`<div class="dotted-pages">${page}</div>`
-        : html`<bl-button
-            @bl-click="${() => this._changePage(+page)}"
-            variant="secondary"
-            kind=${this.currentPage === page ? 'contained' : 'text'}
-            size="medium"
+    return html`
+    <li>
+        <bl-button
+          @bl-click="${() => this._changePage(page)}"
+          variant="secondary"
+          kind=${this.currentPage === page ? 'contained' : 'text'}
           >
             ${page}
-          </bl-button>`;
-
-    return html`<li>${pageElement}</li>`;
+        </bl-button>
+    </li>`;
   }
 
   private renderPages() {
@@ -172,7 +172,6 @@ export default class BlPagination extends LitElement {
             @bl-click="${this._pageBack}"
             kind="text"
             variant="secondary"
-            size="medium"
             icon="arrow_left"
             ?disabled=${this.currentPage === 1}
           ></bl-button>
@@ -183,7 +182,6 @@ export default class BlPagination extends LitElement {
             @bl-click="${this._pageForward}"
             kind="text"
             variant="secondary"
-            size="medium"
             icon="arrow_right"
             ?disabled=${this.currentPage === this._getLastPage()}
             ></bl-button>
@@ -192,18 +190,21 @@ export default class BlPagination extends LitElement {
   }
 
   render(): TemplateResult | null {
-    const jumperInputEl = html` <bl-input value="${this.currentPage}" @bl-change="${this._inputHandler}"
-       type="number"
-       min="1"
-       size="medium"
-       ></bl-input>`;
+    const jumperEl = html`
+    <div class="jumper">
+      <label>${this.jumperLabel}</label>
+      <bl-input value="${this.currentPage}"
+        @bl-change="${this._inputHandler}"
+        type="number"
+      ></bl-input>
+    </div>`;
 
-    const selectElement = null; // will be added once bl-select is released
+    const selectEl = null; // will be added once bl-select is released
 
     const helperElements = html`
        <div class="pagination-helpers">
-        ${this.jumper ? jumperInputEl : null}
-        ${this.itemsPerPage ? selectElement : null}
+        ${this.hasJumper ? jumperEl : null}
+        ${this.hasItemPerPage ? selectEl : null}
        </div>
        `;
 
