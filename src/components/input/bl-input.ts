@@ -6,6 +6,7 @@ import { FormControlMixin } from '@open-wc/form-control';
 import { submit } from '@open-wc/form-helpers';
 import { live } from 'lit/directives/live.js';
 import { event, EventDispatcher } from '../../utilities/event';
+import { innerInputValidators } from '../../utilities/form-control';
 import 'element-internals-polyfill';
 import '../icon/bl-icon';
 
@@ -21,6 +22,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
+
+  static formControlValidators = innerInputValidators;
 
   @query('input')
   validationTarget: HTMLInputElement;
@@ -125,20 +128,25 @@ export default class BlInput extends FormControlMixin(LitElement) {
    */
   @event('bl-input') private onInput: EventDispatcher<string>;
 
-  constructor() {
-    super();
+  /**
+   * Fires when the value of an input element has been changed.
+   */
+   @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
+
+  connectedCallback(): void {
+    super.connectedCallback();
     this.addEventListener('keydown', this.onKeydown);
-    // this.addEventListener('invalid', this.onInvalid);
+    this.addEventListener('invalid', this.onError);
+    this.internals.form?.addEventListener('submit', () => {
+      console.log('submit');
+      this.reportValidity();
+    });
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeEventListener('keydown', this.onKeydown);
-    // this.removeEventListener('invalid', this.onInvalid);
-  }
-
-  validationMessageCallback(message: string): void {
-    this.customInvalidText = message;
+    this.removeEventListener('invalid', this.onError);
   }
 
   private onKeydown = (event: KeyboardEvent): void => {
@@ -147,49 +155,44 @@ export default class BlInput extends FormControlMixin(LitElement) {
     }
   }
 
-  @state() private _dirty = false;
-
-  private get dirty(): boolean {
-    return this._dirty;
+  private onError = (): void => {
+    this.onInvalid(this.internals.validity);
   }
+
+  @state() private dirty = false;
 
   private get hasValue(): boolean {
-    return this.validationTarget?.value.length > 0;
+    return this.value.length > 0;
   }
 
-  private get _invalidText() {
+  validityCallback(): string | void {
     return this.customInvalidText || this.validationTarget?.validationMessage;
   }
 
-  private get _invalidState() {
-    return this.validationTarget && !this.validationTarget?.validity.valid;
+  reportValidity() {
+    this.dirty = true;
+    return this.checkValidity();
   }
 
-  private inputHandler() {
+  private inputHandler(event: Event) {
     this.value = this.validationTarget.value;
+    this.setValue((event.target as HTMLInputElement).value);
+
     this.onInput(this.validationTarget.value);
   }
 
   private changeHandler() {
-    this._dirty = true;
+    this.dirty = true;
     this.onChange(this.validationTarget.value);
   }
 
-  updated(changedProperties: Map<string, unknown>): void {
-    if (changedProperties.has('value')) {
-      this.setValue(this.value);
-    }
-  }
-
   firstUpdated() {
-    if (this._invalidState) {
-      this.requestUpdate();
-    }
+    this.setValue(this.value);
   }
 
   render(): TemplateResult {
-    const invalidMessage = this._invalidState
-      ? html`<p class="invalid-text">${this._invalidText}</p>`
+    const invalidMessage = !this.checkValidity()
+      ? html`<p class="invalid-text">${this.validationMessage}</p>`
       : ``;
     const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
     const icon = this.icon
@@ -199,7 +202,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
     const classes = {
       'dirty': this.dirty,
-      'has-icon': this.icon || (this.dirty && this._invalidState),
+      'has-icon': this.icon || (this.dirty && !this.checkValidity()),
       'has-value': this.hasValue,
     };
 

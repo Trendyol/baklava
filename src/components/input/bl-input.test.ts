@@ -1,4 +1,4 @@
-import { assert, expect, fixture, oneEvent, html } from '@open-wc/testing';
+import { assert, expect, fixture, oneEvent, html, elementUpdated } from '@open-wc/testing';
 import BlInput from './bl-input';
 
 describe('bl-input', () => {
@@ -74,6 +74,11 @@ describe('bl-input', () => {
       const el = await fixture<BlInput>(
         html`<bl-input required invalid-text="${errorMessage}"></bl-input>`
       );
+
+      el.reportValidity();
+
+      await elementUpdated(el);
+
       const errorMessageElement = <HTMLParagraphElement>(
         el.shadowRoot?.querySelector('.invalid-text')
       );
@@ -86,7 +91,10 @@ describe('bl-input', () => {
 
     it('should show error when reportValidity method called', async () => {
       const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
-      el.checkValidity();
+      el.reportValidity();
+
+      await elementUpdated(el);
+
       expect(el.validity.valid).to.be.false;
       const errorMessageElement = <HTMLParagraphElement>(
         el.shadowRoot?.querySelector('.invalid-text')
