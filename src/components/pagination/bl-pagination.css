@@ -27,6 +27,15 @@
   user-select: none;
 }
 
+.dots {
+  margin: 7.5px;
+}
+
+.dots::before {
+  content: ' \B7 \B7 \B7';
+  color: var(--bl-color-secondary);
+}
+
 .pagination-helpers {
   margin-right: var(--bl-size-s);
 }
@@ -38,9 +47,9 @@
 }
 
 .jumper label {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 16px;
+  font-size: var(--bl-font-size-m);
+  font-weight: var(--bl-font-weight-medium);
+  line-height: var(--bl-font-size-m);
   letter-spacing: 0;
 }
 

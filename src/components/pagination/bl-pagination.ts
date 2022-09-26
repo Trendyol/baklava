@@ -1,7 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult, PropertyValues } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../utilities/event';
-import '../icon/bl-icon';
 import '../button/bl-button';
 import '../input/bl-input';
 
@@ -10,7 +9,6 @@ import style from './bl-pagination.css';
 /**
  * @tag bl-pagination
  * @summary Baklava Pagination component
- *
  */
 
 @customElement('bl-pagination')
@@ -26,16 +24,16 @@ export default class BlPagination extends LitElement {
   currentPage = 1;
 
   /**
-   * Sets the total results to be paginated
+   * Sets the total items to be paginated
    */
-  @property({ attribute: 'total-results', type: Number })
-  totalResults = 0;
+  @property({ attribute: 'total-items', type: Number })
+  totalItems = 0;
 
   /**
-   * Sets the number of results per page
+   * Sets the number of items per page
    */
-  @property({ attribute: 'result-per-page', type: Number })
-  resultPerPage = 10;
+  @property({ attribute: 'items-per-page', type: Number, reflect: true })
+  itemsPerPage = 10;
 
   /**
    * Adds jumper element if provided as true
@@ -50,10 +48,16 @@ export default class BlPagination extends LitElement {
   jumperLabel = 'Go To';
 
   /**
-   *  Adds itemsPerPage element if provided as true
+   *  Adds select element to choose the items per page
    */
-  @property({ attribute: 'has-item-per-page', type: Boolean })
-  hasItemPerPage = false;
+  @property({ attribute: 'has-select', type: Boolean })
+  hasSelect = false;
+
+  /**
+   *  Adds select element to choose the items per page
+   */
+  @property({ attribute: 'select-label', type: String })
+  selectLabel = 'Show';
 
   @state() private pages: Array<number | string> = [];
 
@@ -74,7 +78,7 @@ export default class BlPagination extends LitElement {
 
   private _paginate() {
     this.pages = [];
-    const pageListLength = Math.ceil(Math.abs(this.totalResults / this.resultPerPage)) || 1;
+    const pageListLength = Math.ceil(Math.abs(this.totalItems / this.itemsPerPage)) || 1;
 
     if (pageListLength <= 8) {
       this.pages = Array.from(Array(pageListLength), (_, index) => index + 1);
@@ -100,16 +104,17 @@ export default class BlPagination extends LitElement {
     this.pages.push(pageListLength);
   }
 
-  private _changePage(page: number | string): void {
-    if (typeof page === 'string') return;
+  private _changePage(page: number): void {
     this.currentPage = page;
   }
 
   private _pageBack(): void {
+    if (this.currentPage === 1) return;
     this.currentPage--;
   }
 
   private _pageForward(): void {
+    if (this.currentPage === this._getLastPage()) return;
     this.currentPage++;
   }
 
@@ -119,16 +124,18 @@ export default class BlPagination extends LitElement {
 
   private _inputHandler(event: CustomEvent) {
     const inputValue = +(event.target as HTMLInputElement).value;
-
     const newPage = inputValue > 0 ? Math.min(this._getLastPage(), inputValue) : 1;
     this._changePage(newPage);
   }
 
   private renderSinglePage(page: number | string) {
+    if (typeof page === 'string') {
+      return html`<span class="dots"></span>`;
+    }
     return html`
     <li>
         <bl-button
-          @bl-click="${() => this._changePage(page)}"
+          @click="${() => this._changePage(page)}"
           variant="secondary"
           kind=${this.currentPage === page ? 'contained' : 'text'}
           >
@@ -141,20 +148,22 @@ export default class BlPagination extends LitElement {
     return html`
     <div class="page-container">
           <bl-button
-            @bl-click="${this._pageBack}"
+            @click="${this._pageBack}"
             kind="text"
             variant="secondary"
             icon="arrow_left"
+            class="arrow-left"
             ?disabled=${this.currentPage === 1}
           ></bl-button>
         <ul class="page-list">
           ${this.pages.map(page => html`${this.renderSinglePage(page)}`)}
         </ul>
           <bl-button
-            @bl-click="${this._pageForward}"
+            @click="${this._pageForward}"
             kind="text"
             variant="secondary"
             icon="arrow_right"
+            class="arrow-right"
             ?disabled=${this.currentPage === this._getLastPage()}
             ></bl-button>
     </div>
@@ -170,12 +179,12 @@ export default class BlPagination extends LitElement {
       ></bl-input>
     </div>`;
 
-    const selectEl = null; // will be added once bl-select is released
+    const selectEl = null;
 
     const helperElements = html`
        <div class="pagination-helpers">
         ${this.hasJumper ? jumperEl : null}
-        ${this.hasItemPerPage ? selectEl : null}
+        ${this.hasSelect ? selectEl : null}
        </div>
        `;
 

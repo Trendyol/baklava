@@ -10,11 +10,11 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 />
 
 export const SimplePagination = (args) => html`
-      <bl-pagination current-page=1 total-results=200 result-per-page=5></bl-pagination>
+      <bl-pagination current-page=1 total-items=1500 items-per-page=10></bl-pagination>
   `
 
 export const Jumper = (args) => html`
-      <bl-pagination current-page=1 total-results=200 result-per-page=5 has-jumper></bl-pagination>
+      <bl-pagination current-page=1 total-items=1500 items-per-page=10 has-jumper></bl-pagination>
   `
 
 # Pagination
@@ -26,7 +26,7 @@ The Pagination component enables the user to select a specific page from a range
 Use a simple pagination for navigating to the next or previous page.
 
 <Canvas>
-<Story name="Basic Usage" args={{currentPage:1,totalResults:200,resultPerPage:5 }}>
+<Story name="Basic Usage" args={{currentPage:1,totalItems:1500,itemsPerPage:10 }}>
     {SimplePagination.bind({})}
   </Story>
 </Canvas>
@@ -35,7 +35,7 @@ Use a simple pagination for navigating to the next or previous page.
 You can use the jumper to directly go to a specific page. The jumper label can be customized.
 
 <Canvas>
-<Story name="Jumper" args={{currentPage:1,totalResults:200,resultPerPage:5,hasJumper:true }}>
+<Story name="Jumper" args={{currentPage:1,totalItems:1500,itemsPerPage:10,hasJumper:true }}>
     {Jumper.bind({})}
   </Story>
 </Canvas>
