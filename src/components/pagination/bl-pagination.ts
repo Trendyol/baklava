@@ -60,12 +60,15 @@ export default class BlPagination extends LitElement {
   /**
    * Fires when the current page changes
    */
-  @event('bl-change') private onChange: EventDispatcher<number>;
+  @event('bl-change') private onChange: EventDispatcher<{ selectedPage: number; prevPage: number }>;
 
   updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('currentPage')) {
       this._paginate();
-      this.onChange(this.currentPage);
+      this.onChange({
+        selectedPage: this.currentPage,
+        prevPage: changedProperties.get('currentPage'),
+      });
     }
   }
 
@@ -82,9 +85,9 @@ export default class BlPagination extends LitElement {
 
     if (this.currentPage < 5) {
       this.pages.push(2, 3, 4, 5, '...');
-    }
-
-    if (this.currentPage > pageListLength - 4) {
+    } else if (this.currentPage >= 5 && this.currentPage <= pageListLength - 4) {
+      this.pages.push('...', this.currentPage - 1, this.currentPage, this.currentPage + 1, '...');
+    } else {
       this.pages.push(
         '...',
         pageListLength - 4,
@@ -92,10 +95,6 @@ export default class BlPagination extends LitElement {
         pageListLength - 2,
         pageListLength - 1
       );
-    }
-
-    if (this.currentPage >= 5 && this.currentPage <= pageListLength - 4) {
-      this.pages.push('...', this.currentPage - 1, this.currentPage, this.currentPage + 1, '...');
     }
 
     this.pages.push(pageListLength);
@@ -107,12 +106,10 @@ export default class BlPagination extends LitElement {
   }
 
   private _pageBack(): void {
-    if (this.currentPage === 1) return;
     this.currentPage--;
   }
 
   private _pageForward(): void {
-    if (this.currentPage === this._getLastPage()) return;
     this.currentPage++;
   }
 

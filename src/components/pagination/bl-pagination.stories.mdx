@@ -1,0 +1,48 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Pagination"
+  component="bl-pagination"
+/>
+
+export const SimplePagination = (args) => html`
+      <bl-pagination current-page=1 total-results=200 result-per-page=5></bl-pagination>
+  `
+
+export const Jumper = (args) => html`
+      <bl-pagination current-page=1 total-results=200 result-per-page=5 has-jumper></bl-pagination>
+  `
+
+# Pagination
+
+The Pagination component enables the user to select a specific page from a range of pages. Number of content per page can also be selected by the user
+
+
+## Simple Pagination
+Use a simple pagination for navigating to the next or previous page.
+
+<Canvas>
+<Story name="Basic Usage" args={{currentPage:1,totalResults:200,resultPerPage:5 }}>
+    {SimplePagination.bind({})}
+  </Story>
+</Canvas>
+
+## Jumper
+You can use the jumper to directly go to a specific page. The jumper label can be customized.
+
+<Canvas>
+<Story name="Jumper" args={{currentPage:1,totalResults:200,resultPerPage:5,hasJumper:true }}>
+    {Jumper.bind({})}
+  </Story>
+</Canvas>
+
+
+## Reference
+
+<ArgsTable of="bl-pagination" />
+
+
