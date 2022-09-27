@@ -137,8 +137,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
     super.connectedCallback();
     this.addEventListener('keydown', this.onKeydown);
     this.addEventListener('invalid', this.onError);
+
     this.internals.form?.addEventListener('submit', () => {
-      console.log('submit');
       this.reportValidity();
     });
   }
@@ -161,10 +161,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   @state() private dirty = false;
 
-  private get hasValue(): boolean {
-    return this.value.length > 0;
-  }
-
   validityCallback(): string | void {
     return this.customInvalidText || this.validationTarget?.validationMessage;
   }
@@ -174,16 +170,23 @@ export default class BlInput extends FormControlMixin(LitElement) {
     return this.checkValidity();
   }
 
-  private inputHandler(event: Event) {
-    this.value = this.validationTarget.value;
-    this.setValue((event.target as HTMLInputElement).value);
-
-    this.onInput(this.validationTarget.value);
+  valueChangedCallback(value: string): void {
+    this.value = value;
   }
 
-  private changeHandler() {
+  private inputHandler(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+
+    this.setValue(value);
+    this.onInput(value);
+  }
+
+  private changeHandler(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+
     this.dirty = true;
-    this.onChange(this.validationTarget.value);
+    this.setValue(value);
+    this.onChange(value);
   }
 
   firstUpdated() {
@@ -203,7 +206,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
     const classes = {
       'dirty': this.dirty,
       'has-icon': this.icon || (this.dirty && !this.checkValidity()),
-      'has-value': this.hasValue,
+      'has-value': this.value !== null && this.value !== '',
     };
 
     return html`

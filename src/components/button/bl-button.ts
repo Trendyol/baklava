@@ -73,6 +73,12 @@ export default class BlButton extends LitElement {
   target?: TargetType = '_self';
 
   /**
+   * Sets the type of the button. Set `submit` to use button as the submitter of parent form.
+   */
+   @property({ type: String })
+   type: 'submit' | null;
+
+  /**
    * Fires when button clicked
    */
   @event('bl-click') private onClick: EventDispatcher<string>;

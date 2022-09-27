@@ -64,7 +64,6 @@ describe('bl-input', () => {
 
     it('should be invalid with required attribute', async () => {
       const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
-      console.log(el.validity);
 
       expect(el.validity.valid).to.be.false;
     });
@@ -132,6 +131,61 @@ describe('bl-input', () => {
       const ev = await oneEvent(el, 'bl-change');
       expect(ev).to.exist;
       expect(ev.detail).to.be.equal('some value');
+    });
+  });
+
+  describe('form integration', () => {
+    it('should show errors when parent form is submitted', async () => {
+      const form = await fixture<HTMLFormElement>(html`<form novalidate>
+        <bl-input required></bl-input>
+      </form>`);
+
+      const blInput = form.querySelector<BlInput>('bl-input');
+
+      form.addEventListener('submit', e => e.preventDefault());
+
+      form.dispatchEvent(new SubmitEvent('submit', {cancelable: true}));
+
+      await elementUpdated(form);
+
+      const errorMessageElement = <HTMLParagraphElement>(
+        blInput?.shadowRoot?.querySelector('.invalid-text')
+      );
+
+      expect(blInput?.validity.valid).to.be.false;
+
+      expect(errorMessageElement).to.exist;
+
+    });
+
+    it('should submit parent form when pressed Enter key', async () => {
+      const form = await fixture<HTMLFormElement>(html`<form novalidate>
+        <bl-input name="user" value="name"></bl-input>
+        <button type="submit">Submit</button>
+      </form>`);
+
+      const blInput = form.querySelector<BlInput>('bl-input');
+
+      await elementUpdated(form);
+
+      const submitEvent = new Promise(resolve => {
+        function listener(ev: SubmitEvent) {
+          ev.preventDefault();
+          resolve(ev);
+          form.removeEventListener('submit', listener);
+        }
+        form.addEventListener('submit', listener);
+      });
+
+      const enterEvent = new KeyboardEvent('keydown', {
+        code: 'Enter',
+        cancelable: true
+      });
+
+      blInput?.dispatchEvent(enterEvent);
+
+      const ev = await submitEvent;
+      expect(ev).to.exist;
     });
   });
 });
