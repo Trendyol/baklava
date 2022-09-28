@@ -37,16 +37,20 @@
 }
 
 .pagination-helpers {
+  display: flex;
+  align-items: center;
   margin-right: var(--bl-size-s);
+  gap: var(--bl-size-m);
 }
 
-.jumper {
+.jumper,
+.select {
   display: flex;
   align-items: center;
   gap: var(--bl-size-2xs);
 }
 
-.jumper label {
+label {
   font-size: var(--bl-font-size-m);
   font-weight: var(--bl-font-weight-medium);
   line-height: var(--bl-font-size-m);

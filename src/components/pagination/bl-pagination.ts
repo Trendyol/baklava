@@ -3,6 +3,9 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import '../input/bl-input';
+import '../select/bl-select';
+import '../select/option/bl-select-option';
+import '../icon/bl-icon';
 
 import style from './bl-pagination.css';
 
@@ -33,7 +36,7 @@ export default class BlPagination extends LitElement {
    * Sets the number of items per page
    */
   @property({ attribute: 'items-per-page', type: Number, reflect: true })
-  itemsPerPage = 10;
+  itemsPerPage = 100;
 
   /**
    * Adds jumper element if provided as true
@@ -47,18 +50,6 @@ export default class BlPagination extends LitElement {
   @property({ attribute: 'jumper-label', type: String })
   jumperLabel = 'Go To';
 
-  /**
-   *  Adds select element to choose the items per page
-   */
-  @property({ attribute: 'has-select', type: Boolean })
-  hasSelect = false;
-
-  /**
-   *  Adds select element to choose the items per page
-   */
-  @property({ attribute: 'select-label', type: String })
-  selectLabel = 'Show';
-
   @state() private pages: Array<number | string> = [];
 
   /**
@@ -67,7 +58,7 @@ export default class BlPagination extends LitElement {
   @event('bl-change') private onChange: EventDispatcher<{ selectedPage: number; prevPage: number }>;
 
   updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('currentPage')) {
+    if (changedProperties.has('currentPage') || changedProperties.has('itemsPerPage')) {
       this._paginate();
       this.onChange({
         selectedPage: this.currentPage,
@@ -179,14 +170,12 @@ export default class BlPagination extends LitElement {
       ></bl-input>
     </div>`;
 
-    const selectEl = null;
-
     const helperElements = html`
-       <div class="pagination-helpers">
-        ${this.hasJumper ? jumperEl : null}
-        ${this.hasSelect ? selectEl : null}
-       </div>
-       `;
+    <div class="pagination-helpers">
+     <!-- FIX ME: Add bl-select component -->
+     ${this.hasJumper ? jumperEl : null}
+    </div>
+    `;
 
     return html`
     <div class="pagination">
