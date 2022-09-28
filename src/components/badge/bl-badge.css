@@ -7,7 +7,7 @@
   --bg-color: var(--bl-badge-bg-color, var(--bl-color-accent-primary-background));
   --color: var(--bl-badge-color, var(--bl-color-primary));
   --font: var(--bl-font-title-4-medium);
-  --padding-vertical: var(--bl-size-3xs);
+  --padding-vertical: var(--bl-size-4xs);
   --padding-horizontal: var(--bl-size-3xs);
   --margin-icon: var(--bl-size-3xs);
   --icon-size: var(--bl-size-s);
@@ -31,7 +31,7 @@
 }
 
 :host([size='small']) .badge {
-  --font: var(--bl-font-caption-small-text);
+  --font: var(--bl-font-caption);
   --height: var(--bl-size-m);
 }
 

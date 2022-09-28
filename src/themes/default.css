@@ -83,16 +83,22 @@
   --bl-border-radius-pill: 62.438rem; /* 999px */
   --bl-border-radius-circle: 50%;
 
-  /* Font Style: Display 1 */
-  --bl-font-display-1: var(--bl-font-weight-bold) var(--bl-font-size-6xl) var(--bl-font-family);
+  /* Font Style: Display */
+  --bl-font-display: var(--bl-font-size-5xl) var(--bl-font-family);
+  --bl-font-display-light: var(--bl-font-weight-light) var(--bl-font-display);
+  --bl-font-display-regular: var(--bl-font-weight-regular) var(--bl-font-display);
+  --bl-font-display-medium: var(--bl-font-weight-medium) var(--bl-font-display);
+  --bl-font-display-semibold: var(--bl-font-weight-semibold) var(--bl-font-display);
+  --bl-font-display-bold: var(--bl-font-weight-bold) var(--bl-font-display);
 
-  /* Font Style: Display 2 */
-  --bl-font-display-2: var(--bl-font-size-5xl) var(--bl-font-family);
-  --bl-font-display-2-light: var(--bl-font-weight-light) var(--bl-font-display-2);
-  --bl-font-display-2-regular: var(--bl-font-weight-regular) var(--bl-font-display-2);
-  --bl-font-display-2-medium: var(--bl-font-weight-medium) var(--bl-font-display-2);
-  --bl-font-display-2-semibold: var(--bl-font-weight-semibold) var(--bl-font-display-2);
-  --bl-font-display-2-bold: var(--bl-font-weight-bold) var(--bl-font-display-2);
+  /* Font Style: Heading 1 */
+  --bl-font-heading-1: var(--bl-font-weight-light) var(--bl-font-size-4xl) var(--bl-font-family);
+
+   /* Font Style: Heading 2 */
+   --bl-font-heading-2: var(--bl-font-weight-regular) var(--bl-font-size-3xl) var(--bl-font-family);
+
+   /* Font Style: Heading 3 */
+   --bl-font-heading-3: var(--bl-font-weight-regular) var(--bl-font-size-2xl) var(--bl-font-family);
 
   /* Font Style: Title 1 */
   --bl-font-title-1: var(--bl-font-size-xl) var(--bl-font-family);
@@ -122,16 +128,17 @@
   --bl-font-title-4-semibold: var(--bl-font-weight-semibold) var(--bl-font-title-4);
   --bl-font-title-4-bold: var(--bl-font-weight-bold) var(--bl-font-title-4);
 
-  /* Font Style: Form Label */
-  --bl-font-form-label: var(--bl-font-weight-medium) var(--bl-font-size-xs) var(--bl-font-family);
+  /* Font Style: Body Text 1 */
+  --bl-font-body-text-1: var(--bl-font-weight-regular) var(--bl-font-size-s) var(--bl-font-family);
+
+  /* Font Style: Body Text 2 */
+  --bl-font-body-text-2: var(--bl-font-weight-regular) var(--bl-font-size-m) var(--bl-font-family);
+
+  /* Font Style: Body Text 3 */
+  --bl-font-body-text-3: var(--bl-font-weight-regular) var(--bl-font-size-l) var(--bl-font-family);
 
   /* Font Style: Caption */
-  --bl-font-caption-small-text: var(--bl-font-weight-bold) var(--bl-font-size-2xs)
-    var(--bl-font-family);
-  --bl-font-caption-text: var(--bl-font-weight-regular) var(--bl-font-size-s) var(--bl-font-family);
-  --bl-font-caption-medium: var(--bl-font-weight-medium) var(--bl-font-size-s) var(--bl-font-family);
-  --bl-font-caption-long-text: var(--bl-font-weight-regular) var(--bl-font-size-s)
-    var(--bl-font-family);
+  --bl-font-caption: var(--bl-font-weight-medium) var(--bl-font-size-xs) var(--bl-font-family);
 }
 
 /* Prevent FOUCE */
