@@ -94,6 +94,18 @@
   font-size: var(--bl-font-size-m);
 }
 
+.dropdown-icon.open {
+  display: none;
+}
+
+.select-open .dropdown-icon.open {
+  display: inline-block;
+}
+
+.select-open .dropdown-icon.closed {
+  display: none;
+}
+
 .selected .dropdown-icon {
   --icon-color: var(--bl-color-secondary);
 }

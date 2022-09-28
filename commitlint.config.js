@@ -16,7 +16,8 @@ module.exports = {
         'tooltip',
         'progress-indicator',
         'checkbox',
-        'alert'
+        'alert',
+        'select'
       ],
     ],
   },
