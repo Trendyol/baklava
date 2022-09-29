@@ -4,6 +4,8 @@ import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import '../input/bl-input';
 import '../select/bl-select';
+import '../select/option/bl-select-option';
+import '../icon/bl-icon';
 
 import style from './bl-pagination.css';
 
@@ -11,6 +13,25 @@ import style from './bl-pagination.css';
  * @tag bl-pagination
  * @summary Baklava Pagination component
  */
+
+const selectOptions = [
+  {
+    text: '100',
+    value: 100,
+  },
+  {
+    text: '250',
+    value: 250,
+  },
+  {
+    text: '500',
+    value: 500,
+  },
+  {
+    text: '1000',
+    value: 1000,
+  },
+];
 
 @customElement('bl-pagination')
 export default class BlPagination extends LitElement {
@@ -47,6 +68,24 @@ export default class BlPagination extends LitElement {
    */
   @property({ attribute: 'jumper-label', type: String })
   jumperLabel = 'Go To';
+
+  /**
+   *  Adds select element to choose the items per page
+   */
+  @property({ attribute: 'has-select', type: Boolean })
+  hasSelect = false;
+
+  /**
+   *  Adds select element to choose the items per page
+   */
+  @property({ attribute: 'select-label', type: String })
+  selectLabel = 'Show';
+
+  /**
+   *  Sets the option texts.
+   */
+  @property({ attribute: 'option-text', type: String })
+  optionText = 'Items';
 
   @state() private pages: Array<number | string> = [];
 
@@ -117,69 +156,79 @@ export default class BlPagination extends LitElement {
     this._changePage(newPage);
   }
 
+  private _selectHandler(event: CustomEvent) {
+    this.itemsPerPage = event?.detail[0]?.value;
+  }
+
   private renderSinglePage(page: number | string) {
     if (typeof page === 'string') {
       return html`<span class="dots"></span>`;
     }
-    return html`
-    <li>
-        <bl-button
-          @click="${() => this._changePage(page)}"
-          variant="secondary"
-          kind=${this.currentPage === page ? 'contained' : 'text'}
-          >
-            ${page}
-        </bl-button>
+    return html` <li>
+      <bl-button
+        @click="${() => this._changePage(page)}"
+        variant="secondary"
+        kind=${this.currentPage === page ? 'contained' : 'text'}
+      >
+        ${page}
+      </bl-button>
     </li>`;
   }
 
   private renderPages() {
     return html`
-    <div class="page-container">
-          <bl-button
-            @click="${this._pageBack}"
-            kind="text"
-            variant="secondary"
-            icon="arrow_left"
-            class="arrow-left"
-            ?disabled=${this.currentPage === 1}
-          ></bl-button>
+      <div class="page-container">
+        <bl-button
+          @click="${this._pageBack}"
+          kind="text"
+          variant="secondary"
+          icon="arrow_left"
+          class="arrow-left"
+          ?disabled=${this.currentPage === 1}
+        ></bl-button>
         <ul class="page-list">
           ${this.pages.map(page => html`${this.renderSinglePage(page)}`)}
         </ul>
-          <bl-button
-            @click="${this._pageForward}"
-            kind="text"
-            variant="secondary"
-            icon="arrow_right"
-            class="arrow-right"
-            ?disabled=${this.currentPage === this._getLastPage()}
-            ></bl-button>
-    </div>
-  `;
+        <bl-button
+          @click="${this._pageForward}"
+          kind="text"
+          variant="secondary"
+          icon="arrow_right"
+          class="arrow-right"
+          ?disabled=${this.currentPage === this._getLastPage()}
+        ></bl-button>
+      </div>
+    `;
   }
 
   render(): TemplateResult {
-    const jumperEl = html`
-    <div class="jumper">
+    const selectEl = html`
+      <div class="select">
+        <label>${this.selectLabel}</label>
+        <bl-select @bl-select="${this._selectHandler}">
+          ${selectOptions.map(option => {
+            return html`<bl-select-option
+              value="${option.value}"
+              ?selected=${option.value === this.itemsPerPage}
+              >${option.text} ${this.optionText}</bl-select-option
+            >`;
+          })}
+        </bl-select>
+      </div>
+    `;
+
+    const jumperEl = html` <div class="jumper">
       <label>${this.jumperLabel}</label>
-      <bl-input value="${this.currentPage}"
-        @bl-change="${this._inputHandler}"
-      ></bl-input>
+      <bl-input value="${this.currentPage}" @bl-change="${this._inputHandler}"></bl-input>
     </div>`;
 
     const helperElements = html`
-    <div class="pagination-helpers">
-     <!-- FIX ME: Add bl-select component -->
-     ${this.hasJumper ? jumperEl : null}
-    </div>
+      <div class="pagination-helpers">
+        ${this.hasSelect ? selectEl : null} ${this.hasJumper ? jumperEl : null}
+      </div>
     `;
 
-    return html`
-    <div class="pagination">
-      ${helperElements}
-      ${this.renderPages()}
-    </div>`;
+    return html` <div class="pagination">${helperElements} ${this.renderPages()}</div>`;
   }
 }
 
