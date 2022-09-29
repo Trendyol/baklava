@@ -2,8 +2,12 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { FormControlMixin } from '@open-wc/form-control';
+import { submit } from '@open-wc/form-helpers';
 import { live } from 'lit/directives/live.js';
 import { event, EventDispatcher } from '../../utilities/event';
+import { innerInputValidators } from '../../utilities/form-control';
+import 'element-internals-polyfill';
 import '../icon/bl-icon';
 
 import style from './bl-input.css';
@@ -14,12 +18,15 @@ export type InputSize = 'medium' | 'large';
  * @summary Baklava Input component
  */
 @customElement('bl-input')
-export default class BlInput extends LitElement {
+export default class BlInput extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
 
-  @query('input') private input: HTMLInputElement;
+  static formControlValidators = innerInputValidators;
+
+  @query('input')
+  validationTarget: HTMLInputElement;
 
   /**
    * Type of the input. It's used to set `type` attribute of native input inside. Only `text` and `number` is supported for now.
@@ -122,57 +129,73 @@ export default class BlInput extends LitElement {
   @event('bl-input') private onInput: EventDispatcher<string>;
 
   /**
-   * Current validity state of input
+   * Fires when the value of an input element has been changed.
    */
-  validity: ValidityState;
+   @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
 
-  /**
-   * Runs input validation
-   */
-  reportValidity() {
-    this._dirty = true;
-    this.input.checkValidity();
+  connectedCallback(): void {
+    super.connectedCallback();
+    this.addEventListener('keydown', this.onKeydown);
+    this.addEventListener('invalid', this.onError);
+
+    this.internals.form?.addEventListener('submit', () => {
+      this.reportValidity();
+    });
   }
 
-  @state() private _dirty = false;
-
-  private get dirty(): boolean {
-    return this._dirty;
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.removeEventListener('keydown', this.onKeydown);
+    this.removeEventListener('invalid', this.onError);
   }
 
-  private get hasValue(): boolean {
-    return this.input?.value.length > 0;
-  }
-
-  private get _invalidText() {
-    return this.customInvalidText || this.input?.validationMessage;
-  }
-
-  private get _invalidState() {
-    return this.input && !this.input?.validity.valid;
-  }
-
-  private inputHandler() {
-    this.validity = this.input?.validity;
-    this.value = this.input.value;
-    this.onInput(this.input.value);
-  }
-
-  private changeHandler() {
-    this._dirty = true;
-    this.onChange(this.input.value);
-  }
-
-  firstUpdated() {
-    this.validity = this.input?.validity;
-    if (this._invalidState) {
-      this.requestUpdate();
+  private onKeydown = (event: KeyboardEvent): void => {
+    if (event.code === 'Enter' && this.form) {
+      submit(this.form);
     }
   }
 
+  private onError = (): void => {
+    this.onInvalid(this.internals.validity);
+  }
+
+  @state() private dirty = false;
+
+  validityCallback(): string | void {
+    return this.customInvalidText || this.validationTarget?.validationMessage;
+  }
+
+  reportValidity() {
+    this.dirty = true;
+    return this.checkValidity();
+  }
+
+  valueChangedCallback(value: string): void {
+    this.value = value;
+  }
+
+  private inputHandler(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+
+    this.setValue(value);
+    this.onInput(value);
+  }
+
+  private changeHandler(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+
+    this.dirty = true;
+    this.setValue(value);
+    this.onChange(value);
+  }
+
+  firstUpdated() {
+    this.setValue(this.value);
+  }
+
   render(): TemplateResult {
-    const invalidMessage = this._invalidState
-      ? html`<p class="invalid-text">${this._invalidText}</p>`
+    const invalidMessage = !this.checkValidity()
+      ? html`<p class="invalid-text">${this.validationMessage}</p>`
       : ``;
     const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
     const icon = this.icon
@@ -182,8 +205,8 @@ export default class BlInput extends LitElement {
 
     const classes = {
       'dirty': this.dirty,
-      'has-icon': this.icon || (this.dirty && this._invalidState),
-      'has-value': this.hasValue,
+      'has-icon': this.icon || (this.dirty && !this.checkValidity()),
+      'has-value': this.value !== null && this.value !== '',
     };
 
     return html`

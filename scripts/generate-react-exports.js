@@ -7,7 +7,7 @@ function writeBaklavaReactFile(fileContentParts) {
     // @ts-nocheck
     import React from 'react';
     import { createComponent } from '@lit-labs/react';
-    
+
     ${fileContentParts.join('\n\n')}
   `;
 

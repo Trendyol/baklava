@@ -1,0 +1,63 @@
+:host {
+  position: relative;
+}
+
+.option-container {
+  --option-font: var(--bl-font-title-3-regular);
+  --option-padding: var(--bl-size-xs) 0;
+  --option-selected-color: var(--bl-color-primary);
+  --option-hover-color: var(--bl-color-primary-hover);
+  --option-color: var(--bl-color-secondary);
+  --option-disabled-color: var(--bl-color-content-passive);
+  --option-seperator: 1px solid var(--bl-color-border);
+  --option-gap: var(--bl-size-2xs);
+  --option-transition: color 120ms ease-out;
+}
+
+.option-container::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  bottom: 0;
+  border-bottom: var(--option-seperator);
+}
+
+:host(:last-of-type) .option-container::after {
+  border-bottom: none;
+}
+
+.single-option {
+  width: 100%;
+  display: block;
+  cursor: pointer;
+  color: var(--option-color);
+  padding: var(--option-padding);
+  transition: var(--option-transition);
+  font: var(--option-font);
+  user-select: none;
+}
+
+:host(:hover) .single-option {
+  color: var(--option-hover-color);
+}
+
+:host([selected]) .single-option {
+  color: var(--option-selected-color);
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+}
+
+:host([disabled]) .single-option {
+  color: var(--option-disabled-color);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.checkbox-option {
+  width: 100%;
+  display: block;
+  color: var(--option-color);
+  padding: var(--option-padding);
+}
