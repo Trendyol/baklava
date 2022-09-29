@@ -17,26 +17,52 @@ export const Jumper = (args) => html`
       <bl-pagination current-page=1 total-items=1500 items-per-page=10 has-jumper></bl-pagination>
   `
 
+export const Select = (args) => html`
+      <bl-pagination current-page=1 total-items=1500 items-per-page=100 has-select></bl-pagination>
+  `
+
+export const CustomizedJumperAndSelect = (args) => html`
+      <bl-pagination current-page=1 total-items=1500 items-per-page=250 has-jumper jumper-label="Sayfaya Git" has-select select-label="Sayfa Başına" option-text="Sonuç"></bl-pagination>
+  `
+
 # Pagination
 
 The Pagination component enables the user to select a specific page from a range of pages. Number of content per page can also be selected by the user
 
 
 ## Simple Pagination
-Use a simple pagination for navigating to the next or previous page.
+Use a simple pagination for navigating to the next or previous page or a selected page.
 
 <Canvas>
-<Story name="Basic Usage" args={{currentPage:1,totalItems:1500,itemsPerPage:10 }}>
+<Story name="Basic Usage">
     {SimplePagination.bind({})}
   </Story>
 </Canvas>
 
 ## Jumper
-You can use the jumper to directly go to a specific page. The jumper label can be customized.
+Use the jumper to directly go to a specific page.
 
 <Canvas>
-<Story name="Jumper" args={{currentPage:1,totalItems:1500,itemsPerPage:10,hasJumper:true }}>
+<Story name="Jumper">
     {Jumper.bind({})}
+  </Story>
+</Canvas>
+
+## Select
+Use the select helper to change the number of items per page.
+
+<Canvas>
+<Story name="Select">
+    {Select.bind({})}
+  </Story>
+</Canvas>
+
+## Customization
+The labels and the texts of the jumper and select element are fully customizable.
+
+<Canvas>
+<Story name="CustomizedJumperAndSelect">
+    {CustomizedJumperAndSelect.bind({})}
   </Story>
 </Canvas>
 
