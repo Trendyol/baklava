@@ -133,17 +133,19 @@ export default class BlSelect extends LitElement {
   open() {
     this._isPopoverOpen = true;
     this._setupPopover();
+    document.addEventListener('click', this._clickOutsideHandler);
   }
 
   close() {
     this._isPopoverOpen = false;
     this._cleanUpPopover && this._cleanUpPopover();
+    document.removeEventListener('click', this._clickOutsideHandler);
   }
 
   private _clickOutsideHandler = (event: MouseEvent) => {
-    const target = event.target as HTMLElement;
+    const eventPath = event.composedPath() as HTMLElement[];
 
-    if (!this.contains(target) && this._isPopoverOpen) {
+    if (!eventPath?.find(el => el.tagName === 'BL-SELECT')?.contains(this)) {
       this.close();
       this._checkRequired();
     }
@@ -174,13 +176,10 @@ export default class BlSelect extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-
-    document.addEventListener('click', this._clickOutsideHandler);
   }
   disconnectedCallback() {
     super.disconnectedCallback();
 
-    document.removeEventListener('click', this._clickOutsideHandler);
     this._cleanUpPopover && this._cleanUpPopover();
   }
 
@@ -266,7 +265,7 @@ export default class BlSelect extends LitElement {
   }
 
   private _handleSingleSelect(optionItem: ISelectOption) {
-    const oldItem = this._connectedOptions.find(option => option.selected);
+    const oldItem = this._connectedOptions.find(option => option.value !== optionItem.value && option.selected);
 
     if (oldItem) {
       oldItem.selected = false;
