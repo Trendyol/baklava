@@ -211,8 +211,13 @@ export default class BlSelect extends LitElement {
       <div class="actions">
         ${removeButton}
         <bl-icon
-          class="dropdown-icon"
-          name="${this._isPopoverOpen ? 'arrow_up' : 'arrow_down'}"
+          class="dropdown-icon open"
+          name="arrow_up"
+        ></bl-icon>
+
+        <bl-icon
+          class="dropdown-icon closed"
+          name="arrow_down"
         ></bl-icon>
       </div>
     </div>`;
