@@ -4,7 +4,6 @@ import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import '../input/bl-input';
 import '../select/bl-select';
-import '../select/option/bl-select-option';
 import '../icon/bl-icon';
 
 import style from './bl-pagination.css';
@@ -158,6 +157,7 @@ export default class BlPagination extends LitElement {
 
   private _selectHandler(event: CustomEvent) {
     this.itemsPerPage = event?.detail[0]?.value;
+    this.currentPage = 1;
   }
 
   private renderSinglePage(page: number | string) {

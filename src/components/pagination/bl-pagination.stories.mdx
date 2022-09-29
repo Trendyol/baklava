@@ -21,7 +21,7 @@ export const Select = (args) => html`
       <bl-pagination current-page=1 total-items=1500 items-per-page=100 has-select></bl-pagination>
   `
 
-export const CustomizedJumperAndSelect = (args) => html`
+export const Customization = (args) => html`
       <bl-pagination current-page=1 total-items=1500 items-per-page=250 has-jumper jumper-label="Sayfaya Git" has-select select-label="Sayfa Başına" option-text="Sonuç"></bl-pagination>
   `
 
@@ -61,8 +61,8 @@ Use the select helper to change the number of items per page.
 The labels and the texts of the jumper and select element are fully customizable.
 
 <Canvas>
-<Story name="CustomizedJumperAndSelect">
-    {CustomizedJumperAndSelect.bind({})}
+<Story name="Customization">
+    {Customization.bind({})}
   </Story>
 </Canvas>
 

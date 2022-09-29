@@ -1,6 +1,5 @@
 import { assert, expect, fixture, oneEvent, html } from '@open-wc/testing';
 import BlPagination from './bl-pagination';
-import '../icon/bl-icon';
 
 import type typeOfBlPagination from './bl-pagination';
 
@@ -40,6 +39,7 @@ describe('bl-pagination', () => {
     expect(el.hasSelect).to.equal(false);
     expect(el.jumperLabel).to.equal('Go To');
     expect(el.selectLabel).to.equal('Show');
+    expect(el.optionText).to.equal('Items');
   });
 
   it('should correctly set the attributes', async () => {
@@ -53,6 +53,7 @@ describe('bl-pagination', () => {
           jumper-label="Git"
           has-select
           select-label="Göster"
+          option-text="Sonuç"
         >
         </bl-pagination>
       `
@@ -63,6 +64,7 @@ describe('bl-pagination', () => {
     expect(el.hasSelect).to.equal(true);
     expect(el.jumperLabel).to.equal('Git');
     expect(el.selectLabel).to.equal('Göster');
+    expect(el.optionText).to.equal('Sonuç');
   });
 
   describe('back and forward arrows', () => {
@@ -239,7 +241,7 @@ describe('bl-pagination', () => {
       expect(el.currentPage).to.equal(1);
     });
 
-    it('should change the items per page when select is used', async () => {
+    it('should change the items per page and should set the current page to 1 on select changes', async () => {
       const el = await fixture<typeOfBlPagination>(html`<bl-pagination
         has-jumper
         current-page="1"
@@ -250,20 +252,18 @@ describe('bl-pagination', () => {
       const select = el.shadowRoot?.querySelector('bl-select');
       const optionTwo = el?.shadowRoot?.querySelectorAll('bl-select-option')[1];
 
+      if (optionTwo) {
+        optionTwo.selected = true;
+      }
+
       const selectOptionEvent = new CustomEvent('bl-select', {
-        detail: [
-          {
-            selected: true,
-            value: optionTwo?.value || 100,
-            text: '250',
-          },
-        ],
+        detail: [optionTwo],
       });
 
       select?.dispatchEvent(selectOptionEvent);
 
-      expect(el.itemsPerPage).to.equal('250');
-      expect(selectOptionEvent.detail[0]?.value).to.equal('250');
+      expect(el.itemsPerPage).to.equal(optionTwo?.value);
+      expect(el.currentPage).to.equal(1);
     });
   });
 });
