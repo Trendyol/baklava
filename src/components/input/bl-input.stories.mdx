@@ -99,7 +99,7 @@ export const LabelStylesTemplate = args => html`
 
 Input component is the component for taking text input from user.
 
-<bl-alert variant="warning" icon caption="Note">Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
 
 ## Basic Usage
 
@@ -133,6 +133,9 @@ If you want to use always it on top of the input, then you can use `label-fixed`
     {SingleInputTemplate.bind({})}
   </Story>
   <Story name="Input Without Label" args={{ placeholder: 'Enter Your Name' }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Input with value" args={{ label: 'Your name', placeholder: 'Name Surname', value: 'Random User' }}>
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
@@ -199,6 +202,34 @@ Inputs have 2 size options: `medium` and `large`. `medium` size is default and i
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
+
+## Using within a form
+
+Input component uses [ElementInternals](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) to associate with it's parent form automatically. When you use `bl-input` within a form with a `name` attribute, input's value will be automatically set parent form's FormData. Check the example below:
+
+```html
+<form novalidate>
+  <bl-input name="name" label="Your Name"></bl-input>
+  <bl-input name="age" type="number" required min="18" label="Age"></bl-input>
+
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  document.querySelector('form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+  });
+</script>
+```
+
+When you run this example and submit the form, you'll see key/value pairs of the inputs in the console.
+
+<bl-alert icon>If user presses `Enter` key in an input inside a form, this will trigger submit of the form. This behaviour mimics the native input behaviour.</bl-alert>
 
 ## Reference
 
