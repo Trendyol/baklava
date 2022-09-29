@@ -17,6 +17,7 @@ module.exports = {
         'progress-indicator',
         'checkbox',
         'alert',
+        'select',
         'pagination'
       ],
     ],

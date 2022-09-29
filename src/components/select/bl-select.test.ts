@@ -27,7 +27,8 @@ describe('bl-select', () => {
             variant="secondary"
           >
           </bl-button>
-          <bl-icon  class="dropdown-icon" name="arrow_down"></bl-icon>
+          <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
+          <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
           </div>
         </div>
         <div class="popover">
