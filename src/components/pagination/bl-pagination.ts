@@ -4,8 +4,6 @@ import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import '../input/bl-input';
 import '../select/bl-select';
-import '../select/option/bl-select-option';
-import '../icon/bl-icon';
 
 import style from './bl-pagination.css';
 

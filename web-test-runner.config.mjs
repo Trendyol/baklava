@@ -1,5 +1,6 @@
 import { playwrightLauncher } from '@web/test-runner-playwright';
 import { puppeteerLauncher } from '@web/test-runner-puppeteer';
+import { importMapsPlugin } from '@web/dev-server-import-maps';
 import rollupLitCss from 'rollup-plugin-lit-css';
 import rollupReplace from '@rollup/plugin-replace';
 import { fromRollup } from '@web/dev-server-rollup';
@@ -53,29 +54,21 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   browsers,
 
   plugins: [
-    {
-      name: 'mock-icon-component',
-      async transformImport({ source }) {
-        if (source.endsWith('bl-icon.ts')) {
-          return `${source}?_=${Date.now()}`;
-        }
-      },
-      serve(context) {
-        if (context.headers.referer) {
-          const ref = new URL(context.headers.referer);
-
-          if (
-            context.path === '/src/components/icon/bl-icon.ts' &&
-            ref.pathname !== '/' &&
-            // Use actual component in bl-icon test
-            !ref.pathname.includes('bl-icon.test.ts')
-          ) {
-            return `export default customElements.define('bl-icon', class extends HTMLElement {})`;
+    /* Use mock icon file in tests except bl-icon.test itself. */
+    importMapsPlugin({
+      inject: {
+        importMap: {
+          imports: {
+            '/src/components/icon/bl-icon': './src/utilities/icon-mock.ts'
+          },
+          scopes: {
+            '/src/components/icon/': {
+              '/src/components/icon/bl-icon': './src/components/icon/bl-icon.ts'
+            }
           }
-        }
+        },
       },
-    },
-
+    }),
     litCss({
       include: ['src/components/**/*.css'],
     }),
@@ -85,11 +78,12 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
     esbuildPlugin({ ts: true, target: 'esnext'}),
   ],
 
-  testRunnerHtml: testFramework =>
-    `<html>
+  testRunnerHtml: testFramework => {
+    return `<html>
       <head><link rel="stylesheet" href="./dist/themes/default.css"></head>
       <body>
         <script type="module" src="${testFramework}"></script>
       </body>
-    </html>`,
+    </html>`;
+  },
 });
