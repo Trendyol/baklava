@@ -70,7 +70,7 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
             // Use actual component in bl-icon test
             !ref.pathname.includes('bl-icon.test.ts')
           ) {
-            return `export default customElements.get('bl-icon') || customElements.define('bl-icon', class extends HTMLElement {})`;
+            return `export default customElements.define('bl-icon', class extends HTMLElement {})`;
           }
         }
       },

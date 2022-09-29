@@ -1,6 +1,5 @@
 import { assert, expect, fixture, oneEvent, html } from '@open-wc/testing';
 import BlPagination from './bl-pagination';
-import '../icon/bl-icon';
 
 import type typeOfBlPagination from './bl-pagination';
 
