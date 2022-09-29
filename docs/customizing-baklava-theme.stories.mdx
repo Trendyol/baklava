@@ -1,0 +1,103 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta
+  title="Documentation/Customizing Baklava Theme"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: {
+        hidden: true,
+      },
+    },
+  }}
+/>
+
+# Customizing Baklava Theme
+
+Baklava Design System provides a set of well defined components with some UX decisions. Baklava is not a generic UI library, so it doesn't intend
+to provide a list of component that you can customize every part of it. Instead Baklava aims to provide a good and consistent UX for the applications
+uses it.
+
+But there are still many customisation options in Baklava, those doesn't effect UX result of the components a lot. These are design tokens and a set of
+design token definitions are named as a "theme". Baklava comes with a default theme that you can import from `themes/default.css` file and will provide
+more soon (like a dark theme). But you can also create your own theme or extend/override some part of the default theme in your applications.
+
+## Creating your own theme
+
+You can simply copy our `themes/default.css` file to your codebase, change any of the CSS variables inside the file and put that CSS file on your document
+instead of `themes/default.css` file. Like:
+
+```html
+<link rel="stylesheet" href="/syles/my-baklava-theme.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/baklava.js"></script>
+```
+
+With this opportunity you can use all of the Baklava components with your own branding colors, own selection of Font or different sizing values.
+
+## Extending default theme
+
+If you want to change a small set of the design tokens, you may consider to extend default theme.
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css" />
+<link rel="stylesheet" href="/syles/my-baklava-theme.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/baklava.js"></script>
+```
+
+With this, you can -for example- only override color pallette for your app and continue to use typography or spacing rules from the default theme.
+
+## Using themes in a smaller scope
+
+Our theme files are setting CSS variables on `:root` level. That means they are being set on document level. But since we are only talking about
+classic CSS styling here, in some cases, it's perfectly fine to set a design token for a part of your document.
+
+```html
+<div class="hero">
+   <bl-button>Get Started</bl-button>
+</div>
+
+<style>
+.hero {
+  --bl-primary-color: purple;
+}
+</style>
+```
+
+In this example we are an exceptional part in our document that we want to make a primary button that is different then our theme colors. So we
+set `--bl-primary-color` variable on `.hero` element and make primary button inside this element in a different color.
+
+But you need to be careful about setting a design token in a scope, because in the example below, if I put a `bl-badge` component inside `.hero`
+element, that will also use same color we set instead of our theme color. But of course you can easily address that kind of issues, like:
+
+```css
+.hero bl-button {
+  --bl-primary-color: purple;
+}
+```
+
+This opportunity gives a big power for handling esceptional use cases like:
+
+* Using dark theme in a part of your document (like header or footer)
+* Having more color or spacing options inside your app.
+
+## Changing default styles of components
+
+In addition to setting design tokens, some of our components has their own CSS custom properties to make customisation on their style. And if you want
+you can use those custom properties in your theme definition to make all of those components in a desired style troughout your app.
+
+For example, our badge component has `--bl-badge-color` property and by default it uses `--bl-color-primary`. If you want you can use a different default
+color for all of the badges on your app by just adding:
+
+```css
+:root {
+  --bl-badge-color: purple;
+}
+```
+
+Using design tokens here is of course also possible:
+
+```css
+:root {
+  --bl-badge-color: var(--bl-color-success);
+}
+```
