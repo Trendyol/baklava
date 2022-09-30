@@ -6,8 +6,8 @@ import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-button.css';
 import '../icon/bl-icon';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'success' | 'danger';
-export type ButtonKind = 'contained' | 'outline' | 'text';
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
+export type ButtonKind = 'default' | 'neutral' | 'success' | 'danger';
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type TargetType = '_blank' | '_parent' | '_self' | '_top';
 
@@ -34,7 +34,7 @@ export default class BlButton extends LitElement {
    * Sets the button kind
    */
   @property({ type: String, reflect: true })
-  kind: ButtonKind = 'contained';
+  kind: ButtonKind = 'default';
 
   /**
    * Sets the button size
@@ -75,8 +75,8 @@ export default class BlButton extends LitElement {
   /**
    * Sets the type of the button. Set `submit` to use button as the submitter of parent form.
    */
-   @property({ type: String })
-   type: 'submit' | null;
+  @property({ type: String })
+  type: 'submit' | null;
 
   /**
    * Fires when button clicked

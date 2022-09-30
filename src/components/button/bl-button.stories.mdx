@@ -14,12 +14,12 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
       }
     },
     variant: {
-      options: ['primary', 'secondary', 'success', 'danger'],
+      options: ['primary', 'secondary', 'tertiary'],
       default: 'primary',
       control: { type: 'select' }
     },
     kind: {
-      options: ['contained', 'outline', 'text'],
+      options: ['default', 'neutral', 'success','danger'],
       default: 'contained',
       control: { type: 'select' }
     },
@@ -49,7 +49,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 />
 
 export const SingleButtonTemplate = (args) => html`<bl-button
-    class=${ifDefined(args.class)}  
+    class=${ifDefined(args.class)}
     variant=${ifDefined(args.variant)}
     kind=${ifDefined(args.kind)}
     href=${ifDefined(args.href)}
@@ -64,18 +64,31 @@ export const SingleButtonTemplate = (args) => html`<bl-button
 export const Template = (args) => html`
 ${SingleButtonTemplate({content: 'Primary Button', ...args})}
 ${SingleButtonTemplate({variant: 'secondary', content: 'Secondary Button', ...args})}
-${SingleButtonTemplate({variant: 'success', content: 'Success Button', ...args})}
-${SingleButtonTemplate({variant: 'danger', content: 'Danger Button', ...args})}`;
+${SingleButtonTemplate({variant: 'tertiary', content: 'Tertiary Button', ...args})}`
 
-export const ButtonTypesTemplate = (args) => html`
+export const ContainedButtons = (args) => html`
 ${SingleButtonTemplate({...args})}
-${SingleButtonTemplate({kind: 'outline', ...args})}
-${SingleButtonTemplate({kind: 'text', ...args})}`;
+${SingleButtonTemplate({kind: 'neutral', ...args})}
+${SingleButtonTemplate({kind: 'success', ...args})}
+${SingleButtonTemplate({kind: 'danger', ...args})}`
 
 export const SizesTemplate = (args) => html`
 ${SingleButtonTemplate({size: 'large', ...args})}
 ${SingleButtonTemplate({size: 'medium', ...args})}
-${SingleButtonTemplate({size: 'small', ...args})}`;
+${SingleButtonTemplate({size: 'small', ...args})}`
+
+export const OutlineButtons = (args) => html`
+${SingleButtonTemplate({variant:'secondary',content: 'Default button', ...args})}
+${SingleButtonTemplate({kind:'neutral', variant:'secondary',content: 'Neutral button', ...args})}
+${SingleButtonTemplate({kind:'success',variant: 'secondary', content: 'Success button', ...args})}
+${SingleButtonTemplate({kind: 'danger', variant:'secondary', content: 'Danger button', ...args})}`
+
+export const TextButtons = (args) => html`
+${SingleButtonTemplate({variant:'tertiary',content: 'Default text', ...args})}
+${SingleButtonTemplate({kind:'neutral', variant:'tertiary',content: 'Neutral text', ...args})}
+${SingleButtonTemplate({kind:'success',variant: 'tertiary', content: 'Success text', ...args})}
+${SingleButtonTemplate({kind: 'danger', variant:'tertiary', content: 'Danger text', ...args})}`
+
 
 # Button
 
@@ -92,7 +105,7 @@ Buttons allow users to take actions, and make choices with a single tap.
 
 ## Button Variants
 
-We have 4 variants for each button: **Primary**, **Secondary**, **Success** and **Danger**.
+We have 3 variants for each button: **Primary**, **Secondary** and **Tertiary**.
 
 <Canvas>
   <Story name="Variants">
@@ -100,42 +113,32 @@ We have 4 variants for each button: **Primary**, **Secondary**, **Success** and 
   </Story>
 </Canvas>
 
-## Button Types
-
-We have 3 types of buttons: **Contained** (Default), **Outline** and **Text**.
-
-<Canvas>
-  <Story name="Types" args={{ content: 'Primary Button' }}>
-    {ButtonTypesTemplate.bind({})}
-  </Story>
-</Canvas>
-
 ### Contained Buttons
 
+<!-- We have 4 kinds of buttons: **Default** (Default), **Neutral**, **Success** and **Danger**. -->
 Contained buttons ared used for main actions of the screens. Like a submit button in a form or main button of a dialog.
 
 <Canvas>
-  <Story name="Contained Buttons">
-    {Template.bind({})}
+  <Story name="Types" args={{ content: 'Primary Button' }}>
+    {ContainedButtons.bind({})}
   </Story>
 </Canvas>
 
 ### Outline Buttons
 
-Outlined Buttons represent the important actions in the app. But not the primary ones.
-They work with all the variants. You simply add `outline` attribute.
+Outlined Buttons represent the important actions in the app. But not the primary ones. They work with all the variants.
 
 <Canvas>
-  <Story name="Outline Buttons" args={{ kind: 'outline' }}>
-    {Template.bind({})}
+  <Story name="Secondary Kinds">
+    {OutlineButtons.bind({})}
   </Story>
 </Canvas>
 
-### Text Buttons
-TBD
+### TextButtons
+
 <Canvas>
-  <Story name="Text Buttons" args={{ kind: 'text' }}>
-    {Template.bind({})}
+  <Story name="Text Buttons">
+    {TextButtons.bind({})}
   </Story>
 </Canvas>
 
@@ -212,8 +215,7 @@ export const SingleButtonHoverTemplate = (args) => html`${SingleButtonTemplate({
 export const HoverTemplate = (args) => html`
 ${SingleButtonHoverTemplate({content: 'Primary Button', ...args})}
 ${SingleButtonHoverTemplate({variant: 'secondary', content: 'Secondary Button', ...args})}
-${SingleButtonHoverTemplate({variant: 'success', content: 'Success Button', ...args})}
-${SingleButtonHoverTemplate({variant: 'danger', content: 'Danger Button', ...args})}`;
+${SingleButtonHoverTemplate({variant: 'tertiary', content: 'Tertiary Button', ...args})}`
 
 <Canvas isColumn>
   <Story name="Contained Buttons Hover" args={{ content: 'Save', icon: 'info' }}>
