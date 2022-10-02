@@ -66,7 +66,7 @@ ${SingleButtonTemplate({content: 'Primary Button', ...args})}
 ${SingleButtonTemplate({variant: 'secondary', content: 'Secondary Button', ...args})}
 ${SingleButtonTemplate({variant: 'tertiary', content: 'Tertiary Button', ...args})}`
 
-export const ContainedButtons = (args) => html`
+export const ButtonTypes = (args) => html`
 ${SingleButtonTemplate({...args})}
 ${SingleButtonTemplate({kind: 'neutral', ...args})}
 ${SingleButtonTemplate({kind: 'success', ...args})}
@@ -76,19 +76,6 @@ export const SizesTemplate = (args) => html`
 ${SingleButtonTemplate({size: 'large', ...args})}
 ${SingleButtonTemplate({size: 'medium', ...args})}
 ${SingleButtonTemplate({size: 'small', ...args})}`
-
-export const OutlineButtons = (args) => html`
-${SingleButtonTemplate({variant:'secondary',content: 'Default button', ...args})}
-${SingleButtonTemplate({kind:'neutral', variant:'secondary',content: 'Neutral button', ...args})}
-${SingleButtonTemplate({kind:'success',variant: 'secondary', content: 'Success button', ...args})}
-${SingleButtonTemplate({kind: 'danger', variant:'secondary', content: 'Danger button', ...args})}`
-
-export const TextButtons = (args) => html`
-${SingleButtonTemplate({variant:'tertiary',content: 'Default text', ...args})}
-${SingleButtonTemplate({kind:'neutral', variant:'tertiary',content: 'Neutral text', ...args})}
-${SingleButtonTemplate({kind:'success',variant: 'tertiary', content: 'Success text', ...args})}
-${SingleButtonTemplate({kind: 'danger', variant:'tertiary', content: 'Danger text', ...args})}`
-
 
 # Button
 
@@ -120,25 +107,27 @@ Contained buttons ared used for main actions of the screens. Like a submit butto
 
 <Canvas>
   <Story name="Types" args={{ content: 'Primary Button' }}>
-    {ContainedButtons.bind({})}
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
 ### Outline Buttons
 
-Outlined Buttons represent the important actions in the app. But not the primary ones. They work with all the variants.
+Outline Buttons represent the important actions in the app. But not the primary ones. They work with all the variants.
 
 <Canvas>
-  <Story name="Secondary Kinds">
-    {OutlineButtons.bind({})}
+  <Story name="Secondary Kinds" args={{ variant:'secondary',content: 'Secondary button' }}>
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
 ### TextButtons
 
+TBD
+
 <Canvas>
-  <Story name="Text Buttons">
-    {TextButtons.bind({})}
+  <Story name="Text Buttons" args={{ variant:'tertiary',content: 'Tertiary button' }}>
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
@@ -151,13 +140,13 @@ To be able to use icon with button, you should give the name of icon to `icon` a
 
 <Canvas>
   <Story name="Icon Buttons" args={{ content: 'Save', icon: 'info' }}>
-    {Template.bind({})}
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
 <Canvas>
-  <Story name="Text Buttons With Icon" args={{ kind: 'text', href: "https://trendyol.com", content: 'Save', icon: 'info' }}>
-    {Template.bind({})}
+  <Story name="Text Buttons With Icon" args={{href: "https://trendyol.com", content: 'Save',variant:'tertiary', icon: 'info' }}>
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
@@ -168,7 +157,7 @@ Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favor
 
 <Canvas>
   <Story name="Icon Only Buttons" args={{ content: '', label: 'Save', icon: 'info' }}>
-    {Template.bind({})}
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
@@ -214,20 +203,24 @@ export const SingleButtonHoverTemplate = (args) => html`${SingleButtonTemplate({
 
 export const HoverTemplate = (args) => html`
 ${SingleButtonHoverTemplate({content: 'Primary Button', ...args})}
-${SingleButtonHoverTemplate({variant: 'secondary', content: 'Secondary Button', ...args})}
-${SingleButtonHoverTemplate({variant: 'tertiary', content: 'Tertiary Button', ...args})}`
+${SingleButtonHoverTemplate({kind: 'neutral', content: 'Secondary Button', ...args})}
+${SingleButtonHoverTemplate({kind: 'success', content: 'Success Button', ...args})}
+${SingleButtonHoverTemplate({kind: 'danger', content: 'Danger Button', ...args})}`;
+
 
 <Canvas isColumn>
   <Story name="Contained Buttons Hover" args={{ content: 'Save', icon: 'info' }}>
     {HoverTemplate.bind({})}
   </Story>
-  <Story name="Outline Buttons Hover" args={{ content: 'Save', kind: 'outline', icon: 'info' }}>
+  <Story name="Outline Buttons Hover" args={{ content: 'Save', variant: 'secondary', icon: 'info' }}>
     {HoverTemplate.bind({})}
   </Story>
-    <Story name="Text Buttons Hover" args={{ content: 'Save', kind: 'text', icon: 'info' }}>
+    <Story name="Text Buttons Hover" args={{ content: 'Save', variant: 'tertiary', icon: 'info' }}>
     {HoverTemplate.bind({})}
   </Story>
 </Canvas>
+
+
 
 
 
