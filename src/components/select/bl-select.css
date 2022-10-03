@@ -208,7 +208,7 @@ label {
   top: 0;
   left: var(--bl-size-2xs);
   transform: translateY(-50%);
-  font: var(--bl-font-form-label);
+  font: var(--bl-font-caption);
   color: var(--label-color);
   padding: 0 var(--bl-size-3xs);
   background-color: var(--bl-color-primary-background);
@@ -225,7 +225,7 @@ label {
   transition: none;
   transform: none;
   pointer-events: initial;
-  font: var(--bl-font-form-label);
+  font: var(--bl-font-caption);
   color: var(--label-color);
   padding: 0;
 }
