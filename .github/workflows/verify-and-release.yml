@@ -23,3 +23,7 @@ jobs:
     uses: trendyol/baklava/.github/workflows/release.yml@next
     needs: verify
     secrets: inherit
+  purge-cache:
+    uses: trendyol/baklava/.github/workflows/purge-cache.yml@next
+    needs: release
+    secrets: inherit
