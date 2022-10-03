@@ -3,9 +3,6 @@
 }
 
 .pagination {
-  --bl-pagination-main-color: var(--bl-color-secondary);
-  --arrow-disabled-color: var(--bl-color-content-passive);
-
   display: flex;
 }
 
@@ -28,7 +25,7 @@
 }
 
 .dots {
-  margin: 7.5px;
+  margin:0 var(--bl-size-2xs);
 }
 
 .dots::before {
@@ -51,10 +48,12 @@
 }
 
 label {
+  font: var(--bl-font-title-3-medium);
   font-size: var(--bl-font-size-m);
   font-weight: var(--bl-font-weight-medium);
   line-height: var(--bl-font-size-m);
   letter-spacing: 0;
+  user-select: none;
 }
 
 bl-input {

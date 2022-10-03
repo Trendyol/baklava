@@ -7,22 +7,64 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 <Meta
   title="Components/Pagination"
   component="bl-pagination"
+  argTypes={{
+     totalItems: {
+       control: {
+        type: 'number',
+        default:1500
+      }
+    },
+     itemsPerPage: {
+       control: {
+        type: 'number',
+        default:100
+      }
+    },
+   hasJumper: {
+      control: {
+        type: 'boolean',
+        default:true
+      }
+    },
+    jumperLabel: {
+       control: {
+        type: 'text',
+        default:"Go To"
+      }
+    },
+   hasSelect: {
+      control: {
+        type: 'boolean',
+        default:true
+      }
+    },
+    selectLabel: {
+      control: {
+        type: 'text',
+        default:"Show"
+      }
+    },
+    optionText: {
+      control: {
+        type: 'text',
+        default:"Items"
+      }
+    },
+  }}
 />
 
-export const SimplePagination = (args) => html`
-      <bl-pagination current-page=1 total-items=1500 items-per-page=10></bl-pagination>
-  `
-
-export const Jumper = (args) => html`
-      <bl-pagination current-page=1 total-items=1500 items-per-page=10 has-jumper></bl-pagination>
-  `
-
-export const Select = (args) => html`
-      <bl-pagination current-page=1 total-items=1500 items-per-page=100 has-select></bl-pagination>
-  `
-
-export const Customization = (args) => html`
-      <bl-pagination current-page=1 total-items=1500 items-per-page=250 has-jumper jumper-label="Sayfaya Git" has-select select-label="Sayfa Başına" option-text="Sonuç"></bl-pagination>
+export const PaginationTemplate = (args) => html`
+      <bl-pagination
+      current-page=${ifDefined(args.currentPage)}
+      total-items=${ifDefined(args.totalItems)}
+      items-per-page=${ifDefined(args.itemsPerPage)}
+      has-jumper=${ifDefined(args.hasJumper)}
+      jumper-label=${ifDefined(args.jumperLabel)}
+      has-select=${ifDefined(args.hasSelect)}
+      select-label=${ifDefined(args.selectLabel)}
+      option-text=${ifDefined(args.optionText)}
+      >
+      </bl-pagination>
   `
 
 # Pagination
@@ -34,8 +76,8 @@ The Pagination component enables the user to select a specific page from a range
 Use a simple pagination for navigating to the next or previous page or a selected page.
 
 <Canvas>
-<Story name="Basic Usage">
-    {SimplePagination.bind({})}
+<Story name="Basic Usage" args={{currentPage:1,totalItems:1500,itemsPerPage:10}}>
+    {PaginationTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -43,8 +85,8 @@ Use a simple pagination for navigating to the next or previous page or a selecte
 Use the jumper to directly go to a specific page.
 
 <Canvas>
-<Story name="Jumper">
-    {Jumper.bind({})}
+<Story name="Jumper" args={{currentPage:1,totalItems:1500,itemsPerPage:10,hasJumper:true}}>
+    {PaginationTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -52,8 +94,8 @@ Use the jumper to directly go to a specific page.
 Use the select helper to change the number of items per page.
 
 <Canvas>
-<Story name="Select">
-    {Select.bind({})}
+<Story name="Select" args={{currentPage:1,totalItems:1500,itemsPerPage:100,hasSelect:true}}>
+    {PaginationTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -61,8 +103,8 @@ Use the select helper to change the number of items per page.
 The labels and the texts of the jumper and select element are fully customizable.
 
 <Canvas>
-<Story name="Customization">
-    {Customization.bind({})}
+<Story name="Customization"  args={{currentPage:1,totalItems:1500,itemsPerPage:250,hasJumper:true,jumperLabel:"Sayfaya Git",hasSelect:true,selectLabel:"Sayfa Başına",optionText:"Sonuç"}}>
+    {PaginationTemplate.bind({})}
   </Story>
 </Canvas>
 

@@ -59,13 +59,13 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
       inject: {
         importMap: {
           imports: {
-            '/src/components/icon/bl-icon': './src/utilities/icon-mock.ts'
+            '/src/components/icon/bl-icon': './src/utilities/icon-mock.ts',
           },
           scopes: {
             '/src/components/icon/': {
-              '/src/components/icon/bl-icon': './src/components/icon/bl-icon.ts'
-            }
-          }
+              '/src/components/icon/bl-icon': './src/components/icon/bl-icon.ts',
+            },
+          },
         },
       },
     }),
@@ -75,15 +75,13 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
     replace({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
-    esbuildPlugin({ ts: true, target: 'esnext'}),
+    esbuildPlugin({ ts: true, target: 'esnext' }),
   ],
 
-  testRunnerHtml: testFramework => {
-    return `<html>
+  testRunnerHtml: testFramework => `<html>
       <head><link rel="stylesheet" href="./dist/themes/default.css"></head>
       <body>
         <script type="module" src="${testFramework}"></script>
       </body>
-    </html>`;
-  },
+    </html>`,
 });

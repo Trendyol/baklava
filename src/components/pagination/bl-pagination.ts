@@ -4,7 +4,6 @@ import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import '../input/bl-input';
 import '../select/bl-select';
-import '../icon/bl-icon';
 
 import style from './bl-pagination.css';
 
@@ -156,7 +155,7 @@ export default class BlPagination extends LitElement {
   }
 
   private _selectHandler(event: CustomEvent) {
-    this.itemsPerPage = event?.detail[0]?.value;
+    this.itemsPerPage = event?.detail[0]?.value || 100;
     this.currentPage = 1;
   }
 
@@ -183,7 +182,7 @@ export default class BlPagination extends LitElement {
           kind="text"
           variant="secondary"
           icon="arrow_left"
-          class="arrow-left"
+          class="previous"
           ?disabled=${this.currentPage === 1}
         ></bl-button>
         <ul class="page-list">
@@ -194,7 +193,7 @@ export default class BlPagination extends LitElement {
           kind="text"
           variant="secondary"
           icon="arrow_right"
-          class="arrow-right"
+          class="next"
           ?disabled=${this.currentPage === this._getLastPage()}
         ></bl-button>
       </div>
@@ -202,7 +201,7 @@ export default class BlPagination extends LitElement {
   }
 
   render(): TemplateResult {
-    const selectEl = html`
+    const selectEl = this.hasSelect ? html`
       <div class="select">
         <label>${this.selectLabel}</label>
         <bl-select @bl-select="${this._selectHandler}">
@@ -215,20 +214,23 @@ export default class BlPagination extends LitElement {
           })}
         </bl-select>
       </div>
-    `;
+    ` : null;
 
-    const jumperEl = html` <div class="jumper">
-      <label>${this.jumperLabel}</label>
-      <bl-input value="${this.currentPage}" @bl-change="${this._inputHandler}"></bl-input>
-    </div>`;
+    const jumperEl = this.hasJumper
+      ? html` <div class="jumper">
+          <label>${this.jumperLabel}</label>
+          <bl-input value="${this.currentPage}" @bl-change="${this._inputHandler}"></bl-input>
+        </div>`
+      : null;
 
-    const helperElements = html`
-      <div class="pagination-helpers">
-        ${this.hasSelect ? selectEl : null} ${this.hasJumper ? jumperEl : null}
-      </div>
-    `;
+    const getHelperElements = () => {
+      if (!this.hasSelect && !this.hasJumper) return;
+      return html`
+        <div class="pagination-helpers">${selectEl} ${jumperEl}</div>
+      `;
+    };
 
-    return html` <div class="pagination">${helperElements} ${this.renderPages()}</div>`;
+    return html` <div class="pagination">${getHelperElements()} ${this.renderPages()}</div>`;
   }
 }
 

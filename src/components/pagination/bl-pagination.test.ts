@@ -15,16 +15,14 @@ describe('bl-pagination', () => {
       el,
       `
       <div class="pagination">
-        <div class="pagination-helpers">
-        </div>
        <div class="page-container">
-        <bl-button kind="text" variant="secondary" icon="arrow_left" class="arrow-left" disabled="" size="medium"></bl-button>
+        <bl-button kind="text" variant="secondary" icon="arrow_left" class="previous" disabled="" size="medium"></bl-button>
         <ul class="page-list">
           <li>
             <bl-button variant="secondary" kind="contained" size="medium">1</bl-button>
           </li>
         </ul>
-          <bl-button kind="text" variant="secondary" icon="arrow_right" class="arrow-right" size="medium" disabled=""></bl-button>
+          <bl-button kind="text" variant="secondary" icon="arrow_right" class="next" size="medium" disabled=""></bl-button>
         </div>
       </div>
     `
@@ -72,7 +70,7 @@ describe('bl-pagination', () => {
       const el = await fixture<typeOfBlPagination>(
         html`<bl-pagination current-page="1" items-per-page="1" total-items="10"></bl-pagination>`
       );
-      const arrowLeftBtn = el.shadowRoot?.querySelector('.arrow-left') as HTMLButtonElement;
+      const arrowLeftBtn = el.shadowRoot?.querySelector('.previous') as HTMLButtonElement;
       expect(arrowLeftBtn.disabled).to.eq(true);
       setTimeout(() => {
         arrowLeftBtn?.click();
@@ -84,7 +82,7 @@ describe('bl-pagination', () => {
       const el = await fixture<typeOfBlPagination>(
         html`<bl-pagination current-page="10" items-per-page="1" total-items="10"></bl-pagination>`
       );
-      const arrowRightBtn = el.shadowRoot?.querySelector('.arrow-right') as HTMLButtonElement;
+      const arrowRightBtn = el.shadowRoot?.querySelector('.next') as HTMLButtonElement;
       expect(arrowRightBtn.disabled).to.eq(true);
       setTimeout(() => {
         arrowRightBtn?.click();
@@ -135,6 +133,17 @@ describe('bl-pagination', () => {
   });
 
   describe('jumper and select element', () => {
+    it('not renders jumper or select when not provided', async () => {
+      const el = await fixture<typeOfBlPagination>(
+        html`<bl-pagination
+        ></bl-pagination>`
+      );
+      expect(el.shadowRoot?.querySelector('bl-input')).not.to.exist;
+      expect(el.shadowRoot?.querySelector('bl-select')).not.to.exist;
+      expect(el.shadowRoot?.querySelector('.jumper')).not.to.exist;
+      expect(el.shadowRoot?.querySelector('.select')).not.to.exist;
+    });
+
     it('renders jumper input and select if has-jumper and has-select attributes are given', async () => {
       const el = await fixture<typeOfBlPagination>(
         html`<bl-pagination
@@ -181,8 +190,8 @@ describe('bl-pagination', () => {
 
     it('should go to the next or previous page and fire a bl-change event when user clicks to the arrow buttons', async () => {
       const el = await fixture<typeOfBlPagination>(paginationEl);
-      const arrowRightBtn = el.shadowRoot?.querySelector('.arrow-right') as HTMLButtonElement;
-      const arrowLeftBtn = el.shadowRoot?.querySelector('.arrow-left') as HTMLButtonElement;
+      const arrowRightBtn = el.shadowRoot?.querySelector('.next') as HTMLButtonElement;
+      const arrowLeftBtn = el.shadowRoot?.querySelector('.previous') as HTMLButtonElement;
 
       setTimeout(() => {
         arrowRightBtn?.click();
@@ -251,9 +260,12 @@ describe('bl-pagination', () => {
 
       const select = el.shadowRoot?.querySelector('bl-select');
       const optionTwo = el?.shadowRoot?.querySelectorAll('bl-select-option')[1];
+      const optionThree = el?.shadowRoot?.querySelectorAll('bl-select-option')[2];
 
-      if (optionTwo) {
+      if (optionTwo && optionThree) {
         optionTwo.selected = true;
+        optionThree.selected = false;
+        optionThree.value = "";
       }
 
       const selectOptionEvent = new CustomEvent('bl-select', {
@@ -264,6 +276,14 @@ describe('bl-pagination', () => {
 
       expect(el.itemsPerPage).to.equal(optionTwo?.value);
       expect(el.currentPage).to.equal(1);
+
+      const undefinedEvent = new CustomEvent('bl-select', {
+        detail: [optionThree],
+      });
+
+      select?.dispatchEvent(undefinedEvent);
+
+      expect(el.itemsPerPage).to.equal(100);
     });
   });
 });
