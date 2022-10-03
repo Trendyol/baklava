@@ -2,9 +2,6 @@ name: Purge Cache
 
 on:
   workflow_call:
-    secrets:
-      SONAR_TOKEN:
-        required: true
 
 jobs:
   purge-jsdelivr-cache:
