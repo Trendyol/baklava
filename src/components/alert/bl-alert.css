@@ -61,7 +61,7 @@
 }
 
 .caption + .description {
-  font: var(--bl-font-body-text-1);
+  font: var(--bl-font-body-text-3);
 }
 
 .close-spaced {

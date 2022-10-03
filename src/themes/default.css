@@ -129,13 +129,13 @@
   --bl-font-title-4-bold: var(--bl-font-weight-bold) var(--bl-font-title-4);
 
   /* Font Style: Body Text 1 */
-  --bl-font-body-text-1: var(--bl-font-weight-regular) var(--bl-font-size-s) var(--bl-font-family);
+  --bl-font-body-text-1: var(--bl-font-weight-regular) var(--bl-font-size-l) var(--bl-font-family);
 
   /* Font Style: Body Text 2 */
   --bl-font-body-text-2: var(--bl-font-weight-regular) var(--bl-font-size-m) var(--bl-font-family);
 
   /* Font Style: Body Text 3 */
-  --bl-font-body-text-3: var(--bl-font-weight-regular) var(--bl-font-size-l) var(--bl-font-family);
+  --bl-font-body-text-3: var(--bl-font-weight-regular) var(--bl-font-size-s) var(--bl-font-family);
 
   /* Font Style: Caption */
   --bl-font-caption: var(--bl-font-weight-medium) var(--bl-font-size-xs) var(--bl-font-family);
