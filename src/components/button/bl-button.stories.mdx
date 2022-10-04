@@ -20,7 +20,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
     },
     kind: {
       options: ['default', 'neutral', 'success','danger'],
-      default: 'contained',
+      default: 'default',
       control: { type: 'select' }
     },
     disabled: {
@@ -113,7 +113,7 @@ Contained buttons ared used for main actions of the screens. Like a submit butto
 
 ### Outline Buttons
 
-Outline Buttons represent the important actions in the app. But not the primary ones. They work with all the variants.
+Outline Buttons represent the important actions in the app. But not the primary ones. They work with all the kinds.
 
 <Canvas>
   <Story name="Secondary Kinds" args={{ variant:'secondary',content: 'Secondary button' }}>
@@ -123,7 +123,7 @@ Outline Buttons represent the important actions in the app. But not the primary 
 
 ### TextButtons
 
-TBD
+Text buttons are typically used for less important actions which also have all the kinds.
 
 <Canvas>
   <Story name="Text Buttons" args={{ variant:'tertiary',content: 'Tertiary button' }}>
