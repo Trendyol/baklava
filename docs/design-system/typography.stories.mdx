@@ -10,55 +10,98 @@ import { html } from 'lit';
 
 # Baklava Typography
 
-We use **Rubik** font by default in Baklava Design System.
+Typography creates purposeful texture, guiding users to read and understand the hierarchy of information.
+
+The default font is **Rubik** in Baklava Design System. You can give any typography variable in your code like this:
+
+
+```css
+.my-header {
+    font: var(--bl-font-display-light);
+}
+```
 
 ## Display Titles
 
-`Display 1` and `Display 2` titles are our largest titles. We generally use them in landing pages.
+A display fonts is a font that is intended for use at large sizes for headings. Often used on landing pages.
 
-<Story name="Display 1">
-  {html`<h1 style="font: var(--bl-font-display-1)">Display 1</h1>`}
-</Story>
+| <div style={{ width: '15rem' }}>Variable</div> | <div style={{ width: '20rem' }}>Styles</div>  | <div style={{ width: '25rem' }}>Example</div>  |
+|:-----------------------:|:-------------:|:----------:|
+| --bl-font-display-light | Font Family: Rubik <br/> Weight: 300 / Light <br/> Size: 48px / 3rem | <h1 style={{ font: 'var(--bl-font-display-light)' }}>Display Light</h1> |
+| --bl-font-display-regular | Font Family: Rubik <br/> Weight: 400 / Regular <br/> Size: 48px / 3rem | <h1 style={{ font: 'var(--bl-font-display-regular)' }}>Display Regular</h1> |
+| --bl-font-display-medium | Font Family: Rubik <br/> Weight: 500 / Medium <br/> Size: 48px / 3rem | <h1 style={{ font: 'var(--bl-font-display-medium)' }}>Display Medium</h1> |
+| --bl-font-display-semibold | Font Family: Rubik <br/> Weight: 600 / Semibold <br/> Size: 48px / 3rem | <h1 style={{ font: 'var(--bl-font-display-semibold)' }}>Display Semibold</h1> |
+| --bl-font-display-bold | Font Family: Rubik <br/> Weight: 700 / Bold <br/> Size: 48px / 3rem | <h1 style={{ font: 'var(--bl-font-display-bold)' }}>Display Bold</h1> |
 
-<Story name="Display 2">
-  {html`<h1 style="font: var(--bl-font-display-2-light)">Display 2 Light</h1>
-  <h1 style="font: var(--bl-font-display-2-regular)">Display 2 Regular</h1>
-  <h1 style="font: var(--bl-font-display-2-medium)">Display 2 Medium</h1>
-  <h1 style="font: var(--bl-font-display-2-semibold)">Display 2 Semibold</h1>
-  <h1 style="font: var(--bl-font-display-2-bold)">Display 2 Bold</h1>`}
-</Story>
+## Headings
 
-## Sub-Titles
+Heading fonts are used as larger, higher impact text, such as in a title or section header.
 
-Sub-titles are used widely in many components.
+| <div style={{ width: '15rem' }}>Variable</div> | <div style={{ width: '20rem' }}>Styles</div>  | <div style={{ width: '25rem' }}>Example</div>  |
+|:-----------------------:|:-------------:|:----------:|
+| --bl-font-heading-1 | Font Family: Rubik <br/> Weight: 300 / Light <br/> Size: 32px / 2rem | <h1 style={{ font: 'var(--bl-font-heading-1)' }}>Heading 1</h1> |
+| --bl-font-heading-2 | Font Family: Rubik <br/> Weight: 400 / Regular <br/> Size: 28px / 1.75rem | <h1 style={{ font: 'var(--bl-font-heading-2)' }}>Heading 2</h1> |
+| --bl-font-heading-3 | Font Family: Rubik <br/> Weight: 400 / Regular <br/> Size: 24px / 1.5rem | <h1 style={{ font: 'var(--bl-font-heading-3)' }}>Heading 3</h1> |
 
-<Story name="Sub Title 1">
-  {html`<h1 style="font: var(--bl-font-title-1-regular)">Sub Title 1 Regular</h1>
-  <h1 style="font: var(--bl-font-title-1-medium)">Sub Title 1 Medium</h1>
-  <h1 style="font: var(--bl-font-title-1-semibold)">Sub Title 1 Semibold</h1>
-  <h1 style="font: var(--bl-font-title-1-bold)">Sub Title 1 Bold</h1>`}
-</Story>
+## Sub Titles
 
-<Story name="Sub Title 2">
-  {html`<h1 style="font: var(--bl-font-title-2-regular)">Sub Title 2 Regular</h1>
-  <h1 style="font: var(--bl-font-title-2-medium)">Sub Title 2 Medium</h1>
-  <h1 style="font: var(--bl-font-title-2-semibold)">Sub Title 2 Semibold</h1>
-  <h1 style="font: var(--bl-font-title-2-bold)">Sub Title 2 Bold</h1>`}
-</Story>
+Subtitles are smaller than headlines. They are typically reserved for medium-emphasis text that is shorter in length.
 
-<Story name="Sub Title 3">
-  {html`<h1 style="font: var(--bl-font-title-3-regular)">Sub Title 3 Regular</h1>
-  <h1 style="font: var(--bl-font-title-3-medium)">Sub Title 3 Medium</h1>
-  <h1 style="font: var(--bl-font-title-3-semibold)">Sub Title 3 Semibold</h1>
-  <h1 style="font: var(--bl-font-title-3-bold)">Sub Title 3 Bold</h1>`}
-</Story>
+#### Sub Title 1
 
-<Story name="Sub Title 4">
-  {html`<h1 style="font: var(--bl-font-title-4-regular)">Sub Title 4 Regular</h1>
-  <h1 style="font: var(--bl-font-title-4-medium)">Sub Title 4 Medium</h1>
-  <h1 style="font: var(--bl-font-title-4-semibold)">Sub Title 4 Semibold</h1>
-  <h1 style="font: var(--bl-font-title-4-bold)">Sub Title 4 Bold</h1>`}
-</Story>
+| <div style={{ width: '15rem' }}>Variable</div> | <div style={{ width: '20rem' }}>Styles</div>  | <div style={{ width: '25rem' }}>Example</div>  |
+|:-----------------------:|:-------------:|:----------:|
+| --bl-font-title-1-regular | Font Family: Rubik <br/> Weight: 400 / Regular <br/> Size: 20px / 1.25rem | <h1 style={{ font: 'var(--bl-font-title-1-regular)' }}>Sub Title 1 Regular</h1> |
+| --bl-font-title-1-medium  | Font Family: Rubik <br/> Weight: 500 / Medium <br/> Size: 20px / 1.25rem | <h1 style={{ font: 'var(--bl-font-title-1-medium)' }}>Sub Title 1 Medium</h1> |
+| --bl-font-title-1-semibold  | Font Family: Rubik <br/> Weight: 600 / Semibold <br/> Size: 20px / 1.25rem | <h1 style={{ font: 'var(--bl-font-title-1-semibold)' }}>Sub Title 1 Semibold</h1> |
+| --bl-font-title-1-bold  | Font Family: Rubik <br/> Weight: 700 / Bold <br/> Size: 20px / 1.25rem | <h1 style={{ font: 'var(--bl-font-title-1-bold)' }}>Sub Title 1 Bold</h1> |
+
+#### Sub Title 2
+
+| <div style={{ width: '15rem' }}>Variable</div> | <div style={{ width: '20rem' }}>Styles</div>  | <div style={{ width: '25rem' }}>Example</div>  |
+|:-----------------------:|:-------------:|:----------:|
+| --bl-font-title-2-regular | Font Family: Rubik <br/> Weight: 400 / Regular <br/> Size: 16px / 1rem | <h1 style={{ font: 'var(--bl-font-title-2-regular)' }}>Sub Title 2 Regular</h1> |
+| --bl-font-title-2-medium  | Font Family: Rubik <br/> Weight: 500 / Medium <br/> Size: 16px / 1rem | <h1 style={{ font: 'var(--bl-font-title-2-medium)' }}>Sub Title 2 Medium</h1> |
+| --bl-font-title-2-semibold  | Font Family: Rubik <br/> Weight: 600 / Semibold <br/> Size: 16px / 1rem | <h1 style={{ font: 'var(--bl-font-title-2-semibold)' }}>Sub Title 2 Semibold</h1> |
+| --bl-font-title-2-bold  | Font Family: Rubik <br/> Weight: 700 / Bold <br/> Size: 16px / 1rem | <h1 style={{ font: 'var(--bl-font-title-2-bold)' }}>Sub Title 2 Bold</h1> |
+
+#### Sub Title 3
+
+| <div style={{ width: '15rem' }}>Variable</div> | <div style={{ width: '20rem' }}>Styles</div>  | <div style={{ width: '25rem' }}>Example</div>  |
+|:-----------------------:|:-------------:|:----------:|
+| --bl-font-title-3-regular | Font Family: Rubik <br/> Weight: 400 / Regular <br/> Size: 14px / 0.875rem | <h1 style={{ font: 'var(--bl-font-title-3-regular)' }}>Sub Title 3 Regular</h1> |
+| --bl-font-title-3-medium  | Font Family: Rubik <br/> Weight: 500 / Medium <br/> Size: 14px / 0.875rem | <h1 style={{ font: 'var(--bl-font-title-3-medium)' }}>Sub Title 3 Medium</h1> |
+| --bl-font-title-3-semibold  | Font Family: Rubik <br/> Weight: 600 / Semibold <br/> Size: 14px / 0.875rem | <h1 style={{ font: 'var(--bl-font-title-3-semibold)' }}>Sub Title 3 Semibold</h1> |
+| --bl-font-title-3-bold  | Font Family: Rubik <br/> Weight: 700 / Bold <br/> Size: 14px / 0.875rem | <h1 style={{ font: 'var(--bl-font-title-3-bold)' }}>Sub Title 3 Bold</h1> |
+
+#### Sub Title 4
+
+| <div style={{ width: '15rem' }}>Variable</div> | <div style={{ width: '20rem' }}>Styles</div>  | <div style={{ width: '25rem' }}>Example</div>  |
+|:-----------------------:|:-------------:|:----------:|
+| --bl-font-title-4-regular | Font Family: Rubik <br/> Weight: 400 / Regular <br/> Size: 12px / 0.75rem | <h1 style={{ font: 'var(--bl-font-title-4-regular)' }}>Sub Title 4 Regular</h1> |
+| --bl-font-title-4-medium  | Font Family: Rubik <br/> Weight: 500 / Medium <br/> Size: 12px / 0.75rem | <h1 style={{ font: 'var(--bl-font-title-4-medium)' }}>Sub Title 4 Medium</h1> |
+| --bl-font-title-4-semibold  | Font Family: Rubik <br/> Weight: 600 / Semibold <br/> Size: 12px / 0.75rem | <h1 style={{ font: 'var(--bl-font-title-4-semibold)' }}>Sub Title 4 Semibold</h1> |
+| --bl-font-title-4-bold  | Font Family: Rubik <br/> Weight: 700 / Bold <br/> Size: 12px / 0.75rem | <h1 style={{ font: 'var(--bl-font-title-4-bold)' }}>Sub Title 4 Bold</h1> |
+
+
+## Body Texts
+
+Body text typically used for long-form writing as it works well for small text sizes.
+
+| <div style={{ width: '15rem' }}>Variable</div> | <div style={{ width: '20rem' }}>Styles</div>  | <div style={{ width: '25rem' }}>Example</div>  |
+|:-----------------------:|:-------------:|:----------:|
+| --bl-font-body-text-1 |  Font Family: Rubik <br/>   Weight: 400 / Regular <br/> Size: 16px / 1rem | <h1 style={{ font: 'var(--bl-font-body-text-1)' }}>Form Body Text 1</h1> |
+| --bl-font-body-text-2 |  Font Family: Rubik <br/>   Weight: 400 / Regular <br/> Size: 14px / 0.875rem | <h1 style={{ font: 'var(--bl-font-body-text-2)' }}>Form Body Text 2</h1> |
+| --bl-font-body-text-3 |  Font Family: Rubik <br/>   Weight: 400 / Regular <br/> Size: 12px / 0.75rem | <h1 style={{ font: 'var(--bl-font-body-text-3)' }}>Form Body Text 3</h1> |
+
+
+## Captions
+
+Caption is the smallest font size. They are mostly used for labels.
+
+| <div style={{ width: '15rem' }}>Variable</div> | <div style={{ width: '20rem' }}>Styles</div>  | <div style={{ width: '25rem' }}>Example</div>  |
+|:-----------------------:|:-------------:|:----------:|
+| --bl-font-caption |  Font Family: Rubik <br/>   Weight: 500 / Medium <br/> Size: 10px / 0.625rem | <h1 style={{ font: 'var(--bl-font-caption)' }}>Caption</h1> |
 
 ## CSS Variables
 
@@ -75,15 +118,15 @@ Here are the CSS variables provided and used in all of the Baklava components re
 --bl-font-weight-bold: 700;
 
 /* Font sizes */
---bl-font-size-2xs: 8px;
---bl-font-size-xs: 10px;
---bl-font-size-s: 12px;
---bl-font-size-m: 14px;
---bl-font-size-l: 16px;
---bl-font-size-xl: 20px;
---bl-font-size-2xl: 24px;
---bl-font-size-3xl: 28px;
---bl-font-size-4xl: 32px;
---bl-font-size-5xl: 48px;
---bl-font-size-6xl: 64px;
+--bl-font-size-2xs: 0.5rem; /* 8px */
+--bl-font-size-xs: 0.625rem; /* 10px */
+--bl-font-size-s: 0.75rem; /* 12px */
+--bl-font-size-m: 0.875rem; /* 14px */
+--bl-font-size-l: 1rem; /* 16px */
+--bl-font-size-xl: 1.25rem; /* 20px */
+--bl-font-size-2xl: 1.5rem; /* 24px */
+--bl-font-size-3xl: 1.75rem; /* 28px */
+--bl-font-size-4xl: 2rem; /* 32px */
+--bl-font-size-5xl: 3rem; /* 48px */
+--bl-font-size-6xl: 4rem; /* 64px */
 ```
