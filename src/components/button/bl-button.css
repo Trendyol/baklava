@@ -37,7 +37,7 @@
   user-select: none;
 }
 
- .button:hover {
+:host(:hover) .button {
   --bl-button-bg-color: var(--bl-button-main-hover-color);
   --bl-button-border-color: var(--bl-button-main-hover-color);
 }
