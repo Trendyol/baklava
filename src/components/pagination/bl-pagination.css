@@ -59,3 +59,7 @@ label {
 bl-input {
   width: 62px;
 }
+
+bl-select {
+  width:128px;
+}
