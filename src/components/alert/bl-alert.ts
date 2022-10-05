@@ -109,8 +109,8 @@ export default class BlAlert extends LitElement {
         element.parentNode?.removeChild(element);
         return;
       }
-      element.setAttribute('variant', 'secondary' as ButtonVariant);
-      element.setAttribute('kind', 'text' as ButtonKind);
+      element.setAttribute('variant','tertiary' as ButtonVariant);
+      element.setAttribute('kind', 'neutral' as ButtonKind);
       element.setAttribute('size', 'medium' as ButtonSize);
       element.removeAttribute('icon');
     });
@@ -136,7 +136,8 @@ export default class BlAlert extends LitElement {
       ? html`<bl-button
           class=${closeClasses}
           label="close"
-          kind="text"
+          variant="tertiary"
+          kind="neutral"
           icon="close"
           variant="secondary"
           @click=${this._closeHandler}

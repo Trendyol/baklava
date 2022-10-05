@@ -22,9 +22,9 @@ describe('bl-select', () => {
           <bl-button
             class="remove-all"
             icon="close"
-            kind="text"
+            kind="neutral"
             size="small"
-            variant="secondary"
+            variant="tertiary"
           >
           </bl-button>
           <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
