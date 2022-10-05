@@ -72,7 +72,7 @@
   font-size: var(--icon-size);
 }
 
-.has-icon:not(.has-content) {
+:host .has-icon:not(.has-content) {
   --padding-horizontal: var(--padding-vertical);
   --margin-icon: 0;
 }
