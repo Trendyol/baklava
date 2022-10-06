@@ -208,7 +208,7 @@ export default class BlSelect extends LitElement {
     >
       ${placeholder} ${inputSelectedOptions} ${_selectedItemCount}
       <div class="actions">
-        ${removeButton}
+        ${this.multiple ? removeButton : null}
         <bl-icon
           class="dropdown-icon open"
           name="arrow_up"

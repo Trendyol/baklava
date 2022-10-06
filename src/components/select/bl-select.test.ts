@@ -19,14 +19,6 @@ describe('bl-select', () => {
           <span class="placeholder"></span>
           <ul class="selected-options"></ul>
           <div class="actions">
-          <bl-button
-            class="remove-all"
-            icon="close"
-            kind="neutral"
-            size="small"
-            variant="tertiary"
-          >
-          </bl-button>
           <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
           <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
           </div>
@@ -139,10 +131,19 @@ describe('bl-select', () => {
 
     const event = await oneEvent(el, 'bl-select');
 
+    expect(removeAll).to.exist;
     expect(event).to.exist;
     expect(event.detail).to.eql([]);
     expect(el.options.length).to.equal(2);
     expect(el.selectedOptions.length).to.equal(0);
+  });
+  it('should hide remove icon button on single selection', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select>
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2" selected>Option 2</bl-select-option>
+    </bl-select>`);
+
+    expect(el.shadowRoot?.querySelector('.remove-all')).not.to.exist;
   });
   it('should fire event when click select option when it is not selected', async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
