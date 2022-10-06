@@ -1,3 +1,5 @@
+![image](https://user-images.githubusercontent.com/127687/194415334-0dc8fbf2-3e87-44ed-b23a-0cc9da767b11.png)
+
 # Baklava Design System
 
 [![npm package](https://img.shields.io/npm/v/@trendyol/baklava/beta.svg)](https://www.npmjs.com/package/@trendyol/baklava) [![jsDelivr hits (npm scoped)](https://img.shields.io/jsdelivr/npm/hm/@trendyol/baklava)](https://www.jsdelivr.com/package/npm/@trendyol/baklava) [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
