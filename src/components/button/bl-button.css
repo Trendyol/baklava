@@ -117,6 +117,10 @@
   text-decoration: none;
 }
 
+:host([variant='tertiary'][disabled]) .button {
+  --main-color:transparent;
+}
+
 :host([variant='secondary']:hover:not([disabled])) .button {
   --content-color: var(--bl-color-primary-background);
   --bg-color: var(--main-hover-color);

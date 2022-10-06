@@ -166,8 +166,8 @@ export default class BlPagination extends LitElement {
     return html` <li>
       <bl-button
         @click="${() => this._changePage(page)}"
-        variant="secondary"
-        kind=${this.currentPage === page ? 'contained' : 'text'}
+        variant=${this.currentPage === page ? 'primary' : 'tertiary'}
+        kind="neutral"
       >
         ${page}
       </bl-button>
@@ -179,8 +179,8 @@ export default class BlPagination extends LitElement {
       <div class="page-container">
         <bl-button
           @click="${this._pageBack}"
-          kind="text"
-          variant="secondary"
+          variant="tertiary"
+          kind="neutral"
           icon="arrow_left"
           class="previous"
           ?disabled=${this.currentPage === 1}
@@ -190,8 +190,8 @@ export default class BlPagination extends LitElement {
         </ul>
         <bl-button
           @click="${this._pageForward}"
-          kind="text"
-          variant="secondary"
+          variant="tertiary"
+          kind="neutral"
           icon="arrow_right"
           class="next"
           ?disabled=${this.currentPage === this._getLastPage()}

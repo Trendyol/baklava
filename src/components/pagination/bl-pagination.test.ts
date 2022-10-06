@@ -16,13 +16,13 @@ describe('bl-pagination', () => {
       `
       <div class="pagination">
        <div class="page-container">
-        <bl-button kind="text" variant="secondary" icon="arrow_left" class="previous" disabled="" size="medium"></bl-button>
+        <bl-button kind="neutral" variant="tertiary" icon="arrow_left" class="previous" disabled="" size="medium"></bl-button>
         <ul class="page-list">
           <li>
-            <bl-button variant="secondary" kind="contained" size="medium">1</bl-button>
+            <bl-button variant="primary" kind="neutral" size="medium">1</bl-button>
           </li>
         </ul>
-          <bl-button kind="text" variant="secondary" icon="arrow_right" class="next" size="medium" disabled=""></bl-button>
+          <bl-button kind="neutral" variant="tertiary" icon="arrow_right" class="next" size="medium" disabled=""></bl-button>
         </div>
       </div>
     `
