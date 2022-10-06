@@ -192,9 +192,9 @@ export default class BlSelect extends LitElement {
       : null;
     const removeButton = html`<bl-button
         class="remove-all"
-        variant="secondary"
         size="small"
-        kind="text"
+        variant="tertiary"
+        kind="neutral"
         icon="close"
         @click=${this._onClickRemove}></bl-button>`;
     const placeholder = this._showPlaceHolder

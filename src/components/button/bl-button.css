@@ -2,44 +2,44 @@
   display: var(--bl-button-display, inline-block);
   max-width: 100%;
   position: relative;
-
-  --bl-button-main-color: var(--bl-color-primary);
-  --bl-button-main-hover-color: var(--bl-color-primary-hover);
-  --bl-button-text-hover-color: var(--bl-color-secondary-background);
-  --bl-button-content-color: var(--bl-color-primary-background);
-  --bl-button-bg-color: var(--bl-button-main-color);
-  --bl-button-border-color: var(--bl-button-main-color);
-  --bl-button-padding-vertical: var(--bl-size-2xs);
-  --bl-button-padding-horizontal: var(--bl-size-m);
-  --bl-button-margin-icon: var(--bl-button-padding-vertical);
-  --bl-button-icon-size: var(--bl-size-m);
-  --bl-button-font: var(--bl-font-title-3-medium);
-  --bl-button-height: var(--bl-size-2xl);
 }
 
 .button {
+  --main-color: var(--bl-color-primary);
+  --main-hover-color: var(--bl-color-primary-hover);
+  --text-hover-color: var(--bl-color-secondary-background);
+  --content-color: var(--bl-color-primary-background);
+  --bg-color: var(--main-color);
+  --border-color: var(--main-color);
+  --padding-vertical: var(--bl-size-2xs);
+  --padding-horizontal: var(--bl-size-m);
+  --margin-icon: var(--padding-vertical);
+  --icon-size: var(--bl-size-m);
+  --font: var(--bl-font-title-3-medium);
+  --height: var(--bl-size-2xl);
+
   display: flex;
-  gap: var(--bl-button-margin-icon);
+  gap: var(--margin-icon);
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  width: 100%;
-  height: var(--bl-button-height);
-  border: solid 1px var(--bl-button-border-color);
+  width:100%;
+  height: var(--height);
+  border: solid 1px var(--border-color);
   border-radius: 6px;
   text-decoration: none;
-  padding: var(--bl-button-padding-vertical) var(--bl-button-padding-horizontal);
+  padding: var(--padding-vertical) var(--padding-horizontal);
   cursor: pointer;
-  background-color: var(--bl-button-bg-color);
-  color: var(--bl-button-content-color);
-  font: var(--bl-button-font);
+  background-color: var(--bg-color);
+  color: var(--content-color);
+  font: var(--font);
   font-kerning: none;
   user-select: none;
 }
 
-:host(:hover) {
-  --bl-button-bg-color: var(--bl-button-main-hover-color);
-  --bl-button-border-color: var(--bl-button-main-hover-color);
+:host(:hover) .button {
+  --bg-color: var(--main-hover-color);
+  --border-color: var(--main-hover-color);
 }
 
 .label {
@@ -48,20 +48,20 @@
   text-overflow: ellipsis;
 }
 
-:host([size='small']) {
-  --bl-button-font: var(--bl-font-title-4-medium);
-  --bl-button-padding-vertical: var(--bl-size-3xs);
-  --bl-button-padding-horizontal: var(--bl-size-2xs);
-  --bl-button-icon-size: var(--bl-size-s);
-  --bl-button-height: var(--bl-size-xl);
+:host([size='small']) .button {
+  --font: var(--bl-font-title-4-medium);
+  --padding-vertical: var(--bl-size-3xs);
+  --padding-horizontal: var(--bl-size-2xs);
+  --icon-size: var(--bl-size-s);
+  --height: var(--bl-size-xl);
 }
 
-:host([size='large']) {
-  --bl-button-font: var(--bl-font-title-3-medium);
-  --bl-button-padding-vertical: var(--bl-size-xs);
-  --bl-button-padding-horizontal: var(--bl-size-xl);
-  --bl-button-margin-icon: var(--bl-size-2xs);
-  --bl-button-height: var(--bl-size-3xl);
+:host([size='large']) .button {
+  --font: var(--bl-font-title-3-medium);
+  --padding-vertical: var(--bl-size-xs);
+  --padding-horizontal: var(--bl-size-xl);
+  --margin-icon: var(--bl-size-2xs);
+  --height: var(--bl-size-3xl);
 }
 
 .button:focus {
@@ -69,60 +69,60 @@
 }
 
 :host ::slotted(bl-icon) {
-  font-size: var(--bl-button-icon-size);
+  font-size: var(--icon-size);
 }
 
-.has-icon:not(.has-content) {
-  --bl-button-padding-horizontal: var(--bl-button-padding-vertical);
-  --bl-button-margin-icon: 0;
+:host .has-icon:not(.has-content) {
+  --padding-horizontal: var(--padding-vertical);
+  --margin-icon: 0;
 }
 
-:host([variant='secondary']) {
-  --bl-button-main-color: var(--bl-color-secondary);
-  --bl-button-main-hover-color: var(--bl-color-secondary-hover);
+:host([variant='secondary']) .button {
+  --bg-color: transparent;
+  --content-color: var(--main-color);
 }
 
-:host([variant='success']) {
-  --bl-button-main-color: var(--bl-color-success);
-  --bl-button-main-hover-color: var(--bl-color-success-hover);
+:host([variant='tertiary']) .button {
+  --content-color: var(--main-color);
+  --border-color: transparent;
+  --bg-color: transparent;
 }
 
-:host([variant='danger']) {
-  --bl-button-main-color: var(--bl-color-danger);
-  --bl-button-main-hover-color: var(--bl-color-danger-hover);
+:host([kind='neutral']) .button {
+  --main-color: var(--bl-color-secondary);
+  --main-hover-color: var(--bl-color-secondary-hover);
+}
+
+:host([kind='success']) .button {
+  --main-color: var(--bl-color-success);
+  --main-hover-color: var(--bl-color-success-hover);
+}
+
+:host([kind='danger']) .button {
+  --main-color: var(--bl-color-danger);
+  --main-hover-color: var(--bl-color-danger-hover);
 }
 
 :host([disabled]) {
   cursor: not-allowed;
-
-  --bl-button-main-color: var(--bl-color-tertiary);
-  --bl-button-main-hover-color: var(--bl-color-tertiary);
-  --bl-button-content-color: var(--bl-color-content-passive);
-  --bl-button-bg-color: var(--bl-button-main-color);
 }
 
 :host([disabled]) .button {
+  --main-color: var(--bl-color-tertiary);
+  --main-hover-color: var(--bl-color-tertiary);
+  --content-color: var(--bl-color-content-passive);
+  --bg-color: var(--main-color);
+
   pointer-events: none;
   text-decoration: none;
 }
 
-:host([kind='text']) {
-  --bl-button-content-color: var(--bl-button-main-color);
-  --bl-button-border-color: transparent;
-  --bl-button-bg-color: transparent;
+:host([variant='secondary']:hover:not([disabled])) .button {
+  --content-color: var(--bl-color-primary-background);
+  --bg-color: var(--main-hover-color);
 }
 
-:host([kind='outline']) {
-  --bl-button-bg-color: transparent;
-  --bl-button-content-color: var(--bl-button-main-color);
-}
-
-:host([kind='outline']:hover:not([disabled])) {
-  --bl-button-content-color: var(--bl-color-primary-background);
-  --bl-button-bg-color: var(--bl-button-main-hover-color);
-}
-
-:host([kind='text']:hover:not([disabled])) {
-  --bl-button-content-color: var(--bl-button-main-hover-color);
-  --bl-button-bg-color: var(--bl-button-text-hover-color);
+:host([variant='tertiary']:hover:not([disabled])) .button {
+  --content-color: var(--main-hover-color);
+  --bg-color: var(--text-hover-color);
 }

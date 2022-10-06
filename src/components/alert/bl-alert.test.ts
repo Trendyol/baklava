@@ -70,9 +70,9 @@ describe('Attributes', () => {
     const icon = closeButton?.getAttribute('icon');
     const variant = closeButton?.getAttribute('variant');
     const label = closeButton?.getAttribute('label');
-    expect(kind).to.eq('text');
+    expect(kind).to.eq('neutral');
     expect(icon).to.eq('close');
-    expect(variant).to.eq('secondary');
+    expect(variant).to.eq('tertiary');
     expect(label).to.eq('close');
   });
   it('is bound to `icon` attribute', async () => {
