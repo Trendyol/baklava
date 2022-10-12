@@ -21,10 +21,16 @@ React does not [compatible](https://custom-elements-everywhere.com/#react) with 
 Install the NPM package to your project.
 
 ```bash
-npm install @trendyol/baklava
+npm install @trendyol/baklava@beta
 ```
 
 Include Baklava library from CDN to your project's `index.html` file's `<head>` section.
+
+> Baklava is currently in beta version. So, if you want to keep updated for new changes, you can add `@beta` tag like the example below.However, you can simply use any version you want by adding the version number.
+
+ <bl-alert variant="warning" icon>
+  Since we are in beta version, there can be breaking changes in build. We don’t suggest you to use beta tag. Use versions instead.
+ </bl-alert>
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css"/>
@@ -39,7 +45,7 @@ import { BlTooltip, BlButton } from "@trendyol/baklava/dist/baklava-react";
 function App() {
   return (
     <BlTooltip>
-      <BlButton slot="tooltip-trigger" icon="info" text label="Show Info" />
+      <BlButton slot="tooltip-trigger" icon="info" label="Show Info" />
       Some extra information.
     </BlTooltip>
   );
@@ -57,7 +63,7 @@ If you want to include Baklava to your project bundle, you can import it via NPM
 Install the NPM package to your project.
 
 ```bash
-npm install @trendyol/baklava
+npm install @trendyol/baklava@beta
 ```
 
 Then import Baklava library and styles in a central place of your app. Like `main.jsx` file. You need to use provided `setIconPath` function to set icon location via CDN. Or you can download those icons to your project's asset folder and set the path manually.
