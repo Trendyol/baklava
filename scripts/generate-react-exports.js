@@ -27,7 +27,7 @@ const customElementsModules = customElements.modules;
 const baklavaReactFileParts = [];
 
 for (const module of customElementsModules) {
-  const { declarations } = module;
+  const { declarations, path } = module;
   const { events, name: componentName, tagName: fileName } = declarations[0];
 
   const eventNames = events
@@ -37,11 +37,17 @@ for (const module of customElementsModules) {
       }, {})
     : {};
 
+  const importPath = path.replace(/^src\//, '').replace(/\.ts$/, '');
+
+  const Component = componentName + 'Component';
+
   baklavaReactFileParts.push(
-    `export const ${componentName} = createComponent(
+    `
+    import ${Component} from "./${importPath}";
+    export const ${componentName} = createComponent(
         React,
         '${fileName}',
-        customElements.get('${fileName}'),
+        ${Component},
         ${JSON.stringify(eventNames)}
       );`
   );
