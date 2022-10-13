@@ -14,9 +14,7 @@ Web implementation of the design system is created as native web components so i
 
 Preferred way of using Baklava is using it via CDN. Just import library JS and CSS files to your main document like below:
 
- <bl-alert variant="warning" icon>
-  Since we are in beta version, there can be breaking changes in build. We don’t suggest you to use beta tag. Use versions instead.
- </bl-alert>
+> **Since we are in beta version, there can be breaking changes in build. We don’t suggest you to use beta tag. Use versions instead.**
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css" />
