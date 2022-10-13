@@ -93,7 +93,7 @@ export default class BlPagination extends LitElement {
   @event('bl-change') private onChange: EventDispatcher<{ selectedPage: number; prevPage: number }>;
 
   updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('currentPage') || changedProperties.has('itemsPerPage')) {
+    if (changedProperties.has('currentPage') || changedProperties.has('itemsPerPage') || changedProperties.has('totalItems') ) {
       this._paginate();
       this.onChange({
         selectedPage: this.currentPage,
