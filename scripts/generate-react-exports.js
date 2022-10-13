@@ -1,19 +1,21 @@
 const fs = require('fs-extra');
-const prettier = require('prettier');
+
+const importStatements = [
+  "import React from 'react';",
+  "import { createComponent } from '@lit-labs/react';",
+];
 
 function writeBaklavaReactFile(fileContentParts) {
   let fileContentText = `
     /* eslint-disable @typescript-eslint/ban-ts-comment */
     // @ts-nocheck
-    import React from 'react';
-    import { createComponent } from '@lit-labs/react';
-
+    ${importStatements.join('\n')}
     ${fileContentParts.join('\n\n')}
   `;
 
   fs.writeFileSync(
     `${__dirname}/../src/baklava-react.ts`,
-    prettier.format(fileContentText.trim(), { parser: 'babel', singleQuote: true })
+    fileContentText.trim()
   );
 }
 
@@ -27,7 +29,7 @@ const customElementsModules = customElements.modules;
 const baklavaReactFileParts = [];
 
 for (const module of customElementsModules) {
-  const { declarations } = module;
+  const { declarations, path } = module;
   const { events, name: componentName, tagName: fileName } = declarations[0];
 
   const eventNames = events
@@ -37,8 +39,14 @@ for (const module of customElementsModules) {
       }, {})
     : {};
 
+  const importPath = path.replace(/^src\//, '').replace(/\.ts$/, '');
+  const Type = componentName + 'Type';
+
+  importStatements.push(`import type ${Type} from "./${importPath}";`);
+
   baklavaReactFileParts.push(
-    `export const ${componentName} = createComponent(
+    `
+    export const ${componentName} = createComponent<${Type}>(
         React,
         '${fileName}',
         customElements.get('${fileName}'),

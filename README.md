@@ -6,13 +6,15 @@
 
 > This is a work-in-progress version. If you want to work on previous version (Grace) please check `main` branch.
 
-Baklava is a design system provided by [Trendyol](https://github.com/trendyol) to create a consistent UI/UX for app users. 
+Baklava is a design system provided by [Trendyol](https://github.com/trendyol) to create a consistent UI/UX for app users.
 
 Web implementation of the design system is created as native web components so it can be used within every type of web frameworks including Vue, React or Angular. Our target is providing a UI library that has neatly designed and developed for providing best possible user experience for the users of applications that uses Baklava DS.
 
 ## How to use
 
 Preferred way of using Baklava is using it via CDN. Just import library JS and CSS files to your main document like below:
+
+> **Since we are in beta version, there can be breaking changes in build. We don’t suggest you to use beta tag. Use versions instead.**
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css" />
