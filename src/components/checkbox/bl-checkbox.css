@@ -27,7 +27,7 @@ input {
   height: var(--bl-size-m);
   border: 1px solid var(--bl-color-border);
   border-radius: var(--bl-border-radius-xs);
-  color: var(--bl-color-primary-background);
+  color: var(--bl-color-content-primary-contrast);
   font-size: var(--bl-font-size-2xs);
 }
 

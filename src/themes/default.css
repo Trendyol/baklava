@@ -15,9 +15,9 @@
   --bl-color-warning: #ffb600;
   --bl-color-warning-hover: #ff9800;
   --bl-color-alternative: #5794ff;
-  --bl-color-alternative-hover: #3469ff;
+  --bl-color-alternative-hover: #457eff;
   --bl-color-featured: #8c4eff;
-  --bl-color-featured-hover: #5e2eff;
+  --bl-color-featured-hover: #753eff;
 
   /* Background Colors */
   --bl-color-primary-background: #fff;
@@ -35,6 +35,8 @@
   --bl-color-content-secondary: #6e7787;
   --bl-color-content-tertiary: #95a1b5;
   --bl-color-content-passive: #afbbca;
+  --bl-color-content-primary-contrast: #fff;
+  --bl-color-content-hover: #f27a1a;
   --bl-color-border: #d5d9e1;
 
   /* Size and Spacing */
