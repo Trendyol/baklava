@@ -8,8 +8,8 @@ export default {
   extends: GInput,
   computed: {
     getAttrs () {
-      const { suffix = '₺', digits = 2, placeholder, rightAlign = false, allowMinus = false } = this.$attrs;
-      return { suffix, digits, placeholder, rightAlign, allowMinus };
+      const { suffix = '₺', digits = 2, placeholder, rightAlign = false, allowMinus = false, alias='numeric', prefix="" } = this.$attrs;
+      return { suffix, digits, placeholder, rightAlign, allowMinus, alias, prefix };
     },
     valueModal() {
       return String(this.value).replace(/\./g, ',');
@@ -25,7 +25,6 @@ export default {
       ...this.getAttrs,
       groupSeparator: '.',
       radixPoint: ',',
-      alias: 'numeric',
       autoGroup: true,
       digitsOptional: false,
       autoUnmask: true,
