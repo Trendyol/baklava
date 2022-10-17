@@ -26,11 +26,11 @@ npm install @trendyol/baklava@beta
 
 Include Baklava library from CDN to your project's `index.html` file's `<head>` section.
 
-> Baklava is currently in beta version. So, if you want to keep updated for new changes, you can add `@beta` tag like the example below.However, you can simply use any version you want by adding the version number.
+> Baklava is currently in beta version. So, if you want to keep updated for new changes, you can add `@beta` tag like the example below. However, you can simply use any version you want by adding the version number.
 
- <bl-alert variant="warning" icon>
+<bl-alert variant="warning" icon>
   Since we are in beta version, there can be breaking changes in build. We don’t suggest you to use beta tag. Use versions instead.
- </bl-alert>
+</bl-alert>
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css"/>
@@ -38,6 +38,10 @@ Include Baklava library from CDN to your project's `index.html` file's `<head>` 
 ```
 
 Then you can use Baklava React components in your project by importing them from `@trendyol/baklava/dist/baklava-react` in your code.
+
+<bl-alert variant="warning" icon>
+  Please make sure you are using same version on CDN imports and NPM package. Otherwise there can be inconsistencies between React components and their related web components.
+</bl-alert>
 
 ```jsx
 import { BlTooltip, BlButton } from "@trendyol/baklava/dist/baklava-react";
