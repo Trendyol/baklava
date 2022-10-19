@@ -18,7 +18,8 @@ module.exports = {
         'checkbox',
         'alert',
         'select',
-        'pagination'
+        'pagination',
+        'dialog'
       ],
     ],
   },

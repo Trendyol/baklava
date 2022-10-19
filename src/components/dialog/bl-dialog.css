@@ -1,0 +1,30 @@
+dialog {
+  padding: 0;
+  border-radius: var(--bl-border-radius-l);
+  background: var(--bl-color-primary-background);
+  border: 0;
+}
+
+dialog::backdrop {
+  background: #273142;
+  opacity: 0.7;
+}
+
+dialog header {
+  display: flex;
+  justify-content: space-between;
+}
+
+dialog .container {
+  min-width: 424px;
+  min-height: 178px;
+  padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m);
+}
+
+@media only screen and (max-width: 768px) {
+  dialog .container {
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+  }
+}
