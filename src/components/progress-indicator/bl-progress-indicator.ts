@@ -23,13 +23,13 @@ export default class BlProgressIndicator extends LitElement {
   /**
    * Sets the size
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   size: ProgressIndicatorSize = 'medium';
 
   /**
    * Sets the status
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   failed = false;
 
   /**
