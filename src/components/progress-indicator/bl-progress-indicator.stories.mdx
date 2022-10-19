@@ -50,8 +50,8 @@ export const FailedTemplate = (args) => html`
 </div>`;
 
 export const TranslucentTemplate = (args) => html`
-<div>
-<p style='color: var(--bl-color-danger); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'>Upload Failed - Image must not be larger than 3mb.</p>${ProgressIndicatorTemplate({ value:'100', translucent:true, ...args })}
+<div style="background-color: gray">
+<p style='color: var(--bl-color-danger); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'>Upload Failed - Image must not be larger than 3mb.</p>${ProgressIndicatorTemplate({ value:'50', translucent:true, ...args })}
 </div>`;
 
 export const NoBorderRadiusTemplate = (args) => html`
