@@ -2,11 +2,12 @@
   --max: 100;
   --value: 0;
   --value-color: var(--bl-color-success);
+  --value-bg-color: var(--bl-color-secondary-background);
   --height: var(--bl-size-2xs);
   --radius: var(--bl-size-3xs);
 
   position: relative;
-  background-color: var(--bl-color-secondary-background);
+  background-color: var(--value-bg-color);
   height: var(--height);
   border-radius: var(--radius);
   width: 100%;
@@ -33,4 +34,13 @@
 
 :host([failed]) .progress-indicator {
   --value-color: var(--bl-color-danger);
+}
+
+:host([translucent]) .progress-indicator {
+  --value-color: var(--bl-color-translucent);
+  --value-bg-color: transparent;
+}
+
+:host([noBorderRadius]) .progress-indicator {
+  --radius: 0;
 }

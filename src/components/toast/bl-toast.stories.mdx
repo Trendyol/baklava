@@ -1,0 +1,84 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+
+import { Meta, Canvas, Story } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Toast"
+  component="bl-toast"
+  argTypes={{
+    description: {
+      control: 'text'
+    },
+    variant: {
+      options: ['info', 'warning', 'success', 'danger'],
+      default: 'info',
+      control: { type: 'select' }
+    },
+    position: {
+      options: ['top-right', 'top-left', 'bottom-right', 'bottom-left'],
+      default: 'top-right',
+      control: { type: 'select' }
+    },
+    closed: {
+      control: 'boolean'
+    }
+  }}
+/>
+
+export const ToastTemplate = (args) => html`
+<bl-toast
+    description='${ifDefined(args.description)}'
+    variant='${ifDefined(args.variant)}'
+    position='${ifDefined(args.position)}'
+    ?closed=${args.failed}
+></bl-toast>`
+
+# Toast
+
+Toast component displays an informational message for a while to users with additional features if desired.
+
+### Basic Usage
+
+* Set innerHTML as a description for Toast component.
+* Use with 4 variants; **Info**, **Warning**, **Success** and **Danger**.
+* Use with 4 positions; **top-right**, **top-left**, **bottom-right** and **bottom-left**.
+* Use with 'close' argument to hide Toast component.
+
+## Toast Variants
+
+We have 4 variants for each toast: **Info**, **Warning**, **Success** and **Danger**.
+
+<Canvas isColumn>
+  <Story name="Info Variant" args={{content: 'Info Variant'}}>
+      {ToastTemplate.bind({})}
+  </Story>
+  <Story name="Warning Variant" args={{variant: 'warning', content: 'Warning Variant'}}>
+      {ToastTemplate.bind({})}
+  </Story>
+  <Story name="Success Variant" args={{variant: 'success', content: 'Success Variant'}}>
+      {ToastTemplate.bind({})}
+  </Story>
+  <Story name="Danger Variant" args={{variant: 'danger', content: 'Danger Variant'}}>
+      {ToastTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Toast Positions
+
+We have 4 positions for each toast: **top-right**, **top-left**, **bottom-right** and **bottom-left**.
+
+<Canvas isColumn>
+  <Story name="Info Variant" args={{content: 'Top Right Position'}}>
+      {ToastTemplate.bind({})}
+  </Story>
+  <Story name="Warning Variant" args={{position: 'top-left', content: 'Top Left Position'}}>
+      {ToastTemplate.bind({})}
+  </Story>
+  <Story name="Success Variant" args={{position: 'bottom-right', content: 'Bottom Right Position'}}>
+      {ToastTemplate.bind({})}
+  </Story>
+  <Story name="Danger Variant" args={{position: 'bottom-left', content: 'Bottom Left Position'}}>
+      {ToastTemplate.bind({})}
+  </Story>
+</Canvas>

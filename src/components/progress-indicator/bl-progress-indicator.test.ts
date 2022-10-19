@@ -42,12 +42,21 @@ describe('bl-progress-indicator', () => {
     expect(el.max).to.equal(100);
     expect(el.value).to.equal(0);
     expect(el.failed).to.equal(false);
+    expect(el.translucent).to.equal(false);
+    expect(el.noBorderRadius).to.equal(false);
   });
 
   it('should be rendered with correct size,max,failed,value attributes', async () => {
     //when
     const el = await fixture<typeOfBlProgressIndicator>(
-      html`<bl-progress-indicator size="large" max="8" value="3" failed></bl-progress-indicator>`
+      html`<bl-progress-indicator
+        size="large"
+        max="8"
+        value="3"
+        failed
+        translucent
+        noBorderRadius
+      ></bl-progress-indicator>`
     );
 
     //then
@@ -59,6 +68,8 @@ describe('bl-progress-indicator', () => {
     expect(el.max).to.eq(8);
     expect(el.value).to.eq(3);
     expect(el.failed).to.eq(true);
+    expect(el.translucent).to.eq(true);
+    expect(el.noBorderRadius).to.eq(true);
     expect(cssMaxVariable).to.eq('8');
     expect(cssValueVariable).to.eq('3');
   });

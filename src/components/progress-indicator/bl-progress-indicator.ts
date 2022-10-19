@@ -27,6 +27,18 @@ export default class BlProgressIndicator extends LitElement {
   size: ProgressIndicatorSize = 'medium';
 
   /**
+   * Sets the translucent
+   */
+  @property({ type: Boolean })
+  translucent = false;
+
+  /**
+   * Sets the no border radius
+   */
+  @property({ type: Boolean })
+  noBorderRadius = false;
+
+  /**
    * Sets the status
    */
   @property({ type: Boolean })

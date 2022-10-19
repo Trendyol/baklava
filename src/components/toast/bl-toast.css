@@ -1,0 +1,76 @@
+:host {
+  display: block;
+}
+
+.toast {
+  --main-color: var(--bl-color-secondary);
+  --main-bg-color: var(--bl-color-secondary);
+
+  position: absolute;
+  width: 312px;
+  background-color: var(--main-bg-color);
+  color: var(--bl-color-primary-background);
+  border-radius: var(--bl-border-radius-m);
+  overflow: hidden;
+}
+
+.description {
+  font: var(--bl-font-title-3-regular);
+}
+
+.wrapper {
+  padding: var(--bl-size-m)
+}
+
+.content {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: var(--bl-size-2xs);
+  color: var(--bl-color-primary-background);
+}
+
+.text-content {
+  display: flex;
+}
+
+:host([closed]) {
+  display: none;
+}
+
+:host([variant='success']) .toast {
+  --main-color: var(--bl-color-success);
+  --main-bg-color: var(--bl-color-success);
+}
+
+:host([variant='warning']) .toast {
+  --main-color: var(--bl-color-warning);
+  --main-bg-color: var(--bl-color-warning);
+}
+
+:host([variant='danger']) .toast {
+  --main-color: var(--bl-color-danger);
+  --main-bg-color: var(--bl-color-danger);
+}
+
+:host([position='top-right']) .toast {
+  top: var(--bl-size-xl);
+  right: var(--bl-size-xl);
+}
+
+:host([position='top-left']) .toast {
+  top: var(--bl-size-xl);
+  left: var(--bl-size-xl);
+}
+
+:host([position='bottom-right']) .toast {
+  bottom: var(--bl-size-xl);
+  right: var(--bl-size-xl);
+}
+
+:host([position='bottom-left']) .toast {
+  bottom: var(--bl-size-xl);
+  left: var(--bl-size-xl);
+}

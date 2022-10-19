@@ -25,6 +25,12 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
     failed: {
       control: 'boolean',
     },
+    translucent: {
+      control: 'boolean',
+    },
+    noBorderRadius: {
+      control: 'boolean',
+    },
   }}
 />
 
@@ -34,11 +40,23 @@ export const ProgressIndicatorTemplate = (args) => html`
     max='${ifDefined(args.max)}'
     value='${ifDefined(args.value)}'
     ?failed=${args.failed}
+    ?translucent=${args.translucent}
+    ?noBorderRadius=${args.noBorderRadius}
     style='${ifDefined(args.styles ? styleMap(args.styles) : undefined)}'></bl-progress-indicator>`
 
 export const FailedTemplate = (args) => html`
 <div>
 <p style='color: var(--bl-color-danger); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'>Upload Failed - Image must not be larger than 3mb.</p>${ProgressIndicatorTemplate({ value:'100', failed:true, ...args })}
+</div>`;
+
+export const TranslucentTemplate = (args) => html`
+<div>
+<p style='color: var(--bl-color-danger); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'>Upload Failed - Image must not be larger than 3mb.</p>${ProgressIndicatorTemplate({ value:'100', translucent:true, ...args })}
+</div>`;
+
+export const NoBorderRadiusTemplate = (args) => html`
+<div>
+<p style='color: var(--bl-color-danger); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'>Upload Failed - Image must not be larger than 3mb.</p>${ProgressIndicatorTemplate({ value:'100', noBorderRadius:true, ...args })}
 </div>`;
 
 export const WithMaxTemplate = (args) => html`
@@ -74,11 +92,30 @@ You don't have to pass the `value` according to 100 percent. For example, if you
 </Canvas>
 
 ## Progress Indicator Status
+
 The progress indicator appears in success mode (green) by default. But if you need to show fail status for example failed to upload or failed to complete tasks you can pass `failed` parameters.
 
 <Canvas>
   <Story name="Progress Indicator Status">
     {FailedTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Or if you need to show different style, you can pass 'translucent' parameters.
+
+<Canvas>
+  <Story name="Progress Indicator Status">
+    {TranslucentTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Progress Indicator Border Radius
+
+The progress indicator appears with 4px border radius for each corner. But if you need to sharp edges, you can pass 'noBorderRadius' parameters.
+
+<Canvas>
+  <Story name="Progress Indicator Border Radius">
+    {NoBorderRadiusTemplate.bind({})}
   </Story>
 </Canvas>
 
