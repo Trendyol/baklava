@@ -28,22 +28,22 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
   }
 
   /**
-   * Sets the button label. Used for accessibility.
+   * Sets the radio group label
    */
   @property({ type: String })
   label: string;
-
-  /**
-   * Sets button as disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  required = false;
 
   /**
    * Set and gets the actual value of the field
    */
   @property()
   value = '';
+
+  /**
+   * Sets option as required
+   */
+  @property({ type: Boolean, reflect: true })
+  required = false;
 
   get options(): BlRadio[] {
     return [].slice.call(this.querySelectorAll(blRadioTag));
@@ -61,7 +61,7 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
   }
 
   /**
-   * Fires when button clicked
+   * Fires when radio group value changed
    */
   @event('bl-radio-change') private onChange: EventDispatcher<string>;
 

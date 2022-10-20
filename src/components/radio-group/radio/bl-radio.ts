@@ -42,24 +42,50 @@ export default class BlRadio extends LitElement {
   @state() private selected = false;
 
   /**
-   * Fires when button clicked
+   * Fires when radio is checked
    */
   @event('bl-checked') private onChecked: EventDispatcher<string>;
+
+  /**
+   * Fires when radio is blurred
+   */
+   @event('bl-focus') private onFocus: EventDispatcher<string>;
+
+  /**
+   * Fires when radio is blurred
+   */
   @event('bl-blur') private onBlur: EventDispatcher<string>;
 
+  /**
+   * Sets this option selected
+   */
   select() {
     this.selected = true;
     this.onChecked(this.value);
   }
 
+  /**
+   * Readonly property to determine if option is currently checked
+   */
+  get checked() {
+    return this.selected;
+  }
+
   @query('[role=radio]') private radioElement: HTMLElement;
 
+  /**
+   * Focuses this option
+   */
   focus() {
     this.radioElement.tabIndex = 0;
     this.radioElement.focus();
+    this.onFocus(this.value);
   }
 
-  blur() {
+  /**
+   * Blurs from this option
+   */
+   blur() {
     this.radioElement.tabIndex = -1;
     this.onBlur(this.value);
   }
