@@ -52,8 +52,7 @@ dialog footer {
 }
 
 dialog footer.shadow {
-  box-shadow: 0 -4px 15px #273142;
-  opacity: 0.15;
+  box-shadow: 0 -4px 15px #27314226;
 }
 
 @media only screen and (max-width: 439px) {

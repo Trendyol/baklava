@@ -47,7 +47,6 @@ export default class BlDialog extends LitElement {
    */
   @event('bl-dialog-open') private onOpen: EventDispatcher<object>;
 
-
   /**
    * Fires when the dialog is closed
    */
@@ -55,13 +54,13 @@ export default class BlDialog extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('keydown', this.onKeydown);
-    window?.addEventListener('resize', () => this.toggleShadow());
+    window?.addEventListener('keydown', event => this._onKeydown(event));
+    window?.addEventListener('resize', () => this._toggleShadow());
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    window.removeEventListener('resize', this.toggleShadow);
+    window?.removeEventListener('resize', this._toggleShadow);
   }
 
   firstUpdated() {
@@ -71,7 +70,11 @@ export default class BlDialog extends LitElement {
     }
   }
 
-  private onKeydown = (event: KeyboardEvent): void => {
+  protected updated(): void {
+    this._toggleShadow();
+  }
+
+  private _onKeydown = (event: KeyboardEvent): void => {
     if (event.code === 'Escape' && this.open) {
       this.toggleModalHandler();
     }
@@ -99,11 +102,7 @@ export default class BlDialog extends LitElement {
     }
   };
 
-  get _hasFooter() {
-    return [...this.childNodes].some(node => node.nodeName === 'BL-BUTTON');
-  }
-
-  private toggleShadow() {
+  private _toggleShadow() {
     const content = this.shadowRoot?.querySelector('.content') as HTMLElement;
 
     if (content.scrollHeight > content.offsetHeight) {
@@ -113,8 +112,12 @@ export default class BlDialog extends LitElement {
     }
   }
 
+  get _hasFooter() {
+    return [...this.childNodes].some(node => node.nodeName === 'BL-BUTTON');
+  }
+
   private renderFooter() {
-    return  this._hasFooter
+    return this._hasFooter
       ? html`<footer>
           <slot name="primary-action"></slot>
           <slot name="secondary-action"></slot>
