@@ -1,8 +1,13 @@
 dialog {
   padding: 0;
-  border-radius: var(--bl-border-radius-l);
-  background: var(--bl-color-primary-background);
   border: 0;
+  background: var(--bl-color-primary-background);
+  border-radius: var(--bl-border-radius-l);
+  max-width: calc(100% - 48px);
+  max-height: calc(100% - 48px);
+  overflow: hidden;
+  min-width: 424px;
+  min-height: 178px;
 }
 
 dialog::backdrop {
@@ -13,18 +18,62 @@ dialog::backdrop {
 dialog header {
   display: flex;
   justify-content: space-between;
+  padding: var(--bl-size-xl) var(--bl-size-xl) 0 var(--bl-size-xl);
 }
 
-dialog .container {
-  min-width: 424px;
-  min-height: 178px;
-  padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m);
+dialog header bl-button {
+  margin-left: auto;
 }
 
-@media only screen and (max-width: 768px) {
-  dialog .container {
-    min-width: 0;
-    min-height: 0;
-    padding: 0;
+dialog header h2 {
+  font: var(--bl-font-title-1-medium);
+  color: var(--bl-color-secondary);
+}
+
+dialog .content {
+  padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m) var(--bl-size-xl);
+  overflow: auto;
+  max-height: calc(100vh - 232px);
+}
+
+dialog .without-footer {
+  max-height: calc(100vh - 144px);
+}
+
+dialog footer {
+  padding: 24px;
+  display: flex;
+  flex-flow: row-reverse wrap;
+  gap: var(--bl-size-m);
+  position: sticky;
+  bottom: 0;
+  background-color: var(--bl-color-primary-background);
+  z-index: 999;
+}
+
+dialog footer.shadow {
+  box-shadow: 0 -4px 15px #273142;
+  opacity: 0.15;
+}
+
+@media only screen and (max-width: 439px) {
+  dialog {
+    max-width: calc(100% - 32px);
+    max-height: calc(100% - 32px);
+    min-width: auto;
+    min-height: auto;
+  }
+
+  dialog footer {
+    display: flex;
+    flex-flow: column wrap;
   }
 }
+
+/*
+TODO -> DELETE
+h2 {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */

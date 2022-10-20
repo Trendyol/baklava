@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import style from './bl-dialog.css';
@@ -8,6 +9,12 @@ import style from './bl-dialog.css';
  * @tag bl-dialog
  * @summary Baklava Dialog component
  */
+
+type DialogElement = {
+  showModal: () => void;
+  close: () => void;
+};
+
 @customElement('bl-dialog')
 export default class BlDialog extends LitElement {
   static get styles(): CSSResultGroup {
@@ -26,21 +33,35 @@ export default class BlDialog extends LitElement {
   @property({ type: String })
   caption?: string;
 
-  @query('#dialog')
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  dialog: any; // FIXME: cannot use HTMLDialogElement as dialog type
+  @query('dialog')
+  dialog: HTMLDialogElement & DialogElement;
 
   @query('.container')
-  container: HTMLDialogElement;
+  container: HTMLElement;
+
+  @query('footer')
+  footer: HTMLElement;
 
   /**
    * Fires when the dialog is opened
    */
-  @event('bl-dialog-open') private onClick: EventDispatcher<boolean>;
+  @event('bl-dialog-open') private onOpen: EventDispatcher<object>;
+
+
+  /**
+   * Fires when the dialog is closed
+   */
+  @event('bl-dialog-close') private onClose: EventDispatcher<object>;
 
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('keydown', this.onKeydown);
+    window?.addEventListener('resize', () => this.toggleShadow());
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener('resize', this.toggleShadow);
   }
 
   firstUpdated() {
@@ -59,30 +80,59 @@ export default class BlDialog extends LitElement {
   private toggleModalHandler() {
     if (this.open) {
       this.open = false;
-      this.dialog.close(); // Upgrade TypeScript version above 4.7.0
+      this.dialog.close();
       this.dialog.removeEventListener('click', this._clickOutsideHandler);
-      this.onClick(false);
+      this.onClose({ isOpen: false });
     } else {
       this.dialog.showModal();
       this.dialog.addEventListener('click', this._clickOutsideHandler);
       this.open = true;
-      this.onClick(true);
+      this.onOpen({ isClose: true });
     }
   }
 
   private _clickOutsideHandler = (event: MouseEvent) => {
     const eventPath = event.composedPath() as HTMLElement[];
 
-    if(!eventPath.includes(this.container)) {
+    if (!eventPath.includes(this.container)) {
       this.toggleModalHandler();
     }
   };
 
+  get _hasFooter() {
+    return [...this.childNodes].some(node => node.nodeName === 'BL-BUTTON');
+  }
+
+  private toggleShadow() {
+    const content = this.shadowRoot?.querySelector('.content') as HTMLElement;
+
+    if (content.scrollHeight > content.offsetHeight) {
+      this.footer.classList.add('shadow');
+    } else {
+      this.footer.classList.remove('shadow');
+    }
+  }
+
+  private renderFooter() {
+    return  this._hasFooter
+      ? html`<footer>
+          <slot name="primary-action"></slot>
+          <slot name="secondary-action"></slot>
+          <slot name="tertiary-action"></slot>
+        </footer>`
+      : '';
+  }
+
   render(): TemplateResult {
     const title = this.caption ? html`<h2>${this.caption}</h2>` : '';
+    const classes = classMap({
+      'content': true,
+      'has-footer': this._hasFooter,
+    });
+
     return html`
       <div>
-        <dialog id="dialog">
+        <dialog>
           <div class="container">
             <header>
               ${title}
@@ -93,11 +143,8 @@ export default class BlDialog extends LitElement {
                 kind="neutral"
               ></bl-button>
             </header>
-            <slot></slot>
-            <footer class="actions">
-              <button>Tamam</button>
-              <button @click="${this.toggleModalHandler}">Kapat</button>
-            </footer>
+            <section class=${classes}><slot></slot></section>
+            ${this.renderFooter()}
           </div>
         </dialog>
 
