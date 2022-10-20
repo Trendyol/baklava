@@ -1,0 +1,59 @@
+:host {
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+}
+
+.wrapper {
+  outline: none;
+}
+
+#label {
+  display: flex;
+  font: var(--bl-font-title-3-regular);
+  height: var(--bl-size-m);
+  line-height: normal;
+  vertical-align: middle;
+  margin-block: 0;
+  color: var(--bl-color-content-primary);
+}
+
+#label::before {
+  content: '';
+  display: inline-block;
+  box-sizing: border-box;
+  width: var(--bl-size-m);
+  height: var(--bl-size-m);
+  background-color: white;
+  border-radius: var(--bl-border-radius-circle);
+  border: solid 1px var(--bl-color-border);
+  margin-right: var(--bl-size-2xs);
+  vertical-align: middle;
+}
+
+.selected #label::before {
+  border-width: 4px;
+  border-color: var(--bl-color-primary);
+}
+
+:host(:hover) #label,
+.selected #label {
+  color: var(--bl-color-primary);
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+:host([disabled]) #label {
+  color: var(--bl-color-content-passive);
+}
+
+:host([disabled]) #label::before {
+  background-color: var(--bl-color-secondary-background);
+}
+
+.wrapper:focus-visible #label::before {
+  box-shadow: 0 0 0 1px white, 0 0 0 3px var(--bl-color-primary);
+}

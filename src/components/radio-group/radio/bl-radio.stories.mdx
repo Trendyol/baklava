@@ -1,0 +1,52 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Radio"
+  component="bl-radio"
+  argTypes={{
+    label: {
+      control: 'text',
+      type: 'string'
+    },
+    value: {
+      control: 'text',
+      type: 'string'
+    },
+    disabled: {
+      control: 'boolean',
+    },
+  }}
+/>
+
+export const RadioTemplate = (args) => html`
+<bl-radio
+    class='${ifDefined(args.class)}'
+    value='${ifDefined(args.value)}'
+    ?disabled=${args.disabled}
+    >${args.label}
+</bl-radio>`
+
+# Radio Component
+
+Radio component is the component for adding options for a `bl-radio-group` component.
+
+<Canvas>
+  <Story name="Basic Usage" args={{ label: 'Credit Card', value: 'cc' }}>
+    {RadioTemplate.bind({})}
+  </Story>
+</Canvas>
+
+You can set a radio option non-selectable by adding `disabled` attribute.
+
+<Canvas>
+  <Story name="Disabled option" args={{ label: 'Cash Payment', value: 'cash', disabled: true }}>
+    {RadioTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-radio" />

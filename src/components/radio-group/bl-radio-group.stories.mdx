@@ -1,0 +1,77 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Radio Group"
+  component="bl-radio-group"
+  argTypes={{
+    label: {
+      control: 'text',
+      type: 'string'
+    },
+    name: {
+      control: 'text',
+      type: 'string'
+    },
+    value: {
+      control: 'text',
+      type: 'string'
+    },
+    required: {
+      control: 'boolean',
+    },
+  }}
+/>
+
+export const RadioGroupTemplate = (args) => html`
+<bl-radio-group
+    class='${ifDefined(args.class)}'
+    label='${ifDefined(args.label)}'
+    name='${ifDefined(args.name)}'
+    value='${ifDefined(args.value)}'
+    ?required=${args.required}
+    >${args.options.map((option) =>
+      html`\n  <bl-radio value=${option.value}>${option.label}</bl-radio>`
+    )}
+</bl-radio-group>`
+
+export const StyledTemplate = (args) => html`
+<style>
+  .${args.class} {
+    --bl-radio-direction: row;
+  }
+</style>
+${RadioGroupTemplate(args)}
+`
+
+# Radio Group Component
+
+Radio Group component is a form field component to take a selection from user with a list of options. It needs to be used with `bl-radio` component.
+
+<Canvas>
+  <Story name="Basic Usage" args={{ label: 'Payment Type', name: 'paymentType', options: [{ value: 'cc', label: 'Credit Card'}, {value: 'ideal', label: 'iDeal'}] }}>
+    {RadioGroupTemplate.bind({})}
+  </Story>
+</Canvas>
+
+If you set a `value`, the option with that value will be selected.
+
+<Canvas>
+  <Story name="Value set" args={{ label: 'Payment Type', name: 'paymentType', value: 'ideal', options: [{ value: 'cc', label: 'Credit Card'}, {value: 'ideal', label: 'iDeal'}] }}>
+    {RadioGroupTemplate.bind({})}
+  </Story>
+</Canvas>
+
+By default radio options are listed in vertical stack. You can change this by setting `--bl-radio-direction` CSS variable as `row`.
+
+<Canvas>
+  <Story name="Horizontal Stack" args={{ label: 'Payment Type', name: 'paymentType', value: 'ideal', class: 'payment-type-field', options: [{ value: 'cc', label: 'Credit Card'}, {value: 'ideal', label: 'iDeal'}] }}>
+    {StyledTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-radio-group" />
