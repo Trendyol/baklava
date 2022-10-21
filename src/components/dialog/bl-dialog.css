@@ -18,6 +18,8 @@ dialog::backdrop {
 dialog header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: var(--bl-size-2xs);
   padding: var(--bl-size-xl) var(--bl-size-xl) 0 var(--bl-size-xl);
 }
 
@@ -28,6 +30,11 @@ dialog header bl-button {
 dialog header h2 {
   font: var(--bl-font-title-1-medium);
   color: var(--bl-color-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin:0;
+  padding:0;
 }
 
 dialog .content {
@@ -48,7 +55,7 @@ dialog footer {
   position: sticky;
   bottom: 0;
   background-color: var(--bl-color-primary-background);
-  z-index: 999;
+  z-index: 999; /* FIXME */
 }
 
 dialog footer.shadow {
@@ -68,11 +75,3 @@ dialog footer.shadow {
     flex-flow: column wrap;
   }
 }
-
-/*
-TODO -> DELETE
-h2 {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */

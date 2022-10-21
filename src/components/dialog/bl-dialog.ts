@@ -83,12 +83,6 @@ export default class BlDialog extends LitElement {
     }
   }
 
-  private onKeydown = (event: KeyboardEvent): void => {
-    if (event.code === 'Escape' && this.open) {
-      this.closeDialog();
-    }
-  };
-
   private clickOutsideHandler = (event: MouseEvent) => {
     const rect = this.dialog.getBoundingClientRect();
 
@@ -106,10 +100,16 @@ export default class BlDialog extends LitElement {
     this.open = false;
   }
 
+  private onKeydown = (event: KeyboardEvent): void => {
+    if (event.code === 'Escape' && this.open) {
+      this.closeDialog();
+    }
+  };
+
   private toggleShadow() {
     const content = this.shadowRoot?.querySelector('.content') as HTMLElement;
 
-    if (content.scrollHeight > content.offsetHeight) {
+    if (content?.scrollHeight > content?.offsetHeight) {
       this.footer.classList.add('shadow');
     } else {
       this.footer.classList.remove('shadow');
