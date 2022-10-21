@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { event, EventDispatcher } from '../../utilities/event';
@@ -36,9 +36,6 @@ export default class BlDialog extends LitElement {
   @query('dialog')
   dialog: HTMLDialogElement & DialogElement;
 
-  @query('.container')
-  container: HTMLElement;
-
   @query('footer')
   footer: HTMLElement;
 
@@ -54,55 +51,62 @@ export default class BlDialog extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    window?.addEventListener('keydown', event => this._onKeydown(event));
-    window?.addEventListener('resize', () => this._toggleShadow());
+
+    setTimeout(() => {
+      window?.addEventListener('keydown', event => this.onKeydown(event));
+      window?.addEventListener('resize', () => this.toggleShadow());
+      this.dialog.addEventListener('click', this.clickOutsideHandler);
+    });
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    window?.removeEventListener('resize', this._toggleShadow);
+    window?.removeEventListener('keydown', this.onKeydown);
+    window?.removeEventListener('resize', this.toggleShadow);
+    this.dialog.removeEventListener('click', this.clickOutsideHandler);
   }
 
-  firstUpdated() {
+  updated(changedProperties: PropertyValues<this>) {
+    if (changedProperties.has('open')) {
+      this.toggleDialogHandler();
+      this.toggleShadow();
+    }
+  }
+
+  private toggleDialogHandler() {
     if (this.open) {
       this.dialog.showModal();
-      this.dialog.addEventListener('click', this._clickOutsideHandler);
-    }
-  }
-
-  protected updated(): void {
-    this._toggleShadow();
-  }
-
-  private _onKeydown = (event: KeyboardEvent): void => {
-    if (event.code === 'Escape' && this.open) {
-      this.toggleModalHandler();
-    }
-  };
-
-  private toggleModalHandler() {
-    if (this.open) {
-      this.open = false;
-      this.dialog.close();
-      this.dialog.removeEventListener('click', this._clickOutsideHandler);
-      this.onClose({ isOpen: false });
+      this.onOpen({ isOpen: true });
     } else {
-      this.dialog.showModal();
-      this.dialog.addEventListener('click', this._clickOutsideHandler);
-      this.open = true;
-      this.onOpen({ isClose: true });
+      this.dialog.close();
+      this.onClose({ isOpen: false });
     }
   }
 
-  private _clickOutsideHandler = (event: MouseEvent) => {
-    const eventPath = event.composedPath() as HTMLElement[];
-
-    if (!eventPath.includes(this.container)) {
-      this.toggleModalHandler();
+  private onKeydown = (event: KeyboardEvent): void => {
+    if (event.code === 'Escape' && this.open) {
+      this.closeDialog();
     }
   };
 
-  private _toggleShadow() {
+  private clickOutsideHandler = (event: MouseEvent) => {
+    const rect = this.dialog.getBoundingClientRect();
+
+    if (
+      event.clientY < rect.top ||
+      event.clientY > rect.bottom ||
+      event.clientX < rect.left ||
+      event.clientX > rect.right
+    ) {
+      this.closeDialog();
+    }
+  };
+
+  private closeDialog() {
+    this.open = false;
+  }
+
+  private toggleShadow() {
     const content = this.shadowRoot?.querySelector('.content') as HTMLElement;
 
     if (content.scrollHeight > content.offsetHeight) {
@@ -134,25 +138,19 @@ export default class BlDialog extends LitElement {
     });
 
     return html`
-      <div>
-        <dialog>
-          <div class="container">
-            <header>
-              ${title}
-              <bl-button
-                @click="${this.toggleModalHandler}"
-                icon="close"
-                variant="tertiary"
-                kind="neutral"
-              ></bl-button>
-            </header>
-            <section class=${classes}><slot></slot></section>
-            ${this.renderFooter()}
-          </div>
-        </dialog>
-
-        <bl-button @click="${this.toggleModalHandler}">Open Modal</bl-button>
-      </div>
+      <dialog>
+        <header>
+          ${title}
+          <bl-button
+            @click="${this.closeDialog}"
+            icon="close"
+            variant="tertiary"
+            kind="neutral"
+          ></bl-button>
+        </header>
+        <section class=${classes}><slot /></section>
+        ${this.renderFooter()}
+      </dialog>
     `;
   }
 }
