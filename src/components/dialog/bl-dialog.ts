@@ -75,10 +75,10 @@ export default class BlDialog extends LitElement {
 
   private toggleDialogHandler() {
     if (this.open) {
-      this.dialog.showModal();
+      this.dialog.showModal?.();
       this.onOpen({ isOpen: true });
     } else {
-      this.dialog.close();
+      this.dialog.close?.();
       this.onClose({ isOpen: false });
     }
   }
@@ -110,9 +110,9 @@ export default class BlDialog extends LitElement {
     const content = this.shadowRoot?.querySelector('.content') as HTMLElement;
 
     if (content?.scrollHeight > content?.offsetHeight) {
-      this.footer.classList.add('shadow');
+      this.footer?.classList?.add('shadow');
     } else {
-      this.footer.classList.remove('shadow');
+      this.footer?.classList?.remove('shadow');
     }
   }
 
