@@ -86,18 +86,29 @@ export default class BlDialog extends LitElement {
   private clickOutsideHandler = (event: MouseEvent) => {
     const rect = this.dialog.getBoundingClientRect();
 
+    console.log('event.clientY', event.clientY);
+    console.log('event.clientX', event.clientX);
+
+    console.log('x', event.pageX)
+    console.log('y', event.pageY)
+
+    console.log('event', event)
+
     if (
       event.clientY < rect.top ||
       event.clientY > rect.bottom ||
       event.clientX < rect.left ||
       event.clientX > rect.right
     ) {
+      console.log("in");
+
       this.closeDialog();
     }
   };
 
   private closeDialog() {
     this.open = false;
+    console.log('open', this.open);
   }
 
   private onKeydown = (event: KeyboardEvent): void => {
