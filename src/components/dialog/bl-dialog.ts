@@ -92,7 +92,7 @@ export default class BlDialog extends LitElement {
     const eventPath = event.composedPath() as HTMLElement[];
 
     if (!eventPath.includes(this.container)) {
-      this.open = false;
+      this.closeDialog();
     }
   };
 

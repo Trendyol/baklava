@@ -19,33 +19,31 @@ import { userEvent } from '@storybook/testing-library';
   }}
 />
 
-export const dialogOpener = async (dialogClass,root="root") => {
-  const dialog = document.querySelector(`#${root} .${dialogClass}`);
-  console.log(`#${root}.${dialogClass}`);
-  console.log(dialog);
+export const dialogOpener = async (dialogClass) => {
+  const dialog = document.querySelector(`.${dialogClass}`);
   dialog.setAttribute('open',true);
 }
 
-export const dialogCloser = async (id) => {
-  const dialog = document.querySelector(`#docs-root .${dialogClass}`)
+export const dialogCloser = async (dialogClass) => {
+  const dialog = document.querySelector(`.${dialogClass}`)
   await dialog.removeAttribute("open");
 }
 
 export const BasicTemplate = (args) => html`
-<bl-button @click="${() => dialogOpener('basic-dialog',"docs-root")}" variant="secondary">Open Dialog</bl-button>
-<bl-dialog class='basic-dialog'
+<bl-button @click="${() => dialogOpener("basic-dialog")}" variant="secondary">Open Dialog</bl-button>
+<bl-dialog class="basic-dialog"
 caption="${ifDefined(args.caption)}"
 open="${ifDefined(args.open)}"
 style = "font: var(--bl-font-body-text-2)">
   Let us help determine location. This means sending anonymous location data to us.
-  <bl-button slot="primary-action" variant="primary" size="large" @click="${() => dialogCloser('basic-dialog')}">Agree</bl-button>
-  <bl-button slot="secondary-action" variant="secondary" kind="danger" size="large" @click="${() => dialogCloser('basic-dialog')}">Disagree</bl-button>
-  <bl-button slot="tertiary-action" variant="tertiary" kind="neutral" size="large" @click="${() => dialogCloser('basic-dialog')}">Cancel</bl-button>
+  <bl-button slot="primary-action" variant="primary" size="large" @click="${() => dialogCloser("basic-dialog")}">Agree</bl-button>
+  <bl-button slot="secondary-action" variant="secondary" kind="danger" size="large" @click="${() => dialogCloser("basic-dialog")}">Disagree</bl-button>
+  <bl-button slot="tertiary-action" variant="tertiary" kind="neutral" size="large" @click="${() => dialogCloser("basic-dialog")}">Cancel</bl-button>
 </bl-dialog>
 `
 
 export const TemplateWithStickyFooter = (args) => html`
-<bl-button @click="${() => dialogOpener('dialog-with-sticky-footer',"docs-root")}" variant="secondary" kind="success">Open Dialog</bl-button>
+<bl-button @click="${() => dialogOpener("dialog-with-sticky-footer")}" variant="secondary" kind="success">Open Dialog</bl-button>
 <bl-dialog class="dialog-with-sticky-footer"
 caption="${ifDefined(args.caption)}"
 open="${ifDefined(args.open)}"
@@ -97,13 +95,13 @@ style = "font: var(--bl-font-body-text-2)">
   Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.<br/>
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
   Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-  <bl-button slot="primary-action" kind='success' variant="primary" size="large" @click="${() => dialogCloser('dialog-with-sticky-footer')}">Got It</bl-button>
-  <bl-button slot="secondary-action" variant="secondary" kind="neutral" size="large">Cancel</bl-button>
+  <bl-button slot="primary-action" kind='success' variant="primary" size="large" @click="${() => dialogCloser("dialog-with-sticky-footer")}">Got It</bl-button>
+  <bl-button slot="secondary-action" variant="secondary" kind="neutral" size="large" @click="${() => dialogCloser("dialog-with-sticky-footer")}">Cancel</bl-button>
 </bl-dialog>
 `
 
 export const SizingTemplate = (args) => html`
-<bl-button @click="${() => dialogOpener("dialog-sizing","docs-root")}" variant="tertiary" kind="neutral">Open Dialog</bl-button>
+<bl-button @click="${() => dialogOpener("dialog-sizing")}" variant="tertiary" kind="neutral">Open Dialog</bl-button>
 <bl-dialog class="dialog-sizing"
 caption="${ifDefined(args.caption)}"
 open="${ifDefined(args.open)}"
@@ -118,9 +116,9 @@ style = "font: var(--bl-font-body-text-2)">
   (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum,
   "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
   </p>
-  <bl-button slot="primary-action" variant="primary" size="large">Agree</bl-button>
-  <bl-button slot="secondary-action" variant="secondary" kind="danger" size="large">Disagree</bl-button>
-  <bl-button slot="tertiary-action" variant="tertiary" kind="neutral" size="large">Cancel</bl-button>
+  <bl-button slot="primary-action" variant="primary" size="large" @click="${() => dialogCloser("dialog-sizing")}">Agree</bl-button>
+  <bl-button slot="secondary-action" variant="secondary" kind="danger" size="large" @click="${() => dialogCloser("dialog-sizing")}">Disagree</bl-button>
+  <bl-button slot="tertiary-action" variant="tertiary" kind="neutral" size="large" @click="${() => dialogCloser("dialog-sizing")}">Cancel</bl-button>
 </bl-dialog>
 `
 
