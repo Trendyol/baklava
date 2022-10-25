@@ -39,7 +39,7 @@ export default class BlDialog extends LitElement {
   @query('footer')
   footer: HTMLElement;
 
-  @query('container')
+  @query('.container')
   container: HTMLElement;
 
   /**

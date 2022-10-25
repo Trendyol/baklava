@@ -69,13 +69,11 @@ dialog footer.shadow {
   dialog {
     max-width: calc(100% - 32px);
     max-height: calc(100% - 32px);
-    min-width: auto;
-    min-height: auto;
   }
 
   dialog .container {
-    min-width: 100%;
-    min-height: 100%;
+    min-width: auto;
+    min-height: auto;
   }
 
   dialog footer {

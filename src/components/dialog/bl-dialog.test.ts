@@ -102,7 +102,7 @@ describe('bl-dialog', () => {
     const dialogEl = body.querySelector('bl-dialog') as typeOfBlDialog;
 
     await sendMouse({ type: 'click', position: [1, 1] });
-    expect(dialogEl.getAttribute('open')).oneOf(['', null]); // FIXME
+    expect(dialogEl.getAttribute('open')).oneOf(['', null]);
     await resetMouse();
     fixtureCleanup();
   });
