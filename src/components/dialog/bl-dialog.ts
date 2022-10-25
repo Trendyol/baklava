@@ -39,6 +39,9 @@ export default class BlDialog extends LitElement {
   @query('footer')
   footer: HTMLElement;
 
+  @query('container')
+  container: HTMLElement;
+
   /**
    * Fires when the dialog is opened
    */
@@ -77,38 +80,24 @@ export default class BlDialog extends LitElement {
     if (this.open) {
       this.dialog.showModal?.();
       this.onOpen({ isOpen: true });
+      document.body.style.overflow = 'hidden';
     } else {
       this.dialog.close?.();
       this.onClose({ isOpen: false });
+      document.body.style.overflow = 'auto';
     }
   }
 
-  private clickOutsideHandler = (event: MouseEvent) => {
-    const rect = this.dialog.getBoundingClientRect();
+  clickOutsideHandler = (event: MouseEvent) => {
+    const eventPath = event.composedPath() as HTMLElement[];
 
-    console.log('event.clientY', event.clientY);
-    console.log('event.clientX', event.clientX);
-
-    console.log('x', event.pageX)
-    console.log('y', event.pageY)
-
-    console.log('event', event)
-
-    if (
-      event.clientY < rect.top ||
-      event.clientY > rect.bottom ||
-      event.clientX < rect.left ||
-      event.clientX > rect.right
-    ) {
-      console.log("in");
-
-      this.closeDialog();
+    if (!eventPath.includes(this.container)) {
+      this.open = false;
     }
   };
 
   private closeDialog() {
     this.open = false;
-    console.log('open', this.open);
   }
 
   private onKeydown = (event: KeyboardEvent): void => {
@@ -142,25 +131,27 @@ export default class BlDialog extends LitElement {
   }
 
   render(): TemplateResult {
-    const title = this.caption ? html`<h2>${this.caption}</h2>` : '';
+    const title = this.caption ? html`<h2 id="dialog-caption">${this.caption}</h2>` : '';
     const classes = classMap({
       'content': true,
       'has-footer': this._hasFooter,
     });
 
     return html`
-      <dialog>
-        <header>
-          ${title}
-          <bl-button
-            @click="${this.closeDialog}"
-            icon="close"
-            variant="tertiary"
-            kind="neutral"
-          ></bl-button>
-        </header>
-        <section class=${classes}><slot /></section>
-        ${this.renderFooter()}
+      <dialog aria-labelledby="dialog-caption">
+        <div class="container">
+          <header>
+            ${title}
+            <bl-button
+              @click="${this.closeDialog}"
+              icon="close"
+              variant="tertiary"
+              kind="neutral"
+            ></bl-button>
+          </header>
+          <section class=${classes}><slot /></section>
+          ${this.renderFooter()}
+        </div>
       </dialog>
     `;
   }

@@ -15,12 +15,23 @@ describe('bl-dialog', () => {
     assert.shadowDom.equal(
       el,
       `
-      <dialog>
-        <header>
-          <bl-button icon="close" variant="tertiary" kind="neutral" size="medium"></bl-button>
-        </header>
-        <section class=" content "><slot></slot></section>
-      </dialog>
+      <dialog aria-labelledby="dialog-caption">
+        <div class="container">
+          <header>
+            <bl-button
+              icon="close"
+              kind="neutral"
+              size="medium"
+              variant="tertiary"
+            >
+            </bl-button>
+          </header>
+          <section class="content">
+            <slot>
+            </slot>
+          </section>
+        </div>
+        </dialog>
     `
     );
   });
@@ -78,57 +89,23 @@ describe('bl-dialog', () => {
     }
   });
 
-  // it('should close the dialog when the outside of the dialog is clicked', async () => {
-  //   const dialogEl = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
-  //     <div class="content" style="width:300px;height:300px">
-  //       <p>My Content</p>
-  //     </div>
-  //     <bl-button slot="primary-action" size="large">Primary</bl-button>
-  //     <bl-button slot="secondary-action" variant="secondary" size="large">Secondary</bl-button>
-  //   </bl-dialog>`);
+  it('shoulda close the dialog on outside click', async () => {
 
-  //   const content = dialogEl?.shadowRoot?.querySelector('.content') as HTMLElement;
-
-  //   const { x, y } = getMiddleOfElement(content);
-
-  //   setTimeout(async () => {
-  //     await sendMouse({ type: 'click', position: [x - 100, y] }); // FIXME
-  //   });
-  //   expect(dialogEl?.getAttribute('open'))?.oneOf(['', null]); // FIXME
-  //   fixtureCleanup();
-  //   await resetMouse();
-  // });
-
-  it('shoulda sdasdd', async () => {
-    const dialogEl = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
-      <div class="content" style="width:300px;height:300px">
-        <p>My Content</p>
+    const body = await fixture<HTMLBodyElement>(html`
+      <div style="width:1500px;height:1500px">
+        <bl-dialog caption="My Title" open>
+          <p>my content</p>
+        </bl-dialog>
       </div>
-      <bl-button slot="primary-action" size="large">Primary</bl-button>
-      <bl-button slot="secondary-action" variant="secondary" size="large">Secondary</bl-button>
-    </bl-dialog>`);
+    `);
 
-    // const content = dialogEl?.shadowRoot?.querySelector('.content') as HTMLElement;
+    const dialogEl = body.querySelector('bl-dialog') as typeOfBlDialog;
 
-    // const { x, width,top } = getMiddleOfElement(content);
-
-    // eslint-disable-next-line no-debugger
-    debugger;
-
-    setTimeout(async () => {
-      await sendMouse({ type: 'click', position: [4, 500] }); // FIXME
-    });
-
-    expect(dialogEl?.getAttribute('open'))?.oneOf(['', null]); // FIXME
-    fixtureCleanup();
+    await sendMouse({ type: 'click', position: [1, 1] });
+    expect(dialogEl.getAttribute('open')).oneOf(['', null]); // FIXME
     await resetMouse();
+    fixtureCleanup();
   });
-
-  // function getMiddleOfElement(element: Element) {
-  //   const { x, y, width, height, top, left, right, bottom } = element.getBoundingClientRect();
-
-  //   return { x, y, width, height, top, left, right, bottom };
-  // }
 
   it('should add shadow to footer when the content is too long', async () => {
     const el = await fixture<HTMLElement>(html`<bl-dialog open caption="My title">
