@@ -89,7 +89,7 @@ describe('bl-dialog', () => {
     }
   });
 
-  it('shoulda close the dialog on outside click', async () => {
+  it('should close the dialog on outside click', async () => {
 
     const body = await fixture<HTMLBodyElement>(html`
       <div style="width:1500px;height:1500px">
@@ -127,7 +127,7 @@ describe('bl-dialog', () => {
   });
 
   describe('Events', () => {
-    it('fires bl-dialog-open event on dialog close', async () => {
+    it('should fire bl-dialog-open / close event on dialog open / close', async () => {
       const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
       </bl-dialog>`);
 

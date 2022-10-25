@@ -76,6 +76,10 @@ dialog footer.shadow {
     min-height: auto;
   }
 
+  dialog .content {
+    max-height: calc(100vh - 328px);
+  }
+
   dialog footer {
     display: flex;
     flex-flow: column wrap;
