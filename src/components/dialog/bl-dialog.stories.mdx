@@ -8,6 +8,10 @@ import { userEvent } from '@storybook/testing-library';
 <Meta
   title="Components/Dialog"
   component="bl-dialog"
+  parameters={{
+    layout: 'centered',
+    chromatic: { viewports: [1000] },
+  }}
   argTypes={{
     open: {
       control: "boolean",
@@ -31,7 +35,7 @@ export const dialogOpener = async (event,dialogClass) => {
 }
 
 export const closeAllDialog = async () => {
-  const dialog = document.querySelector(`#root bl-dialog[open="true"]`);
+  const dialog = document.querySelector(`#root bl-dialog[open]`);
   dialog?.removeAttribute("open");
 }
 
