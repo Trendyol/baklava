@@ -12,4 +12,5 @@ export { default as BlAlert } from './components/alert/bl-alert';
 export { default as BlSelect } from './components/select/bl-select';
 export { default as BlSelectOption } from './components/select/option/bl-select-option';
 export { default as BlPagination } from './components/pagination/bl-pagination';
+export { default as BlDialog } from './components/dialog/bl-dialog';
 export { getIconPath, setIconPath } from './utilities/asset-paths';
