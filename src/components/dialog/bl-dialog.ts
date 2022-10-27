@@ -1,6 +1,5 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import style from './bl-dialog.css';
@@ -42,6 +41,9 @@ export default class BlDialog extends LitElement {
   @query('.container')
   container: HTMLElement;
 
+  @query('.content')
+  content: HTMLElement;
+
   /**
    * Fires when the dialog is opened
    */
@@ -57,7 +59,7 @@ export default class BlDialog extends LitElement {
 
     setTimeout(() => {
       window?.addEventListener('keydown', event => this.onKeydown(event));
-      window?.addEventListener('resize', () => this.toggleShadow());
+      window?.addEventListener('resize', () => this.resizeHandler());
       this.dialog.addEventListener('click', this.clickOutsideHandler);
     });
   }
@@ -65,15 +67,19 @@ export default class BlDialog extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     window?.removeEventListener('keydown', this.onKeydown);
-    window?.removeEventListener('resize', this.toggleShadow);
+    window?.removeEventListener('resize', this.resizeHandler);
     this.dialog.removeEventListener('click', this.clickOutsideHandler);
   }
 
   updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('open')) {
       this.toggleDialogHandler();
-      this.toggleShadow();
     }
+  }
+
+  private resizeHandler() {
+    this.changeContentHeight();
+    this.toggleFooterSticky();
   }
 
   private toggleDialogHandler() {
@@ -86,6 +92,8 @@ export default class BlDialog extends LitElement {
       this.onClose({ isOpen: false });
       document.body.style.overflow = 'auto';
     }
+
+    this.resizeHandler();
   }
 
   clickOutsideHandler = (event: MouseEvent) => {
@@ -106,14 +114,23 @@ export default class BlDialog extends LitElement {
     }
   };
 
-  private toggleShadow() {
-    const content = this.shadowRoot?.querySelector('.content') as HTMLElement;
-
-    if (content?.scrollHeight > content?.offsetHeight) {
-      this.footer?.classList?.add('shadow');
+  private toggleFooterSticky() {
+    if (this.content?.scrollHeight > this.content?.offsetHeight) {
+      this.footer?.classList?.add('sticky');
     } else {
-      this.footer?.classList?.remove('shadow');
+      this.footer?.classList?.remove('sticky');
     }
+  }
+
+  private changeContentHeight() {
+    const footerHeight = this.footer?.offsetHeight || 0;
+    let contentHeight = 144; // 56px(header) + 48px(dialog-margin) + 40px(content-padding)
+
+    if (window.innerWidth < 470) {
+       contentHeight = 128; // 56px(header) + 32px(dialog-margin) + 40px(content-padding)
+    }
+
+    this.content.style.maxHeight = `${window.innerHeight - (contentHeight + footerHeight)}px`;
   }
 
   get _hasFooter() {
@@ -132,10 +149,6 @@ export default class BlDialog extends LitElement {
 
   render(): TemplateResult {
     const title = this.caption ? html`<h2 id="dialog-caption">${this.caption}</h2>` : '';
-    const classes = classMap({
-      'content': true,
-      'has-footer': this._hasFooter,
-    });
 
     return html`
       <dialog aria-labelledby="dialog-caption">
@@ -149,7 +162,7 @@ export default class BlDialog extends LitElement {
               kind="neutral"
             ></bl-button>
           </header>
-          <section class=${classes}><slot /></section>
+          <section class='content'><slot /></section>
           ${this.renderFooter()}
         </div>
       </dialog>

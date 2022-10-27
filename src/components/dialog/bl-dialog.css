@@ -3,8 +3,8 @@ dialog {
   border: 0;
   background: var(--bl-color-primary-background);
   border-radius: var(--bl-border-radius-l);
-  max-width: calc(100% - 48px);
-  max-height: calc(100% - 48px);
+  max-width: calc(100vw - var(--bl-size-4xl));
+  max-height: calc(100vh - var(--bl-size-4xl));
   overflow: hidden;
 }
 
@@ -43,32 +43,27 @@ dialog header h2 {
 dialog .content {
   padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m) var(--bl-size-xl);
   overflow: auto;
-  max-height: calc(100vh - 232px);
-}
-
-dialog .without-footer {
-  max-height: calc(100vh - 144px);
 }
 
 dialog footer {
-  padding: 24px;
+  padding: var(--bl-size-xl);
   display: flex;
   flex-flow: row-reverse wrap;
   gap: var(--bl-size-m);
-  position: sticky;
-  bottom: 0;
-  background-color: var(--bl-color-primary-background);
-  z-index: 999; /* FIXME */
 }
 
-dialog footer.shadow {
+dialog footer.sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 999; /* FIXME */
+  background-color: var(--bl-color-primary-background);
   box-shadow: 0 -4px 15px #27314226;
 }
 
-@media only screen and (max-width: 439px) {
+@media only screen and (max-width: 469px) {
   dialog {
-    max-width: calc(100% - 32px);
-    max-height: calc(100% - 32px);
+    max-width: calc(100vw - var(--bl-size-2xl));
+    max-height: calc(100vh - var(--bl-size-2xl));
   }
 
   dialog .container {
@@ -76,12 +71,7 @@ dialog footer.shadow {
     min-height: auto;
   }
 
-  dialog .content {
-    max-height: calc(100vh - 328px);
-  }
-
   dialog footer {
-    display: flex;
     flex-flow: column wrap;
   }
 }

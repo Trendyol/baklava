@@ -1,4 +1,11 @@
-import { assert, fixture, html, oneEvent, expect, fixtureCleanup } from '@open-wc/testing';
+import {
+  assert,
+  fixture,
+  html,
+  oneEvent,
+  expect,
+  fixtureCleanup,
+} from '@open-wc/testing';
 import { sendKeys, sendMouse, resetMouse } from '@web/test-runner-commands';
 import BlDialog from './bl-dialog';
 
@@ -26,7 +33,7 @@ describe('bl-dialog', () => {
             >
             </bl-button>
           </header>
-          <section class="content">
+          <section class="content" style="max-height: 456px;">
             <slot>
             </slot>
           </section>
@@ -90,7 +97,6 @@ describe('bl-dialog', () => {
   });
 
   it('should close the dialog on outside click', async () => {
-
     const body = await fixture<HTMLBodyElement>(html`
       <div style="width:1500px;height:1500px">
         <bl-dialog caption="My Title" open>
@@ -108,10 +114,73 @@ describe('bl-dialog', () => {
   });
 
   it('should add shadow to footer when the content is too long', async () => {
+    window.innerWidth = 400;
+
     const el = await fixture<HTMLElement>(html`<bl-dialog open caption="My title">
-          <div style="height:1600px">
-          Really long content
-          </div>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
         <bl-button slot="primary-action" size="large">Primary</bl-button>
         <bl-button slot="secondary-action" variant="secondary" size="large">Secondary</bl-button>
       </bl-dialog>
@@ -119,11 +188,7 @@ describe('bl-dialog', () => {
 
     const footer = el?.shadowRoot?.querySelector('footer') as HTMLElement;
 
-    const className = Object.values(footer.classList)[0];
-
-    if (className) {
-      expect(className).to.equal('shadow');
-    }
+    expect(footer.className).to.oneOf(['sticky','']);
   });
 
   describe('Events', () => {
