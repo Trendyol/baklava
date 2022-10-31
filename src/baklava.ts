@@ -2,6 +2,7 @@ export { default as BlAlert } from './components/alert/bl-alert';
 export { default as BlBadge } from './components/badge/bl-badge';
 export { default as BlButton } from './components/button/bl-button';
 export { default as BlCheckbox } from './components/checkbox/bl-checkbox';
+export { default as BlDialog } from './components/dialog/bl-dialog';
 export { default as BlIcon } from './components/icon/bl-icon';
 export { default as BlInput } from './components/input/bl-input';
 export { default as BlPagination } from './components/pagination/bl-pagination';

@@ -19,7 +19,8 @@ module.exports = {
         'alert',
         'select',
         'pagination',
-        'radio'
+        'radio',
+        'dialog',
       ],
     ],
   },

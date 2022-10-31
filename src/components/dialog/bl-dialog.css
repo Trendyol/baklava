@@ -1,0 +1,77 @@
+dialog {
+  padding: 0;
+  border: 0;
+  background: var(--bl-color-primary-background);
+  border-radius: var(--bl-border-radius-l);
+  max-width: calc(100vw - var(--bl-size-4xl));
+  max-height: calc(100vh - var(--bl-size-4xl));
+  overflow: hidden;
+}
+
+dialog::backdrop {
+  background: #273142;
+  opacity: 0.7;
+}
+
+dialog .container {
+  min-width: 424px;
+  min-height: 178px;
+}
+
+dialog header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--bl-size-2xs);
+  padding: var(--bl-size-xl) var(--bl-size-xl) 0 var(--bl-size-xl);
+}
+
+dialog header bl-button {
+  margin-left: auto;
+}
+
+dialog header h2 {
+  font: var(--bl-font-title-1-medium);
+  color: var(--bl-color-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  padding: 0;
+}
+
+dialog .content {
+  padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m) var(--bl-size-xl);
+  overflow: auto;
+}
+
+dialog footer {
+  padding: var(--bl-size-xl);
+  display: flex;
+  flex-flow: row-reverse wrap;
+  gap: var(--bl-size-m);
+}
+
+dialog footer.sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 999; /* FIXME */
+  background-color: var(--bl-color-primary-background);
+  box-shadow: 0 -4px 15px #27314226;
+}
+
+@media only screen and (max-width: 469px) {
+  dialog {
+    max-width: calc(100vw - var(--bl-size-2xl));
+    max-height: calc(100vh - var(--bl-size-2xl));
+  }
+
+  dialog .container {
+    min-width: auto;
+    min-height: auto;
+  }
+
+  dialog footer {
+    flex-flow: column wrap;
+  }
+}
