@@ -101,3 +101,14 @@ Also, you can add ignore rule as compiler options to your webpack or vite.
   }
 }
 ```
+
+#### Eslint Configuration
+
+Baklava components are developed with `kebab case`. Eslint uses `pascal case` by default. If you are using eslint in your project, it will automatically convert the baklava components to `pascal case`. To prevent this, you need to turn off the `pascal case` rule in your project.
+To do this, give the following rule in your eslint config file.
+
+```js
+  rules: {
+    "vue/component-name-in-template-casing": "off",
+  },
+```
