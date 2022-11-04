@@ -37,7 +37,6 @@ describe('bl-pagination', () => {
     expect(el.hasSelect).to.equal(false);
     expect(el.jumperLabel).to.equal('Go To');
     expect(el.selectLabel).to.equal('Show');
-    expect(el.optionText).to.equal('Items');
   });
 
   it('should correctly set the attributes', async () => {
@@ -51,7 +50,6 @@ describe('bl-pagination', () => {
           jumper-label="Git"
           has-select
           select-label="Göster"
-          option-text="Sonuç"
         >
         </bl-pagination>
       `
@@ -62,7 +60,6 @@ describe('bl-pagination', () => {
     expect(el.hasSelect).to.equal(true);
     expect(el.jumperLabel).to.equal('Git');
     expect(el.selectLabel).to.equal('Göster');
-    expect(el.optionText).to.equal('Sonuç');
   });
 
   describe('back and forward arrows', () => {

@@ -14,20 +14,20 @@ import style from './bl-pagination.css';
 
 const selectOptions = [
   {
-    text: '100',
+    text: '10 Items',
+    value: 10,
+  },
+  {
+    text: '25 Items',
+    value: 25,
+  },
+  {
+    text: '50 Items',
+    value: 50,
+  },
+  {
+    text: '100 Items',
     value: 100,
-  },
-  {
-    text: '250',
-    value: 250,
-  },
-  {
-    text: '500',
-    value: 500,
-  },
-  {
-    text: '1000',
-    value: 1000,
   },
 ];
 
@@ -80,10 +80,10 @@ export default class BlPagination extends LitElement {
   selectLabel = 'Show';
 
   /**
-   *  Sets the option texts.
+   *  Sets the items per page options
    */
-  @property({ attribute: 'option-text', type: String })
-  optionText = 'Items';
+  @property({ attribute: 'select-options', type: Array })
+  selectOptions = selectOptions;
 
   @state() private pages: Array<number | string> = [];
 
@@ -93,7 +93,11 @@ export default class BlPagination extends LitElement {
   @event('bl-change') private onChange: EventDispatcher<{ selectedPage: number; prevPage: number }>;
 
   updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('currentPage') || changedProperties.has('itemsPerPage') || changedProperties.has('totalItems') ) {
+    if (
+      changedProperties.has('currentPage') ||
+      changedProperties.has('itemsPerPage') ||
+      changedProperties.has('totalItems')
+    ) {
       this._paginate();
       this.onChange({
         selectedPage: this.currentPage,
@@ -201,20 +205,22 @@ export default class BlPagination extends LitElement {
   }
 
   render(): TemplateResult {
-    const selectEl = this.hasSelect ? html`
-      <div class="select">
-        <label>${this.selectLabel}</label>
-        <bl-select @bl-select="${this._selectHandler}">
-          ${selectOptions.map(option => {
-            return html`<bl-select-option
-              value="${option.value}"
-              ?selected=${option.value === this.itemsPerPage}
-              >${option.text} ${this.optionText}</bl-select-option
-            >`;
-          })}
-        </bl-select>
-      </div>
-    ` : null;
+    const selectEl = this.hasSelect
+      ? html`
+          <div class="select">
+            <label>${this.selectLabel}</label>
+            <bl-select @bl-select="${this._selectHandler}">
+              ${this.selectOptions.map(option => {
+                return html`<bl-select-option
+                  value="${option.value}"
+                  ?selected=${option.value === this.itemsPerPage}
+                  >${option.text}</bl-select-option
+                >`;
+              })}
+            </bl-select>
+          </div>
+        `
+      : null;
 
     const jumperEl = this.hasJumper
       ? html` <div class="jumper">
@@ -225,9 +231,7 @@ export default class BlPagination extends LitElement {
 
     const getHelperElements = () => {
       if (!this.hasSelect && !this.hasJumper) return;
-      return html`
-        <div class="pagination-helpers">${selectEl} ${jumperEl}</div>
-      `;
+      return html` <div class="pagination-helpers">${selectEl} ${jumperEl}</div> `;
     };
 
     return html` <div class="pagination">${getHelperElements()} ${this.renderPages()}</div>`;

@@ -1,9 +1,9 @@
-:host {
-  width: max-content;
-}
-
 .pagination {
   display: flex;
+  flex-wrap:wrap;
+  justify-content: center;
+  max-width:max-content;
+  gap: var(--bl-size-s);
 }
 
 .pagination * {
@@ -36,7 +36,6 @@
 .pagination-helpers {
   display: flex;
   align-items: center;
-  margin-right: var(--bl-size-s);
   gap: var(--bl-size-m);
 }
 
