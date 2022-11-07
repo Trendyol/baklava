@@ -32,7 +32,7 @@ describe('bl-pagination', () => {
   it('should render with the correct default values', async () => {
     const el = await fixture<typeOfBlPagination>(html`<bl-pagination></bl-pagination> `);
     expect(el?.currentPage).to.equal(1);
-    expect(el.itemsPerPage).to.equal(100);
+    expect(el.itemsPerPage).to.equal(10);
     expect(el.hasJumper).to.equal(false);
     expect(el.hasSelect).to.equal(false);
     expect(el.jumperLabel).to.equal('Go To');

@@ -17,7 +17,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
      itemsPerPage: {
        control: {
         type: 'number',
-        default:100
+        default:10
       }
     },
    hasJumper: {
@@ -44,10 +44,27 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
         default:"Show"
       }
     },
-    optionText: {
+    selectOptions: {
       control: {
-        type: 'text',
-        default:"Items"
+        type: 'array',
+        default:
+          [
+            {
+              text: '100 Sonuç',
+              value: 100,
+            },
+            {
+              text: '250 Sonuç',
+              value: 250,
+            },
+            {
+              text: '500 Sonuç',
+              value: 500,
+            },
+            {
+              text: '1000 Sonuç',
+              value: 1000,
+            }]
       }
     },
   }}
@@ -62,7 +79,7 @@ export const PaginationTemplate = (args) => html`
       jumper-label=${ifDefined(args.jumperLabel)}
       has-select=${ifDefined(args.hasSelect)}
       select-label=${ifDefined(args.selectLabel)}
-      option-text=${ifDefined(args.optionText)}
+      select-options=${ifDefined(args.selectOptions)}
       >
       </bl-pagination>
   `
@@ -76,7 +93,7 @@ The Pagination component enables the user to select a specific page from a range
 Use a simple pagination for navigating to the next or previous page or a selected page.
 
 <Canvas>
-<Story name="Basic Usage" args={{currentPage:1,totalItems:1500,itemsPerPage:10}}>
+<Story name="Basic Usage" args={{currentPage:1,totalItems:1500}}>
     {PaginationTemplate.bind({})}
   </Story>
 </Canvas>
@@ -85,7 +102,7 @@ Use a simple pagination for navigating to the next or previous page or a selecte
 Use the jumper to directly go to a specific page.
 
 <Canvas>
-<Story name="Jumper" args={{currentPage:1,totalItems:1500,itemsPerPage:10,hasJumper:true}}>
+<Story name="Jumper" args={{currentPage:1,totalItems:1500,hasJumper:true}}>
     {PaginationTemplate.bind({})}
   </Story>
 </Canvas>
@@ -94,16 +111,42 @@ Use the jumper to directly go to a specific page.
 Use the select helper to change the number of items per page.
 
 <Canvas>
-<Story name="Select" args={{currentPage:1,totalItems:1500,itemsPerPage:100,hasSelect:true}}>
+<Story name="Select" args={{currentPage:1,totalItems:1500,hasSelect:true}}>
     {PaginationTemplate.bind({})}
   </Story>
 </Canvas>
 
 ## Customization
-The labels and the texts of the jumper and select element are fully customizable.
+The labels and the texts of the jumper and select element are fully customizable. The default select options can also be changed.
 
 <Canvas>
-<Story name="Customization"  args={{currentPage:1,totalItems:1500,itemsPerPage:250,hasJumper:true,jumperLabel:"Sayfaya Git",hasSelect:true,selectLabel:"Sayfa Başına",optionText:"Sonuç"}}>
+<Story name="Customization"  args={{
+  currentPage:1,
+  totalItems:1500,
+  itemsPerPage:100,
+  hasJumper:true,
+  jumperLabel:"Sayfaya Git",
+  hasSelect:true,
+  selectLabel:"Sayfa Başına",
+  selectOptions:JSON.stringify([
+  {
+    text: '100 Sonuç',
+    value: 100,
+  },
+  {
+    text: '250 Sonuç',
+    value: 250,
+  },
+  {
+    text: '500 Sonuç',
+    value: 500,
+  },
+  {
+    text: '1000 Sonuç',
+    value: 1000,
+  }]
+  )
+  }}>
     {PaginationTemplate.bind({})}
   </Story>
 </Canvas>

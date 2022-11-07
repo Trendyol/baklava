@@ -12,25 +12,6 @@ import style from './bl-pagination.css';
  * @summary Baklava Pagination component
  */
 
-const selectOptions = [
-  {
-    text: '10 Items',
-    value: 10,
-  },
-  {
-    text: '25 Items',
-    value: 25,
-  },
-  {
-    text: '50 Items',
-    value: 50,
-  },
-  {
-    text: '100 Items',
-    value: 100,
-  },
-];
-
 @customElement('bl-pagination')
 export default class BlPagination extends LitElement {
   static get styles(): CSSResultGroup {
@@ -53,7 +34,7 @@ export default class BlPagination extends LitElement {
    * Sets the number of items per page
    */
   @property({ attribute: 'items-per-page', type: Number, reflect: true })
-  itemsPerPage = 100;
+  itemsPerPage = 10;
 
   /**
    * Adds jumper element if provided as true
@@ -80,10 +61,27 @@ export default class BlPagination extends LitElement {
   selectLabel = 'Show';
 
   /**
-   *  Sets the items per page options
+   *  Sets the items per page options of the select element
    */
   @property({ attribute: 'select-options', type: Array })
-  selectOptions = selectOptions;
+  selectOptions = [
+    {
+      text: '10 Items',
+      value: 10,
+    },
+    {
+      text: '25 Items',
+      value: 25,
+    },
+    {
+      text: '50 Items',
+      value: 50,
+    },
+    {
+      text: '100 Items',
+      value: 100,
+    },
+  ];
 
   @state() private pages: Array<number | string> = [];
 
