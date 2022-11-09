@@ -64,7 +64,7 @@ export default class BlPagination extends LitElement {
    * Sets the items per page options of the select element
    *  PROPERTY
    */
-  @property({ type: Array })
+  @property({ type: Array, attribute: false })
   itemsPerPageOptions = [
     {
       text: '10 Items',
