@@ -61,10 +61,11 @@ export default class BlPagination extends LitElement {
   selectLabel = 'Show';
 
   /**
-   *  Sets the items per page options of the select element
+   * Sets the items per page options of the select element
+   *  PROPERTY
    */
-  @property({ attribute: 'select-options', type: Array })
-  selectOptions = [
+  @property({ type: Array })
+  itemsPerPageOptions = [
     {
       text: '10 Items',
       value: 10,
@@ -89,6 +90,19 @@ export default class BlPagination extends LitElement {
    * Fires when the current page changes
    */
   @event('bl-change') private onChange: EventDispatcher<{ selectedPage: number; prevPage: number }>;
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    setTimeout(() => {
+      window?.addEventListener('resize', () => this._paginate());
+    });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window?.removeEventListener('resize', this._paginate);
+  }
 
   updated(changedProperties: PropertyValues<this>) {
     if (
@@ -161,7 +175,7 @@ export default class BlPagination extends LitElement {
     this.currentPage = 1;
   }
 
-  private renderSinglePage(page: number | string) {
+  private _renderSinglePage(page: number | string) {
     if (typeof page === 'string') {
       return html`<span class="dots"></span>`;
     }
@@ -188,7 +202,9 @@ export default class BlPagination extends LitElement {
           ?disabled=${this.currentPage === 1}
         ></bl-button>
         <ul class="page-list">
-          ${this.pages.map(page => html`${this.renderSinglePage(page)}`)}
+          ${window.innerWidth < 768
+            ? html`${this._renderSinglePage(this.currentPage)}`
+            : this.pages.map(page => html`${this._renderSinglePage(page)}`)}
         </ul>
         <bl-button
           @click="${this._pageForward}"
@@ -208,7 +224,7 @@ export default class BlPagination extends LitElement {
           <div class="select">
             <label>${this.selectLabel}</label>
             <bl-select @bl-select="${this._selectHandler}">
-              ${this.selectOptions.map(option => {
+              ${this.itemsPerPageOptions.map(option => {
                 return html`<bl-select-option
                   value="${option.value}"
                   ?selected=${option.value === this.itemsPerPage}

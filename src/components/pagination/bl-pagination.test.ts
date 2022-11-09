@@ -127,6 +127,15 @@ describe('bl-pagination', () => {
         expect(el.currentPage).to.equal(4);
       });
     });
+
+    it('renders only the current page with previous - next arrows on mobile view', async () => {
+      window.innerWidth = 600;
+      const el = await fixture<typeOfBlPagination>(
+        html`<bl-pagination current-page="10" items-per-page="1" total-items="10"></bl-pagination>`
+      );
+      expect(el.shadowRoot?.querySelectorAll('bl-button').length).to.eq(3);
+      expect(el.shadowRoot?.querySelectorAll('.dots').length).to.eq(0);
+    });
   });
 
   describe('jumper and select element', () => {

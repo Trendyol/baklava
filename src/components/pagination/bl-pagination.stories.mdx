@@ -44,11 +44,10 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
         default:"Show"
       }
     },
-    selectOptions: {
+    itemsPerPageOptions: {
       control: {
         type: 'array',
-        default:
-          [
+        default:[
             {
               text: '100 Sonuç',
               value: 100,
@@ -79,7 +78,7 @@ export const PaginationTemplate = (args) => html`
       jumper-label=${ifDefined(args.jumperLabel)}
       has-select=${ifDefined(args.hasSelect)}
       select-label=${ifDefined(args.selectLabel)}
-      select-options=${ifDefined(args.selectOptions)}
+      .itemsPerPageOptions=${ifDefined(args.itemsPerPageOptions)}
       >
       </bl-pagination>
   `
@@ -128,7 +127,7 @@ The labels and the texts of the jumper and select element are fully customizable
   jumperLabel:"Sayfaya Git",
   hasSelect:true,
   selectLabel:"Sayfa Başına",
-  selectOptions:JSON.stringify([
+  itemsPerPageOptions:[
   {
     text: '100 Sonuç',
     value: 100,
@@ -145,7 +144,6 @@ The labels and the texts of the jumper and select element are fully customizable
     text: '1000 Sonuç',
     value: 1000,
   }]
-  )
   }}>
     {PaginationTemplate.bind({})}
   </Story>
