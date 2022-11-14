@@ -1,8 +1,9 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
-import { event, EventDispatcher } from '../../utilities/event';
-import '../button/bl-button';
-import style from './bl-dialog.css';
+import { event, EventDispatcher } from '../../../utilities/event';
+import '../../button/bl-button';
+import dialogPolyfillStyle from './bl-dialog-polyfill.css';
+import dialogStyle from '../bl-dialog.css';
 
 /**
  * @tag bl-dialog
@@ -14,10 +15,10 @@ type DialogElement = {
   close: () => void;
 };
 
-@customElement('bl-dialog')
-export default class BlDialog extends LitElement {
+@customElement('bl-dialog-polyfill')
+export default class BlDialogPoliyfill extends LitElement {
   static get styles(): CSSResultGroup {
-    return [style];
+    return [dialogPolyfillStyle,dialogStyle];
   }
 
   /**
@@ -32,17 +33,17 @@ export default class BlDialog extends LitElement {
   @property({ type: String })
   caption?: string;
 
-  @query('dialog')
-  dialog: HTMLDialogElement & DialogElement;
+  @query('.dialog')
+  dialog: HTMLDivElement;
 
   @query('footer')
   footer: HTMLElement;
 
-  @query('.container')
-  container: HTMLElement;
-
   @query('.content')
   content: HTMLElement;
+
+  @query('.backdrop')
+  backdrop: HTMLDivElement;
 
   /**
    * Fires when the dialog is opened
@@ -84,11 +85,18 @@ export default class BlDialog extends LitElement {
 
   private toggleDialogHandler() {
     if (this.open) {
-      this.dialog.showModal?.();
+      if(HTMLDialogElement){
+        this.dialog.showModal?.();
+
+    }else{
+      this.dialog.style.setProperty('--display', 'flex');
+
+    }
+      this.dialog.style.setProperty('--display', 'flex');
       this.onOpen({ isOpen: true });
       document.body.style.overflow = 'hidden';
     } else {
-      this.dialog.close?.();
+      this.dialog.style.setProperty('--display', 'none');
       this.onClose({ isOpen: false });
       document.body.style.overflow = 'auto';
     }
@@ -99,7 +107,7 @@ export default class BlDialog extends LitElement {
   clickOutsideHandler = (event: MouseEvent) => {
     const eventPath = event.composedPath() as HTMLElement[];
 
-    if (!eventPath.includes(this.container)) {
+    if (!eventPath.includes(this.dialog)) {
       this.closeDialog();
     }
   };
@@ -151,7 +159,7 @@ export default class BlDialog extends LitElement {
     const title = this.caption ? html`<h2 id="dialog-caption">${this.caption}</h2>` : '';
 
     return html`
-      <dialog class='dialog' aria-labelledby="dialog-caption">
+      <div class='dialog' aria-labelledby="dialog-caption">
         <div class="container">
           <header>
             ${title}
@@ -165,13 +173,13 @@ export default class BlDialog extends LitElement {
           <section class='content'><slot /></section>
           ${this.renderFooter()}
         </div>
-      </dialog>
+  </div>
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-dialog': BlDialog;
+    'bl-dialog-polyfill': BlDialogPoliyfill;
   }
 }

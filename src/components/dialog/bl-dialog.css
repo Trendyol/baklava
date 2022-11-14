@@ -1,4 +1,4 @@
-dialog {
+.dialog {
   padding: 0;
   border: 0;
   background: var(--bl-color-primary-background);
@@ -8,17 +8,17 @@ dialog {
   overflow: hidden;
 }
 
-dialog::backdrop {
+.dialog::backdrop {
   background: #273142;
   opacity: 0.7;
 }
 
-dialog .container {
+.container {
   min-width: 424px;
   min-height: 178px;
 }
 
-dialog header {
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,11 +26,11 @@ dialog header {
   padding: var(--bl-size-xl) var(--bl-size-xl) 0 var(--bl-size-xl);
 }
 
-dialog header bl-button {
+header bl-button {
   margin-left: auto;
 }
 
-dialog header h2 {
+header h2 {
   font: var(--bl-font-title-1-medium);
   color: var(--bl-color-secondary);
   white-space: nowrap;
@@ -40,19 +40,19 @@ dialog header h2 {
   padding: 0;
 }
 
-dialog .content {
+.content {
   padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m) var(--bl-size-xl);
   overflow: auto;
 }
 
-dialog footer {
+footer {
   padding: var(--bl-size-xl);
   display: flex;
   flex-flow: row-reverse wrap;
   gap: var(--bl-size-m);
 }
 
-dialog footer.sticky {
+footer.sticky {
   position: sticky;
   bottom: 0;
   z-index: 999; /* FIXME */
@@ -61,17 +61,17 @@ dialog footer.sticky {
 }
 
 @media only screen and (max-width: 469px) {
-  dialog {
+  .dialog {
     max-width: calc(100vw - var(--bl-size-2xl));
     max-height: calc(100vh - var(--bl-size-2xl));
   }
 
-  dialog .container {
+  .container {
     min-width: auto;
     min-height: auto;
   }
 
-  dialog footer {
+  footer {
     flex-flow: column wrap;
   }
 }
