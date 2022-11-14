@@ -54,6 +54,11 @@
   background-color: var(--bl-color-secondary-background);
 }
 
+:host([disabled]) .selected #label::before {
+  background-color: var(--bl-color-content-passive);
+  border-color: var(--bl-color-secondary-background);
+}
+
 .wrapper:focus-visible #label::before {
   box-shadow: 0 0 0 1px white, 0 0 0 3px var(--bl-color-primary);
 }

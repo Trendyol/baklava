@@ -23,11 +23,19 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 
 export const RadioTemplate = (args) => html`
 <bl-radio
-    class='${ifDefined(args.class)}'
-    value='${ifDefined(args.value)}'
+    class=${ifDefined(args.class)}
+    value=${ifDefined(args.value)}
     ?disabled=${args.disabled}
-    >${args.label}
-</bl-radio>`
+    >${args.label}</bl-radio>`
+
+export const RadioGroupTemplate = (args) => html`
+<bl-radio-group value=${args.value}>
+  <bl-radio
+    class=${ifDefined(args.class)}
+    value=${ifDefined(args.value)}
+    ?disabled=${args.disabled}
+    >${args.label}</bl-radio>
+</bl-radio-group>`
 
 # Radio Component
 
@@ -39,11 +47,27 @@ Radio component is the component for adding options for a `bl-radio-group` compo
   </Story>
 </Canvas>
 
+If wrapping `bl-radio-group` component has the same `value` with an option value, then it becomes selected.
+
+<Canvas>
+  <Story name="Selected option" args={{ label: 'Credit Card', value: 'cc' }}>
+    {RadioGroupTemplate.bind({})}
+  </Story>
+</Canvas>
+
 You can set a radio option non-selectable by adding `disabled` attribute.
 
 <Canvas>
   <Story name="Disabled option" args={{ label: 'Cash Payment', value: 'cash', disabled: true }}>
     {RadioTemplate.bind({})}
+  </Story>
+</Canvas>
+
+An option can be disabled and selected at the same time if value of `radio-group` is same with disabled option value.
+
+<Canvas>
+  <Story name="Disabled and selected option" args={{ label: 'Cash Payment', value: 'cash', disabled: true }}>
+    {RadioGroupTemplate.bind({})}
   </Story>
 </Canvas>
 
