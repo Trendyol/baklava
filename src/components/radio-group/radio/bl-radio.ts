@@ -10,11 +10,6 @@ import style from './bl-radio.css';
 export const blRadioTag = 'bl-radio';
 
 export const blCheckedEventName = 'bl-checked';
-export class BlRadioOptionCheckedEvent extends CustomEvent<string> {
-  constructor(detail: string) {
-    super(blCheckedEventName, { detail });
-  }
-}
 
 /**
  * @tag bl-radio
@@ -138,6 +133,6 @@ declare global {
     [blRadioTag]: BlRadio;
   }
   interface HTMLElementEventMap {
-    [blCheckedEventName]: BlRadioOptionCheckedEvent
+    [blCheckedEventName]: CustomEvent<string>
   }
 }

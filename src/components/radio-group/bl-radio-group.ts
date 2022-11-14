@@ -9,11 +9,6 @@ import BlRadio, { blRadioTag } from './radio/bl-radio';
 export const blRadioGroupTag = 'bl-radio-group';
 
 export const blChangeEventName = 'bl-radio-change';
-export class BlRadioChangeEvent extends CustomEvent<string> {
-  constructor(detail: string) {
-    super(blChangeEventName, { detail });
-  }
-}
 
 /**
  * @tag bl-radio-group
@@ -102,18 +97,23 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
     event.preventDefault();
   }
 
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    this.tabIndex = 0;
+    this.addEventListener('focus', this.handleFocus);
+    this.addEventListener('keydown', this.handleKeyDown);
+  }
+
   private handleFocus() {
     this.availableOptions[this.focusedOptionIndex].focus();
   }
 
   render(): TemplateResult {
     return html`<fieldset
-      tabindex="0"
-      @focus=${this.handleFocus}
       role="radiogroup"
       aria-labelledby="label"
       aria-required=${this.required}
-      @keydown=${this.handleKeyDown}
     >
       <legend>${this.label}</legend>
       <div class="options" @bl-checked=${this.handleOptionChecked}>
@@ -128,6 +128,6 @@ declare global {
     [blRadioGroupTag]: BlRadioGroup;
   }
   interface HTMLElementEventMap {
-    [blChangeEventName]: BlRadioChangeEvent;
+    [blChangeEventName]: CustomEvent<string>;
   }
 }
