@@ -34,13 +34,16 @@ export default class BlDialogPoliyfill extends LitElement {
   caption?: string;
 
   @query('.dialog')
-  dialog: HTMLDivElement;
+  dialog: HTMLDivElement & DialogElement;
 
   @query('footer')
   footer: HTMLElement;
 
   @query('.content')
   content: HTMLElement;
+
+  @query('.container')
+  container: HTMLElement;
 
   @query('.backdrop')
   backdrop: HTMLDivElement;
@@ -85,9 +88,8 @@ export default class BlDialogPoliyfill extends LitElement {
 
   private toggleDialogHandler() {
     if (this.open) {
-      if(HTMLDialogElement){
+      if(typeof HTMLDialogElement !== 'undefined') {
         this.dialog.showModal?.();
-
     }else{
       this.dialog.style.setProperty('--display', 'flex');
 
@@ -107,7 +109,8 @@ export default class BlDialogPoliyfill extends LitElement {
   clickOutsideHandler = (event: MouseEvent) => {
     const eventPath = event.composedPath() as HTMLElement[];
 
-    if (!eventPath.includes(this.dialog)) {
+    if (!eventPath.includes(this.container)) {
+
       this.closeDialog();
     }
   };
