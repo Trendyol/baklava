@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
 
 <Meta
   title="Components/Radio Group"
@@ -46,6 +47,11 @@ export const StyledTemplate = (args) => html`
 ${RadioGroupTemplate(args)}
 `
 
+export const focusSecondOption = async ({ }) => {
+  await userEvent.keyboard('[Tab]');
+  await userEvent.keyboard('[ArrowRight]');
+}
+
 # Radio Group Component
 
 Radio Group component is a form field component to take a selection from user with a list of options. It needs to be used with `bl-radio` component.
@@ -60,6 +66,14 @@ If you set a `value`, the option with that value will be selected.
 
 <Canvas>
   <Story name="Value set" args={{ label: 'Payment Type', name: 'paymentType', value: 'ideal', options: [{ value: 'cc', label: 'Credit Card'}, {value: 'ideal', label: 'iDeal'}] }}>
+    {RadioGroupTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Radio Group component handles keyboard navigation and highlights active radio option while navigating with keyboard. First `Tab` focuses on first available option and user can navigate with arrow keys within options, and `Space` key for selecting it.
+
+<Canvas>
+  <Story name="Focused option" args={{ label: 'Payment Type', name: 'paymentType', value: 'cc', options: [{ value: 'cc', label: 'Credit Card'}, {value: 'ideal', label: 'iDeal'}] }} play={focusSecondOption}>
     {RadioGroupTemplate.bind({})}
   </Story>
 </Canvas>
