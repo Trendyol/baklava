@@ -17,5 +17,5 @@ legend {
   display: flex;
   flex-flow: var(--bl-radio-direction, column) wrap;
   gap: 16px;
-  margin-block: var(--bl-size-2xs);
+  margin-block: var(--bl-size-xs);
 }
