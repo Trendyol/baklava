@@ -32,8 +32,11 @@ export default class BlDialog extends LitElement {
   @property({ type: String })
   caption?: string;
 
-  @query('dialog')
+  @query('.dialog')
   dialog: HTMLDialogElement & DialogElement;
+
+  @query('.dialog-polyfill')
+  dialogPolyfill: HTMLDivElement;
 
   @query('footer')
   footer: HTMLElement;
@@ -60,7 +63,8 @@ export default class BlDialog extends LitElement {
     setTimeout(() => {
       window?.addEventListener('keydown', event => this.onKeydown(event));
       window?.addEventListener('resize', () => this.resizeHandler());
-      this.dialog.addEventListener('click', this.clickOutsideHandler);
+      this.dialog?.addEventListener('click', this.clickOutsideHandler);
+      this.dialogPolyfill?.addEventListener('click', this.clickOutsideHandler);
     });
   }
 
@@ -68,13 +72,21 @@ export default class BlDialog extends LitElement {
     super.disconnectedCallback();
     window?.removeEventListener('keydown', this.onKeydown);
     window?.removeEventListener('resize', this.resizeHandler);
-    this.dialog.removeEventListener('click', this.clickOutsideHandler);
+    this.dialog?.removeEventListener('click', this.clickOutsideHandler);
+    this.dialogPolyfill?.removeEventListener('click', this.clickOutsideHandler);
   }
 
   updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('open')) {
       this.toggleDialogHandler();
     }
+  }
+
+  private get isHtmlDialogSupport() {
+    return !!window.HTMLDialogElement;
+  }
+  private get _hasFooter() {
+    return [...this.childNodes].some(node => node.nodeName === 'BL-BUTTON');
   }
 
   private resizeHandler() {
@@ -84,11 +96,15 @@ export default class BlDialog extends LitElement {
 
   private toggleDialogHandler() {
     if (this.open) {
-      this.dialog.showModal?.();
+      this.isHtmlDialogSupport
+        ? this.dialog.showModal?.()
+        : this.dialogPolyfill.style.setProperty('--display', 'flex');
       this.onOpen({ isOpen: true });
       document.body.style.overflow = 'hidden';
     } else {
-      this.dialog.close?.();
+      this.isHtmlDialogSupport
+        ? this.dialog.close?.()
+        : this.dialogPolyfill.style.setProperty('--display', 'none');
       this.onClose({ isOpen: false });
       document.body.style.overflow = 'auto';
     }
@@ -126,15 +142,11 @@ export default class BlDialog extends LitElement {
     const footerHeight = this.footer?.offsetHeight || 0;
     let contentHeight = 144; // 56px(header) + 48px(dialog-margin) + 40px(content-padding)
 
-    if (window.innerWidth < 470) {
-       contentHeight = 128; // 56px(header) + 32px(dialog-margin) + 40px(content-padding)
+    if (window.innerWidth <= 471) {
+      contentHeight = 128; // 56px(header) + 32px(dialog-margin) + 40px(content-padding)
     }
 
     this.content.style.maxHeight = `${window.innerHeight - (contentHeight + footerHeight)}px`;
-  }
-
-  get _hasFooter() {
-    return [...this.childNodes].some(node => node.nodeName === 'BL-BUTTON');
   }
 
   private renderFooter() {
@@ -147,26 +159,32 @@ export default class BlDialog extends LitElement {
       : '';
   }
 
-  render(): TemplateResult {
+  renderContainer() {
     const title = this.caption ? html`<h2 id="dialog-caption">${this.caption}</h2>` : '';
 
-    return html`
-      <dialog class='dialog' aria-labelledby="dialog-caption">
-        <div class="container">
-          <header>
-            ${title}
-            <bl-button
-              @click="${this.closeDialog}"
-              icon="close"
-              variant="tertiary"
-              kind="neutral"
-            ></bl-button>
-          </header>
-          <section class='content'><slot /></section>
-          ${this.renderFooter()}
-        </div>
-      </dialog>
-    `;
+    return html` <div class="container">
+      <header>
+        ${title}
+        <bl-button
+          @click="${this.closeDialog}"
+          icon="close"
+          variant="tertiary"
+          kind="neutral"
+        ></bl-button>
+      </header>
+      <section class="content"><slot /></section>
+      ${this.renderFooter()}
+    </div>`;
+  }
+
+  render(): TemplateResult {
+    return this.isHtmlDialogSupport
+      ? html`
+          <dialog class="dialog" aria-labelledby="dialog-caption">${this.renderContainer()}</dialog>
+        `
+      : html`<div class="dialog-polyfill" aria-labelledby="dialog-caption">
+          ${this.renderContainer()}
+        </div>`;
   }
 }
 

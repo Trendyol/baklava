@@ -1,14 +1,8 @@
-import {
-  assert,
-  fixture,
-  html,
-  oneEvent,
-  expect,
-  fixtureCleanup,
-} from '@open-wc/testing';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+import { assert, fixture, html, oneEvent, expect, fixtureCleanup,elementUpdated } from '@open-wc/testing';
 import { sendKeys, sendMouse, resetMouse } from '@web/test-runner-commands';
 import BlDialog from './bl-dialog';
-
 import type typeOfBlDialog from './bl-dialog';
 
 describe('bl-dialog', () => {
@@ -17,30 +11,56 @@ describe('bl-dialog', () => {
     assert.instanceOf(el, BlDialog);
   });
 
-  it('should render with the default values', async () => {
+  it('should render html dialog component with the default values when supports html dialog', async () => {
+    window.HTMLDialogElement = true;
     const el = await fixture<typeOfBlDialog>(html`<bl-dialog></bl-dialog>`);
+
     assert.shadowDom.equal(
       el,
       `
-      <dialog aria-labelledby="dialog-caption">
-        <div class="container">
-          <header>
-            <bl-button
-              icon="close"
-              kind="neutral"
-              size="medium"
-              variant="tertiary"
-            >
-            </bl-button>
-          </header>
-          <section class="content" style="max-height: 456px;">
-            <slot>
-            </slot>
-          </section>
-        </div>
-        </dialog>
-    `
+        <dialog aria-labelledby="dialog-caption" class="dialog">
+          <div class="container">
+            <header>
+              <bl-button
+                icon="close"
+                kind="neutral"
+                size="medium"
+                variant="tertiary"
+              >
+              </bl-button>
+            </header>
+            <section class="content" style="max-height: 456px;">
+              <slot>
+              </slot>
+            </section>
+          </div>
+          </dialog>
+      `
     );
+  });
+
+  it('should render dialog polyfill component when does not support html dialog', async () => {
+    window.HTMLDialogElement = false;
+    const el = await fixture<typeOfBlDialog>(html`<bl-dialog></bl-dialog>`);
+    const dialogPolyfill = el.shadowRoot?.querySelector('.dialog-polyfill');
+    expect(dialogPolyfill).to.be.not.null;
+  });
+
+
+  it('should open the dialog when the change open attribute as true', async () => {
+    const el = await fixture<typeOfBlDialog>(html` <bl-dialog caption="My title">
+      <div>My Content</div>
+    </bl-dialog>`);
+
+    expect(el.open).to.equal(false);
+
+    el.open = true;
+    await elementUpdated(el);
+
+    setTimeout(() => {
+      expect(el.open).to.equal(true);
+      fixtureCleanup();
+    });
   });
 
   it('should render the title,the content and the footer if provided', async () => {
@@ -67,6 +87,7 @@ describe('bl-dialog', () => {
   });
 
   it('should close the dialog when the close btn is clicked', async () => {
+    window.HTMLDialogElement = true;
     const el = await fixture<typeOfBlDialog>(html` <bl-dialog open caption="My title">
       <div>My Content</div>
     </bl-dialog>`);
@@ -188,7 +209,7 @@ describe('bl-dialog', () => {
 
     const footer = el?.shadowRoot?.querySelector('footer') as HTMLElement;
 
-    expect(footer.className).to.oneOf(['sticky','']);
+    expect(footer.className).to.oneOf(['sticky', '']);
   });
 
   describe('Events', () => {
