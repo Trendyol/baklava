@@ -47,6 +47,11 @@ export const StyledTemplate = (args) => html`
 ${RadioGroupTemplate(args)}
 `
 
+export const KeyboardNavigationTemplate = (args) => html`
+<input id="previnput" placeholder="Previous Input" autofocus>
+${RadioGroupTemplate(args)}
+`
+
 export const focusSecondOption = async ({ }) => {
   await userEvent.keyboard('[Tab]');
   await userEvent.keyboard('[ArrowRight]');
@@ -74,7 +79,7 @@ Radio Group component handles keyboard navigation and highlights active radio op
 
 <Canvas>
   <Story name="Focused option" args={{ label: 'Payment Type', name: 'paymentType', value: 'cc', options: [{ value: 'cc', label: 'Credit Card'}, {value: 'ideal', label: 'iDeal'}] }} play={focusSecondOption}>
-    {RadioGroupTemplate.bind({})}
+    {KeyboardNavigationTemplate.bind({})}
   </Story>
 </Canvas>
 
