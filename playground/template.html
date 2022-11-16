@@ -11,12 +11,12 @@
         display: none;
       }
 
-      h1 {
-        font: var(--bl-font-display-1);
+      body {
+        font-family: var(--bl-font-family);
       }
 
-      .modal-content {
-        /* max-height: 250px; */
+      h1 {
+        font: var(--bl-font-display-1);
       }
     </style>
   </head>
@@ -29,159 +29,5 @@
     </p>
 
     <bl-button>Baklava is ready</bl-button>
-
-    <div>
-      <bl-button id="open-button1">Opan Modal</bl-button>
-    </div>
-
-    <div>
-      <bl-button id="open-button2">Opan Modal2</bl-button>
-    </div>
-
-
-    <div>
-      <bl-button id="open-button3">Opan Polyfill1</bl-button>
-    </div>
-
-    <div>
-      <bl-button id="open-button4">Opan Polyfill2</bl-button>
-    </div>
-
-    <bl-dialog caption="testo1" id="bl-dialog1">
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>
-      <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-        section 1.10.32.Damla
-      </p>
-      <bl-button slot="primary-action" size="large">Primary</bl-button>
-      <bl-button slot="secondary-action" variant="secondary" size="large">Secondary</bl-button>
-      <bl-button slot="tertiary-action" variant="tertiary" size="large">Tertiary</bl-button>
-    </bl-dialog>
-
-    <bl-dialog caption="testo2" id="bl-dialog2">
-      <p>
-        Contrary to popular
-      </p>
-     
-      <bl-button slot="primary-action" size="large">Primary</bl-button>
-      <bl-button slot="secondary-action" variant="secondary" size="large">Secondary</bl-button>
-      <bl-button slot="tertiary-action" variant="tertiary" size="large">Tertiary</bl-button>
-    </bl-dialog>
   </body>
 </html>
-
-<script>
-  const dialog1 = document.querySelector('#bl-dialog1');
-  const dialog2 = document.querySelector('#bl-dialog2');
-  const dialog3 = document.querySelector('#bl-dialog3');
-  const dialog4 = document.querySelector('#bl-dialog4');
-
-  const openButton1 = document.querySelector('#open-button1');
-  const openButton2 = document.querySelector('#open-button2');
-  const openButton3 = document.querySelector('#open-button3');
-  const openButton4 = document.querySelector('#open-button4');
-
-  openButton1.addEventListener('click', () => {
-    dialog1.setAttribute('open', true);
-  });
-
-  openButton2.addEventListener('click', () => {
-    dialog2.setAttribute('open', true);
-  });
-
-  openButton3.addEventListener('click', () => {
-    dialog3.setAttribute('open', true);
-  });
-  openButton4.addEventListener('click', () => {
-    dialog4.setAttribute('open', true);
-  });
-
-  dialog1.addEventListener('bl-dialog-open', d => {
-    console.log(d);
-  });
-
-  dialog1.addEventListener('bl-dialog-close', d => {
-    console.log(d);
-  });
-
-  dialog2.addEventListener('bl-dialog-open', d => {
-    console.log(d);
-  });
-
-  dialog2.addEventListener('bl-dialog-close', d => {
-    console.log(d);
-  });
-</script>

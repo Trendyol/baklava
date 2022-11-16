@@ -82,7 +82,7 @@ export default class BlDialog extends LitElement {
     }
   }
 
-  private get isHtmlDialogSupport() {
+  private get hasHtmlDialogSupport() {
     return !!window.HTMLDialogElement;
   }
   private get _hasFooter() {
@@ -96,15 +96,17 @@ export default class BlDialog extends LitElement {
 
   private toggleDialogHandler() {
     if (this.open) {
-      this.isHtmlDialogSupport
+      this.hasHtmlDialogSupport
         ? this.dialog.showModal?.()
         : this.dialogPolyfill.style.setProperty('--display', 'flex');
+        
       this.onOpen({ isOpen: true });
       document.body.style.overflow = 'hidden';
     } else {
-      this.isHtmlDialogSupport
+      this.hasHtmlDialogSupport
         ? this.dialog.close?.()
         : this.dialogPolyfill.style.setProperty('--display', 'none');
+        
       this.onClose({ isOpen: false });
       document.body.style.overflow = 'auto';
     }
@@ -140,13 +142,13 @@ export default class BlDialog extends LitElement {
 
   private changeContentHeight() {
     const footerHeight = this.footer?.offsetHeight || 0;
-    let contentHeight = 144; // 56px(header) + 48px(dialog-margin) + 40px(content-padding)
+    let dialogHeight = 144; // 56px(header) + 48px(dialog-margin) + 40px(content-padding)
 
     if (window.innerWidth <= 471) {
-      contentHeight = 128; // 56px(header) + 32px(dialog-margin) + 40px(content-padding)
+      dialogHeight = 128; // 56px(header) + 32px(dialog-margin) + 40px(content-padding)
     }
 
-    this.content.style.maxHeight = `${window.innerHeight - (contentHeight + footerHeight)}px`;
+    this.content.style.maxHeight = `${window.innerHeight - (dialogHeight + footerHeight)}px`;
   }
 
   private renderFooter() {
@@ -178,7 +180,7 @@ export default class BlDialog extends LitElement {
   }
 
   render(): TemplateResult {
-    return this.isHtmlDialogSupport
+    return this.hasHtmlDialogSupport
       ? html`
           <dialog class="dialog" aria-labelledby="dialog-caption">${this.renderContainer()}</dialog>
         `
