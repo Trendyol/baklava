@@ -26,12 +26,12 @@
   align-items: center;
   justify-content: center;
   background: #273142b3;
-  z-index: 1;
+  z-index: 999; /* FIX ME -> ADD Z-INDEX VARIABLE */
  }
 
 .dialog-polyfill .container {
  position: fixed;
- z-index: 999;
+ z-index: 999; /* FIX ME -> ADD Z-INDEX VARIABLE */
 }
 
 header {
@@ -71,7 +71,7 @@ footer {
 footer.sticky {
   position: sticky;
   bottom: 0;
-  z-index: 999; /* FIXME */
+  z-index: 999; /* FIX ME -> ADD Z-INDEX VARIABLE */
   background-color: var(--bl-color-primary-background);
   box-shadow: 0 -4px 15px #27314226;
 }
