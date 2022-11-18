@@ -3,6 +3,10 @@
   vertical-align: middle;
 }
 
+:host * {
+  outline:none;
+}
+
 label {
   display: flex;
   align-items: center;
@@ -31,7 +35,8 @@ input {
   font-size: var(--bl-font-size-2xs);
 }
 
-:host([checked]) .label {
+:host([checked]) .label,
+:host(:hover) .label {
   color: var(--bl-color-primary);
 }
 
@@ -47,4 +52,12 @@ input {
 
 :host([disabled]) .check-mark {
   background-color: var(--bl-color-secondary-background);
+}
+
+/* :host(:focus-visible) .check-mark {
+  box-shadow: 0 0 0 1px white, 0 0 0 3px var(--bl-color-primary);
+} */
+
+input:focus-visible + .check-mark {
+  box-shadow: 0 0 0 1px white, 0 0 0 3px var(--bl-color-primary);
 }
