@@ -33,19 +33,16 @@ export default class BlDialog extends LitElement {
   caption?: string;
 
   @query('.dialog')
-  dialog: HTMLDialogElement & DialogElement;
-
-  @query('.dialog-polyfill')
-  dialogPolyfill: HTMLDivElement;
+  private dialog: HTMLDialogElement & DialogElement;
 
   @query('footer')
-  footer: HTMLElement;
+  private footer: HTMLElement;
 
   @query('.container')
-  container: HTMLElement;
+  private container: HTMLElement;
 
   @query('.content')
-  content: HTMLElement;
+  private content: HTMLElement;
 
   /**
    * Fires when the dialog is opened
@@ -62,18 +59,14 @@ export default class BlDialog extends LitElement {
 
     setTimeout(() => {
       window?.addEventListener('keydown', event => this.onKeydown(event));
-      window?.addEventListener('resize', () => this.resizeHandler());
-      this.dialog?.addEventListener('click', this.clickOutsideHandler);
-      this.dialogPolyfill?.addEventListener('click', this.clickOutsideHandler);
+      window?.addEventListener('resize', () => this.toggleFooterShadow());
     });
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     window?.removeEventListener('keydown', this.onKeydown);
-    window?.removeEventListener('resize', this.resizeHandler);
-    this.dialog?.removeEventListener('click', this.clickOutsideHandler);
-    this.dialogPolyfill?.removeEventListener('click', this.clickOutsideHandler);
+    window?.removeEventListener('resize', this.toggleFooterShadow);
   }
 
   updated(changedProperties: PropertyValues<this>) {
@@ -85,36 +78,30 @@ export default class BlDialog extends LitElement {
   private get hasHtmlDialogSupport() {
     return !!window.HTMLDialogElement;
   }
+
   private get _hasFooter() {
     return [...this.childNodes].some(node => node.nodeName === 'BL-BUTTON');
   }
 
-  private resizeHandler() {
-    this.changeContentHeight();
-    this.toggleFooterSticky();
-  }
-
   private toggleDialogHandler() {
     if (this.open) {
-      this.hasHtmlDialogSupport
-        ? this.dialog.showModal?.()
-        : this.dialogPolyfill.style.setProperty('--display', 'flex');
-        
+      this.dialog?.showModal?.();
       this.onOpen({ isOpen: true });
       document.body.style.overflow = 'hidden';
     } else {
-      this.hasHtmlDialogSupport
-        ? this.dialog.close?.()
-        : this.dialogPolyfill.style.setProperty('--display', 'none');
-        
+      this.dialog?.close?.();
       this.onClose({ isOpen: false });
       document.body.style.overflow = 'auto';
     }
 
-    this.resizeHandler();
+    this.toggleFooterShadow();
   }
 
-  clickOutsideHandler = (event: MouseEvent) => {
+  private closeDialog() {
+    this.open = false;
+  }
+
+  private clickOutsideHandler = (event: MouseEvent) => {
     const eventPath = event.composedPath() as HTMLElement[];
 
     if (!eventPath.includes(this.container)) {
@@ -122,33 +109,18 @@ export default class BlDialog extends LitElement {
     }
   };
 
-  private closeDialog() {
-    this.open = false;
-  }
-
   private onKeydown = (event: KeyboardEvent): void => {
     if (event.code === 'Escape' && this.open) {
       this.closeDialog();
     }
   };
 
-  private toggleFooterSticky() {
+  private toggleFooterShadow() {
     if (this.content?.scrollHeight > this.content?.offsetHeight) {
-      this.footer?.classList?.add('sticky');
+      this.footer?.classList?.add('shadow');
     } else {
-      this.footer?.classList?.remove('sticky');
+      this.footer?.classList?.remove('shadow');
     }
-  }
-
-  private changeContentHeight() {
-    const footerHeight = this.footer?.offsetHeight || 0;
-    let dialogHeight = 144; // 56px(header) + 48px(dialog-margin) + 40px(content-padding)
-
-    if (window.innerWidth <= 471) {
-      dialogHeight = 128; // 56px(header) + 32px(dialog-margin) + 40px(content-padding)
-    }
-
-    this.content.style.maxHeight = `${window.innerHeight - (dialogHeight + footerHeight)}px`;
   }
 
   private renderFooter() {
@@ -161,7 +133,7 @@ export default class BlDialog extends LitElement {
       : '';
   }
 
-  renderContainer() {
+  private renderContainer() {
     const title = this.caption ? html`<h2 id="dialog-caption">${this.caption}</h2>` : '';
 
     return html` <div class="container">
@@ -182,9 +154,9 @@ export default class BlDialog extends LitElement {
   render(): TemplateResult {
     return this.hasHtmlDialogSupport
       ? html`
-          <dialog class="dialog" aria-labelledby="dialog-caption">${this.renderContainer()}</dialog>
+          <dialog class="dialog" aria-labelledby="dialog-caption" @click=${this.clickOutsideHandler}>${this.renderContainer()}</dialog>
         `
-      : html`<div class="dialog-polyfill" aria-labelledby="dialog-caption">
+      : html`<div class="dialog-polyfill" role="dialog" aria-labelledby="dialog-caption" @click=${this.clickOutsideHandler}>
           ${this.renderContainer()}
         </div>`;
   }
