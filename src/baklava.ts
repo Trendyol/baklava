@@ -13,4 +13,7 @@ export { default as BlSelect } from './components/select/bl-select';
 export { default as BlSelectOption } from './components/select/option/bl-select-option';
 export { default as BlPagination } from './components/pagination/bl-pagination';
 export { default as BlDialog } from './components/dialog/bl-dialog';
+export { default as BlDropdown } from './components/dropdown/bl-dropdown';
+export { default as BlDropdownItem } from './components/dropdown/item/bl-dropdown-item';
+export { default as BlDropdownGroup } from './components/dropdown/group/bl-dropdown-group';
 export { getIconPath, setIconPath } from './utilities/asset-paths';

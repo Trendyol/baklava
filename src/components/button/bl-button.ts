@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { event, EventDispatcher } from '../../utilities/event';
@@ -79,6 +79,20 @@ export default class BlButton extends LitElement {
   type: 'submit' | null;
 
   /**
+  * Sets button type to dropdown
+  */
+  @property({ type: Boolean })
+  dropdown = false;
+
+  /**
+  * Internal active state
+  * 
+  * bu private olabilir? yukariya event atarak acik kapali dusunebiliriz.
+  */
+  @state({})
+  active = false;
+
+  /**
    * Fires when button clicked
    */
   @event('bl-click') private onClick: EventDispatcher<string>;
@@ -105,14 +119,28 @@ export default class BlButton extends LitElement {
     });
   }
 
+  get _isActive() {
+    if (!this.dropdown) {
+      return false
+    }
+
+    return this.active
+  }
+
+  private caretTemplate(): TemplateResult {
+    return html` <bl-icon class="open" name="arrow_up"></bl-icon>
+    <bl-icon class="close" name="arrow_down"></bl-icon>`}
+
   render(): TemplateResult {
     const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
     const slots = html`<slot name="icon">${icon}</slot> <span class="label"><slot></slot></span>`;
+    const caret = this.dropdown ? this.caretTemplate() : ''
     const classes = classMap({
       'button': true,
       'has-icon': this.icon || this._hasIconSlot,
       'has-content': this._hasDefaultSlot,
+      'active': !isAnchor && this._isActive
     });
 
     return isAnchor
@@ -123,7 +151,8 @@ export default class BlButton extends LitElement {
           href=${ifDefined(this.href)}
           target=${ifDefined(this.target)}
           role="button"
-          >${slots}</a
+          >${slots}
+          </a
         >`
       : html`<button
           class=${classes}
@@ -133,11 +162,13 @@ export default class BlButton extends LitElement {
           @click="${this._handleClick}"
         >
           ${slots}
+          ${caret}
         </button>`;
   }
 
   private _handleClick() {
     this.onClick('Click event fired!');
+    this.active = !this.active
   }
 }
 

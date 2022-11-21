@@ -1,0 +1,21 @@
+:host {
+    position: relative;
+    width: 100%;
+}
+
+.dropdown-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bl-size-xs);
+}
+
+.dropdown-group:last-child {
+    padding-block: 0 var(--bl-size-xs);
+}
+
+.caption {
+    font-size: var(--bl-font-size-xs);
+    font-weight: var(--bl-font-weight-medium);
+    line-height: var(--bl-font-size-s);
+    color: var(--bl-color-content-secondary);
+}

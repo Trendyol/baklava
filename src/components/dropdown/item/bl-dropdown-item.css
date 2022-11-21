@@ -1,0 +1,8 @@
+:host {
+    width: 100%;
+}
+
+.dropdown-item {
+    --bl-button-display: block;
+    --bl-button-justify: start;
+}
