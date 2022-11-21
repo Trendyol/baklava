@@ -5,6 +5,7 @@ import BlCheckbox from '../checkbox/bl-checkbox';
 
 describe('bl-select', () => {
   it('is defined', () => {
+    console.log('damla');
     const el = document.createElement('bl-select');
     assert.instanceOf(el, BlSelect);
   });
@@ -159,7 +160,70 @@ describe('bl-select', () => {
     });
     selectOptionCheckbox?.dispatchEvent(checkboxEvent);
 
-    expect(el.selectedOptions.length).to.equal(2);
+    setTimeout(() => expect(el.selectedOptions.length).to.equal(2));
+  });
+
+  it('should update selectedOptions list when change selected attribute of select option as dynamically for multiple select', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select multiple>
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2" selected>Option 2</bl-select-option>
+    </bl-select>`);
+
+    const selectOption = <BlSelectOption>el.querySelector('bl-select-option[value="1"]');
+    selectOption.selected = true;
+
+    setTimeout(() => expect(el.selectedOptions.length).to.equal(2));
+  });
+
+  it('should fire event when change selected attribute of select option as dynamically for multiple select', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select multiple>
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2">Option 2</bl-select-option>
+    </bl-select>`);
+
+    const selectOption = <BlSelectOption>el.querySelector('bl-select-option[value="1"]');
+    selectOption.selected = true;
+
+    const event = await oneEvent(el, 'bl-select');
+
+    setTimeout(() => {
+      expect(event).to.exist;
+      expect(event.detail.length).to.equal(1);
+    });
+  });
+
+  it('should update selectedOptions list when change selected attribute of select option as dynamically for single select', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select>
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2" selected>Option 2</bl-select-option>
+    </bl-select>`);
+
+    const selectOption = <BlSelectOption>el.querySelector('bl-select-option[value="1"]');
+    selectOption.selected = true;
+
+    setTimeout(() => {
+      expect(el.selectedOptions.length).to.equal(1);
+      expect(el.selectedOptions[0].value).to.equal('1');
+
+    });
+  });
+
+  it('should fire event when change selected attribute of select option as dynamically for single select', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select>
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2">Option 2</bl-select-option>
+    </bl-select>`);
+
+    const selectOption = <BlSelectOption>el.querySelector('bl-select-option[value="1"]');
+    selectOption.selected = true;
+
+    const event = await oneEvent(el, 'bl-select');
+
+    setTimeout(() => {
+      expect(event).to.exist;
+      expect(event.detail.length).to.equal(1);
+      expect(event.detail[0].value).to.equal('1');
+    });
   });
   it('should fire event when click select option', async () => {
     const el = await fixture<BlSelect>(html`<bl-select>
@@ -192,7 +256,7 @@ describe('bl-select', () => {
     });
     selectOptionCheckbox?.dispatchEvent(checkboxEvent);
 
-    expect(el.selectedOptions.length).to.equal(0);
+    setTimeout(() => expect(el.selectedOptions.length).to.equal(0));
   });
   it('should clear connected options & selected items when multiple property has changed', async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>

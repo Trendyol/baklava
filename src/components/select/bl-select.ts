@@ -1,7 +1,14 @@
 import { LitElement, html, CSSResultGroup, PropertyValues } from 'lit';
 import { customElement, property, state, query, queryAll } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { computePosition, flip, MiddlewareArguments, offset, size, autoUpdate } from '@floating-ui/dom';
+import {
+  computePosition,
+  flip,
+  MiddlewareArguments,
+  offset,
+  size,
+  autoUpdate,
+} from '@floating-ui/dom';
 import style from '../select/bl-select.css';
 import '../icon/bl-icon';
 import '../select/option/bl-select-option';
@@ -130,6 +137,10 @@ export default class BlSelect extends LitElement {
     return this._isInvalid;
   }
 
+  private get _hasSelectedOptions(){
+    return this._selectedOptions.length > 0
+  }
+
   open() {
     this._isPopoverOpen = true;
     this._setupPopover();
@@ -191,12 +202,13 @@ export default class BlSelect extends LitElement {
       ? html`<span>+${this._additionalSelectedOptionCount}</span>`
       : null;
     const removeButton = html`<bl-button
-        class="remove-all"
-        size="small"
-        variant="tertiary"
-        kind="neutral"
-        icon="close"
-        @click=${this._onClickRemove}></bl-button>`;
+      class="remove-all"
+      size="small"
+      variant="tertiary"
+      kind="neutral"
+      icon="close"
+      @click=${this._onClickRemove}
+    ></bl-button>`;
     const placeholder = this._showPlaceHolder
       ? html`<span class="placeholder">${this.placeholder}</span>`
       : '';
@@ -209,15 +221,8 @@ export default class BlSelect extends LitElement {
       ${placeholder} ${inputSelectedOptions} ${_selectedItemCount}
       <div class="actions">
         ${this.multiple ? removeButton : null}
-        <bl-icon
-          class="dropdown-icon open"
-          name="arrow_up"
-        ></bl-icon>
-
-        <bl-icon
-          class="dropdown-icon closed"
-          name="arrow_down"
-        ></bl-icon>
+        <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
+        <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
       </div>
     </div>`;
   }
@@ -229,20 +234,21 @@ export default class BlSelect extends LitElement {
   }
 
   render() {
-    const invalidMessage = this._isInvalid && this.customInvalidText
-      ? html`<p class="invalid-text">${this.customInvalidText}</p>` : ``;
-    const helpMessage = this.helpText && !invalidMessage
-      ? html`<p class="help-text">${this.helpText}</p>` : ``;
-    const label = this.label
-      ? html`<label>${this.label}</label>` : '';
+    const invalidMessage =
+      this._isInvalid && this.customInvalidText
+        ? html`<p class="invalid-text">${this.customInvalidText}</p>`
+        : ``;
+    const helpMessage =
+      this.helpText && !invalidMessage ? html`<p class="help-text">${this.helpText}</p>` : ``;
+    const label = this.label ? html`<label>${this.label}</label>` : '';
 
     return html`<div
       class=${classMap({
-      'select-wrapper': true,
-      'select-open': this._isPopoverOpen,
-      'selected': this._selectedOptions.length > 0,
-      'invalid': this._isInvalid,
-    })}
+        'select-wrapper': true,
+        'select-open': this._isPopoverOpen,
+        'selected': this._hasSelectedOptions,
+        'invalid': this._isInvalid,
+      })}
       tabindex="-1"
     >
       ${label} ${this.inputTemplate()} ${this.menuTemplate()} ${helpMessage} ${invalidMessage}
@@ -251,9 +257,9 @@ export default class BlSelect extends LitElement {
 
   private get _showPlaceHolder() {
     if (this.label && !this.labelFixed) {
-      return !this._selectedOptions.length && this._isPopoverOpen;
+      return !this._hasSelectedOptions && this._isPopoverOpen;
     }
-    return !this._selectedOptions.length;
+    return !this._hasSelectedOptions;
   }
 
   private _onClickSelectInput() {
@@ -265,27 +271,30 @@ export default class BlSelect extends LitElement {
   }
 
   private _handleSingleSelect(optionItem: ISelectOption) {
-    const oldItem = this._connectedOptions.find(option => option.value !== optionItem.value && option.selected);
+    const currentSelectedItem = this._connectedOptions.find(option => option.value !== optionItem.value && option.selected);
+      const currentSelectedItemValue = this._selectedOptions[0]?.value;
 
-    if (oldItem) {
-      oldItem.selected = false;
-    }
+      if (optionItem.selected) {
+        this._selectedOptions = [optionItem];
 
-    this._selectedOptions = [optionItem];
-    this._handleSelectEvent();
-    this._isPopoverOpen = false;
+        if (currentSelectedItem) {
+          currentSelectedItem.selected = false;
+        }
+      } else if(this._hasSelectedOptions && currentSelectedItemValue === optionItem.value){
+        this._selectedOptions = [];
+      }
+
+      this._isPopoverOpen = false;
   }
 
   private _handleMultipleSelect(optionItem: ISelectOption) {
     const { value } = optionItem;
 
-    if (!optionItem.selected) {
-      this._selectedOptions = this._selectedOptions.filter(item => item.value !== value);
-    } else {
-      this._selectedOptions = [...this._selectedOptions, optionItem];
-    }
-
-    this._handleSelectEvent();
+      if (optionItem.selected) {
+        this._selectedOptions = [...this._selectedOptions, optionItem];
+      } else if(this._hasSelectedOptions){
+        this._selectedOptions = this._selectedOptions.filter(item => item.value !== value);
+      }
   }
 
   private _handleSelectOptionEvent(e: CustomEvent) {
@@ -308,14 +317,13 @@ export default class BlSelect extends LitElement {
       });
 
     this._selectedOptions = [];
-    this._handleSelectEvent();
   }
 
   private _checkAdditionalItemCount() {
     if (!this.multiple) return;
 
     let visibleItems = 0;
-    for(const value of this._selectedOptionsItems) {
+    for (const value of this._selectedOptionsItems) {
       if (value.offsetLeft < this._selectedOptionsContainer.offsetWidth) {
         visibleItems++;
       } else {
@@ -328,7 +336,7 @@ export default class BlSelect extends LitElement {
 
   private _checkRequired() {
     if (this.required) {
-      this._isInvalid = this._selectedOptions.length === 0;
+      this._isInvalid = !this._hasSelectedOptions;
     }
   }
 
@@ -339,6 +347,7 @@ export default class BlSelect extends LitElement {
     ) {
       this._checkRequired();
       this._checkAdditionalItemCount();
+      this._handleSelectEvent();
     } else if (
       _changedProperties.has('multiple') &&
       typeof _changedProperties.get('multiple') === 'boolean'
@@ -357,22 +366,6 @@ export default class BlSelect extends LitElement {
    */
   registerOption(option: BlSelectOption) {
     this._connectedOptions.push(option);
-
-    if (option.selected) {
-      const optionItem = {
-        value: option.value,
-        text: option.textContent,
-        selected: option.selected,
-      } as ISelectOption;
-
-      if (this.multiple) {
-        this._selectedOptions = [...this._selectedOptions, optionItem];
-      } else {
-        this._selectedOptions = [optionItem];
-      }
-
-      this.requestUpdate();
-    }
   }
 
   /**

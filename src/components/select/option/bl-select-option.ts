@@ -1,4 +1,4 @@
-import { LitElement, html, CSSResultGroup } from 'lit';
+import { LitElement, html, CSSResultGroup, PropertyValues } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
 import BlSelect, { ISelectOption } from '../bl-select';
@@ -39,6 +39,12 @@ export default class BlSelectOption extends LitElement {
 
   private blSelect: BlSelect | null;
 
+  updated(changedProperties: PropertyValues<this>) {
+    if (changedProperties.has('selected')) {
+      this._handleEvent();
+    }
+  }
+
   private singleOptionTemplate() {
     return html`<div class="single-option" @click="${this._onClickOption}">
       <slot></slot>
@@ -71,25 +77,21 @@ export default class BlSelectOption extends LitElement {
   }
 
   private _onClickOption() {
-    this.selected = !this.selected;
-    this._handleEvent();
+    this.selected = true;
   }
 
   private _onCheckboxChange(event: CustomEvent) {
     this.selected = event.detail;
-    this._handleEvent();
   }
 
   connectedCallback() {
     super.connectedCallback();
 
-    this.updateComplete.then(() => {
-      this.blSelect = this.closest<BlSelect>('bl-select');
-      // FIXME: We should warn when parent is not bl-select
+    this.blSelect = this.closest<BlSelect>('bl-select');
+    // FIXME: We should warn when parent is not bl-select
 
-      this.multiple = this.blSelect?.multiple || false;
-      this.blSelect?.registerOption(this);
-    });
+    this.multiple = this.blSelect?.multiple || false;
+    this.blSelect?.registerOption(this);
   }
 
   disconnectedCallback() {
