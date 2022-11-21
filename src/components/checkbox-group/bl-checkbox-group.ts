@@ -40,16 +40,30 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
   @property({ type: Boolean, reflect: true })
   required = false;
 
-  private get options(): BlCheckbox[] {
+  get options(): BlCheckbox[] {
     return [].slice.call(this.querySelectorAll(blCheckboxTag));
   }
 
-  private get checkedOptions(): Array<string> {
+  get checkedOptions(): Array<string> {
     return this.options.filter(opt => opt.checked).map(opt => opt.value);
   }
 
-  private get availableOptions(): BlCheckbox[] {
+  get availableOptions(): BlCheckbox[] {
     return this.options.filter(option => !option.disabled);
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    this.tabIndex = 0;
+    this.addEventListener('focus', this.handleFocus);
+    this.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.removeEventListener('focus', this.handleFocus);
+    this.removeEventListener('keydown', this.handleKeyDown);
   }
 
   protected firstUpdated(): void {
@@ -61,7 +75,7 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
   updated(changedProperties: Map<string, unknown>): void {
     if (changedProperties.has('value')) {
       this.setValue(this.checkedOptions.join(','));
-      this.onChange(this.checkedOptions);
+      this.onChange(this.value);
     }
   }
 
@@ -77,7 +91,6 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
   }
 
   private handleKeyDown(event: KeyboardEvent) {
-    console.log(this.tabIndex);
     // Next option
     if (['ArrowDown', 'ArrowRight'].includes(event.key)) {
       this.focusedOptionIndex++;
@@ -89,7 +102,6 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
       // Select option
     } else {
       // Other keys are not our interest here
-      console.log('elsse');
       this.tabIndex = 0;
       return;
     }
@@ -105,21 +117,13 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
     event.preventDefault();
   }
 
-  connectedCallback(): void {
-    super.connectedCallback();
-
-    this.tabIndex = 0;
-    this.addEventListener('focus', this.handleFocus);
-    this.addEventListener('keydown', this.handleKeyDown);
-  }
-
   private handleFocus() {
     this.availableOptions[this.focusedOptionIndex].focus();
   }
 
   render(): TemplateResult {
     return html`<fieldset role="group" aria-labelledby="label" aria-required=${this.required}>
-      <legend>${this.label}</legend>
+      <legend id="label">${this.label}</legend>
       <div class="options" @bl-checkbox-change=${this.handleOptionChecked}>
         <slot></slot>
       </div>
@@ -132,6 +136,6 @@ declare global {
     [blCheckboxGroupTag]: BlCheckboxGroup;
   }
   interface HTMLElementEventMap {
-    [blChangeEventName]: CustomEvent<string>;
+    [blChangeEventName]: CustomEvent<Array<string>>;
   }
 }

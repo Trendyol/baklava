@@ -45,6 +45,11 @@ input {
   border: none;
 }
 
+:host([disabled]) {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 :host([disabled]) .check-mark,
 :host([disabled]) .label {
   color: var(--bl-color-content-passive);
@@ -54,10 +59,6 @@ input {
   background-color: var(--bl-color-secondary-background);
 }
 
-/* :host(:focus-visible) .check-mark {
-  box-shadow: 0 0 0 1px white, 0 0 0 3px var(--bl-color-primary);
-} */
-
-input:focus-visible + .check-mark {
+:host(:not([disabled])) input:focus-visible + .check-mark {
   box-shadow: 0 0 0 1px white, 0 0 0 3px var(--bl-color-primary);
 }
