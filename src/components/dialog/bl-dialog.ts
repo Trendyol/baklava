@@ -32,17 +32,17 @@ export default class BlDialog extends LitElement {
   @property({ type: String })
   caption?: string;
 
-  @query('dialog')
-  dialog: HTMLDialogElement & DialogElement;
+  @query('.dialog')
+  private dialog: HTMLDialogElement & DialogElement;
 
   @query('footer')
-  footer: HTMLElement;
+  private footer: HTMLElement;
 
   @query('.container')
-  container: HTMLElement;
+  private container: HTMLElement;
 
   @query('.content')
-  content: HTMLElement;
+  private content: HTMLElement;
 
   /**
    * Fires when the dialog is opened
@@ -54,49 +54,42 @@ export default class BlDialog extends LitElement {
    */
   @event('bl-dialog-close') private onClose: EventDispatcher<object>;
 
-  connectedCallback() {
-    super.connectedCallback();
-
-    setTimeout(() => {
-      window?.addEventListener('keydown', event => this.onKeydown(event));
-      window?.addEventListener('resize', () => this.resizeHandler());
-      this.dialog.addEventListener('click', this.clickOutsideHandler);
-    });
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window?.removeEventListener('keydown', this.onKeydown);
-    window?.removeEventListener('resize', this.resizeHandler);
-    this.dialog.removeEventListener('click', this.clickOutsideHandler);
-  }
-
   updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('open')) {
       this.toggleDialogHandler();
     }
   }
 
-  private resizeHandler() {
-    this.changeContentHeight();
-    this.toggleFooterSticky();
+  private get hasHtmlDialogSupport() {
+    return !!window.HTMLDialogElement;
+  }
+
+  private get _hasFooter() {
+    return [...this.childNodes].some(node => node.nodeName === 'BL-BUTTON');
   }
 
   private toggleDialogHandler() {
     if (this.open) {
-      this.dialog.showModal?.();
+      this.dialog?.showModal?.();
       this.onOpen({ isOpen: true });
       document.body.style.overflow = 'hidden';
+      this.toggleFooterShadow();
+      window?.addEventListener('keydown', event => this.onKeydown(event));
+      window?.addEventListener('resize', () => this.toggleFooterShadow());
     } else {
-      this.dialog.close?.();
+      this.dialog?.close?.();
       this.onClose({ isOpen: false });
       document.body.style.overflow = 'auto';
+      window?.removeEventListener('keydown', this.onKeydown);
+      window?.removeEventListener('resize', this.toggleFooterShadow);
     }
-
-    this.resizeHandler();
   }
 
-  clickOutsideHandler = (event: MouseEvent) => {
+  private closeDialog() {
+    this.open = false;
+  }
+
+  private clickOutsideHandler = (event: MouseEvent) => {
     const eventPath = event.composedPath() as HTMLElement[];
 
     if (!eventPath.includes(this.container)) {
@@ -104,37 +97,18 @@ export default class BlDialog extends LitElement {
     }
   };
 
-  private closeDialog() {
-    this.open = false;
-  }
-
   private onKeydown = (event: KeyboardEvent): void => {
     if (event.code === 'Escape' && this.open) {
       this.closeDialog();
     }
   };
 
-  private toggleFooterSticky() {
+  private toggleFooterShadow() {
     if (this.content?.scrollHeight > this.content?.offsetHeight) {
-      this.footer?.classList?.add('sticky');
+      this.footer?.classList?.add('shadow');
     } else {
-      this.footer?.classList?.remove('sticky');
+      this.footer?.classList?.remove('shadow');
     }
-  }
-
-  private changeContentHeight() {
-    const footerHeight = this.footer?.offsetHeight || 0;
-    let contentHeight = 144; // 56px(header) + 48px(dialog-margin) + 40px(content-padding)
-
-    if (window.innerWidth < 470) {
-       contentHeight = 128; // 56px(header) + 32px(dialog-margin) + 40px(content-padding)
-    }
-
-    this.content.style.maxHeight = `${window.innerHeight - (contentHeight + footerHeight)}px`;
-  }
-
-  get _hasFooter() {
-    return [...this.childNodes].some(node => node.nodeName === 'BL-BUTTON');
   }
 
   private renderFooter() {
@@ -147,26 +121,32 @@ export default class BlDialog extends LitElement {
       : '';
   }
 
-  render(): TemplateResult {
+  private renderContainer() {
     const title = this.caption ? html`<h2 id="dialog-caption">${this.caption}</h2>` : '';
 
-    return html`
-      <dialog aria-labelledby="dialog-caption">
-        <div class="container">
-          <header>
-            ${title}
-            <bl-button
-              @click="${this.closeDialog}"
-              icon="close"
-              variant="tertiary"
-              kind="neutral"
-            ></bl-button>
-          </header>
-          <section class='content'><slot /></section>
-          ${this.renderFooter()}
-        </div>
-      </dialog>
-    `;
+    return html` <div class="container">
+      <header>
+        ${title}
+        <bl-button
+          @click="${this.closeDialog}"
+          icon="close"
+          variant="tertiary"
+          kind="neutral"
+        ></bl-button>
+      </header>
+      <section class="content"><slot /></section>
+      ${this.renderFooter()}
+    </div>`;
+  }
+
+  render(): TemplateResult {
+    return this.hasHtmlDialogSupport
+      ? html`
+          <dialog class="dialog" aria-labelledby="dialog-caption" @click=${this.clickOutsideHandler}>${this.renderContainer()}</dialog>
+        `
+      : html`<div class="dialog-polyfill" role="dialog" aria-labelledby="dialog-caption" @click=${this.clickOutsideHandler}>
+          ${this.renderContainer()}
+        </div>`;
   }
 }
 
