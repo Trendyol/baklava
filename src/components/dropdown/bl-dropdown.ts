@@ -1,6 +1,6 @@
 import { LitElement, html, CSSResultGroup, TemplateResult } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
-import { computePosition, flip, MiddlewareArguments, offset, size } from '@floating-ui/dom';
+import { computePosition, flip, offset } from '@floating-ui/dom';
 import { event, EventDispatcher } from '../../utilities/event';
 import { classMap } from 'lit/directives/class-map.js';
 
@@ -58,8 +58,7 @@ export default class BlDropdown extends LitElement {
      */
     @event('bl-dropdown-close') private onClose: EventDispatcher<string>;
 
-    private _handleClick() {
-        console.log(this._open)
+    private _handleActive() {
         !this._open ? this.open() : this.close()
     }
 
@@ -106,11 +105,11 @@ export default class BlDropdown extends LitElement {
 
         return html`<bl-button
         dropdown
-        .active="${this._open}" // su gitti
+        .active=${this._open}
         ?disabled=${ifDefined(this.disabled)}
         variant="${this.variant}"
-        size="${this.size}" 
-        @bl-click="${this._handleClick}">
+        size="${this.size}"
+        @bl-active="${this._handleActive}">
         ${this.label}
         </bl-button>
         <div class="${popoverClasses}"><slot></slot></div>

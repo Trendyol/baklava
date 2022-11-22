@@ -143,7 +143,13 @@
   display: none;
 }
 
+:host .active.button {
+  --bg-color: var(--main-hover-color);
+  --border-color: var(--main-hover-color);
+}
+
 :host([variant='tertiary']) .active.button {
-  --content-color: var(--main-hover-color);
-  --bg-color: var(--text-hover-color);
+  --content-color: var(--main-color);
+  --bg-color: var(--bl-color-tertiary);
+  --border-color: transparent;
 }
