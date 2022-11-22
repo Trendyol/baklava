@@ -1,6 +1,6 @@
 import { LitElement, html, CSSResultGroup, TemplateResult } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
-import { computePosition, flip, offset } from '@floating-ui/dom';
+import { computePosition, flip, offset, autoUpdate } from '@floating-ui/dom';
 import { event, EventDispatcher } from '../../utilities/event';
 import { classMap } from 'lit/directives/class-map.js';
 
@@ -9,6 +9,8 @@ import style from './bl-dropdown.css';
 import '../button/bl-button'
 import { ButtonSize, ButtonVariant } from '../button/bl-button';
 import { ifDefined } from 'lit/directives/if-defined.js';
+
+export type CleanUpFunction = () => void;
 
 @customElement('bl-dropdown')
 export default class BlDropdown extends LitElement {
@@ -21,6 +23,8 @@ export default class BlDropdown extends LitElement {
 
     @query('.popover')
     private _popover: HTMLElement;
+
+    private _cleanUpPopover: CleanUpFunction | null = null;
 
     @state() private _open = false;
 
@@ -58,6 +62,15 @@ export default class BlDropdown extends LitElement {
      */
     @event('bl-dropdown-close') private onClose: EventDispatcher<string>;
 
+    connectedCallback() {
+        super.connectedCallback();
+      }
+      disconnectedCallback() {
+        super.disconnectedCallback();
+    
+        this._cleanUpPopover && this._cleanUpPopover();
+      }
+
     private _handleActive() {
         !this._open ? this.open() : this.close()
     }
@@ -79,22 +92,25 @@ export default class BlDropdown extends LitElement {
     private close() {
         this._open = false
         this.onClose('Dropdown closed!');
+        this._cleanUpPopover && this._cleanUpPopover();
         document.removeEventListener('click', this._handleClickOutside);
     }
 
     private _setupPopover() {
         // autoUpdate eklemece.
-        computePosition(this._dropdownButton, this._popover, {
-            placement: 'bottom-start',
-            strategy: 'fixed',
-            middleware: [
-                flip(),
-                offset(8)
-            ],
-        }).then(({ x, y }) => {
-            this._popover.style.setProperty('--left', `${x}px`);
-            this._popover.style.setProperty('--top', `${y}px`);
-        });
+        this._cleanUpPopover = autoUpdate(this._dropdownButton, this._popover, () => {
+            computePosition(this._dropdownButton, this._popover, {
+                placement: 'bottom-start',
+                strategy: 'fixed',
+                middleware: [
+                    flip(),
+                    offset(8)
+                ],
+            }).then(({ x, y }) => {
+                this._popover.style.setProperty('--left', `${x}px`);
+                this._popover.style.setProperty('--top', `${y}px`);
+            });
+        })
     }
 
     render(): TemplateResult {
