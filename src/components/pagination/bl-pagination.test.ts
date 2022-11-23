@@ -280,7 +280,10 @@ describe('bl-pagination', () => {
 
       select?.dispatchEvent(selectOptionEvent);
 
-      expect(el.itemsPerPage).to.equal(optionTwo?.value);
+      if (optionTwo) {
+        expect(el.itemsPerPage).to.equal(+optionTwo.value);
+      }
+
       expect(el.currentPage).to.equal(1);
 
       const undefinedEvent = new CustomEvent('bl-select', {
