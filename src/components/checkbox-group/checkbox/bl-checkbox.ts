@@ -8,6 +8,7 @@ import { event, EventDispatcher } from '../../../utilities/event';
 import '../../icon/bl-icon';
 import type BlCheckboxGroup from '../bl-checkbox-group';
 import style from './bl-checkbox.css';
+import { blCheckboxGroupTag, blChangeEventName } from '../bl-checkbox-group';
 
 export const blCheckboxTag = 'bl-checkbox';
 
@@ -66,20 +67,24 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
    */
   @event('bl-blur') private onBlur: EventDispatcher<string>;
 
-  @query('[type=checkbox]') checkboxElement: HTMLInputElement;
+  @query('[type=checkbox]') checkboxElement: HTMLElement;
 
-  private field: BlCheckboxGroup | null;
+  protected field: BlCheckboxGroup | null;
 
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.field = this.closest<BlCheckboxGroup>('bl-checkbox-group');
-    this.field?.addEventListener('bl-checkbox-group-change', this.handleFieldValueChange);
+    this.field = this.closest<BlCheckboxGroup>(blCheckboxGroupTag);
+
+    if (this.field) {
+      this.tabIndex = -1;
+      this.field.addEventListener(blChangeEventName, this.handleFieldValueChange);
+    }
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.field?.removeEventListener('bl-checkbox-group-change', this.handleFieldValueChange);
+    this.field?.removeEventListener(blChangeEventName, this.handleFieldValueChange);
   }
 
   updated(changedProperties: Map<string, unknown>): void {
@@ -111,9 +116,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
   blur() {
     this.onBlur(this.value);
     if (!this.field) return;
-    if (this.checkboxElement) {
-      this.checkboxElement.tabIndex = -1;
-    }
+    this.checkboxElement.tabIndex = -1;
   }
 
   private handleChange(event: CustomEvent) {

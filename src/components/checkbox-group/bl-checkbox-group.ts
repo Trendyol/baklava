@@ -11,7 +11,7 @@ export const blCheckboxGroupTag = 'bl-checkbox-group';
 export const blChangeEventName = 'bl-checkbox-group-change';
 
 /**
- * @tag bl-radio-group
+ * @tag bl-checkbox-group
  * @summary Baklava Button component
  *
  * @cssproperty --bl-checkbox-direction - Can be used for showing checkbox options as columns instead of rows. Options are `row` or `column`
@@ -32,7 +32,7 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
    * Set and gets the actual value of the field
    */
   @property({ type: Array, reflect: true })
-  value: Array<string> = [];
+  value: string[] = [];
 
   /**
    * Sets option as required
@@ -44,7 +44,7 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
     return [].slice.call(this.querySelectorAll(blCheckboxTag));
   }
 
-  get checkedOptions(): Array<string> {
+  get checkedOptions(): string[] {
     return this.options.filter(opt => opt.checked).map(opt => opt.value);
   }
 
@@ -66,12 +66,6 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
     this.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  protected firstUpdated(): void {
-    this.availableOptions.forEach(opt => {
-      opt.blur();
-    });
-  }
-
   updated(changedProperties: Map<string, unknown>): void {
     if (changedProperties.has('value')) {
       this.setValue(this.checkedOptions.join(','));
@@ -82,7 +76,7 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
   /**
    * Fires when checkbox group value changed
    */
-  @event('bl-checkbox-group-change') private onChange: EventDispatcher<Array<string>>;
+  @event('bl-checkbox-group-change') private onChange: EventDispatcher<string[]>;
 
   private focusedOptionIndex = 0;
 
@@ -136,6 +130,6 @@ declare global {
     [blCheckboxGroupTag]: BlCheckboxGroup;
   }
   interface HTMLElementEventMap {
-    [blChangeEventName]: CustomEvent<Array<string>>;
+    [blChangeEventName]: CustomEvent<string[]>;
   }
 }

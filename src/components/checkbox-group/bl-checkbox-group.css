@@ -15,7 +15,7 @@ legend {
 
 .options {
   display: flex;
-  flex-flow: var(--bl-radio-direction, column) wrap;
+  flex-flow: var(--bl-checkbox-direction, column) wrap;
   gap: var(--bl-size-m);
   margin-block: var(--bl-size-xs);
 }
