@@ -26,10 +26,10 @@ export default class BlDropdown extends LitElement {
 
     private _cleanUpPopover: CleanUpFunction | null = null;
 
-    @state() private _open = false;
+    @state() private _isPopoverOpen = false;
 
     /**
-    * Sets the dropdown button variant
+    * Sets the dropdown button label
     */
     @property({ type: String, reflect: true })
     label = 'Dropdown Button';
@@ -64,15 +64,19 @@ export default class BlDropdown extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-      }
-      disconnectedCallback() {
+    }
+    disconnectedCallback() {
         super.disconnectedCallback();
-    
-        this._cleanUpPopover && this._cleanUpPopover();
-      }
 
-    private _handleActive() {
-        !this._open ? this.open() : this.close()
+        this._cleanUpPopover && this._cleanUpPopover();
+    }
+
+    get isPopoverOpen() {
+        return this._isPopoverOpen;
+    }
+
+    private _handleClick() {
+        !this._isPopoverOpen ? this.open() : this.close()
     }
 
     private _handleClickOutside = (event: MouseEvent) => {
@@ -83,21 +87,20 @@ export default class BlDropdown extends LitElement {
     };
 
     private open() {
-        this._open = true
+        this._isPopoverOpen = true
         this._setupPopover();
         this.onOpen('Dropdown opened!')
         document.addEventListener('click', this._handleClickOutside);
     }
 
     private close() {
-        this._open = false
+        this._isPopoverOpen = false
         this.onClose('Dropdown closed!');
         this._cleanUpPopover && this._cleanUpPopover();
         document.removeEventListener('click', this._handleClickOutside);
     }
 
     private _setupPopover() {
-        // autoUpdate eklemece.
         this._cleanUpPopover = autoUpdate(this._dropdownButton, this._popover, () => {
             computePosition(this._dropdownButton, this._popover, {
                 placement: 'bottom-start',
@@ -116,16 +119,16 @@ export default class BlDropdown extends LitElement {
     render(): TemplateResult {
         const popoverClasses = classMap({
             'popover': true,
-            visible: this._open,
+            visible: this._isPopoverOpen,
         });
 
         return html`<bl-button
         dropdown
-        .active=${this._open}
+        .active=${this._isPopoverOpen}
         ?disabled=${ifDefined(this.disabled)}
         variant="${this.variant}"
         size="${this.size}"
-        @bl-active="${this._handleActive}">
+        @click="${this._handleClick}">
         ${this.label}
         </bl-button>
         <div class="${popoverClasses}"><slot></slot></div>

@@ -85,7 +85,7 @@ export default class BlButton extends LitElement {
   dropdown = false;
 
   /**
-  * Internal active state
+  * Active state
   */
   @state({})
   active = false;
@@ -94,11 +94,6 @@ export default class BlButton extends LitElement {
    * Fires when button clicked
    */
   @event('bl-click') private onClick: EventDispatcher<string>;
-
-  /**
-   * Fires when button active
-   */
-   @event('bl-active') private onActive: EventDispatcher<string>;
 
   get _hasIconSlot() {
     return this.querySelector(':scope > [slot="icon"]') !== null;
@@ -171,7 +166,6 @@ export default class BlButton extends LitElement {
 
   private _handleClick() {
     this.onClick('Click event fired!');
-    this.onActive(`${this.active}`);
   }
 }
 

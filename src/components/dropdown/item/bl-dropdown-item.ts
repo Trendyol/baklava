@@ -1,6 +1,5 @@
 import { LitElement, html, CSSResultGroup, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import { event, EventDispatcher } from '../../../utilities/event';
 
 import style from './bl-dropdown-item.css';
@@ -28,18 +27,13 @@ export default class BlDropdownItem extends LitElement {
     }
 
     render(): TemplateResult {
-        const classes = classMap({
-            'dropdown-item': true,
-        });
-
-        return html`<div class=${classes}>
+        return html`
             <bl-button
-            variant="tertiary" 
+            variant="tertiary"
             kind="neutral" 
             icon="${ifDefined(this.icon)}" 
             @click="${this._handleClick}"><slot></slot>
-            </bl-button>
-        </div>`
+            </bl-button>`
     }
 }
 
