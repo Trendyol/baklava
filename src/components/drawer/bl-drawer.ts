@@ -27,7 +27,7 @@ export default class BlDrawer extends LitElement{
    *  Sets the drawer title
    */
   @property({type:String})
-  caption: string;
+  caption?: string;
 
   /**
    *  Sets the drawer external link
