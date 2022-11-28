@@ -3,7 +3,7 @@ import {CSSResultGroup, html, LitElement, TemplateResult} from "lit";
 import {event, EventDispatcher} from "../../utilities/event";
 import '../button/bl-button';
 import style from './bl-drawer.css';
-import {PropertyValues} from "lit/development";
+import {PropertyValues} from "lit";
 
 /**
  * @tag bl-drawer
