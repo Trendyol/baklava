@@ -1,19 +1,33 @@
+@keyframes slide-from-right{
+  0% {
+    transform: translateX(+100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .drawer{
   position: fixed;
   top:0;
   right: 0;
-  width: 0;
+  width: 424px;
   height: 100%;
   background: var(--bl-color-primary-background);
   box-shadow: var(--bl-size-xs) 0 var(--bl-size-2xl) rgba(0 0 0 / 50%);
-  transition: width .25s;
+  animation: 0.25s slide-from-right;
+
+  /* FIXME: Use z-index variable */
+  z-index: 999;
 }
 
-:host([open]) .drawer {
-  width: 424px;
+iframe{
+  height: 100%;
+  width: 100%;
 }
 
-.container {
+.container{
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -29,7 +43,7 @@ header {
   background-color: white;
 }
 
-header bl-button {
+header .header-buttons {
   margin-left: auto;
 }
 
@@ -46,7 +60,12 @@ header h2 {
   overflow-y: scroll;
 }
 
-@media only screen and (max-width: 471px) {
+.iframe-content{
+  padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m) var(--bl-size-xl);
+  height: 100%;
+}
+
+@media only screen and (max-width: 424px) {
   :host([open]) .drawer {
     width: calc(100vw - 24px);
   }

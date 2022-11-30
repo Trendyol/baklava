@@ -9,15 +9,15 @@ describe('bl-drawer',() => {
     });
 
   describe('render tests',()=>{
-    it('renders without caption and external link', async ()=>{
-      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer></bl-drawer>`);
+    it('should render drawer component with default values', async ()=>{
+      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer open></bl-drawer>`);
       assert.shadowDom.equal(
         el,
         `
       <div class="drawer">
         <div class="container">
         <header>
-            <div>
+            <div class="header-buttons">
               <bl-button
                 icon="close"
                 variant="tertiary"
@@ -34,16 +34,29 @@ describe('bl-drawer',() => {
       `
       );
     });
-    it('renders with caption and without external link', async ()=>{
-      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="Example Caption"></bl-drawer>`);
+    it('should render the caption, externalLink and content if provided', async ()=>{
+      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Caption" externalLink="some-url" open>
+        <div>example content</div>
+      </bl-drawer>`);
+
       assert.shadowDom.equal(
         el,
         `
       <div class="drawer">
         <div class="container">
         <header>
-            <h2 id="drawer-caption">Example Caption</h2>
-            <div>
+            <h2 id="drawer-caption">
+                My Caption
+            </h2>
+            <div class="header-buttons">
+               <bl-button
+                href="some-url"
+                icon="external_link"
+                variant="tertiary"
+                size="medium"
+                target="_blank"
+                kind="neutral"
+              ></bl-button>
               <bl-button
                 icon="close"
                 variant="tertiary"
@@ -60,39 +73,20 @@ describe('bl-drawer',() => {
       `
       );
     });
-    it('renders without caption and with external link', async ()=>{
-      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer external_link="some-url"></bl-drawer>`);
-      assert.shadowDom.equal(
-        el,
-        `
-      <div class="drawer">
-        <div class="container">
-        <header>
-            <div>
-            <bl-button
-              href="some-url"
-              icon="external_link"
-              variant="tertiary"
-              kind="neutral"
-              size="medium"
-              target="_blank"
-            ></bl-button>
-              <bl-button
-                icon="close"
-                variant="tertiary"
-                size="medium"
-                kind="neutral"
-              ></bl-button>
-            </div>
-        </header>
-        <section class="content">
-            <slot></slot>
-        </section>
-        </div>
-      </div>
-      `
-      );
+
+    it('should render the caption, embedUrl if provided', async ()=>{
+      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Caption" embedUrl="some-url" open><div>example content</div></bl-drawer>`);
+
+      const caption = el.shadowRoot?.querySelector('#drawer-caption') as HTMLElement;
+      const iframeEl = el.shadowRoot?.querySelector('iframe') as HTMLElement;
+
+      expect(iframeEl).to.exist;
+      expect(iframeEl.attributes.getNamedItem('src')?.value).to.contain("some-url");
+
+      expect(caption).to.exist;
+      expect(caption.innerText).to.equal('My Caption');
     });
+
     it('should open the drawer when change open attribute as true', async () => {
       const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="Drawer Title">
       <div>Drawer Content</div>

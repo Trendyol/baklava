@@ -30,10 +30,16 @@ export default class BlDrawer extends LitElement{
   caption?: string;
 
   /**
+   *  Sets the drawer embed url for iframe
+   */
+  @property({type:String})
+  embedUrl?: string;
+
+  /**
    *  Sets the drawer external link
    */
   @property({type:String})
-  external_link?: string;
+  externalLink?: string;
 
   /**
    * Fires when the drawer is opened
@@ -44,6 +50,14 @@ export default class BlDrawer extends LitElement{
    * Fires when the drawer is closed
    */
   @event('bl-drawer-close') private onClose: EventDispatcher<object>;
+
+  connectedCallback() {
+    super.connectedCallback();
+    window?.addEventListener('bl-drawer-open',(event) => {
+      if(event.target !== this)
+        this.closeDrawer();
+    });
+  }
 
   updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('open')) {
@@ -63,20 +77,30 @@ export default class BlDrawer extends LitElement{
     this.open = false;
   }
 
+  private renderContent(){
+    const content = this.embedUrl ?
+      html`<iframe src=${this.embedUrl}></iframe>`
+      : html`<slot />`
+
+    return html`<section class=${this.embedUrl ? 'iframe-content' : 'content'}>
+      ${content}
+      </section>`
+  }
+
   private renderContainer() {
     const title = this.caption ? html`<h2 id="drawer-caption">${this.caption}</h2>` : '';
-    const external_button = this.external_link ? html`<bl-button
+    const external_button = this.externalLink ? html`<bl-button
       icon="external_link"
       variant="tertiary"
       kind="neutral"
-      href="${this.external_link}"
+      href="${this.externalLink}"
       target="_blank"
     ></bl-button>` : '';
 
     return html`<div class="container">
       <header>
         ${title}
-        <div>
+        <div class="header-buttons">
           ${external_button}
           <bl-button
             @click="${this.closeDrawer}"
@@ -86,16 +110,20 @@ export default class BlDrawer extends LitElement{
           ></bl-button>
         </div>
       </header>
-      <section class="content"><slot /></section>
+      ${this.renderContent()}
     </div>`;
   }
 
 
 
   render(): TemplateResult{
-    return html`<div class="drawer">
+    if(this.open){
+      return html`<div class="drawer">
           ${this.renderContainer()}
         </div>`;
+    }else {
+      return html``
+    }
   }
 
 }
