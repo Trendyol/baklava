@@ -89,7 +89,11 @@ export default class BlPagination extends LitElement {
   /**
    * Fires when the current page changes
    */
-  @event('bl-change') private onChange: EventDispatcher<{ selectedPage: number; prevPage: number }>;
+  @event('bl-change') private onChange: EventDispatcher<{
+    selectedPage: number;
+    prevPage: number;
+    itemsPerPage: number;
+  }>;
 
   connectedCallback() {
     super.connectedCallback();
@@ -111,9 +115,13 @@ export default class BlPagination extends LitElement {
       changedProperties.has('totalItems')
     ) {
       this._paginate();
+    }
+
+    if (changedProperties.get('currentPage') || changedProperties.get('itemsPerPage')) {
       this.onChange({
         selectedPage: this.currentPage,
         prevPage: changedProperties.get('currentPage'),
+        itemsPerPage: this.itemsPerPage,
       });
     }
   }
@@ -171,7 +179,7 @@ export default class BlPagination extends LitElement {
   }
 
   private _selectHandler(event: CustomEvent) {
-    this.itemsPerPage = event?.detail[0]?.value || 100;
+    this.itemsPerPage = +event?.detail[0]?.value || 100;
     this.currentPage = 1;
   }
 
