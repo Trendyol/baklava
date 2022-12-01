@@ -32,24 +32,24 @@ export default class BlDrawer extends LitElement{
   /**
    *  Sets the drawer embed url for iframe
    */
-  @property({type:String})
+  @property({type:String, attribute:'embed-url'})
   embedUrl?: string;
 
   /**
    *  Sets the drawer external link
    */
-  @property({type:String})
+  @property({type:String, attribute:'external-link'})
   externalLink?: string;
 
   /**
    * Fires when the drawer is opened
    */
-  @event('bl-drawer-open') private onOpen: EventDispatcher<object>;
+  @event('bl-drawer-open') private onOpen: EventDispatcher<string>;
 
   /**
    * Fires when the drawer is closed
    */
-  @event('bl-drawer-close') private onClose: EventDispatcher<object>;
+  @event('bl-drawer-close') private onClose: EventDispatcher<string>;
 
   connectedCallback() {
     super.connectedCallback();
@@ -67,9 +67,11 @@ export default class BlDrawer extends LitElement{
 
   private toggleDialogHandler() {
     if (this.open) {
-      this.onOpen({ isOpen: true });
+      // FIXME: Allow events without payload
+      this.onOpen('');
     } else {
-      this.onClose({ isOpen: false });
+      // FIXME: Allow events without payload
+      this.onClose('');
     }
   }
 
@@ -93,6 +95,7 @@ export default class BlDrawer extends LitElement{
       icon="external_link"
       variant="tertiary"
       kind="neutral"
+      size="small"
       href="${this.externalLink}"
       target="_blank"
     ></bl-button>` : '';
@@ -105,6 +108,7 @@ export default class BlDrawer extends LitElement{
           <bl-button
             @click="${this.closeDrawer}"
             icon="close"
+            size="small"
             variant="tertiary"
             kind="neutral"
           ></bl-button>

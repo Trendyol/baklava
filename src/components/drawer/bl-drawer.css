@@ -25,6 +25,7 @@
 iframe{
   height: 100%;
   width: 100%;
+  border: none;
 }
 
 .container{
@@ -55,13 +56,15 @@ header h2 {
   padding: 0;
 }
 
-.content {
+section {
   padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m) var(--bl-size-xl);
+}
+
+.content {
   overflow-y: scroll;
 }
 
-.iframe-content{
-  padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m) var(--bl-size-xl);
+.iframe-content {
   height: 100%;
 }
 

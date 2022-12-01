@@ -21,7 +21,7 @@ describe('bl-drawer',() => {
               <bl-button
                 icon="close"
                 variant="tertiary"
-                size="medium"
+                size="small"
                 kind="neutral"
               ></bl-button>
             </div>
@@ -35,7 +35,7 @@ describe('bl-drawer',() => {
       );
     });
     it('should render the caption, externalLink and content if provided', async ()=>{
-      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Caption" externalLink="some-url" open>
+      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Caption" external-link="some-url" open>
         <div>example content</div>
       </bl-drawer>`);
 
@@ -53,14 +53,14 @@ describe('bl-drawer',() => {
                 href="some-url"
                 icon="external_link"
                 variant="tertiary"
-                size="medium"
+                size="small"
                 target="_blank"
                 kind="neutral"
               ></bl-button>
               <bl-button
                 icon="close"
                 variant="tertiary"
-                size="medium"
+                size="small"
                 kind="neutral"
               ></bl-button>
             </div>
@@ -75,7 +75,7 @@ describe('bl-drawer',() => {
     });
 
     it('should render the caption, embedUrl if provided', async ()=>{
-      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Caption" embedUrl="some-url" open><div>example content</div></bl-drawer>`);
+      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Caption" embed-url="some-url" open><div>example content</div></bl-drawer>`);
 
       const caption = el.shadowRoot?.querySelector('#drawer-caption') as HTMLElement;
       const iframeEl = el.shadowRoot?.querySelector('iframe') as HTMLElement;
