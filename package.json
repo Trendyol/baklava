@@ -62,7 +62,7 @@
     "@lit-labs/react": "^1.1.0",
     "@open-wc/form-control": "^0.4.1",
     "@open-wc/form-helpers": "^0.1.2",
-    "element-internals-polyfill": "^1.1.11",
+    "element-internals-polyfill": "^1.1.15",
     "lit": "^2.2.3"
   },
   "engines": {
