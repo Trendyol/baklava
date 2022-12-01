@@ -75,11 +75,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
     super.connectedCallback();
 
     this.field = this.closest<BlCheckboxGroup>(blCheckboxGroupTag);
-
-    if (this.field) {
-      this.tabIndex = -1;
-      this.field.addEventListener(blChangeEventName, this.handleFieldValueChange);
-    }
+    this.field?.addEventListener(blChangeEventName, this.handleFieldValueChange);
   }
 
   disconnectedCallback(): void {
