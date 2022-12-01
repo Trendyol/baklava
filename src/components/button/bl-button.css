@@ -148,6 +148,11 @@
   --border-color: var(--main-hover-color);
 }
 
+:host([variant='secondary']) .active.button {
+  --content-color: var(--bl-color-content-primary-contrast);
+  --bg-color: var(--main-hover-color);
+}
+
 :host([variant='tertiary']) .active.button {
   --content-color: var(--main-color);
   --bg-color: var(--bl-color-tertiary);

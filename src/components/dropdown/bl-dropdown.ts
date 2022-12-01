@@ -7,7 +7,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import style from './bl-dropdown.css';
 
 import '../button/bl-button'
-import { ButtonSize, ButtonVariant } from '../button/bl-button';
+import { ButtonSize, ButtonVariant, ButtonKind } from '../button/bl-button';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 export type CleanUpFunction = () => void;
@@ -39,6 +39,12 @@ export default class BlDropdown extends LitElement {
     */
     @property({ type: String, reflect: true })
     variant: ButtonVariant = 'primary';
+
+    /**
+    * Sets the dropdown button kind
+    */
+     @property({ type: String, reflect: true })
+     kind: ButtonKind = 'default';
 
     /**
      * Sets the dropdown button size
@@ -127,6 +133,7 @@ export default class BlDropdown extends LitElement {
         .active=${this._isPopoverOpen}
         ?disabled=${ifDefined(this.disabled)}
         variant="${this.variant}"
+        kind="${this.kind}"
         size="${this.size}"
         @click="${this._handleClick}">
         ${this.label}

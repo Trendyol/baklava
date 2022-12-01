@@ -9,7 +9,11 @@
     gap: var(--bl-size-xs);
 }
 
-.dropdown-group:last-child {
+:host(:not([caption])) ::slotted(:first-child) {
+    padding-block: var(--bl-size-xs) 0;
+}
+
+:host ::slotted(:last-child) {
     padding-block: 0 var(--bl-size-xs);
 }
 
@@ -18,4 +22,5 @@
     font-weight: var(--bl-font-weight-medium);
     line-height: var(--bl-font-size-s);
     color: var(--bl-color-content-secondary);
+    padding-block: var(--bl-size-xs) 0;
 }
