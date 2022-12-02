@@ -6,7 +6,8 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
   title="Components/Drawer"
   component="bl-drawer"
   parameters={{
-    layout: 'centered',
+    layout: 'fullscreen',
+    chromatic: { viewports: [1000]},
   }}
   argTypes={{
     open: {
@@ -32,8 +33,8 @@ export const openDialog = async (event,args) => {
   const insideCanvas = !event.target || event.target.parentNode.parentNode.getAttribute("id") === "root";
   let selector= insideCanvas ? `#root #${args.id}`: `#docs-root #${args.id}`;
   const drawer = document.querySelector(selector);
-  console.log(insideCanvas,drawer,args);
   drawer.open = true;
+  await new Promise(resolve => setTimeout(resolve,1000));
 }
 
 export const DummyContent = () => html`
