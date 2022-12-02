@@ -59,8 +59,8 @@ export const DummyContent = () => html`
 export const DrawerTemplate = (args) => html`
   <bl-drawer id=${ifDefined(args.id)}
              caption=${ifDefined(args.caption)}
-             embedUrl=${ifDefined(args.embedUrl)}
-             externalLink=${ifDefined(args.externalLink)}>
+             embed-url=${ifDefined(args.embedUrl)}
+             external-link=${ifDefined(args.externalLink)}>
   ${ifDefined(args.content)}
   </bl-drawer>
 `
