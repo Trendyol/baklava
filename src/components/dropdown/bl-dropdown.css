@@ -8,14 +8,16 @@
     --top: 0;
 
     position: absolute;
+    z-index: 999;
     display: var(--bl-dropdown-display, none);
     flex-direction: column;
     align-items: flex-start;
     padding: var(--bl-size-m);
     gap: var(--bl-size-xs);
+    overflow-y: auto;
     background: var(--bl-color-primary-background);
     border: 1px solid var(--bl-color-border);
-    box-shadow: 0px 10px 15px -8px #27314226;
+    box-shadow: 0 10px 15px -8px #27314226;
     border-radius: var(--bl-size-3xs);
     left: var(--left);
     top: var(--top);
@@ -25,13 +27,4 @@
 
 .visible {
     --bl-dropdown-display: flex;
-}
-
-:host ::slotted(bl-dropdown-group:not(:first-child))::before,
-:host ::slotted(bl-dropdown-group:not(:last-child))::after {
-    display: block;
-    /* position: absolute; */
-    content: '';
-    width: 100%;
-    border-bottom: 1px solid var(--bl-color-border);
 }

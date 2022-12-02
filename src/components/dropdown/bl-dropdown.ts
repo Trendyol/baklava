@@ -43,8 +43,8 @@ export default class BlDropdown extends LitElement {
     /**
     * Sets the dropdown button kind
     */
-     @property({ type: String, reflect: true })
-     kind: ButtonKind = 'default';
+    @property({ type: String, reflect: true })
+    kind: ButtonKind = 'default';
 
     /**
      * Sets the dropdown button size

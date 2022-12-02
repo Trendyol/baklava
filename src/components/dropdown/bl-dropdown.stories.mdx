@@ -1,7 +1,6 @@
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
 import { userEvent } from '@storybook/testing-library';
 
@@ -34,15 +33,6 @@ import { userEvent } from '@storybook/testing-library';
   }}
 />
 
-export const dropdownOpener = async ({ canvasElement }) => {
-    console.log('geldi?')
-  const button = canvasElement?.querySelector('bl-button')
-  console.log(button)
-  if(button.shadowRoot) {
-    await userEvent.click(button);
-  }
-}
-
 
 export const SingleDropdownButtonTemplate = (args) => html`<bl-dropdown
     variant=${ifDefined(args.variant)}
@@ -51,7 +41,18 @@ export const SingleDropdownButtonTemplate = (args) => html`<bl-dropdown
     label="${ifDefined(args.label)}"
     ?disabled=${args.disabled}
     style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
-      ><bl-dropdown-item>${args.content || 'Action 1'}</bl-dropdown-item></bl-dropdown>`
+      ><bl-dropdown-group caption="Caption">
+        <bl-dropdown-item>Action 1</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+      </bl-dropdown-group>
+      <bl-dropdown-item>Action 3</bl-dropdown-item>
+      <bl-dropdown-item icon="info">Action 4</bl-dropdown-item>
+      <bl-dropdown-item>Action 5</bl-dropdown-item>
+      <bl-dropdown-group caption="Caption">
+        <bl-dropdown-item icon="heart">Action 6</bl-dropdown-item>
+        <bl-dropdown-item>Action 7</bl-dropdown-item>
+      </bl-dropdown-group>
+      </bl-dropdown>`
 
 export const Template = (args) => html`
 ${SingleDropdownButtonTemplate({...args})}
@@ -81,7 +82,7 @@ Dropdown Button has the same variants ([Primary](/docs/components-button--primar
 Every variant represents the importance of the actions inside it.
 
 <Canvas>
-  <Story name="Variants" play={dropdownOpener}>
+  <Story name="Variants">
     {Template.bind({})}
   </Story>
 </Canvas>

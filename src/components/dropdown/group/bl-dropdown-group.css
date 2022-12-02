@@ -9,18 +9,30 @@
     gap: var(--bl-size-xs);
 }
 
-:host(:not([caption])) ::slotted(:first-child) {
-    padding-block: var(--bl-size-xs) 0;
-}
-
-:host ::slotted(:last-child) {
-    padding-block: 0 var(--bl-size-xs);
-}
-
 .caption {
     font-size: var(--bl-font-size-xs);
     font-weight: var(--bl-font-weight-medium);
     line-height: var(--bl-font-size-s);
     color: var(--bl-color-content-secondary);
+}
+
+/* adding seperator before and after of element, except not first child and last child of the dropdown */
+:host(:not(:first-child))::before,
+:host(:not(:last-child))::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    border-bottom: 1px solid var(--bl-color-border);
+}
+
+:host(:not([caption])) ::slotted(:first-child) {
+    padding-block: var(--bl-size-xs) 0;
+}
+
+:host(:not(:last-child)) ::slotted(:last-child) {
+    padding-block: 0 var(--bl-size-xs);
+}
+
+:host(:not(:first-child)) .caption {
     padding-block: var(--bl-size-xs) 0;
 }
