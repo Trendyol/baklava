@@ -93,10 +93,17 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
     } else if (['ArrowUp', 'ArrowLeft'].includes(event.key)) {
       this.focusedOptionIndex--;
 
-      // Select option
+      // next or previous option with tab / hold shift & tab
+    } else if (event.key === 'Tab') {
+      event.shiftKey ? this.focusedOptionIndex-- : this.focusedOptionIndex++;
+
+      if (this.focusedOptionIndex === this.availableOptions.length) {
+        this.tabIndex = 0;
+        this.focusedOptionIndex = 0;
+        return;
+      }
     } else {
       // Other keys are not our interest here
-      this.tabIndex = 0;
       return;
     }
 

@@ -247,6 +247,76 @@ describe('bl-checkbox-group', () => {
       expect(checkboxGroup?.value[0]).to.equal('basketball');
     });
 
+    it('should focus the next option with Tab key & previous option with Shift+Tab key', async () => {
+      //when
+      const el = await fixture(
+        html`<div>
+          <input id="previnput" />
+          <bl-checkbox-group label="Choose sports you like">
+            <bl-checkbox value="basketball">Basketball</bl-checkbox>
+            <bl-checkbox value="football">Football</bl-checkbox>
+          </bl-checkbox-group>
+          ><input id="nextinput" />
+        </div>`
+      );
+
+      await elementUpdated(el);
+
+      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+
+      const checkboxGroup = el.querySelector('bl-checkbox-group');
+
+      //given
+      await sendKeys({
+        press: 'Tab',
+      });
+      await sendKeys({
+        press: 'Tab',
+      });
+      // Shift+Tab
+      await sendKeys({
+        down: 'Shift',
+      });
+      await sendKeys({
+        press: 'Tab',
+      });
+
+      await sendKeys({
+        up: 'Shift',
+      });
+
+      //then
+      expect(document.activeElement).to.equal(checkboxGroup?.options[0]);
+    });
+
+    it('should focus out of the group with tab key when the last element is active', async () => {
+      //when
+      const el = await fixture(
+        html`<div>
+          <input id="previnput" />
+          <bl-checkbox-group label="Choose sports you like">
+            <bl-checkbox value="basketball">Basketball</bl-checkbox>
+          </bl-checkbox-group>
+          ><input id="nextinput" />
+        </div>`
+      );
+
+      await elementUpdated(el);
+
+      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+
+      //given
+      await sendKeys({
+        press: 'Tab',
+      });
+      await sendKeys({
+        press: 'Tab',
+      });
+
+      //then
+      expect(document.activeElement).to.equal(el.querySelector<HTMLInputElement>('#nextinput'));
+    });
+
     it('should not respond any other keys', async () => {
       //when
       const el = await fixture(
