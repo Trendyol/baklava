@@ -1,0 +1,80 @@
+@keyframes slide-from-right{
+  0% {
+    transform: translateX(+100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.drawer{
+  position: fixed;
+  top:0;
+  right: 0;
+  width: 424px;
+  height: 100%;
+  background: var(--bl-color-primary-background);
+  box-shadow: var(--bl-size-xs) 0 var(--bl-size-2xl) rgba(0 0 0 / 50%);
+  animation: 0.25s slide-from-right;
+
+  /* FIXME: Use z-index variable */
+  z-index: 999;
+}
+
+iframe{
+  height: 100%;
+  width: 100%;
+  border: none;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--bl-size-2xs);
+  padding: var(--bl-size-xl) var(--bl-size-xl) 0 var(--bl-size-xl);
+  background-color: white;
+}
+
+header .header-buttons {
+  display: flex;
+  gap:24px;
+  margin-left: auto;
+}
+
+header h2 {
+  font: var(--bl-font-title-1-medium);
+  color: var(--bl-color-secondary);
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+section {
+  padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m) var(--bl-size-xl);
+}
+
+.content {
+  overflow-y: scroll;
+}
+
+.iframe-content {
+  height: 100%;
+}
+
+@media only screen and (max-width: 424px) {
+  :host([open]) .drawer {
+    width: calc(100vw - 24px);
+  }
+}
+
+
+
