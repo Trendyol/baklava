@@ -45,6 +45,8 @@ header {
 }
 
 header .header-buttons {
+  display: flex;
+  gap:24px;
   margin-left: auto;
 }
 
