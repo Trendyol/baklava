@@ -21,6 +21,7 @@ module.exports = {
         'pagination',
         'radio',
         'dialog',
+        'drawer',
       ],
     ],
   },
