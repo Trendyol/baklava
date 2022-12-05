@@ -4,6 +4,7 @@ export { default as BlButton } from './components/button/bl-button';
 export { default as BlCheckboxGroup } from './components/checkbox-group/bl-checkbox-group';
 export { default as BlCheckbox } from './components/checkbox-group/checkbox/bl-checkbox';
 export { default as BlDialog } from './components/dialog/bl-dialog';
+export { default as BlDrawer } from './components/drawer/bl-drawer';
 export { default as BlIcon } from './components/icon/bl-icon';
 export { default as BlInput } from './components/input/bl-input';
 export { default as BlPagination } from './components/pagination/bl-pagination';
