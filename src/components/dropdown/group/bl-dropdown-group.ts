@@ -2,7 +2,9 @@ import { LitElement, html, CSSResultGroup, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import style from './bl-dropdown-group.css';
 
-@customElement('bl-dropdown-group')
+export const blDropdownGroupTag = 'bl-dropdown-group';
+
+@customElement(blDropdownGroupTag)
 export default class BlDropdownGroup extends LitElement {
     static get styles(): CSSResultGroup {
         return [style];

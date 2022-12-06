@@ -4,6 +4,8 @@ import { event, EventDispatcher } from '../../../utilities/event';
 import type BlDropdownGroup from '../group/bl-dropdown-group';
 import type BlDropdown from '../bl-dropdown';
 
+import { blDropdownGroupTag } from '../group/bl-dropdown-group';
+import { blDropdownTag } from '../bl-dropdown';
 import style from './bl-dropdown-item.css';
 
 import '../../button/bl-button';
@@ -36,11 +38,11 @@ export default class BlDropdownItem extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.BlDropdownGroupField = this.closest<BlDropdownGroup>('bl-dropdown-group');
-    this.BlDropdownField = this.closest<BlDropdown>('bl-dropdown');
+    this.BlDropdownGroupField = this.closest<BlDropdownGroup>(blDropdownGroupTag);
+    this.BlDropdownField = this.closest<BlDropdown>(blDropdownTag);
 
     if (!this.BlDropdownField && !this.BlDropdownGroupField) {
-      console.warn('bl-dropdown-item is designed to be used inside a bl-dropdown-group or bl-dropdown', this);
+      console.warn(`bl-dropdown-item is designed to be used inside a ${blDropdownGroupTag} or ${blDropdownTag}`, this);
     }
 
   }

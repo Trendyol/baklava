@@ -19,7 +19,9 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 
 export type CleanUpFunction = () => void;
 
-@customElement('bl-dropdown')
+export const blDropdownTag = 'bl-dropdown';
+
+@customElement(blDropdownTag)
 export default class BlDropdown extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
