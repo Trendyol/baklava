@@ -12,25 +12,6 @@ import style from './bl-pagination.css';
  * @summary Baklava Pagination component
  */
 
-const selectOptions = [
-  {
-    text: '100',
-    value: 100,
-  },
-  {
-    text: '250',
-    value: 250,
-  },
-  {
-    text: '500',
-    value: 500,
-  },
-  {
-    text: '1000',
-    value: 1000,
-  },
-];
-
 @customElement('bl-pagination')
 export default class BlPagination extends LitElement {
   static get styles(): CSSResultGroup {
@@ -53,7 +34,7 @@ export default class BlPagination extends LitElement {
    * Sets the number of items per page
    */
   @property({ attribute: 'items-per-page', type: Number, reflect: true })
-  itemsPerPage = 100;
+  itemsPerPage = 10;
 
   /**
    * Adds jumper element if provided as true
@@ -80,24 +61,67 @@ export default class BlPagination extends LitElement {
   selectLabel = 'Show';
 
   /**
-   *  Sets the option texts.
+   * Sets the items per page options of the select element
+   *  PROPERTY
    */
-  @property({ attribute: 'option-text', type: String })
-  optionText = 'Items';
+  @property({ type: Array, attribute: false })
+  itemsPerPageOptions = [
+    {
+      text: '10 Items',
+      value: 10,
+    },
+    {
+      text: '25 Items',
+      value: 25,
+    },
+    {
+      text: '50 Items',
+      value: 50,
+    },
+    {
+      text: '100 Items',
+      value: 100,
+    },
+  ];
 
   @state() private pages: Array<number | string> = [];
 
   /**
    * Fires when the current page changes
    */
-  @event('bl-change') private onChange: EventDispatcher<{ selectedPage: number; prevPage: number }>;
+  @event('bl-change') private onChange: EventDispatcher<{
+    selectedPage: number;
+    prevPage: number;
+    itemsPerPage: number;
+  }>;
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    setTimeout(() => {
+      window?.addEventListener('resize', () => this._paginate());
+    });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window?.removeEventListener('resize', this._paginate);
+  }
 
   updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('currentPage') || changedProperties.has('itemsPerPage') || changedProperties.has('totalItems') ) {
+    if (
+      changedProperties.has('currentPage') ||
+      changedProperties.has('itemsPerPage') ||
+      changedProperties.has('totalItems')
+    ) {
       this._paginate();
+    }
+
+    if (changedProperties.get('currentPage') || changedProperties.get('itemsPerPage')) {
       this.onChange({
         selectedPage: this.currentPage,
         prevPage: changedProperties.get('currentPage'),
+        itemsPerPage: this.itemsPerPage,
       });
     }
   }
@@ -155,11 +179,11 @@ export default class BlPagination extends LitElement {
   }
 
   private _selectHandler(event: CustomEvent) {
-    this.itemsPerPage = event?.detail[0]?.value || 100;
+    this.itemsPerPage = +event?.detail[0]?.value || 100;
     this.currentPage = 1;
   }
 
-  private renderSinglePage(page: number | string) {
+  private _renderSinglePage(page: number | string) {
     if (typeof page === 'string') {
       return html`<span class="dots"></span>`;
     }
@@ -186,7 +210,9 @@ export default class BlPagination extends LitElement {
           ?disabled=${this.currentPage === 1}
         ></bl-button>
         <ul class="page-list">
-          ${this.pages.map(page => html`${this.renderSinglePage(page)}`)}
+          ${window.innerWidth < 768
+            ? html`${this._renderSinglePage(this.currentPage)}`
+            : this.pages.map(page => html`${this._renderSinglePage(page)}`)}
         </ul>
         <bl-button
           @click="${this._pageForward}"
@@ -201,20 +227,22 @@ export default class BlPagination extends LitElement {
   }
 
   render(): TemplateResult {
-    const selectEl = this.hasSelect ? html`
-      <div class="select">
-        <label>${this.selectLabel}</label>
-        <bl-select @bl-select="${this._selectHandler}">
-          ${selectOptions.map(option => {
-            return html`<bl-select-option
-              value="${option.value}"
-              ?selected=${option.value === this.itemsPerPage}
-              >${option.text} ${this.optionText}</bl-select-option
-            >`;
-          })}
-        </bl-select>
-      </div>
-    ` : null;
+    const selectEl = this.hasSelect
+      ? html`
+          <div class="select">
+            <label>${this.selectLabel}</label>
+            <bl-select @bl-select="${this._selectHandler}">
+              ${this.itemsPerPageOptions.map(option => {
+                return html`<bl-select-option
+                  value="${option.value}"
+                  ?selected=${option.value === this.itemsPerPage}
+                  >${option.text}</bl-select-option
+                >`;
+              })}
+            </bl-select>
+          </div>
+        `
+      : null;
 
     const jumperEl = this.hasJumper
       ? html` <div class="jumper">
@@ -225,9 +253,7 @@ export default class BlPagination extends LitElement {
 
     const getHelperElements = () => {
       if (!this.hasSelect && !this.hasJumper) return;
-      return html`
-        <div class="pagination-helpers">${selectEl} ${jumperEl}</div>
-      `;
+      return html` <div class="pagination-helpers">${selectEl} ${jumperEl}</div> `;
     };
 
     return html` <div class="pagination">${getHelperElements()} ${this.renderPages()}</div>`;

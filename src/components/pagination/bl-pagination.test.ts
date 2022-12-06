@@ -32,12 +32,11 @@ describe('bl-pagination', () => {
   it('should render with the correct default values', async () => {
     const el = await fixture<typeOfBlPagination>(html`<bl-pagination></bl-pagination> `);
     expect(el?.currentPage).to.equal(1);
-    expect(el.itemsPerPage).to.equal(100);
+    expect(el.itemsPerPage).to.equal(10);
     expect(el.hasJumper).to.equal(false);
     expect(el.hasSelect).to.equal(false);
     expect(el.jumperLabel).to.equal('Go To');
     expect(el.selectLabel).to.equal('Show');
-    expect(el.optionText).to.equal('Items');
   });
 
   it('should correctly set the attributes', async () => {
@@ -51,7 +50,6 @@ describe('bl-pagination', () => {
           jumper-label="Git"
           has-select
           select-label="Göster"
-          option-text="Sonuç"
         >
         </bl-pagination>
       `
@@ -62,7 +60,6 @@ describe('bl-pagination', () => {
     expect(el.hasSelect).to.equal(true);
     expect(el.jumperLabel).to.equal('Git');
     expect(el.selectLabel).to.equal('Göster');
-    expect(el.optionText).to.equal('Sonuç');
   });
 
   describe('back and forward arrows', () => {
@@ -129,6 +126,15 @@ describe('bl-pagination', () => {
         pageFour?.click();
         expect(el.currentPage).to.equal(4);
       });
+    });
+
+    it('renders only the current page with previous - next arrows on mobile view', async () => {
+      window.innerWidth = 600;
+      const el = await fixture<typeOfBlPagination>(
+        html`<bl-pagination current-page="10" items-per-page="1" total-items="10"></bl-pagination>`
+      );
+      expect(el.shadowRoot?.querySelectorAll('bl-button').length).to.eq(3);
+      expect(el.shadowRoot?.querySelectorAll('.dots').length).to.eq(0);
     });
   });
 
@@ -274,7 +280,10 @@ describe('bl-pagination', () => {
 
       select?.dispatchEvent(selectOptionEvent);
 
-      expect(el.itemsPerPage).to.equal(optionTwo?.value);
+      if (optionTwo) {
+        expect(el.itemsPerPage).to.equal(+optionTwo.value);
+      }
+
       expect(el.currentPage).to.equal(1);
 
       const undefinedEvent = new CustomEvent('bl-select', {
