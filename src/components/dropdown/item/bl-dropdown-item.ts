@@ -69,6 +69,6 @@ export default class BlDropdownItem extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-dropdown-item': BlDropdownItem;
+    [blDropdownItemTag]: BlDropdownItem;
   }
 }

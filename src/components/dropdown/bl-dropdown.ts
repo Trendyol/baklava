@@ -95,7 +95,7 @@ export default class BlDropdown extends LitElement {
   }
 
   private _handleClick() {
-    !this._isPopoverOpen ? this.open() : this.close();
+    !this._isPopoverOpen && !this.disabled ? this.open() : this.close();
   }
 
   private _handleClickOutside = (event: MouseEvent) => {
@@ -165,6 +165,6 @@ export default class BlDropdown extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-dropdown': BlDropdown;
+    [blDropdownTag]: BlDropdown;
   }
 }
