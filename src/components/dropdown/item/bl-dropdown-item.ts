@@ -6,6 +6,7 @@ import type BlDropdown from '../bl-dropdown';
 
 import { blDropdownGroupTag } from '../group/bl-dropdown-group';
 import { blDropdownTag } from '../bl-dropdown';
+
 import style from './bl-dropdown-item.css';
 
 import '../../button/bl-button';
@@ -13,6 +14,10 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 
 export const blDropdownItemTag = 'bl-dropdown-item';
 
+/**
+ * @tag bl-dropdown-item
+ * @summary Baklava Dropdown Item component
+ */
 @customElement(blDropdownItemTag)
 export default class BlDropdownItem extends LitElement {
   static get styles(): CSSResultGroup {

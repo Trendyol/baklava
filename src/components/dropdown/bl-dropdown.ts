@@ -21,6 +21,10 @@ export type CleanUpFunction = () => void;
 
 export const blDropdownTag = 'bl-dropdown';
 
+/**
+ * @tag bl-dropdown
+ * @summary Baklava Dropdown component
+ */
 @customElement(blDropdownTag)
 export default class BlDropdown extends LitElement {
   static get styles(): CSSResultGroup {

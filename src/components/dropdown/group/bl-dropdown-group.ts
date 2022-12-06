@@ -4,6 +4,10 @@ import style from './bl-dropdown-group.css';
 
 export const blDropdownGroupTag = 'bl-dropdown-group';
 
+/**
+ * @tag bl-dropdown-group
+ * @summary Baklava Dropdown Group component
+ */
 @customElement(blDropdownGroupTag)
 export default class BlDropdownGroup extends LitElement {
     static get styles(): CSSResultGroup {
