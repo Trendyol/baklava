@@ -33,6 +33,13 @@ import { userEvent } from '@storybook/testing-library';
   }}
 />
 
+export const dropdownOpener = async ({ canvasElement }) => {
+  const dropdown = canvasElement?.querySelector('bl-dropdown')
+  if(dropdown.shadowRoot) {
+    const button = dropdown.shadowRoot.querySelector('bl-button')
+    await userEvent.click(button);
+  }
+}
 
 export const SingleDropdownButtonTemplate = (args) => html`<bl-dropdown
     variant=${ifDefined(args.variant)}
@@ -82,8 +89,19 @@ Dropdown Button has the same variants ([Primary](/docs/components-button--primar
 Every variant represents the importance of the actions inside it.
 
 <Canvas>
-  <Story name="Variants">
+  <Story name="Variants" play={dropdownOpener}>
     {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Dropdown Button Kinds
+
+Dropdown Button has the same kinds as the button has.
+Every kind indicates a state of the dropdown buttons. It can has 4 different "kind"s. `default`, `neutral`, `success` and `danger`.
+
+<Canvas>
+  <Story name="Kinds" play={dropdownOpener}>
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
@@ -92,7 +110,7 @@ Every variant represents the importance of the actions inside it.
 We have 3 sizes of dropdown buttons: **Large**, **Medium**, **Small**. Default size is **Medium**.
 
 <Canvas>
-  <Story name="Button Sizes">
+  <Story name="Button Sizes" play={dropdownOpener}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
@@ -100,7 +118,7 @@ We have 3 sizes of dropdown buttons: **Large**, **Medium**, **Small**. Default s
 If dropdown button has an action with a long text that can not fit in a single line, popover will be automatically widen to the right side of the dropdown button.
 
 <Canvas>
-  <Story name="Automatic Left Align" args={{ content: 'Action with very long text' }}>
+  <Story name="Automatic Left Align" args={{ content: 'Action with very long text' }} play={dropdownOpener}>
     {SingleDropdownButtonTemplate.bind({})}
   </Story>
 </Canvas>
@@ -110,7 +128,7 @@ If dropdown button has an action with a long text that can not fit in a single l
 We have 2 types of disabled buttons: Disable version of Primary and Secondary buttons is the same.
 
 <Canvas columns={1}>
-  <Story name="Disabled Primary and Secondary Buttons" args={{ disabled: true }}>
+  <Story name="Disabled Primary and Secondary Buttons" args={{ disabled: true }} play={dropdownOpener}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
@@ -118,7 +136,7 @@ We have 2 types of disabled buttons: Disable version of Primary and Secondary bu
 Whereas Tertiary buttons keep their transparent backgrounds.
 
 <Canvas columns={1}>
-  <Story name="Disabled Tertiary Buttons" args={{ disabled: true, variant:"tertiary" }}>
+  <Story name="Disabled Tertiary Buttons" args={{ disabled: true, variant:"tertiary" }} play={dropdownOpener}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
