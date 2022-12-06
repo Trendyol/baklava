@@ -13,10 +13,7 @@ function writeBaklavaReactFile(fileContentParts) {
     ${fileContentParts.join('\n\n')}
   `;
 
-  fs.writeFileSync(
-    `${__dirname}/../src/baklava-react.ts`,
-    fileContentText.trim()
-  );
+  fs.writeFileSync(`${__dirname}/../src/baklava-react.ts`, fileContentText.trim());
 }
 
 function getReactEventName(baklavaEventName) {
@@ -48,12 +45,19 @@ for (const module of customElementsModules) {
 
   baklavaReactFileParts.push(
     `
-    export const ${componentName} = createComponent<${Type}>(
-        React,
-        '${fileName}',
-        customElements.get('${fileName}'),
-        ${JSON.stringify(eventNames)}
-      );`
+  export const ${componentName} = React.lazy(() =>
+    customElements.whenDefined('${fileName}').then(elem => ({
+        default: createComponent<${Type}>(
+          {
+            react: React,
+            tagName: '${fileName}',
+            elementClass: elem,
+            events:${JSON.stringify(eventNames)}
+          }
+      )
+      })
+ ));
+   `
   );
 }
 
