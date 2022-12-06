@@ -7,8 +7,8 @@
     --left: 0;
     --top: 0;
 
-    position: absolute;
-    z-index: 999;
+    position: fixed;
+    z-index: 1;
     display: var(--bl-dropdown-display, none);
     flex-direction: column;
     align-items: flex-start;
@@ -21,7 +21,6 @@
     border-radius: var(--bl-size-3xs);
     left: var(--left);
     top: var(--top);
-    min-width: 100%;
     box-sizing: border-box;
 }
 

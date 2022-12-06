@@ -19,7 +19,8 @@ module.exports = {
         'alert',
         'select',
         'pagination',
-        'dialog'
+        'dialog',
+        'dropdown',
       ],
     ],
   },

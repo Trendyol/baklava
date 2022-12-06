@@ -42,7 +42,7 @@ export const SingleDropdownButtonTemplate = (args) => html`<bl-dropdown
     ?disabled=${args.disabled}
     style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
       ><bl-dropdown-group caption="Caption">
-        <bl-dropdown-item>Action 1</bl-dropdown-item>
+        <bl-dropdown-item>${args.content || 'Action 1'}</bl-dropdown-item>
         <bl-dropdown-item>Action 2</bl-dropdown-item>
       </bl-dropdown-group>
       <bl-dropdown-item>Action 3</bl-dropdown-item>
@@ -72,7 +72,7 @@ ${SingleDropdownButtonTemplate({size: 'small', ...args})}`
 
 # Dropdown Button
 
-Dropdown Button is used to display a list of actions. 
+Dropdown Button is used to display a list of actions.
 
 <bl-alert variant="warning" icon caption="Note">Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
 
@@ -92,7 +92,7 @@ Every variant represents the importance of the actions inside it.
 We have 3 sizes of dropdown buttons: **Large**, **Medium**, **Small**. Default size is **Medium**.
 
 <Canvas>
-  <Story name="Button Sizes" args={{ content: 'Primary Dropdown Button', icon: 'info' }}>
+  <Story name="Button Sizes">
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
@@ -100,7 +100,7 @@ We have 3 sizes of dropdown buttons: **Large**, **Medium**, **Small**. Default s
 If dropdown button has an action with a long text that can not fit in a single line, popover will be automatically widen to the right side of the dropdown button.
 
 <Canvas>
-  <Story name="Automatic Clipping Text" args={{ content: 'Action with very long text'}}>
+  <Story name="Automatic Left Align" args={{ content: 'Action with very long text' }}>
     {SingleDropdownButtonTemplate.bind({})}
   </Story>
 </Canvas>
@@ -110,7 +110,7 @@ If dropdown button has an action with a long text that can not fit in a single l
 We have 2 types of disabled buttons: Disable version of Primary and Secondary buttons is the same.
 
 <Canvas columns={1}>
-  <Story name="Disabled Primary and Secondary Buttons" args={{ disabled: true, content: 'Passive Button' }}>
+  <Story name="Disabled Primary and Secondary Buttons" args={{ disabled: true }}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
@@ -118,7 +118,7 @@ We have 2 types of disabled buttons: Disable version of Primary and Secondary bu
 Whereas Tertiary buttons keep their transparent backgrounds.
 
 <Canvas columns={1}>
-  <Story name="Disabled Tertiary Buttons" args={{ disabled: true, content: 'Passive Button',variant:"tertiary" }}>
+  <Story name="Disabled Tertiary Buttons" args={{ disabled: true, variant:"tertiary" }}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
