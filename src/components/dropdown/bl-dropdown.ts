@@ -90,7 +90,7 @@ export default class BlDropdown extends LitElement {
     this._cleanUpPopover && this._cleanUpPopover();
   }
 
-  get isPopoverOpen() {
+  get opened() {
     return this._isPopoverOpen;
   }
 
@@ -155,7 +155,7 @@ export default class BlDropdown extends LitElement {
         variant="${this.variant}"
         kind="${this.kind}"
         size="${this.size}"
-        @click="${this._handleClick}"
+        @bl-click="${this._handleClick}"
       >
         ${this.label}
       </bl-button>

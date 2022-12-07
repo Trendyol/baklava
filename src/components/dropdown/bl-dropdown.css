@@ -8,6 +8,8 @@
     --top: 0;
 
     position: fixed;
+
+    /* FIXME: Use z-index variable */
     z-index: 1;
     display: var(--bl-dropdown-display, none);
     flex-direction: column;
