@@ -4,7 +4,6 @@ import {
     fixture,
     html,
     oneEvent,
-    // elementUpdated,
     expect,
 } from '@open-wc/testing';
 

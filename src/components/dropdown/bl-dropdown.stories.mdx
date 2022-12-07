@@ -110,7 +110,7 @@ Every kind indicates a state of the dropdown buttons. It can has 4 different "ki
 We have 3 sizes of dropdown buttons: **Large**, **Medium**, **Small**. Default size is **Medium**.
 
 <Canvas>
-  <Story name="Button Sizes" play={dropdownOpener}>
+  <Story name="Dropdown Button Sizes" play={dropdownOpener}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
@@ -123,12 +123,12 @@ If dropdown button has an action with a long text that can not fit in a single l
   </Story>
 </Canvas>
 
-## Disabled Buttons
+## Disabling Dropdown Buttons
 
-We have 2 types of disabled buttons: Disable version of Primary and Secondary buttons is the same.
+We have 2 types of disabled dropdown buttons: Disable version of Primary and Secondary buttons is the same.
 
 <Canvas columns={1}>
-  <Story name="Disabled Primary and Secondary Buttons" args={{ disabled: true }} play={dropdownOpener}>
+  <Story name="Disabling Dropdown Buttons" args={{ disabled: true }} play={dropdownOpener}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
@@ -136,7 +136,7 @@ We have 2 types of disabled buttons: Disable version of Primary and Secondary bu
 Whereas Tertiary buttons keep their transparent backgrounds.
 
 <Canvas columns={1}>
-  <Story name="Disabled Tertiary Buttons" args={{ disabled: true, variant:"tertiary" }} play={dropdownOpener}>
+  <Story name="Disabling Tertiary Dropdown Buttons" args={{ disabled: true, variant:"tertiary" }} play={dropdownOpener}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
