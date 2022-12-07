@@ -145,12 +145,12 @@ export default class BlDropdown extends LitElement {
   render(): TemplateResult {
     const popoverClasses = classMap({
       popover: true,
-      visible: this._isPopoverOpen,
+      visible: this.opened,
     });
 
     return html`<bl-button
         dropdown
-        .active=${this._isPopoverOpen}
+        .active=${this.opened}
         ?disabled=${ifDefined(this.disabled)}
         variant="${this.variant}"
         kind="${this.kind}"
