@@ -1,7 +1,8 @@
 export { default as BlAlert } from './components/alert/bl-alert';
 export { default as BlBadge } from './components/badge/bl-badge';
 export { default as BlButton } from './components/button/bl-button';
-export { default as BlCheckbox } from './components/checkbox/bl-checkbox';
+export { default as BlCheckboxGroup } from './components/checkbox-group/bl-checkbox-group';
+export { default as BlCheckbox } from './components/checkbox-group/checkbox/bl-checkbox';
 export { default as BlDialog } from './components/dialog/bl-dialog';
 export { default as BlDrawer } from './components/drawer/bl-drawer';
 export { default as BlIcon } from './components/icon/bl-icon';

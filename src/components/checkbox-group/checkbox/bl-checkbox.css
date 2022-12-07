@@ -3,6 +3,10 @@
   vertical-align: middle;
 }
 
+:host * {
+  outline:none;
+}
+
 label {
   display: flex;
   align-items: center;
@@ -31,13 +35,19 @@ input {
   font-size: var(--bl-font-size-2xs);
 }
 
-:host([checked]) .label {
+:host([checked]) .label,
+:host(:hover) .label {
   color: var(--bl-color-primary);
 }
 
 :host(:is([checked], [indeterminate])) .check-mark {
   background-color: var(--bl-color-primary);
   border: none;
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 :host([disabled]) .check-mark,
@@ -47,4 +57,8 @@ input {
 
 :host([disabled]) .check-mark {
   background-color: var(--bl-color-secondary-background);
+}
+
+:host(:not([disabled])) input:focus-visible + .check-mark {
+  box-shadow: 0 0 0 1px white, 0 0 0 3px var(--bl-color-primary);
 }
