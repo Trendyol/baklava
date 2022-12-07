@@ -16,13 +16,12 @@
     color: var(--bl-color-content-secondary);
 }
 
-/* adding seperator before and after of element, except not first child and last child of the dropdown */
-:host(:not(:first-child))::before,
-:host(:not(:last-child))::after {
-    position: absolute;
-    content: '';
-    width: 100%;
-    border-bottom: 1px solid var(--bl-color-border);
+:host(:not(:first-child)) {
+  border-top: 1px solid var(--bl-color-border);
+}
+
+:host(:not(:last-child)) {
+  border-bottom: 1px solid var(--bl-color-border);
 }
 
 :host(:not([caption])) ::slotted(:first-child) {
