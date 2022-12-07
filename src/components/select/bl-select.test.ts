@@ -1,7 +1,7 @@
 import BlSelect from './bl-select';
 import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { BlIcon, BlSelectOption } from '../../baklava';
-import BlCheckbox from '../checkbox/bl-checkbox';
+import BlCheckbox from '../checkbox-group/checkbox/bl-checkbox';
 
 describe('bl-select', () => {
   it('is defined', () => {

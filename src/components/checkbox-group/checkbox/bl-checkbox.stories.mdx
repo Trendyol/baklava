@@ -20,7 +20,13 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
     indeterminate: {
       control: 'boolean',
       default: false
-    }
+    },
+      value: {
+      control: 'text',
+    },
+    required: {
+      control: 'boolean',
+    },
   }}
 />
 
@@ -28,7 +34,12 @@ export const CheckboxTemplate = (args) => html`
 <bl-checkbox
     ?disabled=${args.disabled}
     ?checked=${args.checked}
-    ?indeterminate=${args.indeterminate}>${args.label}</bl-checkbox>
+    name='${ifDefined(args.name)}'
+    value='${ifDefined(args.value)}'
+    ?indeterminate=${args.indeterminate}
+    ?required=${args.required}>
+    ${args.label}
+  </bl-checkbox>
 `;
 
 # Checkbox
@@ -97,6 +108,16 @@ Disabled state can be set via `disabled` attribute. A checkbox can be `disabled`
     {CheckboxTemplate.bind({})}
   </Story>
   <Story name="Disabled, Checked and Indeterminate" args={{ label: 'Disabled, Checked and Indeterminate', disabled: true, checked: true, indeterminate: true }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Form
+
+Provide the name and the value of the checkbox element, so that its value can be set on the form element
+
+<Canvas>
+  <Story name="Form Usage" args={{ label: 'Terms and conditions',value:'1',required:true,name:"accept_term" }}>
     {CheckboxTemplate.bind({})}
   </Story>
 </Canvas>

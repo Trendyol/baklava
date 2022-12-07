@@ -15,6 +15,7 @@ module.exports = {
         'tab',
         'tooltip',
         'progress-indicator',
+        'checkbox-group',
         'checkbox',
         'alert',
         'select',
