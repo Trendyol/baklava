@@ -11,7 +11,7 @@
 
     /* FIXME: Use z-index variable */
     z-index: 1;
-    display: var(--bl-dropdown-display, none);
+    display: none;
     flex-direction: column;
     align-items: flex-start;
     padding: var(--bl-size-m);
@@ -27,5 +27,5 @@
 }
 
 .visible {
-    --bl-dropdown-display: flex;
+    display: flex;
 }

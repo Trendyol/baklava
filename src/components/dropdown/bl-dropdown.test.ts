@@ -20,6 +20,8 @@ describe('bl-dropdown', () => {
         kind="default"
         size="medium"
         variant="primary"
+        aria-expanded="false"
+        role="menu"
       >
         Dropdown Button
       </bl-button>

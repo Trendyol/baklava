@@ -62,6 +62,7 @@ export default class BlDropdownItem extends LitElement {
       kind="neutral"
       icon="${ifDefined(this.icon)}"
       @click="${this._handleClick}"
+      role="menuitem"
       ><slot></slot>
     </bl-button>`;
   }

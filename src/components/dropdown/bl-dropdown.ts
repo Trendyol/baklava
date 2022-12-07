@@ -155,7 +155,9 @@ export default class BlDropdown extends LitElement {
         variant="${this.variant}"
         kind="${this.kind}"
         size="${this.size}"
+        aria-expanded="${this.opened}"
         @bl-click="${this._handleClick}"
+        role="menu"
       >
         ${this.label}
       </bl-button>

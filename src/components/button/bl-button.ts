@@ -117,11 +117,7 @@ export default class BlButton extends LitElement {
     });
   }
 
-  get _isActive() {
-    if (!this.dropdown) {
-      return false
-    }
-
+  private get _isActive() {
     return this.active
   }
 

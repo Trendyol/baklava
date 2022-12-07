@@ -24,6 +24,7 @@ describe('bl-dropdown-item', () => {
           kind="neutral"
           size="medium"
           variant="tertiary"
+          role="menuitem"
         >
           <slot>
           </slot>
@@ -40,6 +41,7 @@ describe('bl-dropdown-item', () => {
           icon="info"
           kind="neutral"
           size="medium"
+          role="menuitem"
           variant="tertiary"
         >
           <slot>
