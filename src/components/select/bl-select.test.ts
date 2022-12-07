@@ -24,7 +24,15 @@ describe('bl-select', () => {
           </div>
         </div>
         <div class="popover">
-          <slot></slot>
+           <div class="options-container">
+           <slot>
+           </slot>
+           <div class="not-found">
+             <slot name="search-not-found">
+               Not Found
+             </slot>
+           </div>
+         </div>
         </div>
       </div>
     `
@@ -206,5 +214,127 @@ describe('bl-select', () => {
 
       expect(selectOption).is.not.exist;
     });
+  });
+
+  it('should show search bar when searchBar is true', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select multiple search-bar>
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2" selected>Option 2</bl-select-option>
+    </bl-select>`);
+
+    assert.shadowDom.equal(
+      el,
+      `<div
+          class="select-wrapper selected"
+          tabindex="-1"
+        >
+          <div class="select-input">
+            <ul class="selected-options">
+              <li>
+                Option 2
+              </li>
+            </ul>
+            <div class="actions">
+              <bl-button
+                class="remove-all"
+                icon="close"
+                kind="neutral"
+                size="small"
+                variant="tertiary"
+              >
+              </bl-button>
+              <bl-icon
+                class="dropdown-icon open"
+                name="arrow_up"
+              >
+              </bl-icon>
+              <bl-icon
+                class="closed dropdown-icon"
+                name="arrow_down"
+              >
+              </bl-icon>
+            </div>
+          </div>
+          <div class="popover">
+            <div class="search-container">
+              <div class="search-wrapper">
+                <bl-input
+                  class="search-input"
+                  placeholder=""
+                >
+                </bl-input>
+                <div class="search-icon">
+                  <bl-icon name="search">
+                  </bl-icon>
+                </div>
+              </div>
+            </div>
+            <div class="options-container">
+              <slot>
+              </slot>
+            </div>
+          </div>
+        </div>`
+    )
+  });
+
+  it('should show loading state', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select multiple search-bar search-bar-loading-state>
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2" selected>Option 2</bl-select-option>
+    </bl-select>`);
+
+    const blIconLoading = el.shadowRoot?.querySelector('bl-icon.loading');
+    expect(blIconLoading).to.exist;
+  });
+
+
+  it('should search input text 2 and show clear button when clear event', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select multiple search-bar>
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2" selected>Option 2</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector('bl-input.search-input');
+    setTimeout(() => searchInput?.dispatchEvent(new CustomEvent('bl-input', {detail: "2"})));
+
+    await oneEvent(searchInput!, 'bl-input');
+    const blButtonClear = el.shadowRoot?.querySelector('bl-button.search-input-clear');
+    const optionItems = el.options.filter(item => item.style.display === "block")
+
+    expect(optionItems.length).to.equal(1);
+    expect(blButtonClear).to.exist;
+
+
+
+    setTimeout(() => blButtonClear?.dispatchEvent(new Event('click', {})))
+    const ev = await oneEvent(blButtonClear!, 'click');
+    expect(ev).to.exist;
+  });
+
+  it('should search input text when show notFound', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select multiple search-bar search-not-found-text="searchNotFoundText">
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2" selected>Option 2</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector('bl-input.search-input');
+    setTimeout(() => searchInput?.dispatchEvent(new CustomEvent('bl-input', {detail: "customEvent"})));
+
+    await oneEvent(searchInput!, 'bl-input');
+
+    const notFoundText = el.shadowRoot?.querySelector(".not-found")
+    expect(notFoundText).to.exist;
+    expect(notFoundText?.textContent?.trim()).to.equal('searchNotFoundText')
+  });
+
+  it('should open select menu with search attribute when detect input focus', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select multiple search-bar search-not-found-text="searchNotFoundText">
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2" selected>Option 2</bl-select-option>
+    </bl-select>`);
+
+    const selectInput = <HTMLDivElement>el.shadowRoot?.querySelector('.select-input');
+    selectInput?.click();
   });
 });

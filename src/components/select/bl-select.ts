@@ -79,6 +79,42 @@ export default class BlSelect extends LitElement {
   @property({ type: String, attribute: 'invalid-text' })
   customInvalidText?: string;
 
+  /**
+   * Show search text for options
+   */
+  @property({ type: Boolean, attribute: 'search-bar' })
+  searchBar?: boolean;
+
+  /**
+   * SearchText placeholder
+   */
+  @property({ type: String, attribute: 'search-bar-placeholder' })
+  searchBarPlaceholder?: string;
+
+  /**
+   * SearchText not found text
+   */
+  @property({ type: String, attribute: 'search-not-found-text' })
+  searchNotFoundText?: string;
+
+  /**
+   * Search bar loading state for fetch request
+   */
+  @property({ type: Boolean, attribute: 'search-bar-loading-state' })
+  searchBarLoadingState?: boolean;
+
+  /**
+   * Filterable is enabled/disabled search options on local
+   */
+  @property({ type: Boolean, attribute: 'search-filterable' })
+  searchFilterable = true;
+
+  /**
+   * Item Option language for search
+   */
+  @property({ type: String, attribute: 'language' })
+  language = "en-US";
+
   /* Declare internal reactive properties */
   @state()
   private _isPopoverOpen = false;
@@ -92,8 +128,17 @@ export default class BlSelect extends LitElement {
   @state()
   private _isInvalid = false;
 
+  @state()
+  private _searchValue = "";
+
+  @state()
+  private _hiddenNode = 0;
+
   @query('.selected-options')
   private _selectedOptionsContainer!: HTMLElement;
+
+  @query('.search-input')
+  private _searchBarInput!: HTMLElement;
 
   @queryAll('.selected-options li')
   private _selectedOptionsItems!: Array<HTMLElement>;
@@ -109,6 +154,8 @@ export default class BlSelect extends LitElement {
   private _connectedOptions: BlSelectOption[] = [];
 
   private _cleanUpPopover: CleanUpFunction | null = null;
+
+  @event('bl-search') private _onBlSearch: EventDispatcher<CustomEvent>;
 
   get options() {
     return this._connectedOptions;
@@ -134,6 +181,12 @@ export default class BlSelect extends LitElement {
     this._isPopoverOpen = true;
     this._setupPopover();
     document.addEventListener('click', this._clickOutsideHandler);
+
+    if (this.searchBar && this._searchBarInput) {
+      setTimeout(() => {
+        this._searchBarInput.shadowRoot?.querySelector("input")?.focus()
+      }, 0)
+    }
   }
 
   close() {
@@ -222,9 +275,54 @@ export default class BlSelect extends LitElement {
     </div>`;
   }
 
+  private searchInputIconTemplate () {
+    if (this.searchBarLoadingState) {
+      return html`<bl-icon name="loading" class="loading"></bl-icon>`
+    }
+    if (this._searchValue.length) {
+      return html`<bl-button
+        class="search-input-clear"
+        size="small"
+        variant="tertiary"
+        kind="neutral"
+        icon="close"
+        @click=${this._onClearSearchInputValue}></bl-button>`
+    }
+    return html`<bl-icon name="search" class=""></bl-icon>`
+  }
+
+  private searchBarTemplate() {
+    return this.searchBar ? html`<div class="search-container">
+      <div class="search-wrapper">
+        <bl-input
+          class="search-input"
+          .value="${this._searchValue}"
+          @bl-input="${this._inputHandler}"
+          placeholder="${this.searchBarPlaceholder ?? ""}"
+        ></bl-input>
+        <div class="search-icon">
+          ${this.searchInputIconTemplate()}
+        </div>
+      </div>
+    </div>`: null;
+  }
+
+  private searchNotFoundTemplate() {
+    return this._connectedOptions.length === this._hiddenNode ? html`
+      <div class="not-found">
+        <slot name="search-not-found">
+          ${this.searchNotFoundText?.length ? this.searchNotFoundText : "Not Found"}
+        </slot>
+      </div>` : null
+  }
+
   private menuTemplate() {
     return html`<div class="popover" @bl-select-option=${this._handleSelectOptionEvent}>
-      <slot></slot>
+      ${this.searchBarTemplate()}
+      <div class="options-container">
+        <slot></slot>
+        ${this.searchNotFoundTemplate()}
+      </div>
     </div>`;
   }
 
@@ -295,6 +393,28 @@ export default class BlSelect extends LitElement {
       this._handleMultipleSelect(optionItem);
     } else {
       this._handleSingleSelect(optionItem);
+    }
+  }
+
+  private _onClearSearchInputValue () {
+    this._inputHandler(new CustomEvent('bl-input', { detail: "" }))
+  }
+
+  private _inputHandler(value: CustomEvent) {
+    this._searchValue = value.detail
+    this._onBlSearch(value)
+
+    if (this.searchFilterable) {
+      this._hiddenNode = 0
+      this._connectedOptions = this.options.map(node => {
+        if(node.innerText.toLocaleLowerCase(this.language).search(value.detail.toLocaleLowerCase(this.language)) > -1) {
+          node.style.display = "block";
+        } else {
+          node.style.display = "none";
+          this._hiddenNode++;
+        }
+        return node;
+      })
     }
   }
 

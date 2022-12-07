@@ -40,6 +40,21 @@ import { userEvent } from '@storybook/testing-library';
     helpText: {
       control: 'text'
     },
+    searchBar: {
+      control: 'boolean'
+    },
+    searchFilterable: {
+      control: 'boolean'
+    },
+    searchBarPlaceholder: {
+      control: 'text'
+    },
+    searchNotFoundText: {
+      control: 'text'
+    },
+    searchBarLoadingState: {
+      control: 'boolean'
+    },
   }}
 />
 
@@ -61,7 +76,13 @@ export const SelectTemplate = (args) => html`<bl-select
     size='${ifDefined(args.size)}'
     help-text='${ifDefined(args.helpText)}'
     invalid-text='${ifDefined(args.customInvalidText)}'
-    placeholder='${ifDefined(args.placeholder)}'>
+    placeholder='${ifDefined(args.placeholder)}'
+    ?search-bar='${ifDefined(args.searchBar)}'
+    ?search-filterable='${ifDefined(args.searchFilterable)}'
+    search-bar-placeholder='${ifDefined(args.searchBarPlaceholder)}'
+    search-not-found-text='${ifDefined(args.searchNotFoundText)}'
+    ?search-bar-loading-state='${ifDefined(args.searchBarLoadingState)}'
+    >
     <bl-select-option value="tr">Turkey</bl-select-option>
     <bl-select-option value="nl">Netherlands</bl-select-option>
 </bl-select>`
@@ -76,7 +97,13 @@ export const SelectOptionsSelectedTemplate = (args) => html`<bl-select
     size='${ifDefined(args.size)}'
     help-text='${ifDefined(args.helpText)}'
     invalid-text='${ifDefined(args.customInvalidText)}'
-    placeholder='${ifDefined(args.placeholder)}'>
+    placeholder='${ifDefined(args.placeholder)}'
+    ?search-bar='${ifDefined(args.searchBar)}'
+    ?search-filterable='${ifDefined(args.searchFilterable)}'
+    search-bar-placeholder='${ifDefined(args.searchBarPlaceholder)}'
+    search-not-found-text='${ifDefined(args.searchNotFoundText)}'
+    ?search-bar-loading-state='${ifDefined(args.searchBarLoadingState)}'
+    >
     <bl-select-option value="tr">Turkey</bl-select-option>
     <bl-select-option value="nl" selected>Netherlands</bl-select-option>
 </bl-select>`
@@ -180,6 +207,14 @@ Select have 3 size options: `small`, `medium` and `large`. `medium` size is defa
     {SelectTemplate.bind({})}
   </Story>
   <Story name="Large Select" args={{ label: 'Choose country', size: 'large' }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Select Search bar
+
+<Canvas>
+  <Story name="Select Search Bar" args={{ label: 'Choose country', searchBar: true }}>
     {SelectTemplate.bind({})}
   </Story>
 </Canvas>
