@@ -1,4 +1,4 @@
-import {customElement, property} from "lit/decorators.js";
+import {customElement, property, state} from "lit/decorators.js";
 import {CSSResultGroup, html, LitElement, TemplateResult} from "lit";
 import {event, EventDispatcher} from "../../utilities/event";
 import '../button/bl-button';
@@ -65,15 +65,29 @@ export default class BlDrawer extends LitElement{
     }
   }
 
+  private domExistenceSchedule: number;
+
   private toggleDialogHandler() {
     if (this.open) {
+      if (this.domExistenceSchedule) {
+        clearTimeout(this.domExistenceSchedule);
+      }
+
+      this.domExistence = true;
       // FIXME: Allow events without payload
       this.onOpen('');
     } else {
+      // Give some time for exit animation
+      this.domExistenceSchedule = window.setTimeout(() => {
+        this.domExistence = false;
+      }, 1000);
+
       // FIXME: Allow events without payload
       this.onClose('');
     }
   }
+
+  @state() private domExistence = false;
 
   private closeDrawer() {
     this.open = false;
@@ -118,10 +132,8 @@ export default class BlDrawer extends LitElement{
     </div>`;
   }
 
-
-
   render(): TemplateResult{
-    if(this.open){
+    if(this.domExistence){
       return html`<div class="drawer">
           ${this.renderContainer()}
         </div>`;
