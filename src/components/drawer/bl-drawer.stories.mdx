@@ -67,7 +67,7 @@ export const DrawerTemplate = (args) => html`
 
 export const StoryTemplate = (args) => html`
   ${DrawerTemplate(args)}
-  <bl-button @click="${(event)=>{document.getElementById(args.id).open=true}}">${ifDefined(args.buttonText)}</bl-button>
+  <bl-button @click="${(event)=>openDialog(event, args)}">${ifDefined(args.buttonText)}</bl-button>
 `
 
 # Drawer
