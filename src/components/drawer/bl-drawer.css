@@ -1,6 +1,6 @@
-@keyframes slide-from-right{
+@keyframes slide-from-right {
   0% {
-    transform: translateX(+100%);
+    transform: translateX(100%);
   }
 
   100% {
@@ -8,27 +8,31 @@
   }
 }
 
-.drawer{
+.drawer {
   position: fixed;
-  top:0;
+  top: 0;
   right: 0;
   width: 424px;
-  height: 100%;
+  height: 100vh;
   background: var(--bl-color-primary-background);
   box-shadow: var(--bl-size-xs) 0 var(--bl-size-2xl) rgba(0 0 0 / 50%);
-  animation: 0.25s slide-from-right;
-
-  /* FIXME: Use z-index variable */
+  transform: translateX(100%);
+  transition: transform var(--bl-drawer-animation-duration, .25s);
   z-index: 999;
 }
 
-iframe{
+:host([open]) .drawer {
+  transform: translateX(0);
+  animation: slide-from-right var(--bl-drawer-animation-duration, .25s);
+}
+
+iframe {
   height: 100%;
   width: 100%;
   border: none;
 }
 
-.container{
+.container {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -46,7 +50,7 @@ header {
 
 header .header-buttons {
   display: flex;
-  gap:24px;
+  gap: 24px;
   margin-left: auto;
 }
 
@@ -75,6 +79,3 @@ section {
     width: calc(100vw - 24px);
   }
 }
-
-
-

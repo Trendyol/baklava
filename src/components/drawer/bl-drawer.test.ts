@@ -1,4 +1,4 @@
-import {assert, elementUpdated, expect, fixture, html, oneEvent} from '@open-wc/testing';
+import {assert, aTimeout, elementUpdated, expect, fixture, html, oneEvent} from '@open-wc/testing';
 import BlDrawer from "./bl-drawer";
 import type typeOfBlDrawer from './bl-drawer';
 
@@ -112,10 +112,14 @@ describe('bl-drawer',() => {
       expect(el.open).to.equal(true);
       closeBtn?.click();
 
-      setTimeout(()=>{
-        expect(el.open).to.equal(false);
-        expect(el.offsetWidth).to.equal(0);
-      });
+      await elementUpdated(el);
+
+      expect(el.open).to.equal(false);
+      expect(el.offsetWidth).to.equal(0);
+
+      await aTimeout(1100);
+
+      expect(el?.shadowRoot?.querySelector('bl-button')).to.be.null;
     });
   });
   describe('event tests',()=>{

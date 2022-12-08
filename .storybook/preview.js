@@ -1,7 +1,38 @@
 import { setCustomElementsManifest } from '@storybook/web-components';
+import { makeDecorator } from "@storybook/addons";
+import { html } from 'lit';
+import isChromatic from 'chromatic/isChromatic';
+
 import customElements from '../dist/custom-elements.json';
 
 setCustomElementsManifest(customElements);
+
+const withNoAnimationOnChromaticLayout = makeDecorator({
+  name: 'withNoAnimationOnChromaticLayout',
+  parameterName: 'noAnimationOnChromaticLayout',
+  skipIfNoParametersOrOptions: true,
+  wrapper: (getStory, context) => {
+    const story = getStory(context);
+    const decoratedStory = html`
+      ${isChromatic() ?  html`<style>
+        .custom-wrapper {
+          --bl-drawer-animation-duration: 0;
+        }
+      </style>` : html``}
+
+      <div class="custom-wrapper">
+        ${ story }
+      </div>
+    `;
+
+    // return the modified story
+    return decoratedStory;
+  }
+});
+
+export const decorators = [
+  withNoAnimationOnChromaticLayout
+]
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
