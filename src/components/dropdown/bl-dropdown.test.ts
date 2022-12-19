@@ -119,14 +119,14 @@ describe('bl-dropdown', () => {
 
       await elementUpdated(el);
 
+      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+
       await waitUntil(
         () => el.querySelector('bl-dropdown'),
         'Element did not render children',
       );
 
       const dropdown = el.querySelector('bl-dropdown');
-
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
 
       const tabKey = navigator.userAgent.includes('Safari') ? 'Alt+Tab' : 'Tab'
 
@@ -158,6 +158,7 @@ describe('bl-dropdown', () => {
 
       await elementUpdated(el);
 
+      el.querySelector<HTMLInputElement>('#previnput')?.focus();
 
       await waitUntil(
         () => el.querySelector('bl-dropdown'),
@@ -165,8 +166,6 @@ describe('bl-dropdown', () => {
       );
 
       const dropdown = el.querySelector('bl-dropdown');
-
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
 
       const tabKey = navigator.userAgent.includes('Safari') ? 'Alt+Tab' : 'Tab'
 
