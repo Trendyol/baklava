@@ -20,7 +20,7 @@
 
   display: flex;
   gap: var(--margin-icon);
-  justify-content: center;
+  justify-content: var(--bl-button-justify, 'center');
   align-items: center;
   box-sizing: border-box;
   width:100%;
@@ -118,7 +118,7 @@
 }
 
 :host([variant='tertiary'][disabled]) .button {
-  --main-color:transparent;
+  --main-color: transparent;
 }
 
 :host([variant='secondary']:hover:not([disabled])) .button {
@@ -129,4 +129,32 @@
 :host([variant='tertiary']:hover:not([disabled])) .button {
   --content-color: var(--main-hover-color);
   --bg-color: var(--text-hover-color);
+}
+
+:host([dropdown]) .open {
+  display: none;
+}
+
+:host([dropdown]) .active .open {
+  display: inline-block;
+}
+
+:host([dropdown]) .active .close {
+  display: none;
+}
+
+:host .active.button {
+  --bg-color: var(--main-hover-color);
+  --border-color: var(--main-hover-color);
+}
+
+:host([variant='secondary']) .active.button {
+  --content-color: var(--bl-color-content-primary-contrast);
+  --bg-color: var(--main-hover-color);
+}
+
+:host([variant='tertiary']) .active.button {
+  --content-color: var(--main-color);
+  --bg-color: var(--bl-color-tertiary);
+  --border-color: transparent;
 }

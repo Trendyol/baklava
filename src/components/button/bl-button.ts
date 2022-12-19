@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { event, EventDispatcher } from '../../utilities/event';
@@ -79,9 +79,41 @@ export default class BlButton extends LitElement {
   type: 'submit' | null;
 
   /**
+   * Sets button type to dropdown
+   */
+  @property({ type: Boolean })
+  dropdown = false;
+
+  /**
+   * Active state
+   */
+  @state({})
+  active = false;
+
+  @query('.button')
+  private button: HTMLAnchorElement | HTMLButtonElement;
+
+  /**
    * Fires when button clicked
    */
   @event('bl-click') private onClick: EventDispatcher<string>;
+
+  private get _isActive() {
+    return this.active;
+  }
+
+  private caretTemplate(): TemplateResult {
+    return html` <bl-icon class="open" name="arrow_up"></bl-icon>
+      <bl-icon class="close" name="arrow_down"></bl-icon>`;
+  }
+
+  private _handleClick() {
+    this.onClick('Click event fired!');
+  }
+
+  focus() {
+    this.button.focus();
+  }
 
   get _hasIconSlot() {
     return this.querySelector(':scope > [slot="icon"]') !== null;
@@ -109,10 +141,12 @@ export default class BlButton extends LitElement {
     const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
     const slots = html`<slot name="icon">${icon}</slot> <span class="label"><slot></slot></span>`;
+    const caret = this.dropdown ? this.caretTemplate() : '';
     const classes = classMap({
       'button': true,
       'has-icon': this.icon || this._hasIconSlot,
       'has-content': this._hasDefaultSlot,
+      'active': !isAnchor && this._isActive,
     });
 
     return isAnchor
@@ -123,8 +157,8 @@ export default class BlButton extends LitElement {
           href=${ifDefined(this.href)}
           target=${ifDefined(this.target)}
           role="button"
-          >${slots}</a
-        >`
+          >${slots}
+        </a>`
       : html`<button
           class=${classes}
           aria-disabled="${ifDefined(this.disabled)}"
@@ -132,12 +166,8 @@ export default class BlButton extends LitElement {
           ?disabled=${this.disabled}
           @click="${this._handleClick}"
         >
-          ${slots}
+          ${slots} ${caret}
         </button>`;
-  }
-
-  private _handleClick() {
-    this.onClick('Click event fired!');
   }
 }
 

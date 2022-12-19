@@ -114,7 +114,7 @@ export default class BlSelect extends LitElement {
     return this._connectedOptions;
   }
 
-  get isPopoverOpen() {
+  get opened() {
     return this._isPopoverOpen;
   }
 
@@ -239,7 +239,7 @@ export default class BlSelect extends LitElement {
     return html`<div
       class=${classMap({
       'select-wrapper': true,
-      'select-open': this._isPopoverOpen,
+      'select-open': this.opened,
       'selected': this._selectedOptions.length > 0,
       'invalid': this._isInvalid,
     })}
