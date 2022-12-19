@@ -128,7 +128,9 @@ describe('bl-dropdown', () => {
 
       const dropdown = el.querySelector('bl-dropdown');
 
-      const tabKey = navigator.userAgent.includes('Safari') ? 'Alt+Tab' : 'Tab'
+      const tabKey = navigator.userAgent.includes('Safari') &&
+      !navigator.userAgent.includes('HeadlessChrome')
+      ? 'Alt+Tab' : 'Tab'
 
       //given
       await sendKeys({
@@ -167,7 +169,9 @@ describe('bl-dropdown', () => {
 
       const dropdown = el.querySelector('bl-dropdown');
 
-      const tabKey = navigator.userAgent.includes('Safari') ? 'Alt+Tab' : 'Tab'
+      const tabKey = navigator.userAgent.includes('Safari') &&
+      !navigator.userAgent.includes('HeadlessChrome')
+      ? 'Alt+Tab' : 'Tab'
 
       //given
       await sendKeys({
@@ -215,7 +219,9 @@ describe('bl-dropdown', () => {
 
       const dropdown = el.querySelector('bl-dropdown');
 
-      const tabKey = navigator.userAgent.includes('Safari') ? 'Alt+Tab' : 'Tab'
+      const tabKey = navigator.userAgent.includes('Safari') &&
+      !navigator.userAgent.includes('HeadlessChrome')
+      ? 'Alt+Tab' : 'Tab'
 
       //given
       await sendKeys({
