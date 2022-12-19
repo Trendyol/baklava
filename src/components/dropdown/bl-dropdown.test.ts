@@ -1,5 +1,6 @@
 import BlDropdown from './bl-dropdown';
-import { assert, fixture, html, oneEvent, expect } from '@open-wc/testing';
+import { assert, fixture, html, oneEvent, expect, elementUpdated, waitUntil } from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
 
 import type typeOfBlDropdown from './bl-dropdown';
 import BlButton from '../button/bl-button';
@@ -20,12 +21,11 @@ describe('bl-dropdown', () => {
         kind="default"
         size="medium"
         variant="primary"
-        aria-expanded="false"
-        role="menu"
+        aria-label="Dropdown Button"
       >
         Dropdown Button
       </bl-button>
-      <div class="popover"><slot></slot></div>
+      <div class="popover" aria-expanded="false" role="menu"><slot></slot></div>
     `
     );
   });
@@ -103,5 +103,139 @@ describe('bl-dropdown', () => {
     expect(el).to.exist;
     expect(event).to.exist;
     expect(event.detail).to.be.equal('Dropdown closed!');
+  });
+
+  describe('keyboard navigation', () => {
+    it('should focus next action with down arrow key', async () => {
+
+      //when
+      const el = await fixture(
+        html`<div><input id="previnput"><bl-dropdown>
+        <bl-dropdown-item>Action 1</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+        <bl-dropdown-item>Action 3</bl-dropdown-item>
+        </bl-dropdown></div>`
+      );
+
+      await elementUpdated(el);
+
+      await waitUntil(
+        () => el.querySelector('bl-dropdown'),
+        'Element did not render children',
+      );
+
+      const dropdown = el.querySelector('bl-dropdown');
+
+      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+
+      const tabKey = navigator.userAgent.includes('Safari') ? 'Alt+Tab' : 'Tab'
+
+      //given
+      await sendKeys({
+        press: tabKey,
+      });
+      await sendKeys({
+        press: 'Enter',
+      });
+      await sendKeys({
+        press: 'ArrowDown',
+      });
+
+      //then
+      expect(document.activeElement).to.equal(dropdown?.options[0]);
+    });
+
+    it('should focus previous action with up arrow key', async () => {
+
+      //when
+      const el = await fixture(
+        html`<div><input id="previnput"><bl-dropdown>
+        <bl-dropdown-item>Action 1</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+        <bl-dropdown-item>Action 3</bl-dropdown-item>
+        </bl-dropdown></div>`
+      );
+
+      await elementUpdated(el);
+
+
+      await waitUntil(
+        () => el.querySelector('bl-dropdown'),
+        'Element did not render children',
+      );
+
+      const dropdown = el.querySelector('bl-dropdown');
+
+      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+
+      const tabKey = navigator.userAgent.includes('Safari') ? 'Alt+Tab' : 'Tab'
+
+      //given
+      await sendKeys({
+        press: tabKey,
+      });
+
+      await sendKeys({
+        press: 'Enter',
+      });
+
+      await sendKeys({
+        press: 'ArrowDown',
+      });
+
+      await sendKeys({
+        press: 'ArrowDown',
+      });
+
+      await sendKeys({
+        down: 'ArrowUp',
+      });
+
+      //then
+      expect(document.activeElement).to.equal(dropdown?.options[0]);
+    });
+
+    it('should close dropdown with escape key', async () => {
+      //when
+      const el = await fixture(
+        html`<div><input id="previnput"><bl-dropdown>
+        <bl-dropdown-item>Action 1</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+        <bl-dropdown-item>Action 3</bl-dropdown-item>
+        </bl-dropdown></div>`
+      );
+
+      await elementUpdated(el);
+
+      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+
+      await waitUntil(
+        () => el.querySelector('bl-dropdown'),
+        'Element did not render children',
+      );
+
+      const dropdown = el.querySelector('bl-dropdown');
+
+      const tabKey = navigator.userAgent.includes('Safari') ? 'Alt+Tab' : 'Tab'
+
+      //given
+      await sendKeys({
+        press: tabKey,
+      });
+      await sendKeys({
+        press: 'Enter',
+      });
+
+      //then
+      expect(dropdown?.opened).to.equal(true);
+
+      //given
+      await sendKeys({
+        press: 'Escape',
+      });
+
+      //then
+      expect(dropdown?.opened).to.equal(false);
+    });
   });
 });

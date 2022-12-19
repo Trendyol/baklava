@@ -10,6 +10,7 @@
 }
 
 .caption {
+    font: var(--bl-font-caption);
     font-size: var(--bl-font-size-xs);
     font-weight: var(--bl-font-weight-medium);
     line-height: var(--bl-font-size-s);

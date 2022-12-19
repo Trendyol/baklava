@@ -6,6 +6,7 @@
 .popover {
     --left: 0;
     --top: 0;
+    --border-color: var(--bl-color-primary);
 
     position: fixed;
 
@@ -18,12 +19,26 @@
     gap: var(--bl-size-xs);
     overflow-y: auto;
     background: var(--bl-color-primary-background);
-    border: 1px solid var(--bl-color-border);
+    border: 1px solid var(--border-color);
+
+    /* FIXME: Use variables */
     box-shadow: 0 10px 15px -8px #27314226;
     border-radius: var(--bl-size-3xs);
     left: var(--left);
     top: var(--top);
     box-sizing: border-box;
+}
+
+:host([kind='neutral']) .popover {
+  --border-color: var(--bl-color-secondary);
+}
+
+:host([kind='success']) .popover {
+  --border-color: var(--bl-color-success);
+}
+
+:host([kind='danger']) .popover {
+  --border-color: var(--bl-color-danger);
 }
 
 .visible {

@@ -17,6 +17,8 @@ import '../button/bl-button';
 import { ButtonSize, ButtonVariant, ButtonKind } from '../button/bl-button';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
+import BlDropdownItem, { blDropdownItemTag } from './item/bl-dropdown-item';
+
 export type CleanUpFunction = () => void;
 
 export const blDropdownTag = 'bl-dropdown';
@@ -83,11 +85,13 @@ export default class BlDropdown extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this.addEventListener('keydown', this.handleKeyDown);
   }
   disconnectedCallback() {
     super.disconnectedCallback();
 
     this._cleanUpPopover && this._cleanUpPopover();
+    this.removeEventListener('keydown', this.handleKeyDown);
   }
 
   get opened() {
@@ -128,6 +132,41 @@ export default class BlDropdown extends LitElement {
     });
   }
 
+  private focusedOptionIndex = -1;
+
+  private handleKeyDown(event: KeyboardEvent) {
+    // Next action
+    if (['ArrowDown', 'ArrowRight'].includes(event.key)) {
+      this.focusedOptionIndex++;
+
+      // Previous action
+    } else if (['ArrowUp', 'ArrowLeft'].includes(event.key)) {
+      this.focusedOptionIndex--;
+      // Select action
+    } else if (event.key === 'Escape') {
+      this.focusedOptionIndex = -1;
+      this.close()
+      return;
+    } else {
+      // Other keys are not our interest here
+      return;
+    }
+
+    // Don't exceed array indexes
+    this.focusedOptionIndex = Math.max(
+      0,
+      Math.min(this.focusedOptionIndex, this.options.length - 1)
+    );
+
+    this.options[this.focusedOptionIndex].focus();
+
+    event.preventDefault();
+  }
+
+  get options(): BlDropdownItem[] {
+    return [].slice.call(this.querySelectorAll(blDropdownItemTag));
+  }
+
   open() {
     this._isPopoverOpen = true;
     this._setupPopover();
@@ -155,13 +194,12 @@ export default class BlDropdown extends LitElement {
         variant="${this.variant}"
         kind="${this.kind}"
         size="${this.size}"
-        aria-expanded="${this.opened}"
+        aria-label="${ifDefined(this.label)}"
         @bl-click="${this._handleClick}"
-        role="menu"
       >
         ${this.label}
       </bl-button>
-      <div class="${popoverClasses}"><slot></slot></div> `;
+      <div class="${popoverClasses}" role="menu" aria-expanded="${this.opened}"><slot></slot></div> `;
   }
 }
 
