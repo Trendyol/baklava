@@ -142,8 +142,3 @@
   /* Font Style: Caption */
   --bl-font-caption: var(--bl-font-weight-medium) var(--bl-font-size-xs) var(--bl-font-family);
 }
-
-/* Prevent FOUCE */
-:not(:defined) {
-  visibility: hidden;
-}

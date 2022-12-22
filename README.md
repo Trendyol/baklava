@@ -23,4 +23,10 @@ Preferred way of using Baklava is using it via CDN. Just import library JS and C
 
 This way library will be served from a very high performant CDN and all of the Baklava web components will be ready to use inside your web project.
 
+> **⚠️ Because the scripts of the custom components are loaded into the DOM later, the baklava components may appear unstyled on the screen for a while. In order to avoid this 'FOUCE' effect, you can follow the instructions at this
+ [link](https://www.abeautifulsite.net/posts/flash-of-undefined-custom-elements/).**
+
+
+Custom componentlerin scriptleri doma sonradan yüklendiği için baklava componentleri ekranda bir süre stilsiz görünebilir. Bu FOUCE effect olayını aşmak için linkteki adımları takip ediniz.
+
 Please check our [Storybook Documentation](https://trendyol.github.io/baklava/) for detailed information about design system, components and contribution guideline.
