@@ -16,5 +16,6 @@ export { default as BlSelectOption } from './components/select/option/bl-select-
 export { default as BlTab } from './components/tab-group/tab/bl-tab';
 export { default as BlTabGroup } from './components/tab-group/bl-tab-group';
 export { default as BlTabPanel } from './components/tab-group/tab-panel/bl-tab-panel';
+export { default as BlTextarea } from './components/textarea/bl-textarea';
 export { default as BlTooltip } from './components/tooltip/bl-tooltip';
 export { getIconPath, setIconPath } from './utilities/asset-paths';
