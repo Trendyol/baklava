@@ -2,31 +2,31 @@
   display: inline-block;
   width: 200px;
   position: relative;
-
-  --bl-textarea-padding-vertical: var(--bl-size-2xs);
-  --bl-textarea-padding-horizontal: var(--bl-size-xs);
-  --bl-textarea-border-color: var(--bl-color-border);
-  --bl-textarea-icon-color: var(--bl-color-content-tertiary);
-  --bl-textarea-text-color: var(--bl-color-content-primary);
-  --bl-input-height: var(--bl-size-2xl);
 }
 
 textarea {
   outline: none;
   box-sizing: border-box;
-  border: solid 1px var(--bl-textarea-border-color);
+  border: solid 1px var(--bl-color-border);
   width: 100%;
   font: var(--bl-font-title-3-regular);
-  padding:var(--bl-textarea-padding-vertical) var(--bl-textarea-padding-horizontal);
+  padding:var(--bl-size-2xs) var(--bl-size-xs);
   margin: 0;
   border-radius: 4px;
-  color: var(--bl-textarea-text-color);
+  color: var(--bl-color-content-primary);
 }
 
 textarea.expand {
   box-sizing: border-box;
   display: block;
   overflow: hidden;
+  resize: none;
+}
+
+textarea.expand-scroll {
+  box-sizing: border-box;
+  display: block;
+  overflow: scroll;
   resize: none;
 }
 
@@ -37,8 +37,8 @@ textarea.expand {
 
 label {
   position: absolute;
-  top: var(--bl-textarea-padding-vertical);
-  left: var(--bl-textarea-padding-horizontal);
+  top: var(--bl-size-2xs);
+  left: var(--bl-size-xs);
   transition: all ease-in 0.2s;
   pointer-events: none;
   font: var(--bl-font-title-3-regular);
@@ -87,12 +87,7 @@ label {
   padding: var(--bl-size-3xs) 0;
 }
 
-.max-len-invalid ~ .brief > .counter-text {
-  color: var(--bl-color-danger);
-}
-
-
-.dirty:invalid ~ .brief > .counter-text {
+:where(.max-len-invalid, .dirty:invalid) ~ .brief > .counter-text {
   color: var(--bl-color-danger);
 }
 
@@ -108,15 +103,11 @@ label {
 .invalid-text,
 .help-text {
   font: var(--bl-font-title-4-regular);
-  padding: var(--bl-size-3xs) var(--bl-textarea-padding-horizontal);
+  padding: var(--bl-size-3xs) var(--bl-size-xs);
   margin: 0;
 }
 
-.max-len-invalid ~ .brief > .invalid-text {
-  display: inline-block;
-}
-
-.dirty:invalid ~  .brief > .invalid-text {
+:where(.max-len-invalid, .dirty:invalid) ~ .brief > .invalid-text {
   display: inline-block;
 }
 

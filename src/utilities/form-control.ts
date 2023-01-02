@@ -24,9 +24,8 @@ export const innerInputValidators = validityStates.map(key => ({
 
 export const textareaLengthValidator = {
   ...maxLengthValidator,
+  message:'Please use no more than undefined characters.',
   isValid(instance: HTMLElement & { validationTarget: HTMLTextAreaElement }) {
-    console.log(instance);
-    console.log('target',instance.validationTarget);
     if(instance.validationTarget){
       return (Number(instance.attributes.getNamedItem('maxlength')?.value) >= instance.validationTarget.value.length);
     }

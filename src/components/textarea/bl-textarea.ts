@@ -5,7 +5,6 @@ import {ifDefined} from "lit/directives/if-defined.js";
 import {event, EventDispatcher} from "../../utilities/event";
 import {classMap} from "lit/directives/class-map.js";
 import {live} from "lit/directives/live.js";
-import {submit} from "@open-wc/form-helpers";
 import { textareaLengthValidator} from "../../utilities/form-control";
 
 import style from './bl-textarea.css';
@@ -82,7 +81,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   placeholder?: string;
 
   /**
-   * Character counter
+   * Enables showing character counter.
    */
   @property({ type: Boolean, attribute: 'character-counter' })
   characterCounter = false;
@@ -112,7 +111,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   value = '';
 
   /**
-   * Sets input size.
+   * Sets textarea visible row count.
    */
   @property({ type: Number})
   rows?: number = 4;
@@ -124,11 +123,12 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
 
 
+  private initialHeight:number;
   private lineHeight:number;
+  private expandScroll = false;
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('keydown', this.onKeydown);
     this.addEventListener('invalid', this.onError);
 
     if(this.expand){
@@ -140,11 +140,6 @@ export default class BlTextarea extends FormControlMixin(LitElement){
     });
   }
 
-  private onKeydown = (event: KeyboardEvent): void => {
-    if (event.code === 'Enter' && this.form) {
-      submit(this.form);
-    }
-  }
 
   private onError = (): void => {
     this.onInvalid(this.internals.validity);
@@ -180,10 +175,26 @@ export default class BlTextarea extends FormControlMixin(LitElement){
 
   autoResize() {
     const scrollHeight = this.validationTarget.scrollHeight;
-    this.validationTarget.style.height = "";
-    this.validationTarget.style.height = scrollHeight + "px";
-    console.log(scrollHeight, this.lineHeight);
-    this.rows = scrollHeight / this.lineHeight;
+    if(!this.initialHeight) {
+      this.initialHeight = scrollHeight;
+      this.lineHeight = this.initialHeight / this.rows!;
+    }
+
+    if(scrollHeight > this.initialHeight){
+      if(!this.maxRow){
+        this.validationTarget.style.height = "";
+        this.validationTarget.style.height = scrollHeight + "px";
+        this.expandScroll = false;
+      }else {
+        const currentRow = scrollHeight / this.lineHeight;
+        if(currentRow < this.maxRow){
+          this.expandScroll = true;
+          this.validationTarget.style.height = "";
+          this.validationTarget.style.height = scrollHeight + "px";
+        }
+      }
+
+    }
   }
 
   @state() private dirty = false;
@@ -196,19 +207,21 @@ export default class BlTextarea extends FormControlMixin(LitElement){
       : ``;
     const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
 
-    const label = this.label ? html`<label>${this.label}</label>` : '';
+    const label = this.label ? html`<label for="bl-text-area">${this.label}</label>` : '';
     const characterCounter = (this.characterCounter && this.maxlength) ? html`<p class="counter-text">${this.value.length}/${this.maxlength}</p>` : '';
 
 
     const classes = {
       'dirty': this.dirty,
       'expand':this.expand,
+      'expand-scroll': this.expandScroll,
       'max-len-invalid': maxLengthInvalid,
       'has-value': this.value !== null && this.value !== '',
     };
 
     return html`
         <textarea
+          id="bl-text-area"
           name="${ifDefined(this.name)}"
           class=${classMap(classes)}
           .value=${live(this.value)}
@@ -219,7 +232,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
           ?disabled=${this.disabled}
           @change=${this.changeHandler}
           @input=${this.inputHandler}
-        ><slot></slot>
+        >
         </textarea>
         ${label}
         <div class="brief">
