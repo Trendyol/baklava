@@ -200,6 +200,7 @@ label {
   top: var(--padding-vertical);
   left: var(--padding-horizontal);
   right: calc(var(--bl-size-2xs) + var(--bl-size-m) + var(--bl-size-2xs));
+  max-width: max-content;
   transition: all ease-in 0.2s;
   pointer-events: none;
   font: var(--bl-font-title-3-regular);
