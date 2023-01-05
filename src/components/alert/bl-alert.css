@@ -13,9 +13,10 @@
   justify-content: space-between;
   background-color: var(--main-bg-color);
   color: var(--bl-color-content-primary);
-  box-shadow: 0 0 0 1px var(--main-color);
+  box-shadow: inset 0 0 0 1px var(--main-color);
   border-radius: var(--bl-border-radius-s);
   padding: calc(var(--padding) / 2) var(--padding);
+  padding-right: calc(var(--padding) / 2);
 }
 
 .description {
@@ -50,7 +51,6 @@
 .caption {
   color: var(--bl-color-content-primary);
   font: var(--bl-font-title-3-medium);
-  margin-bottom: var(--bl-size-4xs);
 }
 
 .action {
@@ -61,10 +61,6 @@
 
 .caption + .description {
   margin-top: var(--bl-size-2xs);
-}
-
-.close-spaced {
-  margin-top: calc(var(--padding) / 2);
 }
 
 :host([closed]) {
