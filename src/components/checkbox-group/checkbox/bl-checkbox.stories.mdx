@@ -30,16 +30,17 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
   }}
 />
 
-export const CheckboxTemplate = (args) => html`
-<bl-checkbox
-    ?disabled=${args.disabled}
-    ?checked=${args.checked}
-    name='${ifDefined(args.name)}'
-    value='${ifDefined(args.value)}'
-    ?indeterminate=${args.indeterminate}
-    ?required=${args.required}>
-    ${args.label}
-  </bl-checkbox>
+export const CheckboxTemplate = (args) => html`<bl-checkbox
+  ?disabled=${args.disabled}
+  ?checked=${args.checked}
+  name='${ifDefined(args.name)}'
+  value='${ifDefined(args.value)}'
+  ?indeterminate=${args.indeterminate}
+  ?required=${args.required}>${args.label}</bl-checkbox>`;
+
+export const CheckboxLimitedWidthTemplate = (args) => html`<div style="max-width: 100px">
+  ${CheckboxTemplate(args)}
+</div>
 `;
 
 # Checkbox
@@ -121,6 +122,26 @@ Provide the name and the value of the checkbox element, so that its value can be
     {CheckboxTemplate.bind({})}
   </Story>
 </Canvas>
+
+## Multiline labels
+
+If label doesn't fit the row and goes multiline, checkmark stays on top.
+
+<Canvas>
+  <Story name="Multiline label" args={{ label: "Very long label that doesn't fit single line" }}>
+    {CheckboxLimitedWidthTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Also if a single word doesn't fit the line, it also being forced to multiline (with `word-break: break-all;`).
+
+
+<Canvas>
+  <Story name="A very long word" args={{ label: "Some/Very&LongSingleWord" }}>
+    {CheckboxLimitedWidthTemplate.bind({})}
+  </Story>
+</Canvas>
+
 
 ## Reference
 

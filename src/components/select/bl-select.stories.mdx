@@ -82,10 +82,12 @@ export const SelectOptionsSelectedTemplate = (args) => html`<bl-select
 </bl-select>`
 
 # Select
+
 Select component is a component for selecting a value from a list of options.
 Each option should be wrapped with `bl-select-option` component.
 
 ## Basic Usage
+
 <Canvas>
   <Story name="Basic Usage" args={{ placeholder: "Choose country" }} play={selectOpener}>
     {SelectTemplate.bind({})}
@@ -96,6 +98,7 @@ Each option should be wrapped with `bl-select-option` component.
 </Canvas>
 
 ## Multiple Select
+
 There will be checkboxes in select menu when `multiple` attribute is set to true.
 Selected options will be visible on input seperated by commas.
 <Canvas>
@@ -109,9 +112,7 @@ Selected options will be visible on input seperated by commas.
 
 ## Select Labels
 
-Select component optionally can have a `label`.
-If the label is set, it will be a floating label by default.
-If you want to use always it on top of the input, then you can use `label-fixed` attribute.
+Select component optionally can have a `label`. If the label is set, it will be a floating label by default. If you want to use always it on top of the input, then you can use `label-fixed` attribute.
 
 <Canvas isColumn>
   <Story name="Select With Label" args={{ label: "Country" }}>
@@ -121,6 +122,21 @@ If you want to use always it on top of the input, then you can use `label-fixed`
     {SelectTemplate.bind({})}
   </Story>
   <Story name="Select Without Label" args={{ placeholder: "Choose country" }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Select component will cut-out long labels and placeholders those doesn't width of select, with ellipsis char.
+
+
+<Canvas isColumn>
+  <Story name="Select With Long Label" args={{ label: "Very very long label that doesn't fit select component width" }}>
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story name="Select With Fixed Long Label" args={{ label: "Very very long label that doesn't fit select component width", placeholder:"Choose country", labelFixed: true }}>
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story name="Select Without Label with Long Placeholder" args={{ placeholder: "Very very long placeholder that doesn't fit select component width" }}>
     {SelectTemplate.bind({})}
   </Story>
 </Canvas>
