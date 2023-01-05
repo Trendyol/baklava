@@ -33,6 +33,7 @@ input {
   border-radius: var(--bl-border-radius-xs);
   color: var(--bl-color-content-primary-contrast);
   font-size: var(--bl-font-size-2xs);
+  line-height: 100%;
 }
 
 :host([checked]) .label,
