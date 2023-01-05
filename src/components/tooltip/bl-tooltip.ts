@@ -20,15 +20,12 @@ export type Placement =
   | 'right'
   | 'right-end';
 
-export type TriggerEvent = 'click' | 'focus' | 'hover' | 'manual';
-
 /**
  * @tag bl-tooltip
  * @summary Baklava Tooltip component
  *
  * @property {string} placement - Sets the tooltip placement
  */
-
 @customElement('bl-tooltip')
 export default class BlTooltip extends LitElement {
   static get styles(): CSSResultGroup {
