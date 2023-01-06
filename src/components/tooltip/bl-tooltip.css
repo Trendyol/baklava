@@ -4,10 +4,6 @@
 }
 
 .tooltip {
-  --left: 0;
-  --top: 0;
-  --visibility: hidden;
-
   position: fixed;
   box-sizing: border-box;
   border: none;
@@ -17,31 +13,24 @@
   pointer-events: none;
   font: var(--bl-font-title-3-regular);
   padding: var(--bl-size-m);
-  left: var(--left);
-  top: var(--top);
-  visibility: var(--visibility);
   z-index: 999;
-  max-width: 424px;
   width: max-content;
+  hyphens: auto;
+
+  --max-viewport: calc(100vw - var(--bl-size-s));
+  --tooltip-max-width: 424px;
+
+  max-width: min(var(--max-viewport), var(--tooltip-max-width));
+}
+
+.tooltip:not(.visible) {
+  visibility: hidden;
 }
 
 .arrow {
-  --arrow-top: 0;
-  --arrow-bottom: 0;
-  --arrow-right: 0;
-  --arrow-left: 0;
-
   position: absolute;
   background-color: var(--bl-color-secondary);
   width: var(--bl-size-2xs);
   height: var(--bl-size-2xs);
   transform: rotate(45deg);
-  top: var(--arrow-top);
-  bottom: var(--arrow-bottom);
-  right: var(--arrow-right);
-  left: var(--arrow-left);
-}
-
-.visible {
-  --visibility: visible;
 }

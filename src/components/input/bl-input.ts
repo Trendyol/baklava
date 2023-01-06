@@ -195,13 +195,13 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   render(): TemplateResult {
     const invalidMessage = !this.checkValidity()
-      ? html`<p class="invalid-text">${this.validationMessage}</p>`
+      ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">${this.validationMessage}</p>`
       : ``;
-    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
+    const helpMessage = this.helpText ? html`<p id="helpText" class="help-text">${this.helpText}</p>` : ``;
     const icon = this.icon
       ? html` <bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
       : '';
-    const label = this.label ? html`<label>${this.label}</label>` : '';
+    const label = this.label ? html`<label for="input">${this.label}</label>` : '';
 
     const classes = {
       'dirty': this.dirty,
@@ -211,6 +211,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
     return html`
       <input
+        id="input"
         type=${this.type}
         class=${classMap(classes)}
         .value=${live(this.value)}
@@ -223,6 +224,9 @@ export default class BlInput extends FormControlMixin(LitElement) {
         ?disabled=${this.disabled}
         @change=${this.changeHandler}
         @input=${this.inputHandler}
+        aria-invalid=${this.checkValidity() ? 'false' : 'true'}
+        aria-describedby=${ifDefined(this.helpText ? "helpText" : undefined)}
+        aria-errormessage=${ifDefined(this.checkValidity() ? undefined : "errorMessage")}
       />
       ${label} ${icon}
       <bl-icon class="error-icon" name="alert"></bl-icon>
