@@ -2,15 +2,15 @@
   position: relative;
   display: flex;
   align-items: center;
-  background-color: var(--bl-color-primary-background);
+  background-color: var(--bl-color-content-primary-contrast);
 }
 
 .container {
   --title-padding-vertical: var(--bl-size-m);
   --title-padding-horizontal: var(--bl-size-xl);
-  --title-color: var(--bl-color-secondary);
-  --caption-color: var(--bl-color-secondary);
-  --icon-color: var(--bl-color-secondary);
+  --title-color: var(--bl-color-content-primary);
+  --caption-color: var(--bl-color-content-primary);
+  --icon-color: var(--bl-color-content-primary);
   --border-bottom-width: var(--bl-size-4xs);
   --border-left-space: var(--bl-size-xl);
   --font-title: var(--bl-font-title-3-medium);

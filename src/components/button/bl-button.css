@@ -7,7 +7,7 @@
 .button {
   --main-color: var(--bl-color-primary);
   --main-hover-color: var(--bl-color-primary-hover);
-  --text-hover-color: var(--bl-color-secondary-background);
+  --text-hover-color: var(--bl-color-content-primary-contrast);
   --content-color: var(--bl-color-content-primary-contrast);
   --bg-color: var(--main-color);
   --border-color: var(--main-color);
@@ -89,8 +89,8 @@
 }
 
 :host([kind='neutral']) .button {
-  --main-color: var(--bl-color-secondary);
-  --main-hover-color: var(--bl-color-secondary-hover);
+  --main-color: var(--bl-color-content-primary);
+  --main-hover-color: var(--bl-color-content-secondary);
 }
 
 :host([kind='success']) .button {

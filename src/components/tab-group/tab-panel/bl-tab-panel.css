@@ -6,5 +6,5 @@
 :host([visible]) {
   display: block;
   padding: var(--bl-size-xl);
-  background-color: var(--bl-color-primary-background);
+  background-color: var(--bl-color-content-primary-contrast);
 }

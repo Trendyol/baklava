@@ -9,7 +9,7 @@
 
   --padding-vertical: var(--bl-size-2xs);
   --padding-horizontal: var(--bl-size-xs);
-  --background-color:  var(--bl-color-primary-background);
+  --background-color:  var(--bl-color-content-primary-contrast);
   --border-color: var(--bl-color-border);
   --border-focus-color: var(--bl-color-primary-hover);
   --icon-color: var(--bl-color-content-tertiary);
@@ -111,7 +111,7 @@
 }
 
 .selected .dropdown-icon {
-  --icon-color: var(--bl-color-secondary);
+  --icon-color: var(--bl-color-content-primary);
 }
 
 :host([disabled]) .dropdown-icon {
@@ -219,7 +219,7 @@ label {
   font: var(--bl-font-caption);
   color: var(--label-color);
   padding: 0 var(--bl-size-3xs);
-  background-color: var(--bl-color-primary-background);
+  background-color: var(--bl-color-content-primary-contrast);
   pointer-events: initial;
   right: var(--padding-horizontal);
 }

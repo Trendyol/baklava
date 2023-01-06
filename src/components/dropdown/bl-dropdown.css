@@ -18,7 +18,7 @@
     padding: var(--bl-size-m);
     gap: var(--bl-size-xs);
     overflow-y: auto;
-    background: var(--bl-color-primary-background);
+    background: var(--bl-color-content-primary-contrast);
     border: 1px solid var(--border-color);
 
     /* FIXME: Use variables */
@@ -30,7 +30,7 @@
 }
 
 :host([kind='neutral']) .popover {
-  --border-color: var(--bl-color-secondary);
+  --border-color: var(--bl-color-content-primary);
 }
 
 :host([kind='success']) .popover {

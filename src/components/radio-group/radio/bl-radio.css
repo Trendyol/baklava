@@ -51,12 +51,12 @@
 }
 
 :host([disabled]) #label::before {
-  background-color: var(--bl-color-secondary-background);
+  background-color: var(--bl-color-content-primary-contrast);
 }
 
 :host([disabled]) .selected #label::before {
   background-color: var(--bl-color-content-passive);
-  border-color: var(--bl-color-secondary-background);
+  border-color: var(--bl-color-content-primary-contrast);
 }
 
 .wrapper:focus-visible #label::before {

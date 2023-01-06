@@ -1,6 +1,6 @@
 .tabs {
-  background-color: var(--bl-color-primary-background);
-  border-bottom: var(--bl-size-4xs) solid var(--bl-color-secondary-background);
+  background-color: var(--bl-color-content-primary-contrast);
+  border-bottom: var(--bl-size-4xs) solid var(--bl-color-content-passive);
   display: flex;
   flex-direction: row;
 }

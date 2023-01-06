@@ -1,7 +1,59 @@
 @import '@fontsource/rubik/variable.css';
 
 :root {
-  /* Colors */
+  /* Color Light Values */
+  --bl-light-regular: 46%;
+  --bl-light-hover: 33%;
+  --bl-light-contrast: 94%;
+  --bl-light-content: 20%;
+  --bl-light-content-step: 15%;
+
+  /* Key Colors */
+  --bl-color-primary-key: 26 87%;
+  --bl-color-secondary-key: 214 79%;
+  --bl-color-success-key: 102 54%;
+  --bl-color-danger-key: 4 100%;
+  --bl-color-warning-key: 45 95%;
+  --bl-color-content-key: 221 12%;
+
+  /* Color Variants
+
+  Primary Color */
+  --bl-color-primary: hsl(var(--bl-color-primary-key) var(--bl-light-regular));
+  --bl-color-primary-hover: hsl(var(--bl-color-primary-key) var(--bl-light-hover));
+  --bl-color-primary-background: hsl(var(--bl-color-primary-key) var(--bl-light-contrast));
+
+  /* Secondary Color */
+  --bl-color-secondary: hsl(var(--bl-color-secondary-key) var(--bl-light-regular));
+  --bl-color-secondary-hover: hsl(var(--bl-color-secondary-key) var(--bl-light-hover));
+  --bl-color-secondary-background: hsl(var(--bl-color-secondary-key) var(--bl-light-contrast));
+
+  /* Success Color */
+  --bl-color-success: hsl(var(--bl-color-success-key) var(--bl-light-regular));
+  --bl-color-success-hover: hsl(var(--bl-color-success-key) var(--bl-light-hover));
+  --bl-color-success-background: hsl(var(--bl-color-success-key) var(--bl-light-contrast));
+
+  /* Danger Color */
+  --bl-color-danger: hsl(var(--bl-color-danger-key) var(--bl-light-regular));
+  --bl-color-danger-hover: hsl(var(--bl-color-danger-key) var(--bl-light-hover));
+  --bl-color-danger-background: hsl(var(--bl-color-danger-key) var(--bl-light-contrast));
+
+  /* Warning Color */
+  --bl-color-warning: hsl(var(--bl-color-warning-key) var(--bl-light-regular));
+  --bl-color-warning-hover: hsl(var(--bl-color-warning-key) var(--bl-light-hover));
+  --bl-color-warning-background: hsl(var(--bl-color-warning-key) var(--bl-light-contrast));
+
+  /* Content Color */
+  --bl-color-content-primary: hsl(var(--bl-color-content-key) var(--bl-light-content));
+  --bl-color-content-secondary: hsl(var(--bl-color-content-key) calc(var(--bl-light-content) + var(--bl-light-content-step)));
+  --bl-color-content-tertiary: hsl(var(--bl-color-content-key) calc(var(--bl-light-content) + var(--bl-light-content-step) * 2));
+  --bl-color-content-passive: hsl(var(--bl-color-content-key) calc(var(--bl-light-content) + var(--bl-light-content-step) * 3));
+  --bl-color-content-primary-contrast: hsl(var(--bl-color-content-key) 100%);
+
+  /* FIXME: Remove or rename this */
+  --bl-color-border: var(--bl-color-content-passive);
+
+  /* Old Colors
   --bl-color-primary: #f27a1a;
   --bl-color-primary-hover: #ef6114;
   --bl-color-secondary: #273142;
@@ -19,7 +71,7 @@
   --bl-color-featured: #8c4eff;
   --bl-color-featured-hover: #753eff;
 
-  /* Background Colors */
+  Background Colors
   --bl-color-primary-background: #fff;
   --bl-color-accent-primary-background: #fef2e8;
   --bl-color-secondary-background: #f1f2f7;
@@ -30,7 +82,7 @@
   --bl-color-alternative-background: #eef4ff;
   --bl-color-featured-background: #f4edff;
 
-  /* Content Colors */
+  Content Colors
   --bl-color-content-primary: #273142;
   --bl-color-content-secondary: #6e7787;
   --bl-color-content-tertiary: #95a1b5;
@@ -38,6 +90,7 @@
   --bl-color-content-primary-contrast: #fff;
   --bl-color-content-hover: #f27a1a;
   --bl-color-border: #d5d9e1;
+  */
 
   /* Size and Spacing */
   --bl-size-4xs: 0.125rem; /* 2px */

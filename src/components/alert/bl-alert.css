@@ -5,7 +5,7 @@
 .alert {
   --padding: var(--bl-size-m);
   --main-color: var(--bl-color-primary);
-  --main-bg-color: var(--bl-color-accent-primary-background);
+  --main-bg-color: var(--bl-color-primary-background);
 
   position: relative;
   display: flex;

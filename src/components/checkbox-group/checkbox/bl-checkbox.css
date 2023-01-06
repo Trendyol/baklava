@@ -10,7 +10,7 @@
 label {
   display: flex;
   gap: var(--bl-size-2xs);
-  color: var(--bl-color-secondary);
+  color: var(--bl-color-content-primary);
   font: var(--bl-font-title-3);
   cursor: pointer;
   user-select: none;
@@ -40,7 +40,7 @@ input {
   border-radius: var(--bl-border-radius-xs);
   color: var(--bl-color-content-primary-contrast);
   font-size: var(--bl-font-size-2xs);
-  background-color: var(--bl-color-primary-background);
+  background-color: var(--bl-color-content-primary-contrast);
 }
 
 :host([checked]) .label,
@@ -64,7 +64,7 @@ input {
 }
 
 :host([disabled]) .check-mark {
-  background-color: var(--bl-color-secondary-background);
+  background-color: var(--bl-color-content-primary-contrast);
 }
 
 :host(:not([disabled])) input:focus-visible + .check-mark {

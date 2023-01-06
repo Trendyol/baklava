@@ -14,7 +14,7 @@
   right: 0;
   width: 424px;
   height: 100vh;
-  background: var(--bl-color-primary-background);
+  background: var(--bl-color-content-primary-contrast);
   box-shadow: var(--bl-size-xs) 0 var(--bl-size-2xl) rgba(0 0 0 / 50%);
   transform: translateX(100%);
   transition: transform var(--bl-drawer-animation-duration, .25s);
@@ -56,7 +56,7 @@ header .header-buttons {
 
 header h2 {
   font: var(--bl-font-title-1-medium);
-  color: var(--bl-color-secondary);
+  color: var(--bl-color-content-primary);
   overflow: hidden;
   margin: 0;
   padding: 0;
