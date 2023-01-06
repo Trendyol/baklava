@@ -37,7 +37,7 @@
           class="item"
           :class="{ disabled: isDisabled(item) }"
           v-for="(item, index) in filteredOptions"
-          :key="`item_wrapper_${item.toString()}_${index}`"
+          :key="`item_wrapper_${getItemValue(item)}_${index}`"
           @click.stop="clickItem(item)"
           :init-intersection-observer="removeOptionsFromDom"
         >
