@@ -508,5 +508,6 @@ export default class BlSelect extends LitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'bl-select': BlSelect;
+    'bl-search': BlSelect;
   }
 }
