@@ -13,10 +13,7 @@ function writeBaklavaReactFile(fileContentParts) {
     ${fileContentParts.join('\n\n')}
   `;
 
-  fs.writeFileSync(
-    `${__dirname}/../src/baklava-react.ts`,
-    fileContentText.trim()
-  );
+  fs.writeFileSync(`${__dirname}/../src/baklava-react.ts`, fileContentText.trim());
 }
 
 function getReactEventName(baklavaEventName) {
@@ -30,7 +27,9 @@ const baklavaReactFileParts = [];
 
 for (const module of customElementsModules) {
   const { declarations, path } = module;
-  const { events, name: componentName, tagName: fileName } = declarations[0];
+  const componentDeclaration = declarations.find(declaration => declaration.customElement === true);
+
+  const { events, name: componentName, tagName: fileName } = componentDeclaration;
 
   const eventNames = events
     ? events.reduce((acc, curr) => {
@@ -46,12 +45,19 @@ for (const module of customElementsModules) {
 
   baklavaReactFileParts.push(
     `
-    export const ${componentName} = createComponent<${Type}>(
-        React,
-        '${fileName}',
-        customElements.get('${fileName}'),
-        ${JSON.stringify(eventNames)}
-      );`
+  export const ${componentName} = React.lazy(() =>
+    customElements.whenDefined('${fileName}').then(elem => ({
+        default: createComponent<${Type}>(
+          {
+            react: React,
+            tagName: '${fileName}',
+            elementClass: elem,
+            events:${JSON.stringify(eventNames)}
+          }
+      )
+      })
+ ));
+   `
   );
 }
 

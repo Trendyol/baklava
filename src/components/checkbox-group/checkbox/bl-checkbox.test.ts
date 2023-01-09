@@ -14,7 +14,10 @@ describe('bl-checkbox', () => {
       el,
       `
         <label>
-            <input type="checkbox" name="checkbox" />
+            <input type="checkbox"
+              aria-labelledby="label"
+              aria-readonly="false"
+              aria-required="false" />
             <div class="check-mark"></div>
             <span class="label"><slot></slot></span>
         </label>
@@ -40,7 +43,7 @@ describe('bl-checkbox', () => {
   });
 
   it('should be rendered with check icon when checkbox checked', async () => {
-    const el = await fixture(html`<bl-checkbox checked></bl-checkbox>`);
+    const el = await fixture(html`<bl-checkbox checked required></bl-checkbox>`);
     const iconEl = el.shadowRoot?.querySelector('bl-icon');
 
     expect(iconEl?.getAttribute('name')).to.eq('check');

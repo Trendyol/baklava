@@ -9,7 +9,7 @@
 
   --padding-vertical: var(--bl-size-2xs);
   --padding-horizontal: var(--bl-size-xs);
-  --background-color: #fff;
+  --background-color:  var(--bl-color-primary-background);
   --border-color: var(--bl-color-border);
   --border-focus-color: var(--bl-color-primary-hover);
   --icon-color: var(--bl-color-content-tertiary);
@@ -42,6 +42,10 @@
 
 .placeholder {
   color: var(--placeholder-color);
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 :host([disabled]) .placeholder {
@@ -191,16 +195,20 @@ bl-icon {
 
 label {
   position: absolute;
-  display: flex;
-  align-items: center;
+  display: block;
   top: var(--padding-vertical);
   left: var(--padding-horizontal);
+  right: calc(var(--bl-size-2xs) + var(--bl-size-m) + var(--bl-size-2xs));
+  max-width: max-content;
   transition: all ease-in 0.2s;
   pointer-events: none;
   font: var(--bl-font-title-3-regular);
   font-size: var(--font-size);
   color: var(--placeholder-color);
   padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 :where(.select-open, .selected) label {
@@ -212,6 +220,7 @@ label {
   padding: 0 var(--bl-size-3xs);
   background-color: var(--bl-color-primary-background);
   pointer-events: initial;
+  right: var(--padding-horizontal);
 }
 
 :host([label-fixed]) .select-wrapper {
@@ -221,12 +230,13 @@ label {
 :host([label-fixed]) label {
   top: 0;
   left: 0;
+  right: 0;
+  padding: 0;
   transition: none;
   transform: none;
   pointer-events: initial;
   font: var(--bl-font-caption);
   color: var(--label-color);
-  padding: 0;
 }
 
 .help-text,

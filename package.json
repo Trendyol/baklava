@@ -59,7 +59,7 @@
   "dependencies": {
     "@floating-ui/dom": "^0.5.4",
     "@fontsource/rubik": "^4.5.9",
-    "@lit-labs/react": "^1.0.7",
+    "@lit-labs/react": "^1.1.0",
     "@open-wc/form-control": "^0.4.1",
     "@open-wc/form-helpers": "^0.1.2",
     "element-internals-polyfill": "^1.1.15",
@@ -97,6 +97,7 @@
     "@web/test-runner-playwright": "^0.8.6",
     "@web/test-runner-puppeteer": "^0.10.5",
     "@webcomponents/webcomponentsjs": "^2.5.0",
+    "chromatic": "^6.11.4",
     "del": "^6.1.0",
     "del-cli": "^5.0.0",
     "esbuild": "^0.14.50",

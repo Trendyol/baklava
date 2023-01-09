@@ -101,3 +101,76 @@ Using design tokens here is of course also possible:
   --bl-badge-color: var(--bl-color-success);
 }
 ```
+
+## Customizing Typography Styles
+
+Baklava Design System provides many design tokens for typography. You can customize font styles in different levels according to your needs. For example:
+
+```css
+.my-header {
+  font: var(--bl-font-display-light);
+}
+```
+
+In the example above we are using "Display Light" font for an element. In your own theme, you can override this font definition like below:
+
+```css
+:root {
+  --bl-font-display-light: 400 40px/48px Helvetica;
+}
+```
+
+On the other hand, this variable uses multiple other variables behind the scene. Let's check how it's defined in our default theme:
+
+```css
+:root {
+  ...
+  --bl-font-display-font-size: var(--bl-font-size-5xl);
+  --bl-font-display-line-height: calc(var(--bl-font-display-font-size) + var(--bl-size-2xs));
+  --bl-font-display-size: var(--bl-font-display-font-size)/var(--bl-font-display-line-height);
+  --bl-font-display: var(--bl-font-display-size) var(--bl-font-family);
+  --bl-font-display-light: var(--bl-font-weight-light) var(--bl-font-display);
+  ...
+}
+```
+
+As you can see `--bl-font-display-light` is extending `--bl-font-display` by just setting font-weight with another variable we provide in design tokens
+named `--bl-font-weight-light`. It's also possible to override `--bl-font-display` to change font and size definitions of all of the "display" fonts
+without touching their font-weights:
+
+```css
+:root {
+  --bl-font-display: 40px/48px Helvetica;
+}
+```
+
+Same applies for other variables. Let's check how can we set custom line-heights.
+
+In Baklava typography line-height values are "font size + a value from the sizing list". For display font, `--bl-font-display-font-size` is set
+by `--bl-font-size-5xl` and this value is summed with `--bl-size-2xs` while setting `--bl-font-display-line-height`. You are able customize this
+logic in any level you want.
+
+```css
+:root {
+  --bl-font-display-line-height: 68px;
+}
+```
+
+Or an element level like:
+
+```css
+.my-header {
+  font: var(--bl-font-display-light);
+  --bl-font-display-line-height: 68px;
+}
+```
+
+Or you can set just font size:
+```css
+.my-header {
+  font: var(--bl-font-display-light);
+  --bl-font-display-font-size: 60px;
+}
+```
+
+In this case line-height of my-header will be set as 60px + value of `--bl-size-2xs`. Line-height is still calculated automatically.

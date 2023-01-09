@@ -1,7 +1,7 @@
 import BlSelect from './bl-select';
 import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { BlIcon, BlSelectOption } from '../../baklava';
-import BlCheckbox from '../checkbox/bl-checkbox';
+import BlCheckbox from '../checkbox-group/checkbox/bl-checkbox';
 
 describe('bl-select', () => {
   it('is defined', () => {
@@ -98,7 +98,7 @@ describe('bl-select', () => {
     const selectInput = <HTMLDivElement>el.shadowRoot?.querySelector('.select-input');
     selectInput?.click();
 
-    expect(el.isPopoverOpen).to.true;
+    expect(el.opened).to.true;
   });
   it('should close select menu', async () => {
     const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
@@ -107,7 +107,7 @@ describe('bl-select', () => {
     selectInput?.click();
     selectInput?.click();
 
-    expect(el.isPopoverOpen).to.false;
+    expect(el.opened).to.false;
   });
   it('should close select menu when click outside & run validations', async () => {
     const el = await fixture<BlSelect>(html`<body>
@@ -123,7 +123,7 @@ describe('bl-select', () => {
     setTimeout(() => {
       const invalidText = <HTMLParagraphElement>el.shadowRoot?.querySelector('.invalid-text');
 
-      expect(el.isPopoverOpen).to.false;
+      expect(el.opened).to.false;
       expect(el.isInvalid).to.true;
       expect(invalidText).to.exist;
     });
