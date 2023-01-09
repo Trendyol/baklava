@@ -10,53 +10,37 @@ Baklava uses a list of defined color with some default values.
   <ColorItem
     title="--bl-color-primary"
     subtitle="Primary Color"
-    colors={{ '': '#F27A1A', '--hover': '#EF6114', '--background': '#FEF2E8' }}
+    colors={{ '': 'var(--bl-color-primary)', '--hover': 'var(--bl-color-primary-hover)', '--background': 'var(--bl-color-primary-background)' }}
   />
   <ColorItem
     title="--bl-color-secondary"
     subtitle="Secondary Color"
-    colors={{ '': '#273142', '--hover': '#0F131A', '--background': '#F1F2F7' }}
-  />
-  <ColorItem
-    title="--bl-color-tertiary"
-    subtitle="Tertiary Color"
-    colors={{ '': '#f1f2f7', '--hover': '#d5d9e1', '--background': '#F7F7FA' }}
+    colors={{ '': 'var(--bl-color-secondary)', '--hover': 'var(--bl-color-secondary-hover)', '--background': 'var(--bl-color-secondary-background)' }}
   />
   <ColorItem
     title="--bl-color-success"
     subtitle="Success Color"
-    colors={{ '': '#0bc15c', '--hover': '#09a44e', '--background': '#E7F9EF' }}
+    colors={{ '': 'var(--bl-color-success)', '--hover': 'var(--bl-color-success-hover)', '--background': 'var(--bl-color-success-background)' }}
   />
   <ColorItem
     title="--bl-color-danger"
     subtitle="Danger Color"
-    colors={{ '': '#ff5043', '--hover': '#ff3028', '--background': '#FFEEEC' }}
+    colors={{ '': 'var(--bl-color-danger)', '--hover': 'var(--bl-color-danger-hover)', '--background': 'var(--bl-color-danger-background)' }}
   />
   <ColorItem
     title="--bl-color-warning"
     subtitle="Warning Color"
-    colors={{ '': '#FFB600', '--hover': '#FF9800', '--background': '#FFF8E6' }}
-  />
-  <ColorItem
-    title="--bl-color-alternative"
-    subtitle="Alternative Color"
-    colors={{ '': '#5794FF', '--hover': '#3469FF', '--background': '#EEF4FF' }}
-  />
-  <ColorItem
-    title="--bl-color-featured"
-    subtitle="Featured Color"
-    colors={{ '': '#8C4EFF', '--hover': '#5E2EFF', '--background': '#F4EDFF' }}
+    colors={{ '': 'var(--bl-color-warning)', '--hover': 'var(--bl-color-warning-hover)', '--background': 'var(--bl-color-warning-background)' }}
   />
   <ColorItem
     title="--bl-color-content"
     subtitle="Content Colors"
     colors={{
-        '--primary': '#273142',
-        '--secondary': '#6E7787',
-        '--tertiary': '#95A1B5',
-        '--passive': '#AFBBCA',
-        '--primary-contrast' : '#FFF',
-        '--hover' : '#F27A1A'
+        '--primary': 'var(--bl-color-content-primary)',
+        '--secondary': 'var(--bl-color-content-secondary)',
+        '--tertiary': 'var(--bl-color-content-tertiary)',
+        '--passive': 'var(--bl-color-content-passive)',
+        '--primary-contrast' : 'var(--bl-color-content-primary-contrast)',
     }}
   />
 </ColorPalette>
