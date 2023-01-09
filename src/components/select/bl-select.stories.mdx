@@ -1,5 +1,6 @@
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import {
   Meta,
   Canvas,
@@ -66,6 +67,10 @@ export const selectOpener = async ({ canvasElement }) => {
   }
 }
 
+export const notFoundSlot = (text) => html`
+  <div slot="search-not-found">${unsafeHTML(text)}</div>
+`;
+
 export const SelectTemplate = (args) => html`<bl-select
     label='${ifDefined(args.label)}'
     ?label-fixed='${args.labelFixed}'
@@ -85,6 +90,7 @@ export const SelectTemplate = (args) => html`<bl-select
     >
     <bl-select-option value="tr">Turkey</bl-select-option>
     <bl-select-option value="nl">Netherlands</bl-select-option>
+    ${args.showNotFoundSlot ? notFoundSlot(args.showNotFoundSlot) : null}
 </bl-select>`
 
 export const SelectOptionsSelectedTemplate = (args) => html`<bl-select
@@ -234,6 +240,47 @@ Select have 3 size options: `small`, `medium` and `large`. `medium` size is defa
     {SelectTemplate.bind({})}
   </Story>
 </Canvas>
+
+## Select Search bar with custom Search bar placeholder
+
+<Canvas>
+  <Story name="Select Search bar with custom Search bar placeholder" args={{ label: 'Choose country', searchBar: true, searchBarPlaceholder: "Custom Placeholder" }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Select Search Bar with Search Not Found Text
+
+<Canvas>
+  <Story name="Select Search Bar with Search Not Found Text" args={{ label: 'Choose country', searchBar: true, searchNotFoundText: "Custom Not Found Text" }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Select Search Bar with Loading State
+
+<Canvas>
+  <Story name="Select Search Bar with Loading State" args={{ label: 'Choose country', searchBar: true, searchBarLoadingState: true }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Select Search Bar with Filterable False
+
+<Canvas>
+  <Story name="Select Search Bar with Filterable False" args={{ label: 'Choose country', searchBar: true, searchFilterable: false }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Select Search Bar with Search Not Found Slot
+
+<Canvas>
+  <Story name="Select Search Bar with Search Not Found Slot" args={{ label: 'Choose country', searchBar: true, showNotFoundSlot: "<u>Show Not Found Slot</u>" }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
 
 ## Reference
 
