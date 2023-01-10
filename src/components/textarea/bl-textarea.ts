@@ -1,12 +1,12 @@
 import {CSSResultGroup, html, LitElement, TemplateResult} from "lit";
 import { customElement, property, query, state } from 'lit/decorators.js';
-import {FormControlMixin, minLengthValidator, requiredValidator} from "@open-wc/form-control";
+import {FormControlMixin} from "@open-wc/form-control";
 import {ifDefined} from "lit/directives/if-defined.js";
 import {event, EventDispatcher} from "../../utilities/event";
 import {classMap} from "lit/directives/class-map.js";
 import {live} from "lit/directives/live.js";
-import { textareaLengthValidator} from "../../utilities/form-control";
-
+import {textAreaValidators} from "../../utilities/form-control";
+import 'element-internals-polyfill';
 import style from './bl-textarea.css';
 
 
@@ -21,7 +21,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
     return [style];
   }
 
-  static formControlValidators = [requiredValidator,minLengthValidator,textareaLengthValidator];
+  static formControlValidators = textAreaValidators;
 
   @query('textarea')
   validationTarget: HTMLTextAreaElement;
@@ -93,6 +93,12 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   helpText?: string;
 
   /**
+   * Set custom error message
+   */
+  @property({ type: String, attribute: 'invalid-text' })
+  customInvalidText?: string;
+
+  /**
    * Sets minimum length of the textarea
    */
   @property({ type: Number })
@@ -127,13 +133,14 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   private lineHeight:number;
   private expandScroll = false;
 
+  constructor() {
+    super();
+  }
+
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('invalid', this.onError);
 
-    if(this.expand){
-      this.addEventListener('input', this.autoResize, false);
-    }
 
     this.internals.form?.addEventListener('submit', () => {
       this.reportValidity();
@@ -145,19 +152,35 @@ export default class BlTextarea extends FormControlMixin(LitElement){
     this.onInvalid(this.internals.validity);
   }
 
-  private inputHandler(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+  private  inputHandler(event: Event) {
+    if(this.expand){
+      this.autoResize();
+    }
+
+
+    const value = (event.target as HTMLTextAreaElement).value;
 
     this.setValue(value);
     this.onInput(value);
   }
 
   private changeHandler(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+    const value = (event.target as HTMLTextAreaElement).value;
 
     this.dirty = true;
     this.setValue(value);
     this.onChange(value);
+  }
+
+  firstUpdated() {
+    this.setValue(this.value);
+  }
+
+  updateSlotted(event:Event) {
+    const _target = (event.target as HTMLSlotElement)
+    const value = _target.assignedNodes().map((n) => n.textContent).join('');
+    this.value = value
+    this.setValue(this.value);
   }
 
   reportValidity() {
@@ -170,45 +193,47 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   }
 
   validityCallback(): string | void {
-    return this.validationTarget?.validationMessage;
+    return this.customInvalidText || this.validationTarget?.validationMessage;
   }
 
-  autoResize() {
+  private autoResize() {
+    const verticalPadding = parseInt(getComputedStyle(this.validationTarget).padding[0]) * 2;
     const scrollHeight = this.validationTarget.scrollHeight;
     if(!this.initialHeight) {
       this.initialHeight = scrollHeight;
-      this.lineHeight = this.initialHeight / this.rows!;
+      this.lineHeight = (this.initialHeight-verticalPadding) / this.rows!;
     }
-
     if(scrollHeight > this.initialHeight){
       if(!this.maxRow){
-        this.validationTarget.style.height = "";
+        this.validationTarget.style.height = "auto";
         this.validationTarget.style.height = scrollHeight + "px";
         this.expandScroll = false;
-      }else {
-        const currentRow = scrollHeight / this.lineHeight;
-        if(currentRow < this.maxRow){
-          this.expandScroll = true;
-          this.validationTarget.style.height = "";
-          this.validationTarget.style.height = scrollHeight + "px";
+      }else{
+        const currentRow = (scrollHeight - verticalPadding) / this.lineHeight;
+        if(currentRow <= this.maxRow){
+          this.validationTarget.style.height = "auto";
+          const reCalculateScrollHeight = this.validationTarget.scrollHeight;
+          this.validationTarget.style.height = reCalculateScrollHeight + "px";
+          this.expandScroll = false;
         }
+        if(currentRow > this.maxRow)
+          this.expandScroll = true;
       }
-
     }
   }
 
   @state() private dirty = false;
-
 
   render(): TemplateResult{
     const maxLengthInvalid = this.internals.validity.rangeOverflow;
     const invalidMessage = !this.checkValidity()
       ? html`<p class="invalid-text">${this.validationMessage}</p>`
       : ``;
-    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
+    const helpMessage = (this.helpText && this.checkValidity()) ? html`<p class="help-text">${this.helpText}</p>` : ``;
 
     const label = this.label ? html`<label for="bl-text-area">${this.label}</label>` : '';
-    const characterCounter = (this.characterCounter && this.maxlength) ? html`<p class="counter-text">${this.value.length}/${this.maxlength}</p>` : '';
+    const characterCounterText = (this.characterCounter && this.maxlength) ? `${this.value.length}/${this.maxlength}` : this.characterCounter ? `${this.value.length}` : '';
+    const characterCounter = this.characterCounter ? html`<p class="counter-text">${characterCounterText}</p>` : '';
 
 
     const classes = {
@@ -228,17 +253,21 @@ export default class BlTextarea extends FormControlMixin(LitElement){
           placeholder="${ifDefined(this.placeholder)}"
           minlength="${ifDefined(this.minlength)}"
           rows=${ifDefined(this.rows)}
-          ?required=${this.required}
-          ?disabled=${this.disabled}
+          ?required=${(this.required)}
+          ?disabled=${(this.disabled)}
           @change=${this.changeHandler}
           @input=${this.inputHandler}
         >
         </textarea>
+        <div hidden>
+          <slot @slotchange=${this.updateSlotted}></slot>
+        </div>
         ${label}
         <div class="brief">
           ${invalidMessage}${helpMessage}${characterCounter}
         </div>
-    `
+
+    `;
   }
 }
 declare global {

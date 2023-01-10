@@ -16,6 +16,20 @@ textarea {
   color: var(--bl-color-content-primary);
 }
 
+textarea:disabled{
+  background-color: var(--bl-color-secondary-background);
+  color: var(--bl-color-content-tertiary);
+}
+
+textarea:focus:not(.max-len-invalid){
+  border-color: var(--bl-color-primary);
+}
+
+.max-len-invalid,
+textarea.dirty:invalid {
+  border-color: var(--bl-color-danger);
+}
+
 textarea.expand {
   box-sizing: border-box;
   display: block;
@@ -61,7 +75,8 @@ label {
   padding-top: var(--bl-size-m);
 }
 
-:host([label-fixed]) ::placeholder {
+
+:host ::placeholder, :host([label-fixed]) ::placeholder {
   color: var(--bl-color-content-tertiary);
 }
 
