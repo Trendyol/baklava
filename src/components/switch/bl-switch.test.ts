@@ -20,9 +20,7 @@ describe('bl-switch', () => {
           class="switch"
           role="switch"
           tabindex="0"
-        >
-          <span></span>
-        </span>
+        ></span>
       `
     );
   });
@@ -32,7 +30,9 @@ describe('bl-switch', () => {
       const el = await fixture(html`<bl-switch checked></bl-switch>`);
       expect(el.shadowRoot?.querySelector('.switch')?.getAttribute('role')).to.eq('switch');
     });
+  });
 
+  describe('accessibility', () => {
     it('should render with `aria-checked` attribute as checked value', async () => {
       const el = await fixture(html`<bl-switch checked></bl-switch>`);
       expect(el.shadowRoot?.querySelector('.switch')?.getAttribute('aria-checked')).to.equal('true');
@@ -43,13 +43,11 @@ describe('bl-switch', () => {
       expect(el.shadowRoot?.querySelector('.switch')?.getAttribute('aria-readonly')).to.equal('true');
     });
 
-    it('should not have tabindex if the switch is disabled', async () => {
-      const el = await fixture(html`<bl-switch disabled></bl-switch>`);
-      expect(el.shadowRoot?.querySelector('.switch')?.hasAttribute('tabindex')).to.be.false;
+    it('should render with `aria-label` attribute if provided', async () => {
+      const el = await fixture(html`<bl-switch disabled aria-label="Label for switch"></bl-switch>`);
+      expect(el.shadowRoot?.querySelector('.switch')?.getAttribute('aria-label')).to.equal('Label for switch');
     });
-  });
 
-  describe('accessibility', () => {
     it('should toggle the state when Enter or Space key is pressed', async() => {
       const el = await fixture<BlSwitch>(html`<bl-switch></bl-switch>`);
       await elementUpdated(el);
@@ -101,6 +99,17 @@ describe('bl-switch', () => {
 
       setTimeout(() => switchElement?.click());
       expect(el.checked).not.to.be.true;
+    });
+
+    it('should fire bl-switch-toggle event when element is toggled programmatically', async () => {
+      const el = await fixture<BlSwitch>(html`<bl-switch></bl-switch>`);
+
+      setTimeout(() => el.toggle());
+      const ev = await oneEvent(el, 'bl-switch-toggle');
+
+      expect(el.checked).to.be.true;
+      expect(ev).to.exist;
+      expect(ev.detail).to.be.true;
     });
   });
 });

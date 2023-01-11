@@ -1,5 +1,4 @@
 import { html } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 
 <Meta
@@ -18,12 +17,22 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 />
 
 export const SwitchTemplate = (args) => html`
-<div><bl-switch
-    ?disabled=${args.disabled}
-    ?checked=${args.checked}>
-    ${args.label}
-  </bl-switch></div>
+<bl-switch
+  ?disabled=${args.disabled}
+  ?checked=${args.checked}>
+</bl-switch>
 `;
+
+export const SwitchWithLabel = (args) => html`
+<div style="display: flex;align-items: center;gap: var(--bl-size-2xs)">
+  <label style="font: var(--bl-font-title-3);color: var(--bl-color-secondary)">${args.label}</label>
+  <bl-switch
+    ?disabled=${args.disabled}
+    ?checked=${args.checked}
+    aria-label="${args.label}"
+  ></bl-switch>
+</div>
+`
 
 # Switch
 Switch component can be used to toggle On or Off states of any single item.
@@ -33,8 +42,9 @@ Switch component can be used to toggle On or Off states of any single item.
 Switch can be used as an action button to quickly toggle the state.
 
 * Clicking on switch triggers the action immediately, it shouldn't require users to click an extra button to apply or save the settings.
-* You can use your own label outside of this component, but please set `aria-label` attribute whenever you do so. Or, you can provide `id` attribute to this component and use `<label for="{id}">` to use label properly.
+* You can use your own label outside of this component, but please set `aria-label` attribute whenever you do so.
 * Switch doesn't have an indeterminate state.
+* Switch should not be used as an input field. For boolean inputs, use [checkbox](/?path=/docs/components-checkbox--basic-usage) instead.
 
 ## Basic
 
@@ -43,6 +53,14 @@ Switch is _Off_ by default.
 <Canvas>
   <Story name="Basic Usage">
     {SwitchTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Switch with label.
+
+<Canvas>
+  <Story name="Switch with label" args={{ label: "Label for Switch" }}>
+    {SwitchWithLabel.bind({})}
   </Story>
 </Canvas>
 

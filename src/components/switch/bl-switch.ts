@@ -33,43 +33,7 @@ export default class BlSwitch extends LitElement {
    */
   @event('bl-switch-toggle') private onToggle: EventDispatcher<boolean>;
 
-  /**
-   * Fires when switch is focused
-   */
-  @event('bl-focus') private onFocus: EventDispatcher<void>;
-
-  /**
-   * Fires when switch is blurred
-   */
-  @event('bl-blur') private onBlur: EventDispatcher<void>;
-
-  connectedCallback(): void {
-    super.connectedCallback();
-    if (!this.disabled) {
-      this.addEventListener('keydown', this.handleKeyDown);
-    }
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  /**
-   * Focuses this option
-   */
-  focus() {
-    this.onFocus();
-  }
-
-  /**
-   * Blurs from this option
-   */
-  blur() {
-    this.onBlur();
-  }
-
-  private handleToggle() {
+  toggle() {
     if (this.disabled) return;
 
     this.checked = !this.checked;
@@ -78,14 +42,13 @@ export default class BlSwitch extends LitElement {
 
   private handleKeyDown(event: KeyboardEvent) {
     if (event.code === 'Enter' || event.code === 'Space') {
-      this.handleToggle();
+      this.toggle();
       event.preventDefault();
-      return;
     }
   }
 
   render(): TemplateResult {
-    const tabIndex = this.disabled ? undefined : "0";
+    const ariaLabel = this.ariaLabel ?? this.attributes.getNamedItem("aria-label")?.value ?? undefined;
 
     return html`
       <span
@@ -93,12 +56,11 @@ export default class BlSwitch extends LitElement {
         role="switch"
         aria-checked=${this.checked}
         aria-readonly=${!!this.disabled}
-        @click=${this.handleToggle}
-        @focus=${this.focus}
-        @blur=${this.blur}
-        tabindex=${ifDefined(tabIndex)}
+        @click=${this.toggle}
+        @keydown=${this.handleKeyDown}
+        aria-label=${ifDefined(ariaLabel)}
+        tabindex="0"
       >
-        <span></span>
       </span>
     `;
   }
