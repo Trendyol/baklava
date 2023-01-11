@@ -14,22 +14,22 @@ import { Meta } from '@storybook/addon-docs';
 
 # Requirements
 
-Baklava is a [web component](https://developer.mozilla.org/en-US/docs/Web/Web_Components) based design system. We are using [Lit](https://lit.dev) to simplify the process of creating web components and we create an [ECMAScript module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) (esm).
+Baklava is a [web component](https://developer.mozilla.org/en-US/docs/Web/Web_Components) based design system. We are using [Lit](https://lit.dev) to simplify the process of creating web components and we create an [ECMAScript module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) (ESM).
 It is built on top of web standards and it should work without any issues in all modern browsers, but it's important to note that for older versions of the browsers,
 the support for web components may be limited or non-existent, this is where polyfills can be used to fill the gaps.
 
-Therefore, it is rely on a few key technologies:
+Therefore, it relies on a few key technologies:
 - [Custom Elements API](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements): This API allows developers to create custom elements and define their behavior.
-- [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM): This API allows developers to create a "shadow" DOM tree for a custom element, which is separate from the main DOM. This allows the component to have its own styles and layout without affecting the rest of the page.
+- [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM): This API allows developers to create a "shadow" DOM tree for a custom element, which is separate from the main DOM. This allows the component to have its own style and layout without affecting the rest of the page.
 - [HTML Templates](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots): This feature allows developers to define a template for a component that can be instantiated and used multiple times.
 - [Javascript Runtime](https://dev.to/iggredible/what-the-heck-are-cjs-amd-umd-and-esm-ikm): It requires a JavaScript runtime that supports ES6 or later.
 
-It's also important to consider that as web components are becoming more and more standardized,
-the need for polyfills will be reduced. However, if you are working with a large application that needs
+It's also important to consider that as web components are becoming more and more standardized.
+The need for polyfills will be reduced. However, if you are working with a large application that needs
 to support older browsers, you may need to use polyfills to ensure that Baklava work correctly.
 
 ## Browser Support
-In Baklava -written with Lit-, browser support grouped as two main categories:
+In Baklava -written with Lit-, browser support is grouped into two main categories:
 - [Modern Browsers](https://lit.dev/docs/tools/requirements/#building-for-modern-browsers)
 - [Legacy Browsers](https://lit.dev/docs/tools/requirements/#building-for-legacy-browsers)
 
@@ -50,7 +50,7 @@ Supporting older browsers requires some steps described by the Lit documentation
 - Transforming ES modules to another module system.
 - Loading polyfills.
 
-For the compiling and transforming, you can install Baklava as an npm package and transpile it during the build time by using Babel.
+For compiling and transforming, you can install Baklava as an npm package and transpile it during the build time by using Babel.
 [Here](https://medium.com/@sivaraj-v/basic-webpack-4-and-es5-to-es6-transpiler-using-babel-dc66e72c86c6) you can find an example about this.
 
 | Browser |  Compile JS	| Compile JS & load polyfills |
@@ -64,15 +64,15 @@ For the compiling and transforming, you can install Baklava as an npm package an
 
 ## Pollyfills
 
-Polyfills are piece of code that allows web developers to use features that are not yet supported by some browsers. There is a [polyfills package](https://github.com/webcomponents/polyfills) created and maintained by [Web Components Organization](webcomponents.org) that you can find almost all necessary polyfills.
+Polyfills are a piece of code that allows web developers to use features that are not yet supported by some browsers. There is a [polyfills package](https://github.com/webcomponents/polyfills) created and maintained by [Web Components Organization](webcomponents.org) where you can find almost all necessary polyfills.
 
 Some common examples of polyfills for web components are:
-- Custom Elements API: As mentioned before, older browsers do not have native support for the Custom Elements API, which is required to define custom elements. The `custom-elements-es5-adapter.js`` polyfill can be used to support custom elements in these older browsers.
-- Shadow DOM: As previously explained, the Shadow DOM allows web components to have their own encapsulated styles and layout. However, older browsers do not have native support for the Shadow DOM. The `shadydom.min.js` and `shadycss.min.js` polyfills can be used to support the Shadow DOM in older browsers.
-- HTML Templates: The template element is used to define the template for a web component. However, older browsers do not have native support for this element. The `template.js` polyfill can be used to support the template element in older browsers.
-- Babel Polyfill: This is a widely used polyfill that implements a large subset of the ECMAScript 6 standard, including support for modules. You can import it on your code with import `@babel/polyfill`.
+- Custom Elements API: As mentioned before, older browsers do not have native support for the Custom Elements API, which is required to define custom elements. The [custom-elements-es5-adapter.js](https://github.com/webcomponents/polyfills/tree/master/packages/webcomponentsjs#custom-elements-es5-adapterjs) polyfill can be used to support custom elements in these older browsers.
+- Shadow DOM: As previously explained, the Shadow DOM allows web components to have their own encapsulated styles and layout. However, older browsers do not have native support for the Shadow DOM. The [shadydom](https://github.com/webcomponents/polyfills/tree/master/packages/shadydom) and [shadycss](https://github.com/webcomponents/polyfills/tree/master/packages/shadycss) polyfills can be used to support the Shadow DOM in older browsers.
+- HTML Templates: The template element is used to define the template for a web component. However, older browsers do not have native support for this element. The [template.js](https://github.com/webcomponents/polyfills/tree/master/packages/template) polyfill can be used to support the template element in older browsers.
+- Babel Polyfill: This is a widely used polyfill that implements a large subset of the ECMAScript 6 standard, including support for modules. You can use [core-js](https://github.com/zloirock/core-js).
 - SystemJS: This is a dynamic module loader that can be used to load ES modules in older browsers. The SystemJS library provides a `System.import()` method that can be used to load ES modules in the browser.
-- Dynamic Imports : `Dynamic Imports (import())` is a feature that allows to load ES modules at runtime, it's supported in most modern browsers, but some old browser require a polyfill, one example is `dynamic-import-polyfill`.
+- Dynamic Imports: `Dynamic Imports (import())` is a feature that allows to load ES modules at runtime, it's supported in most modern browsers, but some old browser require a polyfill, one example is [dynamic-import-polyfill](https://www.npmjs.com/package/dynamic-import-polyfill).
 
 ```js
 // import the webcomponents polyfills
