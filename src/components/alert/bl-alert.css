@@ -13,13 +13,14 @@
   justify-content: space-between;
   background-color: var(--main-bg-color);
   color: var(--bl-color-content-primary);
-  box-shadow: 0 0 0 1px var(--main-color);
+  box-shadow: inset 0 0 0 1px var(--main-color);
   border-radius: var(--bl-border-radius-s);
   padding: calc(var(--padding) / 2) var(--padding);
+  padding-right: calc(var(--padding) / 2);
 }
 
 .description {
-  font: var(--bl-font-title-3-regular);
+  font: var(--bl-font-body-text-2);
 }
 
 .wrapper {
@@ -32,7 +33,6 @@
 
 .content {
   display: flex;
-  align-items: center;
   padding: calc(var(--padding) / 2) 0;
   margin-right: var(--bl-size-2xs);
   flex: 20 1 70%;
@@ -49,9 +49,8 @@
 }
 
 .caption {
-  color: var(--main-color);
+  color: var(--bl-color-content-primary);
   font: var(--bl-font-title-3-medium);
-  margin-bottom: var(--bl-size-4xs);
 }
 
 .action {
@@ -61,11 +60,7 @@
 }
 
 .caption + .description {
-  font: var(--bl-font-body-text-3);
-}
-
-.close-spaced {
-  margin-top: calc(var(--padding) / 2);
+  margin-top: var(--bl-size-2xs);
 }
 
 :host([closed]) {
