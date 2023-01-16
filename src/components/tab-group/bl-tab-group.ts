@@ -35,6 +35,7 @@ export default class BlTabGroup extends LitElement {
     const isFirstAndNotDisabled =
       this._connectedTabs.filter(t => !t.disabled).length === 0 && !tab.disabled;
     this._connectedTabs.push(tab);
+    
     if ((!tab.disabled && tab.selected) || isFirstAndNotDisabled) {
       this.selectedTabName = tab.name;
     }
