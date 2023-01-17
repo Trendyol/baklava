@@ -6,7 +6,7 @@
   --option-font: var(--bl-font-title-3-regular);
   --option-padding: var(--bl-size-xs) 0;
   --option-selected-color: var(--bl-color-primary);
-  --option-hover-color: var(--bl-color-primary-hover);
+  --option-hover-color: var(--bl-color-primary-highlight);
   --option-color: var(--bl-color-content-primary);
   --option-disabled-color: var(--bl-color-content-passive);
   --option-seperator: 1px solid var(--bl-color-border);

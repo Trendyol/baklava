@@ -11,7 +11,7 @@
   --padding-horizontal: var(--bl-size-xs);
   --background-color:  var(--bl-color-content-primary-contrast);
   --border-color: var(--bl-color-border);
-  --border-focus-color: var(--bl-color-primary-hover);
+  --border-focus-color: var(--bl-color-primary-highlight);
   --icon-color: var(--bl-color-content-tertiary);
   --text-color: var(--bl-color-content-primary);
   --label-color: var(--bl-color-content-secondary);
@@ -52,7 +52,7 @@
 
 .invalid {
   --border-color: var(--bl-color-danger);
-  --border-focus-color: var(--bl-color-danger-hover);
+  --border-focus-color: var(--bl-color-danger-highlight);
   --label-color: var(--bl-color-danger);
 }
 

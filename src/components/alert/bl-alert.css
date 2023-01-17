@@ -5,7 +5,7 @@
 .alert {
   --padding: var(--bl-size-m);
   --main-color: var(--bl-color-primary);
-  --main-bg-color: var(--bl-color-primary-background);
+  --main-bg-color: var(--bl-color-primary-contrast);
 
   position: relative;
   display: flex;
@@ -69,15 +69,15 @@
 
 :host([variant='success']) .alert {
   --main-color: var(--bl-color-success);
-  --main-bg-color: var(--bl-color-success-background);
+  --main-bg-color: var(--bl-color-success-contrast);
 }
 
 :host([variant='warning']) .alert {
   --main-color: var(--bl-color-warning);
-  --main-bg-color: var(--bl-color-warning-background);
+  --main-bg-color: var(--bl-color-warning-contrast);
 }
 
 :host([variant='danger']) .alert {
   --main-color: var(--bl-color-danger);
-  --main-bg-color: var(--bl-color-danger-background);
+  --main-bg-color: var(--bl-color-danger-contrast);
 }

@@ -6,7 +6,7 @@
 
 .button {
   --main-color: var(--bl-color-primary);
-  --main-hover-color: var(--bl-color-primary-hover);
+  --main-hover-color: var(--bl-color-primary-highlight);
   --text-hover-color: var(--bl-color-content-primary-contrast);
   --content-color: var(--bl-color-content-primary-contrast);
   --bg-color: var(--main-color);
@@ -95,12 +95,12 @@
 
 :host([kind='success']) .button {
   --main-color: var(--bl-color-success);
-  --main-hover-color: var(--bl-color-success-hover);
+  --main-hover-color: var(--bl-color-success-highlight);
 }
 
 :host([kind='danger']) .button {
   --main-color: var(--bl-color-danger);
-  --main-hover-color: var(--bl-color-danger-hover);
+  --main-hover-color: var(--bl-color-danger-highlight);
 }
 
 :host([disabled]) {
