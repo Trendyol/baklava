@@ -97,12 +97,12 @@ describe('bl-textarea', () => {
       const el = await fixture<BlTextarea>(html`<bl-textarea required></bl-textarea>`);
       expect(el.validity.valid).to.be.false;
     });
-    it('should be valit with required when value is filled',async () => {
+    it('should be valid with required when value is filled',async () => {
       const el = await fixture<BlTextarea>(html`<bl-textarea value="some-value" required></bl-textarea>`);
       expect(el.validity.valid).to.be.true;
     });
-    it('should be valit with required when slot is filled',async () => {
-      const el = await fixture<BlTextarea>(html`<bl-textarea value="some-value" required>some-value</bl-textarea>`);
+    it('should be valid with required when slot is filled',async () => {
+      const el = await fixture<BlTextarea>(html`<bl-textarea required>some-value</bl-textarea>`);
       expect(el.validity.valid).to.be.true;
     });
     it('should set custom invalid text', async () => {
@@ -153,6 +153,22 @@ describe('bl-textarea', () => {
       expect(ev).to.exist;
       expect(ev.detail).to.be.equal('some value');
     });
+    it('should fire bl-invalid event when input value not correct', async () => {
+      const el = await fixture<BlTextarea>(html`<bl-textarea maxlength="5"></bl-textarea>`);
+      const textarea = el.shadowRoot?.querySelector('textarea');
+
+      await textarea?.focus();
+
+      await sendKeys({
+        type: 'a text more than five characters'
+      });
+
+      setTimeout(() => textarea?.dispatchEvent(new Event('invalid')));
+
+      const ev = await oneEvent(el,'bl-invalid');
+      expect(ev).to.exist;
+      expect(ev.detail['rangeOverflow'] ).to.equal(true);
+    });
   });
   describe('form integration', () => {
     it('should show errors when parent form is submitted', async () => {
@@ -173,8 +189,6 @@ describe('bl-textarea', () => {
       expect(blTextarea?.validity.valid).to.be.false;
 
       expect(errorMessageElement).to.exist;
-
     });
-
   });
 })

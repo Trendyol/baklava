@@ -132,16 +132,10 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   private initialHeight:number;
   private lineHeight:number;
   private expandScroll = false;
-
-  constructor() {
-    super();
-  }
+  private verticalPadding:number;
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('invalid', this.onError);
-
-
     this.internals.form?.addEventListener('submit', () => {
       this.reportValidity();
     });
@@ -173,10 +167,11 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   }
 
   firstUpdated() {
+    this.verticalPadding = parseInt(getComputedStyle(this.validationTarget).padding[0]) * 2;
     this.setValue(this.value);
   }
 
-  updateSlotted(event:Event) {
+  private updateSlotted(event:Event) {
     const _target = (event.target as HTMLSlotElement)
     const value = _target.assignedNodes().map((n) => n.textContent).join('');
     this.value = value
@@ -197,11 +192,10 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   }
 
   private autoResize() {
-    const verticalPadding = parseInt(getComputedStyle(this.validationTarget).padding[0]) * 2;
     const scrollHeight = this.validationTarget.scrollHeight;
     if(!this.initialHeight) {
       this.initialHeight = scrollHeight;
-      this.lineHeight = (this.initialHeight-verticalPadding) / this.rows!;
+      this.lineHeight = (this.initialHeight-this.verticalPadding) / this.rows!;
     }
     if(scrollHeight > this.initialHeight){
       if(!this.maxRow){
@@ -209,7 +203,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
         this.validationTarget.style.height = scrollHeight + "px";
         this.expandScroll = false;
       }else{
-        const currentRow = (scrollHeight - verticalPadding) / this.lineHeight;
+        const currentRow = (scrollHeight - this.verticalPadding) / this.lineHeight;
         if(currentRow <= this.maxRow){
           this.validationTarget.style.height = "auto";
           const reCalculateScrollHeight = this.validationTarget.scrollHeight;
@@ -257,6 +251,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
           ?disabled=${(this.disabled)}
           @change=${this.changeHandler}
           @input=${this.inputHandler}
+          @invalid=${this.onError}
         >
         </textarea>
         <div hidden>

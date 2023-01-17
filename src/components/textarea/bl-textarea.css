@@ -14,6 +14,7 @@ textarea {
   margin: 0;
   border-radius: 4px;
   color: var(--bl-color-content-primary);
+  resize: vertical;
 }
 
 textarea:disabled{
@@ -67,7 +68,7 @@ label {
   font: var(--bl-font-caption);
   color: var(--bl-color-content-secondary);
   padding: 0 var(--bl-size-3xs);
-  background-color: var(--bl-color-primary-background);
+  background-color: var(--bl-color-content-primary-contrast);
   pointer-events: initial;
 }
 
