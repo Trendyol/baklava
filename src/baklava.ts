@@ -18,4 +18,7 @@ export { default as BlTabGroup } from './components/tab-group/bl-tab-group';
 export { default as BlTabPanel } from './components/tab-group/tab-panel/bl-tab-panel';
 export { default as BlTextarea } from './components/textarea/bl-textarea';
 export { default as BlTooltip } from './components/tooltip/bl-tooltip';
+export { default as BlDropdown } from './components/dropdown/bl-dropdown';
+export { default as BlDropdownItem } from './components/dropdown/item/bl-dropdown-item';
+export { default as BlDropdownGroup } from './components/dropdown/group/bl-dropdown-group';
 export { getIconPath, setIconPath } from './utilities/asset-paths';

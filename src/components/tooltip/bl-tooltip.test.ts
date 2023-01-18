@@ -21,12 +21,17 @@ describe('bl-tooltip', () => {
       el,
       `
       <slot
+       aria-describedby="tooltip"
        class="trigger"
        name="tooltip-trigger">
       </slot>
       <div class='tooltip'>
-        <slot></slot>
-        <div class="arrow"></div>
+        <slot
+          aria-live="off"
+          id="tooltip"
+          role="tooltip">
+        </slot>
+        <div aria-hidden="true" class="arrow"></div>
       </div>
       `
     );
@@ -96,6 +101,7 @@ describe('bl-tooltip', () => {
 
     //then
     expect(tooltip).to.have.class('visible');
+    expect(el.visible).to.be.true;
   });
 
   it('should not have `show` class when mouse leave of trigger', async () => {
@@ -162,6 +168,36 @@ describe('bl-tooltip', () => {
     expect(ev).to.exist;
     expect(ev.detail).to.be.equal('Hide event fired!');
   });
+
+  it('should hide with keyboard escape button', async () => {
+    //given
+    const el = await fixture<typeOfBlTooltip>(
+      html`<bl-tooltip>
+        <button slot="tooltip-trigger">Test</button> Test Tooltip
+      </bl-tooltip>`
+    );
+    const trigger = document.querySelector('button') as HTMLElement;
+
+    //when
+    trigger.focus();
+
+    await elementUpdated(el);
+
+    const escEvent = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      cancelable: true
+    });
+
+    setTimeout(() => {
+      el?.dispatchEvent(escEvent);
+    });
+
+    //then
+    const ev = await oneEvent(el, 'bl-tooltip-hide');
+    expect(ev).to.exist;
+    expect(ev.detail).to.be.equal('Hide event fired!');
+    expect(el.visible).to.be.false;
+  })
 });
 
 function getMiddleOfElement(element: Element) {

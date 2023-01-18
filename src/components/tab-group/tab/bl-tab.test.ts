@@ -55,6 +55,16 @@ describe('bl-tab', function () {
     expect(detail).is.equal('test');
   });
 
+  it('should create custom event when change selected attribute', async () => {
+    const el = await fixture<BlTab>(html` <bl-tab name="test"></bl-tab>`);
+    el.selected=true;
+    
+    const listener = await oneEvent(el, 'bl-tab-selected');
+    const { detail } = await listener;
+
+    expect(detail).is.equal('test');
+  });
+
   it('should set caption', async function () {
     const el = await fixture<BlTab>(html`<bl-tab caption="test caption"></bl-tab>`);
     const caption = el.shadowRoot?.querySelector('.caption');

@@ -23,6 +23,7 @@ module.exports = {
         'radio',
         'dialog',
         'drawer',
+        'dropdown',
       ],
     ],
   },
