@@ -69,6 +69,7 @@ describe('bl-tab-group', function () {
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
     el.tabs[0].select();
+    await el.updateComplete;
     expect(el.selectedTabName).to.be.equal('test-1');
     expect(el.tabs[0].selected).to.be.true;
     expect(el.tabs[1].selected).to.be.false;

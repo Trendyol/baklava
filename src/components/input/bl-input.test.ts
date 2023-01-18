@@ -13,6 +13,8 @@ describe('bl-input', () => {
       el,
       `
       <input
+        aria-invalid="false"
+        id="input"
         type="text"
       >
       <bl-icon

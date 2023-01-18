@@ -1,4 +1,10 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
+import {
+  CSSResultGroup,
+  html,
+  LitElement,
+  PropertyValues,
+  TemplateResult,
+} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
 
@@ -89,7 +95,13 @@ export default class BlTab extends LitElement {
    * Set tab selected.
    */
   select() {
-    this._onSelect(this.name);
+    this.selected = true;
+  }
+
+  updated(changedProperties: PropertyValues<this>) {    
+    if (changedProperties.has('selected') && this.selected) {
+      this._onSelect(this.name);
+    }
   }
 
   render(): TemplateResult {
