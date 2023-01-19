@@ -57,6 +57,7 @@ export const TextareaTemplate = (args) => html`
       rows='${ifDefined(args.rows)}'
       max-row='${ifDefined(args.maxRow)}'
       expand='${ifDefined(args.expand)}'
+      size='${ifDefined(args.size)}'
       character-counter='${ifDefined(args.characterCounter)}'
 >${ifDefined(args.child)}</bl-textarea>`
 
@@ -76,6 +77,22 @@ Textarea can be used with and without value. Also value can be pass as children.
     {TextareaTemplate.bind()}
   </Story>
   <Story name="Textarea with child value" args={{ child: 'Some dummy text as children of textarea' }}>
+    {TextareaTemplate.bind()}
+  </Story>
+</Canvas>
+
+## Textarea Sizes
+
+Textarea has three sizes. Medium, small and large. Size attribute is medium by default.
+
+<Canvas>
+  <Story name="Textarea small"  args={{ size:"small", placeholder: 'small' }}>
+    {TextareaTemplate.bind()}
+  </Story>
+  <Story name="Textarea medium" args={{ placeholder: 'medium' }}>
+    {TextareaTemplate.bind()}
+  </Story>
+  <Story name="Textarea large"  args={{ size:"large", placeholder: 'large' }}>
     {TextareaTemplate.bind()}
   </Story>
 </Canvas>

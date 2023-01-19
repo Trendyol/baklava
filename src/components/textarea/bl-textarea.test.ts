@@ -12,15 +12,21 @@ describe('bl-textarea', () => {
     const el = await fixture<BlTextarea>(html`<bl-textarea></bl-textarea>`);
     assert.shadowDom.equal(
       el,
-      `<textarea
+      `
+        <div class="wrapper" style="--row-count:4;">
+        <textarea
         id="bl-text-area"
         name=""
         rows="4"
         >
         </textarea>
+        </div>
         <div hidden><slot></slot></div>
         <div class="brief"></div>
-      `
+      `,
+      {
+        ignoreAttributes:['style']
+      }
     );
   });
 
@@ -175,7 +181,6 @@ describe('bl-textarea', () => {
       const form = await fixture<HTMLFormElement>(html`<form novalidate>
         <bl-textarea required></bl-textarea>
       </form>`);
-
       const blTextarea = form.querySelector<BlTextarea>('bl-textarea');
 
       form.addEventListener('submit', e => e.preventDefault());

@@ -24,7 +24,6 @@ export const innerInputValidators = validityStates.map(key => ({
 
 export const textareaLengthValidator = {
   ...maxLengthValidator,
-  message:'You have exceeded the character limit',
   isValid(instance: HTMLElement & { validationTarget: HTMLTextAreaElement }) {
     if(instance.validationTarget && instance.attributes.getNamedItem('maxLength')){
       return (Number(instance.attributes.getNamedItem('maxlength')?.value) >= instance.validationTarget.value.length);
