@@ -29,15 +29,21 @@ export default class BlInput extends FormControlMixin(LitElement) {
   validationTarget: HTMLInputElement;
 
   /**
-   * Type of the input. It's used to set `type` attribute of native input inside. Only `text` and `number` is supported for now.
+   * Sets name of the input
    */
   @property({})
-  type: 'text' | 'number' = 'text';
+  name?: string;
+
+  /**
+   * Type of the input. It's used to set `type` attribute of native input inside. Only `text`, `number` and `password` is supported for now.
+   */
+  @property({})
+  type: 'text' | 'password' | 'number' = 'text';
 
   /**
    * Sets label of the input
    */
-  @property({ reflect: true })
+  @property({})
   label?: string;
 
   /**
@@ -103,7 +109,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Makes label as fixed positioned
    */
-  @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
+  @property({ type: Boolean, attribute: 'label-fixed' })
   labelFixed = false;
 
   /**
@@ -131,7 +137,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Fires when the value of an input element has been changed.
    */
-   @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
+  @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -153,13 +159,22 @@ export default class BlInput extends FormControlMixin(LitElement) {
     if (event.code === 'Enter' && this.form) {
       submit(this.form);
     }
-  }
+  };
 
   private onError = (): void => {
     this.onInvalid(this.internals.validity);
-  }
+  };
 
   @state() private dirty = false;
+
+  @state() private passwordVisible = false;
+
+  @state() private passwordInput = false;
+
+  private textVisiblityToggle() {
+    this.passwordVisible = !this.passwordVisible;
+    this.type = this.passwordVisible ? 'text' : 'password';
+  }
 
   validityCallback(): string | void {
     return this.customInvalidText || this.validationTarget?.validationMessage;
@@ -190,18 +205,31 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   firstUpdated() {
+    this.passwordInput = this.type === 'password';
     this.setValue(this.value);
   }
 
   render(): TemplateResult {
     const invalidMessage = !this.checkValidity()
-      ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">${this.validationMessage}</p>`
+      ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
+          ${this.validationMessage}
+        </p>`
       : ``;
-    const helpMessage = this.helpText ? html`<p id="helpText" class="help-text">${this.helpText}</p>` : ``;
+    const helpMessage = this.helpText
+      ? html`<p id="helpText" class="help-text">${this.helpText}</p>`
+      : ``;
     const icon = this.icon
       ? html` <bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
       : '';
     const label = this.label ? html`<label for="input">${this.label}</label>` : '';
+
+    const passwordShowHide = this.passwordInput
+      ? html` <bl-icon
+          class="password-icon"
+          @click="${this.textVisiblityToggle}"
+          name="${this.passwordVisible ? 'eye_off' : 'eye_on'}"
+        ></bl-icon>`
+      : '';
 
     const classes = {
       'dirty': this.dirty,
@@ -225,10 +253,10 @@ export default class BlInput extends FormControlMixin(LitElement) {
         @change=${this.changeHandler}
         @input=${this.inputHandler}
         aria-invalid=${this.checkValidity() ? 'false' : 'true'}
-        aria-describedby=${ifDefined(this.helpText ? "helpText" : undefined)}
-        aria-errormessage=${ifDefined(this.checkValidity() ? undefined : "errorMessage")}
+        aria-describedby=${ifDefined(this.helpText ? 'helpText' : undefined)}
+        aria-errormessage=${ifDefined(this.checkValidity() ? undefined : 'errorMessage')}
       />
-      ${label} ${icon}
+      ${label} ${icon} ${passwordShowHide}
       <bl-icon class="error-icon" name="alert"></bl-icon>
       ${invalidMessage} ${helpMessage}
     `;

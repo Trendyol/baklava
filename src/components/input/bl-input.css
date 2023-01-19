@@ -138,6 +138,11 @@ label {
   color: var(--bl-color-danger);
 }
 
+.password-icon {
+  cursor: pointer;
+  user-select: none;
+}
+
 .dirty:invalid ~ .invalid-text {
   display: block;
 }
