@@ -1,4 +1,4 @@
-import {CSSResultGroup, html, LitElement, TemplateResult} from "lit";
+import {CSSResultGroup, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import { customElement, property, query, state } from 'lit/decorators.js';
 import {FormControlMixin} from "@open-wc/form-control";
 import {ifDefined} from "lit/directives/if-defined.js";
@@ -25,6 +25,9 @@ export default class BlTextarea extends FormControlMixin(LitElement){
 
   @query('textarea')
   validationTarget: HTMLTextAreaElement;
+
+  @query('.wrapper')
+  private wrapperTarget: HTMLElement;
 
   /**
    * Name of textarea
@@ -55,6 +58,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
    */
   @property({ type: Number, reflect: true, attribute:'max-row' })
   maxRow?: number;
+
 
   /**
    * Sets textarea size.
@@ -129,10 +133,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
 
 
-  private initialHeight:number;
-  private lineHeight:number;
   private expandScroll = false;
-  private verticalPadding:number;
 
   connectedCallback() {
     super.connectedCallback();
@@ -167,8 +168,18 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   }
 
   firstUpdated() {
-    this.verticalPadding = parseInt(getComputedStyle(this.validationTarget).padding[0]) * 2;
     this.setValue(this.value);
+  }
+
+  protected updated(changedProperties: PropertyValues) {
+    if(changedProperties.has('rows')){
+      this.wrapperTarget.style.setProperty('--row-count',`${this.rows}`);
+      this.wrapperTarget.style.removeProperty('--scroll-height');
+    }
+
+    if(changedProperties.has('maxRow')){
+      this.wrapperTarget.style.setProperty('--maxrow-count',`${this.maxRow}`);
+    }
   }
 
   private updateSlotted(event:Event) {
@@ -193,27 +204,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
 
   private autoResize() {
     const scrollHeight = this.validationTarget.scrollHeight;
-    if(!this.initialHeight) {
-      this.initialHeight = scrollHeight;
-      this.lineHeight = (this.initialHeight-this.verticalPadding) / this.rows!;
-    }
-    if(scrollHeight > this.initialHeight){
-      if(!this.maxRow){
-        this.validationTarget.style.height = "auto";
-        this.validationTarget.style.height = scrollHeight + "px";
-        this.expandScroll = false;
-      }else{
-        const currentRow = (scrollHeight - this.verticalPadding) / this.lineHeight;
-        if(currentRow <= this.maxRow){
-          this.validationTarget.style.height = "auto";
-          const reCalculateScrollHeight = this.validationTarget.scrollHeight;
-          this.validationTarget.style.height = reCalculateScrollHeight + "px";
-          this.expandScroll = false;
-        }
-        if(currentRow > this.maxRow)
-          this.expandScroll = true;
-      }
-    }
+    this.wrapperTarget.style.setProperty('--scroll-height',`${scrollHeight}px`);
   }
 
   @state() private dirty = false;
@@ -232,13 +223,22 @@ export default class BlTextarea extends FormControlMixin(LitElement){
 
     const classes = {
       'dirty': this.dirty,
-      'expand':this.expand,
       'expand-scroll': this.expandScroll,
+      'expand':this.expand,
       'max-len-invalid': maxLengthInvalid,
       'has-value': this.value !== null && this.value !== '',
     };
 
+    const wrapperClasses = {
+      'wrapper': true,
+      'has-value': this.value !== null && this.value !== '',
+      'dirty': this.dirty,
+      'max-len-invalid': maxLengthInvalid,
+      'wrapper-invalid': !this.checkValidity(),
+    };
+
     return html`
+      <div class=${classMap(wrapperClasses)}>
         <textarea
           id="bl-text-area"
           name="${ifDefined(this.name)}"
@@ -254,14 +254,14 @@ export default class BlTextarea extends FormControlMixin(LitElement){
           @invalid=${this.onError}
         >
         </textarea>
-        <div hidden>
-          <slot @slotchange=${this.updateSlotted}></slot>
-        </div>
-        ${label}
-        <div class="brief">
-          ${invalidMessage}${helpMessage}${characterCounter}
-        </div>
-
+      </div>
+      <div hidden>
+        <slot @slotchange=${this.updateSlotted}></slot>
+      </div>
+      ${label}
+      <div class="brief">
+        ${invalidMessage}${helpMessage}${characterCounter}
+      </div>
     `;
   }
 }
