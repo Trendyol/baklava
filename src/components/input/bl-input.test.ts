@@ -140,6 +140,7 @@ describe('bl-input', () => {
       expect(passwordIcon).to.exist;
       passwordIcon?.click();
 
+      expect(passwordIcon?.getAttribute('name')).to.eq('eye_off');
       expect(el.type).to.equal('text');
     });
 
