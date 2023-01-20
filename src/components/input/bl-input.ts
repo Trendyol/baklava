@@ -37,7 +37,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Sets label of the input
    */
-  @property({})
+  @property({ reflect: true })
   label?: string;
 
   /**
@@ -109,7 +109,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Makes label as fixed positioned
    */
-  @property({ type: Boolean, attribute: 'label-fixed' })
+  @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
   labelFixed = false;
 
   /**
