@@ -133,12 +133,15 @@ describe('bl-input', () => {
       expect(ev.detail).to.be.equal('some value');
     });
 
-    it('should toggle input type on toggle visibility icon click', async () => {
+    it('should toggle input type and icon on visibility icon click', async () => {
       const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
       const passwordIcon = el?.shadowRoot?.querySelector('bl-icon.password-icon') as HTMLElement | null;
       expect(el.type).to.equal('password');
       expect(passwordIcon).to.exist;
+
       passwordIcon?.click();
+
+      await elementUpdated(el);
 
       expect(passwordIcon?.getAttribute('name')).to.eq('eye_off');
       expect(el.type).to.equal('text');
