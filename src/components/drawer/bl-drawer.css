@@ -63,7 +63,7 @@ header h2 {
 }
 
 section {
-  padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m) var(--bl-size-xl);
+  padding: var(--bl-size-xl);
 }
 
 .content {
