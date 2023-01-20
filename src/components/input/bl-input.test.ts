@@ -32,6 +32,12 @@ describe('bl-input', () => {
     expect(el.shadowRoot?.querySelector('input')?.getAttribute('type')).to.equal('number');
   });
 
+  it('should set type password', async () => {
+    const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
+    expect(el.type).to.equal('password');
+    expect(el.shadowRoot?.querySelector('input')?.getAttribute('type')).to.equal('password');
+  });
+
   it('should set label', async () => {
     const labelText = 'Some Label';
     const el = await fixture<BlInput>(html`<bl-input label="${labelText}"></bl-input>`);
@@ -54,6 +60,13 @@ describe('bl-input', () => {
       const customIcon = el.shadowRoot?.querySelector('bl-icon.custom-icon');
       expect(customIcon).to.exist;
       expect(customIcon?.getAttribute('name')).to.equal('info');
+    });
+
+    it('should show eye icon on password type', async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
+      const passwordIcon = el.shadowRoot?.querySelector('bl-icon.password-icon');
+      expect(passwordIcon).to.exist;
+      expect(passwordIcon?.getAttribute('name')).to.equal('eye_on');
     });
   });
 
@@ -118,6 +131,16 @@ describe('bl-input', () => {
       const ev = await oneEvent(el, 'bl-input');
       expect(ev).to.exist;
       expect(ev.detail).to.be.equal('some value');
+    });
+
+    it('should toggle input type on toggle visibility icon click', async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
+      const passwordIcon = el?.shadowRoot?.querySelector('bl-icon.password-icon') as HTMLElement | null;
+      expect(el.type).to.equal('password');
+      expect(passwordIcon).to.exist;
+      passwordIcon?.click();
+
+      expect(el.type).to.equal('text');
     });
 
     it('should fire bl-input event when input value changes', async () => {
