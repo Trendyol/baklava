@@ -108,13 +108,16 @@ Input component is the component for taking text input from user.
 
 ## Basic Usage
 
-Currently, input component supports `text` and `number` types, which default is `text`.
+Currently, input component supports `text`, `number` and `password` types, which default is `text`.
 
 <Canvas>
   <Story name="Text Input" args={{ placeholder: 'Enter Your Name' }}>
     {SingleInputTemplate.bind({})}
   </Story>
   <Story name="Number Input" args={{ type: 'number', placeholder: 'Enter Your Age' }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Password Input" args={{ type: 'password', placeholder: 'Enter Your Password' }}>
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
