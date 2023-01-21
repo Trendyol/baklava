@@ -6,13 +6,14 @@
 
 .wrapper{
   --row-count: 1;
-  --scroll-height: calc(var(--row-count) * var(--bl-font-title-3-line-height) + var(--padding-vertical)) ;
+  --scroll-height: var(--line-height);
   --maxrow-count: ;
   --line-height: var(--bl-font-title-3-line-height);
   --padding-vertical: var(--bl-size-2xs);
   --padding-horizontal: var(--bl-size-xs);
   --border-size: 1px;
-  --height: var(--scroll-height);
+  --default-scroll-height: calc((var(--row-count) * var(--line-height)) + var(--padding-vertical)) ;
+  --height: max(var(--scroll-height),var(--default-scroll-height));
 
   border: solid var(--border-size) var(--bl-color-border);
   border-radius: 4px;
@@ -37,6 +38,7 @@ textarea {
 :host([size="large"]) textarea{
   --padding-vertical: var(--bl-size-xs);
   --padding-horizontal: var(--bl-size-m);
+
 }
 
 :host([size="small"]) textarea{
@@ -58,9 +60,9 @@ textarea:disabled{
 }
 
 :host([expand][max-row]) textarea{
-  --maxrow-height: calc(var(--maxrow-count) * var(--line-height) + var(--padding-vertical));
+  --maxrow-height: calc((var(--maxrow-count) * var(--line-height)) + var(--padding-vertical));
 
-  overflow: scroll;
+  overflow-y: scroll;
   height: min(var(--height),var(--maxrow-height));
 }
 
@@ -69,7 +71,7 @@ textarea:disabled{
 }
 
 .dirty.max-len-invalid,
-.dirty.wrapper-invalid {
+.dirty.invalid {
   border-color: var(--bl-color-danger);
 }
 
@@ -150,7 +152,7 @@ label {
   margin: 0;
 }
 
-:where(.dirty.max-len-invalid, .dirty.wrapper-invalid) ~ .brief > .invalid-text{
+:where(.dirty.max-len-invalid, .dirty.invalid) ~ .brief > .invalid-text{
   display: inline-block;
 }
 

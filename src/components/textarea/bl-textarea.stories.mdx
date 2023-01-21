@@ -67,16 +67,13 @@ Textarea component is the component to take multi-line text input from user.
 
 ## Basic Usage
 
-Textarea can be used with and without value. Also value can be pass as children.
+Textarea can be used with and without value.
 
 <Canvas>
   <Story name="Textarea" args={{ placeholder: 'Type something...' }}>
     {TextareaTemplate.bind()}
   </Story>
   <Story name="Textarea with value" args={{ value: 'Some dummy text' }}>
-    {TextareaTemplate.bind()}
-  </Story>
-  <Story name="Textarea with child value" args={{ child: 'Some dummy text as children of textarea' }}>
     {TextareaTemplate.bind()}
   </Story>
 </Canvas>
@@ -86,13 +83,13 @@ Textarea can be used with and without value. Also value can be pass as children.
 Textarea has three sizes. Medium, small and large. Size attribute is medium by default.
 
 <Canvas>
-  <Story name="Textarea small"  args={{ size:"small", placeholder: 'small' }}>
+  <Story name="Textarea small"  args={{ size:"small", value: 'Textarea with small size. ' }}>
     {TextareaTemplate.bind()}
   </Story>
-  <Story name="Textarea medium" args={{ placeholder: 'medium' }}>
+  <Story name="Textarea medium" args={{ placeholder: 'medium', value:'Textarea with medium size.' }}>
     {TextareaTemplate.bind()}
   </Story>
-  <Story name="Textarea large"  args={{ size:"large", placeholder: 'large' }}>
+  <Story name="Textarea large"  args={{ size:"large", value: 'Textarea with large size.' }}>
     {TextareaTemplate.bind()}
   </Story>
 </Canvas>
@@ -103,17 +100,17 @@ Textarea optionally can have a label. If the label is set, it will be a floating
 
 <Canvas isColumn>
   <Story name="Textarea With Label"
-         args={{ label: 'Your Label', placeholder: 'Type something...' }}>
+         args={{ label: 'Your Label' }}>
     {TextareaTemplate.bind({})}
   </Story>
   <Story name="Textarea With Fixed Label" args={{
-    label: 'Your Fixed Label',
+    label: 'Fixed Label',
     labelFixed: true,
-    placeholder: 'Type something...'
+    value: 'Fixed label always stands top of textarea'
   }}>
     {TextareaTemplate.bind({})}
   </Story>
-  <Story name="Textarea Without Label" args={{ placeholder: 'Type something...' }}>
+  <Story name="Textarea Without Label" args={{ value: 'You can use textarea without label' }}>
     {TextareaTemplate.bind({})}
   </Story>
 </Canvas>
@@ -123,10 +120,10 @@ Textarea optionally can have a label. If the label is set, it will be a floating
 Textarea have attributes row.
 
 <Canvas>
-  <Story name="Textarea with five rows" args={{ rows:'5' }}>
+  <Story name="Textarea with five rows" args={{ rows:'5' ,value:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged." }}>
     {TextareaTemplate.bind()}
   </Story>
-  <Story name="Textarea with two rows" args={{ rows:'2' }}>
+  <Story name="Textarea with two rows" args={{ rows:'2', value:"It was popularised in the 1960s with the release of ..." }}>
     {TextareaTemplate.bind()}
   </Story>
 </Canvas>

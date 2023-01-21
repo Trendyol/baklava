@@ -21,7 +21,6 @@ describe('bl-textarea', () => {
         >
         </textarea>
         </div>
-        <div hidden><slot></slot></div>
         <div class="brief"></div>
       `,
       {
@@ -51,6 +50,20 @@ describe('bl-textarea', () => {
     const characterCounter = <HTMLParagraphElement>el.shadowRoot?.querySelector('.counter-text');
 
     expect(characterCounter?.innerText).to.equal("5/10");
+  });
+
+  it('should increase rows attribute dynamically', async () => {
+    const el = await fixture<BlTextarea>(html`<bl-textarea  rows="1"></bl-textarea>`);
+    el.setAttribute('rows','2');
+
+    expect(el?.getAttribute('rows')).to.equal("2");
+  });
+
+  it('should decrease rows attribute dynamically', async () => {
+    const el = await fixture<BlTextarea>(html`<bl-textarea  rows="2"></bl-textarea>`);
+    el.setAttribute('rows','1');
+
+    expect(el?.getAttribute('rows')).to.equal("1");
   });
 
   it('should expand when input text is longer than one row', async () => {
@@ -105,10 +118,6 @@ describe('bl-textarea', () => {
     });
     it('should be valid with required when value is filled',async () => {
       const el = await fixture<BlTextarea>(html`<bl-textarea value="some-value" required></bl-textarea>`);
-      expect(el.validity.valid).to.be.true;
-    });
-    it('should be valid with required when slot is filled',async () => {
-      const el = await fixture<BlTextarea>(html`<bl-textarea required>some-value</bl-textarea>`);
       expect(el.validity.valid).to.be.true;
     });
     it('should set custom invalid text', async () => {

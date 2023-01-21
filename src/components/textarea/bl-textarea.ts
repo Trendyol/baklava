@@ -4,6 +4,7 @@ import {FormControlMixin} from "@open-wc/form-control";
 import {ifDefined} from "lit/directives/if-defined.js";
 import {event, EventDispatcher} from "../../utilities/event";
 import {classMap} from "lit/directives/class-map.js";
+import { styleMap } from 'lit/directives/style-map.js';
 import {live} from "lit/directives/live.js";
 import {textAreaValidators} from "../../utilities/form-control";
 import 'element-internals-polyfill';
@@ -25,9 +26,6 @@ export default class BlTextarea extends FormControlMixin(LitElement){
 
   @query('textarea')
   validationTarget: HTMLTextAreaElement;
-
-  @query('.wrapper')
-  private wrapperTarget: HTMLElement;
 
   /**
    * Name of textarea
@@ -69,13 +67,13 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   /**
    * Sets label of the textarea
    */
-  @property({})
+  @property({reflect:true})
   label?: string;
 
   /**
    * Makes label as fixed positioned
    */
-  @property({ type: Boolean, attribute: 'label-fixed' })
+  @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
   labelFixed = false;
 
   /**
@@ -133,7 +131,8 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
 
 
-  private expandScroll = false;
+  @state()
+  private customScrollHeight:string | null = null;
 
   connectedCallback() {
     super.connectedCallback();
@@ -148,13 +147,9 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   }
 
   private  inputHandler(event: Event) {
-    if(this.expand){
-      this.autoResize();
-    }
-
+    this.autoResize();
 
     const value = (event.target as HTMLTextAreaElement).value;
-
     this.setValue(value);
     this.onInput(value);
   }
@@ -169,24 +164,17 @@ export default class BlTextarea extends FormControlMixin(LitElement){
 
   firstUpdated() {
     this.setValue(this.value);
+    this.autoResize();
   }
 
   protected updated(changedProperties: PropertyValues) {
-    if(changedProperties.has('rows')){
-      this.wrapperTarget.style.setProperty('--row-count',`${this.rows}`);
-      this.wrapperTarget.style.removeProperty('--scroll-height');
+    if(changedProperties.has('rows') && this.rows){
+      if(changedProperties.get('rows') < this.rows){
+        this.autoResize();
+      }else if(changedProperties.get('rows') > this.rows){
+        this.customScrollHeight = null;
+      }
     }
-
-    if(changedProperties.has('maxRow')){
-      this.wrapperTarget.style.setProperty('--maxrow-count',`${this.maxRow}`);
-    }
-  }
-
-  private updateSlotted(event:Event) {
-    const _target = (event.target as HTMLSlotElement)
-    const value = _target.assignedNodes().map((n) => n.textContent).join('');
-    this.value = value
-    this.setValue(this.value);
   }
 
   reportValidity() {
@@ -203,8 +191,11 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   }
 
   private autoResize() {
+    if(!this.expand){
+      return;
+    }
     const scrollHeight = this.validationTarget.scrollHeight;
-    this.wrapperTarget.style.setProperty('--scroll-height',`${scrollHeight}px`);
+    this.customScrollHeight = `${scrollHeight}px`;
   }
 
   @state() private dirty = false;
@@ -220,33 +211,29 @@ export default class BlTextarea extends FormControlMixin(LitElement){
     const characterCounterText = (this.characterCounter && this.maxlength) ? `${this.value.length}/${this.maxlength}` : this.characterCounter ? `${this.value.length}` : '';
     const characterCounter = this.characterCounter ? html`<p class="counter-text">${characterCounterText}</p>` : '';
 
-
-    const classes = {
-      'dirty': this.dirty,
-      'expand-scroll': this.expandScroll,
-      'expand':this.expand,
-      'max-len-invalid': maxLengthInvalid,
-      'has-value': this.value !== null && this.value !== '',
-    };
-
     const wrapperClasses = {
       'wrapper': true,
       'has-value': this.value !== null && this.value !== '',
       'dirty': this.dirty,
       'max-len-invalid': maxLengthInvalid,
-      'wrapper-invalid': !this.checkValidity(),
+      'invalid': !this.checkValidity(),
     };
 
+    const styles = {
+        '--row-count':`${this.rows}`,
+        '--maxrow-count': this.maxRow ? `${this.maxRow}` : null,
+        '--scroll-height': this.customScrollHeight, /* private var */
+    }
+
     return html`
-      <div class=${classMap(wrapperClasses)}>
+      <div style=${styleMap(styles)} class=${classMap(wrapperClasses)}>
         <textarea
           id="bl-text-area"
           name="${ifDefined(this.name)}"
-          class=${classMap(classes)}
           .value=${live(this.value)}
           placeholder="${ifDefined(this.placeholder)}"
           minlength="${ifDefined(this.minlength)}"
-          rows=${ifDefined(this.rows)}
+          rows="${ifDefined(this.rows)}"
           ?required=${(this.required)}
           ?disabled=${(this.disabled)}
           @change=${this.changeHandler}
@@ -254,9 +241,6 @@ export default class BlTextarea extends FormControlMixin(LitElement){
           @invalid=${this.onError}
         >
         </textarea>
-      </div>
-      <div hidden>
-        <slot @slotchange=${this.updateSlotted}></slot>
       </div>
       ${label}
       <div class="brief">
