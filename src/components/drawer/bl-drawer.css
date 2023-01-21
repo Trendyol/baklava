@@ -21,6 +21,12 @@
   z-index: 999;
 }
 
+@supports (height: 100dvh) {
+  .drawer {
+    height: 100dvh;
+  }
+}
+
 :host([open]) .drawer {
   transform: translateX(0);
   animation: slide-from-right var(--bl-drawer-animation-duration, .25s);
