@@ -14,6 +14,7 @@
   --border-size: 1px;
   --default-scroll-height: calc((var(--row-count) * var(--line-height)) + var(--padding-vertical)) ;
   --height: max(var(--scroll-height),var(--default-scroll-height));
+  --input-font: var(--bl-font-body-text-2);
 
   border: solid var(--border-size) var(--bl-color-border);
   border-radius: 4px;
@@ -25,7 +26,7 @@ textarea {
   outline: none;
   box-sizing: border-box;
   width: 100%;
-  font: var(--bl-font-body-text-2);
+  font: var(--input-font);
   padding:0 var(--padding-horizontal);
   padding-bottom:var(--padding-vertical);
   margin: 0;
@@ -35,17 +36,16 @@ textarea {
   display: block;
 }
 
-:host([size="large"]) textarea{
+:host([size="large"]) .wrapper{
   --padding-vertical: var(--bl-size-xs);
   --padding-horizontal: var(--bl-size-m);
-
 }
 
-:host([size="small"]) textarea{
+:host([size="small"]) .wrapper{
   --padding-vertical: var(--bl-size-3xs);
   --padding-horizontal: var(--bl-size-xs);
-
-  font: var(--bl-font-body-text-3);
+  --input-font: var(--bl-font-body-text-3);
+  --line-height: var(--bl-font-title-4-line-height);
 }
 
 textarea:disabled{
