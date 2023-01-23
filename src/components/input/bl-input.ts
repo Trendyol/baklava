@@ -179,7 +179,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   private textVisiblityToggle() {
     this.passwordVisible = !this.passwordVisible;
-    this.type = this.passwordVisible ? 'text' : 'password';
   }
 
   validityCallback(): string | void {
@@ -243,10 +242,13 @@ export default class BlInput extends FormControlMixin(LitElement) {
       'has-value': this.value !== null && this.value !== '',
     };
 
+    const passwordType = this.passwordVisible ? "text" : "password";
+    const inputType = this.passwordInput ? passwordType : this.type;
+
     return html`
       <input
         id="input"
-        type=${this.type}
+        type=${inputType}
         class=${classMap(classes)}
         .value=${live(this.value)}
         placeholder="${ifDefined(this.placeholder)}"

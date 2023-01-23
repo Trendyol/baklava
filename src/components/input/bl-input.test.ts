@@ -68,6 +68,20 @@ describe('bl-input', () => {
       expect(passwordIcon).to.exist;
       expect(passwordIcon?.getAttribute('name')).to.equal('eye_on');
     });
+
+    it('should toggle eye icon to off on click', async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
+      const passwordIcon = el?.shadowRoot?.querySelector(
+        'bl-icon.password-icon'
+      ) as HTMLElement | null;
+      expect(passwordIcon).to.exist;
+      expect(passwordIcon?.getAttribute('name')).to.eq('eye_on');
+
+      passwordIcon?.click();
+      await elementUpdated(el);
+
+      expect(passwordIcon?.getAttribute('name')).to.eq('eye_off');
+    });
   });
 
   describe('validation', () => {
@@ -133,18 +147,20 @@ describe('bl-input', () => {
       expect(ev.detail).to.be.equal('some value');
     });
 
-    it('should toggle input type and icon on visibility icon click', async () => {
+    it('should toggle input type on eye icon click', async () => {
       const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
-      const passwordIcon = el?.shadowRoot?.querySelector('bl-icon.password-icon') as HTMLElement | null;
-      expect(el.type).to.equal('password');
+      const input = el?.shadowRoot?.querySelector('input');
+      const passwordIcon = el?.shadowRoot?.querySelector(
+        'bl-icon.password-icon'
+      ) as HTMLElement | null;
+
+      expect(input?.type).to.equal('password');
       expect(passwordIcon).to.exist;
 
       passwordIcon?.click();
-
       await elementUpdated(el);
 
-      expect(passwordIcon?.getAttribute('name')).to.eq('eye_off');
-      expect(el.type).to.equal('text');
+      expect(input?.type).to.equal('text');
     });
 
     it('should fire bl-input event when input value changes', async () => {
@@ -184,7 +200,6 @@ describe('bl-input', () => {
       expect(blInput?.validity.valid).to.be.false;
 
       expect(errorMessageElement).to.exist;
-
     });
 
     it('should submit parent form when pressed Enter key', async () => {
