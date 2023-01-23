@@ -2,7 +2,6 @@ import { elementUpdated, expect, fixture, fixtureCleanup } from "@open-wc/testin
 import { html, LitElement } from "lit";
 import { customElement, query } from "lit/decorators.js";
 import {innerInputValidators, textareaLengthValidator} from "./form-control"
-// import BlTextarea from "../components/textarea/bl-textarea";
 
 @customElement('my-valid-input')
 class MyValidInput extends LitElement {

@@ -59,7 +59,7 @@ textarea:disabled{
   height: var(--height);
 }
 
-:host([expand][max-row]) textarea{
+:host([expand][max-rows]) textarea{
   --maxrow-height: calc((var(--maxrow-count) * var(--line-height)) + var(--padding-vertical));
 
   overflow-y: scroll;

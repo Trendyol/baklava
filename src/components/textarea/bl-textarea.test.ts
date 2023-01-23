@@ -82,8 +82,8 @@ describe('bl-textarea', () => {
   });
 
   it('should have same heights if they have same max-rows', async () => {
-    const el = await fixture<BlTextarea>(html`<bl-textarea value="some dummy text" expand rows="1" max-row="3"></bl-textarea>`);
-    const el2 = await fixture<BlTextarea>(html`<bl-textarea value="some dummy text" expand rows="1" max-row="3"></bl-textarea>`);
+    const el = await fixture<BlTextarea>(html`<bl-textarea value="some dummy text" expand rows="1" max-rows="3"></bl-textarea>`);
+    const el2 = await fixture<BlTextarea>(html`<bl-textarea value="some dummy text" expand rows="1" max-rows="3"></bl-textarea>`);
     const textarea = el.shadowRoot?.querySelector('textarea');
     const textarea2 = el2.shadowRoot?.querySelector('textarea');
 

@@ -54,8 +54,8 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   /**
    * Sets max row when expand is true
    */
-  @property({ type: Number, reflect: true, attribute:'max-row' })
-  maxRow?: number;
+  @property({ type: Number, reflect: true, attribute:'max-rows' })
+  maxRows?: number;
 
 
   /**
@@ -221,7 +221,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
 
     const styles = {
         '--row-count':`${this.rows}`,
-        '--maxrow-count': this.maxRow ? `${this.maxRow}` : null,
+        '--maxrow-count': this.maxRows ? `${this.maxRows}` : null,
         '--scroll-height': this.customScrollHeight, /* private var */
     }
 
