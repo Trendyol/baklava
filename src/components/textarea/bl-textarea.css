@@ -130,6 +130,7 @@ label {
   margin-left: auto;
   font: var(--bl-font-title-4-regular);
   padding: var(--bl-size-3xs) 0;
+  color: var(--bl-color-content-secondary);
 }
 
 :where(.max-len-invalid, .dirty:invalid) ~ .brief > .counter-text {
