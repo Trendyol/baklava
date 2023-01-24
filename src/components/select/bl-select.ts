@@ -28,7 +28,7 @@ export default class BlSelect extends LitElement {
   /**
    * Sets the label value
    */
-  @property({})
+  @property({ reflect: true })
   label?: string;
 
   /**
