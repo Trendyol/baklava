@@ -22,10 +22,7 @@ describe('bl-textarea', () => {
         </textarea>
         </div>
         <div class="brief"></div>
-      `,
-      {
-        ignoreAttributes:['style']
-      }
+      `
     );
   });
 

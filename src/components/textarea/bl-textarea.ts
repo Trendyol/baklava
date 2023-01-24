@@ -168,12 +168,8 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   }
 
   protected updated(changedProperties: PropertyValues) {
-    if(changedProperties.has('rows') && this.rows){
-      if(changedProperties.get('rows') < this.rows){
-        this.autoResize();
-      }else if(changedProperties.get('rows') > this.rows){
-        this.customScrollHeight = null;
-      }
+    if(changedProperties.has('rows')){
+      this.autoResize();
     }
   }
 
@@ -194,8 +190,11 @@ export default class BlTextarea extends FormControlMixin(LitElement){
     if(!this.expand){
       return;
     }
+
+    this.validationTarget.style.height = "auto";
     const scrollHeight = this.validationTarget.scrollHeight;
     this.customScrollHeight = `${scrollHeight}px`;
+    this.validationTarget.style.removeProperty('height');
   }
 
   @state() private dirty = false;
@@ -222,7 +221,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
     const styles = {
         '--row-count':`${this.rows}`,
         '--maxrow-count': this.maxRows ? `${this.maxRows}` : null,
-        '--scroll-height': this.customScrollHeight, /* private var */
+        '--scroll-height': this.customScrollHeight,
     }
 
     return html`
