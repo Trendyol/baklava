@@ -69,11 +69,16 @@ label {
   position: absolute;
   top: var(--padding-vertical);
   left: var(--padding-horizontal);
+  right: var(--padding-horizontal);
+  max-width: max-content;
   transition: all ease-in 0.2s;
   pointer-events: none;
   font: var(--input-font);
   color: var(--bl-color-content-tertiary);
   padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .icon {
@@ -104,6 +109,7 @@ bl-icon {
 
 ::placeholder {
   color: var(--bl-color-content-tertiary);
+  -webkit-text-fill-color: var(--bl-color-content-tertiary);
 }
 
 :host([label]) ::placeholder {
@@ -115,6 +121,7 @@ bl-icon {
 :host([label-fixed]) ::placeholder,
 :host .wrapper:focus-within ::placeholder {
   color: var(--bl-color-content-tertiary);
+  -webkit-text-fill-color: var(--bl-color-content-tertiary);
 }
 
 :host([disabled]) .input-wrapper {
@@ -139,6 +146,10 @@ input:disabled {
   padding: 0 var(--padding);
   background-color: var(--bl-color-primary-background);
   pointer-events: initial;
+}
+
+:where(.wrapper.has-icon:focus-within, .wrapper.has-icon.has-value) label {
+  right: calc(var(--padding-horizontal) + var(--icon-size) + var(--padding-vertical));
 }
 
 :host([label-fixed]) label {

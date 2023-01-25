@@ -95,9 +95,9 @@ export const SingleInputTemplate = (args) => html`<bl-input
   ></bl-input>`
 
 export const SizeVariantsTemplate = args => html`
-  ${SingleInputTemplate({ size: 'large', ...args })}
-  ${SingleInputTemplate({ size: 'medium', ...args })}
-  ${SingleInputTemplate({ size: 'small', ...args })}
+${SingleInputTemplate({ size: 'large', ...args })}
+${SingleInputTemplate({ size: 'medium', ...args })}
+${SingleInputTemplate({ size: 'small', ...args })}
 `
 
 # Input
@@ -106,8 +106,6 @@ export const SizeVariantsTemplate = args => html`
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=4%3A5586)</bl-badge>
 
 Input component is the component for taking text input from user.
-
-<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
 
 ## Basic Usage
 
@@ -144,6 +142,20 @@ If you want to use always it on top of the input, then you can use `label-fixed`
     {SingleInputTemplate.bind({})}
   </Story>
   <Story name="Input with value" args={{ label: 'Your name', placeholder: 'Name Surname', value: 'Random User' }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Input component will cut-out long labels those doesn't width of input, with ellipsis char.
+
+<Canvas isColumn>
+  <Story name="Input With Long Label" args={{ label: "Very very long label that doesn't fit select component width" }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Input With Long Label with Icon" args={{ label: "Very very long label that doesn't fit select component width", icon: 'profile' }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Input With Fixed Long Label" args={{ label: "Very very long label that doesn't fit select component width", placeholder: "Username", labelFixed: true }}>
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
