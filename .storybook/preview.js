@@ -17,6 +17,7 @@ const withNoAnimationOnChromaticLayout = makeDecorator({
       ${isChromatic() ?  html`<style>
         .custom-wrapper {
           --bl-drawer-animation-duration: 0;
+          padding: 25px;
         }
       </style>` : html``}
 
