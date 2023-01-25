@@ -94,10 +94,10 @@ export const SingleInputTemplate = (args) => html`<bl-input
     size='${ifDefined(args.size)}'
   ></bl-input>`
 
-export const LabelStylesTemplate = args => html`
-  ${SingleInputTemplate({ labelFixed: true, ...args })}
-  ${SingleInputTemplate({ labelFixed: false, ...args })}
-  ${BlButton()}
+export const SizeVariantsTemplate = args => html`
+  ${SingleInputTemplate({ size: 'large', ...args })}
+  ${SingleInputTemplate({ size: 'medium', ...args })}
+  ${SingleInputTemplate({ size: 'small', ...args })}
 `
 
 # Input
@@ -201,11 +201,43 @@ Validation error messages are used from default browser error messages by defaul
 
 ## Input Sizes
 
-Inputs have 2 size options: `medium` and `large`. `medium` size is default and if you want to show a large input you can set `size` attribute to `large`.
+Inputs have 3 size options: `large`, `medium` and `small`. `medium` size is default and if you want to show a large or small input you can set `size` attribute.
 
 <Canvas>
-  <Story name="Large Input"
-         args={{ type: 'text', label: 'User Name', size: 'large' }}
+  <Story name="Input sizes without value"
+         args={{ type: 'text', label: 'User Name', icon: 'profile' }}
+  >
+    {SizeVariantsTemplate.bind({})}
+  </Story>
+  <Story name="Input sizes with value"
+         args={{ type: 'text', label: 'User Name', value: 'excalibur82' }}
+  >
+    {SizeVariantsTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled Input
+
+Input can be set as disabled by adding `disabled` attribute.
+
+<Canvas isColumn>
+  <Story name="Disabled Input with label"
+         args={{ type: 'text', label: 'User Name', disabled: true }}
+  >
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Disabled Input with placeholder"
+         args={{ type: 'text', label: 'User Name', labelFixed: true, placeholder: 'namesurname', disabled: true }}
+  >
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Disabled Input with value"
+         args={{ type: 'text', label: 'User Name', value: 'excalibur82', disabled: true }}
+  >
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Disabled Input with icon"
+         args={{ type: 'text', label: 'User Name', icon: 'profile', disabled: true }}
   >
     {SingleInputTemplate.bind({})}
   </Story>
