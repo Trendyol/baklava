@@ -148,7 +148,7 @@ input:disabled {
   pointer-events: initial;
 }
 
-:where(.wrapper.has-icon:focus-within, .wrapper.has-icon.has-value) label {
+:where(.has-icon:not(:focus-within), .has-icon:not(.has-value)) label {
   right: calc(var(--padding-horizontal) + var(--icon-size) + var(--padding-vertical));
 }
 
