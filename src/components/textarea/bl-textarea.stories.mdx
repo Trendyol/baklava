@@ -66,13 +66,19 @@ Textarea component is the component to take multi-line text input from user.
 
 ## Basic Usage
 
-Textarea can be used with and without value.
+Textarea can be used with and without value. Also it has disabled attribute.
 
 <Canvas>
   <Story name="Textarea" args={{ placeholder: 'Type something...' }}>
     {TextareaTemplate.bind()}
   </Story>
   <Story name="Textarea with value" args={{ value: 'Some dummy text' }}>
+    {TextareaTemplate.bind()}
+  </Story>
+  <Story name="Textarea disabled" args={{ disabled:true, placeholder: 'Type something...' }}>
+    {TextareaTemplate.bind()}
+  </Story>
+  <Story name="Textarea disabled with value" args={{ disabled:true, value: 'some dummy text' }}>
     {TextareaTemplate.bind()}
   </Story>
 </Canvas>

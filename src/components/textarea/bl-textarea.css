@@ -53,6 +53,10 @@ textarea:disabled{
   color: var(--bl-color-content-tertiary);
 }
 
+:host([disabled]) .wrapper{
+  background-color: var(--bl-color-secondary-background);
+}
+
 :host([expand]) textarea {
   overflow: hidden;
   resize: none;
