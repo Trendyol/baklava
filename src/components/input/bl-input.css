@@ -44,27 +44,6 @@
   --icon-size: var(--bl-font-body-text-3-line-height);
 }
 
-.input-wrapper {
-  display: flex;
-  box-sizing: border-box;
-  gap: var(--padding-vertical);
-  height: var(--height);
-  border: solid 1px var(--border-color);
-  padding: 0 var(--padding-horizontal);
-  border-radius: 4px;
-}
-
-input {
-  outline: none;
-  width: 100%;
-  align-self: stretch;
-  border: none;
-  font: var(--input-font);
-  color: var(--text-color);
-  -webkit-text-fill-color: var(--text-color);
-  background-color: transparent;
-}
-
 label {
   position: absolute;
   top: var(--padding-vertical);
@@ -81,8 +60,32 @@ label {
   text-overflow: ellipsis;
 }
 
+.input-wrapper {
+  --border-size: 1px;
+
+  display: flex;
+  box-sizing: border-box;
+  gap: var(--padding-vertical);
+  height: var(--height);
+  border: solid var(--border-size) var(--border-color);
+  padding: 0 calc(var(--padding-horizontal) - var(--border-size));
+  border-radius: 4px;
+}
+
+input {
+  width: 100%;
+  align-self: stretch;
+  outline: 0;
+  border: 0;
+  padding: 0;
+  font: var(--input-font);
+  color: var(--text-color);
+  -webkit-text-fill-color: var(--text-color);
+  background-color: transparent;
+}
+
 .icon {
-  flex-basis: var(icon-size);
+  flex-basis: var(--icon-size);
   align-self: center;
   height: var(--icon-size);
 }
@@ -92,6 +95,7 @@ label {
 }
 
 .hint {
+  display: none;
   font: var(--bl-font-body-text-3);
   padding: 0 var(--padding-horizontal);
 }
@@ -136,10 +140,10 @@ input:disabled {
 }
 
 :where(.wrapper:focus-within, .wrapper.has-value) label {
-  --padding: var(--bl-size-3xs);
+  --label-padding: var(--bl-size-3xs);
 
   top: 0;
-  left: calc(var(--padding-horizontal) - var(--padding));
+  left: calc(var(--padding-horizontal) - var(--label-padding));
   transform: translateY(-50%);
   font: var(--bl-font-caption);
   color: var(--bl-color-content-secondary);
@@ -175,6 +179,11 @@ input:disabled {
 
 .help-text {
   color: var(--bl-color-content-secondary);
+}
+
+:host([help-text]) .hint,
+.dirty.invalid .hint {
+  display: block;
 }
 
 .dirty.invalid .invalid-text {

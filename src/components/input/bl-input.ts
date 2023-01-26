@@ -121,7 +121,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Adds help text
    */
-  @property({ type: String, attribute: 'help-text' })
+  @property({ type: String, attribute: 'help-text', reflect: true })
   helpText?: string;
 
   /**
@@ -204,10 +204,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">${this.validationMessage}</p>`
       : ``;
     const helpMessage = this.helpText ? html`<p id="helpText" class="help-text">${this.helpText}</p>` : ``;
-    const hintMessage = invalidMessage || helpMessage ? html`<div class="hint">
-      ${invalidMessage}
-      ${helpMessage}
-    </div>` : ``;
 
     const icon = this.icon
       ? html`<bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
@@ -245,7 +241,10 @@ export default class BlInput extends FormControlMixin(LitElement) {
         />
         <div class="icon">${icon}<bl-icon class="error-icon" name="alert"></bl-icon></div>
       </div>
-      ${hintMessage}
+      <div class="hint">
+        ${invalidMessage}
+        ${helpMessage}
+      </div>
     </div>`;
   }
 }

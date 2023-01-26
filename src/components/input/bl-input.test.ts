@@ -27,6 +27,7 @@ describe('bl-input', () => {
             </bl-icon>
           </div>
         </div>
+        <div class="hint"></div>
       </div>
     `
     );
