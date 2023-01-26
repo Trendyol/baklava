@@ -51,6 +51,7 @@ textarea {
 textarea:disabled{
   background-color: var(--bl-color-secondary-background);
   color: var(--bl-color-content-tertiary);
+  cursor: not-allowed;
 }
 
 :host([disabled]) .wrapper{
