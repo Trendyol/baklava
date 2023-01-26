@@ -1,15 +1,14 @@
-import {CSSResultGroup, html, LitElement, PropertyValues, TemplateResult} from "lit";
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
-import {FormControlMixin} from "@open-wc/form-control";
-import {ifDefined} from "lit/directives/if-defined.js";
-import {event, EventDispatcher} from "../../utilities/event";
-import {classMap} from "lit/directives/class-map.js";
+import { FormControlMixin } from '@open-wc/form-control';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { event, EventDispatcher } from '../../utilities/event';
+import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import {live} from "lit/directives/live.js";
-import {textAreaValidators} from "../../utilities/form-control";
+import { live } from 'lit/directives/live.js';
+import { textAreaValidators } from '../../utilities/form-control';
 import 'element-internals-polyfill';
 import style from './bl-textarea.css';
-
 
 export type TextareaSize = 'small' | 'medium' | 'large';
 /**
@@ -17,7 +16,7 @@ export type TextareaSize = 'small' | 'medium' | 'large';
  * @summary Baklava Textarea component
  */
 @customElement('bl-textarea')
-export default class BlTextarea extends FormControlMixin(LitElement){
+export default class BlTextarea extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -54,9 +53,8 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   /**
    * Sets max row when expand is true
    */
-  @property({ type: Number, reflect: true, attribute:'max-rows' })
+  @property({ type: Number, reflect: true, attribute: 'max-rows' })
   maxRows?: number;
-
 
   /**
    * Sets textarea size.
@@ -67,7 +65,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   /**
    * Sets label of the textarea
    */
-  @property({reflect:true})
+  @property({ reflect: true })
   label?: string;
 
   /**
@@ -110,7 +108,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
    * Sets max length of textarea
    */
   @property({ type: Number })
-  maxlength?:number;
+  maxlength?: number;
 
   /**
    * Sets initial value of the textarea
@@ -121,7 +119,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   /**
    * Sets textarea visible row count.
    */
-  @property({ type: Number})
+  @property({ type: Number })
   rows?: number = 4;
 
   @event('bl-input') private onInput: EventDispatcher<string>;
@@ -130,9 +128,8 @@ export default class BlTextarea extends FormControlMixin(LitElement){
 
   @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
 
-
   @state()
-  private customScrollHeight:string | null = null;
+  private customScrollHeight: string | null = null;
 
   connectedCallback() {
     super.connectedCallback();
@@ -141,12 +138,11 @@ export default class BlTextarea extends FormControlMixin(LitElement){
     });
   }
 
-
   private onError = (): void => {
     this.onInvalid(this.internals.validity);
-  }
+  };
 
-  private  inputHandler(event: Event) {
+  private inputHandler(event: Event) {
     this.autoResize();
 
     const value = (event.target as HTMLTextAreaElement).value;
@@ -168,7 +164,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   }
 
   protected updated(changedProperties: PropertyValues) {
-    if(changedProperties.has('rows')){
+    if (changedProperties.has('rows')) {
       this.autoResize();
     }
   }
@@ -187,11 +183,11 @@ export default class BlTextarea extends FormControlMixin(LitElement){
   }
 
   private autoResize() {
-    if(!this.expand){
+    if (!this.expand) {
       return;
     }
 
-    this.validationTarget.style.height = "auto";
+    this.validationTarget.style.height = 'auto';
     const scrollHeight = this.validationTarget.scrollHeight;
     this.customScrollHeight = `${scrollHeight}px`;
     this.validationTarget.style.removeProperty('height');
@@ -199,16 +195,24 @@ export default class BlTextarea extends FormControlMixin(LitElement){
 
   @state() private dirty = false;
 
-  render(): TemplateResult{
+  render(): TemplateResult {
     const maxLengthInvalid = this.internals.validity.rangeOverflow;
     const invalidMessage = !this.checkValidity()
       ? html`<p class="invalid-text">${this.validationMessage}</p>`
       : ``;
-    const helpMessage = (this.helpText && this.checkValidity()) ? html`<p class="help-text">${this.helpText}</p>` : ``;
+    const helpMessage =
+      this.helpText && this.checkValidity() ? html`<p class="help-text">${this.helpText}</p>` : ``;
 
     const label = this.label ? html`<label for="bl-text-area">${this.label}</label>` : '';
-    const characterCounterText = (this.characterCounter && this.maxlength) ? `${this.value.length}/${this.maxlength}` : this.characterCounter ? `${this.value.length}` : '';
-    const characterCounter = this.characterCounter ? html`<p class="counter-text">${characterCounterText}</p>` : '';
+    const characterCounterText =
+      this.characterCounter && this.maxlength
+        ? `${this.value.length}/${this.maxlength}`
+        : this.characterCounter
+        ? `${this.value.length}`
+        : '';
+    const characterCounter = this.characterCounter
+      ? html`<p class="counter-text">${characterCounterText}</p>`
+      : '';
 
     const wrapperClasses = {
       'wrapper': true,
@@ -219,10 +223,10 @@ export default class BlTextarea extends FormControlMixin(LitElement){
     };
 
     const styles = {
-        '--row-count':`${this.rows}`,
-        '--maxrow-count': this.maxRows ? `${this.maxRows}` : null,
-        '--scroll-height': this.customScrollHeight,
-    }
+      '--row-count': `${this.rows}`,
+      '--maxrow-count': this.maxRows ? `${this.maxRows}` : null,
+      '--scroll-height': this.customScrollHeight,
+    };
 
     return html`
       <div style=${styleMap(styles)} class=${classMap(wrapperClasses)}>
@@ -234,17 +238,15 @@ export default class BlTextarea extends FormControlMixin(LitElement){
           placeholder="${ifDefined(this.placeholder)}"
           minlength="${ifDefined(this.minlength)}"
           rows="${ifDefined(this.rows)}"
-          ?required=${(this.required)}
-          ?disabled=${(this.disabled)}
+          ?required=${this.required}
+          ?disabled=${this.disabled}
           @change=${this.changeHandler}
           @input=${this.inputHandler}
           @invalid=${this.onError}
         >
         </textarea>
       </div>
-      <div class="brief">
-        ${invalidMessage}${helpMessage}${characterCounter}
-      </div>
+      <div class="brief">${invalidMessage}${helpMessage}${characterCounter}</div>
     `;
   }
 }

@@ -1,4 +1,4 @@
-import {Meta, Canvas, ArgsTable, Story} from "@storybook/addon-docs";
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/addon-docs";
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
@@ -27,6 +27,14 @@ import { ifDefined } from 'lit/directives/if-defined.js';
       control: 'text',
       type: 'number'
     },
+    rows: {
+      control: 'text',
+      type: 'number'
+    },
+    maxRows: {
+      control: 'text',
+      type: 'number'
+    },
     disabled: {
       control: 'boolean',
     },
@@ -43,65 +51,68 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 />
 
 export const TextareaTemplate = (args) => html`
-  <bl-textarea
-      label='${ifDefined(args.label)}'
-      placeholder='${ifDefined(args.placeholder)}'
-      value='${ifDefined(args.value)}'
-      ?required='${args.required}'
-      ?disabled='${args.disabled}'
-      ?label-fixed='${args.labelFixed}'
-      invalid-text='${ifDefined(args.customInvalidText)}'
-      help-text='${ifDefined(args.helpText)}'
-      minlength='${ifDefined(args.minlength)}'
-      maxlength='${ifDefined(args.maxlength)}'
-      rows='${ifDefined(args.rows)}'
-      max-row='${ifDefined(args.maxRow)}'
-      expand='${ifDefined(args.expand)}'
-      size='${ifDefined(args.size)}'
-      character-counter='${ifDefined(args.characterCounter)}'></bl-textarea>`
+<bl-textarea
+  label='${ifDefined(args.label)}'
+  placeholder='${ifDefined(args.placeholder)}'
+  value='${ifDefined(args.value)}'
+  ?required='${args.required}'
+  ?disabled='${args.disabled}'
+  ?label-fixed='${args.labelFixed}'
+  invalid-text='${ifDefined(args.customInvalidText)}'
+  help-text='${ifDefined(args.helpText)}'
+  minlength='${ifDefined(args.minlength)}'
+  maxlength='${ifDefined(args.maxlength)}'
+  rows='${ifDefined(args.rows)}'
+  max-rows='${ifDefined(args.maxRows)}'
+  expand='${ifDefined(args.expand)}'
+  size='${ifDefined(args.size)}'
+  character-counter='${ifDefined(args.characterCounter)}'></bl-textarea>`
 
 # Textarea
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/145)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=163%3A2243)</bl-badge>
 
 Textarea component is the component to take multi-line text input from user.
 
 ## Basic Usage
 
-Textarea can be used with and without value. Also it has disabled attribute.
+Textarea supports using `label` and `placeholder`. You can set a initial `value` and set it `disabled` if you need.
 
 <Canvas>
   <Story name="Textarea" args={{ placeholder: 'Type something...' }}>
     {TextareaTemplate.bind()}
   </Story>
-  <Story name="Textarea with value" args={{ value: 'Some dummy text' }}>
+  <Story name="Textarea with value" args={{ label: 'Message', value: 'Some dummy text' }}>
     {TextareaTemplate.bind()}
   </Story>
   <Story name="Textarea disabled" args={{ disabled:true, placeholder: 'Type something...' }}>
     {TextareaTemplate.bind()}
   </Story>
-  <Story name="Textarea disabled with value" args={{ disabled:true, value: 'some dummy text' }}>
+  <Story name="Textarea disabled with value" args={{ disabled:true, label: 'Message', value: 'some dummy text' }}>
     {TextareaTemplate.bind()}
   </Story>
 </Canvas>
 
 ## Textarea Sizes
 
-Textarea has three sizes. Medium, small and large. Size attribute is medium by default.
+Textarea has 3 size options: `small`, `medium` and `large`. Size is `medium` by default.
 
 <Canvas>
-  <Story name="Textarea small"  args={{ size:"small", value: 'Textarea with small size. ' }}>
+  <Story name="Textarea small"  args={{ size:"small", label: 'Message', value: 'Textarea with small size. ' }}>
     {TextareaTemplate.bind()}
   </Story>
-  <Story name="Textarea medium" args={{ placeholder: 'medium', value:'Textarea with medium size.' }}>
+  <Story name="Textarea medium" args={{ size: 'medium', label: 'Message', value:'Textarea with medium size.' }}>
     {TextareaTemplate.bind()}
   </Story>
-  <Story name="Textarea large"  args={{ size:"large", value: 'Textarea with large size.' }}>
+  <Story name="Textarea large"  args={{ size:"large", label: 'Message', value: 'Textarea with large size.' }}>
     {TextareaTemplate.bind()}
   </Story>
 </Canvas>
 
 ## Textarea Labels
 
-Textarea optionally can have a label. If the label is set, it will be a floating label by default. If you want to use always it on top of the textarea, then you can use label-fixed attribute.
+Textarea optionally can have a label. If the label is set, it will be a floating label by default. If you want to use always it on top of the textarea, then you can use `label-fixed` attribute.
 
 <Canvas isColumn>
   <Story name="Textarea With Label"
@@ -120,29 +131,43 @@ Textarea optionally can have a label. If the label is set, it will be a floating
   </Story>
 </Canvas>
 
+Textarea component will cut-out long labels those doesn't fit width of textarea, with ellipsis char.
+
+<Canvas isColumn>
+  <Story name="Select With Long Label" args={{ label: "Very very long label that doesn't fit select component width" }}>
+    {TextareaTemplate.bind({})}
+  </Story>
+  <Story name="Select With Long Label with value" args={{ label: "Very very long label that doesn't fit select component width", value: 'Some content' }}>
+    {TextareaTemplate.bind({})}
+  </Story>
+  <Story name="Select With Fixed Long Label" args={{ label: "Very very long label that doesn't fit select component width", placeholder:"Your input", labelFixed: true }}>
+    {TextareaTemplate.bind({})}
+  </Story>
+</Canvas>
+
 ## Use with row attribute
 
-Textarea have attributes row.
+You can set minimum `rows` of textarea to set vertical area.
 
 <Canvas>
-  <Story name="Textarea with five rows" args={{ rows:'5' ,value:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged." }}>
+  <Story name="Textarea with five rows" args={{ rows: '5' ,value:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged." }}>
     {TextareaTemplate.bind()}
   </Story>
-  <Story name="Textarea with two rows" args={{ rows:'2', value:"It was popularised in the 1960s with the release of ..." }}>
+  <Story name="Textarea with two rows" args={{ rows: '2', value:"It was popularised in the 1960s with the release of ..." }}>
     {TextareaTemplate.bind()}
   </Story>
 </Canvas>
 
 ## Textarea Expand
 
-Textarea have expand attribute. Textarea can be auto resize with expand attribute.
-Also we can limit resizing with max-row attribute.
+Textarea can be used as auto expanding by content. You can enable this feature by adding `expand` attribute.
+Also you can limit expanding with `max-rows` attribute.
 
 <Canvas>
-  <Story name="Textarea with expand and max-row" args={{ expand:true, rows:'2', maxRow:4 }}>
+  <Story name="Textarea with expand" args={{ expand: true, value: '1\n2\n3\n4\n5', rows: '2' }}>
     {TextareaTemplate.bind()}
   </Story>
-  <Story name="Textarea with expand" args={{ expand:true, rows:'2' }}>
+  <Story name="Textarea with expand and max-row" args={{ expand: true, rows: '2', value: '1\n2\n3\n4\n5', maxRows: 4 }}>
     {TextareaTemplate.bind()}
   </Story>
 </Canvas>
@@ -160,41 +185,44 @@ You can give extra information to user with `help-text` attribute.
 
 ## Textarea Character Counter
 
-You can display character counter under the textarea. This can be use with maxlength attribute.
+You can display character counter by setting `character-counter` attribute. By doing this you can give direct feedback to the user about message length.
+If you use it together with `maxlength` attribute user can have immediate attention if they exceed allowed text length.
 
 <Canvas>
-  <Story name="Textarea with character counter and maxlength"
-         args={{ placeholder: 'Type something...' ,characterCounter:true, maxlength:"20" }}>
+  <Story name="Textarea with character counter"
+         args={{ placeholder: 'Type something...' , characterCounter: true }}>
     {TextareaTemplate.bind({})}
   </Story>
-  <Story name="Textarea with character counter"
-         args={{ placeholder: 'Type something...' ,characterCounter:true }}>
+  <Story name="Textarea with character counter and maxlength"
+         args={{ placeholder: 'Type something...' , characterCounter: true, maxlength: 20 }}>
     {TextareaTemplate.bind({})}
   </Story>
 </Canvas>
 
 ## Textarea Validation
 
-Input supports native HTML validation rules like `required`, `minlength`, `maxlength`.
-Also textarea can be used with custom invalid text.
+Textarea supports native HTML validation rules like `required`, `minlength`, `maxlength`. Validation feedback becomes active after user finishes entering text (by leaving textarea).
+Containing form submit also triggers validation. By default it uses browsers native error messages. You can override error message with `invalid-text` attribute.
+
 <Canvas>
   <Story name="Textarea with minlength and maxlength"
-         args={{ placeholder: 'Textarea with minlength 5 and maxlength 10', minlength:5, maxlength:10, characterCounter:true }}>
+         args={{ placeholder: 'Textarea with minlength 5 and maxlength 10', minlength: 5, maxlength: 10, characterCounter: true }}>
     {TextareaTemplate.bind({})}
   </Story>
   <Story name="Textarea with required"
-         args={{ placeholder: 'Textarea with required ', required:true }}>
+         args={{ placeholder: 'Textarea with required ', required: true }}>
     {TextareaTemplate.bind({})}
   </Story>
   <Story name="Textarea with custom invalid text"
-         args={{ placeholder: 'Textarea with custom invalid text with minglength 5 ', minlength:5, customInvalidText:'Your custom invalid text' }}>
+         args={{ placeholder: 'Textarea with custom invalid text with length 5 ', minlength: 5, customInvalidText: 'Your custom invalid text' }}>
     {TextareaTemplate.bind({})}
   </Story>
 </Canvas>
 
 ## Using within a form
 
-Textarea component uses [ElementInternals](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) to associate with it's parent form automatically. When you use `bl-textarea` within a form with a `name` attribute, textarea's value will be automatically set parent form's FormData. Check the example below:
+Textarea component uses [ElementInternals](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) to associate with it's parent form automatically.
+When you use `bl-textarea` within a form with a `name` attribute, textarea's value will be automatically set parent form's FormData. Check the example below:
 
 ```html
 <form novalidate>

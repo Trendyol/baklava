@@ -1,6 +1,6 @@
-import {assert, elementUpdated, expect, fixture, html, oneEvent} from "@open-wc/testing";
-import BlTextarea from "./bl-textarea";
-import {sendKeys} from "@web/test-runner-commands";
+import { assert, elementUpdated, expect, fixture, html, oneEvent } from '@open-wc/testing';
+import BlTextarea from './bl-textarea';
+import { sendKeys } from '@web/test-runner-commands';
 
 describe('bl-textarea', () => {
   it('is defined', () => {
@@ -43,34 +43,47 @@ describe('bl-textarea', () => {
   });
 
   it('should set character counter', async () => {
-    const el = await fixture<BlTextarea>(html`<bl-textarea value="abcde" character-counter maxlength="10"></bl-textarea>`);
+    const el = await fixture<BlTextarea>(
+      html`<bl-textarea value="abcde" character-counter></bl-textarea>`
+    );
     const characterCounter = <HTMLParagraphElement>el.shadowRoot?.querySelector('.counter-text');
 
-    expect(characterCounter?.innerText).to.equal("5/10");
+    expect(characterCounter?.innerText).to.equal('5');
+  });
+
+  it('should set character counter with maxlength', async () => {
+    const el = await fixture<BlTextarea>(
+      html`<bl-textarea value="abcde" character-counter maxlength="10"></bl-textarea>`
+    );
+    const characterCounter = <HTMLParagraphElement>el.shadowRoot?.querySelector('.counter-text');
+
+    expect(characterCounter?.innerText).to.equal('5/10');
   });
 
   it('should increase rows attribute dynamically', async () => {
-    const el = await fixture<BlTextarea>(html`<bl-textarea  rows="1"></bl-textarea>`);
-    el.setAttribute('rows','2');
+    const el = await fixture<BlTextarea>(html`<bl-textarea rows="1"></bl-textarea>`);
+    el.setAttribute('rows', '2');
 
-    expect(el?.getAttribute('rows')).to.equal("2");
+    expect(el?.getAttribute('rows')).to.equal('2');
   });
 
   it('should decrease rows attribute dynamically', async () => {
-    const el = await fixture<BlTextarea>(html`<bl-textarea  rows="2"></bl-textarea>`);
-    el.setAttribute('rows','1');
+    const el = await fixture<BlTextarea>(html`<bl-textarea rows="2"></bl-textarea>`);
+    el.setAttribute('rows', '1');
 
-    expect(el?.getAttribute('rows')).to.equal("1");
+    expect(el?.getAttribute('rows')).to.equal('1');
   });
 
   it('should expand when input text is longer than one row', async () => {
-    const el = await fixture<BlTextarea>(html`<bl-textarea value="some dummy text" expand rows="1"></bl-textarea>`);
+    const el = await fixture<BlTextarea>(
+      html`<bl-textarea value="some dummy text" expand rows="1"></bl-textarea>`
+    );
     const textarea = el.shadowRoot?.querySelector('textarea');
 
     await textarea?.focus();
 
     await sendKeys({
-      type: 'some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text'
+      type: 'some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text',
     });
 
     const height = getComputedStyle(el.validationTarget).height;
@@ -79,23 +92,28 @@ describe('bl-textarea', () => {
   });
 
   it('should have same heights if they have same max-rows', async () => {
-    const el = await fixture<BlTextarea>(html`<bl-textarea value="some dummy text" expand rows="1" max-rows="3"></bl-textarea>`);
-    const el2 = await fixture<BlTextarea>(html`<bl-textarea value="some dummy text" expand rows="1" max-rows="3"></bl-textarea>`);
+    const el = await fixture<BlTextarea>(
+      html`<bl-textarea value="some dummy text" expand rows="1" max-rows="3"></bl-textarea>`
+    );
+    const el2 = await fixture<BlTextarea>(
+      html`<bl-textarea value="some dummy text" expand rows="1" max-rows="3"></bl-textarea>`
+    );
     const textarea = el.shadowRoot?.querySelector('textarea');
     const textarea2 = el2.shadowRoot?.querySelector('textarea');
 
     await textarea?.focus();
 
     await sendKeys({
-      type: 'some dummy text some dummy text some dummy text some dummy text' +
+      type:
+        'some dummy text some dummy text some dummy text some dummy text' +
         ' some dummy text some dummy text some dummy text some dummy text' +
-        'some dummy text some dummy text some dummy text some dummy text'
+        'some dummy text some dummy text some dummy text some dummy text',
     });
 
     await textarea2?.focus();
 
     await sendKeys({
-      type: 'some dummy text some dummy text some dummy text some dummy text'
+      type: 'some dummy text some dummy text some dummy text some dummy text',
     });
 
     const height = getComputedStyle(el.validationTarget).height;
@@ -105,31 +123,35 @@ describe('bl-textarea', () => {
   });
 
   describe('validation', () => {
-    it('should be valid by default',async () => {
+    it('should be valid by default', async () => {
       const el = await fixture<BlTextarea>(html`<bl-textarea></bl-textarea>`);
       expect(el.validity.valid).to.be.true;
     });
-    it('should be invalid with required attribute',async () => {
+    it('should be invalid with required attribute', async () => {
       const el = await fixture<BlTextarea>(html`<bl-textarea required></bl-textarea>`);
       expect(el.validity.valid).to.be.false;
     });
-    it('should be valid with required when value is filled',async () => {
-      const el = await fixture<BlTextarea>(html`<bl-textarea value="some-value" required></bl-textarea>`);
+    it('should be valid with required when value is filled', async () => {
+      const el = await fixture<BlTextarea>(
+        html`<bl-textarea value="some-value" required></bl-textarea>`
+      );
       expect(el.validity.valid).to.be.true;
     });
     it('should set custom invalid text', async () => {
       const customErrorMsg = 'This field is mandatory';
       const el = await fixture<BlTextarea>(
-        html`<bl-textarea invalid-text="${customErrorMsg}" maxlength="5" value="more than 5 characters"></bl-textarea>`
+        html`<bl-textarea
+          invalid-text="${customErrorMsg}"
+          maxlength="5"
+          value="more than 5 characters"
+        ></bl-textarea>`
       );
 
       el.reportValidity();
 
       await elementUpdated(el);
 
-      const errorMsgElement = <HTMLParagraphElement>(
-        el.shadowRoot?.querySelector('.invalid-text')
-      );
+      const errorMsgElement = <HTMLParagraphElement>el.shadowRoot?.querySelector('.invalid-text');
 
       expect(el.validity.valid).to.be.false;
 
@@ -143,12 +165,11 @@ describe('bl-textarea', () => {
       const el = await fixture<BlTextarea>(html`<bl-textarea></bl-textarea>`);
       const textarea = el.shadowRoot?.querySelector('textarea');
 
-      if (textarea)
-        textarea.value = 'some value';
+      if (textarea) textarea.value = 'some value';
 
       setTimeout(() => textarea?.dispatchEvent(new Event('input')));
 
-      const ev = await oneEvent(el,'bl-input');
+      const ev = await oneEvent(el, 'bl-input');
       expect(ev).to.exist;
       expect(ev.detail).to.be.equal('some value');
     });
@@ -156,12 +177,11 @@ describe('bl-textarea', () => {
       const el = await fixture<BlTextarea>(html`<bl-textarea></bl-textarea>`);
       const textarea = el.shadowRoot?.querySelector('textarea');
 
-      if (textarea)
-        textarea.value = 'some value';
+      if (textarea) textarea.value = 'some value';
 
       setTimeout(() => textarea?.dispatchEvent(new Event('change')));
 
-      const ev = await oneEvent(el,'bl-change');
+      const ev = await oneEvent(el, 'bl-change');
       expect(ev).to.exist;
       expect(ev.detail).to.be.equal('some value');
     });
@@ -172,14 +192,14 @@ describe('bl-textarea', () => {
       await textarea?.focus();
 
       await sendKeys({
-        type: 'a text more than five characters'
+        type: 'a text more than five characters',
       });
 
       setTimeout(() => textarea?.dispatchEvent(new Event('invalid')));
 
-      const ev = await oneEvent(el,'bl-invalid');
+      const ev = await oneEvent(el, 'bl-invalid');
       expect(ev).to.exist;
-      expect(ev.detail['rangeOverflow'] ).to.equal(true);
+      expect(ev.detail['rangeOverflow']).to.equal(true);
     });
   });
   describe('form integration', () => {
@@ -191,15 +211,17 @@ describe('bl-textarea', () => {
 
       form.addEventListener('submit', e => e.preventDefault());
 
-      form.dispatchEvent(new SubmitEvent('submit', {cancelable:true}));
+      form.dispatchEvent(new SubmitEvent('submit', { cancelable: true }));
 
       await elementUpdated(form);
 
-      const errorMessageElement = <HTMLParagraphElement>(blTextarea?.shadowRoot?.querySelector('.invalid-text'));
+      const errorMessageElement = <HTMLParagraphElement>(
+        blTextarea?.shadowRoot?.querySelector('.invalid-text')
+      );
 
       expect(blTextarea?.validity.valid).to.be.false;
 
       expect(errorMessageElement).to.exist;
     });
   });
-})
+});
