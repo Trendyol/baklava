@@ -68,25 +68,25 @@ describe('bl-input', () => {
       expect(customIcon?.getAttribute('name')).to.equal('info');
     });
 
-    it('should show eye icon on password type', async () => {
+    it('should show reveal button on password type', async () => {
       const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
-      const passwordIcon = el.shadowRoot?.querySelector('bl-icon.password-icon');
-      expect(passwordIcon).to.exist;
-      expect(passwordIcon?.getAttribute('name')).to.equal('eye_on');
+      const revealButton = el.shadowRoot?.querySelector('bl-button.reveal-button');
+      expect(revealButton).to.exist;
+      expect(revealButton?.getAttribute('icon')).to.equal('eye_on');
     });
 
-    it('should toggle eye icon to off on click', async () => {
+    it('should toggle reveal icon on click', async () => {
       const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
-      const passwordIcon = el?.shadowRoot?.querySelector(
-        'bl-icon.password-icon'
+      const revealButton = el?.shadowRoot?.querySelector(
+        'bl-button.reveal-button'
       ) as HTMLElement | null;
-      expect(passwordIcon).to.exist;
-      expect(passwordIcon?.getAttribute('name')).to.eq('eye_on');
+      expect(revealButton).to.exist;
+      expect(revealButton?.getAttribute('icon')).to.eq('eye_on');
 
-      passwordIcon?.click();
+      revealButton?.click();
       await elementUpdated(el);
 
-      expect(passwordIcon?.getAttribute('name')).to.eq('eye_off');
+      expect(revealButton?.getAttribute('icon')).to.eq('eye_off');
     });
   });
 
@@ -156,14 +156,14 @@ describe('bl-input', () => {
     it('should toggle input type on eye icon click', async () => {
       const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
       const input = el?.shadowRoot?.querySelector('input');
-      const passwordIcon = el?.shadowRoot?.querySelector(
-        'bl-icon.password-icon'
+      const revealButton = el?.shadowRoot?.querySelector(
+        'bl-button.reveal-button'
       ) as HTMLElement | null;
 
       expect(input?.type).to.equal('password');
-      expect(passwordIcon).to.exist;
+      expect(revealButton).to.exist;
 
-      passwordIcon?.click();
+      revealButton?.click();
       await elementUpdated(el);
 
       expect(input?.type).to.equal('text');

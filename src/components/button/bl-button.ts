@@ -161,6 +161,7 @@ export default class BlButton extends LitElement {
           >${slots}
         </a>`
       : html`<button
+          part="button"
           class=${classes}
           aria-disabled="${ifDefined(this.disabled)}"
           aria-label="${ifDefined(this.label)}"
