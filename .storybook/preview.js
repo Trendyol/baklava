@@ -30,8 +30,33 @@ const withNoAnimationOnChromaticLayout = makeDecorator({
   }
 });
 
+
+const extraPaddingForChromatic = makeDecorator({
+  name: 'extraPaddingForChromatic',
+  parameterName: 'extraPaddingForChromatic',
+  skipIfNoParametersOrOptions: true,
+  wrapper: (getStory, context) => {
+    const story = getStory(context);
+    const decoratedStory = html`
+      ${isChromatic() ?  html`<style>
+        .chromatic-wrapper {
+          padding: 25px;
+        }
+      </style>` : html``}
+
+      <div class="chromatic-wrapper">
+        ${ story }
+      </div>
+    `;
+
+    // return the modified story
+    return decoratedStory;
+  }
+});
+
 export const decorators = [
-  withNoAnimationOnChromaticLayout
+  withNoAnimationOnChromaticLayout,
+  extraPaddingForChromatic
 ]
 
 export const parameters = {

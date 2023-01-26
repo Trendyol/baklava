@@ -9,7 +9,7 @@ import {
 import { userEvent } from '@storybook/testing-library';
 
 <Meta
-  title="Components/Select"
+  title="Components/Select/Select"
   component="bl-select"
   parameters={{
     layout: 'centered',
@@ -82,6 +82,9 @@ export const SelectOptionsSelectedTemplate = (args) => html`<bl-select
 </bl-select>`
 
 # Select
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/88)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=25%3A3606)</bl-badge>
 
 Select component is a component for selecting a value from a list of options.
 Each option should be wrapped with `bl-select-option` component.

@@ -9,6 +9,7 @@ import { event, EventDispatcher } from '../../utilities/event';
 import { innerInputValidators } from '../../utilities/form-control';
 import 'element-internals-polyfill';
 import '../icon/bl-icon';
+import '../button/bl-button';
 
 import style from './bl-input.css';
 
@@ -220,55 +221,65 @@ export default class BlInput extends FormControlMixin(LitElement) {
           ${this.validationMessage}
         </p>`
       : ``;
-    const helpMessage = this.helpText
-      ? html`<p id="helpText" class="help-text">${this.helpText}</p>`
-      : ``;
+    const helpMessage = this.helpText ? html`<p id="helpText" class="help-text">${this.helpText}</p>` : ``;
+    const hintMessage = invalidMessage || helpMessage ? html`<div class="hint">
+      ${invalidMessage}
+      ${helpMessage}
+    </div>` : ``;
+
     const icon = this.icon
-      ? html` <bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
+      ? html`<bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
       : '';
     const label = this.label ? html`<label for="input">${this.label}</label>` : '';
 
-    const passwordShowHide = this.passwordInput
-      ? html` <bl-icon
-          class="password-icon"
+    const revealButton = this.passwordInput
+      ? html` <bl-button
+          kind="neutral"
+          variant="tertiary"
+          class="reveal-button"
+          aria-labelledby="reveal"
+          icon="${this.passwordVisible ? 'eye_off' : 'eye_on'}"
           @click="${this.textVisiblityToggle}"
-          name="${this.passwordVisible ? 'eye_off' : 'eye_on'}"
-        ></bl-icon>`
+        />`
       : '';
 
     const classes = {
-      'dirty': this.dirty,
-      'has-icon': this.icon || (this.dirty && !this.checkValidity()),
+      wrapper: true,
+      dirty: this.dirty,
+      invalid: !this.checkValidity(),
+      'has-icon': this.passwordInput || this.icon || (this.dirty && !this.checkValidity()),
       'has-value': this.value !== null && this.value !== '',
     };
 
     const passwordType = this.passwordVisible ? "text" : "password";
     const inputType = this.passwordInput ? passwordType : this.type;
 
-    return html`
-      <input
-        id="input"
-        type=${inputType}
-        class=${classMap(classes)}
-        .value=${live(this.value)}
-        placeholder="${ifDefined(this.placeholder)}"
-        minlength="${ifDefined(this.minlength)}"
-        maxlength="${ifDefined(this.maxlength)}"
-        min="${ifDefined(this.min)}"
-        max="${ifDefined(this.max)}"
-        step="${ifDefined(this.step)}"
-        ?required=${this.required}
-        ?disabled=${this.disabled}
-        @change=${this.changeHandler}
-        @input=${this.inputHandler}
-        aria-invalid=${this.checkValidity() ? 'false' : 'true'}
-        aria-describedby=${ifDefined(this.helpText ? 'helpText' : undefined)}
-        aria-errormessage=${ifDefined(this.checkValidity() ? undefined : 'errorMessage')}
-      />
-      ${label} ${icon} ${passwordShowHide}
-      <bl-icon class="error-icon" name="alert"></bl-icon>
-      ${invalidMessage} ${helpMessage}
-    `;
+    return html`<div class=${classMap(classes)}>
+      ${label}
+      <div class="input-wrapper">
+        <input
+          id="input"
+          type=${inputType}
+          .value=${live(this.value)}
+          placeholder="${ifDefined(this.placeholder)}"
+          minlength="${ifDefined(this.minlength)}"
+          maxlength="${ifDefined(this.maxlength)}"
+          min="${ifDefined(this.min)}"
+          max="${ifDefined(this.max)}"
+          step="${ifDefined(this.step)}"
+          ?required=${this.required}
+          ?disabled=${this.disabled}
+          @change=${this.changeHandler}
+          @input=${this.inputHandler}
+          aria-invalid=${this.checkValidity() ? 'false' : 'true'}
+          aria-describedby=${ifDefined(this.helpText ? "helpText" : undefined)}
+          aria-errormessage=${ifDefined(this.checkValidity() ? undefined : "errorMessage")}
+        />
+        <div class="icon">
+        ${this.passwordInput ? revealButton : icon}<bl-icon class="error-icon" name="alert"></bl-icon></div>
+      </div>
+      ${hintMessage}
+    </div>`;
   }
 }
 

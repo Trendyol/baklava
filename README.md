@@ -26,4 +26,10 @@ This way library will be served from a very high performant CDN and all of the B
 > **⚠️ Because the scripts of the custom components are loaded into the DOM later, the baklava components may appear unstyled on the screen for a while. In order to avoid this 'FOUCE' effect, you can follow the instructions at this
  [link](https://www.abeautifulsite.net/posts/flash-of-undefined-custom-elements/).**
 
-Please check our [Storybook Documentation](https://trendyol.github.io/baklava/) for detailed information about design system, components and contribution guideline.
+## Useful Links
+
+* [Storybook Documentation](https://trendyol.github.io/baklava/)
+* [Figma Design Document](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide)
+* [Project Board](https://github.com/orgs/Trendyol/projects/4)
+* [Discussion Board](https://github.com/Trendyol/baklava/discussions)
+* [Mobile (React-Native) Implementation](https://github.com/Trendyol/baklava-react-native)
