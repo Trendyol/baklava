@@ -147,7 +147,7 @@ input:disabled {
   transform: translateY(-50%);
   font: var(--bl-font-caption);
   color: var(--bl-color-content-secondary);
-  padding: 0 var(--padding);
+  padding: 0 var(--label-padding);
   background-color: var(--bl-color-primary-background);
   pointer-events: initial;
 }
