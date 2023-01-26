@@ -226,6 +226,7 @@ export default class BlTextarea extends FormControlMixin(LitElement){
 
     return html`
       <div style=${styleMap(styles)} class=${classMap(wrapperClasses)}>
+        ${label}
         <textarea
           id="bl-text-area"
           name="${ifDefined(this.name)}"
@@ -241,7 +242,6 @@ export default class BlTextarea extends FormControlMixin(LitElement){
         >
         </textarea>
       </div>
-      ${label}
       <div class="brief">
         ${invalidMessage}${helpMessage}${characterCounter}
       </div>

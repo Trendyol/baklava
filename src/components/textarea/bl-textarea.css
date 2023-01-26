@@ -20,6 +20,7 @@
   border-radius: 4px;
   padding-top:var(--padding-vertical);
   overflow: hidden;
+  width: 100%;
 }
 
 textarea {
@@ -94,6 +95,10 @@ label {
   font: var(--bl-font-title-3-regular);
   color: var(--bl-color-content-tertiary);
   padding: 0;
+  max-width: max-content;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 :where(.wrapper:focus-within, .wrapper.has-value) ~ label {
@@ -118,6 +123,7 @@ label {
 :host([label-fixed]) label {
   top: 0;
   left: 0;
+  right: 0;
   transition: none;
   transform: none;
   pointer-events: initial;
