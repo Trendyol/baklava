@@ -21,4 +21,5 @@ export { default as BlTooltip } from './components/tooltip/bl-tooltip';
 export { default as BlDropdown } from './components/dropdown/bl-dropdown';
 export { default as BlDropdownItem } from './components/dropdown/item/bl-dropdown-item';
 export { default as BlDropdownGroup } from './components/dropdown/group/bl-dropdown-group';
+export { default as BlSwitch } from './components/switch/bl-switch';
 export { getIconPath, setIconPath } from './utilities/asset-paths';

@@ -28,7 +28,7 @@ export default class BlSelect extends LitElement {
   /**
    * Sets the label value
    */
-  @property({})
+  @property({ reflect: true })
   label?: string;
 
   /**
@@ -64,7 +64,7 @@ export default class BlSelect extends LitElement {
   /**
    * Makes label as fixed positioned
    */
-  @property({ type: Boolean, attribute: 'label-fixed' })
+  @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
   labelFixed = false;
 
   /**

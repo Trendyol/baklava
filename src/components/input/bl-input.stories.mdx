@@ -45,6 +45,10 @@ import {
       control: 'text',
       type: 'number'
     },
+    step: {
+      control: 'text',
+      type: 'number'
+    },
     icon: {
       control: 'text',
       type: 'string'
@@ -85,6 +89,7 @@ export const SingleInputTemplate = (args) => html`<bl-input
     maxlength='${ifDefined(args.maxlength)}'
     min='${ifDefined(args.min)}'
     max='${ifDefined(args.max)}'
+    step='${ifDefined(args.step)}'
     icon='${ifDefined(args.icon)}'
     size='${ifDefined(args.size)}'
   ></bl-input>`
@@ -96,6 +101,9 @@ export const LabelStylesTemplate = args => html`
 `
 
 # Input
+
+<bl-badge icon="document">ADR</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=4%3A5586)</bl-badge>
 
 Input component is the component for taking text input from user.
 

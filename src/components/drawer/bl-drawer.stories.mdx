@@ -72,9 +72,12 @@ export const StoryTemplate = (args) => html`
 
 # Drawer
 
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/192)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=2963%3A14146)</bl-badge>
+
 A drawer presents context-specific information and/or actions without leaving the current page
 
-<bl-alert variant="warning" icon caption="Note">Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
 
 ### Design Rules
 
@@ -112,7 +115,7 @@ A drawer presents context-specific information and/or actions without leaving th
   </Story>
   <Story name="With caption and embedUrl"
          play={(event) => openDialog(event,{id:'drawer-5'})}
-         args={{id:"drawer-5", buttonText:"with caption, embedUrl", caption: "Caption", embedUrl:"some-url"}}>
+         args={{id:"drawer-5", buttonText:"with caption, embedUrl", caption: "Caption", embedUrl:"/assets/demo-iframe.html"}}>
     {StoryTemplate.bind({})}
   </Story>
 </Canvas>

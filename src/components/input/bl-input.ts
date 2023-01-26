@@ -37,7 +37,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Sets label of the input
    */
-  @property({})
+  @property({ reflect: true })
   label?: string;
 
   /**
@@ -83,6 +83,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   max?: number;
 
   /**
+   * Sets the increase and decrease step to a `number` input
+   */
+  @property({ type: Number })
+  step?: number;
+
+  /**
    * Sets the custom icon name. `bl-icon` component is used to show an icon
    */
   @property({ type: String })
@@ -103,7 +109,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Makes label as fixed positioned
    */
-  @property({ type: Boolean, attribute: 'label-fixed' })
+  @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
   labelFixed = false;
 
   /**
@@ -131,7 +137,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Fires when the value of an input element has been changed.
    */
-   @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
+  @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -220,6 +226,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
         maxlength="${ifDefined(this.maxlength)}"
         min="${ifDefined(this.min)}"
         max="${ifDefined(this.max)}"
+        step="${ifDefined(this.step)}"
         ?required=${this.required}
         ?disabled=${this.disabled}
         @change=${this.changeHandler}

@@ -1,0 +1,73 @@
+:host {
+  display: inline-block;
+  cursor: pointer;
+}
+
+span {
+  display: inline-block;
+}
+
+.switch {
+  --track-height: var(--bl-size-xl);
+  --track-width: var(--bl-size-4xl);
+  --thumb-offset: var(--bl-size-4xs);
+  --thumb-height: calc(var(--track-height) - calc(2 * var(--thumb-offset)));
+  --thumb-width: var(--thumb-height);
+
+  /* TODO: use predefined animation duration once it is ready */
+  --animation-duration: var(--bl-switch-animation-duration, 300ms);
+  --switch-color: var(--bl-switch-color, var(--bl-color-primary));
+
+  background-color: var(--bl-color-content-passive);
+  border-radius: var(--bl-border-radius-pill);
+  height: var(--track-height);
+  transition-property: background-color;
+  transition-duration: var(--animation-duration);
+  width: var(--track-width);
+}
+
+.switch::before {
+  content: "";
+  display: inline-block;
+  background-color: white;
+  border-radius: var(--bl-border-radius-circle);
+  height: var(--thumb-height);
+  left: var(--thumb-offset);
+  position: relative;
+  top: var(--thumb-offset);
+  transition: transform;
+  transition-duration: var(--animation-duration);
+  width: var(--thumb-width);
+}
+
+:host([checked]) .switch {
+  background-color: var(--switch-color);
+}
+
+:host([checked]) .switch::before {
+  transform: translateX(calc(var(--track-width) - var(--thumb-width) - calc(2 * var(--thumb-offset))));
+}
+
+:host([disabled]) .switch {
+  opacity: 0.5;
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+}
+
+.switch:focus-visible {
+  position: relative;
+  outline: none;
+}
+
+.switch:focus-visible::after {
+  border: 2px solid var(--switch-color);
+  border-radius: var(--bl-border-radius-pill);
+  content: "";
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+  left: -3px;
+}
