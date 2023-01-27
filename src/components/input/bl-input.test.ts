@@ -12,16 +12,23 @@ describe('bl-input', () => {
     assert.shadowDom.equal(
       el,
       `
-      <input
-        aria-invalid="false"
-        id="input"
-        type="text"
-      >
-      <bl-icon
-        class="error-icon"
-        name="alert"
-      >
-      </bl-icon>
+      <div class="wrapper">
+        <div class="input-wrapper">
+          <input
+            aria-invalid="false"
+            id="input"
+            type="text"
+          >
+          <div class="icon">
+            <bl-icon
+              class="error-icon"
+              name="alert"
+            >
+            </bl-icon>
+          </div>
+        </div>
+        <div class="hint"></div>
+      </div>
     `
     );
   });
