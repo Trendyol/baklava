@@ -184,6 +184,10 @@ You can give extra information to user with `help-text` attribute.
          args={{ placeholder: 'Type something...', helpText: 'Your help text' }}>
     {TextareaTemplate.bind({})}
   </Story>
+  <Story name="Textarea Long Help Text"
+         args={{ placeholder: 'Type something...', helpText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', characterCounter:true, maxlength:"10" }}>
+    {TextareaTemplate.bind({})}
+  </Story>
 </Canvas>
 
 ## Textarea Character Counter

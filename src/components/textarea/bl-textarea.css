@@ -145,6 +145,7 @@ label {
   margin-left: auto;
   font: var(--bl-font-title-4-regular);
   padding: var(--bl-size-3xs) 0;
+  padding-left: var(--bl-size-3xs);
   color: var(--bl-color-content-secondary);
 }
 
@@ -159,12 +160,13 @@ label {
 
 .help-text {
   color: var(--bl-color-content-secondary);
+  word-break: break-all;
 }
 
 .invalid-text,
 .help-text {
   font: var(--bl-font-title-4-regular);
-  padding: var(--bl-size-3xs) var(--padding-horizontal);
+  padding: var(--bl-size-3xs) 0;
   margin: 0;
 }
 
