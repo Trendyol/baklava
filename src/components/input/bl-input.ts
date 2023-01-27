@@ -128,7 +128,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Adds help text
    */
-  @property({ type: String, attribute: 'help-text' })
+  @property({ type: String, attribute: 'help-text', reflect: true })
   helpText?: string;
 
   /**
@@ -222,10 +222,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
         </p>`
       : ``;
     const helpMessage = this.helpText ? html`<p id="helpText" class="help-text">${this.helpText}</p>` : ``;
-    const hintMessage = invalidMessage || helpMessage ? html`<div class="hint">
-      ${invalidMessage}
-      ${helpMessage}
-    </div>` : ``;
 
     const icon = this.icon
       ? html`<bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
@@ -234,6 +230,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
     const revealButton = this.passwordInput
       ? html` <bl-button
+          size="small"
           kind="neutral"
           variant="tertiary"
           class="reveal-button"
@@ -275,10 +272,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
           aria-describedby=${ifDefined(this.helpText ? "helpText" : undefined)}
           aria-errormessage=${ifDefined(this.checkValidity() ? undefined : "errorMessage")}
         />
-        <div class="icon">
-        ${this.passwordInput ? revealButton : icon}<bl-icon class="error-icon" name="alert"></bl-icon></div>
+        <div class="icon">${revealButton || icon}<bl-icon class="error-icon" name="alert"></bl-icon></div>
       </div>
-      ${hintMessage}
+      <div class="hint">
+        ${invalidMessage}
+        ${helpMessage}
+      </div>
     </div>`;
   }
 }
