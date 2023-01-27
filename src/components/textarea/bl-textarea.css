@@ -27,7 +27,7 @@ textarea {
   box-sizing: border-box;
   width: 100%;
   font: var(--input-font);
-  padding: 0 var(--padding-horizontal);
+  padding: 0 calc(var(--padding-horizontal) - var(--border-size));
   padding-bottom: var(--padding-vertical);
   margin: 0;
   border: none;
@@ -88,8 +88,8 @@ textarea:disabled {
 
 label {
   position: absolute;
-  top: var(--bl-size-2xs);
-  left: var(--bl-size-xs);
+  top: var(--padding-vertical);
+  left: var(--padding-horizontal);
   right: var(--padding-horizontal);
   transition: all ease-in 0.2s;
   pointer-events: none;
@@ -103,12 +103,14 @@ label {
 }
 
 :where(.wrapper:focus-within, .wrapper.has-value) label {
+  --label-padding: var(--bl-size-3xs);
+
   top: 0;
-  left: var(--bl-size-2xs);
+  left: calc(var(--padding-horizontal) - var(--label-padding));
   transform: translateY(-50%);
   font: var(--bl-font-caption);
   color: var(--bl-color-content-secondary);
-  padding: 0 var(--bl-size-3xs);
+  padding: 0 var(--label-padding);
   background-color: var(--bl-color-content-primary-contrast);
   pointer-events: initial;
 }
@@ -162,7 +164,7 @@ label {
 .invalid-text,
 .help-text {
   font: var(--bl-font-title-4-regular);
-  padding: var(--bl-size-3xs) var(--bl-size-xs);
+  padding: var(--bl-size-3xs) var(--padding-horizontal);
   margin: 0;
 }
 
