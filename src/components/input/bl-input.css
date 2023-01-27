@@ -93,6 +93,10 @@ input {
   height: var(--icon-size);
 }
 
+.reveal-button.hide {
+  display: none;
+}
+
 .wrapper:not(.has-icon) .icon {
   display: none;
 }

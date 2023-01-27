@@ -229,15 +229,29 @@ export default class BlInput extends FormControlMixin(LitElement) {
     const label = this.label ? html`<label for="input">${this.label}</label>` : '';
 
     const revealButton = this.passwordInput
-      ? html` <bl-button
+      ? html`<bl-button
           size="small"
           kind="neutral"
           variant="tertiary"
-          class="reveal-button"
+          class="${classMap({
+            'reveal-button': true,
+            hide: this.passwordVisible
+          })}"
           aria-labelledby="reveal"
-          icon="${this.passwordVisible ? 'eye_off' : 'eye_on'}"
+          icon="eye_on"
           @click="${this.textVisiblityToggle}"
-        />`
+        ></bl-button>
+        <bl-button
+          size="small"
+          kind="neutral"
+          variant="tertiary"
+          class="${classMap({
+            'reveal-button': true,
+            hide: !this.passwordVisible
+          })}"          aria-labelledby="reveal"
+          icon="eye_off"
+          @click="${this.textVisiblityToggle}"
+        ></bl-button>`
       : '';
 
     const classes = {

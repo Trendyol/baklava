@@ -71,7 +71,7 @@ describe('bl-input', () => {
 
     it('should show reveal button on password type', async () => {
       const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
-      const revealButton = el.shadowRoot?.querySelector('bl-button.reveal-button');
+      const revealButton = el.shadowRoot?.querySelector('bl-button.reveal-button:not(.hide)');
       expect(revealButton).to.exist;
       expect(revealButton?.getAttribute('icon')).to.equal('eye_on');
     });
@@ -79,7 +79,7 @@ describe('bl-input', () => {
     it('should toggle reveal icon on click', async () => {
       const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
       const revealButton = el?.shadowRoot?.querySelector(
-        'bl-button.reveal-button'
+        'bl-button.reveal-button:not(.hide)'
       ) as HTMLElement | null;
       expect(revealButton).to.exist;
       expect(revealButton?.getAttribute('icon')).to.eq('eye_on');
@@ -87,7 +87,7 @@ describe('bl-input', () => {
       revealButton?.click();
       await elementUpdated(el);
 
-      expect(revealButton?.getAttribute('icon')).to.eq('eye_off');
+      expect(el?.shadowRoot?.querySelector('bl-button.reveal-button:not(.hide)')?.getAttribute('icon')).to.eq('eye_off');
     });
   });
 
@@ -158,7 +158,7 @@ describe('bl-input', () => {
       const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
       const input = el?.shadowRoot?.querySelector('input');
       const revealButton = el?.shadowRoot?.querySelector(
-        'bl-button.reveal-button'
+        'bl-button.reveal-button:not(.hide)'
       ) as HTMLElement | null;
 
       expect(input?.type).to.equal('password');
