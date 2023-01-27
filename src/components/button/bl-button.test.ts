@@ -16,7 +16,7 @@ describe('bl-button', () => {
     assert.shadowDom.equal(
       el,
       `
-      <button part="button" aria-disabled="false" class="button">
+      <button aria-disabled="false" class="button">
         <slot name="icon"></slot>
         <span class="label"><slot></slot></span>
       </button>
