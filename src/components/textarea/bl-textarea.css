@@ -15,23 +15,32 @@
   --default-scroll-height: calc((var(--row-count) * var(--line-height)) + var(--padding-vertical));
   --height: max(var(--scroll-height), var(--default-scroll-height));
   --input-font: var(--bl-font-body-text-2);
+  --border-radius: var(--bl-size-3xs);
 
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: var(--bl-size-3xs);
+}
+
+.input-wrapper {
   border: solid var(--border-size) var(--bl-color-border);
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   padding-top: var(--padding-vertical);
-  width: 100%;
+  display: flex;
+  box-sizing: border-box;
 }
 
 textarea {
-  outline: none;
-  box-sizing: border-box;
   width: 100%;
+  align-self: stretch;
+  outline: none;
   font: var(--input-font);
   padding: 0 calc(var(--padding-horizontal) - var(--border-size));
   padding-bottom: var(--padding-vertical);
   margin: 0;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   color: var(--bl-color-content-primary);
   resize: vertical;
   display: block;
@@ -125,31 +134,44 @@ label {
 }
 
 :host([label-fixed]) label {
-  top: 0;
-  left: 0;
-  right: 0;
+  position: static;
   transition: none;
   transform: none;
   pointer-events: initial;
   font: var(--bl-font-caption);
   color: var(--bl-color-content-secondary);
+  background-color: initial;
   padding: 0;
 }
 
-.brief {
+.hint {
+  display: none;
+  font: var(--bl-font-body-text-3);
+}
+
+:host([character-counter]) .hint,
+:host([help-text]) .hint,
+.dirty.invalid .hint {
   display: flex;
+  gap: var(--bl-size-3xs);
+}
+
+.hint > * {
+  margin: 0;
+  padding: 0;
+}
+
+.help-text,
+.invalid-text {
+  flex: 1;
 }
 
 .counter-text {
-  margin: 0;
-  margin-left: auto;
-  font: var(--bl-font-title-4-regular);
-  padding: var(--bl-size-3xs) 0;
-  padding-left: var(--bl-size-3xs);
   color: var(--bl-color-content-secondary);
+  margin-left: auto;
 }
 
-:where(.max-len-invalid, .dirty.invalid) ~ .brief > .counter-text {
+:where(.max-len-invalid, .dirty.invalid) .hint > .counter-text {
   color: var(--bl-color-danger);
 }
 
@@ -160,20 +182,12 @@ label {
 
 .help-text {
   color: var(--bl-color-content-secondary);
-  word-break: break-all;
 }
 
-.invalid-text,
-.help-text {
-  font: var(--bl-font-title-4-regular);
-  padding: var(--bl-size-3xs) 0;
-  margin: 0;
-}
-
-:where(.dirty.max-len-invalid, .dirty.invalid) ~ .brief > .invalid-text {
+:where(.dirty.max-len-invalid, .dirty.invalid) .hint > .invalid-text {
   display: inline-block;
 }
 
-.max-len-invalid ~ .brief > .help-text {
+.dirty.invalid .hint > .help-text {
   display: none;
 }

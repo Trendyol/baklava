@@ -9,19 +9,22 @@ describe('bl-textarea', () => {
   });
 
   it('renders with default values', async () => {
-    const el = await fixture<BlTextarea>(html`<bl-textarea></bl-textarea>`);
+    const el = await fixture<BlTextarea>(html`<bl-textarea label="Label"></bl-textarea>`);
     assert.shadowDom.equal(
       el,
       `
         <div class="wrapper" style="--row-count:4;">
-        <textarea
-        id="bl-text-area"
-        name=""
-        rows="4"
-        >
-        </textarea>
+          <label for="input">Label</label>
+          <div class="input-wrapper">
+            <textarea
+            id="input"
+            name=""
+            rows="4"
+            >
+            </textarea>
+          </div>
+          <div class="hint"></div>
         </div>
-        <div class="brief"></div>
       `
     );
   });

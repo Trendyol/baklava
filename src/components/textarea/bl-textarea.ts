@@ -201,9 +201,9 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
       ? html`<p class="invalid-text">${this.validationMessage}</p>`
       : ``;
     const helpMessage =
-      this.helpText && this.checkValidity() ? html`<p class="help-text">${this.helpText}</p>` : ``;
+      this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
 
-    const label = this.label ? html`<label for="bl-text-area">${this.label}</label>` : '';
+    const label = this.label ? html`<label for="input">${this.label}</label>` : '';
     const characterCounterText =
       this.characterCounter && this.maxlength
         ? `${this.value.length}/${this.maxlength}`
@@ -231,22 +231,24 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     return html`
       <div style=${styleMap(styles)} class=${classMap(wrapperClasses)}>
         ${label}
-        <textarea
-          id="bl-text-area"
-          name="${ifDefined(this.name)}"
-          .value=${live(this.value)}
-          placeholder="${ifDefined(this.placeholder)}"
-          minlength="${ifDefined(this.minlength)}"
-          rows="${ifDefined(this.rows)}"
-          ?required=${this.required}
-          ?disabled=${this.disabled}
-          @change=${this.changeHandler}
-          @input=${this.inputHandler}
-          @invalid=${this.onError}
-        >
-        </textarea>
+        <div class="input-wrapper">
+          <textarea
+            id="input"
+            name="${ifDefined(this.name)}"
+            .value=${live(this.value)}
+            placeholder="${ifDefined(this.placeholder)}"
+            minlength="${ifDefined(this.minlength)}"
+            rows="${ifDefined(this.rows)}"
+            ?required=${this.required}
+            ?disabled=${this.disabled}
+            @change=${this.changeHandler}
+            @input=${this.inputHandler}
+            @invalid=${this.onError}
+          >
+          </textarea>
+        </div>
+        <div class="hint">${invalidMessage}${helpMessage}${characterCounter}</div>
       </div>
-      <div class="brief">${invalidMessage}${helpMessage}${characterCounter}</div>
     `;
   }
 }
