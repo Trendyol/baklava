@@ -20,7 +20,7 @@
   --menu-padding: 0 var(--bl-size-m);
   --menu-margin-top: var(--bl-size-2xs);
   --font-size: var(--bl-font-size-m);
-  --disabled-color: var(--bl-color-tertiary);
+  --disabled-color: var(--bl-color-passive-contrast);
   --z-index: 1;
   --menu-height: 250px;
 }
@@ -47,7 +47,7 @@
 }
 
 :host([disabled]) .placeholder {
-  --placeholder-color: var(--bl-color-content-passive);
+  --placeholder-color: var(--bl-color-passive);
 }
 
 .invalid {
@@ -115,7 +115,7 @@
 }
 
 :host([disabled]) .dropdown-icon {
-  --icon-color: var(--bl-color-content-passive);
+  --icon-color: var(--bl-color-passive);
 }
 
 .select-open .select-input {
@@ -152,7 +152,7 @@
 
 :host([disabled]) .selected-options li
 {
-  color: var(--bl-color-content-passive);
+  color: var(--bl-color-passive);
 }
 
 .select-input .actions {

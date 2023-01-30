@@ -34,7 +34,7 @@
   right: 0;
   top: var(--bl-size-m);
   height: calc(100% - var(--bl-size-2xl));
-  border-right: 1px solid var(--bl-color-tertiary-hover);
+  border-right: 1px solid var(--bl-color-passive-contrast);
 }
 
 :host(:last-of-type) .container::after {
@@ -64,9 +64,9 @@
 :host([disabled]) .container {
   cursor: not-allowed;
 
-  --title-color: var(--bl-color-content-passive);
-  --caption-color: var(--bl-color-content-passive);
-  --icon-color: var(--bl-color-content-passive);
+  --title-color: var(--bl-color-passive-highlight);
+  --caption-color: var(--bl-color-passive-highlight);
+  --icon-color: var(--bl-color-passive-highlight);
 }
 
 :host(:hover) :where(.title, .icon) {

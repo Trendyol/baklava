@@ -26,7 +26,7 @@
   height: var(--bl-size-m);
   background-color: white;
   border-radius: var(--bl-border-radius-circle);
-  border: solid 1px var(--bl-color-border);
+  border: solid 1px var(--bl-color-passive-highlight);
   margin-right: var(--bl-size-2xs);
   vertical-align: middle;
 }
@@ -47,7 +47,7 @@
 }
 
 :host([disabled]) #label {
-  color: var(--bl-color-content-passive);
+  color: var(--bl-color-passive);
 }
 
 :host([disabled]) #label::before {
@@ -55,7 +55,7 @@
 }
 
 :host([disabled]) .selected #label::before {
-  background-color: var(--bl-color-content-passive);
+  background-color: var(--bl-color-passive);
   border-color: var(--bl-color-content-primary-contrast);
 }
 

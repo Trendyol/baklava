@@ -55,10 +55,10 @@
   --bl-color-content-tertiary: hsl(var(--bl-color-content-key) calc(var(--bl-light-content) + var(--bl-light-content-step) * 2));
   --bl-color-content-primary-contrast: hsl(var(--bl-color-content-key) 100%);
 
-  /* --bl-color-content-passive: hsl(var(--bl-color-content-key) calc(var(--bl-light-content) + var(--bl-light-content-step) * 3)); */
+  /* --bl-color-passive: hsl(var(--bl-color-content-key) calc(var(--bl-light-content) + var(--bl-light-content-step) * 3)); */
 
   /* FIXME: Remove or rename this */
-  --bl-color-border: var(--bl-color-content-passive);
+  --bl-color-border: var(--bl-color-passive-highlight);
 
   /* Old Colors
   --bl-color-primary: #f27a1a;
@@ -93,7 +93,7 @@
   --bl-color-content-primary: #273142;
   --bl-color-content-secondary: #6e7787;
   --bl-color-content-tertiary: #95a1b5;
-  --bl-color-content-passive: #afbbca;
+  --bl-color-passive: #afbbca;
   --bl-color-content-primary-contrast: #fff;
   --bl-color-content-hover: #f27a1a;
   --bl-color-border: #d5d9e1;

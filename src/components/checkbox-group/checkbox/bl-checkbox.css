@@ -60,7 +60,7 @@ input {
 
 :host([disabled]) .check-mark,
 :host([disabled]) .label {
-  color: var(--bl-color-content-passive);
+  color: var(--bl-color-passive);
 }
 
 :host([disabled]) .check-mark {

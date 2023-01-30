@@ -130,9 +130,9 @@ bl-icon {
 
 :host([disabled]) .input-wrapper {
   cursor: not-allowed;
-  background-color: var(--bl-color-secondary-background);
+  background-color: var(--bl-color-passive-contrast);
 
-  --text-color: var(--bl-color-content-passive);
+  --text-color: var(--bl-color-passive);
 }
 
 input:disabled {

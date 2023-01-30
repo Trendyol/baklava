@@ -108,9 +108,9 @@
 }
 
 :host([disabled]) .button {
-  --main-color: var(--bl-color-tertiary);
-  --main-hover-color: var(--bl-color-tertiary);
-  --content-color: var(--bl-color-content-passive);
+  --main-color: var(--bl-color-passive-contrast);
+  --main-hover-color: var(--bl-color-passive-contrast);
+  --content-color: var(--bl-color-passive);
   --bg-color: var(--main-color);
 
   pointer-events: none;
@@ -155,6 +155,6 @@
 
 :host([variant='tertiary']) .active.button {
   --content-color: var(--main-color);
-  --bg-color: var(--bl-color-tertiary);
+  --bg-color: var(--bl-color-passive-contrast);
   --border-color: transparent;
 }
