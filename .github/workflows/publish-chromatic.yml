@@ -2,9 +2,6 @@ name: Publish Chromatic
 
 on:
   workflow_call:
-    secrets:
-      CHROMATIC_PROJECT_TOKEN:
-        required: true
 
 jobs:
   publish:
@@ -26,4 +23,4 @@ jobs:
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          projectToken: 14b660c71183
