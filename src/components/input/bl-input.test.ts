@@ -71,23 +71,28 @@ describe('bl-input', () => {
 
     it('should show reveal button on password type', async () => {
       const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
-      const revealButton = el.shadowRoot?.querySelector('bl-button.reveal-button:not(.hide)');
-      expect(revealButton).to.exist;
-      expect(revealButton?.getAttribute('icon')).to.equal('eye_on');
+      const revealIcon = el.shadowRoot?.querySelector('bl-icon[name="eye_on"]');
+      const hiddenRevealIcon = el.shadowRoot?.querySelector('bl-icon[name="eye_off"]');
+
+      expect(revealIcon).to.exist;
+      expect(hiddenRevealIcon).to.exist;
+
+      expect(revealIcon).to.be.visible;
+      expect(hiddenRevealIcon).to.have.style('display', 'none');
     });
 
     it('should toggle reveal icon on click', async () => {
       const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
       const revealButton = el?.shadowRoot?.querySelector(
-        'bl-button.reveal-button:not(.hide)'
+        'bl-icon[name="eye_on"]'
       ) as HTMLElement | null;
       expect(revealButton).to.exist;
-      expect(revealButton?.getAttribute('icon')).to.eq('eye_on');
+      expect(revealButton).to.be.visible;
 
       revealButton?.click();
       await elementUpdated(el);
 
-      expect(el?.shadowRoot?.querySelector('bl-button.reveal-button:not(.hide)')?.getAttribute('icon')).to.eq('eye_off');
+      expect(revealButton).to.have.style('display', 'none');
     });
   });
 
@@ -154,20 +159,18 @@ describe('bl-input', () => {
       expect(ev.detail).to.be.equal('some value');
     });
 
-    it('should toggle input type on eye icon click', async () => {
+    it('should toggle input type on reveal button click', async () => {
       const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
+      const revealButton = el?.shadowRoot?.querySelector('bl-icon') as HTMLElement | null;
       const input = el?.shadowRoot?.querySelector('input');
-      const revealButton = el?.shadowRoot?.querySelector(
-        'bl-button.reveal-button:not(.hide)'
-      ) as HTMLElement | null;
 
-      expect(input?.type).to.equal('password');
+      expect(input).to.attr('type', 'password');
       expect(revealButton).to.exist;
 
       revealButton?.click();
       await elementUpdated(el);
 
-      expect(input?.type).to.equal('text');
+      expect(input).to.attr('type', 'text');
     });
 
     it('should fire bl-input event when input value changes', async () => {

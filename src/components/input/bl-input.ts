@@ -166,11 +166,11 @@ export default class BlInput extends FormControlMixin(LitElement) {
     if (event.code === 'Enter' && this.form) {
       submit(this.form);
     }
-  }
+  };
 
   private onError = (): void => {
     this.onInvalid(this.internals.validity);
-  }
+  };
 
   @state() private dirty = false;
 
@@ -221,11 +221,11 @@ export default class BlInput extends FormControlMixin(LitElement) {
           ${this.validationMessage}
         </p>`
       : ``;
-    const helpMessage = this.helpText ? html`<p id="helpText" class="help-text">${this.helpText}</p>` : ``;
+    const helpMessage = this.helpText
+      ? html`<p id="helpText" class="help-text">${this.helpText}</p>`
+      : ``;
 
-    const icon = this.icon
-      ? html`<bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
-      : '';
+    const icon = this.icon ? html`<bl-icon class="custom-icon" name="${this.icon}"></bl-icon>` : '';
     const label = this.label ? html`<label for="input">${this.label}</label>` : '';
 
     const revealButton = this.passwordInput
@@ -235,25 +235,25 @@ export default class BlInput extends FormControlMixin(LitElement) {
           variant="tertiary"
           class="${classMap({
             'reveal-button': true,
-            'password-visible': this.passwordVisible
+            'password-visible': this.passwordVisible,
           })}"
           aria-label="Toggle password reveal"
           @bl-click="${this.textVisiblityToggle}"
         >
-        <bl-icon slot="icon" name="eye_on"></bl-icon>
-        <bl-icon slot="icon" name="eye_off"></bl-icon>
-      </bl-button>`
+          <bl-icon slot="icon" name="eye_on"></bl-icon>
+          <bl-icon slot="icon" name="eye_off"></bl-icon>
+        </bl-button>`
       : '';
 
     const classes = {
-      wrapper: true,
-      dirty: this.dirty,
-      invalid: !this.checkValidity(),
+      'wrapper': true,
+      'dirty': this.dirty,
+      'invalid': !this.checkValidity(),
       'has-icon': this.passwordInput || this.icon || (this.dirty && !this.checkValidity()),
       'has-value': this.value !== null && this.value !== '',
     };
 
-    const passwordType = this.passwordVisible ? "text" : "password";
+    const passwordType = this.passwordVisible ? 'text' : 'password';
     const inputType = this.passwordInput ? passwordType : this.type;
 
     return html`<div class=${classMap(classes)}>
@@ -274,15 +274,15 @@ export default class BlInput extends FormControlMixin(LitElement) {
           @change=${this.changeHandler}
           @input=${this.inputHandler}
           aria-invalid=${this.checkValidity() ? 'false' : 'true'}
-          aria-describedby=${ifDefined(this.helpText ? "helpText" : undefined)}
-          aria-errormessage=${ifDefined(this.checkValidity() ? undefined : "errorMessage")}
+          aria-describedby=${ifDefined(this.helpText ? 'helpText' : undefined)}
+          aria-errormessage=${ifDefined(this.checkValidity() ? undefined : 'errorMessage')}
         />
-        <div class="icon">${revealButton || icon}<bl-icon class="error-icon" name="alert"></bl-icon></div>
+        <div class="icon">
+          ${revealButton}${icon}
+          <bl-icon class="error-icon" name="alert"></bl-icon>
+        </div>
       </div>
-      <div class="hint">
-        ${invalidMessage}
-        ${helpMessage}
-      </div>
+      <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div>`;
   }
 }
