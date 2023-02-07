@@ -37,7 +37,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Sets label of the input
    */
-  @property({})
+  @property({ reflect: true })
   label?: string;
 
   /**
@@ -83,6 +83,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   max?: number;
 
   /**
+   * Sets the increase and decrease step to a `number` input
+   */
+  @property({ type: Number })
+  step?: number;
+
+  /**
    * Sets the custom icon name. `bl-icon` component is used to show an icon
    */
   @property({ type: String })
@@ -103,7 +109,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Makes label as fixed positioned
    */
-  @property({ type: Boolean, attribute: 'label-fixed' })
+  @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
   labelFixed = false;
 
   /**
@@ -115,7 +121,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Adds help text
    */
-  @property({ type: String, attribute: 'help-text' })
+  @property({ type: String, attribute: 'help-text', reflect: true })
   helpText?: string;
 
   /**
@@ -131,7 +137,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Fires when the value of an input element has been changed.
    */
-   @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
+  @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -198,40 +204,48 @@ export default class BlInput extends FormControlMixin(LitElement) {
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">${this.validationMessage}</p>`
       : ``;
     const helpMessage = this.helpText ? html`<p id="helpText" class="help-text">${this.helpText}</p>` : ``;
+
     const icon = this.icon
-      ? html` <bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
+      ? html`<bl-icon class="custom-icon" name="${this.icon}"></bl-icon>`
       : '';
     const label = this.label ? html`<label for="input">${this.label}</label>` : '';
 
     const classes = {
-      'dirty': this.dirty,
+      wrapper: true,
+      dirty: this.dirty,
+      invalid: !this.checkValidity(),
       'has-icon': this.icon || (this.dirty && !this.checkValidity()),
       'has-value': this.value !== null && this.value !== '',
     };
 
-    return html`
-      <input
-        id="input"
-        type=${this.type}
-        class=${classMap(classes)}
-        .value=${live(this.value)}
-        placeholder="${ifDefined(this.placeholder)}"
-        minlength="${ifDefined(this.minlength)}"
-        maxlength="${ifDefined(this.maxlength)}"
-        min="${ifDefined(this.min)}"
-        max="${ifDefined(this.max)}"
-        ?required=${this.required}
-        ?disabled=${this.disabled}
-        @change=${this.changeHandler}
-        @input=${this.inputHandler}
-        aria-invalid=${this.checkValidity() ? 'false' : 'true'}
-        aria-describedby=${ifDefined(this.helpText ? "helpText" : undefined)}
-        aria-errormessage=${ifDefined(this.checkValidity() ? undefined : "errorMessage")}
-      />
-      ${label} ${icon}
-      <bl-icon class="error-icon" name="alert"></bl-icon>
-      ${invalidMessage} ${helpMessage}
-    `;
+    return html`<div class=${classMap(classes)}>
+      ${label}
+      <div class="input-wrapper">
+        <input
+          id="input"
+          type=${this.type}
+          .value=${live(this.value)}
+          placeholder="${ifDefined(this.placeholder)}"
+          minlength="${ifDefined(this.minlength)}"
+          maxlength="${ifDefined(this.maxlength)}"
+          min="${ifDefined(this.min)}"
+          max="${ifDefined(this.max)}"
+          step="${ifDefined(this.step)}"
+          ?required=${this.required}
+          ?disabled=${this.disabled}
+          @change=${this.changeHandler}
+          @input=${this.inputHandler}
+          aria-invalid=${this.checkValidity() ? 'false' : 'true'}
+          aria-describedby=${ifDefined(this.helpText ? "helpText" : undefined)}
+          aria-errormessage=${ifDefined(this.checkValidity() ? undefined : "errorMessage")}
+        />
+        <div class="icon">${icon}<bl-icon class="error-icon" name="alert"></bl-icon></div>
+      </div>
+      <div class="hint">
+        ${invalidMessage}
+        ${helpMessage}
+      </div>
+    </div>`;
   }
 }
 

@@ -24,6 +24,8 @@ module.exports = {
         'dialog',
         'drawer',
         'dropdown',
+        'switch',
+        'textarea',
       ],
     ],
   },

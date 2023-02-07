@@ -6,7 +6,6 @@ import '../icon/bl-icon';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { stringBooleanConverter } from '../../utilities/string-boolean.converter';
 import { ButtonVariant, ButtonKind, ButtonSize } from '../button/bl-button';
-import { classMap } from 'lit/directives/class-map.js';
 
 export type AlertVariant = 'info' | 'warning' | 'success' | 'danger';
 
@@ -127,14 +126,9 @@ export default class BlAlert extends LitElement {
       ? html`<bl-icon class="icon" name=${ifDefined(this._getIcon())}></bl-icon>`
       : null;
 
-    const closeClasses = classMap({
-      'close': true,
-      'close-spaced': !!caption,
-    });
-
     const closable = this.closable
       ? html`<bl-button
-          class=${closeClasses}
+          class="close"
           label="close"
           variant="tertiary"
           kind="neutral"

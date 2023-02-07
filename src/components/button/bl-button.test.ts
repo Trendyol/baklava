@@ -13,6 +13,7 @@ describe('bl-button', () => {
 
   it('renders with default values', async () => {
     const el = await fixture<typeOfBlButton>(html`<bl-button></bl-button>`);
+
     assert.shadowDom.equal(
       el,
       `

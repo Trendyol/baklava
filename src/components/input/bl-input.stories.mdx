@@ -10,6 +10,9 @@ import {
 <Meta
   title="Components/Input"
   component="bl-input"
+  parameters={{
+    extraPaddingForChromatic: true,
+  }}
   argTypes={{
     label: {
       control: 'text',
@@ -45,6 +48,10 @@ import {
       control: 'text',
       type: 'number'
     },
+    step: {
+      control: 'text',
+      type: 'number'
+    },
     icon: {
       control: 'text',
       type: 'string'
@@ -52,14 +59,14 @@ import {
     size: {
       control: {
         type: 'select',
-        options: ['medium', 'large']
+        options: ['small', 'medium', 'large']
       },
       type: 'string'
     },
     disabled: {
       control: 'boolean',
     },
-    'label-fixed': {
+    labelFixed: {
       control: 'boolean',
     },
     helpText: {
@@ -85,21 +92,23 @@ export const SingleInputTemplate = (args) => html`<bl-input
     maxlength='${ifDefined(args.maxlength)}'
     min='${ifDefined(args.min)}'
     max='${ifDefined(args.max)}'
+    step='${ifDefined(args.step)}'
     icon='${ifDefined(args.icon)}'
     size='${ifDefined(args.size)}'
   ></bl-input>`
 
-export const LabelStylesTemplate = args => html`
-  ${SingleInputTemplate({ labelFixed: true, ...args })}
-  ${SingleInputTemplate({ labelFixed: false, ...args })}
-  ${BlButton()}
+export const SizeVariantsTemplate = args => html`
+${SingleInputTemplate({ size: 'large', ...args })}
+${SingleInputTemplate({ size: 'medium', ...args })}
+${SingleInputTemplate({ size: 'small', ...args })}
 `
 
 # Input
 
-Input component is the component for taking text input from user.
+<bl-badge icon="document">ADR</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=4%3A5586)</bl-badge>
 
-<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+Input component is the component for taking text input from user.
 
 ## Basic Usage
 
@@ -136,6 +145,20 @@ If you want to use always it on top of the input, then you can use `label-fixed`
     {SingleInputTemplate.bind({})}
   </Story>
   <Story name="Input with value" args={{ label: 'Your name', placeholder: 'Name Surname', value: 'Random User' }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Input component will cut-out long labels those doesn't width of input, with ellipsis char.
+
+<Canvas isColumn>
+  <Story name="Input With Long Label" args={{ label: "Very very long label that doesn't fit select component width" }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Input With Long Label with Icon" args={{ label: "Very very long label that doesn't fit select component width", icon: 'profile' }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Input With Fixed Long Label" args={{ label: "Very very long label that doesn't fit select component width", placeholder: "Username", labelFixed: true }}>
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
@@ -193,11 +216,43 @@ Validation error messages are used from default browser error messages by defaul
 
 ## Input Sizes
 
-Inputs have 2 size options: `medium` and `large`. `medium` size is default and if you want to show a large input you can set `size` attribute to `large`.
+Inputs have 3 size options: `large`, `medium` and `small`. `medium` size is default and if you want to show a large or small input you can set `size` attribute.
 
 <Canvas>
-  <Story name="Large Input"
-         args={{ type: 'text', label: 'User Name', size: 'large' }}
+  <Story name="Input sizes without value"
+         args={{ type: 'text', label: 'User Name', icon: 'profile' }}
+  >
+    {SizeVariantsTemplate.bind({})}
+  </Story>
+  <Story name="Input sizes with value"
+         args={{ type: 'text', label: 'User Name', value: 'excalibur82' }}
+  >
+    {SizeVariantsTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled Input
+
+Input can be set as disabled by adding `disabled` attribute.
+
+<Canvas isColumn>
+  <Story name="Disabled Input with label"
+         args={{ type: 'text', label: 'User Name', disabled: true }}
+  >
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Disabled Input with placeholder"
+         args={{ type: 'text', label: 'User Name', labelFixed: true, placeholder: 'namesurname', disabled: true }}
+  >
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Disabled Input with value"
+         args={{ type: 'text', label: 'User Name', value: 'excalibur82', disabled: true }}
+  >
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Disabled Input with icon"
+         args={{ type: 'text', label: 'User Name', icon: 'profile', disabled: true }}
   >
     {SingleInputTemplate.bind({})}
   </Story>
