@@ -151,6 +151,7 @@ export default [
   'shopping_bag_cancel',
   'shopping_bag_discount',
   'shopping_bag_return',
+  'sort',
   'sorting',
   'sound_on',
   'star',
