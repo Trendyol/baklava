@@ -124,10 +124,6 @@ label {
   pointer-events: initial;
 }
 
-:host([label-fixed]) {
-  padding-top: var(--bl-size-m);
-}
-
 :host ::placeholder,
 :host([label-fixed]) ::placeholder {
   color: var(--bl-color-content-tertiary);
