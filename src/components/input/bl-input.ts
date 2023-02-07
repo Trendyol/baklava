@@ -240,8 +240,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
           aria-label="Toggle password reveal"
           @bl-click="${this.textVisiblityToggle}"
         >
-          <bl-icon slot="icon" name="eye_on"></bl-icon>
-          <bl-icon slot="icon" name="eye_off"></bl-icon>
+          <bl-icon class="reveal-icon" slot="icon" name="eye_on"></bl-icon>
+          <bl-icon class="reveal-icon" slot="icon" name="eye_off"></bl-icon>
         </bl-button>`
       : '';
 
@@ -278,7 +278,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           aria-errormessage=${ifDefined(this.checkValidity() ? undefined : 'errorMessage')}
         />
         <div class="icon">
-          ${revealButton}${icon}
+          ${revealButton} ${icon}
           <bl-icon class="error-icon" name="alert"></bl-icon>
         </div>
       </div>

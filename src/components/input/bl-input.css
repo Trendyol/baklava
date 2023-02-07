@@ -93,7 +93,7 @@ input {
   height: var(--icon-size);
 }
 
-bl-icon {
+bl-icon:not(.reveal-icon) {
   font-size: var(--icon-size);
   color: var(--icon-color);
   height: var(--icon-size);
