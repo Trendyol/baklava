@@ -85,9 +85,34 @@ input {
 }
 
 .icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   flex-basis: var(--icon-size);
   align-self: center;
   height: var(--icon-size);
+}
+
+bl-icon:not(.reveal-icon) {
+  font-size: var(--icon-size);
+  color: var(--icon-color);
+  height: var(--icon-size);
+}
+
+.reveal-button bl-icon {
+  display: none;
+}
+
+bl-icon[name='eye_on'] {
+  display: inline-block;
+}
+
+.password-visible bl-icon[name='eye_on'] {
+  display: none;
+}
+
+.password-visible bl-icon[name='eye_off'] {
+  display: inline-block;
 }
 
 .wrapper:not(.has-icon) .icon {
@@ -103,12 +128,6 @@ input {
 .hint p {
   padding: 0;
   margin: 0;
-}
-
-bl-icon {
-  font-size: var(--icon-size);
-  color: var(--icon-color);
-  height: var(--icon-size);
 }
 
 ::placeholder {
