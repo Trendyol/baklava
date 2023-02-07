@@ -31,7 +31,7 @@ module.exports = {
     buildStoriesJson: true,
   },
   framework: '@storybook/web-components',
-  staticDirs: ['../dist'],
+  staticDirs: ['../dist', { from: './assets', to: '/assets' }],
   webpackFinal: configureWebpack,
   managerWebpack: configureWebpack,
 };

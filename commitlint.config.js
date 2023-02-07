@@ -25,6 +25,7 @@ module.exports = {
         'drawer',
         'dropdown',
         'switch',
+        'textarea',
       ],
     ],
   },

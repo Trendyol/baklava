@@ -1,9 +1,9 @@
-import {customElement, property, state} from "lit/decorators.js";
-import {CSSResultGroup, html, LitElement, TemplateResult} from "lit";
-import {event, EventDispatcher} from "../../utilities/event";
+import { customElement, property, state } from 'lit/decorators.js';
+import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
+import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import style from './bl-drawer.css';
-import {PropertyValues} from "lit";
+import { PropertyValues } from 'lit';
 
 /**
  * @tag bl-drawer
@@ -12,7 +12,7 @@ import {PropertyValues} from "lit";
  */
 
 @customElement('bl-drawer')
-export default class BlDrawer extends LitElement{
+export default class BlDrawer extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -26,19 +26,19 @@ export default class BlDrawer extends LitElement{
   /**
    *  Sets the drawer title
    */
-  @property({type:String})
+  @property({ type: String })
   caption?: string;
 
   /**
    *  Sets the drawer embed url for iframe
    */
-  @property({type:String, attribute:'embed-url'})
+  @property({ type: String, attribute: 'embed-url' })
   embedUrl?: string;
 
   /**
    *  Sets the drawer external link
    */
-  @property({type:String, attribute:'external-link'})
+  @property({ type: String, attribute: 'external-link' })
   externalLink?: string;
 
   /**
@@ -53,9 +53,8 @@ export default class BlDrawer extends LitElement{
 
   connectedCallback() {
     super.connectedCallback();
-    window?.addEventListener('bl-drawer-open',(event) => {
-      if(event.target !== this)
-        this.closeDrawer();
+    window?.addEventListener('bl-drawer-open', event => {
+      if (event.target !== this) this.closeDrawer();
     });
   }
 
@@ -93,26 +92,26 @@ export default class BlDrawer extends LitElement{
     this.open = false;
   }
 
-  private renderContent(){
-    const content = this.embedUrl ?
-      html`<iframe src=${this.embedUrl}></iframe>`
-      : html`<slot />`
+  private renderContent() {
+    const content = this.embedUrl ? html`<iframe src=${this.embedUrl}></iframe>` : html`<slot></slot>`;
 
     return html`<section class=${this.embedUrl ? 'iframe-content' : 'content'}>
       ${content}
-      </section>`
+    </section>`;
   }
 
   private renderContainer() {
     const title = this.caption ? html`<h2 id="drawer-caption">${this.caption}</h2>` : '';
-    const external_button = this.externalLink ? html`<bl-button
-      icon="external_link"
-      variant="tertiary"
-      kind="neutral"
-      size="small"
-      href="${this.externalLink}"
-      target="_blank"
-    ></bl-button>` : '';
+    const external_button = this.externalLink
+      ? html`<bl-button
+          icon="external_link"
+          variant="tertiary"
+          kind="neutral"
+          size="small"
+          href="${this.externalLink}"
+          target="_blank"
+        ></bl-button>`
+      : '';
 
     return html`<div class="container">
       <header>
@@ -132,19 +131,16 @@ export default class BlDrawer extends LitElement{
     </div>`;
   }
 
-  render(): TemplateResult{
-    if(this.domExistence){
-      return html`<div class="drawer">
-          ${this.renderContainer()}
-        </div>`;
-    }else {
-      return html``
+  render(): TemplateResult {
+    if (this.domExistence) {
+      return html`<div class="drawer">${this.renderContainer()}</div>`;
+    } else {
+      return html``;
     }
   }
-
 }
-declare global{
+declare global {
   interface HTMLElementTagNameMap {
-    'bl-drawer' : BlDrawer;
+    'bl-drawer': BlDrawer;
   }
 }

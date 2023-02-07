@@ -173,7 +173,7 @@
   --bl-font-body-text-3: var(--bl-font-weight-regular) var(--bl-font-body-text-3-size) var(--bl-font-family);
 
   /* Font Style: Caption */
-  --bl-font-caption-font-size: var(--bl-font-size-s);
+  --bl-font-caption-font-size: var(--bl-font-size-xs);
   --bl-font-caption-line-height: calc(var(--bl-font-caption-font-size) + var(--bl-size-4xs));
   --bl-font-caption-size: var(--bl-font-caption-font-size)/var(--bl-font-caption-line-height);
   --bl-font-caption: var(--bl-font-weight-medium) var(--bl-font-caption-size) var(--bl-font-family);

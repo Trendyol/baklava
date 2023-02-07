@@ -21,4 +21,6 @@ jobs:
       - name: Run build
         run: npm run build
       - name: Publish to Chromatic
-        run: npm run chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: 14b660c71183
