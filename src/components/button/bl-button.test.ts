@@ -139,4 +139,18 @@ describe('bl-button', () => {
       expect(ev.detail).to.be.equal('Click event fired!');
     });
   });
+  describe('Form Participation', () => {
+    it('submits wrapping form if type is submit', async () => {
+      const form = await fixture<HTMLFormElement>(html`<form>
+        <bl-button type="submit">button</bl-button>
+      </form>`);
+      form.addEventListener('submit', (e) => e.preventDefault());
+
+      const button = form.querySelector('bl-button')?.shadowRoot?.querySelector('button');
+
+      setTimeout(() => button?.click());
+      const ev = await oneEvent(form, 'submit');
+      expect(ev).to.exist;
+    });
+  });
 });
