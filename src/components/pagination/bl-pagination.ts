@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult, PropertyValues } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import '../input/bl-input';
@@ -185,13 +186,16 @@ export default class BlPagination extends LitElement {
 
   private _renderSinglePage(page: number | string) {
     if (typeof page === 'string') {
-      return html`<span class="dots"></span>`;
+      return html`<li class="dots"></li>`;
     }
+    const ariaCurrent = this.currentPage === page ? 'page' : undefined;
     return html` <li>
       <bl-button
         @click="${() => this._changePage(page)}"
         variant=${this.currentPage === page ? 'primary' : 'tertiary'}
         kind="neutral"
+        label="Page ${page}"
+        aria-current=${ifDefined(ariaCurrent)}
       >
         ${page}
       </bl-button>
@@ -207,6 +211,7 @@ export default class BlPagination extends LitElement {
           kind="neutral"
           icon="arrow_left"
           class="previous"
+          label="Previous"
           ?disabled=${this.currentPage === 1}
         ></bl-button>
         <ul class="page-list">
@@ -220,6 +225,7 @@ export default class BlPagination extends LitElement {
           kind="neutral"
           icon="arrow_right"
           class="next"
+          label="Next"
           ?disabled=${this.currentPage === this._getLastPage()}
         ></bl-button>
       </div>
@@ -256,7 +262,9 @@ export default class BlPagination extends LitElement {
       return html` <div class="pagination-helpers">${selectEl} ${jumperEl}</div> `;
     };
 
-    return html` <div class="pagination">${getHelperElements()} ${this.renderPages()}</div>`;
+    return html` <nav class="pagination" aria-label="Pagination">
+      ${getHelperElements()} ${this.renderPages()}
+    </nav>`;
   }
 }
 
