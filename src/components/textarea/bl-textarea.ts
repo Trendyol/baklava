@@ -196,7 +196,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   @state() private dirty = false;
 
   render(): TemplateResult {
-    const maxLengthInvalid = this.internals.validity.rangeOverflow;
+    const maxLengthInvalid = this.internals.validity.tooLong;
     const invalidMessage = !this.checkValidity()
       ? html`<p class="invalid-text">${this.validationMessage}</p>`
       : ``;
