@@ -1,6 +1,5 @@
 import { assert, elementUpdated, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-// import { loremIpsum } from 'lorem-ipsum';
 import BlTextarea from './bl-textarea';
 
 describe('bl-textarea', () => {
