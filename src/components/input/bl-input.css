@@ -45,7 +45,7 @@
   --icon-size: var(--bl-font-body-text-3-line-height);
 }
 
-.wrapper:has(input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus) {
+.wrapper:has(input:-webkit-autofill) {
   box-shadow: 0 0 0 40rem var(--autofill-bg-color) inset;
 }
 
@@ -93,9 +93,7 @@ input:disabled {
   cursor: not-allowed;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
+input:-webkit-autofill {
   box-shadow: 0 0 0 40rem var(--autofill-bg-color) inset;
 }
 
