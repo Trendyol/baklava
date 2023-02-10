@@ -14,6 +14,7 @@
   --icon-size: var(--line-height);
   --padding-vertical: calc((var(--height) - var(--line-height)) / 2);
   --padding-horizontal: var(--bl-size-xs);
+  --autofill-bg-color: var(--bl-color-accent-primary-background);
 
   display: flex;
   flex-direction: column;
@@ -45,7 +46,7 @@
 }
 
 .wrapper:has(input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus) {
-  box-shadow: 0 0 0 40rem #fef2e8 inset;
+  box-shadow: 0 0 0 40rem var(--autofill-bg-color) inset;
 }
 
 label {
@@ -95,7 +96,7 @@ input:disabled {
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-  box-shadow: 0 0 0 40rem #fef2e8 inset;
+  box-shadow: 0 0 0 40rem var(--autofill-bg-color) inset;
 }
 
 .icon {
