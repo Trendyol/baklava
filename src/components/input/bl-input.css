@@ -45,8 +45,12 @@
   --icon-size: var(--bl-font-body-text-3-line-height);
 }
 
+.wrapper:has(input:autofill) {
+  background-color: var(--autofill-bg-color);
+}
+
 .wrapper:has(input:-webkit-autofill) {
-  box-shadow: 0 0 0 40rem var(--autofill-bg-color) inset;
+  background-color: var(--autofill-bg-color);
 }
 
 label {
@@ -93,7 +97,23 @@ input:disabled {
   cursor: not-allowed;
 }
 
+input:autofill {
+  background-color: var(--autofill-bg-color);
+
+  /**
+   * Some browsers doesn't allow setting background-color
+   * https://developer.mozilla.org/en-US/docs/Web/CSS/:autofill
+   */
+  box-shadow: 0 0 0 40rem var(--autofill-bg-color) inset;
+}
+
 input:-webkit-autofill {
+  background-color: var(--autofill-bg-color);
+
+  /**
+   * Some browsers doesn't allow setting background-color
+   * https://developer.mozilla.org/en-US/docs/Web/CSS/:autofill
+   */
   box-shadow: 0 0 0 40rem var(--autofill-bg-color) inset;
 }
 
