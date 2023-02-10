@@ -2,11 +2,13 @@ import { LitElement, html, CSSResultGroup, PropertyValues } from 'lit';
 import { customElement, property, state, query, queryAll } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { computePosition, flip, MiddlewareArguments, offset, size, autoUpdate } from '@floating-ui/dom';
+import 'element-internals-polyfill';
 import style from '../select/bl-select.css';
 import '../icon/bl-icon';
 import '../select/option/bl-select-option';
 import type BlSelectOption from './option/bl-select-option';
 import { event, EventDispatcher } from '../../utilities/event';
+import { FormControlMixin } from '@open-wc/form-control';
 
 export interface ISelectOption {
   value: string;
@@ -19,9 +21,37 @@ export type SelectSize = 'medium' | 'large' | 'small';
 export type CleanUpFunction = () => void;
 
 @customElement('bl-select')
-export default class BlSelect extends LitElement {
+export default class BlSelect extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
+  }
+
+  /**
+   * Sets name of the input
+   */
+  @property()
+  name: string;
+
+  private _value: string | string[];
+
+  /**
+   * Sets initial value of the input
+   */
+  @property()
+  get value(): string | string[] {
+    return this._value;
+  }
+
+  set value(val: string | string[]) {
+    this._value = val;
+
+    if (typeof val === 'string') {
+      this.setValue(val);
+    } else {
+      const formData = new FormData();
+      val.forEach((option) => formData.append(this.name, option));
+      this.setValue(formData);
+    }
   }
 
   /* Declare reactive properties */
@@ -174,9 +204,6 @@ export default class BlSelect extends LitElement {
     });
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-  }
   disconnectedCallback() {
     super.disconnectedCallback();
 
@@ -187,9 +214,6 @@ export default class BlSelect extends LitElement {
     const inputSelectedOptions = html`<ul class="selected-options">
       ${this._selectedOptions.map(item => html`<li>${item.text}</li>`)}
     </ul>`;
-    const _selectedItemCount = this._additionalSelectedOptionCount
-      ? html`<span>+${this._additionalSelectedOptionCount}</span>`
-      : null;
     const removeButton = html`<bl-button
         class="remove-all"
         size="small"
@@ -197,16 +221,17 @@ export default class BlSelect extends LitElement {
         kind="neutral"
         icon="close"
         @click=${this._onClickRemove}></bl-button>`;
-    const placeholder = this._showPlaceHolder
-      ? html`<span class="placeholder">${this.placeholder}</span>`
-      : '';
 
     return html`<div
-      class="select-input"
-      ?disabled=${this.disabled}
+      class=${classMap({
+        'select-input': true,
+        'has-overflowed-options': this._additionalSelectedOptionCount > 0
+      })}
       @click=${this._onClickSelectInput}
     >
-      ${placeholder} ${inputSelectedOptions} ${_selectedItemCount}
+      <span class="placeholder">${this.placeholder}</span>
+      ${inputSelectedOptions}
+      <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
       <div class="actions">
         ${this.multiple ? removeButton : null}
         <bl-icon
@@ -219,12 +244,6 @@ export default class BlSelect extends LitElement {
           name="arrow_down"
         ></bl-icon>
       </div>
-    </div>`;
-  }
-
-  private menuTemplate() {
-    return html`<div class="popover" @bl-select-option=${this._handleSelectOptionEvent}>
-      <slot></slot>
     </div>`;
   }
 
@@ -245,15 +264,14 @@ export default class BlSelect extends LitElement {
     })}
       tabindex="-1"
     >
-      ${label} ${this.inputTemplate()} ${this.menuTemplate()} ${helpMessage} ${invalidMessage}
+      ${label}
+      ${this.inputTemplate()}
+      <div class="popover" @bl-select-option=${this._handleSelectOptionEvent}>
+        <slot></slot>
+      </div>
+      ${helpMessage}
+      ${invalidMessage}
     </div> `;
-  }
-
-  private get _showPlaceHolder() {
-    if (this.label && !this.labelFixed) {
-      return !this._selectedOptions.length && this._isPopoverOpen;
-    }
-    return !this._selectedOptions.length;
   }
 
   private _onClickSelectInput() {
@@ -261,6 +279,11 @@ export default class BlSelect extends LitElement {
   }
 
   private _handleSelectEvent() {
+    if (this.multiple) {
+      this.value = this._selectedOptions.map((option) => option.value);
+    } else {
+      this.value = this._selectedOptions.length ? this._selectedOptions[0].value : '';
+    }
     this._onBlSelect(this._selectedOptions);
   }
 

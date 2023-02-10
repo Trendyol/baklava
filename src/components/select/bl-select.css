@@ -38,15 +38,7 @@
   --font-size: var(--bl-font-size-s);
 }
 
-.placeholder {
-  color: var(--placeholder-color);
-  white-space: nowrap;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-:host([disabled]) .placeholder {
+:host([disabled]) .select-wrapper {
   --placeholder-color: var(--bl-color-content-passive);
 }
 
@@ -70,6 +62,18 @@
   border-radius: var(--bl-border-radius-s);
   color: var(--text-color);
   user-select: none;
+}
+
+.placeholder {
+  color: var(--placeholder-color);
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:where(:host([label]:not([label-fixed])), .selected) .placeholder {
+  display: none;
 }
 
 .remove-all {
@@ -132,6 +136,7 @@
 }
 
 .select-input .selected-options {
+  flex: 1;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -148,6 +153,10 @@
 
 .selected-options li:not(:last-child)::after {
   content: ', ';
+}
+
+.select-input:not(.has-overflowed-options) .additional-selection-count {
+  display: none;
 }
 
 :host([disabled]) .selected-options li
