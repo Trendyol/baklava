@@ -202,7 +202,7 @@ describe('bl-textarea', () => {
 
       const ev = await oneEvent(el, 'bl-invalid');
       expect(ev).to.exist;
-      expect(ev.detail['rangeOverflow']).to.equal(true);
+      expect(ev.detail['tooLong']).to.equal(true);
     });
   });
   describe('form integration', () => {
