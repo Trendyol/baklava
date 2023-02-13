@@ -1,3 +1,8 @@
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(359deg); }
+}
+
 :host {
   display: var(--bl-button-display, inline-block);
   max-width: 100%;
@@ -23,7 +28,7 @@
   justify-content: var(--bl-button-justify, center);
   align-items: center;
   box-sizing: border-box;
-  width:100%;
+  width: 100%;
   height: var(--height);
   border: solid 1px var(--border-color);
   border-radius: 6px;
@@ -76,9 +81,13 @@
 .button:focus-visible::after {
   border: 2px solid var(--main-color);
   border-radius: var(--bl-border-radius-l);
-  content: "";
+  content: '';
   position: absolute;
   inset: -4px;
+}
+
+.loading-icon {
+  animation: spin 1s linear infinite;
 }
 
 :host ::slotted(bl-icon) {

@@ -50,6 +50,12 @@ export default class BlButton extends LitElement {
   @property({ type: String })
   label: string;
 
+   /**
+   * Sets loading state of button
+   */
+   @property({ type: Boolean, reflect: true })
+   loading = false;
+
   /**
    * Sets button as disabled
    */
@@ -151,8 +157,10 @@ export default class BlButton extends LitElement {
   }
 
   render(): TemplateResult {
+    this.disabled = this.loading;
     const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
+    const loadingIcon = this.loading ? html`<bl-icon class="loading-icon" name="loading"></bl-icon>` : '';
     const slots = html`<slot name="icon">${icon}</slot> <span class="label"><slot></slot></span>`;
     const caret = this.dropdown ? this.caretTemplate() : '';
     const classes = classMap({
@@ -179,7 +187,7 @@ export default class BlButton extends LitElement {
           ?disabled=${this.disabled}
           @click="${this._handleClick}"
         >
-          ${slots} ${caret}
+         ${loadingIcon} ${slots} ${caret}
         </button>`;
   }
 }
