@@ -154,6 +154,7 @@ export default [
   'sorting',
   'sound_on',
   'star',
+  'star_two',
   'stop',
   'stop_fill',
   'store',
