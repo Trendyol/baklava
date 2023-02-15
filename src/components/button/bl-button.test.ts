@@ -91,17 +91,16 @@ describe('bl-button', () => {
       const el = await fixture<typeOfBlButton>(
         html`<bl-button loading>Test</bl-button>`
       );
-      const loadingIcon = el.querySelector('.loading-icon');
-      expect(loadingIcon).to.exist;
+      expect(el.shadowRoot?.querySelector('.loading-icon')).to.exist;
       expect(el).to.have.attribute('loading');
       expect(el).to.have.attribute('disabled');
 
       el.removeAttribute('loading');
       await elementUpdated(el);
 
-      expect(loadingIcon).to.not.exist;
-      expect(el).to.not.have.attribute('disabled');
-      expect(el).to.not.have.attribute('loading');
+      expect(el.shadowRoot?.querySelector('.loading-icon')).not.to.exist;
+      expect(el).not.have.attribute('loading');
+      expect(el).not.have.attribute('disabled');
     });
   });
   describe('Slot', () => {
@@ -110,6 +109,14 @@ describe('bl-button', () => {
         html` <bl-button><strong>https://trendyol.com</strong></bl-button> `
       );
       expect(el.shadowRoot?.querySelector('button')).to.exist;
+    });
+
+    it('renders loading label when set and loading', async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button loading-label="Loading..." loading>Login</bl-button>`
+      );
+
+      expect(el.shadowRoot?.querySelector('.label')).to.have.text('Loading...');
     });
   });
   describe('Link button', () => {

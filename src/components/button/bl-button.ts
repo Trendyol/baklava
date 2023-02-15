@@ -50,6 +50,12 @@ export default class BlButton extends LitElement {
   @property({ type: String })
   label: string;
 
+  /**
+   * Sets the button label for loading status.
+   */
+  @property({ type: String, attribute: 'loading-label' })
+  loadingLabel: string;
+
    /**
    * Sets loading state of button
    */
@@ -98,6 +104,10 @@ export default class BlButton extends LitElement {
   @state({})
   active = false;
 
+  /* Initial value of disabled attribute */
+  @state({})
+  private _disabled = false;
+
   @query('.button')
   private button: HTMLAnchorElement | HTMLButtonElement;
 
@@ -115,6 +125,12 @@ export default class BlButton extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.form = this.closest('form');
+    this._disabled = this.disabled;
+  }
+
+  updated(properties: Map<string, unknown>) {
+    super.updated(properties);
+    this.toggleAttribute('disabled', this.loading || this._disabled);
   }
 
   private caretTemplate(): TemplateResult {
@@ -157,11 +173,11 @@ export default class BlButton extends LitElement {
   }
 
   render(): TemplateResult {
-    this.disabled = this.loading;
+    const label = (this.loading && this.loadingLabel) ? this.loadingLabel : html`<slot></slot>`;
     const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
     const loadingIcon = this.loading ? html`<bl-icon class="loading-icon" name="loading"></bl-icon>` : '';
-    const slots = html`<slot name="icon">${icon}</slot> <span class="label"><slot></slot></span>`;
+    const slots = html`<slot name="icon">${icon}</slot> <span class="label">${label}</span>`;
     const caret = this.dropdown ? this.caretTemplate() : '';
     const classes = classMap({
       'button': true,

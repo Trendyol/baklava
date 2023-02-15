@@ -23,6 +23,12 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
       default: 'default',
       control: { type: 'select' }
     },
+    loadingLabel: {
+      control: 'text'
+    },
+    loading: {
+      control: 'boolean'
+    },
     disabled: {
       control: 'boolean'
     },
@@ -57,7 +63,9 @@ export const SingleButtonTemplate = (args) => html`<bl-button
     size=${ifDefined(args.size)}
     icon="${ifDefined(args.icon)}"
     label="${ifDefined(args.label)}"
+    loading-label="${ifDefined(args.loadingLabel)}"
     ?disabled=${args.disabled}
+    ?loading=${args.loading}
     style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
       >${unsafeHTML(args.content)}</bl-button>`
 
@@ -185,6 +193,19 @@ If button has a limited width and a long text that can not fit in a single line,
 
 <Canvas>
   <Story name="Automatic Clipping Text" args={{ content: 'A very long text content', icon: 'info', styles: { '--bl-button-display': 'block', 'max-width': '150px' } }}>
+    {SingleButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Loading Buttons
+
+Custom loading text can be set with `loading-label` attribute.
+
+<Canvas columns={1}>
+  <Story name="Loading State Buttons" args={{ loading: true, content: 'Login' }}>
+    {SingleButtonTemplate.bind({})}
+  </Story>
+  <Story name="Loading Button Custom Label" args={{ loading: true, loadingLabel: 'Logging in...', content: 'Login' }}>
     {SingleButtonTemplate.bind({})}
   </Story>
 </Canvas>

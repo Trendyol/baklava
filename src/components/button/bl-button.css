@@ -125,7 +125,11 @@
   --main-hover-color: var(--bl-color-danger-hover);
 }
 
-:host([disabled]) {
+:host([loading]) {
+  cursor: progress;
+}
+
+:host([disabled]:not([loading])) {
   cursor: not-allowed;
 }
 
