@@ -20,7 +20,7 @@ export default class BlSelectOption extends LitElement {
   /**
    * Sets option as disabled
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**

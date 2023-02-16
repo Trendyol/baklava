@@ -82,7 +82,7 @@ export default class BlSelect extends FormControlMixin(LitElement) {
   /**
    * Shows the component in disabled state.
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
