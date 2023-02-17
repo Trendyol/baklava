@@ -156,7 +156,6 @@ export default [
   'sad',
   'save',
   'search',
-  'seller_ads',
   'send',
   'send_mail',
   'services',
