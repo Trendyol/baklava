@@ -4,12 +4,12 @@
 
 .option-container {
   --option-font: var(--bl-font-title-3-regular);
-  --option-padding: var(--bl-size-xs) 0;
+  --option-spacing: var(--bl-size-xs) 0;
   --option-selected-color: var(--bl-color-primary);
   --option-hover-color: var(--bl-color-primary-hover);
   --option-color: var(--bl-color-secondary);
   --option-disabled-color: var(--bl-color-content-passive);
-  --option-seperator: 1px solid var(--bl-color-border);
+  --option-separator: 1px solid var(--bl-color-border);
   --option-gap: var(--bl-size-2xs);
   --option-transition: color 120ms ease-out;
 }
@@ -19,7 +19,7 @@
   content: '';
   width: 100%;
   bottom: 0;
-  border-bottom: var(--option-seperator);
+  border-bottom: var(--option-separator);
 }
 
 :host(:last-of-type) .option-container::after {
@@ -31,10 +31,15 @@
   display: block;
   cursor: pointer;
   color: var(--option-color);
-  padding: var(--option-padding);
+  margin: var(--option-spacing);
   transition: var(--option-transition);
   font: var(--option-font);
   user-select: none;
+}
+
+.single-option:focus-visible {
+  outline: 2px solid var(--option-hover-color);
+  outline-offset: 4px;
 }
 
 :host(:hover) .single-option {
@@ -59,5 +64,5 @@
   width: 100%;
   display: block;
   color: var(--option-color);
-  padding: var(--option-padding);
+  padding: var(--option-spacing);
 }

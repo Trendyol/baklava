@@ -1,11 +1,11 @@
 import { LitElement, html, CSSResultGroup } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
 import BlSelect, { ISelectOption } from '../bl-select';
 import style from './bl-select-option.css';
 
 @customElement('bl-select-option')
-export default class BlSelectOption extends LitElement {
+export default class BlSelectOption<ValueType = string> extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -15,7 +15,7 @@ export default class BlSelectOption extends LitElement {
    * Sets the value for the option
    */
   @property({})
-  value: string;
+  value: ValueType;
 
   /**
    * Sets option as disabled
@@ -35,19 +35,49 @@ export default class BlSelectOption extends LitElement {
   /**
    * Fires when clicked on the option
    */
-  @event('bl-select-option') private _onSelect: EventDispatcher<ISelectOption>;
+  @event('bl-select-option') private _onSelect: EventDispatcher<ISelectOption<ValueType>>;
 
-  private blSelect: BlSelect | null;
+  /**
+   * Fires when checkbox is focused
+   */
+  @event('bl-focus') private onFocus: EventDispatcher<ValueType>;
+
+  /**
+   * Fires when checkbox is blurred
+   */
+  @event('bl-blur') private onBlur: EventDispatcher<ValueType>;
+
+  @query('.focus-target') private focusTarget: HTMLElement;
+
+  /**
+   * Focuses this option
+   */
+  focus() {
+    this.focusTarget.tabIndex = 0;
+    this.focusTarget.focus();
+    this.onFocus(this.value);
+  }
+
+  /**
+   * Blurs from this option
+   */
+  blur() {
+    this.onBlur(this.value);
+    this.focusTarget.blur();
+    this.focusTarget.tabIndex = -1;
+  }
+
+  private blSelect: BlSelect<ValueType> | null;
 
   private singleOptionTemplate() {
-    return html`<div class="single-option" @click="${this._onClickOption}">
+    return html`<div class="single-option focus-target" @keydown=${this.handleKeydown} @click="${this._onClickOption}">
       <slot></slot>
     </div>`;
   }
 
   private checkboxOptionTemplate() {
     return html`<bl-checkbox
-      class="checkbox-option"
+      class="checkbox-option focus-target"
       .checked="${this.selected}"
       .disabled="${this.disabled}"
       @bl-checkbox-change="${this._onCheckboxChange}"
@@ -62,12 +92,19 @@ export default class BlSelectOption extends LitElement {
     </div>`;
   }
 
+
+  private handleKeydown(event: KeyboardEvent) {
+    if (event.code === 'Enter' || event.code === 'Space') {
+      this._onClickOption();
+    }
+  }
+
   private _handleEvent() {
     this._onSelect({
       value: this.value,
       text: this.textContent,
       selected: this.selected,
-    } as ISelectOption);
+    } as ISelectOption<ValueType>);
   }
 
   private _onClickOption() {
@@ -84,7 +121,7 @@ export default class BlSelectOption extends LitElement {
     super.connectedCallback();
 
     this.updateComplete.then(() => {
-      this.blSelect = this.closest<BlSelect>('bl-select');
+      this.blSelect = this.closest<BlSelect<ValueType>>('bl-select');
       // FIXME: We should warn when parent is not bl-select
 
       this.multiple = this.blSelect?.multiple || false;

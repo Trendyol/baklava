@@ -1,17 +1,18 @@
-import { LitElement, html, CSSResultGroup, PropertyValues } from 'lit';
-import { customElement, property, state, query, queryAll } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
-import { computePosition, flip, MiddlewareArguments, offset, size, autoUpdate } from '@floating-ui/dom';
+import { autoUpdate, computePosition, flip, MiddlewareArguments, offset, size } from '@floating-ui/dom';
+import { FormControlMixin } from '@open-wc/form-control';
 import 'element-internals-polyfill';
-import style from '../select/bl-select.css';
+import { CSSResultGroup, html, LitElement, PropertyValues } from 'lit';
+import { customElement, property, query, queryAll, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { event, EventDispatcher } from '../../utilities/event';
 import '../icon/bl-icon';
+import style from '../select/bl-select.css';
 import '../select/option/bl-select-option';
 import type BlSelectOption from './option/bl-select-option';
-import { event, EventDispatcher } from '../../utilities/event';
-import { FormControlMixin } from '@open-wc/form-control';
 
-export interface ISelectOption {
-  value: string;
+export interface ISelectOption<T> {
+  value: T;
   text: string;
   selected: boolean;
 }
@@ -21,7 +22,7 @@ export type SelectSize = 'medium' | 'large' | 'small';
 export type CleanUpFunction = () => void;
 
 @customElement('bl-select')
-export default class BlSelect extends FormControlMixin(LitElement) {
+export default class BlSelect<ValueType = string> extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -32,24 +33,24 @@ export default class BlSelect extends FormControlMixin(LitElement) {
   @property()
   name: string;
 
-  private _value: string | string[];
+  private _value: ValueType | ValueType[] | null;
 
   /**
    * Sets initial value of the input
    */
   @property()
-  get value(): string | string[] {
+  get value(): ValueType | ValueType[] | null {
     return this._value;
   }
 
-  set value(val: string | string[]) {
+  set value(val: ValueType | ValueType[] | null) {
     this._value = val;
 
     if (typeof val === 'string') {
       this.setValue(val);
-    } else {
+    } else if (Array.isArray(val)) {
       const formData = new FormData();
-      val.forEach((option) => formData.append(this.name, option));
+      val.forEach((option) => formData.append(this.name, `${option}`));
       this.setValue(formData);
     }
   }
@@ -114,7 +115,7 @@ export default class BlSelect extends FormControlMixin(LitElement) {
   private _isPopoverOpen = false;
 
   @state()
-  private _selectedOptions: ISelectOption[] = [];
+  private _selectedOptions: ISelectOption<ValueType>[] = [];
 
   @state()
   private _additionalSelectedOptionCount = 0;
@@ -134,9 +135,9 @@ export default class BlSelect extends FormControlMixin(LitElement) {
   @query('.select-input')
   private _selectInput: HTMLElement;
 
-  @event('bl-select') private _onBlSelect: EventDispatcher<ISelectOption[]>;
+  @event('bl-select') private _onBlSelect: EventDispatcher<ISelectOption<ValueType>[]>;
 
-  private _connectedOptions: BlSelectOption[] = [];
+  private _connectedOptions: BlSelectOption<ValueType>[] = [];
 
   private _cleanUpPopover: CleanUpFunction | null = null;
 
@@ -168,6 +169,7 @@ export default class BlSelect extends FormControlMixin(LitElement) {
 
   close() {
     this._isPopoverOpen = false;
+    this.focusedOptionIndex = -1;
     this._cleanUpPopover && this._cleanUpPopover();
     document.removeEventListener('click', this._clickOutsideHandler);
   }
@@ -227,7 +229,8 @@ export default class BlSelect extends FormControlMixin(LitElement) {
         'select-input': true,
         'has-overflowed-options': this._additionalSelectedOptionCount > 0
       })}
-      @click=${this._onClickSelectInput}
+      tabindex="0"
+      @click=${this.togglePopover}
     >
       <span class="placeholder">${this.placeholder}</span>
       ${inputSelectedOptions}
@@ -262,11 +265,11 @@ export default class BlSelect extends FormControlMixin(LitElement) {
       'selected': this._selectedOptions.length > 0,
       'invalid': this._isInvalid,
     })}
-      tabindex="-1"
+      @keydown=${this.handleKeydown}
     >
       ${label}
       ${this.inputTemplate()}
-      <div class="popover" @bl-select-option=${this._handleSelectOptionEvent}>
+      <div class="popover" tabindex="${ifDefined(this._isPopoverOpen ? undefined : '-1')}" @bl-select-option=${this._handleSelectOptionEvent}>
         <slot></slot>
       </div>
       ${helpMessage}
@@ -274,7 +277,30 @@ export default class BlSelect extends FormControlMixin(LitElement) {
     </div> `;
   }
 
-  private _onClickSelectInput() {
+  private focusedOptionIndex = -1;
+
+  private handleKeydown(event: KeyboardEvent) {
+    if (this.focusedOptionIndex === -1 && event.code === 'Enter' || event.code === 'Space') {
+      this.togglePopover();
+    } else if (event.code === 'Escape') {
+      this.close();
+      event.preventDefault();
+    } else if (this._isPopoverOpen && ['ArrowDown', 'ArrowUp'].includes(event.code)) {
+      event.code === 'ArrowDown' && this.focusedOptionIndex++;
+      event.code === 'ArrowUp' && this.focusedOptionIndex--;
+
+      // Don't exceed array indexes
+      this.focusedOptionIndex = Math.max(
+        0,
+        Math.min(this.focusedOptionIndex, this.options.length - 1)
+      );
+
+      this.options[this.focusedOptionIndex].focus();
+    }
+
+  }
+
+  private togglePopover() {
     this._isPopoverOpen ? this.close() : this.open();
   }
 
@@ -282,12 +308,12 @@ export default class BlSelect extends FormControlMixin(LitElement) {
     if (this.multiple) {
       this.value = this._selectedOptions.map((option) => option.value);
     } else {
-      this.value = this._selectedOptions.length ? this._selectedOptions[0].value : '';
+      this.value = this._selectedOptions.length ? this._selectedOptions[0].value : null;
     }
     this._onBlSelect(this._selectedOptions);
   }
 
-  private _handleSingleSelect(optionItem: ISelectOption) {
+  private _handleSingleSelect(optionItem: ISelectOption<ValueType>) {
     const oldItem = this._connectedOptions.find(option => option.value !== optionItem.value && option.selected);
 
     if (oldItem) {
@@ -299,7 +325,7 @@ export default class BlSelect extends FormControlMixin(LitElement) {
     this._isPopoverOpen = false;
   }
 
-  private _handleMultipleSelect(optionItem: ISelectOption) {
+  private _handleMultipleSelect(optionItem: ISelectOption<ValueType>) {
     const { value } = optionItem;
 
     if (!optionItem.selected) {
@@ -312,7 +338,7 @@ export default class BlSelect extends FormControlMixin(LitElement) {
   }
 
   private _handleSelectOptionEvent(e: CustomEvent) {
-    const optionItem = e.detail as ISelectOption;
+    const optionItem = e.detail as ISelectOption<ValueType>;
 
     if (this.multiple) {
       this._handleMultipleSelect(optionItem);
@@ -378,7 +404,7 @@ export default class BlSelect extends FormControlMixin(LitElement) {
    * This method is used by `bl-select-option` component to register itself to bl-select.
    * @param option BlSelectOption reference to be registered
    */
-  registerOption(option: BlSelectOption) {
+  registerOption(option: BlSelectOption<ValueType>) {
     this._connectedOptions.push(option);
 
     if (option.selected) {
@@ -386,7 +412,7 @@ export default class BlSelect extends FormControlMixin(LitElement) {
         value: option.value,
         text: option.textContent,
         selected: option.selected,
-      } as ISelectOption;
+      } as ISelectOption<ValueType>;
 
       if (this.multiple) {
         this._selectedOptions = [...this._selectedOptions, optionItem];
@@ -402,7 +428,7 @@ export default class BlSelect extends FormControlMixin(LitElement) {
    * This method is used by `bl-select-option` component to unregister itself from bl-select.
    * @param option BlSelectOption reference to be unregistered
    */
-  unregisterOption(option: BlSelectOption) {
+  unregisterOption(option: BlSelectOption<ValueType>) {
     this._connectedOptions.splice(this._connectedOptions.indexOf(option), 1);
     this._selectedOptions = this._selectedOptions.filter(item => item.value !== option.value);
   }

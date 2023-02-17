@@ -53,7 +53,6 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  outline: none;
   box-sizing: border-box;
   height: var(--height);
   border: solid 1px var(--border-color);
@@ -64,6 +63,23 @@
   user-select: none;
 }
 
+.select-input:focus-visible {
+  outline: 2px solid var(--border-focus-color);
+  outline-offset: 2px;
+}
+
+/*
+.select-input:focus-visible::after {
+  border: 2px solid var(--border-focus-color);
+  border-radius: var(--bl-border-radius-s);
+  content: "";
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+  left: -3px;
+} */
+
 .placeholder {
   color: var(--placeholder-color);
   white-space: nowrap;
@@ -72,7 +88,8 @@
   text-overflow: ellipsis;
 }
 
-:where(:host([label]:not([label-fixed])), .selected) .placeholder {
+.select-wrapper.selected .placeholder,
+:host([label]:not([label-fixed])) .select-wrapper:not(.select-open) .placeholder {
   display: none;
 }
 

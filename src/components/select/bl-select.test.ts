@@ -14,16 +14,22 @@ describe('bl-select', () => {
     assert.shadowDom.equal(
       el,
       `
-      <div tabindex="-1" class=" select-wrapper ">
-        <div class="select-input">
+      <div class="select-wrapper">
+        <div
+          class="select-input"
+          tabindex="0"
+        >
           <span class="placeholder"></span>
           <ul class="selected-options"></ul>
+          <span class="additional-selection-count">
+            +0
+          </span>
           <div class="actions">
           <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
           <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
           </div>
         </div>
-        <div class="popover">
+        <div class="popover" tabindex="-1">
           <slot></slot>
         </div>
       </div>
