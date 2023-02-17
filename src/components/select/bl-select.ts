@@ -1,5 +1,6 @@
 import { autoUpdate, computePosition, flip, MiddlewareArguments, offset, size } from '@floating-ui/dom';
 import { FormControlMixin } from '@open-wc/form-control';
+import { FormValue } from '@open-wc/form-helpers';
 import 'element-internals-polyfill';
 import { CSSResultGroup, html, LitElement, PropertyValues } from 'lit';
 import { customElement, property, query, queryAll, state } from 'lit/decorators.js';
@@ -21,8 +22,15 @@ export type SelectSize = 'medium' | 'large' | 'small';
 
 export type CleanUpFunction = () => void;
 
+
+/**
+ * @tag bl-select
+ * @summary Baklava Select component
+ *
+ * @cssproperty --bl-popover-position - Sets the positioning strategy of select popover. You can set it as `absolute` if you need to show popover relative to its trigger element. Default value is `fixed`
+ */
 @customElement('bl-select')
-export default class BlSelect<ValueType = string> extends FormControlMixin(LitElement) {
+export default class BlSelect<ValueType extends FormValue = string> extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -46,13 +54,18 @@ export default class BlSelect<ValueType = string> extends FormControlMixin(LitEl
   set value(val: ValueType | ValueType[] | null) {
     this._value = val;
 
-    if (typeof val === 'string') {
-      this.setValue(val);
+    if (typeof val === null) {
+      this.setValue(null)
     } else if (Array.isArray(val)) {
       const formData = new FormData();
       val.forEach((option) => formData.append(this.name, `${option}`));
       this.setValue(formData);
+    } else {
+      this.setValue(val);
     }
+
+    this._selectedOptions = [...this.options
+      .filter(option => this.value === option.value || (this.value as ValueType[]).includes(option.value))]
   }
 
   /* Declare reactive properties */
@@ -114,8 +127,6 @@ export default class BlSelect<ValueType = string> extends FormControlMixin(LitEl
   @state()
   private _isPopoverOpen = false;
 
-  @state()
-  private _selectedOptions: ISelectOption<ValueType>[] = [];
 
   @state()
   private _additionalSelectedOptionCount = 0;
@@ -124,10 +135,10 @@ export default class BlSelect<ValueType = string> extends FormControlMixin(LitEl
   private _isInvalid = false;
 
   @query('.selected-options')
-  private _selectedOptionsContainer!: HTMLElement;
+  private selectedOptionsContainer!: HTMLElement;
 
   @queryAll('.selected-options li')
-  private _selectedOptionsItems!: Array<HTMLElement>;
+  private selectedOptionsItems!: Array<HTMLElement>;
 
   @query('.popover')
   private _popover: HTMLElement;
@@ -149,7 +160,10 @@ export default class BlSelect<ValueType = string> extends FormControlMixin(LitEl
     return this._isPopoverOpen;
   }
 
-  get selectedOptions() {
+  @state()
+  private _selectedOptions: BlSelectOption<ValueType>[] = [];
+
+  get selectedOptions(): BlSelectOption<ValueType>[] {
     return this._selectedOptions;
   }
 
@@ -214,7 +228,7 @@ export default class BlSelect<ValueType = string> extends FormControlMixin(LitEl
 
   private inputTemplate() {
     const inputSelectedOptions = html`<ul class="selected-options">
-      ${this._selectedOptions.map(item => html`<li>${item.text}</li>`)}
+      ${this._selectedOptions.map(item => html`<li>${item.textContent}</li>`)}
     </ul>`;
     const removeButton = html`<bl-button
         class="remove-all"
@@ -305,40 +319,31 @@ export default class BlSelect<ValueType = string> extends FormControlMixin(LitEl
   }
 
   private _handleSelectEvent() {
-    if (this.multiple) {
-      this.value = this._selectedOptions.map((option) => option.value);
-    } else {
-      this.value = this._selectedOptions.length ? this._selectedOptions[0].value : null;
-    }
-    this._onBlSelect(this._selectedOptions);
+    this._onBlSelect(this._selectedOptions.map(option => ({
+      value: option.value,
+      selected: option.selected,
+      text: option.textContent
+    } as ISelectOption<ValueType>)));
   }
 
-  private _handleSingleSelect(optionItem: ISelectOption<ValueType>) {
+  private _handleSingleSelect(optionItem: BlSelectOption<ValueType>) {
     const oldItem = this._connectedOptions.find(option => option.value !== optionItem.value && option.selected);
 
     if (oldItem) {
       oldItem.selected = false;
     }
 
-    this._selectedOptions = [optionItem];
     this._handleSelectEvent();
     this._isPopoverOpen = false;
   }
 
-  private _handleMultipleSelect(optionItem: ISelectOption<ValueType>) {
-    const { value } = optionItem;
-
-    if (!optionItem.selected) {
-      this._selectedOptions = this._selectedOptions.filter(item => item.value !== value);
-    } else {
-      this._selectedOptions = [...this._selectedOptions, optionItem];
-    }
-
+  private _handleMultipleSelect(optionItem: BlSelectOption<ValueType>) {
+    this.value = optionItem.value;
     this._handleSelectEvent();
   }
 
   private _handleSelectOptionEvent(e: CustomEvent) {
-    const optionItem = e.detail as ISelectOption<ValueType>;
+    const optionItem = e.target as BlSelectOption<ValueType>;
 
     if (this.multiple) {
       this._handleMultipleSelect(optionItem);
@@ -356,7 +361,7 @@ export default class BlSelect<ValueType = string> extends FormControlMixin(LitEl
         option.selected = false;
       });
 
-    this._selectedOptions = [];
+    this.value = null;
     this._handleSelectEvent();
   }
 
@@ -364,15 +369,15 @@ export default class BlSelect<ValueType = string> extends FormControlMixin(LitEl
     if (!this.multiple) return;
 
     let visibleItems = 0;
-    for(const value of this._selectedOptionsItems) {
-      if (value.offsetLeft < this._selectedOptionsContainer.offsetWidth) {
+    for(const value of this.selectedOptionsItems) {
+      if (value.offsetLeft < this.selectedOptionsContainer.offsetWidth) {
         visibleItems++;
       } else {
         break;
       }
     }
 
-    this._additionalSelectedOptionCount = this._selectedOptionsItems.length - visibleItems;
+    this._additionalSelectedOptionCount = this.selectedOptionsItems.length - visibleItems;
   }
 
   private _checkRequired() {
@@ -392,11 +397,11 @@ export default class BlSelect<ValueType = string> extends FormControlMixin(LitEl
       _changedProperties.has('multiple') &&
       typeof _changedProperties.get('multiple') === 'boolean'
     ) {
-      this._connectedOptions.forEach(option => {
-        option.multiple = this.multiple;
-        option.selected = false;
-      });
-      this._selectedOptions = [];
+      // this._connectedOptions.forEach(option => {
+      //   option.multiple = this.multiple;
+      //   option.selected = false;
+      // });
+      this.value = null;
     }
   }
 
@@ -408,20 +413,17 @@ export default class BlSelect<ValueType = string> extends FormControlMixin(LitEl
     this._connectedOptions.push(option);
 
     if (option.selected) {
-      const optionItem = {
-        value: option.value,
-        text: option.textContent,
-        selected: option.selected,
-      } as ISelectOption<ValueType>;
-
       if (this.multiple) {
-        this._selectedOptions = [...this._selectedOptions, optionItem];
+        if (!Array.isArray(this.value)) {
+          this.value = [];
+        }
+        this.value = [...this.value, option.value];
       } else {
-        this._selectedOptions = [optionItem];
+        this.value = option.value;
       }
-
-      this.requestUpdate();
     }
+
+    this.requestUpdate();
   }
 
   /**
@@ -430,7 +432,6 @@ export default class BlSelect<ValueType = string> extends FormControlMixin(LitEl
    */
   unregisterOption(option: BlSelectOption<ValueType>) {
     this._connectedOptions.splice(this._connectedOptions.indexOf(option), 1);
-    this._selectedOptions = this._selectedOptions.filter(item => item.value !== option.value);
   }
 }
 

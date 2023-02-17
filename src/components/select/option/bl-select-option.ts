@@ -1,21 +1,31 @@
-import { LitElement, html, CSSResultGroup } from 'lit';
+import { FormValue } from '@open-wc/form-helpers';
+import { CSSResultGroup, html, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
-import BlSelect, { ISelectOption } from '../bl-select';
+import BlSelect from '../bl-select';
 import style from './bl-select-option.css';
 
 @customElement('bl-select-option')
-export default class BlSelectOption<ValueType = string> extends LitElement {
+export default class BlSelectOption<ValueType extends FormValue = string> extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
+
+  private _value: ValueType;
 
   /* Declare reactive properties */
   /**
    * Sets the value for the option
    */
   @property({})
-  value: ValueType;
+  get value(): ValueType {
+    return this._value || this.textContent as ValueType;
+  }
+
+  set value(val: ValueType) {
+    this._value = val;
+  }
+
 
   /**
    * Sets option as disabled
@@ -35,17 +45,17 @@ export default class BlSelectOption<ValueType = string> extends LitElement {
   /**
    * Fires when clicked on the option
    */
-  @event('bl-select-option') private _onSelect: EventDispatcher<ISelectOption<ValueType>>;
+  @event('bl-select-option') private _onSelect: EventDispatcher<ValueType | string | null>;
 
   /**
    * Fires when checkbox is focused
    */
-  @event('bl-focus') private onFocus: EventDispatcher<ValueType>;
+  @event('bl-focus') private onFocus: EventDispatcher<ValueType | string | null>;
 
   /**
    * Fires when checkbox is blurred
    */
-  @event('bl-blur') private onBlur: EventDispatcher<ValueType>;
+  @event('bl-blur') private onBlur: EventDispatcher<ValueType | string | null>;
 
   @query('.focus-target') private focusTarget: HTMLElement;
 
@@ -100,11 +110,7 @@ export default class BlSelectOption<ValueType = string> extends LitElement {
   }
 
   private _handleEvent() {
-    this._onSelect({
-      value: this.value,
-      text: this.textContent,
-      selected: this.selected,
-    } as ISelectOption<ValueType>);
+    this._onSelect(this.value);
   }
 
   private _onClickOption() {

@@ -23,6 +23,7 @@
   --disabled-color: var(--bl-color-tertiary);
   --z-index: 1;
   --menu-height: 250px;
+  --popover-position: var(--bl-popover-position, fixed);
 }
 
 :host([size='large']) .select-wrapper {
@@ -193,7 +194,7 @@
   --left: 0;
   --top: 0;
 
-  position: fixed;
+  position: var(--popover-position);
   border: solid 1px var(--border-color);
   background-color: var(--background-color);
   font: var(--bl-font-title-3-regular);
