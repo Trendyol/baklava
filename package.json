@@ -98,7 +98,7 @@
     "chromatic": "^6.11.4",
     "del": "^6.1.0",
     "del-cli": "^5.0.0",
-    "esbuild": "^0.14.50",
+    "esbuild": "^0.17.8",
     "esbuild-plugin-lit-css": "^2.0.0",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
