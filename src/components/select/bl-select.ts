@@ -1,5 +1,5 @@
 import { autoUpdate, computePosition, flip, MiddlewareArguments, offset, size } from '@floating-ui/dom';
-import { FormControlMixin } from '@open-wc/form-control';
+import { FormControlMixin, requiredValidator } from '@open-wc/form-control';
 import { FormValue } from '@open-wc/form-helpers';
 import 'element-internals-polyfill';
 import { CSSResultGroup, html, LitElement, PropertyValues } from 'lit';
@@ -35,6 +35,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     return [style];
   }
 
+  static formControlValidators = [requiredValidator];
+
   /**
    * Sets name of the input
    */
@@ -64,8 +66,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       this.setValue(val);
     }
 
-    this._selectedOptions = [...this.options
-      .filter(option => this.value === option.value || (this.value as ValueType[]).includes(option.value))]
+    this.setOptionsSelected();
+  }
+
+  shouldFormValueUpdate(): boolean {
+    return this.value !== null && this.value !== '';
   }
 
   /* Declare reactive properties */
@@ -90,7 +95,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * When option is not selected, shows component in error state
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   required = false;
 
   /**
@@ -131,9 +136,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   @state()
   private _additionalSelectedOptionCount = 0;
 
-  @state()
-  private _isInvalid = false;
-
   @query('.selected-options')
   private selectedOptionsContainer!: HTMLElement;
 
@@ -152,6 +154,20 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   private _cleanUpPopover: CleanUpFunction | null = null;
 
+  private setOptionsSelected() {
+    this._connectedOptions
+      .forEach(
+        (option) => option.selected = (
+            this.value === option.value ||
+            (Array.isArray(this.value) && this.value.includes(option.value))
+          )
+      );
+
+    this._selectedOptions = [...this.options
+      .filter(option => option.selected)
+    ];
+  }
+
   get options() {
     return this._connectedOptions;
   }
@@ -163,6 +179,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   @state()
   private _selectedOptions: BlSelectOption<ValueType>[] = [];
 
+  @state()
+  private dirty = false;
+
   get selectedOptions(): BlSelectOption<ValueType>[] {
     return this._selectedOptions;
   }
@@ -171,9 +190,31 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     return this._additionalSelectedOptionCount;
   }
 
-  get isInvalid() {
-    return this._isInvalid;
+  validityCallback(): string | void {
+    if (this.customInvalidText) {
+      return this.customInvalidText;
+    }
+    const select = document.createElement('select');
+    select.required = this.required;
+    console.log(select.required);
+    return select.validationMessage;
   }
+
+  validationMessageCallback(message: string): void {
+    console.log(message);
+  }
+
+  reportValidity() {
+    this.dirty = true;
+    return this.checkValidity();
+  }
+
+  resetFormControl(): void {
+    this.value = null;
+  }
+
+  @query('.select-input')
+  validationTarget: HTMLElement;
 
   open() {
     this._isPopoverOpen = true;
@@ -193,7 +234,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
     if (!eventPath?.find(el => el.tagName === 'BL-SELECT')?.contains(this)) {
       this.close();
-      this._checkRequired();
     }
   };
 
@@ -217,6 +257,19 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         this._popover.style.setProperty('--left', `${x}px`);
         this._popover.style.setProperty('--top', `${y}px`);
       });
+    });
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    this.form?.addEventListener('submit', () => {
+      this.reportValidity();
+    });
+
+    this.addEventListener('invalid', (e) => {
+      console.log(e);
+      // this.reportValidity();
     });
   }
 
@@ -265,10 +318,14 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   render() {
-    const invalidMessage = this._isInvalid && this.customInvalidText
-      ? html`<p class="invalid-text">${this.customInvalidText}</p>` : ``;
+    const invalidMessage = !this.checkValidity()
+      ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
+          ${this.validationMessage}
+        </p>`: '';
+
     const helpMessage = this.helpText && !invalidMessage
-      ? html`<p class="help-text">${this.helpText}</p>` : ``;
+      ? html`<p class="help-text">${this.helpText}</p>` : '';
+
     const label = this.label
       ? html`<label>${this.label}</label>` : '';
 
@@ -277,7 +334,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       'select-wrapper': true,
       'select-open': this.opened,
       'selected': this._selectedOptions.length > 0,
-      'invalid': this._isInvalid,
+      'invalid': !this.validity.valid,
+      'dirty': this.dirty
     })}
       @keydown=${this.handleKeydown}
     >
@@ -286,8 +344,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       <div class="popover" tabindex="${ifDefined(this._isPopoverOpen ? undefined : '-1')}" @bl-select-option=${this._handleSelectOptionEvent}>
         <slot></slot>
       </div>
-      ${helpMessage}
-      ${invalidMessage}
+      <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div> `;
   }
 
@@ -327,26 +384,24 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private _handleSingleSelect(optionItem: BlSelectOption<ValueType>) {
-    const oldItem = this._connectedOptions.find(option => option.value !== optionItem.value && option.selected);
-
-    if (oldItem) {
-      oldItem.selected = false;
-    }
+    this.value = optionItem.value;
 
     this._handleSelectEvent();
     this._isPopoverOpen = false;
   }
 
-  private _handleMultipleSelect(optionItem: BlSelectOption<ValueType>) {
-    this.value = optionItem.value;
+  private _handleMultipleSelect() {
+    this.value = this._connectedOptions.filter((option) => option.selected).map(option => option.value);
+
     this._handleSelectEvent();
   }
 
   private _handleSelectOptionEvent(e: CustomEvent) {
     const optionItem = e.target as BlSelectOption<ValueType>;
+    this.dirty = true;
 
     if (this.multiple) {
-      this._handleMultipleSelect(optionItem);
+      this._handleMultipleSelect();
     } else {
       this._handleSingleSelect(optionItem);
     }
@@ -368,39 +423,17 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _checkAdditionalItemCount() {
     if (!this.multiple) return;
 
-    let visibleItems = 0;
-    for(const value of this.selectedOptionsItems) {
-      if (value.offsetLeft < this.selectedOptionsContainer.offsetWidth) {
-        visibleItems++;
-      } else {
-        break;
-      }
-    }
+    const visibleItems = this.selectedOptionsItems
+      .findIndex((item) => item.offsetLeft > this.selectedOptionsContainer.offsetWidth) + 1;
 
     this._additionalSelectedOptionCount = this.selectedOptionsItems.length - visibleItems;
   }
 
-  private _checkRequired() {
-    if (this.required) {
-      this._isInvalid = this._selectedOptions.length === 0;
-    }
-  }
-
   protected updated(_changedProperties: PropertyValues) {
     if (
-      _changedProperties.has('_selectedOptions') &&
-      _changedProperties.get('_selectedOptions') instanceof Array
-    ) {
-      this._checkRequired();
-      this._checkAdditionalItemCount();
-    } else if (
       _changedProperties.has('multiple') &&
       typeof _changedProperties.get('multiple') === 'boolean'
     ) {
-      // this._connectedOptions.forEach(option => {
-      //   option.multiple = this.multiple;
-      //   option.selected = false;
-      // });
       this.value = null;
     }
   }
@@ -423,6 +456,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       }
     }
 
+    this.setOptionsSelected();
     this.requestUpdate();
   }
 

@@ -151,7 +151,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
     this.addEventListener('keydown', this.onKeydown);
     this.addEventListener('invalid', this.onError);
 
-    this.internals.form?.addEventListener('submit', () => {
+    this.form?.addEventListener('submit', () => {
       this.reportValidity();
     });
   }

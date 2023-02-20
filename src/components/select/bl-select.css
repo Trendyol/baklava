@@ -6,6 +6,9 @@
 .select-wrapper {
   width: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bl-size-3xs);
 
   --padding-vertical: var(--bl-size-2xs);
   --padding-horizontal: var(--bl-size-xs);
@@ -43,7 +46,7 @@
   --placeholder-color: var(--bl-color-content-passive);
 }
 
-.invalid {
+.dirty.invalid {
   --border-color: var(--bl-color-danger);
   --border-focus-color: var(--bl-color-danger-hover);
   --label-color: var(--bl-color-danger);
@@ -267,22 +270,46 @@ label {
   color: var(--label-color);
 }
 
-.help-text,
+
+.hint {
+  display: none;
+  font: var(--bl-font-body-text-3);
+}
+
+.hint p {
+  padding: 0;
+  margin: 0;
+}
+
+.error-icon,
 .invalid-text {
-  margin: var(--bl-size-3xs) 0 0 var(--bl-size-2xs);
-  font: var(--bl-font-title-4-regular);
-  padding: var(--bl-size-3xs) var(--bl-input-padding-horizontal);
+  display: none;
+}
+
+.dirty.invalid label,
+.invalid-text,
+.error-icon {
+  color: var(--bl-color-danger);
 }
 
 .help-text {
   color: var(--bl-color-content-secondary);
 }
 
-.invalid-text {
-  color: var(--bl-color-danger);
-}
-
 .select-open .help-text,
 .select-open .invalid-text {
   visibility: hidden;
+}
+
+:host([help-text]) .hint,
+.dirty.invalid .hint {
+  display: block;
+}
+
+.dirty.invalid .invalid-text {
+  display: block;
+}
+
+.dirty.invalid .help-text {
+  display: none;
 }
