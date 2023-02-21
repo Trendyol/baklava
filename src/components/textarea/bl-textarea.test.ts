@@ -1,6 +1,6 @@
 import { assert, elementUpdated, expect, fixture, html, oneEvent } from '@open-wc/testing';
-import BlTextarea from './bl-textarea';
 import { sendKeys } from '@web/test-runner-commands';
+import BlTextarea from './bl-textarea';
 
 describe('bl-textarea', () => {
   it('is defined', () => {
@@ -95,34 +95,26 @@ describe('bl-textarea', () => {
   });
 
   it('should have same heights if they have same max-rows', async () => {
+    const longText = 'some dummy text some dummy text some dummy text some dummy text';
+    const longerText = 'some dummy text some dummy text some dummy text some dummy text' +
+      ' some dummy text some dummy text some dummy text some dummy text' +
+      'some dummy text some dummy text some dummy text some dummy text';
+
     const el = await fixture<BlTextarea>(
-      html`<bl-textarea value="some dummy text" expand rows="1" max-rows="3"></bl-textarea>`
+      html`<bl-textarea value="${longText}" expand rows="1" max-rows="3"></bl-textarea>`
     );
     const el2 = await fixture<BlTextarea>(
-      html`<bl-textarea value="some dummy text" expand rows="1" max-rows="3"></bl-textarea>`
+      html`<bl-textarea value="${longerText}" expand rows="1" max-rows="3"></bl-textarea>`
     );
-    const textarea = el.shadowRoot?.querySelector('textarea');
-    const textarea2 = el2.shadowRoot?.querySelector('textarea');
 
-    await textarea?.focus();
-
-    await sendKeys({
-      type:
-        'some dummy text some dummy text some dummy text some dummy text' +
-        ' some dummy text some dummy text some dummy text some dummy text' +
-        'some dummy text some dummy text some dummy text some dummy text',
-    });
-
-    await textarea2?.focus();
-
-    await sendKeys({
-      type: 'some dummy text some dummy text some dummy text some dummy text',
-    });
+    await elementUpdated(el);
+    await elementUpdated(el2);
 
     const height = getComputedStyle(el.validationTarget).height;
     const heightThreeRows = getComputedStyle(el2.validationTarget).height;
 
-    expect(height).to.equal(heightThreeRows);
+    expect(height).to.equal('56px');
+    expect(heightThreeRows).to.equal('56px');
   });
 
   describe('validation', () => {
@@ -202,7 +194,7 @@ describe('bl-textarea', () => {
 
       const ev = await oneEvent(el, 'bl-invalid');
       expect(ev).to.exist;
-      expect(ev.detail['rangeOverflow']).to.equal(true);
+      expect(ev.detail['tooLong']).to.equal(true);
     });
   });
   describe('form integration', () => {

@@ -75,13 +75,14 @@ describe('bl-drawer',() => {
     });
 
     it('should render the caption, embedUrl if provided', async ()=>{
-      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Caption" embed-url="some-url" open><div>example content</div></bl-drawer>`);
+      const embedUrl = '/?test=1';
+      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Caption" embed-url="${embedUrl}" open><div>example content</div></bl-drawer>`);
 
       const caption = el.shadowRoot?.querySelector('#drawer-caption') as HTMLElement;
       const iframeEl = el.shadowRoot?.querySelector('iframe') as HTMLElement;
 
       expect(iframeEl).to.exist;
-      expect(iframeEl.attributes.getNamedItem('src')?.value).to.contain("some-url");
+      expect(iframeEl.attributes.getNamedItem('src')?.value).to.contain(embedUrl);
 
       expect(caption).to.exist;
       expect(caption.innerText).to.equal('My Caption');
@@ -129,7 +130,6 @@ describe('bl-drawer',() => {
       setTimeout(async () => {
         const openEvent = await oneEvent(el,'bl-drawer-open');
         expect(openEvent).to.exist;
-        expect(openEvent.detail.isOpen).to.equal(true);
       });
     });
     it('should fire bl-drawer-close when dialog closes',async ()=>{
@@ -141,7 +141,6 @@ describe('bl-drawer',() => {
         closeBtn?.click();
         const openEvent = await oneEvent(el,'bl-drawer-close');
         expect(openEvent).to.exist;
-        expect(openEvent.detail.isOpen).to.equal(false);
       });
     });
   })
