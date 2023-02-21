@@ -73,14 +73,13 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
    */
   blur() {
     this.onBlur(this.value);
-    this.focusTarget.blur();
     this.focusTarget.tabIndex = -1;
   }
 
   private blSelect: BlSelect<ValueType> | null;
 
   private singleOptionTemplate() {
-    return html`<div class="single-option focus-target" @keydown=${this.handleKeydown} @click="${this._onClickOption}">
+    return html`<div class="single-option focus-target" @blur=${this.blur} @keydown=${this.handleKeydown} @click="${this._onClickOption}">
       <slot></slot>
     </div>`;
   }

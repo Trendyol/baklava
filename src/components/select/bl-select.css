@@ -254,14 +254,8 @@ label {
   right: var(--padding-horizontal);
 }
 
-:host([label-fixed]) .select-wrapper {
-  padding-top: var(--bl-size-m);
-}
-
 :host([label-fixed]) label {
-  top: 0;
-  left: 0;
-  right: 0;
+  position: static;
   padding: 0;
   transition: none;
   transform: none;

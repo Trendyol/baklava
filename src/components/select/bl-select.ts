@@ -45,6 +45,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   private _value: ValueType | ValueType[] | null;
 
+  private _initialValue: ValueType | ValueType[] | null;
+
   /**
    * Sets initial value of the input
    */
@@ -56,9 +58,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   set value(val: ValueType | ValueType[] | null) {
     this._value = val;
 
-    if (typeof val === null) {
-      this.setValue(null)
-    } else if (Array.isArray(val)) {
+    if (Array.isArray(val)) {
       const formData = new FormData();
       val.forEach((option) => formData.append(this.name, `${option}`));
       this.setValue(formData);
@@ -140,7 +140,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private selectedOptionsContainer!: HTMLElement;
 
   @queryAll('.selected-options li')
-  private selectedOptionsItems!: Array<HTMLElement>;
+  private selectedOptionsItems!: NodeListOf<HTMLElement>;
 
   @query('.popover')
   private _popover: HTMLElement;
@@ -190,15 +190,15 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     return this._additionalSelectedOptionCount;
   }
 
-  validityCallback(): string | void {
-    if (this.customInvalidText) {
-      return this.customInvalidText;
-    }
-    const select = document.createElement('select');
-    select.required = this.required;
-    console.log(select.required);
-    return select.validationMessage;
-  }
+  // validityCallback(): string | void {
+  //   if (this.customInvalidText) {
+  //     return this.customInvalidText;
+  //   }
+  //   const select = document.createElement('select');
+  //   select.required = this.required;
+
+  //   return select.validationMessage;
+  // }
 
   validationMessageCallback(message: string): void {
     console.log(message);
@@ -210,7 +210,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   resetFormControl(): void {
-    this.value = null;
+    this.value = this._initialValue;
   }
 
   @query('.select-input')
@@ -267,10 +267,10 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       this.reportValidity();
     });
 
-    this.addEventListener('invalid', (e) => {
-      console.log(e);
-      // this.reportValidity();
-    });
+    // this.addEventListener('invalid', (e) => {
+    //   // console.log(e);
+    //   // this.reportValidity();
+    // });
   }
 
   disconnectedCallback() {
@@ -421,12 +421,20 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private _checkAdditionalItemCount() {
-    if (!this.multiple) return;
+    if (!this.multiple || !this.selectedOptionsItems || this.selectedOptionsItems.length < 2) return;
 
-    const visibleItems = this.selectedOptionsItems
-      .findIndex((item) => item.offsetLeft > this.selectedOptionsContainer.offsetWidth) + 1;
+    const firstNonVisibleItemIndex = [...this.selectedOptionsItems]
+      .findIndex((item) => item.offsetLeft > this.selectedOptionsContainer.offsetWidth);
 
-    this._additionalSelectedOptionCount = this.selectedOptionsItems.length - visibleItems;
+    if (firstNonVisibleItemIndex > -1) {
+      this._additionalSelectedOptionCount = this.selectedOptionsItems.length - firstNonVisibleItemIndex;
+    } else {
+      this._additionalSelectedOptionCount = 0;
+    }
+  }
+
+  protected firstUpdated(): void {
+    this._initialValue = this._value;
   }
 
   protected updated(_changedProperties: PropertyValues) {
@@ -436,6 +444,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     ) {
       this.value = null;
     }
+
+    this._checkAdditionalItemCount();
   }
 
   /**
