@@ -84,7 +84,7 @@
     "@storybook/jest": "^0.0.10",
     "@storybook/testing-library": "^0.0.13",
     "@storybook/web-components": "6.5.9",
-    "@types/estree": "0.0.47",
+    "@types/estree": "1.0.0",
     "@types/prettier": "^2.6.4",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
