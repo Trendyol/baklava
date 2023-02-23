@@ -237,7 +237,6 @@ export default {
       const filteredOptions = this.options.filter(({ text }) => {
         const regex = new RegExp(`^${this.searchText.toLowerCase()}`, 'i');
         const splittedText = text.trim().split(' ');
-        console.log(splittedText)
         return splittedText.some((str) => regex.test(str.toLowerCase()));
       });
       filteredOptions.sort((a, b) => {
