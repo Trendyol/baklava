@@ -234,19 +234,21 @@ export default {
       this.$emit('onChange', selection);
     },
     enhancedSearchHandler () {
-      const filteredOptions = this.options.filter(({ text }) => {
+      const filteredOptions = this.options.filter((option) => {
         const regex = new RegExp(`^${this.searchText.toLowerCase()}`, 'i');
-        const splittedText = text.trim().split(' ');
+        const splittedText = this.getItemText(option).trim().split(' ');
         return splittedText.some((str) => regex.test(str.toLowerCase()));
       });
       filteredOptions.sort((a, b) => {
-        const bgnA = a.text.substr(0, this.searchText.length).toLowerCase();
-        const bgnB = b.text.substr(0, this.searchText.length).toLowerCase();
+        aText = this.getItemText(a);
+        bText = this.getItemText(b);
+        const bgnA = aText.substr(0, this.searchText.length).toLowerCase();
+        const bgnB = bText.substr(0, this.searchText.length).toLowerCase();
 
         if (bgnA == this.searchText.toLowerCase()) {
           if (bgnB != this.searchText.toLowerCase()) return -1;
         } else if (bgnB == this.searchText.toLowerCase()) return 1;
-        return a.text < b.text ? -1 : a.text > b.text ? 1 : 0;
+        return aText < bText ? -1 : aText > bText ? 1 : 0;
       });
       return filteredOptions;
     },
@@ -256,7 +258,7 @@ export default {
       return this.removeOptionsFromDom ? this.isOptionsVisible : true;
     },
     filteredOptions () {
-      if (this.enhancedSearch) {
+      if (this.enhancedSearch && this.searchText) {
         return this.enhancedSearchHandler();
       }
       return this.options.filter((opt) =>
