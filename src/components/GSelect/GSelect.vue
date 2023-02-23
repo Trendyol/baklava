@@ -163,6 +163,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enhancedSearch: {
+      type: Boolean,
+      default: false,
+    },
   },
   data () {
     return {
@@ -208,7 +212,7 @@ export default {
     },
     clickCheckbox (itemValue: any) {
       const array = this.value ? this.value.slice() : [];
-      const i = array.findIndex(x => {
+      const i = array.findIndex((x) => {
         return isEqualValue(x, itemValue);
       });
       if (i >= 0) {
@@ -229,13 +233,34 @@ export default {
       this.$emit('input', selection);
       this.$emit('onChange', selection);
     },
+    enhancedSearchHandler () {
+      const filteredOptions = this.options.filter(({ text }) => {
+        const regex = new RegExp(`^${this.searchText.toLowerCase()}`, 'i');
+        const splittedText = text.trim().split(' ');
+        console.log(splittedText)
+        return splittedText.some((str) => regex.test(str.toLowerCase()));
+      });
+      filteredOptions.sort((a, b) => {
+        const bgnA = a.text.substr(0, this.searchText.length).toLowerCase();
+        const bgnB = b.text.substr(0, this.searchText.length).toLowerCase();
+
+        if (bgnA == this.searchText.toLowerCase()) {
+          if (bgnB != this.searchText.toLowerCase()) return -1;
+        } else if (bgnB == this.searchText.toLowerCase()) return 1;
+        return a.text < b.text ? -1 : a.text > b.text ? 1 : 0;
+      });
+      return filteredOptions;
+    },
   },
   computed: {
     showOptionsInDOM () {
       return this.removeOptionsFromDom ? this.isOptionsVisible : true;
     },
     filteredOptions () {
-      return this.options.filter(opt =>
+      if (this.enhancedSearch) {
+        return this.enhancedSearchHandler();
+      }
+      return this.options.filter((opt) =>
         (this.getItemText(opt) || '')
           .toLocaleLowerCase('TR')
           .includes((this.searchText || '').toLocaleLowerCase('TR')),
