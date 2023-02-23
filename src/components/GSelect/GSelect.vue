@@ -240,8 +240,8 @@ export default {
         return splittedText.some((str) => regex.test(str.toLowerCase()));
       });
       filteredOptions.sort((a, b) => {
-        aText = this.getItemText(a);
-        bText = this.getItemText(b);
+        const aText = this.getItemText(a);
+        const bText = this.getItemText(b);
         const bgnA = aText.substr(0, this.searchText.length).toLowerCase();
         const bgnB = bText.substr(0, this.searchText.length).toLowerCase();
 
