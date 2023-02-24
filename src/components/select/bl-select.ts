@@ -190,21 +190,23 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     return this._additionalSelectedOptionCount;
   }
 
-  // validityCallback(): string | void {
-  //   if (this.customInvalidText) {
-  //     return this.customInvalidText;
-  //   }
-  //   const select = document.createElement('select');
-  //   select.required = this.required;
+  validityCallback(): string | void {
+    console.log('[select] validityCallback', this.customInvalidText);
+    if (this.customInvalidText) {
+      return this.customInvalidText;
+    }
+    const select = document.createElement('select');
+    select.required = this.required;
 
-  //   return select.validationMessage;
-  // }
+    return select.validationMessage;
+  }
 
   validationMessageCallback(message: string): void {
-    console.log(message);
+    console.log('[select] validationMessageCallback', message, this.validationMessage);
   }
 
   reportValidity() {
+    console.log('[select] reportValidity');
     this.dirty = true;
     return this.checkValidity();
   }
@@ -263,14 +265,16 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.form?.addEventListener('submit', () => {
-      this.reportValidity();
+    this.form?.addEventListener('submit', (e: SubmitEvent) => {
+      console.log('Submit in select');
+      if (!this.reportValidity()) {
+        e.preventDefault();
+      }
     });
 
-    // this.addEventListener('invalid', (e) => {
-    //   // console.log(e);
-    //   // this.reportValidity();
-    // });
+    console.log('[select] value in connectedCallback', this.value, this._initialValue);
+
+    // this.setValue('');
   }
 
   disconnectedCallback() {
@@ -434,6 +438,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   protected firstUpdated(): void {
+    console.log('[select] value in firstUpdated', this.value, this._initialValue);
+    if (this.value === undefined) {
+      this.value = '' as ValueType;
+    }
+
     this._initialValue = this._value;
   }
 
