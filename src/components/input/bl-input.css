@@ -14,6 +14,7 @@
   --icon-size: var(--line-height);
   --padding-vertical: calc((var(--height) - var(--line-height)) / 2);
   --padding-horizontal: var(--bl-size-xs);
+  --autofill-bg-color: var(--bl-color-accent-primary-background);
 
   display: flex;
   flex-direction: column;
@@ -42,6 +43,14 @@
   --input-font: var(--bl-font-body-text-3);
   --padding-vertical: var(--bl-size-3xs);
   --icon-size: var(--bl-font-body-text-3-line-height);
+}
+
+.wrapper:has(input:autofill) {
+  background-color: var(--autofill-bg-color);
+}
+
+.wrapper:has(input:-webkit-autofill) {
+  background-color: var(--autofill-bg-color);
 }
 
 label {
@@ -82,6 +91,30 @@ input {
   color: var(--text-color);
   -webkit-text-fill-color: var(--text-color);
   background-color: transparent;
+}
+
+input:disabled {
+  cursor: not-allowed;
+}
+
+input:autofill {
+  background-color: var(--autofill-bg-color);
+
+  /**
+   * Some browsers doesn't allow setting background-color
+   * https://developer.mozilla.org/en-US/docs/Web/CSS/:autofill
+   */
+  box-shadow: 0 0 0 40rem var(--autofill-bg-color) inset;
+}
+
+input:-webkit-autofill {
+  background-color: var(--autofill-bg-color);
+
+  /**
+   * Some browsers doesn't allow setting background-color
+   * https://developer.mozilla.org/en-US/docs/Web/CSS/:autofill
+   */
+  box-shadow: 0 0 0 40rem var(--autofill-bg-color) inset;
 }
 
 .icon {
@@ -151,10 +184,6 @@ bl-icon[name='eye_on'] {
   background-color: var(--bl-color-secondary-background);
 
   --text-color: var(--bl-color-content-passive);
-}
-
-input:disabled {
-  cursor: not-allowed;
 }
 
 :where(.wrapper:focus-within, .wrapper.has-value) label {
