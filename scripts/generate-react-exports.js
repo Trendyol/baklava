@@ -1,8 +1,12 @@
 const fs = require('fs-extra');
+const { pascalCase } = require('pascal-case');
 
 const importStatements = [
-  "import React from 'react';",
-  "import { createComponent } from '@lit-labs/react';",
+  'import React from "react";',
+  'import { type EventName, createComponent, ReactWebComponent } from "@lit-labs/react";',
+
+  // FIXME: These types should be determined automatically
+  'import { ISelectOption } from "./components/select/bl-select"',
 ];
 
 function writeBaklavaReactFile(fileContentParts) {
@@ -17,8 +21,7 @@ function writeBaklavaReactFile(fileContentParts) {
 }
 
 function getReactEventName(baklavaEventName) {
-  const rawEventName = baklavaEventName.match(/(\w+)/g).at(-1);
-  return `on${rawEventName[0].toUpperCase()}${rawEventName.slice(1)}`;
+  return `on${pascalCase(baklavaEventName)}`;
 }
 
 const customElements = fs.readJSONSync(`${__dirname}/../dist/custom-elements.json`);
@@ -38,26 +41,31 @@ for (const module of customElementsModules) {
       }, {})
     : {};
 
+  const eventTypes = events
+    ? ', {' + events.reduce((acc, curr) => {
+        return `${acc}${acc ? `, ` : ''}${getReactEventName(curr.name)}: EventName<${curr.type.text}>`
+      }, '') + '}'
+    : '';
   const importPath = path.replace(/^src\//, '').replace(/\.ts$/, '');
   const Type = componentName + 'Type';
 
   importStatements.push(`import type ${Type} from "./${importPath}";`);
 
   baklavaReactFileParts.push(
-    `
-  export const ${componentName} = React.lazy(() =>
-    customElements.whenDefined('${fileName}').then(elem => ({
-        default: createComponent<${Type}>(
-          {
-            react: React,
-            tagName: '${fileName}',
-            elementClass: elem,
-            events:${JSON.stringify(eventNames)}
-          }
+  `
+export const ${componentName} = React.lazy<ReactWebComponent<${Type}${eventTypes}>>(() =>
+  customElements.whenDefined('${fileName}').then(elem => ({
+      default: createComponent<${Type}>(
+        {
+          react: React,
+          tagName: '${fileName}',
+          elementClass: elem,
+          events: ${JSON.stringify(eventNames)}
+        }
       )
-      })
- ));
-   `
+    })
+));
+`
   );
 }
 
