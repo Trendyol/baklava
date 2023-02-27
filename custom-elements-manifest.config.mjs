@@ -27,7 +27,7 @@ export default {
 
                 return {
                   type: {
-                    text: `CustomEvent<${type.text.replace(/.*<([a-z]+)>/, '$1')}>`
+                    text: `CustomEvent<${type.text.replace('EventDispatcher<', '').replace(/>$/, '')}>`
                   },
                   description,
                   name
