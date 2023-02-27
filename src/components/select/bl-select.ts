@@ -148,6 +148,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   @query('.select-input')
   private _selectInput: HTMLElement;
 
+  /**
+   * Fires when selection changes
+   */
   @event('bl-select') private _onBlSelect: EventDispatcher<ISelectOption<ValueType>[]>;
 
   private _connectedOptions: BlSelectOption<ValueType>[] = [];
@@ -191,7 +194,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   validityCallback(): string | void {
-    console.log('[select] validityCallback', this.customInvalidText);
+    // console.log('[select] validityCallback', this.customInvalidText);
     if (this.customInvalidText) {
       return this.customInvalidText;
     }
@@ -201,12 +204,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     return select.validationMessage;
   }
 
-  validationMessageCallback(message: string): void {
-    console.log('[select] validationMessageCallback', message, this.validationMessage);
-  }
+  // validationMessageCallback(message: string): void {
+  //   console.log('[select] validationMessageCallback', message, this.validationMessage);
+  // }
 
   reportValidity() {
-    console.log('[select] reportValidity');
+    // console.log('[select] reportValidity');
     this.dirty = true;
     return this.checkValidity();
   }
@@ -266,13 +269,13 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     super.connectedCallback();
 
     this.form?.addEventListener('submit', (e: SubmitEvent) => {
-      console.log('Submit in select');
+      // console.log('Submit in select');
       if (!this.reportValidity()) {
         e.preventDefault();
       }
     });
 
-    console.log('[select] value in connectedCallback', this.value, this._initialValue);
+    // console.log('[select] value in connectedCallback', this.value, this._initialValue);
 
     // this.setValue('');
   }
@@ -438,7 +441,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   protected firstUpdated(): void {
-    console.log('[select] value in firstUpdated', this.value, this._initialValue);
+    // console.log('[select] value in firstUpdated', this.value, this._initialValue);
     if (this.value === undefined) {
       this.value = '' as ValueType;
     }
