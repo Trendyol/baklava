@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const { toPascalCase } = require('js-convert-case');
 
 const importStatements = [
   "import React from 'react';",
@@ -17,8 +18,7 @@ function writeBaklavaReactFile(fileContentParts) {
 }
 
 function getReactEventName(baklavaEventName) {
-  const rawEventName = baklavaEventName.match(/(\w+)/g).at(-1);
-  return `on${rawEventName[0].toUpperCase()}${rawEventName.slice(1)}`;
+  return `on${toPascalCase(baklavaEventName)}`;
 }
 
 const customElements = fs.readJSONSync(`${__dirname}/../dist/custom-elements.json`);
@@ -44,20 +44,20 @@ for (const module of customElementsModules) {
   importStatements.push(`import type ${Type} from "./${importPath}";`);
 
   baklavaReactFileParts.push(
-    `
-  export const ${componentName} = React.lazy(() =>
-    customElements.whenDefined('${fileName}').then(elem => ({
-        default: createComponent<${Type}>(
-          {
-            react: React,
-            tagName: '${fileName}',
-            elementClass: elem,
-            events:${JSON.stringify(eventNames)}
-          }
+  `
+export const ${componentName} = React.lazy(() =>
+  customElements.whenDefined('${fileName}').then(elem => ({
+      default: createComponent<${Type}>(
+        {
+          react: React,
+          tagName: '${fileName}',
+          elementClass: elem,
+          events: ${JSON.stringify(eventNames)}
+        }
       )
-      })
- ));
-   `
+    })
+));
+`
   );
 }
 
