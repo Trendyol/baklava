@@ -1,0 +1,347 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
+
+<Meta
+  title="Components/Popover"
+  component="bl-popover"
+  parameters={{
+    layout: 'centered',
+    chromatic: { viewports: [1000] },
+  }}
+  argTypes={{
+    placement: {
+      control: 'text',
+      default: 'top'
+    },
+    shift: {
+      control: 'boolean',
+      default: false
+    },
+    fitSize: {
+      control: 'boolean',
+      default: false,
+    },
+    offset: {
+      control: 'number',
+      default: '10'
+    }
+  }}
+/>
+
+
+
+
+
+export const IconTriggerTemplate = (args) => html`
+<bl-button slot="tooltip-trigger" id="button" @click="${() => handleButtonClick("popover")}" >Trigger Popover</bl-button>
+<bl-popover target="button" id="popover" placement="${ifDefined(args.placement)}">
+  Settings
+</bl-popover>`
+
+export const DropdownTriggerTemplate = (args) => html`
+<span id="text" @click="${() => handleButtonClick("popover2")}">You can use this section to cancel your order.</span>
+<bl-popover target="text" id="popover2" style="  --bl-popover-background-color: var(--bl-color-secondary);--bl-popover-arrow-display:block; color:white"  placement="${ifDefined(args.placement)}" >
+test
+</bl-popover>`
+
+export const PlacementTemplate = (args) => html`
+<bl-button id="button"  @click="${() => handleButtonClick("popover3")}" slot="popover-trigger">${args.placement}</bl-button>
+<bl-popover target="button" id="popover3" placement="${ifDefined(args.placement)}">
+  You can use this section to cancel your order.
+</bl-popover>`
+
+
+export const ArrowTemplate = (args) => html`
+<bl-button id="button"  @click="${() => handleButtonClick("popover4")}" slot="popover-trigger">${args.placement}</bl-button>
+<bl-popover target="button" id="popover4" placement="${ifDefined(args.placement)}" style="  --bl-popover-background-color: var(--bl-color-secondary);--bl-popover-arrow-display:block; color:white">
+  You can use this section to cancel your order.
+</bl-popover>`
+
+export const BackgroundColorTemplate = (args) => html`
+<bl-button id="button"  @click="${() => handleButtonClick("popover5")}" slot="popover-trigger">${args.placement}</bl-button>
+<bl-popover target="button" id="popover5" placement="${ifDefined(args.placement)}" style="  --bl-popover-background-color: var( --bl-color-content-hover); color:black">
+  You can use this section to cancel your order.
+</bl-popover>`
+
+export const BorderColorTemplate = (args) => html`
+<bl-button id="button"  @click="${() => handleButtonClick("popover6")}" slot="popover-trigger">${args.placement}</bl-button>
+<bl-popover target="button" id="popover6" placement="${ifDefined(args.placement)}" style="  --bl-popover-border-color: var(  --bl-color-alternative-hover)">
+  You can use this section to cancel your order.
+</bl-popover>`
+
+export const PaddingTemplate = (args) => html`
+<bl-button id="button"  @click="${() => handleButtonClick("popover7")}" slot="popover-trigger">${args.placement}</bl-button>
+<bl-popover target="button" id="popover7" placement="${ifDefined(args.placement)}" style="  --bl-popover-padding: var(--bl-size-5xl)">
+  You can use this section to cancel your order.
+</bl-popover>`
+
+
+export const BorderRadiusTemplate = (args) => html`
+<bl-button id="button"  @click="${() => handleButtonClick("popover8")}" slot="popover-trigger">${args.placement}</bl-button>
+<bl-popover target="button" id="popover8" placement="${ifDefined(args.placement)}" style="  --bl-popover-border-radius: 0">
+  You can use this section to cancel your order.
+</bl-popover>`
+
+export const OffsetTemplate = (args) => html`
+<bl-button id="button"  @click="${() => handleButtonClick("popover9")}" slot="popover-trigger">${args.placement}</bl-button>
+<bl-popover target="button" id="popover9" placement="${ifDefined(args.placement)}" offset=30>
+  You can use this section to cancel your order.
+</bl-popover>`
+
+export const FitSizeTemplate = (args) => html`
+<bl-button id="button"  @click="${() => handleButtonClick("popover10")}" slot="popover-trigger">${args.placement}</bl-button>
+<bl-popover target="button" id="popover10" placement="${ifDefined(args.placement)}"  fit-size>
+  test
+</bl-popover>`
+
+export const ShiftTemplate = (args) => html`
+<bl-button id="button"  @click="${() => handleButtonClick("popover11")}" slot="popover-trigger">${args.placement}</bl-button>
+<bl-popover target="button" id="popover11" placement="${ifDefined(args.placement)}"  shift>
+  You can use this section to cancel your order.
+</bl-popover>`
+
+export const popoverOpener = async (event,args) => {
+  const popover = document.getElementById(`popover-${ifDefined(args.id)}`);
+  if(popover._visible) popover.hide()
+  else popover.show()
+}
+
+export const handleButtonClick = async (popoverId) => {
+  const popover = document.getElementById(popoverId)
+  if(popover._visible) popover.hide()
+  else popover.show()
+}
+
+export const PopoverTemplate = (args) => html`
+  <bl-popover target="button-${ifDefined(args.id)}" id="popover-${ifDefined(args.id)}"
+    placement="${ifDefined(args.placement)}"
+    shift="${ifDefined(args.shift)}"
+    fit-size="${ifDefined(args.fitSize)}"
+    offset="${ifDefined(args.offset)}"
+    style="${ifDefined(args.style)}">
+    Popover Content
+</bl-popover>
+  `
+
+export const StoryTemplate = (args) => html`
+  <div style="padding: 30px">
+    <bl-button id="button-${ifDefined(args.id)}"  @click="${(event) => popoverOpener(event,args)}" >Trigger Popover</bl-button>
+    ${PopoverTemplate(args)}
+</div>
+`
+
+
+# Popover
+
+<bl-badge icon="document">ADR</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=25%3A3611)</bl-badge>
+
+Popovers display informative text when users hover over an element.
+
+<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+
+## Basic Usage
+
+Popover can be used with any trigger such as button, icon, text, etc.
+Only you have to give slot name as `popover-trigger`. The remaining content will be shown in the popover hovering over the trigger component.
+
+<Canvas>
+  <Story name="Show popover with click"  args={{ id:'1' }} play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Arrow
+You can give `--bl-popover-arrow-display` for popover arrow visibility. Default arrow is `none`.
+w
+You can use the other options:
+
+* `none`
+* `block`
+
+<Canvas>
+  <Story name="Arrow"
+         args={{ id:'2', style: '--bl-popover-arrow-display: block;' }}
+         play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+</Canvas>
+
+
+## Background Color
+You can give `--bl-popover-background-color` for popover background. Default color is ` #fff`.
+
+<Canvas>
+  <Story name="Background Color"
+         args={{  id:'3', style: '--bl-popover-background-color:blue;' }}
+         play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+</Canvas>
+
+
+## Border Color
+You can give `--bl-popover-border-color` for popover border color. Default color is `#ef6114`.
+
+<Canvas>
+  <Story name="Border Color"
+         args={{  id:'4', style: '--bl-popover-border-color:blue;' }}
+         play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Padding
+You can give `--bl-popover-padding` for popover padding. Default padding is `1rem`.
+
+<Canvas>
+  <Story name="Padding"
+         args={{  id:'5', style: '--bl-popover-padding:2rem;' }}
+         play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Padding 0"
+         args={{  id:'6', style: '--bl-popover-padding:0;' }}
+         play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Border Radius
+You can give `--bl-popover-border-radius` for border radius. Default padding is `0.25rem`.
+
+<Canvas>
+  <Story name="Border Radius"
+         args={{  id:'7', style: '--bl-popover-border-radius:0;' }}
+         play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Offset
+You can give `offset` for padding from target. Default padding is `10`.
+
+<Canvas>
+  <Story name="Offset"
+         args={{  id:'8', offset:'15' }}
+         play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## FitSize
+You can give `fitSize` for auto size. Default fitSize is `false`.
+
+<Canvas>
+  <Story name="Fitsize"
+         args={{  id:'9', fitSize:'true'}}
+         play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+</Canvas>
+
+
+
+## Shift
+You can give `shift` for floating element along the specified axes in order to keep it in view. Default fitSize is `false`.
+
+<Canvas>
+  <Story name="Shift"
+         args={{  id:'10', shift:'true' }}
+         play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+</Canvas>
+
+
+## Placement
+
+You can give `placement` for popover direction.The position of the popover and arrow change according to this property.  Default placement is `top`.
+
+You can use the other options:
+
+* `top-start`
+* `top`
+* `top-end`
+* `bottom-start`
+* `bottom`
+* `bottom-end`
+* `left-start`
+* `left`
+* `left-end`
+* `right-start`
+* `right`
+* `right-end`
+
+If there is not enough room for the popover in the given placement, the popover is repositioned automatically according to the empty area.
+
+For example, if there is not enough room on the top, the popover is shown on the bottom.
+
+<Canvas>
+  <Story name="Top-Start Placement"
+    args={{ id:'11', placement: 'top-start' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Top Placement"
+    args={{ id:'12', placement: 'top' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Top-End Placement"
+    args={{ id:'13', placement: 'top-end' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Bottom-Start Placement"
+    args={{ id:'14', placement: 'bottom-start' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Bottom Placement"
+    args={{ id:'15', placement: 'bottom' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Bottom-End Placement"
+    args={{ id:'16', placement: 'bottom-end' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Left-Start Placement"
+    args={{ id:'17', placement: 'left-start' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Left Placement"
+    args={{ id:'18', placement: 'left' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Left-End Placement"
+    args={{ id:'19', placement: 'left-end' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Right-Start Placement"
+    args={{ id:'20', placement: 'right-start' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Right Placement"
+    args={{ id:'21', placement: 'right' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+  <Story name="Right-End Placement"
+    args={{ id:'22', placement: 'right-end' }}
+    play={popoverOpener}>
+    {StoryTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-popover" />
