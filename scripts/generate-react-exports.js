@@ -10,14 +10,13 @@ const importStatements = [
 ];
 
 function writeBaklavaReactFile(fileContentParts) {
-  let fileContentText = `
-    /* eslint-disable @typescript-eslint/ban-ts-comment */
-    // @ts-nocheck
-    ${importStatements.join('\n')}
-    ${fileContentParts.join('\n\n')}
-  `;
+  let fileContentText = `/* eslint-disable @typescript-eslint/ban-ts-comment */\n` +
+    `// @ts-nocheck\n` +
+    `${importStatements.join('\n')}\n\n` +
+    `${fileContentParts.join('\n\n')}\n`
+  ;
 
-  fs.writeFileSync(`${__dirname}/../src/baklava-react.ts`, fileContentText.trim());
+  fs.writeFileSync(`${__dirname}/../src/baklava-react.ts`, fileContentText);
 }
 
 function getReactEventName(baklavaEventName) {
@@ -52,8 +51,7 @@ for (const module of customElementsModules) {
   importStatements.push(`import type ${Type} from "./${importPath}";`);
 
   baklavaReactFileParts.push(
-  `
-export const ${componentName} = React.lazy<ReactWebComponent<${Type}${eventTypes}>>(() =>
+`export const ${componentName} = React.lazy<ReactWebComponent<${Type}${eventTypes}>>(() =>
   customElements.whenDefined('${fileName}').then(elem => ({
       default: createComponent<${Type}>(
         {
@@ -64,8 +62,7 @@ export const ${componentName} = React.lazy<ReactWebComponent<${Type}${eventTypes
         }
       )
     })
-));
-`
+));`
   );
 }
 
