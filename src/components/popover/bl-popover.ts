@@ -107,38 +107,40 @@ export default class BlPopover extends LitElement {
   private popoverAutoUpdateCleanup: () => void;
 
   private setPopover() {
-    this.popoverAutoUpdateCleanup = autoUpdate(this.target as Element, this.popover, () => {
-      computePosition(this.target as Element, this.popover, {
-        placement: this.placement,
-        strategy: 'fixed',
-        middleware: this._middleware,
-      }).then(({ x, y, placement, middlewareData }) => {
-        Object.assign(this.popover.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-        });
-
-        if (middlewareData.arrow) {
-          const { x: arrowX, y: arrowY } = middlewareData.arrow;
-
-          Object.assign(this.arrow.style, {
-            left: `${arrowX}px`,
-            top:`${arrowY}px`,
+    if(this.target){
+      this.popoverAutoUpdateCleanup = autoUpdate(this.target as Element, this.popover, () => {
+        computePosition(this.target as Element, this.popover, {
+          placement: this.placement,
+          strategy: 'fixed',
+          middleware: this._middleware,
+        }).then(({ x, y, placement, middlewareData }) => {
+          Object.assign(this.popover.style, {
+            left: `${x}px`,
+            top: `${y}px`,
           });
 
-          const arrowFlipDirections = {
-            top: 'bottom',
-            right: 'left',
-            bottom: 'top',
-            left: 'right',
-          };
-          const popoverPlacement = placement.split('-')[0] as keyof typeof arrowFlipDirections;
-          const arrowDirection = arrowFlipDirections[popoverPlacement];
+          if (middlewareData.arrow) {
+            const { x: arrowX, y: arrowY } = middlewareData.arrow;
 
-          this.arrow.style.setProperty(arrowDirection, '-4px');
-        }
+            Object.assign(this.arrow.style, {
+              left: `${arrowX}px`,
+              top:`${arrowY}px`,
+            });
+
+            const arrowFlipDirections = {
+              top: 'bottom',
+              right: 'left',
+              bottom: 'top',
+              left: 'right',
+            };
+            const popoverPlacement = placement.split('-')[0] as keyof typeof arrowFlipDirections;
+            const arrowDirection = arrowFlipDirections[popoverPlacement];
+
+            this.arrow.style.setProperty(arrowDirection, '-4px');
+          }
+        });
       });
-    });
+    }
   }
 
   @property()
@@ -185,7 +187,7 @@ export default class BlPopover extends LitElement {
     });
 
     return html`<div class=${classes}>
-      <slot id="popover" aria-live=${this._visible ? 'polite' : 'off'}></slot>
+      <slot id="popover" role="popover" aria-live=${this._visible ? 'polite' : 'off'}></slot>
       <div class="arrow" aria-hidden="true"></div>
     </div>`;
   }
