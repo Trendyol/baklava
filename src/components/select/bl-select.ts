@@ -38,7 +38,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   static formControlValidators = [requiredValidator];
 
   /**
-   * Sets name of the input
+   * Sets name of the select field
    */
   @property()
   name: string;
@@ -48,7 +48,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _initialValue: ValueType | ValueType[] | null;
 
   /**
-   * Sets initial value of the input
+   * Sets the value of the select
    */
   @property()
   get value(): ValueType | ValueType[] | null {
@@ -194,7 +194,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   validityCallback(): string | void {
-    // console.log('[select] validityCallback', this.customInvalidText);
     if (this.customInvalidText) {
       return this.customInvalidText;
     }
@@ -204,12 +203,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     return select.validationMessage;
   }
 
-  // validationMessageCallback(message: string): void {
-  //   console.log('[select] validationMessageCallback', message, this.validationMessage);
-  // }
-
   reportValidity() {
-    // console.log('[select] reportValidity');
     this.dirty = true;
     return this.checkValidity();
   }
@@ -269,15 +263,10 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     super.connectedCallback();
 
     this.form?.addEventListener('submit', (e: SubmitEvent) => {
-      // console.log('Submit in select');
       if (!this.reportValidity()) {
         e.preventDefault();
       }
     });
-
-    // console.log('[select] value in connectedCallback', this.value, this._initialValue);
-
-    // this.setValue('');
   }
 
   disconnectedCallback() {
@@ -441,7 +430,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   protected firstUpdated(): void {
-    // console.log('[select] value in firstUpdated', this.value, this._initialValue);
     if (this.value === undefined) {
       this.value = '' as ValueType;
     }

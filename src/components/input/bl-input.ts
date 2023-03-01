@@ -13,7 +13,7 @@ import '../button/bl-button';
 
 import style from './bl-input.css';
 
-export type InputSize = 'medium' | 'large';
+export type InputSize = 'small' | 'medium' | 'large';
 /**
  * @tag bl-input
  * @summary Baklava Input component
