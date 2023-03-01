@@ -13,6 +13,7 @@ describe('bl-button', () => {
 
   it('renders with default values', async () => {
     const el = await fixture<typeOfBlButton>(html`<bl-button></bl-button>`);
+
     assert.shadowDom.equal(
       el,
       `
@@ -136,6 +137,20 @@ describe('bl-button', () => {
       const ev = await oneEvent(el, 'bl-click');
       expect(ev).to.exist;
       expect(ev.detail).to.be.equal('Click event fired!');
+    });
+  });
+  describe('Form Participation', () => {
+    it('submits wrapping form if type is submit', async () => {
+      const form = await fixture<HTMLFormElement>(html`<form>
+        <bl-button type="submit">button</bl-button>
+      </form>`);
+      form.addEventListener('submit', (e) => e.preventDefault());
+
+      const button = form.querySelector('bl-button')?.shadowRoot?.querySelector('button');
+
+      setTimeout(() => button?.click());
+      const ev = await oneEvent(form, 'submit');
+      expect(ev).to.exist;
     });
   });
 });

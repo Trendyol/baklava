@@ -68,6 +68,19 @@
   outline: none;
 }
 
+.button:focus-visible {
+  position: relative;
+  outline: none;
+}
+
+.button:focus-visible::after {
+  border: 2px solid var(--main-color);
+  border-radius: var(--bl-border-radius-l);
+  content: "";
+  position: absolute;
+  inset: -4px;
+}
+
 :host ::slotted(bl-icon) {
   font-size: var(--icon-size);
 }

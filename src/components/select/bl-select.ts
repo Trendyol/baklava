@@ -52,7 +52,7 @@ export default class BlSelect extends LitElement {
   /**
    * Shows the component in disabled state.
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**

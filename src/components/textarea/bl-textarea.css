@@ -1,0 +1,189 @@
+:host {
+  display: inline-block;
+  width: 200px;
+  position: relative;
+}
+
+.wrapper {
+  --row-count: 1;
+  --maxrow-count: ;
+  --line-height: var(--bl-font-title-3-line-height);
+  --scroll-height: var(--line-height);
+  --padding-vertical: var(--bl-size-2xs);
+  --padding-horizontal: var(--bl-size-xs);
+  --border-size: 1px;
+  --default-scroll-height: calc((var(--row-count) * var(--line-height)) + var(--padding-vertical));
+  --height: max(var(--scroll-height), var(--default-scroll-height));
+  --input-font: var(--bl-font-body-text-2);
+  --border-radius: var(--bl-size-3xs);
+
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: var(--bl-size-3xs);
+}
+
+.input-wrapper {
+  border: solid var(--border-size) var(--bl-color-border);
+  border-radius: var(--border-radius);
+  padding-top: var(--padding-vertical);
+  display: flex;
+  box-sizing: border-box;
+}
+
+textarea {
+  width: 100%;
+  align-self: stretch;
+  outline: none;
+  font: var(--input-font);
+  padding: 0 calc(var(--padding-horizontal) - var(--border-size));
+  padding-bottom: var(--padding-vertical);
+  margin: 0;
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--bl-color-content-primary);
+  resize: vertical;
+  display: block;
+}
+
+:host([size='large']) .wrapper {
+  --padding-vertical: var(--bl-size-xs);
+  --padding-horizontal: var(--bl-size-m);
+}
+
+:host([size='small']) .wrapper {
+  --padding-vertical: var(--bl-size-3xs);
+  --padding-horizontal: var(--bl-size-xs);
+  --input-font: var(--bl-font-body-text-3);
+  --line-height: var(--bl-font-title-4-line-height);
+}
+
+textarea:disabled {
+  background-color: var(--bl-color-secondary-background);
+  color: var(--bl-color-content-tertiary);
+  cursor: not-allowed;
+}
+
+:host([disabled]) .wrapper {
+  background-color: var(--bl-color-secondary-background);
+}
+
+:host([expand]) textarea {
+  overflow: hidden;
+  resize: none;
+  height: var(--height);
+}
+
+:host([expand][max-rows]) textarea {
+  --maxrow-height: calc((var(--maxrow-count) * var(--line-height)) + var(--padding-vertical));
+
+  overflow-y: scroll;
+  height: min(var(--height), var(--maxrow-height));
+}
+
+.wrapper:focus-within {
+  border-color: var(--bl-color-primary);
+}
+
+.dirty.max-len-invalid,
+.dirty.invalid {
+  border-color: var(--bl-color-danger);
+}
+
+:host([label]) ::placeholder {
+  color: transparent;
+  transition: color ease-out 0.4s;
+}
+
+label {
+  position: absolute;
+  top: var(--padding-vertical);
+  left: var(--padding-horizontal);
+  right: var(--padding-horizontal);
+  transition: all ease-in 0.2s;
+  pointer-events: none;
+  font: var(--bl-font-title-3-regular);
+  color: var(--bl-color-content-tertiary);
+  padding: 0;
+  max-width: max-content;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:where(.wrapper:focus-within, .wrapper.has-value) label {
+  --label-padding: var(--bl-size-3xs);
+
+  top: 0;
+  left: calc(var(--padding-horizontal) - var(--label-padding));
+  transform: translateY(-50%);
+  font: var(--bl-font-caption);
+  color: var(--bl-color-content-secondary);
+  padding: 0 var(--label-padding);
+  background-color: var(--bl-color-content-primary-contrast);
+  pointer-events: initial;
+}
+
+:host ::placeholder,
+:host([label-fixed]) ::placeholder {
+  color: var(--bl-color-content-tertiary);
+}
+
+:host([label-fixed]) label {
+  position: static;
+  transition: none;
+  transform: none;
+  pointer-events: initial;
+  font: var(--bl-font-caption);
+  color: var(--bl-color-content-secondary);
+  background-color: initial;
+  padding: 0;
+}
+
+.hint {
+  display: none;
+  font: var(--bl-font-body-text-3);
+}
+
+:host([character-counter]) .hint,
+:host([help-text]) .hint,
+.dirty.invalid .hint {
+  display: flex;
+  gap: var(--bl-size-3xs);
+}
+
+.hint > * {
+  margin: 0;
+  padding: 0;
+}
+
+.help-text,
+.invalid-text {
+  flex: 1;
+}
+
+.counter-text {
+  color: var(--bl-color-content-secondary);
+  margin-left: auto;
+}
+
+:where(.max-len-invalid, .dirty.invalid) .hint > .counter-text {
+  color: var(--bl-color-danger);
+}
+
+.invalid-text {
+  display: none;
+  color: var(--bl-color-danger);
+}
+
+.help-text {
+  color: var(--bl-color-content-secondary);
+}
+
+:where(.dirty.max-len-invalid, .dirty.invalid) .hint > .invalid-text {
+  display: inline-block;
+}
+
+.dirty.invalid .hint > .help-text {
+  display: none;
+}

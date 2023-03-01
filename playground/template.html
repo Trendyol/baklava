@@ -4,8 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Baklava Playground</title>
-    <link rel="stylesheet" href="./themes/default.css" />
-    <script type="module" src="./baklava.js"></script>
+    <link rel="stylesheet" href="./dist/themes/default.css" />
+    <script type="module" src="./dist/baklava.js"></script>
+    <script>
+      // Live reload
+      new EventSource('/esbuild').addEventListener('change', () => location.reload());
+    </script>
     <style>
       *:not(:defined) {
         display: none;

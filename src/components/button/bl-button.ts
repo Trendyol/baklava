@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { submit } from '@open-wc/form-helpers';
 import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-button.css';
 import '../icon/bl-icon';
@@ -103,12 +104,23 @@ export default class BlButton extends LitElement {
     return this.active;
   }
 
+  private form: HTMLFormElement | null;
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.form = this.closest('form');
+  }
+
   private caretTemplate(): TemplateResult {
     return html` <bl-icon class="open" name="arrow_up"></bl-icon>
       <bl-icon class="close" name="arrow_down"></bl-icon>`;
   }
 
   private _handleClick() {
+    if (this.type === 'submit' && this.form) {
+      submit(this.form);
+    }
+
     this.onClick('Click event fired!');
   }
 
