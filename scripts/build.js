@@ -16,7 +16,7 @@ const args = parseArgs(process.argv.slice(2), {
     uglify: true,
     filter: /components\/.*\.css$/
   };
-  
+
   if (!isRelease) {
     cssPluginOptions.transform = (content) => content.replace(/.*:hover[^{]*/g, matched => {
       // Replace :hover with special class. (There will be additional classes for focus, etc. Should be implemented in here.)
@@ -25,7 +25,7 @@ const args = parseArgs(process.argv.slice(2), {
       return matched.concat(', ', replacedWithNewClass)
     })
   }
-  
+
 
   try {
     const buildOptions = {
@@ -43,7 +43,7 @@ const args = parseArgs(process.argv.slice(2), {
         '.woff2': 'file',
         '.svg': 'file',
       },
-      outdir: args.serve ? undefined : destinationPath,
+      outdir: destinationPath,
       assetNames: 'assets/[name]',
       bundle: true,
       sourcemap: true,
@@ -58,13 +58,20 @@ const args = parseArgs(process.argv.slice(2), {
       ],
     };
 
+
     if (args.serve) {
-      const { host, port } = await esbuild.serve(
+      const servedir = 'playground';
+
+      let ctx = await esbuild.context({
+        ...buildOptions,
+        outdir: `${servedir}/dist`
+      });
+
+      const { host, port } = await ctx.serve(
         {
-          servedir: 'playground',
+          servedir,
           host: 'localhost',
-        },
-        buildOptions
+        }
       );
 
       console.log(`Playground is served on http://${host}:${port}`);
@@ -72,20 +79,20 @@ const args = parseArgs(process.argv.slice(2), {
       return;
     }
 
-    const buildResult = await esbuild.build(buildOptions);
+    const { errors, warnings, metafile } = await esbuild.build(buildOptions);
 
-    if (buildResult.errors.length > 0) {
-      console.table(buildResult.errors);
+    if (errors.length > 0) {
+      console.table(errors);
       console.error('Build Failed!');
       return;
     }
 
-    if (buildResult.warnings.length > 0) {
+    if (warnings.length > 0) {
       console.warn('Warnings:');
-      console.table(buildResult.warnings);
+      console.table(warnings);
     }
 
-    const analyzeResult = Object.entries(buildResult.metafile.outputs)
+    const analyzeResult = Object.entries(metafile.outputs)
       .map(([fileName, data]) => ({
         fileName,
         size: `${(data.bytes / 1024).toFixed(2)} KB`,
