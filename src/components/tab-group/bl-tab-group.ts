@@ -18,6 +18,7 @@ export default class BlTabGroup extends LitElement {
 
   private _connectedTabs: BlTab[] = [];
   private _connectedPanels: BlTabPanel[] = [];
+  private _tabFocus = 0;
 
   get tabs() {
     return this._connectedTabs;
@@ -35,9 +36,10 @@ export default class BlTabGroup extends LitElement {
     const isFirstAndNotDisabled =
       this._connectedTabs.filter(t => !t.disabled).length === 0 && !tab.disabled;
     this._connectedTabs.push(tab);
-    
+
     if ((!tab.disabled && tab.selected) || isFirstAndNotDisabled) {
       this.selectedTabName = tab.name;
+      this._tabFocus = this._connectedTabs.length - 1;
     }
   }
 
@@ -57,7 +59,8 @@ export default class BlTabGroup extends LitElement {
    * @param panel BlTabPanel reference to be registered
    */
   registerTabPanel(panel: BlTabPanel) {
-    panel.visible = panel.tab === this.selectedTabName;
+    panel.hidden = panel.tab !== this.selectedTabName;
+    panel.tabIndex = 0;
     this._connectedPanels.push(panel);
   }
 
@@ -81,17 +84,40 @@ export default class BlTabGroup extends LitElement {
       t.selected = name === t.name;
     });
     this._connectedPanels.forEach(p => {
-      p.visible = p.tab === this._selectedTabName;
+      p.hidden = p.tab !== this._selectedTabName;
     });
   }
 
   private _handleTabSelected(e: CustomEvent) {
     this.selectedTabName = e.detail;
+    this._tabFocus = this._connectedTabs.findIndex(t => t.name === e.detail);
+  }
+
+  private _handleTabListKeyDown(e: KeyboardEvent) {
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      if (e.key === "ArrowRight") {
+        do {
+          this._tabFocus++;
+          if (this._tabFocus >= this._connectedTabs.length) {
+            this._tabFocus = 0;
+          }
+        } while (this._connectedTabs[this._tabFocus].disabled);
+      } else if (e.key === "ArrowLeft") {
+        do {
+          this._tabFocus--;
+          if (this._tabFocus < 0) {
+            this._tabFocus = this._connectedTabs.length - 1;
+          }
+        } while (this._connectedTabs[this._tabFocus].disabled);
+      }
+
+      this._connectedTabs[this._tabFocus].focus();
+    }
   }
 
   render(): TemplateResult {
     return html` <div class="container" @bl-tab-selected="${this._handleTabSelected}">
-      <div role="tablist" class="tabs-list">
+      <div role="tablist" @keydown=${this._handleTabListKeyDown} class="tabs-list">
         <div class="tabs">
           <slot name="tabs"></slot>
         </div>

@@ -3,7 +3,7 @@
   border-radius: 0 0 var(--bl-border-radius-m) var(--bl-border-radius-m);
 }
 
-:host([visible]) {
+:host(:not([hidden])) {
   display: block;
   padding: var(--bl-size-xl);
   background-color: var(--bl-color-primary-background);

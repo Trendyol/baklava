@@ -40,7 +40,7 @@ export default class BlTabPanel extends LitElement {
    * This attribute set by `tab-group` to make panel visible or hidden.
    */
   @property({ type: Boolean, reflect: true })
-  visible = false;
+  hidden = true;
 
   render(): TemplateResult {
     return html`<slot></slot>`;
