@@ -41,10 +41,9 @@ for (const module of customElementsModules) {
     : {};
 
   const eventTypes = events
-    ? ', {' + events.reduce((acc, curr) => {
-        return `${acc}${acc ? `, ` : ''}${getReactEventName(curr.name)}: EventName<${curr.type.text}>`
-      }, '') + '}'
+    ? `, {${events.map(event => `${getReactEventName(event.name)}: EventName<${event.type.text}>`).join(', ')}}`
     : '';
+
   const importPath = path.replace(/^src\//, '').replace(/\.ts$/, '');
   const Type = componentName + 'Type';
 
