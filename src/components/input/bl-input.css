@@ -54,7 +54,7 @@
   height: var(--height);
   border: solid var(--border-size) var(--border-color);
   padding: 0 calc(var(--padding-horizontal) - var(--border-size));
-  border-radius: 4px;
+  border-radius: var(--bl-size-3xs);
 }
 
 :host([disabled]) .input-wrapper {
@@ -223,10 +223,6 @@ bl-icon[name='eye_on'] {
 .invalid-text,
 .error-icon {
   color: var(--bl-color-danger);
-}
-
-:host(:not([label-fixed])) :where(.wrapper:focus-within, .wrapper.has-value):has(input:autofill) label {
-  background: linear-gradient(to top, var(--autofill-bg-color) 50%, transparent 50%);
 }
 
 .help-text {
