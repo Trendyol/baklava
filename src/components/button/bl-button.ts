@@ -56,11 +56,11 @@ export default class BlButton extends LitElement {
   @property({ type: String, attribute: 'loading-label' })
   loadingLabel: string;
 
-   /**
+  /**
    * Sets loading state of button
    */
-   @property({ type: Boolean, reflect: true })
-   loading = false;
+  @property({ type: Boolean, reflect: true })
+  loading = false;
 
   /**
    * Sets button as disabled
@@ -104,10 +104,6 @@ export default class BlButton extends LitElement {
   @state({})
   active = false;
 
-  /* Initial value of disabled attribute */
-  @state({})
-  private _disabled = false;
-
   @query('.button')
   private button: HTMLAnchorElement | HTMLButtonElement;
 
@@ -125,12 +121,10 @@ export default class BlButton extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.form = this.closest('form');
-    this._disabled = this.disabled;
   }
 
   updated(properties: Map<string, unknown>) {
     super.updated(properties);
-    this.toggleAttribute('disabled', this.loading || this._disabled);
   }
 
   private caretTemplate(): TemplateResult {
@@ -173,6 +167,7 @@ export default class BlButton extends LitElement {
   }
 
   render(): TemplateResult {
+    const isDisabled = this.loading || this.disabled;
     const label = (this.loading && this.loadingLabel) ? this.loadingLabel : html`<slot></slot>`;
     const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
@@ -189,18 +184,18 @@ export default class BlButton extends LitElement {
     return isAnchor
       ? html`<a
           class=${classes}
-          aria-disabled="${ifDefined(this.disabled)}"
+          aria-disabled="${ifDefined(isDisabled)}"
           aria-label="${ifDefined(this.label)}"
           href=${ifDefined(this.href)}
           target=${ifDefined(this.target)}
           role="button"
-          >${slots}
+          >${loadingIcon} ${slots}
         </a>`
       : html`<button
           class=${classes}
-          aria-disabled="${ifDefined(this.disabled)}"
+          aria-disabled="${ifDefined(isDisabled)}"
           aria-label="${ifDefined(this.label)}"
-          ?disabled=${this.disabled}
+          ?disabled=${isDisabled}
           @click="${this._handleClick}"
         >
          ${loadingIcon} ${slots} ${caret}

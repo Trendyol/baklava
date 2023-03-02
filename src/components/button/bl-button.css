@@ -88,10 +88,15 @@
 
 .loading-icon {
   animation: spin 1s linear infinite;
+  font-size: var(--icon-size);
 }
 
 :host ::slotted(bl-icon) {
   font-size: var(--icon-size);
+}
+
+:host([loading]) ::slotted(bl-icon) {
+  display: none;
 }
 
 :host .has-icon:not(.has-content) {
@@ -125,15 +130,15 @@
   --main-hover-color: var(--bl-color-danger-hover);
 }
 
-:host([loading]) {
-  cursor: progress;
-}
-
-:host([disabled]:not([loading])) {
+:host([disabled]) {
   cursor: not-allowed;
 }
 
-:host([disabled]) .button {
+:host([loading]) {
+  cursor: wait;
+}
+
+.button[aria-disabled=true] {
   --main-color: var(--bl-color-tertiary);
   --main-hover-color: var(--bl-color-tertiary);
   --content-color: var(--bl-color-content-passive);
@@ -143,16 +148,16 @@
   text-decoration: none;
 }
 
-:host([variant='tertiary'][disabled]) .button {
+:host([variant='tertiary']) .button[aria-disabled=true] {
   --main-color: transparent;
 }
 
-:host([variant='secondary']:hover:not([disabled])) .button {
+:host([variant='secondary']:hover) .button[aria-disabled=false] {
   --content-color: var(--bl-color-content-primary-contrast);
   --bg-color: var(--main-hover-color);
 }
 
-:host([variant='tertiary']:hover:not([disabled])) .button {
+:host([variant='tertiary']:hover) .button[aria-disabled=false] {
   --content-color: var(--main-hover-color);
   --bg-color: var(--text-hover-color);
 }

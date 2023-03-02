@@ -93,14 +93,15 @@ describe('bl-button', () => {
       );
       expect(el.shadowRoot?.querySelector('.loading-icon')).to.exist;
       expect(el).to.have.attribute('loading');
-      expect(el).to.have.attribute('disabled');
+      expect(el.shadowRoot?.querySelector('button')).to.have.attribute('disabled');
 
       el.removeAttribute('loading');
       await elementUpdated(el);
 
       expect(el.shadowRoot?.querySelector('.loading-icon')).not.to.exist;
       expect(el).not.have.attribute('loading');
-      expect(el).not.have.attribute('disabled');
+      expect(el.shadowRoot?.querySelector('button')).not.have.attribute('disabled');
+
     });
   });
   describe('Slot', () => {
