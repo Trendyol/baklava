@@ -45,11 +45,30 @@
   --icon-size: var(--bl-font-body-text-3-line-height);
 }
 
-.wrapper:has(input:autofill) {
+.input-wrapper {
+  --border-size: 1px;
+
+  display: flex;
+  box-sizing: border-box;
+  gap: var(--padding-vertical);
+  height: var(--height);
+  border: solid var(--border-size) var(--border-color);
+  padding: 0 calc(var(--padding-horizontal) - var(--border-size));
+  border-radius: 4px;
+}
+
+:host([disabled]) .input-wrapper {
+  cursor: not-allowed;
+  background-color: var(--bl-color-secondary-background);
+
+  --text-color: var(--bl-color-content-passive);
+}
+
+.input-wrapper:has(input:autofill) {
   background-color: var(--autofill-bg-color);
 }
 
-.wrapper:has(input:-webkit-autofill) {
+.input-wrapper:has(input:-webkit-autofill) {
   background-color: var(--autofill-bg-color);
 }
 
@@ -67,18 +86,6 @@ label {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.input-wrapper {
-  --border-size: 1px;
-
-  display: flex;
-  box-sizing: border-box;
-  gap: var(--padding-vertical);
-  height: var(--height);
-  border: solid var(--border-size) var(--border-color);
-  padding: 0 calc(var(--padding-horizontal) - var(--border-size));
-  border-radius: 4px;
 }
 
 input {
@@ -180,13 +187,6 @@ bl-icon[name='eye_on'] {
   -webkit-text-fill-color: var(--bl-color-content-tertiary);
 }
 
-:host([disabled]) .input-wrapper {
-  cursor: not-allowed;
-  background-color: var(--bl-color-secondary-background);
-
-  --text-color: var(--bl-color-content-passive);
-}
-
 :where(.wrapper:focus-within, .wrapper.has-value) label {
   --label-padding: var(--bl-size-3xs);
 
@@ -212,6 +212,10 @@ bl-icon[name='eye_on'] {
   font: var(--bl-font-caption);
   color: var(--bl-color-content-secondary);
   padding: 0;
+}
+
+:host(:not([label-fixed])) :where( .input-wrapper:has(input:autofill) .wrapper:focus-within, .wrapper.has-value) label {
+  background: linear-gradient(to top, var(--autofill-bg-color) 50%, transparent 50%);
 }
 
 .error-icon,
