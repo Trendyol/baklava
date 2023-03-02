@@ -59,7 +59,7 @@ export default class BlButton extends LitElement {
    /**
    * Sets loading state of button
    */
-   @property({ type: Boolean })
+   @property({ type: Boolean, reflect: true })
    loading = false;
 
   /**
