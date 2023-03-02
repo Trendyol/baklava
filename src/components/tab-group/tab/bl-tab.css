@@ -28,17 +28,23 @@
   padding: 0 var(--tab-right-padding);
 }
 
-.container::after {
-  position: absolute;
-  content: '';
-  right: 0;
-  top: var(--bl-size-m);
+.divider {
   height: calc(100% - var(--bl-size-2xl));
   border-right: 1px solid var(--bl-color-tertiary-hover);
 }
 
-:host(:last-of-type) .container::after {
-  border-right: none;
+:host(:focus-visible) {
+  outline: none;
+}
+
+:host(:focus-visible) .container, .container:focus-visible {
+  outline: 2px solid var(--bl-color-primary);
+  outline-offset: -3px;
+  border-radius: var(--bl-border-radius-xs);
+}
+
+:host(:last-of-type) .divider {
+  display: none;
 }
 
 :host .container::before {

@@ -158,6 +158,7 @@ export default class BlTab extends LitElement {
         </div>
         ${helpTooltip}
       </button>
+      <span class="divider"></span>
     `;
   }
 }
