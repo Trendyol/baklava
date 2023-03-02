@@ -51,12 +51,12 @@ for (const module of customElementsModules) {
 
   baklavaReactFileParts.push(
 `export const ${componentName} = React.lazy<ReactWebComponent<${Type}${eventTypes}>>(() =>
-  customElements.whenDefined('${fileName}').then(elem => ({
+  customElements.whenDefined('${fileName}').then(() => ({
       default: createComponent<${Type}>(
         {
           react: React,
           tagName: '${fileName}',
-          elementClass: elem,
+          elementClass: customElements.get('${fileName}'),
           events: ${JSON.stringify(eventNames)}
         }
       )
