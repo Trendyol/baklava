@@ -221,7 +221,7 @@ describe('bl-pagination', () => {
         jumper.value = '5';
       }
 
-      setTimeout(() => jumper?.dispatchEvent(new Event('change')));
+      setTimeout(() => jumper?.dispatchEvent(new Event('change', { bubbles: true })));
       const ev = await oneEvent(el, 'bl-change');
 
       expect(ev).to.exist;

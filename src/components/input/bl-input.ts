@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
+import { CSSResultGroup, html, LitElement, TemplateResult, PropertyValues } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -178,7 +178,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   @state() private passwordInput = false;
 
-  private textVisiblityToggle() {
+  private textVisibilityToggle() {
     this.passwordVisible = !this.passwordVisible;
   }
 
@@ -191,28 +191,36 @@ export default class BlInput extends FormControlMixin(LitElement) {
     return this.checkValidity();
   }
 
-  valueChangedCallback(value: string): void {
-    this.value = value;
-  }
-
   private inputHandler(event: Event) {
     const value = (event.target as HTMLInputElement).value;
 
-    this.setValue(value);
+    console.log('inputHandler', value);
+    this.value = value;
     this.onInput(value);
   }
 
   private changeHandler(event: Event) {
     const value = (event.target as HTMLInputElement).value;
+    console.log('changeHandler', value);
 
     this.dirty = true;
-    this.setValue(value);
+    this.value = value;
     this.onChange(value);
   }
 
   firstUpdated() {
     this.passwordInput = this.type === 'password';
     this.setValue(this.value);
+  }
+
+  protected async updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('value')) {
+      this.setValue(this.value);
+
+      await this.validationComplete;
+
+      this.requestUpdate();
+    }
   }
 
   render(): TemplateResult {
@@ -238,7 +246,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
             'password-visible': this.passwordVisible,
           })}"
           aria-label="Toggle password reveal"
-          @bl-click="${this.textVisiblityToggle}"
+          @bl-click="${this.textVisibilityToggle}"
         >
           <bl-icon class="reveal-icon" slot="icon" name="eye_on"></bl-icon>
           <bl-icon class="reveal-icon" slot="icon" name="eye_off"></bl-icon>
