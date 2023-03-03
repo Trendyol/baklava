@@ -7,6 +7,7 @@ module.exports = {
       [
         'storybook',
         'design',
+        'react',
         // Components as scopes listed below
         'button',
         'icon',
