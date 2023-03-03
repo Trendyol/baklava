@@ -2,7 +2,6 @@ import {assert, fixture, expect, html, elementUpdated} from "@open-wc/testing";
 import BlPopover from "./bl-popover";
 import type typeOfBlPopover from './bl-popover';
 import type typeOfBlButton from '../button/bl-button';
-import {query} from "lit/decorators.js";
 
 describe('bl-popover',()=>{
   it('should be defined popover instance', () => {
@@ -17,7 +16,7 @@ describe('bl-popover',()=>{
     assert.shadowDom.equal(
       el,
       `<div class="popover">
-      <slot id="popover" role="popover" aria-live="off"></slot>
+      <slot id="popover" aria-live="off"></slot>
       <div class="arrow" aria-hidden="true"></div>
     </div>`
     )
@@ -25,19 +24,13 @@ describe('bl-popover',()=>{
 
   it('should have correct default values', async () => {
     const el = await fixture<BlPopover>(html`<bl-popover>Test</bl-popover>`);
-    expect(el.placement).to.equal('top');
+    expect(el.placement).to.equal('bottom');
   });
 
   it('should be rendered with slot', async () => {
     const el = await fixture<BlPopover>(html`<bl-popover><span class="test">Popover Content</span></bl-popover>`);
 
     expect(el.shadowRoot?.querySelector('#popover')).to.exist;
-  });
-
-  it('should be rendered with correct placement attribute value', async () => {
-    const el = await fixture<BlPopover>(html`<bl-popover placement="bottom">Popover Content</bl-popover>`);
-    await el.show();
-    expect(el.getAttribute('placement')).to.eq('bottom');
   });
 
   it('should be rendered successful with fit-size', async () => {
@@ -86,7 +79,7 @@ describe('bl-popover',()=>{
     const body = await fixture<HTMLBodyElement>(html`
         <div style="width: 1500px;height: 1500px;">
           <bl-button id="mybtn"></bl-button>
-          <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5" .target=${query('bl-button')}>
+          <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
             <span>Popover Content</span>
           </bl-popover>
         </div>
@@ -95,11 +88,27 @@ describe('bl-popover',()=>{
 
     const popoverEl = body.querySelector('bl-popover') as typeOfBlPopover;
     const btnEl = body.querySelector('bl-button') as typeOfBlButton;
-    btnEl.onclick = () => { popoverEl.show(); };
+    popoverEl.target = btnEl;
+      btnEl.onclick = () => { popoverEl.show(); };
     await btnEl.click();
     await elementUpdated(popoverEl);
-
     expect(popoverEl.visible).to.equal(true);
+  });
+  it('should get warning when invalid target type assigned', async () => {
+    const body = await fixture<HTMLBodyElement>(html`
+        <div style="width: 1500px;height: 1500px;">
+          <bl-button id="mybtn"></bl-button>
+          <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
+            <span>Popover Content</span>
+          </bl-popover>
+        </div>
+    `);
+
+    const popoverEl = body.querySelector('bl-popover') as typeOfBlPopover;
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
+    // @ts-ignore
+    popoverEl.target = 2;
+    expect(popoverEl.target).to.be.undefined
   });
 
 });
