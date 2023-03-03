@@ -1,7 +1,7 @@
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
-    'scope-enum': [
+    'cscope-enum': [
       2,
       'always',
       [
@@ -26,6 +26,7 @@ module.exports = {
         'dropdown',
         'switch',
         'textarea',
+        'popover',
       ],
     ],
   },

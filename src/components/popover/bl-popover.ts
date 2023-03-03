@@ -33,7 +33,12 @@ export type Placement =
  * @tag bl-popover
  * @summary Baklava Popover component
  *
- * @property {string} placement - Sets the popover placement
+  * @cssproperty --bl-popover-arrow-display - Sets the display of popovers arrow. Default value is `none`
+ * @cssproperty --bl-popover-background-color - Sets the background color of popover. Default value is `--bl-color-primary-background`
+ * @cssproperty --bl-popover-border-color - Sets the border color of popover. Default value is `--bl-color-primary-hover`
+ * @cssproperty --bl-popover-padding - Sets the padding of popover. Default value is `--bl-size-m`
+ * @cssproperty --bl-popover-border-radius - Sets the border radius of popover. Default value is `--bl-size-3xs`
+ * @cssproperty --bl-popover-position - Sets the position of popover. Default value is fixed
  */
 @customElement('bl-popover')
 export default class BlPopover extends LitElement {
@@ -48,28 +53,45 @@ export default class BlPopover extends LitElement {
    * Sets placement of the popover
    */
   @property({ type: String })
-  placement: Placement = 'top';
+  placement: Placement = 'bottom';
 
+
+  /**
+   * Target elements state
+   */
   @state() _target: string | Element;
 
+  /**
+   * Shifts the popover along the axis
+   */
   @property({ type: Boolean })
   shift = false;
 
+
+  /**
+  * Sets size of popover same as trigger element
+  */
   @property({ type: Boolean, attribute: 'fit-size' })
   fitSize = false;
 
+  /**
+   * Sets the distance between popover and target/trigger element
+   */
   @property({ type: Number })
   offset = 10;
 
+  /**
+   * Visibility state
+   */
   @state() private _visible = false;
 
   /**
-   * Fires when hovering over a trigger
+   * Fires when the popover is shown
    */
   @event('bl-popover-show') private onBlPopoverShow: EventDispatcher<string>;
 
   /**
-   * Fires when leaving over from trigger
+   * Fires when popover becomes hidden
    */
   @event('bl-popover-hide') private onBlPopoverHide: EventDispatcher<string>;
 
@@ -78,19 +100,20 @@ export default class BlPopover extends LitElement {
 
     this.popoverAutoUpdateCleanup && this.popoverAutoUpdateCleanup();
   }
-  private _middleware: Middleware[] = [];
 
-  protected firstUpdated() {
-    this._middleware.push(
+  private getMiddleware(): Middleware[] {
+    const middlewareParams: Middleware[] = [];
+    middlewareParams.push(
       offset(this.offset),
       flip(),
       inline(),
       arrow({ element: this.arrow, padding: 5 })
     );
-    if (this.shift) this._middleware.push(shift({ padding: 5 }));
+
+    if (this.shift) middlewareParams.push(shift({ padding: 5 }));
 
     if (this.fitSize) {
-      this._middleware.push(
+      middlewareParams.push(
         size({
           apply(args: MiddlewareState) {
             if(args.elements.floating && args.elements.reference){
@@ -102,6 +125,7 @@ export default class BlPopover extends LitElement {
         })
       );
     }
+    return middlewareParams;
   }
 
   private popoverAutoUpdateCleanup: () => void;
@@ -112,8 +136,9 @@ export default class BlPopover extends LitElement {
         computePosition(this.target as Element, this.popover, {
           placement: this.placement,
           strategy: 'fixed',
-          middleware: this._middleware,
+          middleware: this.getMiddleware(),
         }).then(({ x, y, placement, middlewareData }) => {
+          console.log('target:',this.target,' ',x,y);
           Object.assign(this.popover.style, {
             left: `${x}px`,
             top: `${y}px`,
@@ -143,6 +168,9 @@ export default class BlPopover extends LitElement {
     }
   }
 
+  /**
+   * Getter to get target element directly or with by id.
+   */
   @property()
   get target(): string | Element {
     return this._target;
@@ -151,8 +179,10 @@ export default class BlPopover extends LitElement {
   set target(value: string | Element) {
     if (typeof value === 'string') {
       this._target = document.getElementById(value) as Element;
-    } else {
+    } else if (value instanceof Element) {
       this._target = value;
+    } else {
+      console.warn('BlPopover target only accepts an Element instance or a string id of a DOM element.');
     }
   }
 
@@ -162,7 +192,7 @@ export default class BlPopover extends LitElement {
   show() {
     this._visible = true;
     this.setPopover();
-    this.onBlPopoverShow('Show event fired!');
+    this.onBlPopoverShow('');
   }
 
   /**
@@ -170,7 +200,7 @@ export default class BlPopover extends LitElement {
    */
   hide() {
     this._visible = false;
-    this.onBlPopoverHide('Hide event fired!');
+    this.onBlPopoverHide('');
   }
 
   /**
@@ -187,7 +217,7 @@ export default class BlPopover extends LitElement {
     });
 
     return html`<div class=${classes}>
-      <slot id="popover" role="popover" aria-live=${this._visible ? 'polite' : 'off'}></slot>
+      <slot id="popover" aria-live=${this._visible ? 'polite' : 'off'}></slot>
       <div class="arrow" aria-hidden="true"></div>
     </div>`;
   }
