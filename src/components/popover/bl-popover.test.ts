@@ -2,6 +2,7 @@ import {assert, fixture, expect, html, elementUpdated} from "@open-wc/testing";
 import BlPopover from "./bl-popover";
 import type typeOfBlPopover from './bl-popover';
 import type typeOfBlButton from '../button/bl-button';
+import {sendKeys} from "@web/test-runner-commands";
 
 describe('bl-popover',()=>{
   it('should be defined popover instance', () => {
@@ -110,5 +111,21 @@ describe('bl-popover',()=>{
     popoverEl.target = 2;
     expect(popoverEl.target).to.be.undefined
   });
+  it('should hide popover when press esc', async () => {
+    const body = await fixture<HTMLBodyElement>(html`
+        <div style="width: 1500px;height: 1500px;">
+          <bl-button id="mybtn"></bl-button>
+          <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
+            <span>Popover Content</span>
+          </bl-popover>
+        </div>
+    `);
 
+    const popoverEl = body.querySelector('bl-popover') as typeOfBlPopover;
+    popoverEl.show();
+
+    await sendKeys({up: 'Escape'})
+
+    expect(popoverEl.visible).to.equal(false);
+  });
 });

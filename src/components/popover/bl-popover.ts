@@ -95,6 +95,18 @@ export default class BlPopover extends LitElement {
    */
   @event('bl-popover-hide') private onBlPopoverHide: EventDispatcher<string>;
 
+  connectedCallback() {
+    super.connectedCallback();
+    window?.addEventListener('bl-popover-show', event => {
+      if (event.target !== this) this.hide();
+    });
+    window?.addEventListener('keyup',event => {
+      if(event.key === "Escape"){
+        this.hide();
+      }
+    });
+  }
+
   disconnectedCallback() {
     super.disconnectedCallback();
 
@@ -184,6 +196,7 @@ export default class BlPopover extends LitElement {
       console.warn('BlPopover target only accepts an Element instance or a string id of a DOM element.');
     }
   }
+
 
   /**
    * Shows popover
