@@ -138,7 +138,6 @@ export default class BlPopover extends LitElement {
           strategy: 'fixed',
           middleware: this.getMiddleware(),
         }).then(({ x, y, placement, middlewareData }) => {
-          console.log('target:',this.target,' ',x,y);
           Object.assign(this.popover.style, {
             left: `${x}px`,
             top: `${y}px`,

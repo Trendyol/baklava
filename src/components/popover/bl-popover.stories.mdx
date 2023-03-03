@@ -31,14 +31,16 @@ import { userEvent } from '@storybook/testing-library';
 />
 
 export const popoverOpener = async ({canvasElement}) => {
-  const button = canvasElement.querySelector('bl-button');
-  await userEvent.click(button);
+  const blButton = canvasElement.querySelector('bl-button');
+  if(button.shadowRoot){
+    const selectInput = blButton.shadowRoot.querySelector('button')
+    await userEvent.click(selectInput);
+  }
 }
 
 export const handleClick = async (event,args) => {
   const popover = document.getElementById(`popover-${ifDefined(args.id)}`);
   popover.target = document.getElementById(`button-${ifDefined(args.id)}`);
-  console.log(popover);
   if(popover._visible) popover.hide()
   else popover.show()
 }
@@ -56,7 +58,7 @@ export const PopoverTemplate = (args) => html`
 
 export const StoryTemplate = (args) => html`
   <div style="padding-bottom: 40px">
-    <bl-button id="button-${ifDefined(args.id)}"  @bl-click="${(event) => handleClick(event,args)}" >${args.buttonText ? args.buttonText : 'Trigger Popover'}</bl-button>
+    <bl-button id="button-${ifDefined(args.id)}" @bl-click="${(event) => handleClick(event,args)}" >${args.buttonText ? args.buttonText : 'Trigger Popover'}</bl-button>
     ${PopoverTemplate(args)}
 </div>
 `
@@ -108,10 +110,9 @@ You can use the other options:
 
 <Canvas>
   <Story name="Arrow"
-         args={{ id:'3',
-           style: '--bl-popover-arrow-display: block;--bl-popover-background-color:var(--bl-color-content-tertiary);',
+         args={{ id:'3', style: '--bl-popover-arrow-display: block;--bl-popover-background-color:var(--bl-color-content-tertiary);',
             buttonText:'Popover with arrow' }}
-         play={handleClick}>
+         play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
 </Canvas>
@@ -245,52 +246,52 @@ For example, if there is not enough room on the top, the popover is shown on the
   </Story>
   <Story name="Top-End Placement"
     args={{ id:'15', placement: 'top-end', buttonText:'top-end' }}
-    play={handleClick}>
+    play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Bottom-Start Placement"
     args={{ id:'16', placement: 'bottom-start', buttonText:'bottom-start' }}
-    play={handleClick}>
+    play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Bottom Placement"
     args={{ id:'17', placement: 'bottom', buttonText:'bottom' }}
-    play={handleClick}>
+    play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Bottom-End Placement"
     args={{ id:'18', placement: 'bottom-end', buttonText:'bottom-end' }}
-    play={handleClick}>
+    play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Left-Start Placement"
     args={{ id:'19', placement: 'left-start', buttonText:'left-start' }}
-    play={handleClick}>
+    play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Left Placement"
     args={{ id:'20', placement: 'left', buttonText:'left' }}
-    play={handleClick}>
+    play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Left-End Placement"
     args={{ id:'21', placement: 'left-end', buttonText:'left-end' }}
-    play={handleClick}>
+    play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Right-Start Placement"
     args={{ id:'22', placement: 'right-start', buttonText:'right-start' }}
-    play={handleClick}>
+    play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Right Placement"
     args={{ id:'23', placement: 'right', buttonText:'right' }}
-    play={handleClick}>
+    play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Right-End Placement"
     args={{ id:'24', placement: 'right-end', buttonText:'right-end' }}
-    play={handleClick}>
+    play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
 </Canvas>
