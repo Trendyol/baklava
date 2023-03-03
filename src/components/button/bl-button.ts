@@ -123,10 +123,6 @@ export default class BlButton extends LitElement {
     this.form = this.closest('form');
   }
 
-  updated(properties: Map<string, unknown>) {
-    super.updated(properties);
-  }
-
   private caretTemplate(): TemplateResult {
     return html` <bl-icon class="open" name="arrow_up"></bl-icon>
       <bl-icon class="close" name="arrow_down"></bl-icon>`;

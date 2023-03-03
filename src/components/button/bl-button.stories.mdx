@@ -86,11 +86,10 @@ ${SingleButtonTemplate({size: 'medium', ...args})}
 ${SingleButtonTemplate({size: 'small', ...args})}`
 
 export const LoadingStateTemplate = (args) => html`
-<bl-button
-  @click="${(event)=>event.currentTarget.toggleAttribute('loading')}"
-  icon="${ifDefined(args.icon)}"
-  loading-label="Logging in..."
-  >${unsafeHTML(args.content)}</bl-button>
+<bl-button icon="play" @click="${(event)=>event.currentTarget.toggleAttribute('loading')}" icon="${ifDefined(args.icon)}"></bl-button>
+${SingleButtonTemplate({ size: 'large', loading: true, loadingLabel: 'Custom Loading Label...', content: 'Login', icon: 'account', ...args})}
+${SingleButtonTemplate({ loading: true, disabled: true, content: 'Disabled' })}
+${SingleButtonTemplate({ size: 'small', loading: true, content: 'Create' })}
 `
 
 # Button
@@ -210,14 +209,8 @@ If button has a limited width and a long text that can not fit in a single line,
 Custom loading text can be set with `loading-label` attribute.
 
 <Canvas columns={1}>
-  <Story name="Loading Button With Icon" args={{ loading: true, loadingLabel: 'Logging in...', content: 'Login', icon: 'account' }}>
+  <Story name="Loading State Button">
     {LoadingStateTemplate.bind({})}
-  </Story>
-  <Story name="Loading State Buttons" args={{ loading: true, content: 'Login' }}>
-    {SingleButtonTemplate.bind({})}
-  </Story>
-  <Story name="Loading Button Custom Label" args={{ loading: true, loadingLabel: 'Logging in...', content: 'Login' }}>
-    {SingleButtonTemplate.bind({})}
   </Story>
 </Canvas>
 

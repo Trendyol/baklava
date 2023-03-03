@@ -138,6 +138,10 @@
   cursor: wait;
 }
 
+:host([loading]) bl-icon:not(.loading-icon) {
+  display: none;
+}
+
 .button[aria-disabled=true] {
   --main-color: var(--bl-color-tertiary);
   --main-hover-color: var(--bl-color-tertiary);
