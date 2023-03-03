@@ -1,22 +1,20 @@
-:host {
-  --bl-popover-arrow-display: none;
-  --bl-popover-background-color: var(--bl-color-primary-background);
-  --bl-popover-border-color: var(--bl-color-primary-hover);
-  --bl-popover-padding:  var(--bl-size-m);
-  --bl-popover-border-radius:  var(--bl-size-3xs);
-  --bl-popover-position: absolute;
-}
-
 .popover {
-  position: var(--bl-popover-position);
+  --arrow-display: var(--bl-popover-arrow-display, none);
+  --background-color: var(--bl-popover-background-color, var(--bl-color-primary-background));
+  --border-color: var(--bl-popover-border-color, var(--bl-color-primary-hover));
+  --padding: var(--bl-popover-padding, var(--bl-size-m));
+  --border-radius: var(--bl-popover-border-radius,  var(--bl-size-3xs));
+  --position: var(--bl-popover-position, absolute);
+
+  position: var(--position);
   box-sizing: border-box;
-  border: 1px solid var(--bl-popover-border-color);
-  padding: var(--bl-popover-padding);
-  border-radius: var(--bl-popover-border-radius);
+  border: 1px solid var(--border-color);
+  padding: var(--padding);
+  border-radius: var(--border-radius);
   z-index: 999;
   width: max-content;
   hyphens: auto;
-  background-color: var(--bl-popover-background-color) ;
+  background-color: var(--background-color) ;
  }
 
 .popover:not(.visible) {
@@ -24,9 +22,9 @@
 }
 
 .arrow {
-  display: var(--bl-popover-arrow-display);
+  display: var(--arrow-display);
   position: absolute;
-  background-color: var(--bl-popover-background-color);
+  background-color: var(--background-color);
   width: var(--bl-size-2xs);
   height: var(--bl-size-2xs);
   transform: rotate(45deg);
