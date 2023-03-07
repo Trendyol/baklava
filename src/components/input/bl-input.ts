@@ -62,12 +62,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Makes input a mandatory field
    */
-  @property({})
-  autocomplete: 'on' | 'off';
-
-  /**
-   * Makes input a mandatory field
-   */
   @property({ type: Boolean })
   required = false;
 
@@ -275,7 +269,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
           min="${ifDefined(this.min)}"
           max="${ifDefined(this.max)}"
           step="${ifDefined(this.step)}"
-          autocomplete=${ifDefined(this.autocomplete)}
           ?required=${this.required}
           ?disabled=${this.disabled}
           @change=${this.changeHandler}
