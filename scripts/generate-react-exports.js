@@ -8,7 +8,6 @@ const importStatements = [
 
   // FIXME: These types should be determined automatically
   'import { ISelectOption } from "./components/select/bl-select"',
-  'import { FormValue } from "@open-wc/form-helpers"',
 ];
 
 function writeBaklavaReactFile(fileContentParts) {
@@ -44,7 +43,7 @@ for (const module of customElementsModules) {
       }, {})
     : {};
 
-  const eventTypes = events
+  let eventTypes = events
     ? `, {${events.map(event => `${getReactEventName(event.name)}: EventName<${event.type.text}>`).join(', ')}}`
     : '';
 
@@ -66,21 +65,13 @@ for (const module of customElementsModules) {
 
 
   if (componentDeclaration.typeParameters) {
-    const typeParamDefinition = componentDeclaration.typeParameters.map((param) =>
-      `${param.name}${param.extends ? ` extends ${param.extends}` : ''}${param.default ? ` = ${param.default}` : ''}`
-    ).join(', ');
-
-    const typeParam = componentDeclaration.typeParameters.map((param) => `${param.name}`).join(', ');
-
-    const compType = `${Type}<${typeParam}>`;
-    const wrapperCompType = `ReactWebComponent<${compType}${eventTypes}>`;
-
-    baklavaReactFileParts.push(`export function ${componentName}<${typeParamDefinition}>(props: React.ComponentPropsWithRef<${wrapperCompType}>): React.LazyExoticComponent<${wrapperCompType}> {
-      return React.lazy(() => ${componentDefinition(`<${compType}>`)} )(props);
-    }`);
-  } else {
-    baklavaReactFileParts.push(`export const ${componentName} = React.lazy<ReactWebComponent<${Type}${eventTypes}>>(() => ${componentDefinition(`<${Type}>`)} );`);
+    componentDeclaration.typeParameters.forEach((param) => {
+      console.log(param.name);
+      eventTypes = eventTypes.replace(`<${param.name}>`, '');
+    });
   }
+
+  baklavaReactFileParts.push(`export const ${componentName} = React.lazy<ReactWebComponent<${Type}${eventTypes}>>(() => ${componentDefinition(`<${Type}>`)} );`);
 }
 
 writeBaklavaReactFile(baklavaReactFileParts);
