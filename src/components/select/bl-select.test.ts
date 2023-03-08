@@ -179,7 +179,8 @@ describe('bl-select', () => {
     </bl-select>`);
 
     const selectOption = el.querySelector<BlSelectOption>('bl-select-option[value="1"]');
-    const selectOptionDiv = selectOption?.shadowRoot?.querySelector<HTMLDivElement>('.single-option');
+    const selectOptionDiv =
+      selectOption?.shadowRoot?.querySelector<HTMLDivElement>('.single-option');
 
     setTimeout(() => selectOptionDiv?.click());
     const event = await oneEvent(el, 'bl-select');
@@ -228,8 +229,10 @@ describe('bl-select', () => {
 
         await elementUpdated(el);
 
-        expect(el.querySelector<BlSelectOption>('bl-select-option[value="1"]')?.selected).to.be.false;
-        expect(el.querySelector<BlSelectOption>('bl-select-option[value="2"]')?.selected).to.be.true;
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value="1"]')?.selected).to.be
+          .false;
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value="2"]')?.selected).to.be
+          .true;
       });
 
       it('should be overriden by the selected attribute of options', async () => {
@@ -240,8 +243,10 @@ describe('bl-select', () => {
 
         await elementUpdated(el);
 
-        expect(el.querySelector<BlSelectOption>('bl-select-option[value="1"]')?.selected).to.be.true;
-        expect(el.querySelector<BlSelectOption>('bl-select-option[value="2"]')?.selected).to.be.false;
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value="1"]')?.selected).to.be
+          .true;
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value="2"]')?.selected).to.be
+          .false;
         expect(el.value).to.equal('1');
       });
     });
@@ -257,7 +262,7 @@ describe('bl-select', () => {
 
       form.addEventListener('submit', e => e.preventDefault());
 
-      form.dispatchEvent(new SubmitEvent('submit', {cancelable: true}));
+      form.dispatchEvent(new SubmitEvent('submit', { cancelable: true }));
 
       await elementUpdated(form);
 
@@ -285,10 +290,12 @@ describe('bl-select', () => {
 
       await elementUpdated(form);
 
-      form.querySelector('bl-select-option[value="nl"]')?.dispatchEvent(new CustomEvent('bl-select-option', {
-        bubbles: true,
-        detail: 'nl',
-      }));
+      form.querySelector('bl-select-option[value="nl"]')?.dispatchEvent(
+        new CustomEvent('bl-select-option', {
+          bubbles: true,
+          detail: 'nl',
+        })
+      );
 
       await elementUpdated(form);
 
@@ -300,60 +307,31 @@ describe('bl-select', () => {
 
       expect(blSelect?.value).to.equal('tr');
     });
-
-    // it('should submit parent form when pressed Enter key', async () => {
-    //   const form = await fixture<HTMLFormElement>(html`<form novalidate>
-    //     <bl-select name="user" value="name"></bl-select>
-    //     <button type="submit">Submit</button>
-    //   </form>`);
-
-    //   const blSelect = form.querySelector<BlSelect>('bl-select');
-
-    //   await elementUpdated(form);
-
-    //   const submitEvent = new Promise(resolve => {
-    //     function listener(ev: SubmitEvent) {
-    //       ev.preventDefault();
-    //       resolve(ev);
-    //       form.removeEventListener('submit', listener);
-    //     }
-    //     form.addEventListener('submit', listener);
-    //   });
-
-    //   const enterEvent = new KeyboardEvent('keydown', {
-    //     code: 'Enter',
-    //     cancelable: true
-    //   });
-
-    //   blSelect?.dispatchEvent(enterEvent);
-
-    //   const ev = await submitEvent;
-    //   expect(ev).to.exist;
-    // });
   });
 
-
   describe('keyboard navigation', () => {
-    it('should get focus with tab key', async () => {
+    let el: HTMLDivElement, blSelect: BlSelect;
+
+    beforeEach(async () => {
       //when
-      const el = await fixture(
-        html`<div>
-          <input id="previnput" />
-          <bl-select label="Choose sports you like" multiple>
-            <bl-select-option value="basketball">Basketball</bl-select-option>
-            <bl-select-option value="football">Football</bl-select-option>
-            <bl-select-option value="tennis">Tennis</bl-select-option>
-          </bl-select>
-          ><input id="nextinput" />
-        </div>`
-      );
+      el = await fixture(html`<div>
+        <input id="previnput" />
+        <bl-select label="Choose sports you like" multiple>
+          <bl-select-option value="basketball">Basketball</bl-select-option>
+          <bl-select-option value="football">Football</bl-select-option>
+          <bl-select-option value="tennis">Tennis</bl-select-option>
+        </bl-select>
+        ><input id="nextinput" />
+      </div>`);
 
       await elementUpdated(el);
 
       el.querySelector<HTMLInputElement>('#previnput')?.focus();
 
-      const blSelect = el.querySelector('bl-select');
+      blSelect = el.querySelector('bl-select') as BlSelect;
+    });
 
+    it('should get focus with tab key', async () => {
       //given
       await sendKeys({
         press: 'Tab',
@@ -363,187 +341,54 @@ describe('bl-select', () => {
       expect(document.activeElement).to.equal(blSelect);
     });
 
-    it('should open popover with space key', async () => {
-      //when
-      const el = await fixture(
-        html`<div>
-          <input id="previnput" />
-          <bl-select label="Choose sports you like" multiple>
-            <bl-select-option value="basketball">Basketball</bl-select-option>
-            <bl-select-option value="football">Football</bl-select-option>
-            <bl-select-option value="tennis">Tennis</bl-select-option>
-          </bl-select>
-          ><input id="nextinput" />
-        </div>`
-      );
+    it('should not get focus if it is disabled', async () => {
+      blSelect.disabled = true;
 
-      await elementUpdated(el);
-
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
-
-      const blSelect = el.querySelector<BlSelect>('bl-select');
-
-      //given
+      // given
       await sendKeys({
         press: 'Tab',
       });
-      await sendKeys({
-        press: ' ',
-      });
 
-      //then
-      expect(blSelect?.opened).to.equal(true);
+      // then
+      expect(document.activeElement).to.not.equal(blSelect);
     });
 
-    it('should open popover with enter key', async () => {
-      //when
-      const el = await fixture(
-        html`<div>
-          <input id="previnput" />
-          <bl-select label="Choose sports you like" multiple>
-            <bl-select-option value="basketball">Basketball</bl-select-option>
-            <bl-select-option value="football">Football</bl-select-option>
-            <bl-select-option value="tennis">Tennis</bl-select-option>
-          </bl-select>
-          ><input id="nextinput" />
-        </div>`
-      );
+    ['Space', 'Enter', 'ArrowDown', 'ArrowUp'].forEach(keyCode => {
+      it(`should open popover with ${keyCode} key`, async () => {
+        console.log(blSelect.opened);
 
-      await elementUpdated(el);
+        //given
+        await sendKeys({
+          press: 'Tab',
+        });
+        await sendKeys({
+          press: keyCode,
+        });
 
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
-
-      const blSelect = el.querySelector<BlSelect>('bl-select');
-
-      //given
-      await sendKeys({
-        press: 'Tab',
+        //then
+        expect(blSelect?.opened).to.equal(true);
       });
-      await sendKeys({
-        press: 'Enter',
-      });
-
-      //then
-      expect(blSelect?.opened).to.equal(true);
     });
 
-    it('should close popover with enter key', async () => {
-      //when
-      const el = await fixture(
-        html`<div>
-          <input id="previnput" />
-          <bl-select label="Choose sports you like" multiple>
-            <bl-select-option value="basketball">Basketball</bl-select-option>
-            <bl-select-option value="football">Football</bl-select-option>
-            <bl-select-option value="tennis">Tennis</bl-select-option>
-          </bl-select>
-          ><input id="nextinput" />
-        </div>`
-      );
+    ['Space', 'Enter', 'Escape'].forEach(keyCode => {
+      it(`should close popover with ${keyCode} key`, async () => {
+        // when
+        blSelect?.open();
 
-      await elementUpdated(el);
+        //given
+        await sendKeys({
+          press: 'Tab',
+        });
+        await sendKeys({
+          press: keyCode,
+        });
 
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
-
-      const blSelect = el.querySelector<BlSelect>('bl-select');
-      blSelect?.open();
-
-      //given
-      await sendKeys({
-        press: 'Tab',
+        //then
+        expect(blSelect?.opened).to.equal(false);
       });
-      await sendKeys({
-        press: 'Enter',
-      });
-
-      //then
-      expect(blSelect?.opened).to.equal(false);
-    });
-
-    it('should close popover with space key', async () => {
-      //when
-      const el = await fixture(
-        html`<div>
-          <input id="previnput" />
-          <bl-select label="Choose sports you like" multiple>
-            <bl-select-option value="basketball">Basketball</bl-select-option>
-            <bl-select-option value="football">Football</bl-select-option>
-            <bl-select-option value="tennis">Tennis</bl-select-option>
-          </bl-select>
-          ><input id="nextinput" />
-        </div>`
-      );
-
-      await elementUpdated(el);
-
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
-
-      const blSelect = el.querySelector<BlSelect>('bl-select');
-      blSelect?.open();
-
-      //given
-      await sendKeys({
-        press: 'Tab',
-      });
-      await sendKeys({
-        press: ' ',
-      });
-
-      //then
-      expect(blSelect?.opened).to.equal(false);
-    });
-
-    it('should close popover with esc key', async () => {
-      //when
-      const el = await fixture(
-        html`<div>
-          <input id="previnput" />
-          <bl-select label="Choose sports you like" multiple>
-            <bl-select-option value="basketball">Basketball</bl-select-option>
-            <bl-select-option value="football">Football</bl-select-option>
-            <bl-select-option value="tennis">Tennis</bl-select-option>
-          </bl-select>
-          ><input id="nextinput" />
-        </div>`
-      );
-
-      await elementUpdated(el);
-
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
-
-      const blSelect = el.querySelector<BlSelect>('bl-select');
-      blSelect?.open();
-
-      //given
-      await sendKeys({
-        press: 'Tab',
-      });
-      await sendKeys({
-        press: 'Escape',
-      });
-
-      //then
-      expect(blSelect?.opened).to.equal(false);
     });
 
     it('should focus first option with arrow down key', async () => {
-      //when
-      const el = await fixture(
-        html`<div>
-          <input id="previnput" />
-          <bl-select label="Choose sports you like" multiple>
-            <bl-select-option value="basketball">Basketball</bl-select-option>
-            <bl-select-option value="football">Football</bl-select-option>
-            <bl-select-option value="tennis">Tennis</bl-select-option>
-          </bl-select>
-          ><input id="nextinput" />
-        </div>`
-      );
-
-      await elementUpdated(el);
-
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
-
       const firstOption = el.querySelector<BlSelectOption>('bl-select-option');
 
       //given
@@ -562,23 +407,6 @@ describe('bl-select', () => {
     });
 
     it('should focus previous option with arrow up key', async () => {
-      //when
-      const el = await fixture(
-        html`<div>
-          <input id="previnput" />
-          <bl-select label="Choose sports you like" multiple>
-            <bl-select-option value="basketball">Basketball</bl-select-option>
-            <bl-select-option value="football">Football</bl-select-option>
-            <bl-select-option value="tennis">Tennis</bl-select-option>
-          </bl-select>
-          ><input id="nextinput" />
-        </div>`
-      );
-
-      await elementUpdated(el);
-
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
-
       const firstOption = el.querySelector<BlSelectOption>('bl-select-option');
 
       //given

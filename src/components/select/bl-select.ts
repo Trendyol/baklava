@@ -292,7 +292,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         'select-input': true,
         'has-overflowed-options': this._additionalSelectedOptionCount > 0
       })}
-      tabindex="0"
+      tabindex="${this.disabled ? '-1' : 0}"
       @click=${this.togglePopover}
     >
       <span class="placeholder">${this.placeholder}</span>
@@ -347,8 +347,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private focusedOptionIndex = -1;
 
   private handleKeydown(event: KeyboardEvent) {
-    if (this.focusedOptionIndex === -1 && event.code === 'Enter' || event.code === 'Space') {
+    if (this.focusedOptionIndex === -1 && ['Enter', 'Space'].includes(event.code)) {
       this.togglePopover();
+      event.preventDefault();
+    } else if (this._isPopoverOpen === false && ['ArrowDown', 'ArrowUp'].includes(event.code)) {
+      this.open();
+      event.preventDefault();
     } else if (event.code === 'Escape') {
       this.close();
       event.preventDefault();
@@ -363,6 +367,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       );
 
       this.options[this.focusedOptionIndex].focus();
+
+      event.preventDefault();
     }
 
   }
