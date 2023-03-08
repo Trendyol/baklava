@@ -26,6 +26,16 @@ function getReactEventName(baklavaEventName) {
   return `on${pascalCase(baklavaEventName)}`;
 }
 
+function cleanGenericTypes(typeParameters, eventType) {
+  let result = eventType;
+
+  typeParameters?.forEach((param) => {
+    result = result.replace(`<${param.name}>`, '');
+  });
+
+  return result;
+}
+
 const customElements = fs.readJSONSync(`${__dirname}/../dist/custom-elements.json`);
 const customElementsModules = customElements.modules;
 const baklavaReactFileParts = [];
@@ -43,8 +53,9 @@ for (const module of customElementsModules) {
       }, {})
     : {};
 
-  let eventTypes = events
-    ? `, {${events.map(event => `${getReactEventName(event.name)}: EventName<${event.type.text}>`).join(', ')}}`
+
+  const eventTypes = events
+    ? `, {${events.map(event => `${getReactEventName(event.name)}: EventName<${cleanGenericTypes(componentDeclaration.typeParameters, event.type.text)}>`).join(', ')}}`
     : '';
 
   const importPath = path.replace(/^src\//, '').replace(/\.ts$/, '');
@@ -63,13 +74,6 @@ for (const module of customElementsModules) {
     )
   }))`;
 
-
-  if (componentDeclaration.typeParameters) {
-    componentDeclaration.typeParameters.forEach((param) => {
-      console.log(param.name);
-      eventTypes = eventTypes.replace(`<${param.name}>`, '');
-    });
-  }
 
   baklavaReactFileParts.push(`export const ${componentName} = React.lazy<ReactWebComponent<${Type}${eventTypes}>>(() => ${componentDefinition(`<${Type}>`)} );`);
 }
