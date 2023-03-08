@@ -194,14 +194,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   private inputHandler(event: Event) {
     const value = (event.target as HTMLInputElement).value;
 
-    console.log('inputHandler', value);
     this.value = value;
     this.onInput(value);
   }
 
   private changeHandler(event: Event) {
     const value = (event.target as HTMLInputElement).value;
-    console.log('changeHandler', value);
 
     this.dirty = true;
     this.value = value;
