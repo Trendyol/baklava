@@ -1,5 +1,5 @@
 const fs = require('fs-extra');
-const prettier = require("prettier");
+const prettier = require('prettier');
 const { pascalCase } = require('pascal-case');
 
 const importStatements = [
@@ -11,13 +11,12 @@ const importStatements = [
 ];
 
 function writeBaklavaReactFile(fileContentParts) {
-  let fileContentText = `/* eslint-disable @typescript-eslint/ban-ts-comment */\n` +
+  let fileContentText =
+    `/* eslint-disable @typescript-eslint/ban-ts-comment */\n` +
     `// @ts-nocheck\n` +
     `${importStatements.join('\n')}\n\n` +
-    `${fileContentParts.join('\n\n')}\n`
-  ;
-
-  const codeResult = prettier.format(fileContentText, { parser: 'typescript'});
+    `${fileContentParts.join('\n\n')}\n`;
+  const codeResult = prettier.format(fileContentText, { parser: 'typescript' });
 
   fs.writeFileSync(`${__dirname}/../src/baklava-react.ts`, codeResult);
 }
@@ -29,7 +28,7 @@ function getReactEventName(baklavaEventName) {
 function cleanGenericTypes(typeParameters, eventType) {
   let result = eventType;
 
-  typeParameters?.forEach((param) => {
+  typeParameters?.forEach(param => {
     result = result.replace(`<${param.name}>`, '');
   });
 
@@ -53,9 +52,16 @@ for (const module of customElementsModules) {
       }, {})
     : {};
 
-
   const eventTypes = events
-    ? `, {${events.map(event => `${getReactEventName(event.name)}: EventName<${cleanGenericTypes(componentDeclaration.typeParameters, event.type.text)}>`).join(', ')}}`
+    ? `, {${events
+        .map(
+          event =>
+            `${getReactEventName(event.name)}: EventName<${cleanGenericTypes(
+              componentDeclaration.typeParameters,
+              event.type.text
+            )}>`
+        )
+        .join(', ')}}`
     : '';
 
   const importPath = path.replace(/^src\//, '').replace(/\.ts$/, '');
@@ -63,7 +69,8 @@ for (const module of customElementsModules) {
 
   importStatements.push(`import type ${Type} from "./${importPath}";`);
 
-  const componentDefinition = (typeParam) => `  customElements.whenDefined('${fileName}').then(() => ({
+  const componentDefinition =
+    typeParam => `  customElements.whenDefined('${fileName}').then(() => ({
     default: createComponent${typeParam}(
       {
         react: React,
@@ -74,8 +81,12 @@ for (const module of customElementsModules) {
     )
   }))`;
 
+  const componentType = `<${Type}${eventTypes}>`;
+  const componentPromise = `() => ${componentDefinition(componentType)}`;
+  const componentLazy = `React.lazy<ReactWebComponent${componentType}>(${componentPromise})`;
+  const componentExport = `export const ${componentName} = ${componentLazy};`;
 
-  baklavaReactFileParts.push(`export const ${componentName} = React.lazy<ReactWebComponent<${Type}${eventTypes}>>(() => ${componentDefinition(`<${Type}>`)} );`);
+  baklavaReactFileParts.push(componentExport);
 }
 
 writeBaklavaReactFile(baklavaReactFileParts);
