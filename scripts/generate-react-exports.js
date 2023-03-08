@@ -63,12 +63,12 @@ for (const module of customElementsModules) {
 
   importStatements.push(`import type ${Type} from "./${importPath}";`);
 
-  const componentDefinition = (typeParam) => `  customElements.whenDefined('${fileName}').then(elem => ({
+  const componentDefinition = (typeParam) => `  customElements.whenDefined('${fileName}').then(() => ({
     default: createComponent${typeParam}(
       {
         react: React,
         tagName: '${fileName}',
-        elementClass: elem,
+        elementClass: customElements.get('${fileName}'),
         events: ${JSON.stringify(eventNames)}
       }
     )
