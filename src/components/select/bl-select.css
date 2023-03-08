@@ -66,25 +66,11 @@
   padding: 0 var(--padding-horizontal);
   border-radius: var(--bl-border-radius-s);
   color: var(--text-color);
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-user-select: none;
   user-select: none;
+  position: relative;
 }
-
-.select-input:focus-visible {
-  outline: 2px solid var(--border-focus-color);
-  outline-offset: 2px;
-}
-
-/*
-.select-input:focus-visible::after {
-  border: 2px solid var(--border-focus-color);
-  border-radius: var(--bl-border-radius-s);
-  content: "";
-  position: absolute;
-  top: -3px;
-  right: -3px;
-  bottom: -3px;
-  left: -3px;
-} */
 
 .placeholder {
   color: var(--placeholder-color);
@@ -145,8 +131,10 @@
   --icon-color: var(--bl-color-content-passive);
 }
 
-.select-open .select-input {
+.select-open .select-input,
+.select-input:focus-visible {
   border: solid 1px var(--border-focus-color);
+  outline: none;
 }
 
 :host([disabled]) {

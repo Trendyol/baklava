@@ -355,8 +355,6 @@ describe('bl-select', () => {
 
     ['Space', 'Enter', 'ArrowDown', 'ArrowUp'].forEach(keyCode => {
       it(`should open popover with ${keyCode} key`, async () => {
-        console.log(blSelect.opened);
-
         //given
         await sendKeys({
           press: 'Tab',
