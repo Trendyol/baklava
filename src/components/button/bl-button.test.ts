@@ -86,6 +86,23 @@ describe('bl-button', () => {
 
       expect(el.getAttribute('target')).to.eq('_self');
     });
+
+    it('is disabled button during loading state', async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button loading>Test</bl-button>`
+      );
+      expect(el.shadowRoot?.querySelector('.loading-icon')).to.exist;
+      expect(el).to.have.attribute('loading');
+      expect(el.shadowRoot?.querySelector('button')).to.have.attribute('disabled');
+
+      el.removeAttribute('loading');
+      await elementUpdated(el);
+
+      expect(el.shadowRoot?.querySelector('.loading-icon')).not.to.exist;
+      expect(el).not.have.attribute('loading');
+      expect(el.shadowRoot?.querySelector('button')).not.have.attribute('disabled');
+
+    });
   });
   describe('Slot', () => {
     it('renders default slot with element', async () => {
@@ -93,6 +110,14 @@ describe('bl-button', () => {
         html` <bl-button><strong>https://trendyol.com</strong></bl-button> `
       );
       expect(el.shadowRoot?.querySelector('button')).to.exist;
+    });
+
+    it('renders loading label when set and loading', async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button loading-label="Loading..." loading>Login</bl-button>`
+      );
+
+      expect(el.shadowRoot?.querySelector('.label')).to.have.text('Loading...');
     });
   });
   describe('Link button', () => {

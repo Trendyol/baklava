@@ -51,6 +51,18 @@ export default class BlButton extends LitElement {
   label: string;
 
   /**
+   * Sets the button label for loading status.
+   */
+  @property({ type: String, attribute: 'loading-label' })
+  loadingLabel: string;
+
+  /**
+   * Sets loading state of button
+   */
+  @property({ type: Boolean, reflect: true })
+  loading = false;
+
+  /**
    * Sets button as disabled
    */
   @property({ type: Boolean, reflect: true })
@@ -151,9 +163,12 @@ export default class BlButton extends LitElement {
   }
 
   render(): TemplateResult {
+    const isDisabled = this.loading || this.disabled;
+    const label = (this.loading && this.loadingLabel) ? this.loadingLabel : html`<slot></slot>`;
     const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
-    const slots = html`<slot name="icon">${icon}</slot> <span class="label"><slot></slot></span>`;
+    const loadingIcon = this.loading ? html`<bl-icon class="loading-icon" name="loading"></bl-icon>` : '';
+    const slots = html`<slot name="icon">${icon}</slot> <span class="label">${label}</span>`;
     const caret = this.dropdown ? this.caretTemplate() : '';
     const classes = classMap({
       'button': true,
@@ -165,21 +180,21 @@ export default class BlButton extends LitElement {
     return isAnchor
       ? html`<a
           class=${classes}
-          aria-disabled="${ifDefined(this.disabled)}"
+          aria-disabled="${ifDefined(isDisabled)}"
           aria-label="${ifDefined(this.label)}"
           href=${ifDefined(this.href)}
           target=${ifDefined(this.target)}
           role="button"
-          >${slots}
+          >${loadingIcon} ${slots}
         </a>`
       : html`<button
           class=${classes}
-          aria-disabled="${ifDefined(this.disabled)}"
+          aria-disabled="${ifDefined(isDisabled)}"
           aria-label="${ifDefined(this.label)}"
-          ?disabled=${this.disabled}
+          ?disabled=${isDisabled}
           @click="${this._handleClick}"
         >
-          ${slots} ${caret}
+         ${loadingIcon} ${slots} ${caret}
         </button>`;
   }
 }
