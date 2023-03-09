@@ -1,10 +1,10 @@
-import {assert, fixture, expect, html, elementUpdated} from "@open-wc/testing";
-import BlPopover from "./bl-popover";
+import { assert, fixture, expect, html, elementUpdated } from '@open-wc/testing';
+import BlPopover from './bl-popover';
 import type typeOfBlPopover from './bl-popover';
 import type typeOfBlButton from '../button/bl-button';
-import {sendKeys} from "@web/test-runner-commands";
+import { sendKeys } from '@web/test-runner-commands';
 
-describe('bl-popover',()=>{
+describe('bl-popover', () => {
   it('should be defined popover instance', () => {
     const el = document.createElement('bl-popover');
 
@@ -20,7 +20,7 @@ describe('bl-popover',()=>{
       <slot id="popover" aria-live="off"></slot>
       <div class="arrow" aria-hidden="true"></div>
     </div>`
-    )
+    );
   });
 
   it('should have correct default values', async () => {
@@ -29,13 +29,17 @@ describe('bl-popover',()=>{
   });
 
   it('should be rendered with slot', async () => {
-    const el = await fixture<BlPopover>(html`<bl-popover><span class="test">Popover Content</span></bl-popover>`);
+    const el = await fixture<BlPopover>(
+      html`<bl-popover><span class="test">Popover Content</span></bl-popover>`
+    );
 
     expect(el.shadowRoot?.querySelector('#popover')).to.exist;
   });
 
   it('should be rendered successful with fit-size', async () => {
-    const el = await fixture<BlPopover>(html`<bl-popover fit-size shift>Popover Content</bl-popover>`);
+    const el = await fixture<BlPopover>(
+      html`<bl-popover fit-size shift>Popover Content</bl-popover>`
+    );
     el.show();
     expect(el).to.exist;
   });
@@ -58,19 +62,20 @@ describe('bl-popover',()=>{
 
   it('should be triggered successful when target assigned by id', async () => {
     const body = await fixture<HTMLBodyElement>(html`
-        <div style="width: 1500px;height: 1500px;">
-          <bl-button id="mybtn"></bl-button>
-          <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5" target="mybtn">
-            <span>Popover Content</span>
-          </bl-popover>
-        </div>
+      <div style="width: 1500px;height: 1500px;">
+        <bl-button id="mybtn"></bl-button>
+        <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5" target="mybtn">
+          <span>Popover Content</span>
+        </bl-popover>
+      </div>
     `);
-
 
     const popoverEl = body.querySelector('bl-popover') as typeOfBlPopover;
     const btnEl = body.querySelector('bl-button') as typeOfBlButton;
-    popoverEl.setAttribute('target','mybtn');
-    btnEl.onclick = () => { popoverEl.show(); };
+    popoverEl.setAttribute('target', 'mybtn');
+    btnEl.onclick = () => {
+      popoverEl.show();
+    };
     await btnEl.click();
     await elementUpdated(popoverEl);
 
@@ -78,53 +83,54 @@ describe('bl-popover',()=>{
   });
   it('should be triggered successful when target assigned by object', async () => {
     const body = await fixture<HTMLBodyElement>(html`
-        <div style="width: 1500px;height: 1500px;">
-          <bl-button id="mybtn"></bl-button>
-          <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
-            <span>Popover Content</span>
-          </bl-popover>
-        </div>
+      <div style="width: 1500px;height: 1500px;">
+        <bl-button id="mybtn"></bl-button>
+        <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
+          <span>Popover Content</span>
+        </bl-popover>
+      </div>
     `);
-
 
     const popoverEl = body.querySelector('bl-popover') as typeOfBlPopover;
     const btnEl = body.querySelector('bl-button') as typeOfBlButton;
     popoverEl.target = btnEl;
-      btnEl.onclick = () => { popoverEl.show(); };
+    btnEl.onclick = () => {
+      popoverEl.show();
+    };
     await btnEl.click();
     await elementUpdated(popoverEl);
     expect(popoverEl.visible).to.equal(true);
   });
   it('should get warning when invalid target type assigned', async () => {
     const body = await fixture<HTMLBodyElement>(html`
-        <div style="width: 1500px;height: 1500px;">
-          <bl-button id="mybtn"></bl-button>
-          <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
-            <span>Popover Content</span>
-          </bl-popover>
-        </div>
+      <div style="width: 1500px;height: 1500px;">
+        <bl-button id="mybtn"></bl-button>
+        <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
+          <span>Popover Content</span>
+        </bl-popover>
+      </div>
     `);
 
     const popoverEl = body.querySelector('bl-popover') as typeOfBlPopover;
     /* eslint-disable @typescript-eslint/ban-ts-comment */
     // @ts-ignore
     popoverEl.target = 2;
-    expect(popoverEl.target).to.be.undefined
+    expect(popoverEl.target).to.be.undefined;
   });
   it('should hide popover when press esc', async () => {
     const body = await fixture<HTMLBodyElement>(html`
-        <div style="width: 1500px;height: 1500px;">
-          <bl-button id="mybtn"></bl-button>
-          <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
-            <span>Popover Content</span>
-          </bl-popover>
-        </div>
+      <div style="width: 1500px;height: 1500px;">
+        <bl-button id="mybtn"></bl-button>
+        <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
+          <span>Popover Content</span>
+        </bl-popover>
+      </div>
     `);
 
     const popoverEl = body.querySelector('bl-popover') as typeOfBlPopover;
     popoverEl.show();
 
-    await sendKeys({up: 'Escape'})
+    await sendKeys({ up: 'Escape' });
 
     expect(popoverEl.visible).to.equal(false);
   });
@@ -138,21 +144,21 @@ describe('bl-popover',()=>{
       </div>
     `);
 
-
     const popoverEl = body.querySelector('bl-popover') as typeOfBlPopover;
     const btnEl = body.querySelector('bl-button') as typeOfBlButton;
-    popoverEl.setAttribute('target','mybtn');
-    btnEl.onclick = () => { popoverEl.show(); };
+    popoverEl.setAttribute('target', 'mybtn');
+    btnEl.onclick = () => {
+      popoverEl.show();
+    };
     await btnEl.click();
 
     expect(popoverEl.visible).to.true;
 
-    const outside =  <HTMLBodyElement>popoverEl.closest('body');
+    const outside = <HTMLBodyElement>popoverEl.closest('body');
     outside.click();
 
-    setTimeout(()=>{
+    setTimeout(() => {
       expect(popoverEl.visible).to.false;
     });
-
   });
 });
