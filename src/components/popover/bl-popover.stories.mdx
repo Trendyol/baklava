@@ -57,14 +57,11 @@ export const PopoverTemplate = (args) => html`
   `
 
 export const StoryTemplate = (args) => html`
-  <div style="padding-bottom: 40px">
     <bl-button id="button-${ifDefined(args.id)}" @bl-click="${(event) => handleClick(event,args)}" >${args.buttonText ? args.buttonText : 'Trigger Popover'}</bl-button>
     ${PopoverTemplate(args)}
-</div>
 `
 
 export const TargetInstanceStoryTemplate = (args) => html`
-  <div style="padding-bottom: 40px">
     <bl-button id="button-${ifDefined(args.id)}"  @bl-click="${(event) => handleClick(event,args)}" >${args.buttonText ? args.buttonText : 'Trigger Popover'}</bl-button>
     <bl-popover .target=${document.getElementById('trigggerButton')} id="popover-${ifDefined(args.id)}"
       placement="${ifDefined(args.placement)}"
@@ -74,7 +71,6 @@ export const TargetInstanceStoryTemplate = (args) => html`
       style="${ifDefined(args.style)}">
     Popover Content
     </bl-popover>
-</div>
 `
 
 # Popover
@@ -236,62 +232,62 @@ If there is not enough room for the popover in the given placement, the popover 
 
 <Canvas>
   <Story name="Top-Start Placement"
-    args={{ id:'13', placement: 'top-start', buttonText:'top-start' }}
+    args={{ id:'13', placement: 'top-start', buttonText:'top-start' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Top Placement"
-    args={{ id:'14', placement: 'top', buttonText:'top' }}
+    args={{ id:'14', placement: 'top', buttonText:'top' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Top-End Placement"
-    args={{ id:'15', placement: 'top-end', buttonText:'top-end' }}
+    args={{ id:'15', placement: 'top-end', buttonText:'top-end' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Bottom-Start Placement"
-    args={{ id:'16', placement: 'bottom-start', buttonText:'bottom-start' }}
+    args={{ id:'16', placement: 'bottom-start', buttonText:'bottom-start' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Bottom Placement"
-    args={{ id:'17', placement: 'bottom', buttonText:'bottom' }}
+    args={{ id:'17', placement: 'bottom', buttonText:'bottom' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Bottom-End Placement"
-    args={{ id:'18', placement: 'bottom-end', buttonText:'bottom-end' }}
+    args={{ id:'18', placement: 'bottom-end', buttonText:'bottom-end' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Left-Start Placement"
-    args={{ id:'19', placement: 'left-start', buttonText:'left-start' }}
+    args={{ id:'19', placement: 'left-start', buttonText:'left-start' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Left Placement"
-    args={{ id:'20', placement: 'left', buttonText:'left' }}
+    args={{ id:'20', placement: 'left', buttonText:'left' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Left-End Placement"
-    args={{ id:'21', placement: 'left-end', buttonText:'left-end' }}
+    args={{ id:'21', placement: 'left-end', buttonText:'left-end' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Right-Start Placement"
-    args={{ id:'22', placement: 'right-start', buttonText:'right-start' }}
+    args={{ id:'22', placement: 'right-start', buttonText:'right-start' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Right Placement"
-    args={{ id:'23', placement: 'right', buttonText:'right' }}
+    args={{ id:'23', placement: 'right', buttonText:'right' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="Right-End Placement"
-    args={{ id:'24', placement: 'right-end', buttonText:'right-end' }}
+    args={{ id:'24', placement: 'right-end', buttonText:'right-end' ,style: '--bl-popover-arrow-display: block;' }}
     play={popoverOpener}>
     {StoryTemplate.bind({})}
   </Story>

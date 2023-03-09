@@ -78,7 +78,7 @@ export default class BlPopover extends LitElement {
    * Sets the distance between popover and target/trigger element
    */
   @property({ type: Number })
-  offset = 10;
+  offset = 8;
 
   /**
    * Visibility state
@@ -140,6 +140,13 @@ export default class BlPopover extends LitElement {
     return middlewareParams;
   }
 
+  private _handleClickOutside = (event: MouseEvent) => {
+    const eventPath = event.composedPath() as HTMLElement[];
+    if (!eventPath.includes(this._target as HTMLElement) && !eventPath.includes(this)) {
+      this.hide();
+    }
+  };
+
   private popoverAutoUpdateCleanup: () => void;
 
   private setPopover() {
@@ -169,10 +176,18 @@ export default class BlPopover extends LitElement {
               bottom: 'top',
               left: 'right',
             };
+            const arrowRotateDegrees = {
+              top: '225deg',
+              right: '315deg',
+              bottom: '45deg',
+              left: '135deg',
+            };
             const popoverPlacement = placement.split('-')[0] as keyof typeof arrowFlipDirections;
             const arrowDirection = arrowFlipDirections[popoverPlacement];
+            const arrowRotate = `rotate(${arrowRotateDegrees[popoverPlacement]})`;
 
-            this.arrow.style.setProperty(arrowDirection, '-4px');
+            this.arrow.style.setProperty(arrowDirection, '-5px');
+            this.arrow.style.setProperty('transform', arrowRotate)
           }
         });
       });
@@ -206,6 +221,7 @@ export default class BlPopover extends LitElement {
     this._visible = true;
     this.setPopover();
     this.onBlPopoverShow('');
+    document.addEventListener('click', this._handleClickOutside);
   }
 
   /**
@@ -214,6 +230,7 @@ export default class BlPopover extends LitElement {
   hide() {
     this._visible = false;
     this.onBlPopoverHide('');
+    document.removeEventListener('click', this._handleClickOutside);
   }
 
   /**

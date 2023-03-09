@@ -128,4 +128,31 @@ describe('bl-popover',()=>{
 
     expect(popoverEl.visible).to.equal(false);
   });
+  it('should hide popover when click outside', async () => {
+    const body = await fixture<HTMLBodyElement>(html`
+      <div style="width: 1500px;height: 1500px;">
+        <bl-button id="mybtn"></bl-button>
+        <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5" target="mybtn">
+          <span>Popover Content</span>
+        </bl-popover>
+      </div>
+    `);
+
+
+    const popoverEl = body.querySelector('bl-popover') as typeOfBlPopover;
+    const btnEl = body.querySelector('bl-button') as typeOfBlButton;
+    popoverEl.setAttribute('target','mybtn');
+    btnEl.onclick = () => { popoverEl.show(); };
+    await btnEl.click();
+
+    expect(popoverEl.visible).to.true;
+
+    const outside =  <HTMLBodyElement>popoverEl.closest('body');
+    outside.click();
+
+    setTimeout(()=>{
+      expect(popoverEl.visible).to.false;
+    });
+
+  });
 });
