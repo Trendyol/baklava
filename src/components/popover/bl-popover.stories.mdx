@@ -32,9 +32,9 @@ import { userEvent } from '@storybook/testing-library';
 
 export const popoverOpener = async ({canvasElement}) => {
   const blButton = canvasElement.querySelector('bl-button');
-  if(button.shadowRoot){
-    const selectInput = blButton.shadowRoot.querySelector('button')
-    await userEvent.click(selectInput);
+  if(blButton.shadowRoot){
+    const button = blButton.shadowRoot.querySelector('button')
+    await userEvent.click(button);
   }
 }
 
