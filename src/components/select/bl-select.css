@@ -69,7 +69,6 @@
   /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-user-select: none;
   user-select: none;
-  position: relative;
 }
 
 .placeholder {
