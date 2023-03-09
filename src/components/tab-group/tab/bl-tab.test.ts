@@ -22,7 +22,6 @@ describe('bl-tab', function () {
           </div>
         </div>
       </button>
-      <span class="divider"></span>
     `;
     expect(el).to.be.shadowDom.equal(expected);
   });

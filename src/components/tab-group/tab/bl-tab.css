@@ -26,11 +26,20 @@
   width: max-content;
   height: var(--tab-height);
   padding: 0 var(--tab-right-padding);
+  margin-right: 1px;
 }
 
-.divider {
+.container::after {
+  position: absolute;
+  content: '';
+  right: 0;
+  top: var(--bl-size-m);
   height: calc(100% - var(--bl-size-2xl));
   border-right: 1px solid var(--bl-color-tertiary-hover);
+}
+
+:host(:last-of-type) .container::after {
+  border-right: none;
 }
 
 :host(:focus-visible) {
@@ -40,11 +49,7 @@
 :host(:focus-visible) .container, .container:focus-visible {
   outline: 2px solid var(--bl-color-primary);
   outline-offset: -3px;
-  border-radius: var(--bl-border-radius-xs);
-}
-
-:host(:last-of-type) .divider {
-  display: none;
+  border-radius: var(--bl-border-radius-s);
 }
 
 :host .container::before {
