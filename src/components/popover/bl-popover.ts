@@ -33,7 +33,7 @@ export type Placement =
  * @tag bl-popover
  * @summary Baklava Popover component
  *
-  * @cssproperty --bl-popover-arrow-display - Sets the display of popovers arrow. Default value is `none`
+ * @cssproperty --bl-popover-arrow-display - Sets the display of popovers arrow. Default value is `none`
  * @cssproperty --bl-popover-background-color - Sets the background color of popover. Default value is `--bl-color-primary-background`
  * @cssproperty --bl-popover-border-color - Sets the border color of popover. Default value is `--bl-color-primary-hover`
  * @cssproperty --bl-popover-padding - Sets the padding of popover. Default value is `--bl-size-m`
@@ -69,8 +69,8 @@ export default class BlPopover extends LitElement {
 
 
   /**
-  * Sets size of popover same as trigger element
-  */
+   * Sets size of popover same as trigger element
+   */
   @property({ type: Boolean, attribute: 'fit-size' })
   fitSize = false;
 
@@ -180,7 +180,8 @@ export default class BlPopover extends LitElement {
   }
 
   /**
-   * Getter to get target element directly or with by id.
+   * Sets the target element of the popover to align and trigger.
+   * It can be a string id of the target element or can be a direct Element reference of it.
    */
   @property()
   get target(): string | Element {
