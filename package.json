@@ -60,7 +60,7 @@
     "@fontsource/rubik": "^4.5.9",
     "@lit-labs/react": "^1.1.1",
     "@open-wc/form-control": "^0.7.0",
-    "@open-wc/form-helpers": "^0.2.1",
+    "@open-wc/form-helpers": "^0.2.2",
     "element-internals-polyfill": "^1.2.3",
     "lit": "^2.6.1"
   },
