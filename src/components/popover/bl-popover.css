@@ -3,7 +3,7 @@
   --background-color: var(--bl-popover-background-color, var(--bl-color-primary-background));
   --border-color: var(--bl-popover-border-color, var(--bl-color-primary-hover));
   --padding: var(--bl-popover-padding, var(--bl-size-m));
-  --border-radius: var(--bl-popover-border-radius,  var(--bl-size-3xs));
+  --border-radius: var(--bl-popover-border-radius, var(--bl-size-3xs));
   --position: var(--bl-popover-position, fixed);
 
   position: var(--position);
@@ -15,20 +15,22 @@
   width: max-content;
   hyphens: auto;
   background-color: var(--background-color);
- }
+}
 
 .popover:not(.visible) {
   visibility: hidden;
 }
 
 .arrow {
+  --arrow-rotation: 45deg;
+
   box-sizing: border-box;
   display: var(--arrow-display);
   position: absolute;
   background-color: var(--background-color);
   width: var(--bl-size-2xs);
   height: var(--bl-size-2xs);
-  transform: rotate(45deg);
+  transform: rotate(var(--arrow-rotation));
   border: 1px solid var(--border-color);
   border-bottom: none;
   border-right: none;

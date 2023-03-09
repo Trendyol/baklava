@@ -9,7 +9,8 @@ import {
   inline,
   autoUpdate,
   size,
-  Middleware, MiddlewareState,
+  Middleware,
+  MiddlewareState,
 } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import style from './bl-popover.css';
@@ -55,7 +56,6 @@ export default class BlPopover extends LitElement {
   @property({ type: String })
   placement: Placement = 'bottom';
 
-
   /**
    * Target elements state
    */
@@ -66,7 +66,6 @@ export default class BlPopover extends LitElement {
    */
   @property({ type: Boolean })
   shift = false;
-
 
   /**
    * Sets size of popover same as trigger element
@@ -97,14 +96,10 @@ export default class BlPopover extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    window?.addEventListener('bl-popover-show', event => {
-      if (event.target !== this) this.hide();
-    });
-    window?.addEventListener('keyup',event => {
-      if(event.key === "Escape"){
-        this.hide();
-      }
-    });
+
+    this._handlePopoverShowEvent = this._handlePopoverShowEvent.bind(this);
+    this._handleKeyupEvent = this._handleKeyupEvent.bind(this);
+    this._handleClickOutside = this._handleClickOutside.bind(this);
   }
 
   disconnectedCallback() {
@@ -115,12 +110,7 @@ export default class BlPopover extends LitElement {
 
   private getMiddleware(): Middleware[] {
     const middlewareParams: Middleware[] = [];
-    middlewareParams.push(
-      offset(this.offset),
-      flip(),
-      inline(),
-      arrow({ element: this.arrow, padding: 5 })
-    );
+    middlewareParams.push(offset(this.offset), inline(), flip());
 
     if (this.shift) middlewareParams.push(shift({ padding: 5 }));
 
@@ -128,7 +118,7 @@ export default class BlPopover extends LitElement {
       middlewareParams.push(
         size({
           apply(args: MiddlewareState) {
-            if(args.elements.floating && args.elements.reference){
+            if (args.elements.floating && args.elements.reference) {
               Object.assign(args.elements.floating.style, {
                 width: `${args.elements.reference.getBoundingClientRect().width}px`,
               });
@@ -137,6 +127,9 @@ export default class BlPopover extends LitElement {
         })
       );
     }
+
+    middlewareParams.push(arrow({ element: this.arrow, padding: 5 }));
+
     return middlewareParams;
   }
 
@@ -150,7 +143,7 @@ export default class BlPopover extends LitElement {
   private popoverAutoUpdateCleanup: () => void;
 
   private setPopover() {
-    if(this.target){
+    if (this.target) {
       this.popoverAutoUpdateCleanup = autoUpdate(this.target as Element, this.popover, () => {
         computePosition(this.target as Element, this.popover, {
           placement: this.placement,
@@ -167,7 +160,7 @@ export default class BlPopover extends LitElement {
 
             Object.assign(this.arrow.style, {
               left: `${arrowX}px`,
-              top:`${arrowY}px`,
+              top: `${arrowY}px`,
             });
 
             const arrowFlipDirections = {
@@ -184,10 +177,9 @@ export default class BlPopover extends LitElement {
             };
             const popoverPlacement = placement.split('-')[0] as keyof typeof arrowFlipDirections;
             const arrowDirection = arrowFlipDirections[popoverPlacement];
-            const arrowRotate = `rotate(${arrowRotateDegrees[popoverPlacement]})`;
 
             this.arrow.style.setProperty(arrowDirection, '-5px');
-            this.arrow.style.setProperty('transform', arrowRotate)
+            this.arrow.style.setProperty('--arrow-rotation', arrowRotateDegrees[popoverPlacement]);
           }
         });
       });
@@ -209,10 +201,11 @@ export default class BlPopover extends LitElement {
     } else if (value instanceof Element) {
       this._target = value;
     } else {
-      console.warn('BlPopover target only accepts an Element instance or a string id of a DOM element.');
+      console.warn(
+        'BlPopover target only accepts an Element instance or a string id of a DOM element.'
+      );
     }
   }
-
 
   /**
    * Shows popover
@@ -222,6 +215,8 @@ export default class BlPopover extends LitElement {
     this.setPopover();
     this.onBlPopoverShow('');
     document.addEventListener('click', this._handleClickOutside);
+    document.addEventListener('keyup', this._handleKeyupEvent);
+    document.addEventListener('bl-popover-show', this._handlePopoverShowEvent);
   }
 
   /**
@@ -229,8 +224,10 @@ export default class BlPopover extends LitElement {
    */
   hide() {
     this._visible = false;
-    this.onBlPopoverHide('');
     document.removeEventListener('click', this._handleClickOutside);
+    document.removeEventListener('keyup', this._handleKeyupEvent);
+    document.removeEventListener('bl-popover-show', this._handlePopoverShowEvent);
+    this.onBlPopoverHide('');
   }
 
   /**
@@ -238,6 +235,19 @@ export default class BlPopover extends LitElement {
    */
   get visible(): boolean {
     return this._visible;
+  }
+
+  private _handlePopoverShowEvent(event: Event) {
+    if (event.target !== this) {
+      this.hide();
+    }
+  }
+
+  private _handleKeyupEvent(event: KeyboardEvent) {
+    if (event.key === 'Escape' && this.visible) {
+      this.hide();
+      event.preventDefault();
+    }
   }
 
   render(): TemplateResult {
