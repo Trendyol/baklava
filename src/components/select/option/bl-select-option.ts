@@ -63,7 +63,9 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
    * Focuses this option
    */
   focus() {
-    this.focusTarget.tabIndex = 0;
+    if (!this.multiple) {
+      this.focusTarget.tabIndex = 0;
+    }
     this.focusTarget.focus();
     this.onFocus(this.value);
   }
@@ -105,6 +107,7 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
   private handleKeydown(event: KeyboardEvent) {
     if (event.code === 'Enter' || event.code === 'Space') {
       this._onClickOption();
+      event.preventDefault();
     }
   }
 

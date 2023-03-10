@@ -419,6 +419,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       });
 
     this.value = null;
+    this._additionalSelectedOptionCount = 0;
     this._handleSelectEvent();
   }
 
