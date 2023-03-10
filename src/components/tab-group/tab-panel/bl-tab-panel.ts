@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import styles from './bl-tab-panel.css';
 import type BlTabGroup from '../bl-tab-group';
 
@@ -31,19 +31,19 @@ export default class BlTabPanel extends LitElement {
   }
 
   /**
+   * This attribute set by `tab-group` to make panel visible or hidden.
+   */
+  @state()
+  hidden = true;
+
+  /**
    * Name of the linked tab.
    */
   @property({ type: String, reflect: true })
   tab: string;
 
-  /**
-   * This attribute set by `tab-group` to make panel visible or hidden.
-   */
-  @property({ type: Boolean, reflect: true })
-  hidden = true;
-
   render(): TemplateResult {
-    return html`<slot></slot>`;
+    return html`<div ?hidden=${this.hidden}><slot></slot></div>`;
   }
 }
 

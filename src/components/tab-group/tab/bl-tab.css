@@ -48,7 +48,7 @@
 
 :host(:focus-visible) .container, .container:focus-visible {
   outline: 2px solid var(--bl-color-primary);
-  outline-offset: -3px;
+  outline-offset: calc(-1 * var(--bl-size-3xs));
   border-radius: var(--bl-border-radius-s);
 }
 
