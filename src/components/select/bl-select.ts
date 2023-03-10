@@ -218,17 +218,19 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   open() {
     this._isPopoverOpen = true;
     this._setupPopover();
-    document.addEventListener('click', this._clickOutsideHandler);
+    document.addEventListener('click', this._interactOutsideHandler, true);
+    document.addEventListener('focus', this._interactOutsideHandler, true);
   }
 
   close() {
     this._isPopoverOpen = false;
     this.focusedOptionIndex = -1;
     this._cleanUpPopover && this._cleanUpPopover();
-    document.removeEventListener('click', this._clickOutsideHandler);
+    document.removeEventListener('click', this._interactOutsideHandler, true);
+    document.removeEventListener('focus', this._interactOutsideHandler, true);
   }
 
-  private _clickOutsideHandler = (event: MouseEvent) => {
+  private _interactOutsideHandler = (event: MouseEvent | FocusEvent) => {
     const eventPath = event.composedPath() as HTMLElement[];
 
     if (!eventPath?.find(el => el.tagName === 'BL-SELECT')?.contains(this)) {

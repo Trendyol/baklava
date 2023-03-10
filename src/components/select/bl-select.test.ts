@@ -1,5 +1,6 @@
-import BlSelect from './bl-select';
 import { assert, elementUpdated, expect, fixture, html, oneEvent } from '@open-wc/testing';
+
+import BlSelect from './bl-select';
 import type BlSelectOption from './option/bl-select-option';
 import type BlButton from '../button/bl-button';
 
@@ -316,12 +317,12 @@ describe('bl-select', () => {
       //when
       el = await fixture(html`<div>
         <input id="previnput" />
-        <bl-select label="Choose sports you like" multiple>
+        <bl-select label="Choose sports you like">
           <bl-select-option value="basketball">Basketball</bl-select-option>
           <bl-select-option value="football">Football</bl-select-option>
           <bl-select-option value="tennis">Tennis</bl-select-option>
         </bl-select>
-        ><input id="nextinput" />
+        <input id="nextinput" />
       </div>`);
 
       await elementUpdated(el);
@@ -394,14 +395,14 @@ describe('bl-select', () => {
         press: 'Tab',
       });
       await sendKeys({
-        press: ' ',
+        press: 'Space',
       });
       await sendKeys({
         press: 'ArrowDown',
       });
 
       //then
-      expect(document.activeElement).to.equal(firstOption);
+      expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
     });
 
     it('should focus previous option with arrow up key', async () => {
@@ -412,7 +413,7 @@ describe('bl-select', () => {
         press: 'Tab',
       });
       await sendKeys({
-        press: ' ',
+        press: 'Space',
       });
       await sendKeys({
         press: 'ArrowDown',
@@ -425,7 +426,7 @@ describe('bl-select', () => {
       });
 
       //then
-      expect(document.activeElement).to.equal(firstOption);
+      expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
     });
   });
 
