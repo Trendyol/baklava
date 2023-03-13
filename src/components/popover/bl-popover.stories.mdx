@@ -15,10 +15,6 @@ import { userEvent } from '@storybook/testing-library';
       control: 'text',
       default: 'top'
     },
-    shift: {
-      control: 'boolean',
-      default: false
-    },
     fitSize: {
       control: 'boolean',
       default: false,
@@ -48,7 +44,6 @@ export const handleClick = async (event,args) => {
 export const PopoverTemplate = (args) => html`
   <bl-popover target="button-${ifDefined(args.id)}" id="popover-${ifDefined(args.id)}"
     placement="${ifDefined(args.placement)}"
-    shift="${ifDefined(args.shift)}"
     fit-size="${ifDefined(args.fitSize)}"
     offset="${ifDefined(args.offset)}"
     style="${ifDefined(args.style)}">
@@ -65,7 +60,6 @@ export const TargetInstanceStoryTemplate = (args) => html`
     <bl-button id="button-${ifDefined(args.id)}"  @bl-click="${(event) => handleClick(event,args)}" >${args.buttonText ? args.buttonText : 'Trigger Popover'}</bl-button>
     <bl-popover .target=${document.getElementById('trigggerButton')} id="popover-${ifDefined(args.id)}"
       placement="${ifDefined(args.placement)}"
-      shift="${ifDefined(args.shift)}"
       fit-size="${ifDefined(args.fitSize)}"
       offset="${ifDefined(args.offset)}"
       style="${ifDefined(args.style)}">
@@ -193,21 +187,6 @@ If you set fitSize as true, popover width will be at least as wide as the target
     {StoryTemplate.bind({})}
   </Story>
 </Canvas>
-
-
-
-## Shift
-You can give `shift` for floating element along the specified axes in order to keep it in view. Default fitSize is `false`.
-
-For example, if there is not enough room on the top, the popover is shown on the bottom.
-<Canvas>
-  <Story name="Shift"
-         args={{  id:'12', shift:'true' }}
-         play={popoverOpener}>
-    {StoryTemplate.bind({})}
-  </Story>
-</Canvas>
-
 
 ## Placement
 

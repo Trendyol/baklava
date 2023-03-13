@@ -38,7 +38,7 @@ describe('bl-popover', () => {
 
   it('should be rendered successful with fit-size', async () => {
     const el = await fixture<BlPopover>(
-      html`<bl-popover fit-size shift>Popover Content</bl-popover>`
+      html`<bl-popover fit-size>Popover Content</bl-popover>`
     );
     el.show();
     expect(el).to.exist;
@@ -64,7 +64,7 @@ describe('bl-popover', () => {
     const body = await fixture<HTMLBodyElement>(html`
       <div style="width: 1500px;height: 1500px;">
         <bl-button id="mybtn"></bl-button>
-        <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5" target="mybtn">
+        <bl-popover id="mypopover" fit-size placement="bottom" offset="5" target="mybtn">
           <span>Popover Content</span>
         </bl-popover>
       </div>
@@ -85,7 +85,7 @@ describe('bl-popover', () => {
     const body = await fixture<HTMLBodyElement>(html`
       <div style="width: 1500px;height: 1500px;">
         <bl-button id="mybtn"></bl-button>
-        <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
+        <bl-popover id="mypopover" fit-size placement="bottom" offset="5">
           <span>Popover Content</span>
         </bl-popover>
       </div>
@@ -105,7 +105,7 @@ describe('bl-popover', () => {
     const body = await fixture<HTMLBodyElement>(html`
       <div style="width: 1500px;height: 1500px;">
         <bl-button id="mybtn"></bl-button>
-        <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
+        <bl-popover id="mypopover" fit-size placement="bottom" offset="5">
           <span>Popover Content</span>
         </bl-popover>
       </div>
@@ -121,7 +121,7 @@ describe('bl-popover', () => {
     const body = await fixture<HTMLBodyElement>(html`
       <div style="width: 1500px;height: 1500px;">
         <bl-button id="mybtn"></bl-button>
-        <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5">
+        <bl-popover id="mypopover" fit-size placement="bottom" offset="5">
           <span>Popover Content</span>
         </bl-popover>
       </div>
@@ -138,7 +138,7 @@ describe('bl-popover', () => {
     const body = await fixture<HTMLBodyElement>(html`
       <div style="width: 1500px;height: 1500px;">
         <bl-button id="mybtn"></bl-button>
-        <bl-popover id="mypopover" fit-size placement="bottom" shift offset="5" target="mybtn">
+        <bl-popover id="mypopover" fit-size placement="bottom" offset="5" target="mybtn">
           <span>Popover Content</span>
         </bl-popover>
       </div>
