@@ -15,6 +15,8 @@
   width: max-content;
   hyphens: auto;
   background-color: var(--background-color);
+  font: var(--bl-font-title-3-regular);
+  color: var(--bl-color-secondary);
 }
 
 .popover:not(.visible) {
