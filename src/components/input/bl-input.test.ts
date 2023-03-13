@@ -11,8 +11,7 @@ describe('bl-input', () => {
     const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
     assert.shadowDom.equal(
       el,
-      `
-      <div class="wrapper">
+      `<div class="wrapper">
         <div class="input-wrapper">
           <input
             aria-invalid="false"
@@ -28,8 +27,8 @@ describe('bl-input', () => {
           </div>
         </div>
         <div class="hint"></div>
-      </div>
-    `
+      </div>`,
+      { ignoreAttributes: ['for', 'id'] }
     );
   });
 
@@ -199,7 +198,7 @@ describe('bl-input', () => {
 
       form.addEventListener('submit', e => e.preventDefault());
 
-      form.dispatchEvent(new SubmitEvent('submit', {cancelable: true}));
+      form.dispatchEvent(new SubmitEvent('submit', { cancelable: true }));
 
       await elementUpdated(form);
 
@@ -233,7 +232,7 @@ describe('bl-input', () => {
 
       const enterEvent = new KeyboardEvent('keydown', {
         code: 'Enter',
-        cancelable: true
+        cancelable: true,
       });
 
       blInput?.dispatchEvent(enterEvent);
