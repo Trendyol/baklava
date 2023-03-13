@@ -29,6 +29,7 @@ module.exports = {
         'dropdown',
         'switch',
         'textarea',
+        'popover',
       ],
     ],
   },

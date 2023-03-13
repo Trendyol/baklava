@@ -56,7 +56,7 @@
     "lit"
   ],
   "dependencies": {
-    "@floating-ui/dom": "^0.5.4",
+    "@floating-ui/dom": "^1.2.3",
     "@fontsource/rubik": "^4.5.9",
     "@lit-labs/react": "^1.1.1",
     "@open-wc/form-control": "^0.7.0",
