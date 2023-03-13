@@ -146,7 +146,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     this.autoResize();
 
     const value = (event.target as HTMLTextAreaElement).value;
-    this.setValue(value);
+    this.value = value;
     this.onInput(value);
   }
 
@@ -154,7 +154,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     const value = (event.target as HTMLTextAreaElement).value;
 
     this.dirty = true;
-    this.setValue(value);
+    this.value = value;
     this.onChange(value);
   }
 
@@ -163,9 +163,17 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     this.autoResize();
   }
 
-  protected updated(changedProperties: PropertyValues) {
+  protected async updated(changedProperties: PropertyValues) {
     if (changedProperties.has('rows')) {
       this.autoResize();
+    }
+
+    if (changedProperties.has('value')) {
+      this.setValue(this.value);
+
+      await this.validationComplete;
+
+      this.requestUpdate();
     }
   }
 
