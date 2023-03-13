@@ -34,12 +34,12 @@ export type Placement =
  * @tag bl-popover
  * @summary Baklava Popover component
  *
- * @cssproperty --bl-popover-arrow-display - Sets the display of popovers arrow. Default value is `none`
- * @cssproperty --bl-popover-background-color - Sets the background color of popover. Default value is `--bl-color-primary-background`
- * @cssproperty --bl-popover-border-color - Sets the border color of popover. Default value is `--bl-color-primary-hover`
- * @cssproperty --bl-popover-padding - Sets the padding of popover. Default value is `--bl-size-m`
- * @cssproperty --bl-popover-border-radius - Sets the border radius of popover. Default value is `--bl-size-3xs`
- * @cssproperty --bl-popover-position - Sets the position of popover. Default value is fixed
+ * @cssproperty [--bl-popover-arrow-display=none] - Sets the display of popovers arrow. Set as `block` to make arrow visible.
+ * @cssproperty [--bl-popover-background-color=--bl-color-primary-background] - Sets the background color of popover.
+ * @cssproperty [--bl-popover-border-color=--bl-color-primary-hover] - Sets the border color of popover.
+ * @cssproperty [--bl-popover-padding=--bl-size-m] - Sets the padding of popover.
+ * @cssproperty [--bl-popover-border-radius=--bl-size-3xs] - Sets the border radius of popover.
+ * @cssproperty [--bl-popover-position=fixed] - Sets the position of popover. You can set it to `absolute` if parent element is a fixed positioned element like drawer or dialog.
  */
 @customElement('bl-popover')
 export default class BlPopover extends LitElement {
