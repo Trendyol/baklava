@@ -1,7 +1,9 @@
 .container {
+  --background-color: var(--bl-color-primary-background);
+
   display: flex;
   flex-direction: column;
-  background: var(--bl-color-primary-background);
+  background: var(--background-color);
   max-width: calc(100vw - var(--bl-size-4xl));
   max-height: calc(100vh - var(--bl-size-4xl));
   min-width: 424px;
@@ -21,9 +23,9 @@
   position: fixed;
 
   /* FIXME: Use z-index variable */
-  z-index: 999; 
+  z-index: 999;
  }
- 
+
 .dialog::backdrop {
   background: #273142;
   opacity: 0.7;
@@ -41,11 +43,11 @@
 
   /* FIXME: Use css variables for alpha colors */
   background: #273142b3;
-  
+
   /* FIXME: Use z-index variable */
-  z-index: 999; 
+  z-index: 999;
  }
- 
+
  :host([open]) .dialog-polyfill {
   display: flex;
 }
