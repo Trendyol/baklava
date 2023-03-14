@@ -426,7 +426,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private _checkAdditionalItemCount() {
-    console.log('checking...');
     if (!this.multiple || !this.selectedOptionsItems || this.selectedOptionsItems.length < 2) {
       this._additionalSelectedOptionCount = 0;
       return;
