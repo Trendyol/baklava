@@ -135,12 +135,6 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   autofocus = false;
 
   /**
-   * Sets input as read-only field
-   */
-  @property({ type: Boolean, reflect: true })
-  readonly = false;
-
-  /**
    * Hints browser to autocomplete this field.
    */
   @property({ type: String, reflect: true })
@@ -277,7 +271,6 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
             name="${ifDefined(this.name)}"
             .value=${live(this.value)}
             ?autofocus=${this.autofocus}
-            ?readonly=${this.readonly}
             autocomplete="${ifDefined(this.autocomplete)}"
             inputmode="${ifDefined(this.inputmode)}"
             placeholder="${ifDefined(this.placeholder)}"

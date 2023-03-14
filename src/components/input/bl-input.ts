@@ -120,12 +120,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
   autofocus = false;
 
   /**
-   * Sets input as read-only field
-   */
-  @property({ type: Boolean, reflect: true })
-  readonly = false;
-
-  /**
    * Sets the custom icon name. `bl-icon` component is used to show an icon
    */
   @property({ type: String, reflect: true })
@@ -303,7 +297,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
           .value=${live(this.value)}
           inputmode="${ifDefined(this.inputmode)}"
           ?autofocus=${this.autofocus}
-          ?readonly=${this.readonly}
           autocomplete="${ifDefined(this.autocomplete)}"
           placeholder="${ifDefined(this.placeholder)}"
           minlength="${ifDefined(this.minlength)}"
