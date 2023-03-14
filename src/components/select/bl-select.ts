@@ -111,6 +111,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   multiple = false;
 
   /**
+   * Sets input to get keyboard focus automatically
+   */
+  @property({ type: Boolean, reflect: true })
+  autofocus = false;
+
+  /**
    * Makes label as fixed positioned
    */
   @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
@@ -295,6 +301,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         'has-overflowed-options': this._additionalSelectedOptionCount > 0
       })}
       tabindex="${this.disabled ? '-1' : 0}"
+      ?autofocus=${this.autofocus}
       @click=${this.togglePopover}
     >
       <span class="placeholder">${this.placeholder}</span>
