@@ -455,8 +455,4 @@ describe('bl-select', () => {
       expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
     });
   });
-
-  // describe('validation', () => {
-  //   it('should ')
-  // });
 });
