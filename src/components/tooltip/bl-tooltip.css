@@ -3,34 +3,17 @@
   cursor: pointer;
 }
 
-.tooltip {
-  position: fixed;
-  box-sizing: border-box;
-  border: none;
-  background-color: var(--bl-color-secondary);
-  color: var(--bl-color-content-primary-contrast);
-  border-radius: var(--bl-size-3xs);
-  pointer-events: none;
-  font: var(--bl-font-title-3-regular);
-  padding: var(--bl-size-m);
-  z-index: 999;
-  width: max-content;
-  hyphens: auto;
+.wrapper{
+  display: inline-block;
+}
 
+.tooltip {
+  --bl-popover-background-color: var(--bl-color-secondary);
+  --bl-popover-border-color: var(--bl-color-secondary);
+  --bl-color-content-primary: white;
+  --bl-popover-arrow-display: inline-block;
   --max-viewport: calc(100vw - var(--bl-size-s));
   --tooltip-max-width: 424px;
 
   max-width: min(var(--max-viewport), var(--tooltip-max-width));
-}
-
-.tooltip:not(.visible) {
-  visibility: hidden;
-}
-
-.arrow {
-  position: absolute;
-  background-color: var(--bl-color-secondary);
-  width: var(--bl-size-2xs);
-  height: var(--bl-size-2xs);
-  transform: rotate(45deg);
 }
