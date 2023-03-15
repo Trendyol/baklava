@@ -56,7 +56,7 @@
 
   /* Z-indexes */
   --bl-index-deep: -1;
-  --bl-index-default: 1;
+  --bl-index-base: 1;
   --bl-index-popover: 100;
   --bl-index-tooltip: 200;
   --bl-index-sticky: 300;
