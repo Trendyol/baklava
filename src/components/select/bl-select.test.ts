@@ -82,19 +82,7 @@ describe('bl-select', () => {
     expect(el.options.length).to.equal(2);
     expect(el.selectedOptions.length).to.equal(1);
   });
-  it('should render bl-select-options when multiple options is true and there are selected options', async () => {
-    const el = await fixture<BlSelect>(html`<bl-select multiple>
-      <bl-select-option value="1">Option 1</bl-select-option>
-      <bl-select-option value="2" selected>Option 2 with a very long label to fill out the selected option label</bl-select-option>
-      <bl-select-option value="3" selected>Option 3</bl-select-option>
-      <bl-select-option value="4" selected>Option 4</bl-select-option>
-      <bl-select-option value="5" selected>Option 5</bl-select-option>
-    </bl-select>`);
 
-    expect(el.options.length).to.equal(5);
-    expect(el.selectedOptions.length).to.equal(4, 'selectedOptions count is wrong');
-    expect(el.additionalSelectedOptionCount).to.equal(3, 'non visible selected option count is wrong');
-  });
   it('should open select menu', async () => {
     const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
 
@@ -218,6 +206,44 @@ describe('bl-select', () => {
     const selectOption = el.querySelector<BlSelectOption>('bl-select-option[selected]');
 
     expect(selectOption).is.not.exist;
+  });
+
+  describe('additional selection counter', () => {
+    let el: BlSelect;
+
+    beforeEach(async () => {
+      el = await fixture<BlSelect>(html`<bl-select multiple>
+        <bl-select-option value="1">Option 1</bl-select-option>
+        <bl-select-option value="2" selected>Option 2 with a very long label to fill out the selected option label</bl-select-option>
+        <bl-select-option value="3" selected>Option 3</bl-select-option>
+        <bl-select-option value="4" selected>Option 4</bl-select-option>
+        <bl-select-option value="5" selected>Option 5</bl-select-option>
+      </bl-select>`);
+
+      await elementUpdated(el);
+    });
+
+    it('should render bl-select-options when multiple options is true and there are selected options', async () => {
+      expect(el.options.length).to.equal(5);
+      expect(el.selectedOptions.length).to.equal(4, 'selectedOptions count is wrong');
+      expect(el.additionalSelectedOptionCount).to.equal(3, 'non visible selected option count is wrong');
+    });
+
+    it('should show additional selection number', async () => {
+      const inputWrapper = el.shadowRoot?.querySelector('.select-input');
+
+      expect(inputWrapper?.classList.contains('has-overflowed-options')).to.be.true;
+    });
+
+    it('should clear additional selection number when value set', async () => {
+      el.value = [];
+
+      await elementUpdated(el);
+
+      const inputWrapper = el.shadowRoot?.querySelector('.select-input');
+
+      expect(inputWrapper?.classList.contains('has-overflowed-options')).to.be.false;
+    });
   });
 
   describe('value attribute', () => {
@@ -429,8 +455,4 @@ describe('bl-select', () => {
       expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
     });
   });
-
-  // describe('validation', () => {
-  //   it('should ')
-  // });
 });
