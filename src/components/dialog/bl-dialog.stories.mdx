@@ -8,6 +8,10 @@ import { userEvent } from '@storybook/testing-library';
 <Meta
   title="Components/Dialog"
   component="bl-dialog"
+  parameters={{
+    layout: 'fullscreen',
+    chromatic: { viewports: [1000] },
+  }}
   argTypes={{
     open: {
       control: "boolean",
