@@ -1,7 +1,11 @@
+import { assert, elementUpdated, expect, fixture, html, oneEvent } from '@open-wc/testing';
+
 import BlSelect from './bl-select';
-import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
-import { BlIcon, BlSelectOption } from '../../baklava';
+import type BlSelectOption from './option/bl-select-option';
+import type BlButton from '../button/bl-button';
+
 import BlCheckbox from '../checkbox-group/checkbox/bl-checkbox';
+import { sendKeys } from '@web/test-runner-commands';
 
 describe('bl-select', () => {
   it('is defined', () => {
@@ -14,18 +18,25 @@ describe('bl-select', () => {
     assert.shadowDom.equal(
       el,
       `
-      <div tabindex="-1" class=" select-wrapper ">
-        <div class="select-input">
+      <div class="select-wrapper">
+        <div
+          class="select-input"
+          tabindex="0"
+        >
           <span class="placeholder"></span>
           <ul class="selected-options"></ul>
+          <span class="additional-selection-count">
+            +0
+          </span>
           <div class="actions">
           <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
           <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
           </div>
         </div>
-        <div class="popover">
+        <div class="popover" tabindex="-1">
           <slot></slot>
         </div>
+        <div class="hint"></div>
       </div>
     `
     );
@@ -41,7 +52,7 @@ describe('bl-select', () => {
   it('should set help text', async () => {
     const helpText = 'Some help text';
     const el = await fixture<BlSelect>(html`<bl-select help-text="${helpText}"></bl-select>`);
-    const helpMessage = <HTMLParagraphElement>el.shadowRoot?.querySelector('.help-text');
+    const helpMessage = el.shadowRoot?.querySelector<HTMLParagraphElement>('.help-text');
 
     expect(helpMessage).to.exist;
     expect(helpMessage?.innerText).to.equal(helpText);
@@ -71,23 +82,11 @@ describe('bl-select', () => {
     expect(el.options.length).to.equal(2);
     expect(el.selectedOptions.length).to.equal(1);
   });
-  it('should render bl-select-options when multiple options is true and there are selected options', async () => {
-    const el = await fixture<BlSelect>(html`<bl-select multiple>
-      <bl-select-option value="1">Option 1</bl-select-option>
-      <bl-select-option value="2" selected>Option 2</bl-select-option>
-      <bl-select-option value="3" selected>Option 3</bl-select-option>
-      <bl-select-option value="4" selected>Option 4</bl-select-option>
-      <bl-select-option value="5" selected>Option 5</bl-select-option>
-    </bl-select>`);
 
-    expect(el.options.length).to.equal(5);
-    expect(el.selectedOptions.length).to.equal(4);
-    expect(el.additionalSelectedOptionCount).to.equal(1);
-  });
   it('should open select menu', async () => {
     const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
 
-    const selectInput = <HTMLDivElement>el.shadowRoot?.querySelector('.select-input');
+    const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>('.select-input');
     selectInput?.click();
 
     expect(el.opened).to.true;
@@ -95,7 +94,7 @@ describe('bl-select', () => {
   it('should close select menu', async () => {
     const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
 
-    const selectInput = <HTMLDivElement>el.shadowRoot?.querySelector('.select-input');
+    const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>('.select-input');
     selectInput?.click();
     selectInput?.click();
 
@@ -106,19 +105,19 @@ describe('bl-select', () => {
       <bl-select required invalid-text="This field is mandatory"></bl-select>
     </body>`);
 
-    const selectInput = <HTMLDivElement>el.shadowRoot?.querySelector('.select-input');
+    const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>('.select-input');
     selectInput?.click();
 
-    const body = <HTMLBodyElement>el.closest('body');
-    body.click();
+    const body = el.closest<HTMLBodyElement>('body');
+    body?.click();
 
-    setTimeout(() => {
-      const invalidText = <HTMLParagraphElement>el.shadowRoot?.querySelector('.invalid-text');
+    await elementUpdated(el);
 
-      expect(el.opened).to.false;
-      expect(el.isInvalid).to.true;
-      expect(invalidText).to.exist;
-    });
+    const invalidText = el.shadowRoot?.querySelector<HTMLParagraphElement>('.invalid-text');
+
+    expect(el.opened).to.false;
+    expect(el.checkValidity()).to.false;
+    expect(invalidText).to.exist;
   });
   it('should remove selected options', async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
@@ -126,7 +125,7 @@ describe('bl-select', () => {
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);
 
-    const removeAll = <BlIcon>el.shadowRoot?.querySelector('.remove-all');
+    const removeAll = el.shadowRoot?.querySelector<BlButton>('.remove-all');
     setTimeout(() => removeAll?.click());
 
     const event = await oneEvent(el, 'bl-select');
@@ -136,6 +135,7 @@ describe('bl-select', () => {
     expect(event.detail).to.eql([]);
     expect(el.options.length).to.equal(2);
     expect(el.selectedOptions.length).to.equal(0);
+    expect(el.value).to.null;
   });
   it('should hide remove icon button on single selection', async () => {
     const el = await fixture<BlSelect>(html`<bl-select>
@@ -151,9 +151,9 @@ describe('bl-select', () => {
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);
 
-    const selectOption = <BlSelectOption>el.querySelector('bl-select-option[value="1"]');
+    const selectOption = el.querySelector<BlSelectOption>('bl-select-option[value="1"]');
 
-    const selectOptionCheckbox = <BlCheckbox>selectOption.shadowRoot?.querySelector('bl-checkbox');
+    const selectOptionCheckbox = selectOption?.shadowRoot?.querySelector<BlCheckbox>('bl-checkbox');
     const checkboxEvent = new CustomEvent('bl-checkbox-change', {
       detail: true,
     });
@@ -167,10 +167,9 @@ describe('bl-select', () => {
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);
 
-    const selectOption = <BlSelectOption>el.querySelector('bl-select-option[value="1"]');
-    const selectOptionDiv = <HTMLDivElement>(
-      selectOption.shadowRoot?.querySelector('.single-option')
-    );
+    const selectOption = el.querySelector<BlSelectOption>('bl-select-option[value="1"]');
+    const selectOptionDiv =
+      selectOption?.shadowRoot?.querySelector<HTMLDivElement>('.single-option');
 
     setTimeout(() => selectOptionDiv?.click());
     const event = await oneEvent(el, 'bl-select');
@@ -185,8 +184,8 @@ describe('bl-select', () => {
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);
 
-    const selectOption = <BlSelectOption>el.querySelector('bl-select-option[value="2"]');
-    const selectOptionCheckbox = <BlCheckbox>selectOption.shadowRoot?.querySelector('bl-checkbox');
+    const selectOption = el.querySelector<BlSelectOption>('bl-select-option[value="2"]');
+    const selectOptionCheckbox = selectOption?.shadowRoot?.querySelector<BlCheckbox>('bl-checkbox');
     const checkboxEvent = new CustomEvent('bl-checkbox-change', {
       detail: false,
     });
@@ -201,10 +200,259 @@ describe('bl-select', () => {
     </bl-select>`);
 
     el.removeAttribute('multiple');
-    setTimeout(() => {
-      const selectOption = <BlSelectOption>el.querySelector('bl-select-option[selected]');
 
-      expect(selectOption).is.not.exist;
+    await elementUpdated(el);
+
+    const selectOption = el.querySelector<BlSelectOption>('bl-select-option[selected]');
+
+    expect(selectOption).is.not.exist;
+  });
+
+  describe('additional selection counter', () => {
+    let el: BlSelect;
+
+    beforeEach(async () => {
+      el = await fixture<BlSelect>(html`<bl-select multiple>
+        <bl-select-option value="1">Option 1</bl-select-option>
+        <bl-select-option value="2" selected>Option 2 with a very long label to fill out the selected option label</bl-select-option>
+        <bl-select-option value="3" selected>Option 3</bl-select-option>
+        <bl-select-option value="4" selected>Option 4</bl-select-option>
+        <bl-select-option value="5" selected>Option 5</bl-select-option>
+      </bl-select>`);
+
+      await elementUpdated(el);
+    });
+
+    it('should render bl-select-options when multiple options is true and there are selected options', async () => {
+      expect(el.options.length).to.equal(5);
+      expect(el.selectedOptions.length).to.equal(4, 'selectedOptions count is wrong');
+      expect(el.additionalSelectedOptionCount).to.equal(3, 'non visible selected option count is wrong');
+    });
+
+    it('should show additional selection number', async () => {
+      const inputWrapper = el.shadowRoot?.querySelector('.select-input');
+
+      expect(inputWrapper?.classList.contains('has-overflowed-options')).to.be.true;
+    });
+
+    it('should clear additional selection number when value set', async () => {
+      el.value = [];
+
+      await elementUpdated(el);
+
+      const inputWrapper = el.shadowRoot?.querySelector('.select-input');
+
+      expect(inputWrapper?.classList.contains('has-overflowed-options')).to.be.false;
+    });
+  });
+
+  describe('value attribute', () => {
+    describe('initial value', () => {
+      it('should set correct option as selected when value is simple string', async () => {
+        const el = await fixture<BlSelect>(html`<bl-select name="test" value="2">
+          <bl-select-option value="1">Option 1</bl-select-option>
+          <bl-select-option value="2">Option 2</bl-select-option>
+        </bl-select>`);
+
+        await elementUpdated(el);
+
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value="1"]')?.selected).to.be
+          .false;
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value="2"]')?.selected).to.be
+          .true;
+      });
+
+      it('should be overriden by the selected attribute of options', async () => {
+        const el = await fixture<BlSelect>(html`<bl-select name="test" value="2">
+          <bl-select-option value="1" selected>Option 1</bl-select-option>
+          <bl-select-option value="2">Option 2</bl-select-option>
+        </bl-select>`);
+
+        await elementUpdated(el);
+
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value="1"]')?.selected).to.be
+          .true;
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value="2"]')?.selected).to.be
+          .false;
+        expect(el.value).to.equal('1');
+      });
+    });
+  });
+
+  describe('form integration', () => {
+    it('should show errors when parent form is submitted', async () => {
+      const form = await fixture<HTMLFormElement>(html`<form novalidate>
+        <bl-select required></bl-select>
+      </form>`);
+
+      const blSelect = form.querySelector<BlSelect>('bl-select');
+
+      form.addEventListener('submit', e => e.preventDefault());
+
+      form.dispatchEvent(new SubmitEvent('submit', { cancelable: true }));
+
+      await elementUpdated(form);
+
+      const errorMessageElement = <HTMLParagraphElement>(
+        blSelect?.shadowRoot?.querySelector('.invalid-text')
+      );
+
+      expect(blSelect?.validity.valid).to.be.false;
+
+      expect(errorMessageElement).to.exist;
+    });
+
+    it('should return the initial value when form reset called', async () => {
+      const form = await fixture<HTMLFormElement>(html`<form novalidate>
+        <bl-select name="country" value="tr">
+          <bl-select-option value="tr">Turkiye</bl-select-option>
+          <bl-select-option value="nl">Netherlands</bl-select-option>
+        </bl-select>
+
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+      </form>`);
+
+      const blSelect = form.querySelector<BlSelect>('bl-select');
+
+      await elementUpdated(form);
+
+      form.querySelector('bl-select-option[value="nl"]')?.dispatchEvent(
+        new CustomEvent('bl-select-option', {
+          bubbles: true,
+          detail: 'nl',
+        })
+      );
+
+      await elementUpdated(form);
+
+      expect(blSelect?.value).to.equal('nl');
+
+      form.querySelector<HTMLButtonElement>('button[type="reset"]')?.click();
+
+      await elementUpdated(form);
+
+      expect(blSelect?.value).to.equal('tr');
+    });
+  });
+
+  describe('keyboard navigation', () => {
+    let el: HTMLDivElement, blSelect: BlSelect;
+
+    beforeEach(async () => {
+      //when
+      el = await fixture(html`<div>
+        <input id="previnput" />
+        <bl-select label="Choose sports you like">
+          <bl-select-option value="basketball">Basketball</bl-select-option>
+          <bl-select-option value="football">Football</bl-select-option>
+          <bl-select-option value="tennis">Tennis</bl-select-option>
+        </bl-select>
+        <input id="nextinput" />
+      </div>`);
+
+      await elementUpdated(el);
+
+      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+
+      blSelect = el.querySelector('bl-select') as BlSelect;
+    });
+
+    it('should get focus with tab key', async () => {
+      //given
+      await sendKeys({
+        press: 'Tab',
+      });
+
+      //then
+      expect(document.activeElement).to.equal(blSelect);
+    });
+
+    it('should not get focus if it is disabled', async () => {
+      blSelect.disabled = true;
+
+      // given
+      await sendKeys({
+        press: 'Tab',
+      });
+
+      // then
+      expect(document.activeElement).to.not.equal(blSelect);
+    });
+
+    ['Space', 'Enter', 'ArrowDown', 'ArrowUp'].forEach(keyCode => {
+      it(`should open popover with ${keyCode} key`, async () => {
+        //given
+        await sendKeys({
+          press: 'Tab',
+        });
+        await sendKeys({
+          press: keyCode,
+        });
+
+        //then
+        expect(blSelect?.opened).to.equal(true);
+      });
+    });
+
+    ['Space', 'Enter', 'Escape'].forEach(keyCode => {
+      it(`should close popover with ${keyCode} key`, async () => {
+        // when
+        blSelect?.open();
+
+        //given
+        await sendKeys({
+          press: 'Tab',
+        });
+        await sendKeys({
+          press: keyCode,
+        });
+
+        //then
+        expect(blSelect?.opened).to.equal(false);
+      });
+    });
+
+    it('should focus first option with arrow down key', async () => {
+      const firstOption = el.querySelector<BlSelectOption>('bl-select-option');
+
+      //given
+      await sendKeys({
+        press: 'Tab',
+      });
+      await sendKeys({
+        press: 'Space',
+      });
+      await sendKeys({
+        press: 'ArrowDown',
+      });
+
+      //then
+      expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
+    });
+
+    it('should focus previous option with arrow up key', async () => {
+      const firstOption = el.querySelector<BlSelectOption>('bl-select-option');
+
+      //given
+      await sendKeys({
+        press: 'Tab',
+      });
+      await sendKeys({
+        press: 'Space',
+      });
+      await sendKeys({
+        press: 'ArrowDown',
+      });
+      await sendKeys({
+        press: 'ArrowDown',
+      });
+      await sendKeys({
+        press: 'ArrowUp',
+      });
+
+      //then
+      expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
     });
   });
 });

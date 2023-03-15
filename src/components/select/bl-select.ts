@@ -1,15 +1,19 @@
-import { LitElement, html, CSSResultGroup, PropertyValues } from 'lit';
-import { customElement, property, state, query, queryAll } from 'lit/decorators.js';
+import { autoUpdate, computePosition, flip, MiddlewareArguments, offset, size } from '@floating-ui/dom';
+import { FormControlMixin, requiredValidator } from '@open-wc/form-control';
+import { FormValue } from '@open-wc/form-helpers';
+import 'element-internals-polyfill';
+import { CSSResultGroup, html, LitElement, PropertyValues } from 'lit';
+import { customElement, property, query, queryAll, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { computePosition, flip, MiddlewareArguments, offset, size, autoUpdate } from '@floating-ui/dom';
-import style from '../select/bl-select.css';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { event, EventDispatcher } from '../../utilities/event';
 import '../icon/bl-icon';
+import style from '../select/bl-select.css';
 import '../select/option/bl-select-option';
 import type BlSelectOption from './option/bl-select-option';
-import { event, EventDispatcher } from '../../utilities/event';
 
-export interface ISelectOption {
-  value: string;
+export interface ISelectOption<T> {
+  value: T;
   text: string;
   selected: boolean;
 }
@@ -18,10 +22,55 @@ export type SelectSize = 'medium' | 'large' | 'small';
 
 export type CleanUpFunction = () => void;
 
+
+/**
+ * @tag bl-select
+ * @summary Baklava Select component
+ *
+ * @cssproperty --bl-popover-position - Sets the positioning strategy of select popover. You can set it as `absolute` if you need to show popover relative to its trigger element. Default value is `fixed`
+ */
 @customElement('bl-select')
-export default class BlSelect extends LitElement {
+export default class BlSelect<ValueType extends FormValue = string> extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
+  }
+
+  static formControlValidators = [requiredValidator];
+
+  /**
+   * Sets name of the select field
+   */
+  @property()
+  name: string;
+
+  private _value: ValueType | ValueType[] | null;
+
+  private _initialValue: ValueType | ValueType[] | null;
+
+  /**
+   * Sets the value of the select
+   */
+  @property()
+  get value(): ValueType | ValueType[] | null {
+    return this._value;
+  }
+
+  set value(val: ValueType | ValueType[] | null) {
+    this._value = val;
+
+    if (Array.isArray(val)) {
+      const formData = new FormData();
+      val.forEach((option) => formData.append(this.name, `${option}`));
+      this.setValue(formData);
+    } else {
+      this.setValue(val);
+    }
+
+    this.setOptionsSelected();
+  }
+
+  shouldFormValueUpdate(): boolean {
+    return this.value !== null && this.value !== '';
   }
 
   /* Declare reactive properties */
@@ -46,7 +95,7 @@ export default class BlSelect extends LitElement {
   /**
    * When option is not selected, shows component in error state
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   required = false;
 
   /**
@@ -83,20 +132,15 @@ export default class BlSelect extends LitElement {
   @state()
   private _isPopoverOpen = false;
 
-  @state()
-  private _selectedOptions: ISelectOption[] = [];
 
   @state()
   private _additionalSelectedOptionCount = 0;
 
-  @state()
-  private _isInvalid = false;
-
   @query('.selected-options')
-  private _selectedOptionsContainer!: HTMLElement;
+  private selectedOptionsContainer!: HTMLElement;
 
   @queryAll('.selected-options li')
-  private _selectedOptionsItems!: Array<HTMLElement>;
+  private selectedOptionsItems!: NodeListOf<HTMLElement>;
 
   @query('.popover')
   private _popover: HTMLElement;
@@ -104,11 +148,28 @@ export default class BlSelect extends LitElement {
   @query('.select-input')
   private _selectInput: HTMLElement;
 
-  @event('bl-select') private _onBlSelect: EventDispatcher<ISelectOption[]>;
+  /**
+   * Fires when selection changes
+   */
+  @event('bl-select') private _onBlSelect: EventDispatcher<ISelectOption<ValueType>[]>;
 
-  private _connectedOptions: BlSelectOption[] = [];
+  private _connectedOptions: BlSelectOption<ValueType>[] = [];
 
   private _cleanUpPopover: CleanUpFunction | null = null;
+
+  private setOptionsSelected() {
+    this._connectedOptions
+      .forEach(
+        (option) => option.selected = (
+            this.value === option.value ||
+            (Array.isArray(this.value) && this.value.includes(option.value))
+          )
+      );
+
+    this._selectedOptions = [...this.options
+      .filter(option => option.selected)
+    ];
+  }
 
   get options() {
     return this._connectedOptions;
@@ -118,7 +179,13 @@ export default class BlSelect extends LitElement {
     return this._isPopoverOpen;
   }
 
-  get selectedOptions() {
+  @state()
+  private _selectedOptions: BlSelectOption<ValueType>[] = [];
+
+  @state()
+  private dirty = false;
+
+  get selectedOptions(): BlSelectOption<ValueType>[] {
     return this._selectedOptions;
   }
 
@@ -126,28 +193,48 @@ export default class BlSelect extends LitElement {
     return this._additionalSelectedOptionCount;
   }
 
-  get isInvalid() {
-    return this._isInvalid;
+  validityCallback(): string | void {
+    if (this.customInvalidText) {
+      return this.customInvalidText;
+    }
+    const select = document.createElement('select');
+    select.required = this.required;
+
+    return select.validationMessage;
   }
+
+  reportValidity() {
+    this.dirty = true;
+    return this.checkValidity();
+  }
+
+  resetFormControl(): void {
+    this.value = this._initialValue;
+  }
+
+  @query('.select-input')
+  validationTarget: HTMLElement;
 
   open() {
     this._isPopoverOpen = true;
     this._setupPopover();
-    document.addEventListener('click', this._clickOutsideHandler);
+    document.addEventListener('click', this._interactOutsideHandler, true);
+    document.addEventListener('focus', this._interactOutsideHandler, true);
   }
 
   close() {
     this._isPopoverOpen = false;
+    this.focusedOptionIndex = -1;
     this._cleanUpPopover && this._cleanUpPopover();
-    document.removeEventListener('click', this._clickOutsideHandler);
+    document.removeEventListener('click', this._interactOutsideHandler, true);
+    document.removeEventListener('focus', this._interactOutsideHandler, true);
   }
 
-  private _clickOutsideHandler = (event: MouseEvent) => {
+  private _interactOutsideHandler = (event: MouseEvent | FocusEvent) => {
     const eventPath = event.composedPath() as HTMLElement[];
 
     if (!eventPath?.find(el => el.tagName === 'BL-SELECT')?.contains(this)) {
       this.close();
-      this._checkRequired();
     }
   };
 
@@ -174,9 +261,16 @@ export default class BlSelect extends LitElement {
     });
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
+
+    this.form?.addEventListener('submit', (e: SubmitEvent) => {
+      if (!this.reportValidity()) {
+        e.preventDefault();
+      }
+    });
   }
+
   disconnectedCallback() {
     super.disconnectedCallback();
 
@@ -185,11 +279,8 @@ export default class BlSelect extends LitElement {
 
   private inputTemplate() {
     const inputSelectedOptions = html`<ul class="selected-options">
-      ${this._selectedOptions.map(item => html`<li>${item.text}</li>`)}
+      ${this._selectedOptions.map(item => html`<li>${item.textContent}</li>`)}
     </ul>`;
-    const _selectedItemCount = this._additionalSelectedOptionCount
-      ? html`<span>+${this._additionalSelectedOptionCount}</span>`
-      : null;
     const removeButton = html`<bl-button
         class="remove-all"
         size="small"
@@ -197,16 +288,18 @@ export default class BlSelect extends LitElement {
         kind="neutral"
         icon="close"
         @click=${this._onClickRemove}></bl-button>`;
-    const placeholder = this._showPlaceHolder
-      ? html`<span class="placeholder">${this.placeholder}</span>`
-      : '';
 
     return html`<div
-      class="select-input"
-      ?disabled=${this.disabled}
-      @click=${this._onClickSelectInput}
+      class=${classMap({
+        'select-input': true,
+        'has-overflowed-options': this._additionalSelectedOptionCount > 0
+      })}
+      tabindex="${this.disabled ? '-1' : 0}"
+      @click=${this.togglePopover}
     >
-      ${placeholder} ${inputSelectedOptions} ${_selectedItemCount}
+      <span class="placeholder">${this.placeholder}</span>
+      ${inputSelectedOptions}
+      <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
       <div class="actions">
         ${this.multiple ? removeButton : null}
         <bl-icon
@@ -222,17 +315,15 @@ export default class BlSelect extends LitElement {
     </div>`;
   }
 
-  private menuTemplate() {
-    return html`<div class="popover" @bl-select-option=${this._handleSelectOptionEvent}>
-      <slot></slot>
-    </div>`;
-  }
-
   render() {
-    const invalidMessage = this._isInvalid && this.customInvalidText
-      ? html`<p class="invalid-text">${this.customInvalidText}</p>` : ``;
+    const invalidMessage = !this.checkValidity()
+      ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
+          ${this.validationMessage}
+        </p>`: '';
+
     const helpMessage = this.helpText && !invalidMessage
-      ? html`<p class="help-text">${this.helpText}</p>` : ``;
+      ? html`<p class="help-text">${this.helpText}</p>` : '';
+
     const label = this.label
       ? html`<label>${this.label}</label>` : '';
 
@@ -241,58 +332,80 @@ export default class BlSelect extends LitElement {
       'select-wrapper': true,
       'select-open': this.opened,
       'selected': this._selectedOptions.length > 0,
-      'invalid': this._isInvalid,
+      'invalid': !this.validity.valid,
+      'dirty': this.dirty
     })}
-      tabindex="-1"
+      @keydown=${this.handleKeydown}
     >
-      ${label} ${this.inputTemplate()} ${this.menuTemplate()} ${helpMessage} ${invalidMessage}
+      ${label}
+      ${this.inputTemplate()}
+      <div class="popover" tabindex="${ifDefined(this._isPopoverOpen ? undefined : '-1')}" @bl-select-option=${this._handleSelectOptionEvent}>
+        <slot></slot>
+      </div>
+      <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div> `;
   }
 
-  private get _showPlaceHolder() {
-    if (this.label && !this.labelFixed) {
-      return !this._selectedOptions.length && this._isPopoverOpen;
+  private focusedOptionIndex = -1;
+
+  private handleKeydown(event: KeyboardEvent) {
+    if (this.focusedOptionIndex === -1 && ['Enter', 'Space'].includes(event.code)) {
+      this.togglePopover();
+      event.preventDefault();
+    } else if (this._isPopoverOpen === false && ['ArrowDown', 'ArrowUp'].includes(event.code)) {
+      this.open();
+      event.preventDefault();
+    } else if (event.code === 'Escape') {
+      this.close();
+      event.preventDefault();
+    } else if (this._isPopoverOpen && ['ArrowDown', 'ArrowUp'].includes(event.code)) {
+      event.code === 'ArrowDown' && this.focusedOptionIndex++;
+      event.code === 'ArrowUp' && this.focusedOptionIndex--;
+
+      // Don't exceed array indexes
+      this.focusedOptionIndex = Math.max(
+        0,
+        Math.min(this.focusedOptionIndex, this.options.length - 1)
+      );
+
+      this.options[this.focusedOptionIndex].focus();
+
+      event.preventDefault();
     }
-    return !this._selectedOptions.length;
+
   }
 
-  private _onClickSelectInput() {
+  private togglePopover() {
     this._isPopoverOpen ? this.close() : this.open();
   }
 
   private _handleSelectEvent() {
-    this._onBlSelect(this._selectedOptions);
+    this._onBlSelect(this._selectedOptions.map(option => ({
+      value: option.value,
+      selected: option.selected,
+      text: option.textContent
+    } as ISelectOption<ValueType>)));
   }
 
-  private _handleSingleSelect(optionItem: ISelectOption) {
-    const oldItem = this._connectedOptions.find(option => option.value !== optionItem.value && option.selected);
+  private _handleSingleSelect(optionItem: BlSelectOption<ValueType>) {
+    this.value = optionItem.value;
 
-    if (oldItem) {
-      oldItem.selected = false;
-    }
-
-    this._selectedOptions = [optionItem];
     this._handleSelectEvent();
     this._isPopoverOpen = false;
   }
 
-  private _handleMultipleSelect(optionItem: ISelectOption) {
-    const { value } = optionItem;
-
-    if (!optionItem.selected) {
-      this._selectedOptions = this._selectedOptions.filter(item => item.value !== value);
-    } else {
-      this._selectedOptions = [...this._selectedOptions, optionItem];
-    }
+  private _handleMultipleSelect() {
+    this.value = this._connectedOptions.filter((option) => option.selected).map(option => option.value);
 
     this._handleSelectEvent();
   }
 
   private _handleSelectOptionEvent(e: CustomEvent) {
-    const optionItem = e.detail as ISelectOption;
+    const optionItem = e.target as BlSelectOption<ValueType>;
+    this.dirty = true;
 
     if (this.multiple) {
-      this._handleMultipleSelect(optionItem);
+      this._handleMultipleSelect();
     } else {
       this._handleSingleSelect(optionItem);
     }
@@ -307,81 +420,74 @@ export default class BlSelect extends LitElement {
         option.selected = false;
       });
 
-    this._selectedOptions = [];
+    this.value = null;
+    this._additionalSelectedOptionCount = 0;
     this._handleSelectEvent();
   }
 
   private _checkAdditionalItemCount() {
-    if (!this.multiple) return;
-
-    let visibleItems = 0;
-    for(const value of this._selectedOptionsItems) {
-      if (value.offsetLeft < this._selectedOptionsContainer.offsetWidth) {
-        visibleItems++;
-      } else {
-        break;
-      }
+    if (!this.multiple || !this.selectedOptionsItems || this.selectedOptionsItems.length < 2) {
+      this._additionalSelectedOptionCount = 0;
+      return;
     }
 
-    this._additionalSelectedOptionCount = this._selectedOptionsItems.length - visibleItems;
+    const firstNonVisibleItemIndex = [...this.selectedOptionsItems]
+      .findIndex((item) => item.offsetLeft > this.selectedOptionsContainer.offsetWidth);
+
+    if (firstNonVisibleItemIndex > -1) {
+      this._additionalSelectedOptionCount = this.selectedOptionsItems.length - firstNonVisibleItemIndex;
+    } else {
+      this._additionalSelectedOptionCount = 0;
+    }
   }
 
-  private _checkRequired() {
-    if (this.required) {
-      this._isInvalid = this._selectedOptions.length === 0;
+  protected firstUpdated(): void {
+    if (this.value === undefined) {
+      this.value = '' as ValueType;
     }
+
+    this._initialValue = this._value;
   }
 
   protected updated(_changedProperties: PropertyValues) {
     if (
-      _changedProperties.has('_selectedOptions') &&
-      _changedProperties.get('_selectedOptions') instanceof Array
-    ) {
-      this._checkRequired();
-      this._checkAdditionalItemCount();
-    } else if (
       _changedProperties.has('multiple') &&
       typeof _changedProperties.get('multiple') === 'boolean'
     ) {
-      this._connectedOptions.forEach(option => {
-        option.multiple = this.multiple;
-        option.selected = false;
-      });
-      this._selectedOptions = [];
+      this.value = null;
     }
+
+    this._checkAdditionalItemCount();
   }
 
   /**
    * This method is used by `bl-select-option` component to register itself to bl-select.
    * @param option BlSelectOption reference to be registered
    */
-  registerOption(option: BlSelectOption) {
+  registerOption(option: BlSelectOption<ValueType>) {
     this._connectedOptions.push(option);
 
     if (option.selected) {
-      const optionItem = {
-        value: option.value,
-        text: option.textContent,
-        selected: option.selected,
-      } as ISelectOption;
-
       if (this.multiple) {
-        this._selectedOptions = [...this._selectedOptions, optionItem];
+        if (!Array.isArray(this.value)) {
+          this.value = [];
+        }
+        this.value = [...this.value, option.value];
       } else {
-        this._selectedOptions = [optionItem];
+        this.value = option.value;
       }
-
-      this.requestUpdate();
     }
+
+    this.setOptionsSelected();
+    this.requestUpdate();
   }
 
   /**
    * This method is used by `bl-select-option` component to unregister itself from bl-select.
    * @param option BlSelectOption reference to be unregistered
    */
-  unregisterOption(option: BlSelectOption) {
+  unregisterOption(option: BlSelectOption<ValueType>) {
     this._connectedOptions.splice(this._connectedOptions.indexOf(option), 1);
-    this._selectedOptions = this._selectedOptions.filter(item => item.value !== option.value);
   }
 }
 

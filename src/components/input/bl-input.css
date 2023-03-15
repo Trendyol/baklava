@@ -162,7 +162,6 @@ bl-icon[name='eye_on'] {
 .hint {
   display: none;
   font: var(--bl-font-body-text-3);
-  padding: 0 var(--padding-horizontal);
 }
 
 .hint p {
