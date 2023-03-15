@@ -2,6 +2,7 @@ import { assert, elementUpdated, expect, fixture, html, oneEvent } from '@open-w
 import { sendMouse } from '@web/test-runner-commands';
 import BlTooltip from './bl-tooltip';
 import type typeOfBlTooltip from './bl-tooltip';
+import type typeOfBlPopover from "../popover/bl-popover";
 
 describe('bl-tooltip', () => {
   it('should be defined tooltip instance', () => {
@@ -25,13 +26,13 @@ describe('bl-tooltip', () => {
        class="trigger"
        name="tooltip-trigger">
       </slot>
-      <div class='tooltip'>
+      <div class='wrapper'>
+      <bl-popover class='tooltip' placement='top'>
         <slot
-          aria-live="off"
           id="tooltip"
           role="tooltip">
         </slot>
-        <div aria-hidden="true" class="arrow"></div>
+       </bl-popover>
       </div>
       `
     );
@@ -53,7 +54,6 @@ describe('bl-tooltip', () => {
 
     //then
     expect(el.shadowRoot?.querySelector('.trigger')).to.exist;
-    expect(el.shadowRoot?.querySelector('.arrow')).to.exist;
     expect(el.shadowRoot?.querySelector('.tooltip')).to.exist;
   });
 
@@ -92,7 +92,7 @@ describe('bl-tooltip', () => {
         ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
       >`
     );
-    const tooltip = el.shadowRoot?.querySelector('.tooltip') as HTMLElement;
+    const tooltipPopover = el.shadowRoot?.querySelector('.tooltip') as typeOfBlPopover;
     const trigger = document.querySelector('button') as HTMLElement;
     const { x, y } = getMiddleOfElement(trigger);
 
@@ -100,7 +100,7 @@ describe('bl-tooltip', () => {
     await sendMouse({ type: 'move', position: [x, y] });
 
     //then
-    expect(tooltip).to.have.class('visible');
+    expect(tooltipPopover.visible).to.be.true;
     expect(el.visible).to.be.true;
   });
 
