@@ -1,10 +1,11 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
-import { computePosition, flip, shift, offset, arrow, inline, autoUpdate } from '@floating-ui/dom';
-import { classMap } from 'lit/directives/class-map.js';
 import { ReferenceElement } from '@floating-ui/core';
 import style from './bl-tooltip.css';
 import { event, EventDispatcher } from '../../utilities/event';
+import "../popover/bl-popover";
+import {ifDefined} from "lit/directives/if-defined.js";
+import type BlPopover from "../popover/bl-popover";
 
 export type Placement =
   | 'top-start'
@@ -32,9 +33,9 @@ export default class BlTooltip extends LitElement {
     return [style];
   }
 
-  @query('.tooltip') private tooltip: HTMLElement;
+  // @query('.tooltip') private tooltip: HTMLElement;
   @query('.trigger') private trigger: ReferenceElement;
-  @query('.arrow') private arrow: HTMLElement;
+  @query('bl-popover') private popover: BlPopover;
 
   /**
    * Sets placement of the tooltip
@@ -43,6 +44,8 @@ export default class BlTooltip extends LitElement {
   placement: Placement = 'top';
 
   @state() private _visible = false;
+
+
 
   /**
    * Fires when hovering over a trigger
@@ -65,58 +68,17 @@ export default class BlTooltip extends LitElement {
 
     this.removeEventListener('keydown', this.handleKeyDown);
 
-    this.popoverAutoUpdateCleanup && this.popoverAutoUpdateCleanup();
   }
 
-  private popoverAutoUpdateCleanup: () => void;
 
-  private setTooltip() {
-    this.popoverAutoUpdateCleanup = autoUpdate(this.trigger, this.tooltip, () => {
-      computePosition(this.trigger, this.tooltip, {
-        placement: this.placement,
-        strategy: 'fixed',
-        middleware: [
-          offset(8),
-          shift({ padding: 5 }),
-          flip(),
-          inline(),
-          arrow({ element: this.arrow, padding: 5 }),
-        ],
-      }).then(({ x, y, placement, middlewareData }) => {
-        Object.assign(this.tooltip.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-        });
-
-        if (middlewareData.arrow) {
-          const {x: arrowX, y: arrowY} = middlewareData.arrow;
-
-          Object.assign(this.arrow.style, {
-            left: arrowX != null ? `${arrowX}px` : '',
-            top: arrowY != null ? `${arrowY}px` : '',
-          });
-
-          const arrowFlipDirections = {
-            top: 'bottom',
-            right: 'left',
-            bottom: 'top',
-            left: 'right',
-          };
-          const tooltipPlacement = placement.split('-')[0] as keyof typeof arrowFlipDirections;
-          const arrowDirection = arrowFlipDirections[tooltipPlacement];
-
-          this.arrow.style.setProperty(arrowDirection, '-4px');
-        }
-      });
-    });
-  }
 
   /**
    * Shows tooltip
    */
   show() {
-    this._visible = true;
-    this.setTooltip();
+    this._visible = true
+    this.popover.target = this.trigger;
+    this.popover.show();
     this.onShow('Show event fired!');
   }
 
@@ -125,6 +87,7 @@ export default class BlTooltip extends LitElement {
    */
   hide() {
     this._visible = false;
+    this.popover.hide();
     this.onHide('Hide event fired!');
   }
 
@@ -143,11 +106,6 @@ export default class BlTooltip extends LitElement {
   }
 
   render(): TemplateResult {
-    const classes = classMap({
-      tooltip: true,
-      visible: this._visible,
-    });
-
     return html`<slot
         class="trigger"
         name="tooltip-trigger"
@@ -158,9 +116,10 @@ export default class BlTooltip extends LitElement {
         @mouseleave=${() => this.hide()}
       >
       </slot>
-      <div class=${classes}>
-        <slot id="tooltip" role="tooltip" aria-live=${this._visible ? 'polite' : 'off'}></slot>
-        <div class="arrow" aria-hidden="true"></div>
+      <div class="wrapper">
+        <bl-popover class="tooltip" .target="${this.trigger}" placement="${ifDefined(this.placement)}">
+          <slot id="tooltip" role="tooltip"></slot>
+        </bl-popover>
       </div>`;
   }
 }
