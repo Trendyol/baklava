@@ -7,13 +7,18 @@
   display: inline-block;
 }
 
+.content{
+  color: var(--bl-color-content-primary-contrast);;
+}
+
 .tooltip {
-  --bl-popover-background-color: var(--bl-color-secondary);
-  --bl-popover-border-color: var(--bl-color-secondary);
-  --bl-color-content-primary: white;
-  --bl-popover-arrow-display: inline-block;
+  --bl-popover-background-color: var(--bl-color-content-primary);
+  --bl-popover-border-color: var(--bl-color-content-primary);
+  --bl-popover-arrow-display: block;
   --max-viewport: calc(100vw - var(--bl-size-s));
   --tooltip-max-width: 424px;
 
+  width: max-content;
+  hyphens: auto;
   max-width: min(var(--max-viewport), var(--tooltip-max-width));
 }
