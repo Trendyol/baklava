@@ -1,7 +1,7 @@
 import { elementUpdated, expect, fixture, fixtureCleanup } from "@open-wc/testing";
 import { html, LitElement } from "lit";
 import { customElement, query } from "lit/decorators.js";
-import { innerInputValidators } from "./form-control"
+import {innerInputValidators, textareaLengthValidator} from "./form-control"
 
 @customElement('my-valid-input')
 class MyValidInput extends LitElement {
@@ -19,23 +19,62 @@ class MyInvalidInput extends LitElement {
   }
 }
 
+
+
 describe('Form Control Validators', () => {
-  afterEach(fixtureCleanup);
+  describe('innerInputValidators', () => {
+    afterEach(fixtureCleanup);
 
-  it('should return true if validationTarget is not present', async () => {
+    it('should return true if validationTarget is not present', async () => {
 
-    const el = await fixture<MyValidInput>(html`<my-valid-input></my-valid-input>`);
+      const el = await fixture<MyValidInput>(html`<my-valid-input></my-valid-input>`);
 
-    expect(innerInputValidators.every(validator => validator.isValid(el))).to.be.true;
+      expect(innerInputValidators.every(validator => validator.isValid(el))).to.be.true;
+    });
+
+    it('should return correct value if validationTarget present', async () => {
+      const el = await fixture<MyInvalidInput>(html`<my-invalid-input></my-invalid-input>`);
+
+      await elementUpdated(el);
+
+      expect(innerInputValidators.every(validator => validator.isValid(el))).to.be.false;
+      expect(innerInputValidators.find(validator => !validator.isValid(el))?.key).to.eq('valueMissing');
+
+    });
   });
 
-  it('should return correct value if validationTarget present', async () => {
-    const el = await fixture<MyInvalidInput>(html`<my-invalid-input></my-invalid-input>`);
+  describe('textareaLengthValidator', () => {
+    @customElement('my-valid-textarea')
+    class MyValidTextarea extends LitElement {
+      validationTarget: HTMLTextAreaElement;
+    }
 
-    await elementUpdated(el);
 
-    expect(innerInputValidators.every(validator => validator.isValid(el))).to.be.false;
-    expect(innerInputValidators.find(validator => !validator.isValid(el))?.key).to.eq('valueMissing');
+    @customElement('my-invalid-textarea')
+    class MyInvalidTextarea extends LitElement {
+      @query('textarea')
+      validationTarget: HTMLTextAreaElement;
 
+      render() {
+        return html`<textarea maxlength=3>more than 3 character</textarea>`
+      }
+    }
+
+    afterEach(fixtureCleanup);
+
+    it('should return true if validationTarget is not present', async () => {
+
+      const el = await fixture<MyValidTextarea>(html`<my-valid-textarea></my-valid-textarea>`);
+
+      expect(textareaLengthValidator.isValid(el)).to.be.true;
+    });
+
+    it('should return true if validationTarget is not present', async () => {
+
+      const el = await fixture<MyInvalidTextarea>(html`<my-invalid-textarea value="more than 3" maxlength="3"></my-invalid-textarea>`);
+
+      expect(textareaLengthValidator.isValid(el)).to.be.false;
+    });
   });
+
 });

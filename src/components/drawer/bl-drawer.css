@@ -1,19 +1,9 @@
-@keyframes slide-from-right {
-  0% {
-    transform: translateX(100%);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
-}
-
 .drawer {
   box-sizing: border-box;
   position: fixed;
   display: flex;
   top: 0;
-  right: 0;
+  right: -100%;
   bottom: 0;
   width: 424px;
   padding: var(--bl-size-xl);
@@ -22,14 +12,12 @@
   padding-bottom: max(env(safe-area-inset-bottom), var(--bl-size-xl));
   background: var(--bl-color-content-primary-contrast);
   box-shadow: var(--bl-size-xs) 0 var(--bl-size-2xl) rgba(0 0 0 / 50%);
-  transform: translateX(100%);
-  transition: transform var(--bl-drawer-animation-duration, .25s);
+  transition: right var(--bl-drawer-animation-duration, .25s);
   z-index: 999;
 }
 
 :host([open]) .drawer {
-  transform: translateX(0);
-  animation: slide-from-right var(--bl-drawer-animation-duration, .25s);
+  right: 0;
 }
 
 iframe {

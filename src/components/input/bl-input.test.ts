@@ -39,6 +39,12 @@ describe('bl-input', () => {
     expect(el.shadowRoot?.querySelector('input')?.getAttribute('type')).to.equal('number');
   });
 
+  it('should set type password', async () => {
+    const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
+    expect(el.type).to.equal('password');
+    expect(el.shadowRoot?.querySelector('input')?.getAttribute('type')).to.equal('password');
+  });
+
   it('should set label', async () => {
     const labelText = 'Some Label';
     const el = await fixture<BlInput>(html`<bl-input label="${labelText}"></bl-input>`);
@@ -61,6 +67,32 @@ describe('bl-input', () => {
       const customIcon = el.shadowRoot?.querySelector('bl-icon.custom-icon');
       expect(customIcon).to.exist;
       expect(customIcon?.getAttribute('name')).to.equal('info');
+    });
+
+    it('should show reveal button on password type', async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
+      const revealIcon = el.shadowRoot?.querySelector('bl-icon[name="eye_on"]');
+      const hiddenRevealIcon = el.shadowRoot?.querySelector('bl-icon[name="eye_off"]');
+
+      expect(revealIcon).to.exist;
+      expect(hiddenRevealIcon).to.exist;
+
+      expect(revealIcon).to.be.visible;
+      expect(hiddenRevealIcon).to.have.style('display', 'none');
+    });
+
+    it('should toggle reveal icon on click', async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
+      const revealButton = el?.shadowRoot?.querySelector(
+        'bl-icon[name="eye_on"]'
+      ) as HTMLElement | null;
+      expect(revealButton).to.exist;
+      expect(revealButton).to.be.visible;
+
+      revealButton?.click();
+      await elementUpdated(el);
+
+      expect(revealButton).to.have.style('display', 'none');
     });
   });
 
@@ -127,6 +159,20 @@ describe('bl-input', () => {
       expect(ev.detail).to.be.equal('some value');
     });
 
+    it('should toggle input type on reveal button click', async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
+      const revealButton = el?.shadowRoot?.querySelector('bl-icon') as HTMLElement | null;
+      const input = el?.shadowRoot?.querySelector('input');
+
+      expect(input).to.attr('type', 'password');
+      expect(revealButton).to.exist;
+
+      revealButton?.click();
+      await elementUpdated(el);
+
+      expect(input).to.attr('type', 'text');
+    });
+
     it('should fire bl-input event when input value changes', async () => {
       const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
       const input = el.shadowRoot?.querySelector('input');
@@ -164,7 +210,6 @@ describe('bl-input', () => {
       expect(blInput?.validity.valid).to.be.false;
 
       expect(errorMessageElement).to.exist;
-
     });
 
     it('should submit parent form when pressed Enter key', async () => {

@@ -14,6 +14,7 @@
   --icon-size: var(--line-height);
   --padding-vertical: calc((var(--height) - var(--line-height)) / 2);
   --padding-horizontal: var(--bl-size-xs);
+  --autofill-bg-color: var(--bl-color-accent-primary-background);
 
   display: flex;
   flex-direction: column;
@@ -44,6 +45,33 @@
   --icon-size: var(--bl-font-body-text-3-line-height);
 }
 
+.input-wrapper {
+  --border-size: 1px;
+
+  display: flex;
+  box-sizing: border-box;
+  gap: var(--padding-vertical);
+  height: var(--height);
+  border: solid var(--border-size) var(--border-color);
+  padding: 0 calc(var(--padding-horizontal) - var(--border-size));
+  border-radius: var(--bl-size-3xs);
+}
+
+:host([disabled]) .input-wrapper {
+  cursor: not-allowed;
+  background-color: var(--bl-color-passive-contrast);
+
+  --text-color: var(--bl-color-passive);
+}
+
+.input-wrapper:has(input:autofill) {
+  background-color: var(--autofill-bg-color);
+}
+
+.input-wrapper:has(input:-webkit-autofill) {
+  background-color: var(--autofill-bg-color);
+}
+
 label {
   position: absolute;
   top: var(--padding-vertical);
@@ -60,18 +88,6 @@ label {
   text-overflow: ellipsis;
 }
 
-.input-wrapper {
-  --border-size: 1px;
-
-  display: flex;
-  box-sizing: border-box;
-  gap: var(--padding-vertical);
-  height: var(--height);
-  border: solid var(--border-size) var(--border-color);
-  padding: 0 calc(var(--padding-horizontal) - var(--border-size));
-  border-radius: 4px;
-}
-
 input {
   width: 100%;
   align-self: stretch;
@@ -84,10 +100,59 @@ input {
   background-color: transparent;
 }
 
+input:disabled {
+  cursor: not-allowed;
+}
+
+input:autofill {
+  background-color: var(--autofill-bg-color);
+
+  /**
+   * Some browsers doesn't allow setting background-color
+   * https://developer.mozilla.org/en-US/docs/Web/CSS/:autofill
+   */
+  box-shadow: 0 0 0 40rem var(--autofill-bg-color) inset;
+}
+
+input:-webkit-autofill {
+  background-color: var(--autofill-bg-color);
+
+  /**
+   * Some browsers doesn't allow setting background-color
+   * https://developer.mozilla.org/en-US/docs/Web/CSS/:autofill
+   */
+  box-shadow: 0 0 0 40rem var(--autofill-bg-color) inset;
+}
+
 .icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   flex-basis: var(--icon-size);
   align-self: center;
   height: var(--icon-size);
+}
+
+bl-icon:not(.reveal-icon) {
+  font-size: var(--icon-size);
+  color: var(--icon-color);
+  height: var(--icon-size);
+}
+
+.reveal-button bl-icon {
+  display: none;
+}
+
+bl-icon[name='eye_on'] {
+  display: inline-block;
+}
+
+.password-visible bl-icon[name='eye_on'] {
+  display: none;
+}
+
+.password-visible bl-icon[name='eye_off'] {
+  display: inline-block;
 }
 
 .wrapper:not(.has-icon) .icon {
@@ -97,18 +162,11 @@ input {
 .hint {
   display: none;
   font: var(--bl-font-body-text-3);
-  padding: 0 var(--padding-horizontal);
 }
 
 .hint p {
   padding: 0;
   margin: 0;
-}
-
-bl-icon {
-  font-size: var(--icon-size);
-  color: var(--icon-color);
-  height: var(--icon-size);
 }
 
 ::placeholder {
@@ -126,17 +184,6 @@ bl-icon {
 :host .wrapper:focus-within ::placeholder {
   color: var(--bl-color-content-tertiary);
   -webkit-text-fill-color: var(--bl-color-content-tertiary);
-}
-
-:host([disabled]) .input-wrapper {
-  cursor: not-allowed;
-  background-color: var(--bl-color-passive-contrast);
-
-  --text-color: var(--bl-color-passive);
-}
-
-input:disabled {
-  cursor: not-allowed;
 }
 
 :where(.wrapper:focus-within, .wrapper.has-value) label {

@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult, PropertyValues } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import '../input/bl-input';
@@ -116,14 +117,6 @@ export default class BlPagination extends LitElement {
     ) {
       this._paginate();
     }
-
-    if (changedProperties.get('currentPage') || changedProperties.get('itemsPerPage')) {
-      this.onChange({
-        selectedPage: this.currentPage,
-        prevPage: changedProperties.get('currentPage'),
-        itemsPerPage: this.itemsPerPage,
-      });
-    }
   }
 
   private _paginate() {
@@ -154,18 +147,26 @@ export default class BlPagination extends LitElement {
     this.pages.push(pageListLength);
   }
 
-  private _changePage(page: number): void {
-    this.currentPage = page;
+  private _changePage(selectedPage: number): void {
+    const prevPage = this.currentPage;
+
+    this.currentPage = selectedPage;
+
+    this.onChange({
+      selectedPage,
+      prevPage,
+      itemsPerPage: this.itemsPerPage,
+    });
   }
 
   private _pageBack(): void {
     if (this.currentPage === 1) return;
-    this.currentPage--;
+    this._changePage(this.currentPage - 1);
   }
 
   private _pageForward(): void {
     if (this.currentPage === this._getLastPage()) return;
-    this.currentPage++;
+    this._changePage(this.currentPage + 1);
   }
 
   private _getLastPage(): number {
@@ -173,6 +174,7 @@ export default class BlPagination extends LitElement {
   }
 
   private _inputHandler(event: CustomEvent) {
+    event.stopPropagation();
     const inputValue = +(event.target as HTMLInputElement).value;
     const newPage = inputValue > 0 ? Math.min(this._getLastPage(), inputValue) : 1;
     this._changePage(newPage);
@@ -180,18 +182,21 @@ export default class BlPagination extends LitElement {
 
   private _selectHandler(event: CustomEvent) {
     this.itemsPerPage = +event?.detail[0]?.value || 100;
-    this.currentPage = 1;
+    this._changePage(1);
   }
 
   private _renderSinglePage(page: number | string) {
     if (typeof page === 'string') {
-      return html`<span class="dots"></span>`;
+      return html`<li class="dots"></li>`;
     }
+    const ariaCurrent = this.currentPage === page ? 'page' : undefined;
     return html` <li>
       <bl-button
         @click="${() => this._changePage(page)}"
         variant=${this.currentPage === page ? 'primary' : 'tertiary'}
         kind="neutral"
+        label="Page ${page}"
+        aria-current=${ifDefined(ariaCurrent)}
       >
         ${page}
       </bl-button>
@@ -207,6 +212,7 @@ export default class BlPagination extends LitElement {
           kind="neutral"
           icon="arrow_left"
           class="previous"
+          label="Previous"
           ?disabled=${this.currentPage === 1}
         ></bl-button>
         <ul class="page-list">
@@ -220,6 +226,7 @@ export default class BlPagination extends LitElement {
           kind="neutral"
           icon="arrow_right"
           class="next"
+          label="Next"
           ?disabled=${this.currentPage === this._getLastPage()}
         ></bl-button>
       </div>
@@ -231,11 +238,10 @@ export default class BlPagination extends LitElement {
       ? html`
           <div class="select">
             <label>${this.selectLabel}</label>
-            <bl-select @bl-select="${this._selectHandler}">
+            <bl-select @bl-select="${this._selectHandler}" .value=${this.itemsPerPage}>
               ${this.itemsPerPageOptions.map(option => {
                 return html`<bl-select-option
-                  value="${option.value}"
-                  ?selected=${option.value === this.itemsPerPage}
+                  .value=${option.value}
                   >${option.text}</bl-select-option
                 >`;
               })}
@@ -247,7 +253,7 @@ export default class BlPagination extends LitElement {
     const jumperEl = this.hasJumper
       ? html` <div class="jumper">
           <label>${this.jumperLabel}</label>
-          <bl-input value="${this.currentPage}" @bl-change="${this._inputHandler}"></bl-input>
+          <bl-input .value="${this.currentPage}" @bl-change="${this._inputHandler}"></bl-input>
         </div>`
       : null;
 
@@ -256,7 +262,9 @@ export default class BlPagination extends LitElement {
       return html` <div class="pagination-helpers">${selectEl} ${jumperEl}</div> `;
     };
 
-    return html` <div class="pagination">${getHelperElements()} ${this.renderPages()}</div>`;
+    return html` <nav class="pagination" aria-label="Pagination">
+      ${getHelperElements()} ${this.renderPages()}
+    </nav>`;
   }
 }
 

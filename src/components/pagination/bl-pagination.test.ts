@@ -1,7 +1,8 @@
-import { assert, expect, fixture, oneEvent, html } from '@open-wc/testing';
+import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import BlPagination from './bl-pagination';
 
 import type typeOfBlPagination from './bl-pagination';
+import type BlInput from '../input/bl-input';
 
 describe('bl-pagination', () => {
   it('is defined', () => {
@@ -14,17 +15,17 @@ describe('bl-pagination', () => {
     assert.shadowDom.equal(
       el,
       `
-      <div class="pagination">
+      <nav class="pagination" aria-label="Pagination">
        <div class="page-container">
-        <bl-button kind="neutral" variant="tertiary" icon="arrow_left" class="previous" disabled="" size="medium"></bl-button>
+        <bl-button kind="neutral" variant="tertiary" icon="arrow_left" label="Previous" class="previous" disabled="" size="medium"></bl-button>
         <ul class="page-list">
           <li>
-            <bl-button variant="primary" kind="neutral" size="medium">1</bl-button>
+            <bl-button variant="primary" kind="neutral" aria-current="page" label="Page 1" size="medium">1</bl-button>
           </li>
         </ul>
-          <bl-button kind="neutral" variant="tertiary" icon="arrow_right" class="next" size="medium" disabled=""></bl-button>
+          <bl-button kind="neutral" variant="tertiary" icon="arrow_right" label="Next" class="next" size="medium" disabled=""></bl-button>
         </div>
-      </div>
+      </nav>
     `
     );
   });
@@ -182,7 +183,7 @@ describe('bl-pagination', () => {
       );
 
       const jumper = el.shadowRoot?.querySelector('bl-input');
-      expect(jumper?.value).to.equal('3');
+      expect(jumper?.value).to.equal(3);
     });
   });
 
@@ -215,17 +216,20 @@ describe('bl-pagination', () => {
 
     it('should fire a bl-change event when jumper is changed', async () => {
       const el = await fixture<typeOfBlPagination>(paginationEl);
-      const jumper = el.shadowRoot?.querySelector('bl-input')?.shadowRoot?.querySelector('input');
+      const jumper = el.shadowRoot?.querySelector<BlInput>('bl-input');
 
       if (jumper) {
         jumper.value = '5';
       }
 
-      setTimeout(() => jumper?.dispatchEvent(new Event('change')));
+      setTimeout(() => {
+        jumper?.dispatchEvent(new Event('bl-change', { bubbles: true }));
+      });
+
       const ev = await oneEvent(el, 'bl-change');
 
       expect(ev).to.exist;
-      expect(ev.detail).to.be.equal('5');
+      expect(ev.detail.selectedPage).to.be.equal(5);
     });
 
     it('should set the page to the last page if user enters a bigger number than the last page', async () => {
