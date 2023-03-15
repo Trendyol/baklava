@@ -1,0 +1,31 @@
+h1 {
+  font: var(--bl-font-display-regular);
+}
+
+h2 {
+  font: var(--bl-font-heading-1);
+}
+
+h3 {
+  font: var(--bl-font-heading-2);
+}
+
+h4 {
+  font: var(--bl-font-heading-3);
+}
+
+h5 {
+  font: var(--bl-font-title-1-medium);
+}
+
+h6 {
+  font: var(--bl-font-title-2-medium);
+}
+
+p, dd, li {
+  font: var(--bl-font-body-text-2);
+}
+
+label, caption {
+  font: var(--bl-font-caption);
+}
