@@ -70,7 +70,7 @@ const args = parseArgs(process.argv.slice(2), {
       const { host, port } = await ctx.serve(
         {
           servedir,
-          host: '0.0.0.0',
+          host: 'localhost',
         }
       );
 
