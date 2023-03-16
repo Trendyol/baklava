@@ -54,6 +54,16 @@
   --bl-size-5xl: 4rem; /* 64px */
   --bl-size-6xl: 5rem; /* 80px */
 
+  /* Z-indexes */
+  --bl-index-deep: -1;
+  --bl-index-base: 1;
+  --bl-index-popover: 100;
+  --bl-index-tooltip: 200;
+  --bl-index-sticky: 300;
+  --bl-index-overlay: 400;
+  --bl-index-dialog: 500;
+  --bl-index-notification: 600;
+
   /* Typography */
   --bl-font-family: 'RubikVariable', sans-serif;
 
