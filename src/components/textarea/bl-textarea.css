@@ -16,6 +16,7 @@
   --height: max(var(--scroll-height), var(--default-scroll-height));
   --input-font: var(--bl-font-body-text-2);
   --border-radius: var(--bl-size-3xs);
+  --border-color: var(--bl-color-border);
 
   display: flex;
   flex-direction: column;
@@ -24,7 +25,7 @@
 }
 
 .input-wrapper {
-  border: solid var(--border-size) var(--bl-color-border);
+  border: solid var(--border-size) var(--border-color);
   border-radius: var(--border-radius);
   padding-top: var(--padding-vertical);
   display: flex;
@@ -82,12 +83,12 @@ textarea:disabled {
 }
 
 .wrapper:focus-within {
-  border-color: var(--bl-color-primary);
+  --border-color: var(--bl-color-primary);
 }
 
 .dirty.max-len-invalid,
 .dirty.invalid {
-  border-color: var(--bl-color-danger);
+  --border-color: var(--bl-color-danger);
 }
 
 :host([label]) ::placeholder {
@@ -168,6 +169,10 @@ label {
 }
 
 :where(.max-len-invalid, .dirty.invalid) .hint > .counter-text {
+  color: var(--bl-color-danger);
+}
+
+.dirty.invalid label {
   color: var(--bl-color-danger);
 }
 

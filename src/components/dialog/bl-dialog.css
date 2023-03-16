@@ -1,7 +1,9 @@
 .container {
+  --background-color: var(--bl-color-primary-background);
+
   display: flex;
   flex-direction: column;
-  background: var(--bl-color-primary-background);
+  background: var(--background-color);
   max-width: calc(100vw - var(--bl-size-4xl));
   max-height: calc(100vh - var(--bl-size-4xl));
   min-width: 424px;
