@@ -20,12 +20,14 @@ describe('bl-textarea', () => {
             id="input"
             name=""
             rows="4"
+            spellcheck="false"
             >
             </textarea>
           </div>
           <div class="hint"></div>
         </div>
-      `
+      `,
+      { ignoreAttributes: ['for', 'id'] }
     );
   });
 

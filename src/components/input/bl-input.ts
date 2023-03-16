@@ -32,14 +32,14 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Sets name of the input
    */
-  @property({})
+  @property({ reflect: true })
   name?: string;
 
   /**
    * Type of the input. It's used to set `type` attribute of native input inside. Only `text`, `number` and `password` is supported for now.
    */
-  @property({})
-  type: 'text' | 'password' | 'number' = 'text';
+  @property({ reflect: true })
+  type: 'text' | 'password' | 'number' | 'tel' | 'url' = 'text';
 
   /**
    * Sets label of the input
@@ -50,55 +50,79 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Sets placeholder of the input
    */
-  @property({})
+  @property({ reflect: true })
   placeholder?: string;
 
   /**
    * Sets initial value of the input
    */
-  @property()
+  @property({ reflect: true })
   value = '';
 
   /**
    * Makes input a mandatory field
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   required = false;
 
   /**
    * Sets minimum length of the input
    */
-  @property({ type: Number })
+  @property({ type: Number, reflect: true })
   minlength?: number;
 
   /**
    * Sets maximum length of the input
    */
-  @property({ type: Number })
+  @property({ type: Number, reflect: true })
   maxlength?: number;
 
   /**
    * Sets the smallest number can be entered to a `number` input
    */
-  @property({ type: Number })
+  @property({ type: Number, reflect: true })
   min?: number;
 
   /**
    * Sets the biggest number can be entered to a `number` input
    */
-  @property({ type: Number })
+  @property({ type: Number, reflect: true })
   max?: number;
+
+  /**
+   * Sets a regex pattern form the input validation
+   */
+  @property({ type: String, reflect: true })
+  pattern?: string;
 
   /**
    * Sets the increase and decrease step to a `number` input
    */
-  @property({ type: Number })
+  @property({ type: Number, reflect: true })
   step?: number;
+
+  /**
+   * Hints browser to autocomplete this field.
+   */
+  @property({ type: String, reflect: true })
+  autocomplete: string;
+
+  /**
+   * Sets the input mode of the field for asking browser to show the desired keyboard.
+   */
+  @property({ type: String, reflect: true })
+  inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
+
+  /**
+   * Sets input to get keyboard focus automatically
+   */
+  @property({ type: Boolean, reflect: true })
+  autofocus = false;
 
   /**
    * Sets the custom icon name. `bl-icon` component is used to show an icon
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   icon?: string;
 
   /**
@@ -122,7 +146,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Set custom error message
    */
-  @property({ type: String, attribute: 'invalid-text' })
+  @property({ type: String, attribute: 'invalid-text', reflect: true })
   customInvalidText?: string;
 
   /**
@@ -221,6 +245,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
     }
   }
 
+  private inputId = Math.random().toString(36).substring(2);
+
   render(): TemplateResult {
     const invalidMessage = !this.checkValidity()
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
@@ -232,7 +258,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
       : ``;
 
     const icon = this.icon ? html`<bl-icon class="custom-icon" name="${this.icon}"></bl-icon>` : '';
-    const label = this.label ? html`<label for="input">${this.label}</label>` : '';
+    const label = this.label ? html`<label for=${this.inputId}>${this.label}</label>` : '';
 
     const revealButton = this.passwordInput
       ? html`<bl-button
@@ -266,14 +292,18 @@ export default class BlInput extends FormControlMixin(LitElement) {
       ${label}
       <div class="input-wrapper">
         <input
-          id="input"
+          id=${this.inputId}
           type=${inputType}
           .value=${live(this.value)}
+          inputmode="${ifDefined(this.inputmode)}"
+          ?autofocus=${this.autofocus}
+          autocomplete="${ifDefined(this.autocomplete)}"
           placeholder="${ifDefined(this.placeholder)}"
           minlength="${ifDefined(this.minlength)}"
           maxlength="${ifDefined(this.maxlength)}"
           min="${ifDefined(this.min)}"
           max="${ifDefined(this.max)}"
+          pattern="${ifDefined(this.pattern)}"
           step="${ifDefined(this.step)}"
           ?required=${this.required}
           ?disabled=${this.disabled}

@@ -99,6 +99,12 @@ export default class BlButton extends LitElement {
   dropdown = false;
 
   /**
+   * Sets button to get keyboard focus automatically
+   */
+  @property({ type: Boolean, reflect: true })
+  autofocus = false;
+
+  /**
    * Active state
    */
   @state({})
@@ -180,6 +186,7 @@ export default class BlButton extends LitElement {
     return isAnchor
       ? html`<a
           class=${classes}
+          ?autofocus=${this.autofocus}
           aria-disabled="${ifDefined(isDisabled)}"
           aria-label="${ifDefined(this.label)}"
           href=${ifDefined(this.href)}
@@ -189,6 +196,7 @@ export default class BlButton extends LitElement {
         </a>`
       : html`<button
           class=${classes}
+          ?autofocus=${this.autofocus}
           aria-disabled="${ifDefined(isDisabled)}"
           aria-label="${ifDefined(this.label)}"
           ?disabled=${isDisabled}
