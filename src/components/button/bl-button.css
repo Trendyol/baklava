@@ -145,7 +145,7 @@
 :host([disabled]) .button {
   --main-color: var(--bl-color-passive-contrast);
   --main-hover-color: var(--bl-color-passive-contrast);
-  --content-color: var(--bl-color-passive);
+  --content-color: var(--bl-color-passive-highlight);
   --bg-color: var(--main-color);
 
   pointer-events: none;

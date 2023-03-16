@@ -10,37 +10,38 @@ Baklava uses a list of defined color with some default values.
   <ColorItem
     title="--bl-color-primary"
     subtitle="Primary Color"
-    colors={{ '': 'var(--bl-color-primary)', '--hover': 'var(--bl-color-primary-highlight)', '--background': 'var(--bl-color-primary-contrast)' }}
-  />
-  <ColorItem
-    title="--bl-color-secondary"
-    subtitle="Secondary Color"
-    colors={{ '': 'var(--bl-color-secondary)', '--hover': 'var(--bl-color-secondary-highlight)', '--background': 'var(--bl-color-secondary-contrast)' }}
+    colors={{ '': 'var(--bl-color-primary)', '--highlight': 'var(--bl-color-primary-highlight)', '--contrast': 'var(--bl-color-primary-contrast)' }}
   />
   <ColorItem
     title="--bl-color-success"
     subtitle="Success Color"
-    colors={{ '': 'var(--bl-color-success)', '--hover': 'var(--bl-color-success-highlight)', '--background': 'var(--bl-color-success-contrast)' }}
+    colors={{ '': 'var(--bl-color-success)', '--highlight': 'var(--bl-color-success-highlight)', '--contrast': 'var(--bl-color-success-contrast)' }}
   />
   <ColorItem
     title="--bl-color-danger"
     subtitle="Danger Color"
-    colors={{ '': 'var(--bl-color-danger)', '--hover': 'var(--bl-color-danger-highlight)', '--background': 'var(--bl-color-danger-contrast)' }}
+    colors={{ '': 'var(--bl-color-danger)', '--highlight': 'var(--bl-color-danger-highlight)', '--contrast': 'var(--bl-color-danger-contrast)' }}
   />
   <ColorItem
     title="--bl-color-warning"
     subtitle="Warning Color"
-    colors={{ '': 'var(--bl-color-warning)', '--hover': 'var(--bl-color-warning-highlight)', '--background': 'var(--bl-color-warning-contrast)' }}
+    colors={{ '': 'var(--bl-color-warning)', '--highlight': 'var(--bl-color-warning-highlight)', '--contrast': 'var(--bl-color-warning-contrast)' }}
   />
   <ColorItem
-    title="--bl-color-content"
-    subtitle="Content Colors"
+    title="--bl-color-neutral"
+    subtitle="Neutral Colors"
     colors={{
-        '--primary': 'var(--bl-color-content-primary)',
-        '--secondary': 'var(--bl-color-content-secondary)',
-        '--tertiary': 'var(--bl-color-content-tertiary)',
-        '--passive': 'var(--bl-color-passive)',
-        '--primary-contrast' : 'var(--bl-color-content-primary-contrast)',
+        '--darkest': 'var(--bl-color-neutral-darkest)',
+        '--darker': 'var(--bl-color-neutral-darker)',
+        '--dark': 'var(--bl-color-neutral-dark)',
+        '': 'var(--bl-color-neutral)',
+        '--light' : 'var(--bl-color-neutral-light)',
+        '--lighter' : 'var(--bl-color-neutral-lighter)',
+        '--extra-light' : 'var(--bl-color-neutral-extra-light)',
+        '--lightest' : 'var(--bl-color-neutral-lightest)',
     }}
   />
 </ColorPalette>
+
+## Customizing Color Palette
+
