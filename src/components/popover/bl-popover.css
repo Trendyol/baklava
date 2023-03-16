@@ -11,7 +11,7 @@
   border: 1px solid var(--border-color);
   padding: var(--padding);
   border-radius: var(--border-radius);
-  z-index: 999;
+  z-index: var(--bl-index-popover);
   width: max-content;
   hyphens: auto;
   background-color: var(--background-color);

@@ -24,9 +24,6 @@
   --menu-margin-top: var(--bl-size-2xs);
   --font-size: var(--bl-font-size-m);
   --disabled-color: var(--bl-color-tertiary);
-
-  /* TODO: Use predefined z-index values */
-  --z-index: 100;
   --menu-height: 250px;
   --popover-position: var(--bl-popover-position, fixed);
 }
@@ -198,7 +195,7 @@
   overflow-y: auto;
   display: none;
   flex-direction: column;
-  z-index: var(--z-index);
+  z-index: var(--bl-index-popover);
   width: 100%;
   top: var(--top);
   left: var(--left);
