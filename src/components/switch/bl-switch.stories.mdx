@@ -1,6 +1,5 @@
 import { html } from 'lit';
 import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
-import { userEvent } from '@storybook/testing-library';
 
 <Meta
   title="Components/Switch"
@@ -34,11 +33,6 @@ export const SwitchWithLabel = (args) => html`
   ></bl-switch>
 </div>
 `
-
-export const focusSwitch = async ({ }) => {
-  await userEvent.tab();
-  await userEvent.keyboard(' ');
-}
 
 # Switch
 
@@ -95,16 +89,6 @@ Disabled state can be set via `disabled` attribute. A switch can be `disabled` a
     {SwitchTemplate.bind({})}
   </Story>
   <Story name="Disabled and Checked" args={{ disabled: true, checked: true }}>
-    {SwitchTemplate.bind({})}
-  </Story>
-</Canvas>
-
-## Keyboard navigation
-
-Switch component handles keyboard navigation and highlights itself while navigating with keyboard. First `Tab` focuses the element and user can turn on and turn off the switch with `Enter` or `Space` keys.
-
-<Canvas>
-  <Story name="Keyboard navigation" parameters={{ extraPaddingForChromatic: true }} play={focusSwitch}>
     {SwitchTemplate.bind({})}
   </Story>
 </Canvas>
