@@ -1,10 +1,9 @@
-:host {
-  display: none;
+div {
+  padding: var(--bl-size-xl);
+  background-color: var(--bl-color-content-primary-contrast);
   border-radius: 0 0 var(--bl-border-radius-m) var(--bl-border-radius-m);
 }
 
-:host([visible]) {
-  display: block;
-  padding: var(--bl-size-xl);
-  background-color: var(--bl-color-content-primary-contrast);
+div[hidden] {
+  display: none;
 }

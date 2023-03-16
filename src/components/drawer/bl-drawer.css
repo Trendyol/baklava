@@ -13,7 +13,7 @@
   background: var(--bl-color-content-primary-contrast);
   box-shadow: var(--bl-size-xs) 0 var(--bl-size-2xl) rgba(0 0 0 / 50%);
   transition: right var(--bl-drawer-animation-duration, .25s);
-  z-index: 999;
+  z-index: var(--bl-index-sticky);
 }
 
 :host([open]) .drawer {

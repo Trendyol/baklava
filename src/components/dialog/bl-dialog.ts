@@ -4,16 +4,16 @@ import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import style from './bl-dialog.css';
 
-/**
- * @tag bl-dialog
- * @summary Baklava Dialog component
- */
-
 type DialogElement = {
   showModal: () => void;
   close: () => void;
 };
 
+
+/**
+ * @tag bl-dialog
+ * @summary Baklava Dialog component
+ */
 @customElement('bl-dialog')
 export default class BlDialog extends LitElement {
   static get styles(): CSSResultGroup {

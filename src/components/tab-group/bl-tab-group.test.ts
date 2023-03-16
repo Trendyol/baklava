@@ -1,4 +1,5 @@
-import { fixture, html, fixtureCleanup, expect, nextFrame } from '@open-wc/testing';
+import { fixture, html, fixtureCleanup, expect, nextFrame, elementUpdated } from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
 import BlTabGroup from './bl-tab-group';
 
 const createTab = () => {
@@ -58,7 +59,7 @@ describe('bl-tab-group', function () {
     const selectedPanel = el.panels.find(p => p.tab === 'test-2');
 
     expect(el.selectedTabName).to.be.equal('test-2');
-    expect(selectedPanel?.visible).to.be.true;
+    expect(selectedPanel?.hidden).to.be.false;
   });
 
   it('should handle bl-tab-selected event', async function () {
@@ -73,8 +74,8 @@ describe('bl-tab-group', function () {
     expect(el.selectedTabName).to.be.equal('test-1');
     expect(el.tabs[0].selected).to.be.true;
     expect(el.tabs[1].selected).to.be.false;
-    expect(el.panels.find(p => p.tab === el.tabs[0].name)?.visible).to.be.true;
-    expect(el.panels.find(p => p.tab === el.tabs[1].name)?.visible).to.be.false;
+    expect(el.panels.find(p => p.tab === el.tabs[0].name)?.hidden).to.be.false;
+    expect(el.panels.find(p => p.tab === el.tabs[1].name)?.hidden).to.be.true;
   });
 });
 
@@ -185,5 +186,86 @@ describe('should selected tab functionality works when add or remove tabs ', fun
     expect(el.tabs[0].selected).to.be.true;
     expect(el.tabs[1].selected).to.be.false;
     expect(el.tabs[1].disabled).to.be.true;
+  });
+});
+
+describe('accessibility', () => {
+  it('should change the tab when the right arrow key followed by enter key is used', async() => {
+    const el = await fixture<BlTabGroup>(html` <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
+      <bl-tab name="test-2" slot="tabs">Test 2 Tab</bl-tab>
+      <bl-tab name="test-3" slot="tabs" selected>Test 3 Tab</bl-tab>
+      <bl-tab-panel tab="test-1"></bl-tab-panel>
+      <bl-tab-panel tab="test-2"></bl-tab-panel>
+      <bl-tab-panel tab="test-3"></bl-tab-panel>
+    </bl-tab-group>`);
+
+    await elementUpdated(el);
+
+    await sendKeys({
+      press: 'Tab',
+    });
+    await sendKeys({
+      press: 'ArrowRight'
+    });
+    await sendKeys({
+      press: 'Enter'
+    });
+
+    expect(el.tabs[0].selected).to.be.true;
+    expect(el.tabs[2].selected).to.be.false;
+  });
+
+  it('should change the tab when the left arrow key followed by enter key is used', async() => {
+    const el = await fixture<BlTabGroup>(html` <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" selected>Test 1 Tab</bl-tab>
+      <bl-tab name="test-2" slot="tabs">Test 2 Tab</bl-tab>
+      <bl-tab name="test-3" slot="tabs">Test 3 Tab</bl-tab>
+      <bl-tab-panel tab="test-1"></bl-tab-panel>
+      <bl-tab-panel tab="test-2"></bl-tab-panel>
+      <bl-tab-panel tab="test-3"></bl-tab-panel>
+    </bl-tab-group>`);
+
+    await elementUpdated(el);
+
+    await sendKeys({
+      press: 'Tab',
+    });
+    await sendKeys({
+      press: 'ArrowLeft'
+    });
+    await sendKeys({
+      press: 'Enter'
+    });
+
+    expect(el.tabs[0].selected).to.be.false;
+    expect(el.tabs[2].selected).to.be.true;
+  });
+
+  it('should skip the disabled tabs when the arrow keys are used', async() => {
+    const el = await fixture<BlTabGroup>(html` <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" selected>Test 1 Tab</bl-tab>
+      <bl-tab name="test-2" slot="tabs" disabled>Test 2 Tab</bl-tab>
+      <bl-tab name="test-3" slot="tabs">Test 3 Tab</bl-tab>
+      <bl-tab-panel tab="test-1"></bl-tab-panel>
+      <bl-tab-panel tab="test-2"></bl-tab-panel>
+      <bl-tab-panel tab="test-3"></bl-tab-panel>
+    </bl-tab-group>`);
+
+    await elementUpdated(el);
+
+    await sendKeys({
+      press: 'Tab',
+    });
+    await sendKeys({
+      press: 'ArrowRight'
+    });
+    await sendKeys({
+      press: 'Enter'
+    });
+
+    expect(el.tabs[0].selected).to.be.false;
+    expect(el.tabs[1].selected).to.be.false;
+    expect(el.tabs[2].selected).to.be.true;
   });
 });

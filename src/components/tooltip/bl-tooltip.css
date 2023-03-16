@@ -13,7 +13,7 @@
   pointer-events: none;
   font: var(--bl-font-title-3-regular);
   padding: var(--bl-size-m);
-  z-index: 999;
+  z-index: var(--bl-index-tooltip);
   width: max-content;
   hyphens: auto;
 

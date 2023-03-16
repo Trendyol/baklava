@@ -26,6 +26,7 @@
   width: max-content;
   height: var(--tab-height);
   padding: 0 var(--tab-right-padding);
+  margin-right: 1px;
 }
 
 .container::after {
@@ -39,6 +40,16 @@
 
 :host(:last-of-type) .container::after {
   border-right: none;
+}
+
+:host(:focus-visible) {
+  outline: none;
+}
+
+:host(:focus-visible) .container, .container:focus-visible {
+  outline: 2px solid var(--bl-color-primary);
+  outline-offset: calc(-1 * var(--bl-size-3xs));
+  border-radius: var(--bl-border-radius-s);
 }
 
 :host .container::before {

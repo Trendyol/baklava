@@ -9,9 +9,7 @@
     --border-color: var(--bl-color-primary);
 
     position: fixed;
-
-    /* FIXME: Use z-index variable */
-    z-index: 1;
+    z-index: var(--bl-index-popover);
     display: none;
     flex-direction: column;
     align-items: flex-start;
