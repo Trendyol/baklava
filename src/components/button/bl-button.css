@@ -31,7 +31,10 @@
   width: 100%;
   height: var(--height);
   border: solid 1px var(--border-color);
-  border-radius: 6px;
+  border-top-left-radius: var(--bl-border-radius-m);
+  border-top-right-radius: var(--bl-border-radius-m);
+  border-bottom-right-radius: var(--bl-border-radius-m);
+  border-bottom-left-radius: var(--bl-border-radius-m);
   text-decoration: none;
   padding: var(--padding-vertical) var(--padding-horizontal);
   cursor: pointer;
