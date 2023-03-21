@@ -90,7 +90,7 @@
     "@typescript-eslint/parser": "^5.18.0",
     "@web/dev-server-esbuild": "0.2.16",
     "@web/dev-server-import-maps": "^0.0.7",
-    "@web/dev-server-rollup": "^0.3.17",
+    "@web/dev-server-rollup": "^0.4.0",
     "@web/test-runner": "^0.13.15",
     "@web/test-runner-playwright": "^0.8.6",
     "@web/test-runner-puppeteer": "^0.10.5",
