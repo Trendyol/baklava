@@ -2,72 +2,79 @@
 
 :root {
   /* Color Light Values */
-  --bl-light-darkest: 0%;
-  --bl-light-darker: 15%;
-  --bl-light-dark: 30%;
-  --bl-light-normal: 45%;
+  --bl-light-none: 0%;
+  --bl-light-darkest: 5%;
+  --bl-light-darker: 20%;
+  --bl-light-dark: 45%;
   --bl-light-light: 55%;
   --bl-light-lighter: 80%;
-  --bl-light-extra-light: 95%;
-  --bl-light-lightest: 100%;
+  --bl-light-lightest: 95%;
+  --bl-light-full: 100%;
 
   /* Temporary */
   --bl-light-highlight: var(--bl-light-light);
   --bl-light-contrast: var(--bl-light-extra-light);
 
-  /* Key Colors */
+  /* Primary */
   --bl-color-primary-key-h: 26;
   --bl-color-primary-key-s: 100%;
-  --bl-color-primary-key-l: var(--bl-light-normal);
 
+  /* Success */
   --bl-color-success-key-h: 102;
   --bl-color-success-key-s: 55%;
-  --bl-color-success-key-l: var(--bl-light-normal);
 
-  --bl-color-danger-key: 4 90%;
-  --bl-color-warning-key: 45 95%;
-  --bl-color-neutral-key: 221 12%;
+  /* Danger */
+  --bl-color-danger-key-h: 4;
+  --bl-color-danger-key-s: 90%;
 
-  --bl-color-alpha: 100%;
+  /* Warning */
+  --bl-color-warning-key-h: 45;
+  --bl-color-warning-key-s: 95%;
+
+  /* Neutral */
+  --bl-color-neutral-key-h: 221;
+  --bl-color-neutral-key-s: 12%;
 
   /* Color Variants
 
   Primary Color */
   --bl-color-primary-key: var(--bl-color-primary-key-h) var(--bl-color-primary-key-s);
-  --bl-color-primary-alpha: var(--bl-color-alpha);
-  --bl-color-primary: hsl(var(--bl-color-primary-key) var(--bl-light-normal) / var(--bl-color-primary-alpha));
+  --bl-color-primary: hsl(var(--bl-color-primary-key) var(--bl-light-dark));
   --bl-color-primary-highlight: hsl(var(--bl-color-primary-key) var(--bl-light-highlight));
   --bl-color-primary-contrast: hsl(var(--bl-color-primary-key) var(--bl-light-contrast));
 
   /* Success Color */
   --bl-color-success-key: var(--bl-color-success-key-h) var(--bl-color-success-key-s);
-  --bl-color-success: hsl(var(--bl-color-success-key) var(--bl-light-normal));
+  --bl-color-success: hsl(var(--bl-color-success-key) var(--bl-light-dark));
   --bl-color-success-highlight: hsl(var(--bl-color-success-key) var(--bl-light-highlight));
   --bl-color-success-contrast: hsl(var(--bl-color-success-key) var(--bl-light-contrast));
 
   /* Danger Color */
-  --bl-color-danger: hsl(var(--bl-color-danger-key) var(--bl-light-normal));
+  --bl-color-danger-key: var(--bl-color-danger-key-h) var(--bl-color-danger-key-s);
+  --bl-color-danger: hsl(var(--bl-color-danger-key) var(--bl-light-dark));
   --bl-color-danger-highlight: hsl(var(--bl-color-danger-key) var(--bl-light-highlight));
   --bl-color-danger-contrast: hsl(var(--bl-color-danger-key) var(--bl-light-contrast));
 
   /* Warning Color */
-  --bl-color-warning: hsl(var(--bl-color-warning-key) var(--bl-light-normal));
+  --bl-color-warning-key: var(--bl-color-warning-key-h) var(--bl-color-warning-key-s);
+  --bl-color-warning: hsl(var(--bl-color-warning-key) var(--bl-light-dark));
   --bl-color-warning-highlight: hsl(var(--bl-color-warning-key) var(--bl-light-highlight));
   --bl-color-warning-contrast: hsl(var(--bl-color-warning-key) var(--bl-light-contrast));
 
   /* Neutral Color */
+  --bl-color-neutral-key: var(--bl-color-neutral-key-h) var(--bl-color-neutral-key-s);
   --bl-color-neutral-darkest: hsl(var(--bl-color-neutral-key) var(--bl-light-darkest));
   --bl-color-neutral-darker: hsl(var(--bl-color-neutral-key) var(--bl-light-darker));
   --bl-color-neutral-dark: hsl(var(--bl-color-neutral-key) var(--bl-light-dark));
-  --bl-color-neutral: hsl(var(--bl-color-neutral-key) var(--bl-light-normal));
+  --bl-color-neutral: hsl(var(--bl-color-neutral-key) var(--bl-light-dark));
   --bl-color-neutral-light: hsl(var(--bl-color-neutral-key) var(--bl-light-light));
   --bl-color-neutral-lighter: hsl(var(--bl-color-neutral-key) var(--bl-light-lighter));
-  --bl-color-neutral-lightest: hsl(var(--bl-color-neutral-key) var(--bl-light-lightest));
+  --bl-color-neutral-lightest: hsl(var(--bl-color-neutral-key) var(--bl-light-full));
 
   /* Content Color */
-  --bl-color-content-primary: var(--bl-color-neutral-darker);
-  --bl-color-content-secondary: var(--bl-color-neutral-dark);
-  --bl-color-content-tertiary: var(--bl-color-neutral);
+  --bl-color-content-primary: var(--bl-color-neutral-darkest);
+  --bl-color-content-secondary: var(--bl-color-neutral-darker);
+  --bl-color-content-tertiary: var(--bl-color-dark);
   --bl-color-content-primary-contrast: var(--bl-color-neutral-lightest);
 
   /* Passive Color */

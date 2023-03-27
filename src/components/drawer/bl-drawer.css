@@ -31,6 +31,7 @@ iframe {
   flex-direction: column;
   gap: var(--bl-size-xl);
   flex: 1;
+  width: 100%;
 }
 
 header {

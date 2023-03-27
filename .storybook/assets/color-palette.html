@@ -8,16 +8,33 @@
     <link rel="stylesheet" href="./dist/themes/default.css" />
     <script type="module" src="./dist/baklava.js"></script>
     <style>
+
       body {
         padding: 20px;
         font-family: var(--bl-font-family);
+        background-color: var(--bl-color-neutral-lightest);
+        color: var(--bl-color-neutral-dark);
       }
 
+/*
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bl-light-full: 0%;
+          --bl-light-none: 100%;
+          --bl-light-darkest: 95%;
+          --bl-light-darker: 80%;
+          --bl-light-dark: 55%;
+          --bl-light-light: 45%;
+          --bl-light-lighter: 20%;
+          --bl-light-lightest: 5%;
+        }
+      } */
+
       hr {
-        background-color: rgba(0, 0, 0, 0.5);
-        height: 2px;
+        background-color: var(--bl-color-neutral-lighter);
+        height: 1px;
         border: none;
-        margin-block: 20px;
+        margin-block: 10px;
       }
 
       .deneme {
@@ -46,7 +63,7 @@
       }
 
       .code {
-        --switch: calc((var(var(--background-color))))
+        --switch: calc((var(var(--background-color))));
       }
 
       .contrast-white {
@@ -57,29 +74,222 @@
         color: var(--bl-color-neutral-darker);
       }
 
-      /* fixes */
-      /* bl-tab-group {
-        --bl-color-primary-contrast: var(--bl-color-content-primary-contrast);
+      #configToggle {
+        position: absolute;
+        top: var(--bl-size-2xl);
+        right: var(--bl-size-2xl);
       }
 
-      bl-tab {
-        --bl-color-secondary: var(--bl-color-content-secondary);
+      bl-drawer form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--bl-size-2xs);
       }
 
-      bl-button[variant='tertiary'] {
-        --bl-color-secondary: var(--bl-color-content-secondary);
+      bl-drawer .field {
+        display: flex;
+        gap: var(--bl-size-2xs);
       }
 
-      bl-select {
-        --bl-color-secondary: var(--bl-color-content-secondary);
-      } */
+      bl-drawer .field label {
+        flex-basis: 40%;
+      }
+
+      bl-drawer .field bl-input {
+        flex: 1;
+      }
+
+      bl-drawer .field.column {
+        flex-wrap: wrap;
+      }
+
+      bl-drawer .field.column bl-input {
+        flex-basis: 20%;
+      }
+
+      bl-radio-group {
+        --bl-radio-direction: row;
+      }
     </style>
   </head>
   <body>
-
-    <bl-button id="configToogle" icon="arrow_left"></bl-button>
+    <bl-button id="configToggle" icon="settings"></bl-button>
     <bl-drawer id="config" caption="Change Theme">
-      <bl-input type="number" label="Primary Hue"></bl-input>
+      <form>
+        <h3>Light Values</h3>
+
+        <div class="field column">
+          <bl-input
+            label="None"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-light-none"
+          ></bl-input>
+          <bl-input
+            label="Darkest"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-light-darkest"
+          ></bl-input>
+          <bl-input
+            label="Darker"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-light-darker"
+          ></bl-input>
+          <bl-input
+            label="Dark"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-light-dark"
+            help-text="'Key' light"
+          ></bl-input>
+          <bl-input
+            label="Light"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-light-light"
+            help-text="'Highlight' light"
+          ></bl-input>
+          <bl-input
+            label="Lighter"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-light-lighter"
+          ></bl-input>
+          <bl-input
+            label="Lightest"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-light-lightest"
+            help-text="'Contrast' light"
+          ></bl-input>
+          <bl-input
+            label="Full"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-light-full"
+          ></bl-input>
+        </div>
+
+        <h3>Main Colors</h3>
+
+        <div class="field">
+          <label>Primary</label>
+          <bl-input
+            label="Hue"
+            min="0"
+            max="259"
+            type="number"
+            name="--bl-color-primary-key-h"
+          ></bl-input>
+          <bl-input
+            label="Saturation"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-color-primary-key-s"
+          ></bl-input>
+          <!-- <bl-input label="Light" min="0" max="100" type="number" data-percentage="true" name="--bl-color-primary-key-l"></bl-input> -->
+        </div>
+
+        <div class="field">
+          <label>Success</label>
+          <bl-input
+            label="Hue"
+            min="0"
+            max="259"
+            type="number"
+            name="--bl-color-success-key-h"
+          ></bl-input>
+          <bl-input
+            label="Saturation"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-color-success-key-s"
+          ></bl-input>
+        </div>
+
+        <div class="field">
+          <label>Danger</label>
+          <bl-input
+            label="Hue"
+            min="0"
+            max="259"
+            type="number"
+            name="--bl-color-danger-key-h"
+          ></bl-input>
+          <bl-input
+            label="Saturation"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-color-danger-key-s"
+          ></bl-input>
+        </div>
+
+        <div class="field">
+          <label>Warning</label>
+          <bl-input
+            label="Hue"
+            min="0"
+            max="259"
+            type="number"
+            name="--bl-color-warning-key-h"
+          ></bl-input>
+          <bl-input
+            label="Saturation"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-color-warning-key-s"
+          ></bl-input>
+        </div>
+
+        <div class="field">
+          <label>Neutral</label>
+          <bl-input
+            label="Hue"
+            min="0"
+            max="259"
+            type="number"
+            name="--bl-color-neutral-key-h"
+          ></bl-input>
+          <bl-input
+            label="Saturation"
+            min="0"
+            max="100"
+            type="number"
+            data-percentage="true"
+            name="--bl-color-neutral-key-s"
+          ></bl-input>
+        </div>
+
+        <bl-button id="saveButton" type="submit">Save</bl-button>
+        <bl-button id="copy" variant="secondary" kind="neutral">Copy</bl-button>
+        <bl-button id="formResetButton" variant="secondary" kind="neutral" type="reset">Reset to default</bl-button>
+      </form>
     </bl-drawer>
 
     <table>
@@ -112,19 +322,31 @@
         </tr>
         <tr>
           <th>Highlight</th>
-          <td id="bl-color-primary-highlight" style="--background-color: var(--bl-color-primary-highlight)">
+          <td
+            id="bl-color-primary-highlight"
+            style="--background-color: var(--bl-color-primary-highlight)"
+          >
             <span class="contrast-white"></span><span class="contrast-black"></span
             ><span class="code"></span>
           </td>
-          <td id="bl-color-success-highlight" style="--background-color: var(--bl-color-success-highlight)">
+          <td
+            id="bl-color-success-highlight"
+            style="--background-color: var(--bl-color-success-highlight)"
+          >
             <span class="contrast-white"></span><span class="contrast-black"></span
             ><span class="code"></span>
           </td>
-          <td id="bl-color-danger-highlight" style="--background-color: var(--bl-color-danger-highlight)">
+          <td
+            id="bl-color-danger-highlight"
+            style="--background-color: var(--bl-color-danger-highlight)"
+          >
             <span class="contrast-white"></span><span class="contrast-black"></span
             ><span class="code"></span>
           </td>
-          <td id="bl-color-warning-highlight" style="--background-color: var(--bl-color-warning-highlight)">
+          <td
+            id="bl-color-warning-highlight"
+            style="--background-color: var(--bl-color-warning-highlight)"
+          >
             <span class="contrast-white"></span><span class="contrast-black"></span
             ><span class="code"></span>
           </td>
@@ -191,30 +413,21 @@
         </tr>
         <tr>
           <th>Dark (content-secondary)</th>
-          <td
-            id="bl-color-neutral-dark"
-            style="--background-color: var(--bl-color-neutral-dark)"
-          >
+          <td id="bl-color-neutral-dark" style="--background-color: var(--bl-color-neutral-dark)">
             <span class="contrast-white"></span><span class="contrast-black"></span
             ><span class="code"></span>
           </td>
         </tr>
         <tr>
           <th>Key (content-tertiary, passive-key)</th>
-          <td
-            id="bl-color-neutral-key"
-            style="--background-color: var(--bl-color-neutral)"
-          >
+          <td id="bl-color-neutral-key" style="--background-color: var(--bl-color-neutral)">
             <span class="contrast-white"></span><span class="contrast-black"></span
             ><span class="code"></span>
           </td>
         </tr>
         <tr>
           <th>Light (passive-highlight)</th>
-          <td
-            id="bl-color-neutral-light"
-            style="--background-color: var(--bl-color-neutral-light)"
-          >
+          <td id="bl-color-neutral-light" style="--background-color: var(--bl-color-neutral-light)">
             <span class="contrast-white"></span><span class="contrast-black"></span
             ><span class="code"></span>
           </td>
@@ -242,33 +455,94 @@
       </tbody>
     </table>
 
-    <bl-button id="update">Update</bl-button>
-
-    <div class="deneme">Lorem ipsum dolor sit amet</div>
-    <div class="deneme deneme2">Lorem ipsum dolor sit amet</div>
-    <div class="deneme deneme3">Lorem ipsum dolor sit amet</div>
-    <div class="deneme deneme4">Lorem ipsum dolor sit amet</div>
     <bl-tab-group>
       <bl-tab slot="tabs" name="overview" icon="book">Overview</bl-tab>
-      <bl-tab slot="tabs" badge="new" name="profile" notify>Profile</bl-tab>
+      <bl-tab slot="tabs" name="form">Forms</bl-tab>
+      <bl-tab slot="tabs" badge="new" name="typography" notify>Typography</bl-tab>
       <bl-tab slot="tabs" icon="settings" help-text="Settings are not available temporary" disabled
         >Settings</bl-tab
       >
 
       <bl-tab-panel tab="overview">
-        <bl-button>Primary Button</bl-button>
-        <bl-button kind="neutral">Primary Button</bl-button>
-        <bl-button kind="success">Primary Button</bl-button>
-        <bl-button kind="danger">Primary Button</bl-button>
-        <bl-button kind="danger" disabled>Primary Button</bl-button>
+        <bl-radio-group id="componentSizeSelector" label="Element size" value="medium">
+          <bl-radio value="large">Large</bl-radio>
+          <bl-radio value="medium">Medium</bl-radio>
+          <bl-radio value="small">Small</bl-radio>
+        </bl-radio-group>
+
+        <bl-button icon="info">Primary Button</bl-button>
+        <bl-button icon="info" kind="neutral">Primary Button</bl-button>
+        <bl-button icon="info" kind="success">Primary Button</bl-button>
+        <bl-button icon="info" kind="danger">Primary Button</bl-button>
+        <bl-button icon="info" kind="danger" disabled>Primary Button</bl-button>
         <hr />
-        <bl-button variant="secondary">Secondary button</bl-button>
-        <bl-button variant="secondary" kind="neutral">Secondary button</bl-button>
-        <bl-button variant="secondary" kind="success">Secondary button</bl-button>
-        <bl-button variant="secondary" kind="danger">Secondary button</bl-button>
+        <bl-button icon="info" variant="secondary">Secondary button</bl-button>
+        <bl-button icon="info" variant="secondary" kind="neutral">Secondary button</bl-button>
+        <bl-button icon="info" variant="secondary" kind="success">Secondary button</bl-button>
+        <bl-button icon="info" variant="secondary" kind="danger">Secondary button</bl-button>
         <hr />
-        <bl-input label="Your Name"></bl-input>
-        <bl-input label="Your Name" value="Test" disabled icon="profile"></bl-input>
+        <bl-button icon="info" variant="tertiary">Tertiary button</bl-button>
+        <bl-button icon="info" variant="tertiary" kind="neutral">Tertiary button</bl-button>
+        <bl-button icon="info" variant="tertiary" kind="success">Tertiary button</bl-button>
+        <bl-button icon="info" variant="tertiary" kind="danger">Tertiary button</bl-button>
+        <hr />
+        <bl-dropdown>
+          <bl-dropdown-group caption="Caption">
+            <bl-dropdown-item>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+          </bl-dropdown-group>
+          <bl-dropdown-item>Action 3</bl-dropdown-item>
+        </bl-dropdown>
+        <bl-dropdown kind="neutral">
+          <bl-dropdown-group caption="Caption">
+            <bl-dropdown-item>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+          </bl-dropdown-group>
+          <bl-dropdown-item>Action 3</bl-dropdown-item>
+        </bl-dropdown>
+        <bl-dropdown kind="success">
+          <bl-dropdown-group caption="Caption">
+            <bl-dropdown-item>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+          </bl-dropdown-group>
+          <bl-dropdown-item>Action 3</bl-dropdown-item>
+        </bl-dropdown>
+        <bl-dropdown kind="danger">
+          <bl-dropdown-group caption="Caption">
+            <bl-dropdown-item>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+          </bl-dropdown-group>
+          <bl-dropdown-item>Action 3</bl-dropdown-item>
+        </bl-dropdown>
+        <bl-dropdown kind="neutral" disabled>
+          <bl-dropdown-group caption="Caption">
+            <bl-dropdown-item>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+          </bl-dropdown-group>
+          <bl-dropdown-item>Action 3</bl-dropdown-item>
+        </bl-dropdown>
+        <hr>
+
+        <bl-progress-indicator max="8" value="5"></bl-progress-indicator>
+
+        <bl-progress-indicator value="100" failed></bl-progress-indicator>
+
+        <hr>
+        <bl-switch>
+        </bl-switch>
+
+
+        <bl-switch checked>
+        </bl-switch>
+
+
+        <bl-switch checked disabled>
+        </bl-switch>
+
+
+        <bl-switch checked disabled>
+        </bl-switch>
+
         <hr>
 
         <bl-alert icon>Informational Text</bl-alert>
@@ -293,7 +567,76 @@
         >
         </bl-pagination>
       </bl-tab-panel>
+
+      <bl-tab-panel tab="form">
+        <bl-radio-group id="formSizeSelector" label="Form element size" value="medium">
+          <bl-radio value="large">Large</bl-radio>
+          <bl-radio value="medium">Medium</bl-radio>
+          <bl-radio value="small">Small</bl-radio>
+        </bl-radio-group>
+
+        <h4>Input</h4>
+
+        <bl-input icon="profile" label="Your Name"></bl-input>
+        <bl-input icon="profile" label="Your Name" value="Some Name"></bl-input>
+        <bl-input label="Your Name" value="Test" disabled icon="profile"></bl-input>
+
+        <h4>Select</h4>
+
+        <bl-select placeholder="Choose country" label="Country">
+          <bl-select-option value="tr">Turkiye</bl-select-option>
+          <bl-select-option value="nl">The Netherlands</bl-select-option>
+          <bl-select-option value="de">Germany</bl-select-option>
+          <bl-select-option value="uk">United Kingdom</bl-select-option>
+        </bl-select>
+
+
+        <bl-select placeholder="Choose country" label="Country" value="tr">
+          <bl-select-option value="tr">Turkiye</bl-select-option>
+          <bl-select-option value="nl">The Netherlands</bl-select-option>
+          <bl-select-option value="de">Germany</bl-select-option>
+          <bl-select-option value="uk">United Kingdom</bl-select-option>
+        </bl-select>
+
+
+        <bl-select placeholder="Choose country" label="Country" value="tr" disabled>
+          <bl-select-option value="tr">Turkiye</bl-select-option>
+          <bl-select-option value="nl">The Netherlands</bl-select-option>
+          <bl-select-option value="de">Germany</bl-select-option>
+          <bl-select-option value="uk">United Kingdom</bl-select-option>
+        </bl-select>
+
+        <h4>Textarea</h4>
+
+        <bl-textarea label="Message"></bl-textarea>
+
+        <bl-textarea label="Message" value="some dummy text"></bl-textarea>
+
+        <bl-textarea label="Message" value="some dummy text" disabled></bl-textarea>
+
+        <h4>Checkbox</h4>
+
+        <bl-checkbox-group label="Favorite animals" name="favoriteAnimals" value='["dog","bird"]''>
+          <bl-checkbox value="cat">Cat</bl-checkbox>
+          <bl-checkbox value="dog">Dog</bl-checkbox>
+          <bl-checkbox value="bird">Bird</bl-checkbox>
+        </bl-checkbox-group>
+
+      </bl-tab-panel>
+
+      <bl-tab-panel tab="typography">
+        <div class="deneme">Lorem ipsum dolor sit amet</div>
+        <div class="deneme deneme2">Lorem ipsum dolor sit amet</div>
+        <div class="deneme deneme3">Lorem ipsum dolor sit amet</div>
+        <div class="deneme deneme4">Lorem ipsum dolor sit amet</div>
+      </bl-tab-panel>
     </bl-tab-group>
+
+    <bl-dialog id="reset-confirmation" caption="Are you sure to reset values?">
+      You'll lose your custom values and return back to default.
+      <bl-button id="resetConfirm" slot="primary-action" variant="primary" kind="danger" size="large">Yes, do it</bl-button>
+      <bl-button slot="tertiary-action" variant="tertiary" size="large">Cancel</bl-button>
+    </bl-dialog>
 
     <script type="module">
       import Color from 'https://cdn.jsdelivr.net/npm/colorjs.io@0.4.2/dist/color.js';
@@ -315,8 +658,12 @@
         const whiteContrastWCAG = pColor.contrast(white, 'WCAG21').toFixed(1);
         const blackContrastWCAG = pColor.contrast(black, 'WCAG21').toFixed(1);
 
-        $(`#bl-color-${colorName} .contrast-white`).text(`${whiteContrastAPCA}, ${whiteContrastWCAG}`);
-        $(`#bl-color-${colorName} .contrast-black`).text(`${blackContrastAPCA}, ${blackContrastWCAG}`);
+        $(`#bl-color-${colorName} .contrast-white`).text(
+          `${whiteContrastAPCA}, ${whiteContrastWCAG}`
+        );
+        $(`#bl-color-${colorName} .contrast-black`).text(
+          `${blackContrastAPCA}, ${blackContrastWCAG}`
+        );
         $(`#bl-color-${colorName} .code`).text(pColor.to('srgb').toString({ format: 'hex' }));
       }
 
@@ -331,22 +678,81 @@
           showContrastVariants(color);
         });
 
-        ['darkest', 'darker', 'dark', 'key', 'light', 'lighter', 'lightest'].forEach(
-          color => {
-            showContrast(`neutral-${color}`);
-          }
-        );
+        ['darkest', 'darker', 'dark', 'key', 'light', 'lighter', 'extra-light', 'lightest'].forEach(color => {
+          showContrast(`neutral-${color}`);
+        });
       }
 
+      function fillFormValues() {
+        document.documentElement.style.cssText = localStorage.getItem('values');
+        const bodyStyle = getComputedStyle(document.body);
+
+        $('bl-drawer bl-input').each(function () {
+          const variableName = $(this).prop('name');
+          const value = bodyStyle.getPropertyValue(variableName);
+          $(this).prop('value', value.replace('%', ''));
+        });
+      }
+
+      fillFormValues();
       showAllContrasts();
+
+      $('bl-drawer bl-input').on('bl-input', function () {
+        const variableName = $(this).prop('name');
+        const percentage = $(this).data('percentage');
+        const value = $(this).prop('value');
+
+        document.documentElement.style.setProperty(variableName, percentage ? `${value}%` : value);
+        showAllContrasts();
+      });
 
       $('#update').on('bl-click', () => {
         showAllContrasts();
       });
 
-      $('#configToogle').on('bl-click', () => {
-        $('#config').open = true;
+      $('#configToggle').on('bl-click', () => {
+        $('#config').prop('open', true);
+      });
+
+      $('bl-drawer form').on('submit', function (event) {
+        event.preventDefault();
+        localStorage.setItem('values', document.documentElement.style.cssText);
       })
+
+      $('#formResetButton').on('bl-click', () => {
+        $('#reset-confirmation').prop('open', true);
+      });
+
+      $('#resetConfirm').on('bl-click', () => {
+        localStorage.removeItem('values');
+        window.location.reload();
+      });
+
+      $('#copy').on('bl-click', function () {
+        navigator.clipboard.writeText(document.documentElement.style.cssText).then(() => {
+          console.log('Content copied to clipboard');
+          $(this).attr('icon', 'check').html('Copied!');
+          setTimeout(() => {
+            $(this).removeAttr('icon').html('Copy');
+          }, 5000);
+        },() => {
+          console.error('Failed to copy');
+          $(this).attr('icon', 'error').html('Failed :(');
+          setTimeout(() => {
+            $(this).removeAttr('icon').html('Copy');
+          }, 5000);
+        });
+      });
+
+      $('#formSizeSelector').on('bl-radio-change', function (event) {
+        $('bl-tab-panel[tab=form] :where(bl-input, bl-select, bl-textarea)').attr('size', event.detail);
+      });
+
+
+      $('#componentSizeSelector').on('bl-radio-change', function (event) {
+        $('bl-tab-panel[tab=overview] :where(bl-button, bl-badge, bl-dropdown, bl-progress-indicator)').attr('size', event.detail);
+      });
+
     </script>
   </body>
 </html>
