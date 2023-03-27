@@ -31,7 +31,7 @@
   width: 100%;
   height: var(--height);
   border: solid 1px var(--border-color);
-  border-radius: 6px;
+  border-radius: var(--bl-border-radius-m);
   text-decoration: none;
   padding: var(--padding-vertical) var(--padding-horizontal);
   cursor: pointer;
