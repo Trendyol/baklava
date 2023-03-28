@@ -144,10 +144,19 @@ export default class BlInput extends FormControlMixin(LitElement) {
   labelFixed = false;
 
   /**
-   * Set custom error message
+   * Overrides error message. This message will override default error messages
    */
   @property({ type: String, attribute: 'invalid-text', reflect: true })
-  customInvalidText?: string;
+  set customInvalidText(value: string) {
+    this._customInvalidText = value;
+    this.setValue(this.value);
+  }
+
+  get customInvalidText(): string {
+    return this._customInvalidText;
+  }
+
+  private _customInvalidText: string;
 
   /**
    * Adds help text
@@ -210,8 +219,27 @@ export default class BlInput extends FormControlMixin(LitElement) {
     return this.customInvalidText || this.validationTarget?.validationMessage;
   }
 
+  /**
+   * Force to set input as in invalid state.
+   */
+  forceCustomError() {
+    this.validationTarget.setCustomValidity(this.customInvalidText || 'An error ocurred');
+    this.setValue(this.value);
+    this.reportValidity();
+  }
+
+  /**
+   * Clear forced invalid state
+   */
+  clearCustomError() {
+    this.validationTarget.setCustomValidity('');
+    this.setValue(this.value);
+    this.reportValidity();
+  }
+
   reportValidity() {
     this.dirty = true;
+    this.requestUpdate();
     return this.checkValidity();
   }
 
