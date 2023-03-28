@@ -15,7 +15,7 @@
   line-height: normal;
   vertical-align: middle;
   margin-block: 0;
-  color: var(--bl-color-content-primary);
+  color: var(--bl-color-neutral-darker);
 }
 
 #label::before {
@@ -26,7 +26,7 @@
   height: var(--bl-size-m);
   background-color: white;
   border-radius: var(--bl-border-radius-circle);
-  border: solid 1px var(--bl-color-passive-highlight);
+  border: solid 1px var(--bl-color-neutral-lighter);
   margin-right: var(--bl-size-2xs);
   vertical-align: middle;
 }
@@ -47,16 +47,16 @@
 }
 
 :host([disabled]) #label {
-  color: var(--bl-color-passive);
+  color: var(--bl-color-neutral-light);
 }
 
 :host([disabled]) #label::before {
-  background-color: var(--bl-color-content-primary-contrast);
+  background-color: var(--bl-color-neutral-full);
 }
 
 :host([disabled]) .selected #label::before {
-  background-color: var(--bl-color-passive);
-  border-color: var(--bl-color-content-primary-contrast);
+  background-color: var(--bl-color-neutral-light);
+  border-color: var(--bl-color-neutral-full);
 }
 
 .wrapper:focus-visible #label::before {

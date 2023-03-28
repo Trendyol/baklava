@@ -1,4 +1,5 @@
 import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
+import { html } from 'lit';
 
 <Meta title="Design System/Colors" />
 
@@ -31,17 +32,18 @@ Baklava uses a list of defined color with some default values.
     title="--bl-color-neutral"
     subtitle="Neutral Colors"
     colors={{
+        '--none': 'var(--bl-color-neutral-none)',
         '--darkest': 'var(--bl-color-neutral-darkest)',
         '--darker': 'var(--bl-color-neutral-darker)',
         '--dark': 'var(--bl-color-neutral-dark)',
-        '': 'var(--bl-color-neutral)',
         '--light' : 'var(--bl-color-neutral-light)',
         '--lighter' : 'var(--bl-color-neutral-lighter)',
-        '--extra-light' : 'var(--bl-color-neutral-extra-light)',
         '--lightest' : 'var(--bl-color-neutral-lightest)',
+        '--full' : 'var(--bl-color-neutral-full)',
     }}
   />
 </ColorPalette>
 
 ## Customizing Color Palette
 
+Please use <a href="/assets/color-palette.html" target="_blank">Theme Generator</a>.

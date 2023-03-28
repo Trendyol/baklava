@@ -4,31 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./dist/themes/default.css" />
-    <script type="module" src="./dist/baklava.js"></script>
+    <title>Baklava Theme Playground</title>
+    <link rel="stylesheet" href="/themes/default.css" />
+    <script type="module" src="/baklava.js"></script>
     <style>
 
       body {
         padding: 20px;
         font-family: var(--bl-font-family);
-        background-color: var(--bl-color-neutral-lightest);
-        color: var(--bl-color-neutral-dark);
+        background-color: var(--bl-color-neutral-full);
+        color: var(--bl-color-neutral-darker);
       }
-
-/*
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bl-light-full: 0%;
-          --bl-light-none: 100%;
-          --bl-light-darkest: 95%;
-          --bl-light-darker: 80%;
-          --bl-light-dark: 55%;
-          --bl-light-light: 45%;
-          --bl-light-lighter: 20%;
-          --bl-light-lightest: 5%;
-        }
-      } */
 
       hr {
         background-color: var(--bl-color-neutral-lighter);
@@ -113,6 +99,7 @@
     </style>
   </head>
   <body>
+    <h1>Baklava Color Palette</h1>
     <bl-button id="configToggle" icon="settings"></bl-button>
     <bl-drawer id="config" caption="Change Theme">
       <form>
@@ -402,7 +389,7 @@
           </td>
         </tr>
         <tr>
-          <th>Darker (content-primary)</th>
+          <th>Darker</th>
           <td
             id="bl-color-neutral-darker"
             style="--background-color: var(--bl-color-neutral-darker)"
@@ -412,28 +399,21 @@
           </td>
         </tr>
         <tr>
-          <th>Dark (content-secondary)</th>
+          <th>Dark</th>
           <td id="bl-color-neutral-dark" style="--background-color: var(--bl-color-neutral-dark)">
             <span class="contrast-white"></span><span class="contrast-black"></span
             ><span class="code"></span>
           </td>
         </tr>
         <tr>
-          <th>Key (content-tertiary, passive-key)</th>
-          <td id="bl-color-neutral-key" style="--background-color: var(--bl-color-neutral)">
-            <span class="contrast-white"></span><span class="contrast-black"></span
-            ><span class="code"></span>
-          </td>
-        </tr>
-        <tr>
-          <th>Light (passive-highlight)</th>
+          <th>Light</th>
           <td id="bl-color-neutral-light" style="--background-color: var(--bl-color-neutral-light)">
             <span class="contrast-white"></span><span class="contrast-black"></span
             ><span class="code"></span>
           </td>
         </tr>
         <tr>
-          <th>Lighter (passive-contrast)</th>
+          <th>Lighter</th>
           <td
             id="bl-color-neutral-lighter"
             style="--background-color: var(--bl-color-neutral-lighter)"
@@ -443,7 +423,7 @@
           </td>
         </tr>
         <tr>
-          <th>Lightest (primary-contrast)</th>
+          <th>Lightest</th>
           <td
             id="bl-color-neutral-lightest"
             style="--background-color: var(--bl-color-neutral-lightest)"
@@ -536,7 +516,7 @@
         </bl-switch>
 
 
-        <bl-switch checked disabled>
+        <bl-switch disabled>
         </bl-switch>
 
 

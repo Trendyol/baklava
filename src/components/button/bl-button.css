@@ -12,8 +12,8 @@
 .button {
   --main-color: var(--bl-color-primary);
   --main-hover-color: var(--bl-color-primary-highlight);
-  --text-hover-color: var(--bl-color-content-primary-contrast);
-  --content-color: var(--bl-color-content-primary-contrast);
+  --text-hover-color: var(--bl-color-neutral-full);
+  --content-color: var(--bl-color-neutral-full);
   --bg-color: var(--main-color);
   --border-color: var(--main-color);
   --padding-vertical: var(--bl-size-2xs);
@@ -116,8 +116,8 @@
 }
 
 :host([kind='neutral']) .button {
-  --main-color: var(--bl-color-content-primary);
-  --main-hover-color: var(--bl-color-content-secondary);
+  --main-color: var(--bl-color-neutral-darker);
+  --main-hover-color: var(--bl-color-neutral-dark);
 }
 
 :host([kind='success']) .button {
@@ -143,9 +143,9 @@
 }
 
 :host([disabled]) .button {
-  --main-color: var(--bl-color-passive-contrast);
-  --main-hover-color: var(--bl-color-passive-contrast);
-  --content-color: var(--bl-color-passive-highlight);
+  --main-color: var(--bl-color-neutral-lighter);
+  --main-hover-color: var(--bl-color-neutral-lighter);
+  --content-color: var(--bl-color-neutral-light);
   --bg-color: var(--main-color);
 
   pointer-events: none;
@@ -157,7 +157,7 @@
 }
 
 :host([variant='secondary']:hover) .button[aria-disabled='false'] {
-  --content-color: var(--bl-color-content-primary-contrast);
+  --content-color: var(--bl-color-neutral-full);
   --bg-color: var(--main-hover-color);
 }
 
@@ -184,12 +184,12 @@
 }
 
 :host([variant='secondary']) .active.button {
-  --content-color: var(--bl-color-content-primary-contrast);
+  --content-color: var(--bl-color-neutral-full);
   --bg-color: var(--main-hover-color);
 }
 
 :host([variant='tertiary']) .active.button {
   --content-color: var(--main-color);
-  --bg-color: var(--bl-color-passive-contrast);
+  --bg-color: var(--bl-color-neutral-lightest);
   --border-color: transparent;
 }

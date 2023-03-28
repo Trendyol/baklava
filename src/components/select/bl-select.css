@@ -12,18 +12,18 @@
 
   --padding-vertical: var(--bl-size-2xs);
   --padding-horizontal: var(--bl-size-xs);
-  --background-color:  var(--bl-color-content-primary-contrast);
-  --border-color: var(--bl-color-border);
+  --background-color:  var(--bl-color-neutral-full);
+  --border-color: var(--bl-color-neutral-lighter);
   --border-focus-color: var(--bl-color-primary-highlight);
-  --icon-color: var(--bl-color-content-tertiary);
-  --text-color: var(--bl-color-content-primary);
-  --label-color: var(--bl-color-content-secondary);
-  --placeholder-color: var(--bl-color-content-tertiary);
+  --icon-color: var(--bl-color-neutral-light);
+  --text-color: var(--bl-color-neutral-darker);
+  --label-color: var(--bl-color-neutral-dark);
+  --placeholder-color: var(--bl-color-neutral-light);
   --height: var(--bl-size-2xl);
   --menu-padding: 0 var(--bl-size-m);
   --menu-margin-top: var(--bl-size-2xs);
   --font-size: var(--bl-font-size-m);
-  --disabled-color: var(--bl-color-passive-contrast);
+  --disabled-color: var(--bl-color-neutral-lightest);
   --menu-height: 250px;
   --popover-position: var(--bl-popover-position, fixed);
 }
@@ -42,7 +42,7 @@
 }
 
 :host([disabled]) .select-wrapper {
-  --placeholder-color: var(--bl-color-passive);
+  --placeholder-color: var(--bl-color-neutral-light);
 }
 
 .dirty.invalid {
@@ -91,7 +91,7 @@
   left: 1.5rem;
   bottom: 4px;
   height: 1rem;
-  border-left: 1px solid var(--bl-color-border);
+  border-left: 1px solid var(--bl-color-neutral-lighter);
 }
 
 .selected .remove-all {
@@ -120,11 +120,11 @@
 }
 
 .selected .dropdown-icon {
-  --icon-color: var(--bl-color-content-primary);
+  --icon-color: var(--bl-color-neutral-darker);
 }
 
 :host([disabled]) .dropdown-icon {
-  --icon-color: var(--bl-color-passive);
+  --icon-color: var(--bl-color-neutral-light);
 }
 
 .select-open .select-input,
@@ -168,7 +168,7 @@
 
 :host([disabled]) .selected-options li
 {
-  color: var(--bl-color-passive);
+  color: var(--bl-color-neutral-light);
 }
 
 .select-input .actions {
@@ -235,7 +235,7 @@ label {
   font: var(--bl-font-caption);
   color: var(--label-color);
   padding: 0 var(--bl-size-3xs);
-  background-color: var(--bl-color-content-primary-contrast);
+  background-color: var(--bl-color-neutral-full);
   pointer-events: initial;
   right: var(--padding-horizontal);
 }
@@ -273,7 +273,7 @@ label {
 }
 
 .help-text {
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
 }
 
 .select-open .help-text,

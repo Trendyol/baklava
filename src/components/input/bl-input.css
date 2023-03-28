@@ -5,9 +5,9 @@
 }
 
 .wrapper {
-  --border-color: var(--bl-color-border);
-  --icon-color: var(--bl-color-content-tertiary);
-  --text-color: var(--bl-color-content-primary);
+  --border-color: var(--bl-color-neutral-lighter);
+  --icon-color: var(--bl-color-neutral-light);
+  --text-color: var(--bl-color-neutral-darker);
   --height: var(--bl-size-2xl);
   --input-font: var(--bl-font-body-text-2);
   --line-height: var(--bl-font-body-text-2-line-height);
@@ -59,9 +59,9 @@
 
 :host([disabled]) .input-wrapper {
   cursor: not-allowed;
-  background-color: var(--bl-color-passive-contrast);
+  background-color: var(--bl-color-neutral-lightest);
 
-  --text-color: var(--bl-color-passive);
+  --text-color: var(--bl-color-neutral-light);
 }
 
 .input-wrapper:has(input:autofill) {
@@ -81,7 +81,7 @@ label {
   transition: all ease-in 0.2s;
   pointer-events: none;
   font: var(--input-font);
-  color: var(--bl-color-content-tertiary);
+  color: var(--bl-color-neutral-light);
   padding: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -170,8 +170,8 @@ bl-icon[name='eye_on'] {
 }
 
 ::placeholder {
-  color: var(--bl-color-content-tertiary);
-  -webkit-text-fill-color: var(--bl-color-content-tertiary);
+  color: var(--bl-color-neutral-light);
+  -webkit-text-fill-color: var(--bl-color-neutral-light);
 }
 
 :host([label]) ::placeholder {
@@ -182,8 +182,8 @@ bl-icon[name='eye_on'] {
 
 :host([label-fixed]) ::placeholder,
 :host .wrapper:focus-within ::placeholder {
-  color: var(--bl-color-content-tertiary);
-  -webkit-text-fill-color: var(--bl-color-content-tertiary);
+  color: var(--bl-color-neutral-light);
+  -webkit-text-fill-color: var(--bl-color-neutral-light);
 }
 
 :where(.wrapper:focus-within, .wrapper.has-value) label {
@@ -193,9 +193,9 @@ bl-icon[name='eye_on'] {
   left: calc(var(--padding-horizontal) - var(--label-padding));
   transform: translateY(-50%);
   font: var(--bl-font-caption);
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
   padding: 0 var(--label-padding);
-  background-color: var(--bl-color-content-primary-contrast);
+  background-color: var(--bl-color-neutral-full);
   pointer-events: initial;
 }
 
@@ -209,7 +209,7 @@ bl-icon[name='eye_on'] {
   transform: none;
   pointer-events: initial;
   font: var(--bl-font-caption);
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
   padding: 0;
 }
 
@@ -225,7 +225,7 @@ bl-icon[name='eye_on'] {
 }
 
 .help-text {
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
 }
 
 :host([help-text]) .hint,

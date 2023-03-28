@@ -10,7 +10,7 @@ fieldset {
 
 legend {
   font: var(--bl-font-title-3-medium);
-  color: var(--bl-color-content-primary);
+  color: var(--bl-color-neutral-darker);
 }
 
 .options {

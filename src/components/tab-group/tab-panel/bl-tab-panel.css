@@ -1,6 +1,6 @@
 div {
   padding: var(--bl-size-xl);
-  background-color: var(--bl-color-content-primary-contrast);
+  background-color: var(--bl-color-neutral-full);
   border-radius: 0 0 var(--bl-border-radius-m) var(--bl-border-radius-m);
 }
 

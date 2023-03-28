@@ -16,7 +16,7 @@
   --height: max(var(--scroll-height), var(--default-scroll-height));
   --input-font: var(--bl-font-body-text-2);
   --border-radius: var(--bl-size-3xs);
-  --border-color: var(--bl-color-border);
+  --border-color: var(--bl-color-neutral-lighter);
 
   display: flex;
   flex-direction: column;
@@ -42,7 +42,7 @@ textarea {
   margin: 0;
   border: none;
   border-radius: var(--border-radius);
-  color: var(--bl-color-content-primary);
+  color: var(--bl-color-neutral-darker);
   resize: vertical;
   display: block;
 }
@@ -61,7 +61,7 @@ textarea {
 
 textarea:disabled {
   background-color: var(--bl-color-secondary-background);
-  color: var(--bl-color-content-tertiary);
+  color: var(--bl-color-neutral-light);
   cursor: not-allowed;
 }
 
@@ -104,7 +104,7 @@ label {
   transition: all ease-in 0.2s;
   pointer-events: none;
   font: var(--bl-font-title-3-regular);
-  color: var(--bl-color-content-tertiary);
+  color: var(--bl-color-neutral-light);
   padding: 0;
   max-width: max-content;
   white-space: nowrap;
@@ -119,15 +119,15 @@ label {
   left: calc(var(--padding-horizontal) - var(--label-padding));
   transform: translateY(-50%);
   font: var(--bl-font-caption);
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
   padding: 0 var(--label-padding);
-  background-color: var(--bl-color-content-primary-contrast);
+  background-color: var(--bl-color-neutral-full);
   pointer-events: initial;
 }
 
 :host ::placeholder,
 :host([label-fixed]) ::placeholder {
-  color: var(--bl-color-content-tertiary);
+  color: var(--bl-color-neutral-light);
 }
 
 :host([label-fixed]) label {
@@ -136,7 +136,7 @@ label {
   transform: none;
   pointer-events: initial;
   font: var(--bl-font-caption);
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
   background-color: initial;
   padding: 0;
 }
@@ -164,7 +164,7 @@ label {
 }
 
 .counter-text {
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
   margin-left: auto;
 }
 
@@ -182,7 +182,7 @@ label {
 }
 
 .help-text {
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
 }
 
 :where(.dirty.max-len-invalid, .dirty.invalid) .hint > .invalid-text {

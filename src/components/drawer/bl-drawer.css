@@ -10,7 +10,7 @@
   padding-top: max(env(safe-area-inset-top), var(--bl-size-xl));
   padding-right: max(env(safe-area-inset-right), var(--bl-size-xl));
   padding-bottom: max(env(safe-area-inset-bottom), var(--bl-size-xl));
-  background: var(--bl-color-content-primary-contrast);
+  background: var(--bl-color-neutral-full);
   box-shadow: var(--bl-size-xs) 0 var(--bl-size-2xl) rgba(0 0 0 / 50%);
   transition: right var(--bl-drawer-animation-duration, .25s);
   z-index: var(--bl-index-sticky);
@@ -50,7 +50,7 @@ header .header-buttons {
 
 header h2 {
   font: var(--bl-font-title-1-medium);
-  color: var(--bl-color-content-primary);
+  color: var(--bl-color-neutral-darker);
   overflow: hidden;
   margin: 0;
   padding: 0;

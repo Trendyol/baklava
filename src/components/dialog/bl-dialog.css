@@ -1,5 +1,5 @@
 .container {
-  --background-color: var(--bl-color-content-primary-contrast);
+  --background-color: var(--bl-color-neutral-full);
 
   display: flex;
   flex-direction: column;
@@ -62,7 +62,7 @@ header bl-button {
 
 header h2 {
   font: var(--bl-font-title-1-medium);
-  color: var(--bl-color-content-primary);
+  color: var(--bl-color-neutral-darker);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

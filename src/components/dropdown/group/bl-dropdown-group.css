@@ -14,15 +14,15 @@
     font-size: var(--bl-font-size-xs);
     font-weight: var(--bl-font-weight-medium);
     line-height: var(--bl-font-size-s);
-    color: var(--bl-color-content-secondary);
+    color: var(--bl-color-neutral-dark);
 }
 
 :host(:not(:first-child)) {
-  border-top: 1px solid var(--bl-color-border);
+  border-top: 1px solid var(--bl-color-neutral-lighter);
 }
 
 :host(:not(:last-child)) {
-  border-bottom: 1px solid var(--bl-color-border);
+  border-bottom: 1px solid var(--bl-color-neutral-lighter);
 }
 
 :host(:not([caption])) ::slotted(:first-child) {

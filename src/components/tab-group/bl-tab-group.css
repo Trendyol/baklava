@@ -1,6 +1,6 @@
 .tabs {
-  background-color: var(--bl-color-content-primary-contrast);
-  border-bottom: var(--bl-size-4xs) solid var(--bl-color-passive-contrast);
+  background-color: var(--bl-color-neutral-full);
+  border-bottom: var(--bl-size-4xs) solid var(--bl-color-neutral-lightest);
   display: flex;
   flex-direction: row;
 }
