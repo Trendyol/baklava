@@ -15,7 +15,7 @@
   color: var(--bl-color-content-primary);
   box-shadow: inset 0 0 0 1px var(--main-color);
   border-radius: var(--bl-border-radius-s);
-  padding: var(--padding) var(--padding);
+  padding: calc(var(--padding) / 2) var(--padding);
   padding-right: calc(var(--padding) / 2);
 }
 
@@ -35,9 +35,11 @@
   display: flex;
   margin-right: var(--bl-size-2xs);
   flex: 20 1 70%;
+  padding: calc(var(--padding) / 2) 0;
 }
 
 .icon {
+  padding: calc(var(--padding) / 2) 0;
   margin-right: var(--bl-size-2xs);
   color: var(--main-color);
 }
@@ -56,7 +58,11 @@
   display: none;
   flex-wrap: wrap;
   gap: 16px;
-  padding-top: var(--padding);
+  padding: calc(var(--padding) / 2) 0;
+}
+
+.close {
+  --bl-color-secondary-background: transparent;
 }
 
 .caption + .description {
