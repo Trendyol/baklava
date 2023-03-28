@@ -35,6 +35,7 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
 
 export const actionSlot = (actionLabel) => html`
   <bl-button slot="action">${unsafeHTML(actionLabel)}</bl-button>
+  <bl-button slot="action-secondary">${unsafeHTML(actionLabel)}</bl-button>
 `;
 
 export const SingleAlertTemplate = (args) => html`<bl-alert

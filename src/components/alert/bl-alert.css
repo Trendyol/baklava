@@ -15,7 +15,7 @@
   color: var(--bl-color-content-primary);
   box-shadow: inset 0 0 0 1px var(--main-color);
   border-radius: var(--bl-border-radius-s);
-  padding: calc(var(--padding) / 2) var(--padding);
+  padding: var(--padding) var(--padding);
   padding-right: calc(var(--padding) / 2);
 }
 
@@ -25,15 +25,14 @@
 
 .wrapper {
   display: flex;
+  flex-flow: column;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
   flex: auto;
 }
 
 .content {
   display: flex;
-  padding: calc(var(--padding) / 2) 0;
   margin-right: var(--bl-size-2xs);
   flex: 20 1 70%;
 }
@@ -53,10 +52,11 @@
   font: var(--bl-font-title-3-medium);
 }
 
-.action {
-  display: flex;
-  align-items: center;
-  flex: 1 1 0%;
+.actions {
+  display: none;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: var(--padding);
 }
 
 .caption + .description {
