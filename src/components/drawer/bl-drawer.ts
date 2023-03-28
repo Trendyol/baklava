@@ -93,7 +93,9 @@ export default class BlDrawer extends LitElement {
   }
 
   private renderContent() {
-    const content = this.embedUrl ? html`<iframe src=${this.embedUrl}></iframe>` : html`<slot></slot>`;
+    const content = this.embedUrl
+      ? html`<iframe src=${this.embedUrl}></iframe>`
+      : html`<slot></slot>`;
 
     return html`<section class=${this.embedUrl ? 'iframe-content' : 'content'}>
       ${content}

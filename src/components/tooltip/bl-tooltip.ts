@@ -89,7 +89,7 @@ export default class BlTooltip extends LitElement {
         });
 
         if (middlewareData.arrow) {
-          const {x: arrowX, y: arrowY} = middlewareData.arrow;
+          const { x: arrowX, y: arrowY } = middlewareData.arrow;
 
           Object.assign(this.arrow.style, {
             left: arrowX != null ? `${arrowX}px` : '',

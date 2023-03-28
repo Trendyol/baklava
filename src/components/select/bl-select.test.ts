@@ -214,7 +214,9 @@ describe('bl-select', () => {
     beforeEach(async () => {
       el = await fixture<BlSelect>(html`<bl-select multiple>
         <bl-select-option value="1">Option 1</bl-select-option>
-        <bl-select-option value="2" selected>Option 2 with a very long label to fill out the selected option label</bl-select-option>
+        <bl-select-option value="2" selected
+          >Option 2 with a very long label to fill out the selected option label</bl-select-option
+        >
         <bl-select-option value="3" selected>Option 3</bl-select-option>
         <bl-select-option value="4" selected>Option 4</bl-select-option>
         <bl-select-option value="5" selected>Option 5</bl-select-option>
@@ -226,7 +228,10 @@ describe('bl-select', () => {
     it('should render bl-select-options when multiple options is true and there are selected options', async () => {
       expect(el.options.length).to.equal(5);
       expect(el.selectedOptions.length).to.equal(4, 'selectedOptions count is wrong');
-      expect(el.additionalSelectedOptionCount).to.equal(3, 'non visible selected option count is wrong');
+      expect(el.additionalSelectedOptionCount).to.equal(
+        3,
+        'non visible selected option count is wrong'
+      );
     });
 
     it('should show additional selection number', async () => {

@@ -36,7 +36,7 @@
   font: var(--option-font);
   user-select: none;
   position: relative;
-  outline: none;;
+  outline: none;
 }
 
 .single-option:focus-visible::after {
