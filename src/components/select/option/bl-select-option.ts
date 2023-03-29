@@ -19,13 +19,12 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
    */
   @property({})
   get value(): ValueType {
-    return this._value || this.textContent as ValueType;
+    return this._value || (this.textContent as ValueType);
   }
 
   set value(val: ValueType) {
     this._value = val;
   }
-
 
   /**
    * Sets option as disabled
@@ -81,7 +80,12 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
   private blSelect: BlSelect<ValueType> | null;
 
   private singleOptionTemplate() {
-    return html`<div class="single-option focus-target" @blur=${this.blur} @keydown=${this.handleKeydown} @click="${this._onClickOption}">
+    return html`<div
+      class="single-option focus-target"
+      @blur=${this.blur}
+      @keydown=${this.handleKeydown}
+      @click="${this._onClickOption}"
+    >
       <slot></slot>
     </div>`;
   }
@@ -102,7 +106,6 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
       ${this.multiple ? this.checkboxOptionTemplate() : this.singleOptionTemplate()}
     </div>`;
   }
-
 
   private handleKeydown(event: KeyboardEvent) {
     if (event.code === 'Enter' || event.code === 'Space') {

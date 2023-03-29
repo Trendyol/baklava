@@ -58,7 +58,7 @@ describe('bl-tab', function () {
 
   it('should create custom event when change selected attribute', async () => {
     const el = await fixture<BlTab>(html` <bl-tab name="test"></bl-tab>`);
-    el.selected=true;
+    el.selected = true;
 
     const listener = await oneEvent(el, 'bl-tab-selected');
     const { detail } = await listener;

@@ -37,9 +37,7 @@ describe('bl-popover', () => {
   });
 
   it('should be rendered successful with fit-size', async () => {
-    const el = await fixture<BlPopover>(
-      html`<bl-popover fit-size>Popover Content</bl-popover>`
-    );
+    const el = await fixture<BlPopover>(html`<bl-popover fit-size>Popover Content</bl-popover>`);
     el.show();
     expect(el).to.exist;
   });

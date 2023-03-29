@@ -190,7 +190,7 @@ describe('should selected tab functionality works when add or remove tabs ', fun
 });
 
 describe('accessibility', () => {
-  it('should change the tab when the right arrow key followed by enter key is used', async() => {
+  it('should change the tab when the right arrow key followed by enter key is used', async () => {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
       <bl-tab name="test-2" slot="tabs">Test 2 Tab</bl-tab>
@@ -206,17 +206,17 @@ describe('accessibility', () => {
       press: 'Tab',
     });
     await sendKeys({
-      press: 'ArrowRight'
+      press: 'ArrowRight',
     });
     await sendKeys({
-      press: 'Enter'
+      press: 'Enter',
     });
 
     expect(el.tabs[0].selected).to.be.true;
     expect(el.tabs[2].selected).to.be.false;
   });
 
-  it('should change the tab when the left arrow key followed by enter key is used', async() => {
+  it('should change the tab when the left arrow key followed by enter key is used', async () => {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs" selected>Test 1 Tab</bl-tab>
       <bl-tab name="test-2" slot="tabs">Test 2 Tab</bl-tab>
@@ -232,17 +232,17 @@ describe('accessibility', () => {
       press: 'Tab',
     });
     await sendKeys({
-      press: 'ArrowLeft'
+      press: 'ArrowLeft',
     });
     await sendKeys({
-      press: 'Enter'
+      press: 'Enter',
     });
 
     expect(el.tabs[0].selected).to.be.false;
     expect(el.tabs[2].selected).to.be.true;
   });
 
-  it('should skip the disabled tabs when the arrow keys are used', async() => {
+  it('should skip the disabled tabs when the arrow keys are used', async () => {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs" selected>Test 1 Tab</bl-tab>
       <bl-tab name="test-2" slot="tabs" disabled>Test 2 Tab</bl-tab>
@@ -258,10 +258,10 @@ describe('accessibility', () => {
       press: 'Tab',
     });
     await sendKeys({
-      press: 'ArrowRight'
+      press: 'ArrowRight',
     });
     await sendKeys({
-      press: 'Enter'
+      press: 'Enter',
     });
 
     expect(el.tabs[0].selected).to.be.false;

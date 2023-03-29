@@ -25,20 +25,21 @@
 
 .wrapper {
   display: flex;
+  flex-flow: column;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
   flex: auto;
 }
 
 .content {
   display: flex;
-  padding: calc(var(--padding) / 2) 0;
   margin-right: var(--bl-size-2xs);
   flex: 20 1 70%;
+  padding: calc(var(--padding) / 2) 0;
 }
 
 .icon {
+  padding: calc(var(--padding) / 2) 0;
   margin-right: var(--bl-size-2xs);
   color: var(--main-color);
 }
@@ -53,10 +54,15 @@
   font: var(--bl-font-title-3-medium);
 }
 
-.action {
-  display: flex;
-  align-items: center;
-  flex: 1 1 0%;
+.actions {
+  display: none;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: calc(var(--padding) / 2) 0;
+}
+
+.close {
+  --bl-color-secondary-background: transparent;
 }
 
 .caption + .description {
