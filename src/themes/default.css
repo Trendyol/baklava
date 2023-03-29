@@ -12,15 +12,15 @@
   --bl-light-full: 100%;
 
   /* Primary */
-  --bl-color-primary-key-h: 26;
+  --bl-color-primary-key-h: 24;
   --bl-color-primary-key-s: 100%;
 
   /* Success */
-  --bl-color-success-key-h: 102;
-  --bl-color-success-key-s: 55%;
+  --bl-color-success-key-h: 120;
+  --bl-color-success-key-s: 34%;
 
   /* Danger */
-  --bl-color-danger-key-h: 4;
+  --bl-color-danger-key-h: 8;
   --bl-color-danger-key-s: 90%;
 
   /* Warning */
@@ -31,9 +31,9 @@
   --bl-color-neutral-key-h: 221;
   --bl-color-neutral-key-s: 12%;
 
-  /* Color Variants
+  /* Color Variants */
 
-  Primary Color */
+  /* Primary Color */
   --bl-color-primary-key: var(--bl-color-primary-key-h) var(--bl-color-primary-key-s);
   --bl-color-primary: hsl(var(--bl-color-primary-key) var(--bl-light-dark));
   --bl-color-primary-highlight: hsl(var(--bl-color-primary-key) var(--bl-light-light));
