@@ -223,7 +223,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Force to set input as in invalid state.
    */
   forceCustomError() {
-    this.validationTarget.setCustomValidity(this.customInvalidText || 'An error ocurred');
+    this.validationTarget.setCustomValidity(this.customInvalidText || 'An error occurred');
     this.setValue(this.value);
     this.reportValidity();
   }
