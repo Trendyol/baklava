@@ -14,7 +14,7 @@ export const blChangeEventName = 'bl-radio-change';
  * @tag bl-radio-group
  * @summary Baklava Button component
  *
- * @cssproperty --bl-radio-direction - Can be used for showing radio options as columns instead of rows. Options are `row` or `column`
+ * @cssproperty [--bl-radio-direction=row] Can be used for showing radio options as columns instead of rows. Options are `row` or `column`
  */
 @customElement(blRadioGroupTag)
 export default class BlRadioGroup extends FormControlMixin(LitElement) {

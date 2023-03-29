@@ -16,8 +16,8 @@ export type TargetType = '_blank' | '_parent' | '_self' | '_top';
  * @tag bl-button
  * @summary Baklava Button component
  *
- * @cssproperty --bl-button-display - Sets the display property of button. Default value is 'inline-block'.
- * @cssproperty --bl-button-justify - Sets the justify-content property of button. Default value is 'center'.
+ * @cssproperty [--bl-button-display=inline-block] Sets the display property of button
+ * @cssproperty [--bl-button-justify=center] Sets the justify-content property of button
  *
  */
 @customElement('bl-button')
