@@ -17,7 +17,7 @@
 .button {
   --main-color: var(--bl-color-primary);
   --main-hover-color: var(--bl-color-primary-highlight);
-  --text-hover-color: var(--bl-color-neutral-full);
+  --text-hover-color: var(--bl-color-neutral-lightest);
   --content-color: var(--bl-color-neutral-full);
   --bg-color: var(--main-color);
   --border-color: var(--main-color);

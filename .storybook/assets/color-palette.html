@@ -8,12 +8,25 @@
     <link rel="stylesheet" href="/themes/default.css" />
     <script type="module" src="/baklava.js"></script>
     <style>
+      :root {
+          --checker-color-1: #abcedf;
+          --checker-color-2: #f7fbff;
+          --checker-size: 20px;
+          --checker-gradient: linear-gradient(45deg, var(--checker-color-1) 25%, transparent 25%, transparent 75%, var(--checker-color-1) 75%);
+      }
 
       body {
         padding: 20px;
         font-family: var(--bl-font-family);
         background-color: var(--bl-color-neutral-full);
         color: var(--bl-color-neutral-darker);
+      }
+
+      body.transparent {
+          background-color: var(--checker-color-2);
+          background-image: var(--checker-gradient), var(--checker-gradient);
+          background-position: 0 0, var(--checker-size) var(--checker-size);
+          background-size: calc(var(--checker-size) * 2) calc(var(--checker-size) * 2);
       }
 
       hr {
@@ -53,7 +66,7 @@
       }
 
       .contrast-white {
-        color: var(--bl-color-neutral-lightest);
+        color: var(--bl-color-neutral-full);
       }
 
       .contrast-black {
@@ -598,8 +611,9 @@
 
         <bl-checkbox-group label="Favorite animals" name="favoriteAnimals" value='["dog","bird"]''>
           <bl-checkbox value="cat">Cat</bl-checkbox>
-          <bl-checkbox value="dog">Dog</bl-checkbox>
+          <bl-checkbox value="dog" disabled>Dog</bl-checkbox>
           <bl-checkbox value="bird">Bird</bl-checkbox>
+          <bl-checkbox value="cow" disabled>Cow</bl-checkbox>
         </bl-checkbox-group>
 
       </bl-tab-panel>
