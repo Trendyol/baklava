@@ -141,10 +141,7 @@ describe('bl-pagination', () => {
 
   describe('jumper and select element', () => {
     it('not renders jumper or select when not provided', async () => {
-      const el = await fixture<typeOfBlPagination>(
-        html`<bl-pagination
-        ></bl-pagination>`
-      );
+      const el = await fixture<typeOfBlPagination>(html`<bl-pagination></bl-pagination>`);
       expect(el.shadowRoot?.querySelector('bl-input')).not.to.exist;
       expect(el.shadowRoot?.querySelector('bl-select')).not.to.exist;
       expect(el.shadowRoot?.querySelector('.jumper')).not.to.exist;
@@ -275,7 +272,7 @@ describe('bl-pagination', () => {
       if (optionTwo && optionThree) {
         optionTwo.selected = true;
         optionThree.selected = false;
-        optionThree.value = "";
+        optionThree.value = '';
       }
 
       const selectOptionEvent = new CustomEvent('bl-select', {

@@ -1,8 +1,8 @@
 .pagination {
   display: flex;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   justify-content: center;
-  max-width:max-content;
+  max-width: max-content;
   gap: var(--bl-size-s);
 }
 
@@ -26,7 +26,7 @@
 }
 
 .dots {
-  margin:0 var(--bl-size-2xs);
+  margin: 0 var(--bl-size-2xs);
 }
 
 .dots::before {
@@ -64,11 +64,11 @@ bl-input {
 }
 
 bl-select {
-  width:128px;
+  width: 128px;
 }
 
 @media only screen and (max-width: 768px) {
   label {
-    display:none;
+    display: none;
   }
 }

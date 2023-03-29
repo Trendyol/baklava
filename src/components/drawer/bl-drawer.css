@@ -12,7 +12,7 @@
   padding-bottom: max(env(safe-area-inset-bottom), var(--bl-size-xl));
   background: var(--bl-color-neutral-full);
   box-shadow: var(--bl-size-xs) 0 var(--bl-size-2xl) rgba(0 0 0 / 50%);
-  transition: right var(--bl-drawer-animation-duration, .25s);
+  transition: right var(--bl-drawer-animation-duration, 0.25s);
   z-index: var(--bl-index-sticky);
 }
 
@@ -62,7 +62,7 @@ header h2 {
 }
 
 .iframe-content {
-  flex: 1
+  flex: 1;
 }
 
 @media only screen and (max-width: 424px) {

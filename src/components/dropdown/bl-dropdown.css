@@ -1,30 +1,30 @@
 :host {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .popover {
-    --left: 0;
-    --top: 0;
-    --border-color: var(--bl-color-primary);
+  --left: 0;
+  --top: 0;
+  --border-color: var(--bl-color-primary);
 
-    position: fixed;
-    z-index: var(--bl-index-popover);
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: var(--bl-size-m);
-    gap: var(--bl-size-xs);
-    overflow-y: auto;
-    background: var(--bl-color-neutral-full);
-    border: 1px solid var(--border-color);
+  position: fixed;
+  z-index: var(--bl-index-popover);
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--bl-size-m);
+  gap: var(--bl-size-xs);
+  overflow-y: auto;
+  background: var(--bl-color-neutral-full);
+  border: 1px solid var(--border-color);
 
-    /* FIXME: Use variables */
-    box-shadow: 0 10px 15px -8px #27314226;
-    border-radius: var(--bl-size-3xs);
-    left: var(--left);
-    top: var(--top);
-    box-sizing: border-box;
+  /* FIXME: Use variables */
+  box-shadow: 0 10px 15px -8px #27314226;
+  border-radius: var(--bl-size-3xs);
+  left: var(--left);
+  top: var(--top);
+  box-sizing: border-box;
 }
 
 :host([kind='neutral']) .popover {
@@ -40,5 +40,5 @@
 }
 
 .visible {
-    display: flex;
+  display: flex;
 }

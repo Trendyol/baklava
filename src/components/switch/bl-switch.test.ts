@@ -35,20 +35,28 @@ describe('bl-switch', () => {
   describe('accessibility', () => {
     it('should render with `aria-checked` attribute as checked value', async () => {
       const el = await fixture(html`<bl-switch checked></bl-switch>`);
-      expect(el.shadowRoot?.querySelector('.switch')?.getAttribute('aria-checked')).to.equal('true');
+      expect(el.shadowRoot?.querySelector('.switch')?.getAttribute('aria-checked')).to.equal(
+        'true'
+      );
     });
 
     it('should render with `aria-readonly` attribute as disabled', async () => {
       const el = await fixture(html`<bl-switch disabled></bl-switch>`);
-      expect(el.shadowRoot?.querySelector('.switch')?.getAttribute('aria-readonly')).to.equal('true');
+      expect(el.shadowRoot?.querySelector('.switch')?.getAttribute('aria-readonly')).to.equal(
+        'true'
+      );
     });
 
     it('should render with `aria-label` attribute if provided', async () => {
-      const el = await fixture(html`<bl-switch disabled aria-label="Label for switch"></bl-switch>`);
-      expect(el.shadowRoot?.querySelector('.switch')?.getAttribute('aria-label')).to.equal('Label for switch');
+      const el = await fixture(
+        html`<bl-switch disabled aria-label="Label for switch"></bl-switch>`
+      );
+      expect(el.shadowRoot?.querySelector('.switch')?.getAttribute('aria-label')).to.equal(
+        'Label for switch'
+      );
     });
 
-    it('should toggle the state when Enter or Space key is pressed', async() => {
+    it('should toggle the state when Enter or Space key is pressed', async () => {
       const el = await fixture<BlSwitch>(html`<bl-switch></bl-switch>`);
       await elementUpdated(el);
 
@@ -56,17 +64,17 @@ describe('bl-switch', () => {
         press: 'Tab',
       });
       await sendKeys({
-        press: 'Enter'
+        press: 'Enter',
       });
       expect(el.checked).to.be.true;
 
       await sendKeys({
-        press: 'Space'
+        press: 'Space',
       });
       expect(el.checked).to.be.false;
     });
 
-    it('should not toggle the state when switch is disabled and Enter or Space key is pressed', async() => {
+    it('should not toggle the state when switch is disabled and Enter or Space key is pressed', async () => {
       const el = await fixture<BlSwitch>(html`<bl-switch disabled></bl-switch>`);
       await elementUpdated(el);
 
@@ -74,7 +82,7 @@ describe('bl-switch', () => {
         press: 'Tab',
       });
       await sendKeys({
-        press: 'Enter'
+        press: 'Enter',
       });
       expect(el.checked).to.be.false;
     });
@@ -93,7 +101,7 @@ describe('bl-switch', () => {
       expect(ev.detail).to.be.true;
     });
 
-    it('should not fire bl-switch-toggle event when the disabled switch is clicked', async() => {
+    it('should not fire bl-switch-toggle event when the disabled switch is clicked', async () => {
       const el = await fixture<BlSwitch>(html`<bl-switch disabled></bl-switch>`);
       const switchElement = el.shadowRoot?.querySelector<HTMLSpanElement>('.switch');
 

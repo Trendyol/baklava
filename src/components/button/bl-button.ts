@@ -170,10 +170,12 @@ export default class BlButton extends LitElement {
 
   render(): TemplateResult {
     const isDisabled = this.loading || this.disabled;
-    const label = (this.loading && this.loadingLabel) ? this.loadingLabel : html`<slot></slot>`;
+    const label = this.loading && this.loadingLabel ? this.loadingLabel : html`<slot></slot>`;
     const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
-    const loadingIcon = this.loading ? html`<bl-icon class="loading-icon" name="loading"></bl-icon>` : '';
+    const loadingIcon = this.loading
+      ? html`<bl-icon class="loading-icon" name="loading"></bl-icon>`
+      : '';
     const slots = html`<slot name="icon">${icon}</slot> <span class="label">${label}</span>`;
     const caret = this.dropdown ? this.caretTemplate() : '';
     const classes = classMap({
@@ -202,7 +204,7 @@ export default class BlButton extends LitElement {
           ?disabled=${isDisabled}
           @click="${this._handleClick}"
         >
-         ${loadingIcon} ${slots} ${caret}
+          ${loadingIcon} ${slots} ${caret}
         </button>`;
   }
 }

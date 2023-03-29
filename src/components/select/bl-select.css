@@ -250,7 +250,6 @@ label {
   color: var(--label-color);
 }
 
-
 .hint {
   display: none;
   font: var(--bl-font-body-text-3);
