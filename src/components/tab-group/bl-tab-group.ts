@@ -94,15 +94,15 @@ export default class BlTabGroup extends LitElement {
   }
 
   private _handleTabListKeyDown(e: KeyboardEvent) {
-    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-      if (e.key === "ArrowRight") {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      if (e.key === 'ArrowRight') {
         do {
           this._tabFocus++;
           if (this._tabFocus >= this._connectedTabs.length) {
             this._tabFocus = 0;
           }
         } while (this._connectedTabs[this._tabFocus].disabled);
-      } else if (e.key === "ArrowLeft") {
+      } else if (e.key === 'ArrowLeft') {
         do {
           this._tabFocus--;
           if (this._tabFocus < 0) {

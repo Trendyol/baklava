@@ -9,7 +9,6 @@ type DialogElement = {
   close: () => void;
 };
 
-
 /**
  * @tag bl-dialog
  * @summary Baklava Dialog component
@@ -142,9 +141,20 @@ export default class BlDialog extends LitElement {
   render(): TemplateResult {
     return this.hasHtmlDialogSupport
       ? html`
-          <dialog class="dialog" aria-labelledby="dialog-caption" @click=${this.clickOutsideHandler}>${this.renderContainer()}</dialog>
+          <dialog
+            class="dialog"
+            aria-labelledby="dialog-caption"
+            @click=${this.clickOutsideHandler}
+          >
+            ${this.renderContainer()}
+          </dialog>
         `
-      : html`<div class="dialog-polyfill" role="dialog" aria-labelledby="dialog-caption" @click=${this.clickOutsideHandler}>
+      : html`<div
+          class="dialog-polyfill"
+          role="dialog"
+          aria-labelledby="dialog-caption"
+          @click=${this.clickOutsideHandler}
+        >
           ${this.renderContainer()}
         </div>`;
   }

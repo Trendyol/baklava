@@ -1,5 +1,13 @@
 import BlDropdown from './bl-dropdown';
-import { assert, fixture, html, oneEvent, expect, elementUpdated, waitUntil } from '@open-wc/testing';
+import {
+  assert,
+  fixture,
+  html,
+  oneEvent,
+  expect,
+  elementUpdated,
+  waitUntil,
+} from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 
 import type typeOfBlDropdown from './bl-dropdown';
@@ -107,30 +115,29 @@ describe('bl-dropdown', () => {
 
   describe('keyboard navigation', () => {
     it('should focus next action with down arrow key', async () => {
-
       //when
       const el = await fixture(
-        html`<div><input id="previnput"><bl-dropdown>
-        <bl-dropdown-item>Action 1</bl-dropdown-item>
-        <bl-dropdown-item>Action 2</bl-dropdown-item>
-        <bl-dropdown-item>Action 3</bl-dropdown-item>
-        </bl-dropdown></div>`
+        html`<div>
+          <input id="previnput" /><bl-dropdown>
+            <bl-dropdown-item>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+            <bl-dropdown-item>Action 3</bl-dropdown-item>
+          </bl-dropdown>
+        </div>`
       );
 
       await elementUpdated(el);
 
       el.querySelector<HTMLInputElement>('#previnput')?.focus();
 
-      await waitUntil(
-        () => el.querySelector('bl-dropdown'),
-        'Element did not render children',
-      );
+      await waitUntil(() => el.querySelector('bl-dropdown'), 'Element did not render children');
 
       const dropdown = el.querySelector('bl-dropdown');
 
-      const tabKey = navigator.userAgent.includes('Safari') &&
-      !navigator.userAgent.includes('HeadlessChrome')
-      ? 'Alt+Tab' : 'Tab'
+      const tabKey =
+        navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('HeadlessChrome')
+          ? 'Alt+Tab'
+          : 'Tab';
 
       //given
       await sendKeys({
@@ -148,30 +155,29 @@ describe('bl-dropdown', () => {
     });
 
     it('should focus previous action with up arrow key', async () => {
-
       //when
       const el = await fixture(
-        html`<div><input id="previnput"><bl-dropdown>
-        <bl-dropdown-item>Action 1</bl-dropdown-item>
-        <bl-dropdown-item>Action 2</bl-dropdown-item>
-        <bl-dropdown-item>Action 3</bl-dropdown-item>
-        </bl-dropdown></div>`
+        html`<div>
+          <input id="previnput" /><bl-dropdown>
+            <bl-dropdown-item>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+            <bl-dropdown-item>Action 3</bl-dropdown-item>
+          </bl-dropdown>
+        </div>`
       );
 
       await elementUpdated(el);
 
       el.querySelector<HTMLInputElement>('#previnput')?.focus();
 
-      await waitUntil(
-        () => el.querySelector('bl-dropdown'),
-        'Element did not render children',
-      );
+      await waitUntil(() => el.querySelector('bl-dropdown'), 'Element did not render children');
 
       const dropdown = el.querySelector('bl-dropdown');
 
-      const tabKey = navigator.userAgent.includes('Safari') &&
-      !navigator.userAgent.includes('HeadlessChrome')
-      ? 'Alt+Tab' : 'Tab'
+      const tabKey =
+        navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('HeadlessChrome')
+          ? 'Alt+Tab'
+          : 'Tab';
 
       //given
       await sendKeys({
@@ -201,27 +207,27 @@ describe('bl-dropdown', () => {
     it('should close dropdown with escape key', async () => {
       //when
       const el = await fixture(
-        html`<div><input id="previnput"><bl-dropdown>
-        <bl-dropdown-item>Action 1</bl-dropdown-item>
-        <bl-dropdown-item>Action 2</bl-dropdown-item>
-        <bl-dropdown-item>Action 3</bl-dropdown-item>
-        </bl-dropdown></div>`
+        html`<div>
+          <input id="previnput" /><bl-dropdown>
+            <bl-dropdown-item>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+            <bl-dropdown-item>Action 3</bl-dropdown-item>
+          </bl-dropdown>
+        </div>`
       );
 
       await elementUpdated(el);
 
       el.querySelector<HTMLInputElement>('#previnput')?.focus();
 
-      await waitUntil(
-        () => el.querySelector('bl-dropdown'),
-        'Element did not render children',
-      );
+      await waitUntil(() => el.querySelector('bl-dropdown'), 'Element did not render children');
 
       const dropdown = el.querySelector('bl-dropdown');
 
-      const tabKey = navigator.userAgent.includes('Safari') &&
-      !navigator.userAgent.includes('HeadlessChrome')
-      ? 'Alt+Tab' : 'Tab'
+      const tabKey =
+        navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('HeadlessChrome')
+          ? 'Alt+Tab'
+          : 'Tab';
 
       //given
       await sendKeys({

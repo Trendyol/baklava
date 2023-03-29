@@ -1,10 +1,4 @@
-import {
-  CSSResultGroup,
-  html,
-  LitElement,
-  PropertyValues,
-  TemplateResult,
-} from 'lit';
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
 

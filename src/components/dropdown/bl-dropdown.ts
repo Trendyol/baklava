@@ -145,7 +145,7 @@ export default class BlDropdown extends LitElement {
       // Select action
     } else if (event.key === 'Escape') {
       this.focusedOptionIndex = -1;
-      this.close()
+      this.close();
       return;
     } else {
       // Other keys are not our interest here
@@ -199,7 +199,9 @@ export default class BlDropdown extends LitElement {
       >
         ${this.label}
       </bl-button>
-      <div class="${popoverClasses}" role="menu" aria-expanded="${this.opened}"><slot></slot></div> `;
+      <div class="${popoverClasses}" role="menu" aria-expanded="${this.opened}">
+        <slot></slot>
+      </div> `;
   }
 }
 

@@ -11,32 +11,32 @@ export const blDropdownGroupTag = 'bl-dropdown-group';
  */
 @customElement(blDropdownGroupTag)
 export default class BlDropdownGroup extends LitElement {
-    static get styles(): CSSResultGroup {
-        return [style];
-    }
+  static get styles(): CSSResultGroup {
+    return [style];
+  }
 
-    /**
-     * Sets the caption.
-     */
-    @property({ type: String })
-    caption?: string;
+  /**
+   * Sets the caption.
+   */
+  @property({ type: String })
+  caption?: string;
 
+  render(): TemplateResult {
+    const caption = this.caption ? html`<span class="caption">${this.caption}</span>` : '';
 
-    render(): TemplateResult {
-        const caption = this.caption ? html`<span class="caption">${this.caption}</span>` : ''
-
-        return html`<div class="dropdown-group" role="group" aria-labelledby="${ifDefined(this.caption)}">
-            ${caption}
-          <slot></slot>
-        </div>`
-    }
-
+    return html`<div
+      class="dropdown-group"
+      role="group"
+      aria-labelledby="${ifDefined(this.caption)}"
+    >
+      ${caption}
+      <slot></slot>
+    </div>`;
+  }
 }
-
 
 declare global {
-    interface HTMLElementTagNameMap {
-        [blDropdownGroupTag]: BlDropdownGroup;
-    }
+  interface HTMLElementTagNameMap {
+    [blDropdownGroupTag]: BlDropdownGroup;
+  }
 }
-

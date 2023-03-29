@@ -25,11 +25,16 @@ describe('bl-alert', () => {
               </span>
             </div>
           </div>
+          <div class="actions">
           <slot
-            class="action"
-            name="action"
-          >
-          </slot>
+          class="action"
+          name="action"
+        ></slot>
+        <slot
+          class="action-secondary"
+          name="action-secondary"
+        ></slot>
+          </div>
         </div>
       </div>
     `
@@ -132,6 +137,7 @@ describe('Slot', () => {
     const el = await fixture<typeofBlAlert>(
       html`<bl-alert>
         <bl-button slot="action"> Action Slot </bl-button>
+        <bl-button slot="action-secondary"> Action Slot </bl-button>
       </bl-alert>`
     );
     const actionSlot = el.shadowRoot?.querySelector('slot[name="action"]');

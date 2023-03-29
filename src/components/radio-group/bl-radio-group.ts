@@ -110,11 +110,7 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
   }
 
   render(): TemplateResult {
-    return html`<fieldset
-      role="radiogroup"
-      aria-labelledby="label"
-      aria-required=${this.required}
-    >
+    return html`<fieldset role="radiogroup" aria-labelledby="label" aria-required=${this.required}>
       <legend>${this.label}</legend>
       <div class="options" @bl-checked=${this.handleOptionChecked}>
         <slot></slot>

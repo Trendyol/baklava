@@ -234,8 +234,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     const invalidMessage = !this.checkValidity()
       ? html`<p class="invalid-text">${this.validationMessage}</p>`
       : ``;
-    const helpMessage =
-      this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
+    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
 
     const label = this.label ? html`<label for="${this.inputId}">${this.label}</label>` : '';
     const characterCounterText =

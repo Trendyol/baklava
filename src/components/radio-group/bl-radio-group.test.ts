@@ -53,10 +53,12 @@ describe('bl-radio-group', () => {
     it('should focus first option with tab key', async () => {
       //when
       const el = await fixture(
-        html`<div><input id="previnput"><bl-radio-group label="Payment Type" name="pt" value="cc">
-          <bl-radio value="cc">Credit Card</bl-radio>
-          <bl-radio value="ch">Cash</bl-radio>
-        </bl-radio-group><input id="nextinput"></div>`
+        html`<div>
+          <input id="previnput" /><bl-radio-group label="Payment Type" name="pt" value="cc">
+            <bl-radio value="cc">Credit Card</bl-radio>
+            <bl-radio value="ch">Cash</bl-radio> </bl-radio-group
+          ><input id="nextinput" />
+        </div>`
       );
 
       await elementUpdated(el);
@@ -77,10 +79,12 @@ describe('bl-radio-group', () => {
     it('should focus next option with right arrow key', async () => {
       //when
       const el = await fixture(
-        html`<div><input id="previnput"><bl-radio-group label="Payment Type" name="pt" value="cc">
-          <bl-radio value="cc">Credit Card</bl-radio>
-          <bl-radio value="ch">Cash</bl-radio>
-        </bl-radio-group><input id="nextinput"></div>`
+        html`<div>
+          <input id="previnput" /><bl-radio-group label="Payment Type" name="pt" value="cc">
+            <bl-radio value="cc">Credit Card</bl-radio>
+            <bl-radio value="ch">Cash</bl-radio> </bl-radio-group
+          ><input id="nextinput" />
+        </div>`
       );
 
       await elementUpdated(el);
@@ -104,10 +108,12 @@ describe('bl-radio-group', () => {
     it('should focus next option with down arrow key', async () => {
       //when
       const el = await fixture(
-        html`<div><input id="previnput"><bl-radio-group label="Payment Type" name="pt" value="cc">
-          <bl-radio value="cc">Credit Card</bl-radio>
-          <bl-radio value="ch">Cash</bl-radio>
-        </bl-radio-group><input id="nextinput"></div>`
+        html`<div>
+          <input id="previnput" /><bl-radio-group label="Payment Type" name="pt" value="cc">
+            <bl-radio value="cc">Credit Card</bl-radio>
+            <bl-radio value="ch">Cash</bl-radio> </bl-radio-group
+          ><input id="nextinput" />
+        </div>`
       );
 
       await elementUpdated(el);
@@ -131,10 +137,12 @@ describe('bl-radio-group', () => {
     it('should focus previous option with up arrow key', async () => {
       //when
       const el = await fixture(
-        html`<div><input id="previnput"><bl-radio-group label="Payment Type" name="pt" value="cc">
-          <bl-radio value="cc">Credit Card</bl-radio>
-          <bl-radio value="ch">Cash</bl-radio>
-        </bl-radio-group><input id="nextinput"></div>`
+        html`<div>
+          <input id="previnput" /><bl-radio-group label="Payment Type" name="pt" value="cc">
+            <bl-radio value="cc">Credit Card</bl-radio>
+            <bl-radio value="ch">Cash</bl-radio> </bl-radio-group
+          ><input id="nextinput" />
+        </div>`
       );
 
       await elementUpdated(el);
@@ -162,10 +170,12 @@ describe('bl-radio-group', () => {
   it('should focus previous option with left arrow key', async () => {
     //when
     const el = await fixture(
-      html`<div><input id="previnput"><bl-radio-group label="Payment Type" name="pt" value="cc">
-        <bl-radio value="cc">Credit Card</bl-radio>
-        <bl-radio value="ch">Cash</bl-radio>
-      </bl-radio-group><input id="nextinput"></div>`
+      html`<div>
+        <input id="previnput" /><bl-radio-group label="Payment Type" name="pt" value="cc">
+          <bl-radio value="cc">Credit Card</bl-radio>
+          <bl-radio value="ch">Cash</bl-radio> </bl-radio-group
+        ><input id="nextinput" />
+      </div>`
     );
 
     await elementUpdated(el);
@@ -192,10 +202,12 @@ describe('bl-radio-group', () => {
   it('should select current option with space key', async () => {
     //when
     const el = await fixture(
-      html`<div><input id="previnput"><bl-radio-group label="Payment Type" name="pt" value="cc">
-        <bl-radio value="cc">Credit Card</bl-radio>
-        <bl-radio value="ch">Cash</bl-radio>
-      </bl-radio-group><input id="nextinput"></div>`
+      html`<div>
+        <input id="previnput" /><bl-radio-group label="Payment Type" name="pt" value="cc">
+          <bl-radio value="cc">Credit Card</bl-radio>
+          <bl-radio value="ch">Cash</bl-radio> </bl-radio-group
+        ><input id="nextinput" />
+      </div>`
     );
 
     await elementUpdated(el);
@@ -222,10 +234,12 @@ describe('bl-radio-group', () => {
   it('should not respond any other keys', async () => {
     //when
     const el = await fixture(
-      html`<div><input id="previnput"><bl-radio-group label="Payment Type" name="pt" value="cc">
-        <bl-radio value="cc">Credit Card</bl-radio>
-        <bl-radio value="ch">Cash</bl-radio>
-      </bl-radio-group><input id="nextinput"></div>`
+      html`<div>
+        <input id="previnput" /><bl-radio-group label="Payment Type" name="pt" value="cc">
+          <bl-radio value="cc">Credit Card</bl-radio>
+          <bl-radio value="ch">Cash</bl-radio> </bl-radio-group
+        ><input id="nextinput" />
+      </div>`
     );
 
     await elementUpdated(el);

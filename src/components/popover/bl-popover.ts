@@ -61,7 +61,6 @@ export default class BlPopover extends LitElement {
    */
   @state() _target: string | Element;
 
-
   /**
    * Sets size of popover same as trigger element
    */
@@ -105,7 +104,7 @@ export default class BlPopover extends LitElement {
 
   private getMiddleware(): Middleware[] {
     const middlewareParams: Middleware[] = [];
-    middlewareParams.push(offset(this.offset), inline(), flip(),shift({ padding: 4 }));
+    middlewareParams.push(offset(this.offset), inline(), flip(), shift({ padding: 4 }));
 
     if (this.fitSize) {
       middlewareParams.push(
