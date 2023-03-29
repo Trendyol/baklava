@@ -300,7 +300,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       @click=${this._onClickRemove}
     ></bl-button>`;
 
-    return html`<div
+    return html`<fieldset
       class=${classMap({
         'select-input': true,
         'has-overflowed-options': this._additionalSelectedOptionCount > 0,
@@ -309,6 +309,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       ?autofocus=${this.autofocus}
       @click=${this.togglePopover}
     >
+      <legend><span>${this.label}</span></legend>
       <span class="placeholder">${this.placeholder}</span>
       ${inputSelectedOptions}
       <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
@@ -318,7 +319,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
         <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
       </div>
-    </div>`;
+    </fieldset>`;
   }
 
   render() {

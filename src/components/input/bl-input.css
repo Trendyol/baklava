@@ -14,10 +14,11 @@
   --icon-size: var(--line-height);
   --padding-vertical: calc((var(--height) - var(--line-height)) / 2);
   --padding-horizontal: var(--bl-size-xs);
+  --label-padding: var(--bl-size-3xs);
+  --background-color: var(--bl-color-content-primary-contrast);
   --autofill-bg-color: var(--bl-color-accent-primary-background);
 
-  display: flex;
-  flex-direction: column;
+  display: grid;
   position: relative;
   gap: var(--bl-size-3xs);
 }
@@ -48,44 +49,66 @@
 .input-wrapper {
   --border-size: 1px;
 
+  outline: none;
   display: flex;
   box-sizing: border-box;
   gap: var(--padding-vertical);
   height: var(--height);
   border: solid var(--border-size) var(--border-color);
-  padding: 0 calc(var(--padding-horizontal) - var(--border-size));
+  padding: 0 calc(var(--padding-horizontal) - var(--label-padding) - var(--border-size));
+  background-color: var(--background-color);
   border-radius: var(--bl-size-3xs);
+  margin: 0;
 }
 
-:host([disabled]) .input-wrapper {
+:host([disabled]) .wrapper {
   cursor: not-allowed;
-  background-color: var(--bl-color-secondary-background);
 
+  --background-color: var(--bl-color-secondary-background);
   --text-color: var(--bl-color-content-passive);
 }
 
-.input-wrapper:has(input:autofill) {
-  background-color: var(--autofill-bg-color);
+.wrapper:has(input:autofill) {
+  --background-color: var(--autofill-bg-color);
 }
 
-.input-wrapper:has(input:-webkit-autofill) {
-  background-color: var(--autofill-bg-color);
+.wrapper:has(input:-webkit-autofill) {
+  --background-color: var(--autofill-bg-color);
 }
 
+.input-wrapper legend,
 label {
-  position: absolute;
-  top: var(--padding-vertical);
-  left: var(--padding-horizontal);
-  right: var(--padding-horizontal);
   max-width: max-content;
-  transition: all ease-in 0.2s;
-  pointer-events: none;
-  font: var(--input-font);
-  color: var(--bl-color-content-tertiary);
   padding: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+label {
+  position: absolute;
+  transition: all ease-in .1s;
+  font: var(--input-font);
+  top: var(--padding-vertical);
+  left: var(--padding-horizontal);
+  right: var(--padding-horizontal);
+  pointer-events: none;
+  color: var(--bl-color-content-tertiary);
+}
+
+.input-wrapper legend {
+  max-width: 0.01px;
+  height: 0;
+  visibility: hidden;
+  display: none;
+  transition: max-width ease-in .1s;
+}
+
+.input-wrapper legend span {
+  padding: 0 var(--label-padding);
+  display: inline-block;
+  opacity: 0;
+  visibility: visible;
 }
 
 input {
@@ -94,6 +117,7 @@ input {
   outline: 0;
   border: 0;
   padding: 0;
+  padding-left: var(--label-padding);
   font: var(--input-font);
   color: var(--text-color);
   -webkit-text-fill-color: var(--text-color);
@@ -186,17 +210,25 @@ bl-icon[name='eye_on'] {
   -webkit-text-fill-color: var(--bl-color-content-tertiary);
 }
 
-:where(.wrapper:focus-within, .wrapper.has-value) label {
-  --label-padding: var(--bl-size-3xs);
+:where(.wrapper:focus-within, .wrapper.has-value) input {
+  padding-left: var(--label-padding);
+}
 
+:where(.wrapper:focus-within, .wrapper.has-value) label {
   top: 0;
   left: calc(var(--padding-horizontal) - var(--label-padding));
   transform: translateY(-50%);
   font: var(--bl-font-caption);
   color: var(--bl-color-content-secondary);
   padding: 0 var(--label-padding);
-  background-color: var(--bl-color-primary-background);
   pointer-events: initial;
+  z-index: var(--bl-index-base);
+}
+
+:host([label]) :where(.wrapper:focus-within, .wrapper.has-value) legend {
+  max-width: 100%;
+  font: var(--bl-font-caption);
+  display: block;
 }
 
 :where(.has-icon:not(:focus-within), .has-icon:not(.has-value)) label {
@@ -211,6 +243,10 @@ bl-icon[name='eye_on'] {
   font: var(--bl-font-caption);
   color: var(--bl-color-content-secondary);
   padding: 0;
+}
+
+:host([label-fixed]) legend {
+  display: none;
 }
 
 .error-icon,

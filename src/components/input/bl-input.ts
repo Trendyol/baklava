@@ -290,7 +290,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
     return html`<div class=${classMap(classes)}>
       ${label}
-      <div class="input-wrapper">
+      <fieldset class="input-wrapper">
+        <legend><span>${this.label}</span></legend>
         <input
           id=${this.inputId}
           type=${inputType}
@@ -317,7 +318,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           ${revealButton} ${icon}
           <bl-icon class="error-icon" name="alert"></bl-icon>
         </div>
-      </div>
+      </fieldset>
       <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div>`;
   }
