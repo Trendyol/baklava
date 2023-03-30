@@ -162,6 +162,10 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     this.internals.form?.addEventListener('submit', () => {
       this.reportValidity();
     });
+
+    this.addEventListener('focus', () => {
+      this.validationTarget.focus();
+    });
   }
 
   private onError = (): void => {

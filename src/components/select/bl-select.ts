@@ -2,7 +2,7 @@ import {
   autoUpdate,
   computePosition,
   flip,
-  MiddlewareArguments,
+  MiddlewareState,
   offset,
   size,
 } from '@floating-ui/dom';
@@ -257,7 +257,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           flip(),
           offset(8),
           size({
-            apply(args: MiddlewareArguments) {
+            apply(args: MiddlewareState) {
               Object.assign(args.elements.floating.style, {
                 width: `${args.elements.reference.getBoundingClientRect().width}px`,
               });
@@ -278,6 +278,10 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       if (!this.reportValidity()) {
         e.preventDefault();
       }
+    });
+
+    this.addEventListener('focus', () => {
+      this.validationTarget.focus();
     });
   }
 
@@ -329,8 +333,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         </p>`
       : '';
 
-    const helpMessage =
-      this.helpText ? html`<p class="help-text">${this.helpText}</p>` : '';
+    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : '';
 
     const label = this.label ? html`<label>${this.label}</label>` : '';
 

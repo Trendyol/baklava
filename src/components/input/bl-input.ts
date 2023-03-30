@@ -178,6 +178,10 @@ export default class BlInput extends FormControlMixin(LitElement) {
     this.form?.addEventListener('submit', () => {
       this.reportValidity();
     });
+
+    this.addEventListener('focus', () => {
+      this.validationTarget.focus();
+    });
   }
 
   disconnectedCallback(): void {
