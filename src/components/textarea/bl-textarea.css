@@ -35,6 +35,8 @@
   box-sizing: border-box;
   background-color: var(--background-color);
   margin: 0;
+  width: 0;
+  min-width: 100%;
 }
 
 textarea {
@@ -106,7 +108,6 @@ textarea:disabled {
 
 .input-wrapper legend,
 label {
-  max-width: max-content;
   padding: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -114,6 +115,7 @@ label {
 }
 
 label {
+  max-width: max-content;
   position: absolute;
   transition: all ease-in .1s;
   font: var(--bl-font-title-3-regular);
@@ -125,11 +127,9 @@ label {
 }
 
 .input-wrapper legend {
-  max-width: 0.01px;
   height: 0;
   visibility: hidden;
   display: none;
-  transition: max-width ease-in .1s;
 }
 
 .input-wrapper legend span {

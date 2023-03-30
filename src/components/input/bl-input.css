@@ -59,6 +59,8 @@
   background-color: var(--background-color);
   border-radius: var(--bl-size-3xs);
   margin: 0;
+  width: 0;
+  min-width: 100%;
 }
 
 :host([disabled]) .wrapper {
@@ -78,7 +80,6 @@
 
 .input-wrapper legend,
 label {
-  max-width: max-content;
   padding: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -87,6 +88,7 @@ label {
 
 label {
   position: absolute;
+  max-width: max-content;
   transition: all ease-in .1s;
   font: var(--input-font);
   top: var(--padding-vertical);
@@ -96,12 +98,14 @@ label {
   color: var(--bl-color-content-tertiary);
 }
 
+.has-icon label {
+  right: calc(var(--padding-horizontal) + var(--icon-size) + var(--padding-vertical));
+}
+
 .input-wrapper legend {
-  max-width: 0.01px;
   height: 0;
   visibility: hidden;
   display: none;
-  transition: max-width ease-in .1s;
 }
 
 .input-wrapper legend span {
@@ -214,9 +218,11 @@ bl-icon[name='eye_on'] {
   -webkit-text-fill-color: var(--bl-color-content-tertiary);
 }
 
-:where(.wrapper:focus-within, .wrapper.has-value) label {
+.wrapper:focus-within label,
+.wrapper.has-value label {
   top: 0;
   left: calc(var(--padding-horizontal) - var(--label-padding));
+  right: calc(var(--padding-horizontal) - var(--label-padding));
   transform: translateY(-50%);
   font: var(--bl-font-caption);
   color: var(--bl-color-content-secondary);
@@ -229,10 +235,6 @@ bl-icon[name='eye_on'] {
   max-width: 100%;
   font: var(--bl-font-caption);
   display: block;
-}
-
-:where(.has-icon:not(:focus-within), .has-icon:not(.has-value)) label {
-  right: calc(var(--padding-horizontal) + var(--icon-size) + var(--padding-vertical));
 }
 
 :host([label-fixed]) label {

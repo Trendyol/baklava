@@ -70,6 +70,8 @@
   -webkit-user-select: none;
   user-select: none;
   margin: 0;
+  width: 0;
+  min-width: 100%;
 }
 
 .placeholder {
@@ -238,11 +240,9 @@ label {
 }
 
 legend {
-  max-width: 0.01px;
   height: 0;
   visibility: hidden;
   display: none;
-  transition: max-width ease-in .1s;
 }
 
 legend span {
