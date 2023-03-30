@@ -32,14 +32,25 @@ export const BasicTemplate = (args) => html`
 <bl-button @click="${(event) => dialogOpener(event, args.id)}" variant="secondary">Open Dialog</bl-button>
 <bl-dialog
   id=${args.id}
+  class="${ifDefined(args.className)}"
   caption="${ifDefined(args.caption)}"
   open="${ifDefined(args.open)}"
-  style = "font: var(--bl-font-body-text-2)">
+  style="font: var(--bl-font-body-text-2)">
   ${ unsafeHTML(args.content) }
   ${ args.primaryAction ? html`<bl-button slot="primary-action" variant="primary" ?autofocus=${args.focusPrimary} size="large">${args.primaryAction}</bl-button>` : ''}
   ${ args.secondaryAction ? html`<bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large">${args.secondaryAction}</bl-button>` : ''}
   ${ args.tertiaryAction ? html`<bl-button slot="tertiary-action" variant="tertiary" ?autofocus=${args.focusTertiary} size="large">${args.tertiaryAction}</bl-button>` : ''}
 </bl-dialog>
+`
+
+export const FullWidthActionsTemplate = (args) => html`
+<style>
+  bl-dialog.full-width-actions bl-button {
+    --bl-button-display: block;
+    flex: 1;
+  }
+</style>
+${BasicTemplate({...args, className: "full-width-actions"})}
 `
 
 export const TemplateWithStickyFooter = (args) => html`
@@ -194,7 +205,6 @@ By default, when you open a dialog, "close" button get focus automatically. But 
 
 You may also consider to autofocus user to an input inside the dialog.
 
-
 <Canvas>
   <Story name="Dialog with focused input" play={(event) => dialogOpener(event, "dialog-with-focused-input")}
    args={{
@@ -205,6 +215,41 @@ You may also consider to autofocus user to an input inside the dialog.
     tertiaryAction: 'Cancel'
   }}>
     {BasicTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Full-width dialog actions
+
+It's possible to use full-width dialog buttons with small lines of CSS definitions.
+
+```css
+bl-dialog.full-width-actions bl-button {
+  --bl-button-display: block;
+  flex: 1;
+}
+```
+
+In this case action button(s) will fill the row by sharing space equally if there are more than one actions.
+
+<Canvas>
+  <Story name="Dialog with full-width action" play={(event) => dialogOpener(event, "dialog-with-full-width-action")}
+   args={{
+    id: 'dialog-with-full-width-action',
+    caption: 'Action completed',
+    content: '<p>Your process is done!</p>',
+    primaryAction: 'OK'
+  }}>
+    {FullWidthActionsTemplate.bind({})}
+  </Story>
+  <Story name="Dialog with full-width actions" play={(event) => dialogOpener(event, "dialog-with-full-width-actions")}
+   args={{
+    id: 'dialog-with-full-width-actions',
+    caption: 'Are you sure to delete?',
+    content: '<p>Do you want to really delete the file?</p>',
+    primaryAction: 'Delete',
+    secondaryAction: 'Cancel'
+  }}>
+    {FullWidthActionsTemplate.bind({})}
   </Story>
 </Canvas>
 
