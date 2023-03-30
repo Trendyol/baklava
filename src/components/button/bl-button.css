@@ -148,9 +148,9 @@
 }
 
 :host([disabled]) .button {
-  --main-color: var(--bl-color-neutral-lighter);
-  --main-hover-color: var(--bl-color-neutral-lighter);
-  --content-color: var(--bl-color-neutral-light);
+  --main-color: var(--bl-color-neutral-lightest);
+  --main-hover-color: var(--bl-color-neutral-lightest);
+  --content-color: var(--bl-color-neutral-lighter);
   --bg-color: var(--main-color);
 
   pointer-events: none;

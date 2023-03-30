@@ -16,6 +16,6 @@ legend {
 .options {
   display: flex;
   flex-flow: var(--bl-radio-direction, column) wrap;
-  gap: 16px;
+  gap: var(--bl-size-m);
   margin-block: var(--bl-size-xs);
 }

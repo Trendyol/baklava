@@ -64,7 +64,7 @@ input {
 }
 
 :host([disabled]) .check-mark {
-  background-color: var(--bl-color-neutral-full);
+  background-color: var(--bl-color-neutral-lightest);
 }
 
 :host(:not([disabled])) input:focus-visible + .check-mark {

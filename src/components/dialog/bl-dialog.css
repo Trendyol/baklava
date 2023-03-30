@@ -25,7 +25,7 @@
 }
 
 .dialog::backdrop {
-  background: #273142;
+  background: var(--bl-color-neutral-darker);
   opacity: 0.7;
 }
 
@@ -39,9 +39,7 @@
   align-items: center;
   justify-content: center;
   z-index: var(--bl-index-dialog);
-
-  /* FIXME: Use css variables for alpha colors */
-  background: #273142b3;
+  background: hsl(var(--bl-color-neutral-key) var(--bl-light-darker) / 70%);
 }
 
 :host([open]) .dialog-polyfill {
@@ -83,7 +81,8 @@ footer {
 }
 
 footer.shadow {
-  box-shadow: 0 -4px 15px #27314226;
+  /* FIXME: Use variables for sizes */
+  box-shadow: 0 -4px 15px hsl(var(--bl-color-neutral-key) var(--bl-light-darker) / 70%);
 }
 
 @media only screen and (max-width: 471px) {

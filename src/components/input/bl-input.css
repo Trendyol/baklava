@@ -14,7 +14,7 @@
   --icon-size: var(--line-height);
   --padding-vertical: calc((var(--height) - var(--line-height)) / 2);
   --padding-horizontal: var(--bl-size-xs);
-  --autofill-bg-color: var(--bl-color-accent-primary-background);
+  --autofill-bg-color: var(--bl-color-primary-contrast);
 
   display: flex;
   flex-direction: column;

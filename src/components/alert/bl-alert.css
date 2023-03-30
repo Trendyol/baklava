@@ -57,12 +57,12 @@
 .actions {
   display: none;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: var(--bl-size-m);
   padding: calc(var(--padding) / 2) 0;
 }
 
 .close {
-  --bl-color-secondary-background: transparent;
+  --bl-color-neutral-lightest: transparent;
 }
 
 .caption + .description {

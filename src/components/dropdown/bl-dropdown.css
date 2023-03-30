@@ -21,7 +21,7 @@
 
   /* FIXME: Use variables */
   box-shadow: 0 10px 15px -8px #27314226;
-  border-radius: var(--bl-size-3xs);
+  border-radius: var(--bl-border-radius-s);
   left: var(--left);
   top: var(--top);
   box-sizing: border-box;

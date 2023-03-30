@@ -9,6 +9,7 @@ import { PropertyValues } from 'lit';
  * @tag bl-drawer
  * @summary Baklava Drawer component
  *
+ * @cssproperty [--bl-drawer-animation-duration=250ms] Drawer slide in animation duration
  */
 
 @customElement('bl-drawer')
