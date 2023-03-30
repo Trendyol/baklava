@@ -8,6 +8,7 @@ export type ProgressIndicatorSize = 'small' | 'medium' | 'large';
  * @tag bl-progress-indicator
  * @summary Baklava Progress Indicator component
  *
+ * @cssproperty [--bl-progress-indicator-transition-duration=.2s] Duration of the transition of progress bar
  * @property {max} [max=100]
  * @property {number} [value=0]
  */
