@@ -21,6 +21,8 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     return [style];
   }
 
+  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+
   static formControlValidators = textAreaValidators;
 
   @query('textarea')
@@ -161,10 +163,6 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     super.connectedCallback();
     this.internals.form?.addEventListener('submit', () => {
       this.reportValidity();
-    });
-
-    this.addEventListener('focus', () => {
-      this.validationTarget.focus();
     });
   }
 

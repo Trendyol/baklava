@@ -43,6 +43,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     return [style];
   }
 
+  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+
   static formControlValidators = [requiredValidator];
 
   /**
@@ -278,10 +280,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       if (!this.reportValidity()) {
         e.preventDefault();
       }
-    });
-
-    this.addEventListener('focus', () => {
-      this.validationTarget.focus();
     });
   }
 

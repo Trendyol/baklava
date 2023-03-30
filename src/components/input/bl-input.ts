@@ -24,6 +24,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
     return [style];
   }
 
+  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+
   static formControlValidators = innerInputValidators;
 
   @query('input')
@@ -177,10 +179,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
     this.form?.addEventListener('submit', () => {
       this.reportValidity();
-    });
-
-    this.addEventListener('focus', () => {
-      this.validationTarget.focus();
     });
   }
 
