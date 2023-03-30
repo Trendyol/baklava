@@ -1,5 +1,4 @@
 import { assert, expect, fixture, oneEvent, html, elementUpdated } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
 import BlInput from './bl-input';
 
 describe('bl-input', () => {
