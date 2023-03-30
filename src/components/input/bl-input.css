@@ -124,6 +124,10 @@ input {
   background-color: transparent;
 }
 
+:where(.wrapper:focus-within, .wrapper.has-value) input {
+  padding-left: var(--label-padding);
+}
+
 input:disabled {
   cursor: not-allowed;
 }
@@ -208,10 +212,6 @@ bl-icon[name='eye_on'] {
 :host .wrapper:focus-within ::placeholder {
   color: var(--bl-color-content-tertiary);
   -webkit-text-fill-color: var(--bl-color-content-tertiary);
-}
-
-:where(.wrapper:focus-within, .wrapper.has-value) input {
-  padding-left: var(--label-padding);
 }
 
 :where(.wrapper:focus-within, .wrapper.has-value) label {

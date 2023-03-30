@@ -330,7 +330,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       : '';
 
     const helpMessage =
-      this.helpText && !invalidMessage ? html`<p class="help-text">${this.helpText}</p>` : '';
+      this.helpText ? html`<p class="help-text">${this.helpText}</p>` : '';
 
     const label = this.label ? html`<label>${this.label}</label>` : '';
 
