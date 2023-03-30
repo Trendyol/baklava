@@ -159,10 +159,11 @@ input:-webkit-autofill {
 .icon {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--bl-size-2xs);
   flex-basis: var(--icon-size);
   align-self: center;
   height: var(--icon-size);
+  margin-right: var(--label-padding);
 }
 
 bl-icon:not(.reveal-icon) {
