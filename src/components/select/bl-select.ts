@@ -42,6 +42,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   static get styles(): CSSResultGroup {
     return [style];
   }
+  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
 
   static formControlValidators = [requiredValidator];
 
