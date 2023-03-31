@@ -67,7 +67,8 @@ export const defaultOptions = [{
 export const formSubmitter = async ({ canvasElement }) => {
   const form = canvasElement?.querySelector('form');
   form.addEventListener('submit', (e) => e.preventDefault());
-  form.dispatchEvent(new SubmitEvent('submit'))
+  const submitter = form.querySelector('bl-button[type=submit]');
+  await userEvent.click(submitter);
 }
 
 
@@ -97,8 +98,9 @@ export const SelectTemplate = (args) => html`<bl-select
   )}
 </bl-select>`
 
-export const FormTemplate = (args) => html`<form novalidate>
+export const FormTemplate = (args) => html`<form class="stacked-form" novalidate>
 ${SelectTemplate(args)}
+<bl-button type="submit">Submit</bl-button>
 </form>
 `
 
