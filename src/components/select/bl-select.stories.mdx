@@ -68,7 +68,10 @@ export const formSubmitter = async ({ canvasElement }) => {
   const form = canvasElement?.querySelector('form');
   form.addEventListener('submit', (e) => e.preventDefault());
   const submitter = form.querySelector('bl-button[type=submit]');
-  await userEvent.click(submitter);
+  if(submitter.shadowRoot) {
+    const innerButton = submitter.shadowRoot.querySelector('.button')
+    await userEvent.click(innerButton);
+  }
 }
 
 
