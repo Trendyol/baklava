@@ -1,15 +1,6 @@
 import { LitElement, html, CSSResultGroup, TemplateResult } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
-import {
-  computePosition,
-  flip,
-  offset,
-  autoUpdate,
-  size,
-  MiddlewareArguments,
-} from '@floating-ui/dom';
 import { event, EventDispatcher } from '../../utilities/event';
-import { classMap } from 'lit/directives/class-map.js';
 
 import style from './bl-dropdown.css';
 
@@ -18,6 +9,7 @@ import { ButtonSize, ButtonVariant, ButtonKind } from '../button/bl-button';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 import BlDropdownItem, { blDropdownItemTag } from './item/bl-dropdown-item';
+import BlPopover from '../popover/bl-popover';
 
 export type CleanUpFunction = () => void;
 
@@ -33,13 +25,8 @@ export default class BlDropdown extends LitElement {
     return [style];
   }
 
-  @query('bl-button')
-  private _dropdownButton: HTMLElement;
-
-  @query('.popover')
-  private _popover: HTMLElement;
-
-  private _cleanUpPopover: CleanUpFunction | null = null;
+  @query('bl-popover')
+  private _popover: BlPopover;
 
   @state() private _isPopoverOpen = false;
 
@@ -89,8 +76,6 @@ export default class BlDropdown extends LitElement {
   }
   disconnectedCallback() {
     super.disconnectedCallback();
-
-    this._cleanUpPopover && this._cleanUpPopover();
     this.removeEventListener('keydown', this.handleKeyDown);
   }
 
@@ -100,36 +85,6 @@ export default class BlDropdown extends LitElement {
 
   private _handleClick() {
     !this._isPopoverOpen && !this.disabled ? this.open() : this.close();
-  }
-
-  private _handleClickOutside = (event: MouseEvent) => {
-    const eventPath = event.composedPath() as HTMLElement[];
-    if (!eventPath.includes(this._popover) && !eventPath.includes(this._dropdownButton)) {
-      this.close();
-    }
-  };
-
-  private _setupPopover() {
-    this._cleanUpPopover = autoUpdate(this._dropdownButton, this._popover, () => {
-      computePosition(this._dropdownButton, this._popover, {
-        placement: 'bottom-start',
-        strategy: 'fixed',
-        middleware: [
-          flip(),
-          offset(8),
-          size({
-            apply(args: MiddlewareArguments) {
-              Object.assign(args.elements.floating.style, {
-                minWidth: `${args.elements.reference.getBoundingClientRect().width}px`,
-              });
-            },
-          }),
-        ],
-      }).then(({ x, y }) => {
-        this._popover.style.setProperty('--left', `${x}px`);
-        this._popover.style.setProperty('--top', `${y}px`);
-      });
-    });
   }
 
   private focusedOptionIndex = -1;
@@ -169,24 +124,17 @@ export default class BlDropdown extends LitElement {
 
   open() {
     this._isPopoverOpen = true;
-    this._setupPopover();
+    this._popover.show();
     this.onOpen('Dropdown opened!');
-    document.addEventListener('click', this._handleClickOutside);
   }
 
   close() {
     this._isPopoverOpen = false;
+    this._popover.visible && this._popover.hide();
     this.onClose('Dropdown closed!');
-    this._cleanUpPopover && this._cleanUpPopover();
-    document.removeEventListener('click', this._handleClickOutside);
   }
 
   render(): TemplateResult {
-    const popoverClasses = classMap({
-      popover: true,
-      visible: this.opened,
-    });
-
     return html`<bl-button
         dropdown
         .active=${this.opened}
@@ -199,9 +147,9 @@ export default class BlDropdown extends LitElement {
       >
         ${this.label}
       </bl-button>
-      <div class="${popoverClasses}" role="menu" aria-expanded="${this.opened}">
+      <bl-popover .target="${this}" placement="bottom-start" @bl-popover-hide="${this.close}">
         <slot></slot>
-      </div> `;
+      </bl-popover> `;
   }
 }
 
