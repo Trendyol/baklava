@@ -147,7 +147,12 @@ export default class BlDropdown extends LitElement {
       >
         ${this.label}
       </bl-button>
-      <bl-popover .target="${this}" placement="bottom-start" @bl-popover-hide="${this.close}">
+      <bl-popover
+        .target="${this}"
+        fit-size
+        placement="bottom-start"
+        @bl-popover-hide="${this.close}"
+      >
         <slot></slot>
       </bl-popover> `;
   }

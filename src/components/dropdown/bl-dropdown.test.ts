@@ -35,7 +35,7 @@ describe('bl-dropdown', () => {
       >
         Dropdown Button
       </bl-button>
-      <bl-popover placement="bottom-start"><slot></slot></bl-popover>
+      <bl-popover placement="bottom-start" fit-size><slot></slot></bl-popover>
     `
     );
   });
