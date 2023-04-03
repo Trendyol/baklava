@@ -5,13 +5,11 @@ import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-dropdown.css';
 
 import '../button/bl-button';
-import { ButtonSize, ButtonVariant, ButtonKind } from '../button/bl-button';
+import BlButton, { ButtonSize, ButtonVariant, ButtonKind } from '../button/bl-button';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 import BlDropdownItem, { blDropdownItemTag } from './item/bl-dropdown-item';
 import BlPopover from '../popover/bl-popover';
-
-export type CleanUpFunction = () => void;
 
 export const blDropdownTag = 'bl-dropdown';
 
@@ -27,6 +25,9 @@ export default class BlDropdown extends LitElement {
 
   @query('bl-popover')
   private _popover: BlPopover;
+
+  @query('bl-button')
+  private _button: BlButton;
 
   @state() private _isPopoverOpen = false;
 
@@ -74,9 +75,16 @@ export default class BlDropdown extends LitElement {
     super.connectedCallback();
     this.addEventListener('keydown', this.handleKeyDown);
   }
+
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  firstUpdated() {
+    // `_button` will be undefined during the initial render.
+    // To ensure proper rendering, we set `_popover.target` after the template has been created.
+    this._popover.target = this._button;
   }
 
   get opened() {
@@ -148,7 +156,6 @@ export default class BlDropdown extends LitElement {
         ${this.label}
       </bl-button>
       <bl-popover
-        .target="${this}"
         fit-size
         placement="bottom-start"
         @bl-popover-hide="${this.close}"
