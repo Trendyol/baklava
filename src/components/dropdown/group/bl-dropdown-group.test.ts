@@ -1,9 +1,5 @@
 import BlDropdownGroup from './bl-dropdown-group';
-import {
-    assert,
-    fixture,
-    html,
-  } from '@open-wc/testing';
+import { assert, fixture, html } from '@open-wc/testing';
 
 import type typeOfBlDropdownGroup from './bl-dropdown-group';
 
@@ -23,7 +19,9 @@ describe('bl-dropdown-group', () => {
     );
   });
   it('should render with caption', async () => {
-    const el = await fixture<typeOfBlDropdownGroup>(html`<bl-dropdown-group caption="caption"></bl-dropdown-group>`);
+    const el = await fixture<typeOfBlDropdownGroup>(
+      html`<bl-dropdown-group caption="caption"></bl-dropdown-group>`
+    );
     assert.shadowDom.equal(
       el,
       `

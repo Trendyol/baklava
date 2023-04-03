@@ -1,11 +1,5 @@
 import BlDropdownItem from './bl-dropdown-item';
-import {
-    assert,
-    fixture,
-    html,
-    oneEvent,
-    expect,
-  } from '@open-wc/testing';
+import { assert, fixture, html, oneEvent, expect } from '@open-wc/testing';
 
 import type typeOfBlDropdownItem from './bl-dropdown-item';
 
@@ -33,7 +27,9 @@ describe('bl-dropdown-item', () => {
     );
   });
   it('should render with icon', async () => {
-    const el = await fixture<typeOfBlDropdownItem>(html`<bl-dropdown-item icon="info"></bl-dropdown-item>`);
+    const el = await fixture<typeOfBlDropdownItem>(
+      html`<bl-dropdown-item icon="info"></bl-dropdown-item>`
+    );
     assert.shadowDom.equal(
       el,
       `
@@ -51,7 +47,9 @@ describe('bl-dropdown-item', () => {
     );
   });
   it('should fire event when click dropdown-item', async () => {
-    const el = await fixture<BlDropdownItem>(html`<bl-dropdown-item>dropdown-item</bl-dropdown-item>`);
+    const el = await fixture<BlDropdownItem>(
+      html`<bl-dropdown-item>dropdown-item</bl-dropdown-item>`
+    );
     const button = el.shadowRoot?.querySelector('bl-button');
 
     setTimeout(() => button?.click());

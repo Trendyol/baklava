@@ -8,7 +8,6 @@ describe('bl-select', () => {
     assert.instanceOf(el, BlSelectOption);
   });
 
-
   describe('keyboard navigation', () => {
     it('should get focus', async () => {
       //when

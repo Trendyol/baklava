@@ -48,7 +48,8 @@ export default class BlSwitch extends LitElement {
   }
 
   render(): TemplateResult {
-    const ariaLabel = this.ariaLabel ?? this.attributes.getNamedItem("aria-label")?.value ?? undefined;
+    const ariaLabel =
+      this.ariaLabel ?? this.attributes.getNamedItem('aria-label')?.value ?? undefined;
 
     return html`
       <span

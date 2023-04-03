@@ -88,9 +88,7 @@ describe('bl-button', () => {
     });
 
     it('is disabled button during loading state', async () => {
-      const el = await fixture<typeOfBlButton>(
-        html`<bl-button loading>Test</bl-button>`
-      );
+      const el = await fixture<typeOfBlButton>(html`<bl-button loading>Test</bl-button>`);
       expect(el.shadowRoot?.querySelector('.loading-icon')).to.exist;
       expect(el).to.have.attribute('loading');
       expect(el.shadowRoot?.querySelector('button')).to.have.attribute('disabled');
@@ -101,7 +99,6 @@ describe('bl-button', () => {
       expect(el.shadowRoot?.querySelector('.loading-icon')).not.to.exist;
       expect(el).not.have.attribute('loading');
       expect(el.shadowRoot?.querySelector('button')).not.have.attribute('disabled');
-
     });
   });
   describe('Slot', () => {
@@ -169,7 +166,7 @@ describe('bl-button', () => {
       const form = await fixture<HTMLFormElement>(html`<form>
         <bl-button type="submit">button</bl-button>
       </form>`);
-      form.addEventListener('submit', (e) => e.preventDefault());
+      form.addEventListener('submit', e => e.preventDefault());
 
       const button = form.querySelector('bl-button')?.shadowRoot?.querySelector('button');
 

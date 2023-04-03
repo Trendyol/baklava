@@ -1,15 +1,23 @@
-import {assert, aTimeout, elementUpdated, expect, fixture, html, oneEvent} from '@open-wc/testing';
-import BlDrawer from "./bl-drawer";
+import {
+  assert,
+  aTimeout,
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+  oneEvent,
+} from '@open-wc/testing';
+import BlDrawer from './bl-drawer';
 import type typeOfBlDrawer from './bl-drawer';
 
-describe('bl-drawer',() => {
+describe('bl-drawer', () => {
   it('is defined', () => {
-      const el = document.createElement('bl-drawer');
-      assert.instanceOf(el, BlDrawer);
-    });
+    const el = document.createElement('bl-drawer');
+    assert.instanceOf(el, BlDrawer);
+  });
 
-  describe('render tests',()=>{
-    it('should render drawer component with default values', async ()=>{
+  describe('render tests', () => {
+    it('should render drawer component with default values', async () => {
       const el = await fixture<typeOfBlDrawer>(html`<bl-drawer open></bl-drawer>`);
       assert.shadowDom.equal(
         el,
@@ -34,8 +42,12 @@ describe('bl-drawer',() => {
       `
       );
     });
-    it('should render the caption, externalLink and content if provided', async ()=>{
-      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Caption" external-link="some-url" open>
+    it('should render the caption, externalLink and content if provided', async () => {
+      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer
+        caption="My Caption"
+        external-link="some-url"
+        open
+      >
         <div>example content</div>
       </bl-drawer>`);
 
@@ -74,9 +86,13 @@ describe('bl-drawer',() => {
       );
     });
 
-    it('should render the caption, embedUrl if provided', async ()=>{
+    it('should render the caption, embedUrl if provided', async () => {
       const embedUrl = '/?test=1';
-      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Caption" embed-url="${embedUrl}" open><div>example content</div></bl-drawer>`);
+      const el = await fixture<typeOfBlDrawer>(
+        html`<bl-drawer caption="My Caption" embed-url="${embedUrl}" open
+          ><div>example content</div></bl-drawer
+        >`
+      );
 
       const caption = el.shadowRoot?.querySelector('#drawer-caption') as HTMLElement;
       const iframeEl = el.shadowRoot?.querySelector('iframe') as HTMLElement;
@@ -90,8 +106,8 @@ describe('bl-drawer',() => {
 
     it('should open the drawer when change open attribute as true', async () => {
       const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="Drawer Title">
-      <div>Drawer Content</div>
-    </bl-drawer>`);
+        <div>Drawer Content</div>
+      </bl-drawer>`);
 
       expect(el.open).to.equal(false);
 
@@ -104,8 +120,8 @@ describe('bl-drawer',() => {
     });
     it('should close the drawer when change click close button', async () => {
       const el = await fixture<typeOfBlDrawer>(html`<bl-drawer open caption="Drawer Title">
-      <div>Drawer Content</div>
-    </bl-drawer>`);
+        <div>Drawer Content</div>
+      </bl-drawer>`);
 
       const closeBtn = el?.shadowRoot?.querySelector('bl-button');
 
@@ -123,25 +139,27 @@ describe('bl-drawer',() => {
       expect(el?.shadowRoot?.querySelector('bl-button')).to.be.null;
     });
   });
-  describe('event tests',()=>{
-    it('should fire bl-drawer-open when dialog opens',async ()=>{
-      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Drawer"></bl-drawer>`)
+  describe('event tests', () => {
+    it('should fire bl-drawer-open when dialog opens', async () => {
+      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer caption="My Drawer"></bl-drawer>`);
 
       setTimeout(async () => {
-        const openEvent = await oneEvent(el,'bl-drawer-open');
+        const openEvent = await oneEvent(el, 'bl-drawer-open');
         expect(openEvent).to.exist;
       });
     });
-    it('should fire bl-drawer-close when dialog closes',async ()=>{
-      const el = await fixture<typeOfBlDrawer>(html`<bl-drawer open caption="My Drawer"></bl-drawer>`)
+    it('should fire bl-drawer-close when dialog closes', async () => {
+      const el = await fixture<typeOfBlDrawer>(
+        html`<bl-drawer open caption="My Drawer"></bl-drawer>`
+      );
 
       const closeBtn = el?.shadowRoot?.querySelector('bl-button');
 
       setTimeout(async () => {
         closeBtn?.click();
-        const openEvent = await oneEvent(el,'bl-drawer-close');
+        const openEvent = await oneEvent(el, 'bl-drawer-close');
         expect(openEvent).to.exist;
       });
     });
-  })
+  });
 });

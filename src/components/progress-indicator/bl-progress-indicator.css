@@ -19,6 +19,7 @@
   width: calc(100% / var(--max) * var(--value));
   background-color: var(--value-color);
   border-radius: var(--radius);
+  transition: width ease var(--bl-progress-indicator-transition-duration, .2s);
 }
 
 :host([size='small']) .progress-indicator {
