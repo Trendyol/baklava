@@ -12,6 +12,7 @@
   --input-font: var(--bl-font-body-text-2);
   --line-height: var(--bl-font-body-text-2-line-height);
   --icon-size: var(--line-height);
+  --icon-gap: var(--bl-size-xs);
   --padding-vertical: calc((var(--height) - var(--line-height)) / 2);
   --padding-horizontal: var(--bl-size-xs);
   --label-padding: var(--bl-size-3xs);
@@ -37,6 +38,7 @@
   --height: var(--bl-size-3xl);
   --padding-vertical: var(--bl-size-xs);
   --padding-horizontal: var(--bl-size-m);
+  --icon-gap: var(--bl-size-m);
 }
 
 :host([size='small']) .wrapper {
@@ -44,6 +46,7 @@
   --input-font: var(--bl-font-body-text-3);
   --padding-vertical: var(--bl-size-3xs);
   --icon-size: var(--bl-font-body-text-3-line-height);
+  --icon-gap: var(--bl-size-2xs);
 }
 
 .input-wrapper {
@@ -128,6 +131,10 @@ input {
   background-color: transparent;
 }
 
+input::-webkit-credentials-auto-fill-button {
+  color: red;
+}
+
 :where(.wrapper:focus-within, .wrapper.has-value) input {
   padding-left: var(--label-padding);
 }
@@ -159,7 +166,7 @@ input:-webkit-autofill {
 .icon {
   display: flex;
   align-items: center;
-  gap: var(--bl-size-2xs);
+  gap: var(--icon-gap);
   flex-basis: var(--icon-size);
   align-self: center;
   height: var(--icon-size);
@@ -214,28 +221,9 @@ bl-icon[name='eye_on'] {
 }
 
 :host([label-fixed]) ::placeholder,
-:host .wrapper:focus-within ::placeholder {
+:host :focus-within ::placeholder {
   color: var(--bl-color-content-tertiary);
   -webkit-text-fill-color: var(--bl-color-content-tertiary);
-}
-
-.wrapper:focus-within label,
-.wrapper.has-value label {
-  top: 0;
-  left: calc(var(--padding-horizontal) - var(--label-padding));
-  right: calc(var(--padding-horizontal) - var(--label-padding));
-  transform: translateY(-50%);
-  font: var(--bl-font-caption);
-  color: var(--bl-color-content-secondary);
-  padding: 0 var(--label-padding);
-  pointer-events: initial;
-  z-index: var(--bl-index-base);
-}
-
-:host([label]) :where(.wrapper:focus-within, .wrapper.has-value) legend {
-  max-width: 100%;
-  font: var(--bl-font-caption);
-  display: block;
 }
 
 :host([label-fixed]) label {
@@ -250,6 +238,25 @@ bl-icon[name='eye_on'] {
 
 :host([label-fixed]) legend {
   display: none;
+}
+
+:host(:not([label-fixed])) :focus-within label,
+:host(:not([label-fixed])) .has-value label {
+  top: 0;
+  left: calc(var(--padding-horizontal) - var(--label-padding));
+  right: calc(var(--padding-horizontal) - var(--label-padding));
+  transform: translateY(-50%);
+  font: var(--bl-font-caption);
+  color: var(--bl-color-content-secondary);
+  padding: 0 var(--label-padding);
+  pointer-events: initial;
+  z-index: var(--bl-index-base);
+}
+
+:host([label]) :where(:focus-within, .has-value) legend {
+  max-width: 100%;
+  font: var(--bl-font-caption);
+  display: block;
 }
 
 .error-icon,
