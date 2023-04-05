@@ -39,7 +39,7 @@
   align-items: center;
   justify-content: center;
   z-index: var(--bl-index-dialog);
-  background: hsl(var(--bl-color-neutral-key) var(--bl-light-darker) / 70%);
+  background: #273142b3;
 }
 
 :host([open]) .dialog-polyfill {
@@ -82,7 +82,7 @@ footer {
 
 footer.shadow {
   /* FIXME: Use variables for sizes */
-  box-shadow: 0 -4px 15px hsl(var(--bl-color-neutral-key) var(--bl-light-darker) / 70%);
+  box-shadow: 0 -4px 15px #273142b3;
 }
 
 @media only screen and (max-width: 471px) {

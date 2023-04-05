@@ -122,7 +122,7 @@
 
 :host([kind='neutral']) .button {
   --main-color: var(--bl-color-neutral-darker);
-  --main-hover-color: var(--bl-color-neutral-dark);
+  --main-hover-color: var(--bl-color-neutral-darkest);
 }
 
 :host([kind='success']) .button {
@@ -147,7 +147,7 @@
   display: none;
 }
 
-:host([disabled]) .button {
+:host .button[aria-disabled='true'] {
   --main-color: var(--bl-color-neutral-lightest);
   --main-hover-color: var(--bl-color-neutral-lightest);
   --content-color: var(--bl-color-neutral-lighter);
