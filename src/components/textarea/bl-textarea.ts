@@ -22,6 +22,8 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   }
   static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
 
+  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+
   static formControlValidators = textAreaValidators;
 
   @query('textarea')
@@ -265,7 +267,8 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     return html`
       <div style=${styleMap(styles)} class=${classMap(wrapperClasses)}>
         ${label}
-        <div class="input-wrapper">
+        <fieldset class="input-wrapper">
+          <legend><span>${this.label}</span></legend>
           <textarea
             id="${this.inputId}"
             name="${ifDefined(this.name)}"
@@ -284,7 +287,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
             @invalid=${this.onError}
           >
           </textarea>
-        </div>
+        </fieldset>
         <div class="hint">${invalidMessage}${helpMessage}${characterCounter}</div>
       </div>
     `;

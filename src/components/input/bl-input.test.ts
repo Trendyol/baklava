@@ -12,7 +12,8 @@ describe('bl-input', () => {
     assert.shadowDom.equal(
       el,
       `<div class="wrapper">
-        <div class="input-wrapper">
+        <fieldset class="input-wrapper">
+          <legend><span></span></legend>
           <input
             aria-invalid="false"
             id="input"
@@ -25,7 +26,7 @@ describe('bl-input', () => {
             >
             </bl-icon>
           </div>
-        </div>
+        </fieldset>
         <div class="hint"></div>
       </div>`,
       { ignoreAttributes: ['for', 'id'] }

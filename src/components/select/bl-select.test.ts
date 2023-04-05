@@ -19,10 +19,11 @@ describe('bl-select', () => {
       el,
       `
       <div class="select-wrapper">
-        <div
+        <fieldset
           class="select-input"
           tabindex="0"
         >
+          <legend><span></span></legend>
           <span class="placeholder"></span>
           <ul class="selected-options"></ul>
           <span class="additional-selection-count">
@@ -32,7 +33,7 @@ describe('bl-select', () => {
           <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
           <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
           </div>
-        </div>
+        </fieldset>
         <div class="popover" tabindex="-1">
           <slot></slot>
         </div>

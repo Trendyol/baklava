@@ -112,7 +112,7 @@ export default class BlPopover extends LitElement {
           apply(args: MiddlewareState) {
             if (args.elements.floating && args.elements.reference) {
               Object.assign(args.elements.floating.style, {
-                width: `${args.elements.reference.getBoundingClientRect().width}px`,
+                'min-width': `${args.elements.reference.getBoundingClientRect().width}px`,
               });
             }
           },

@@ -12,6 +12,8 @@ import { sendKeys } from '@web/test-runner-commands';
 
 import type typeOfBlDropdown from './bl-dropdown';
 import BlButton from '../button/bl-button';
+import '../popover/bl-popover';
+import BlPopover from '../popover/bl-popover';
 
 describe('bl-dropdown', () => {
   it('is defined', () => {
@@ -33,7 +35,7 @@ describe('bl-dropdown', () => {
       >
         Dropdown Button
       </bl-button>
-      <div class="popover" aria-expanded="false" role="menu"><slot></slot></div>
+      <bl-popover placement="bottom-start" fit-size><slot></slot></bl-popover>
     `
     );
   });
@@ -43,10 +45,12 @@ describe('bl-dropdown', () => {
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
     const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
+    const popover = <BlPopover>el.shadowRoot?.querySelector('bl-popover');
 
     button?.click();
 
     expect(el.opened).to.true;
+    expect(popover.visible).to.true;
   });
 
   it('should close dropdown', async () => {
@@ -54,12 +58,15 @@ describe('bl-dropdown', () => {
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
     const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
+    const popover = <BlPopover>el.shadowRoot?.querySelector('bl-popover');
 
     button?.click();
     expect(el.opened).to.true;
+    expect(popover.visible).to.true;
 
     button?.click();
     expect(el.opened).to.false;
+    expect(popover.visible).to.false;
   });
 
   it('should close dropdown when click outside', async () => {
@@ -69,15 +76,18 @@ describe('bl-dropdown', () => {
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
     const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
+    const popover = <BlPopover>el.shadowRoot?.querySelector('bl-popover');
 
     button?.click();
     expect(el.opened).to.true;
+    expect(popover.visible).to.true;
 
     const body = <HTMLBodyElement>el.closest('body');
     body.click();
 
     setTimeout(() => {
       expect(el.opened).to.false;
+      expect(popover.visible).to.false;
     });
   });
 
@@ -111,6 +121,20 @@ describe('bl-dropdown', () => {
     expect(el).to.exist;
     expect(event).to.exist;
     expect(event.detail).to.be.equal('Dropdown closed!');
+  });
+
+  it('should not change opened property when disabled', async () => {
+    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown disabled></bl-dropdown>`);
+    expect(el.opened).to.false;
+
+    const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
+    const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
+    const popover = <BlPopover>el.shadowRoot?.querySelector('bl-popover');
+
+    button?.click();
+
+    expect(el.opened).to.false;
+    expect(popover.visible).to.false;
   });
 
   describe('keyboard navigation', () => {
