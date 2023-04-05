@@ -2,7 +2,7 @@ import {
   autoUpdate,
   computePosition,
   flip,
-  MiddlewareArguments,
+  MiddlewareState,
   offset,
   size,
 } from '@floating-ui/dom';
@@ -42,6 +42,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   static get styles(): CSSResultGroup {
     return [style];
   }
+
+  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
 
   static formControlValidators = [requiredValidator];
 
@@ -257,7 +259,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           flip(),
           offset(8),
           size({
-            apply(args: MiddlewareArguments) {
+            apply(args: MiddlewareState) {
               Object.assign(args.elements.floating.style, {
                 width: `${args.elements.reference.getBoundingClientRect().width}px`,
               });
@@ -300,7 +302,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       @click=${this._onClickRemove}
     ></bl-button>`;
 
-    return html`<div
+    return html`<fieldset
       class=${classMap({
         'select-input': true,
         'has-overflowed-options': this._additionalSelectedOptionCount > 0,
@@ -309,6 +311,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       ?autofocus=${this.autofocus}
       @click=${this.togglePopover}
     >
+      <legend><span>${this.label}</span></legend>
       <span class="placeholder">${this.placeholder}</span>
       ${inputSelectedOptions}
       <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
@@ -318,7 +321,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
         <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
       </div>
-    </div>`;
+    </fieldset>`;
   }
 
   render() {
@@ -328,8 +331,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         </p>`
       : '';
 
-    const helpMessage =
-      this.helpText && !invalidMessage ? html`<p class="help-text">${this.helpText}</p>` : '';
+    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : '';
 
     const label = this.label ? html`<label>${this.label}</label>` : '';
 
