@@ -20,7 +20,6 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
-
   static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
 
   static formControlValidators = textAreaValidators;
