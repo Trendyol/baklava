@@ -141,6 +141,38 @@ describe('bl-input', () => {
       );
       expect(errorMessageElement).to.visible;
     });
+
+    it('should set custom error state with forceCustomError method', async () => {
+      const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
+
+      el.forceCustomError();
+
+      await elementUpdated(el);
+
+      expect(el.validity.valid).to.be.false;
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector('.invalid-text')
+      );
+      expect(errorMessageElement).to.visible;
+    });
+
+    it('should clear custom error state with clearCustomError method', async () => {
+      const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
+
+      el.forceCustomError();
+
+      await elementUpdated(el);
+
+      el.clearCustomError();
+
+      await elementUpdated(el);
+
+      expect(el.validity.valid).to.be.true;
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector('.invalid-text')
+      );
+      expect(errorMessageElement).to.not.exist;
+    });
   });
 
   describe('events', () => {
