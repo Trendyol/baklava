@@ -1,72 +1,35 @@
 @import '@fontsource/rubik/variable.css';
 
 :root {
-  /* Color Light Values */
-  --bl-light-none: 0%;
-  --bl-light-darkest: 5%;
-  --bl-light-darker: 20%;
-  --bl-light-dark: 45%;
-  --bl-light-light: 55%;
-  --bl-light-lighter: 80%;
-  --bl-light-lightest: 95%;
-  --bl-light-full: 100%;
-
-  /* Primary */
-  --bl-color-primary-key-h: 24;
-  --bl-color-primary-key-s: 100%;
-
-  /* Success */
-  --bl-color-success-key-h: 120;
-  --bl-color-success-key-s: 34%;
-
-  /* Danger */
-  --bl-color-danger-key-h: 8;
-  --bl-color-danger-key-s: 90%;
-
-  /* Warning */
-  --bl-color-warning-key-h: 45;
-  --bl-color-warning-key-s: 95%;
-
-  /* Neutral */
-  --bl-color-neutral-key-h: 221;
-  --bl-color-neutral-key-s: 12%;
-
-  /* Color Variants */
-
   /* Primary Color */
-  --bl-color-primary-key: var(--bl-color-primary-key-h) var(--bl-color-primary-key-s);
-  --bl-color-primary: hsl(var(--bl-color-primary-key) var(--bl-light-dark));
-  --bl-color-primary-highlight: hsl(var(--bl-color-primary-key) var(--bl-light-light));
-  --bl-color-primary-contrast: hsl(var(--bl-color-primary-key) var(--bl-light-lightest));
+  --bl-color-primary: #f27a1a;
+  --bl-color-primary-highlight: #ef6114;
+  --bl-color-primary-contrast: #fef2e8;
 
   /* Success Color */
-  --bl-color-success-key: var(--bl-color-success-key-h) var(--bl-color-success-key-s);
-  --bl-color-success: hsl(var(--bl-color-success-key) var(--bl-light-dark));
-  --bl-color-success-highlight: hsl(var(--bl-color-success-key) var(--bl-light-light));
-  --bl-color-success-contrast: hsl(var(--bl-color-success-key) var(--bl-light-lightest));
+  --bl-color-success: #0bc15c;
+  --bl-color-success-highlight: #09a44e;
+  --bl-color-success-contrast: #e7f9ef;
 
   /* Danger Color */
-  --bl-color-danger-key: var(--bl-color-danger-key-h) var(--bl-color-danger-key-s);
-  --bl-color-danger: hsl(var(--bl-color-danger-key) var(--bl-light-dark));
-  --bl-color-danger-highlight: hsl(var(--bl-color-danger-key) var(--bl-light-light));
-  --bl-color-danger-contrast: hsl(var(--bl-color-danger-key) var(--bl-light-lightest));
+  --bl-color-danger: #ff5043;
+  --bl-color-danger-highlight: #ff3028;
+  --bl-color-danger-contrast: #ffeeec;
 
   /* Warning Color */
-  --bl-color-warning-key: var(--bl-color-warning-key-h) var(--bl-color-warning-key-s);
-  --bl-color-warning: hsl(var(--bl-color-warning-key) var(--bl-light-dark));
-  --bl-color-warning-highlight: hsl(var(--bl-color-warning-key) var(--bl-light-light));
-  --bl-color-warning-contrast: hsl(var(--bl-color-warning-key) var(--bl-light-lightest));
+  --bl-color-warning: #ffb600;
+  --bl-color-warning-highlight: #ff9800;
+  --bl-color-warning-contrast: #fff8e6;
 
   /* Neutral Color */
-  --bl-color-neutral-key: var(--bl-color-neutral-key-h) var(--bl-color-neutral-key-s);
-  --bl-color-neutral-none: hsl(var(--bl-color-neutral-key) var(--bl-light-none));
-  --bl-color-neutral-darkest: hsl(var(--bl-color-neutral-key) var(--bl-light-darkest));
-  --bl-color-neutral-darker: hsl(var(--bl-color-neutral-key) var(--bl-light-darker));
-  --bl-color-neutral-dark: hsl(var(--bl-color-neutral-key) var(--bl-light-dark));
-  --bl-color-neutral-light: hsl(var(--bl-color-neutral-key) var(--bl-light-light));
-  --bl-color-neutral-lighter: hsl(var(--bl-color-neutral-key) var(--bl-light-lighter));
-  --bl-color-neutral-lightest: hsl(var(--bl-color-neutral-key) var(--bl-light-lightest));
-  --bl-color-neutral-full: hsl(var(--bl-color-neutral-key) var(--bl-light-full));
+  --bl-color-neutral-none: #000;
+  --bl-color-neutral-darkest: #0b0c0e;
+  --bl-color-neutral-darker: #273142;
+  --bl-color-neutral-dark: #6e7787;
+  --bl-color-neutral-light: #95a1b5;
+  --bl-color-neutral-lighter: #afbbca;
+  --bl-color-neutral-lightest: #f1f2f7;
+  --bl-color-neutral-full: #fff;
 
   /* Size and Spacing */
   --bl-size-4xs: 0.125rem; /* 2px */
@@ -234,4 +197,44 @@
   --bl-font-caption-line-height: calc(var(--bl-font-caption-font-size) + var(--bl-size-4xs));
   --bl-font-caption-size: var(--bl-font-caption-font-size) / var(--bl-font-caption-line-height);
   --bl-font-caption: var(--bl-font-weight-medium) var(--bl-font-caption-size) var(--bl-font-family);
+
+  /*
+  @DEPRECATED
+
+  Color names below is kept for backward compatibility,
+
+  Will be removed in V3
+  */
+  --bl-color-primary-hover: var(--bl-color-primary-highlight);
+  --bl-color-success-hover: var(--bl-color-success-highlight);
+  --bl-color-danger-hover: var(--bl-color-danger-highlight);
+  --bl-color-warning-hover: var(--bl-color-warning-highlight);
+  --bl-color-accent-primary-background: var(--bl-color-primary-contrast);
+  --bl-color-success-background: var(--bl-color-success-contrast);
+  --bl-color-danger-background: var(--bl-color-danger-contrast);
+  --bl-color-warning-background: var(--bl-color-warning-contrast);
+  --bl-color-primary-background: var(--bl-color-neutral-full);
+
+  /* Content Colors */
+  --bl-color-content-primary: var(--bl-color-neutral-darker);
+  --bl-color-content-secondary: var(--bl-color-neutral-dark);
+  --bl-color-content-tertiary: var(--bl-color-neutral-light);
+  --bl-color-content-passive: var(--bl-color-neutral-lighter);
+  --bl-color-content-primary-contrast: var(--bl-color-neutral-full);
+  --bl-color-content-hover: var(--bl-color-primary-highlight);
+  --bl-color-border: var(--bl-color-neutral-lighter);
+
+  /* Removed Colors */
+  --bl-color-secondary: #273142;
+  --bl-color-secondary-hover: #0f131a;
+  --bl-color-secondary-background: var(--bl-color-neutral-lightest);
+  --bl-color-tertiary: #f1f2f7;
+  --bl-color-tertiary-hover: #d5d9e1;
+  --bl-color-alternative: #5794ff;
+  --bl-color-alternative-hover: #457eff;
+  --bl-color-featured: #8c4eff;
+  --bl-color-featured-hover: #753eff;
+  --bl-color-tertiary-background: #f7f7fa;
+  --bl-color-alternative-background: #eef4ff;
+  --bl-color-featured-background: #f4edff;
 }

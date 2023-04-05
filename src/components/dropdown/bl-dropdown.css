@@ -3,42 +3,14 @@
   display: inline-block;
 }
 
-.popover {
-  --left: 0;
-  --top: 0;
-  --border-color: var(--bl-color-primary);
-
-  position: fixed;
-  z-index: var(--bl-index-popover);
-  display: none;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: var(--bl-size-m);
-  gap: var(--bl-size-xs);
-  overflow-y: auto;
-  background: var(--bl-color-neutral-full);
-  border: 1px solid var(--border-color);
-
-  /* FIXME: Use variables */
-  box-shadow: 0 10px 15px -8px #27314226;
-  border-radius: var(--bl-border-radius-s);
-  left: var(--left);
-  top: var(--top);
-  box-sizing: border-box;
+:host([kind='neutral']) bl-popover {
+  --bl-popover-border-color: var(--bl-color-neutral-darker);
 }
 
-:host([kind='neutral']) .popover {
-  --border-color: var(--bl-color-neutral-darker);
+:host([kind='success']) bl-popover {
+  --bl-popover-border-color: var(--bl-color-success);
 }
 
-:host([kind='success']) .popover {
-  --border-color: var(--bl-color-success);
-}
-
-:host([kind='danger']) .popover {
-  --border-color: var(--bl-color-danger);
-}
-
-.visible {
-  display: flex;
+:host([kind='danger']) bl-popover {
+  --bl-popover-border-color: var(--bl-color-danger);
 }

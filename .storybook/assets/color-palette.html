@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Baklava Theme Playground</title>
-    <link rel="stylesheet" href="/themes/default.css" />
-    <script type="module" src="/baklava.js"></script>
+    <link rel="stylesheet" href="./dist/themes/default.css" />
+    <script type="module" src="./dist/baklava.js"></script>
     <style>
       :root {
           --checker-color-1: #abcedf;
@@ -108,6 +108,76 @@
 
       bl-radio-group {
         --bl-radio-direction: row;
+      }
+
+
+      :root {
+  /* Color Light Values */
+  --bl-light-none: 0%;
+  --bl-light-darkest: 5%;
+  --bl-light-darker: 20%;
+  --bl-light-dark: 45%;
+  --bl-light-light: 55%;
+  --bl-light-lighter: 80%;
+  --bl-light-lightest: 95%;
+  --bl-light-full: 100%;
+
+  /* Primary */
+  --bl-color-primary-key-h: 24;
+  --bl-color-primary-key-s: 100%;
+
+  /* Success */
+  --bl-color-success-key-h: 120;
+  --bl-color-success-key-s: 34%;
+
+  /* Danger */
+  --bl-color-danger-key-h: 8;
+  --bl-color-danger-key-s: 90%;
+
+  /* Warning */
+  --bl-color-warning-key-h: 45;
+  --bl-color-warning-key-s: 95%;
+
+  /* Neutral */
+  --bl-color-neutral-key-h: 221;
+  --bl-color-neutral-key-s: 12%;
+
+  /* Color Variants */
+
+  /* Primary Color */
+  --bl-color-primary-key: var(--bl-color-primary-key-h) var(--bl-color-primary-key-s);
+  --bl-color-primary: hsl(var(--bl-color-primary-key) var(--bl-light-dark));
+  --bl-color-primary-highlight: hsl(var(--bl-color-primary-key) var(--bl-light-light));
+  --bl-color-primary-contrast: hsl(var(--bl-color-primary-key) var(--bl-light-lightest));
+
+  /* Success Color */
+  --bl-color-success-key: var(--bl-color-success-key-h) var(--bl-color-success-key-s);
+  --bl-color-success: hsl(var(--bl-color-success-key) var(--bl-light-dark));
+  --bl-color-success-highlight: hsl(var(--bl-color-success-key) var(--bl-light-light));
+  --bl-color-success-contrast: hsl(var(--bl-color-success-key) var(--bl-light-lightest));
+
+  /* Danger Color */
+  --bl-color-danger-key: var(--bl-color-danger-key-h) var(--bl-color-danger-key-s);
+  --bl-color-danger: hsl(var(--bl-color-danger-key) var(--bl-light-dark));
+  --bl-color-danger-highlight: hsl(var(--bl-color-danger-key) var(--bl-light-light));
+  --bl-color-danger-contrast: hsl(var(--bl-color-danger-key) var(--bl-light-lightest));
+
+  /* Warning Color */
+  --bl-color-warning-key: var(--bl-color-warning-key-h) var(--bl-color-warning-key-s);
+  --bl-color-warning: hsl(var(--bl-color-warning-key) var(--bl-light-dark));
+  --bl-color-warning-highlight: hsl(var(--bl-color-warning-key) var(--bl-light-light));
+  --bl-color-warning-contrast: hsl(var(--bl-color-warning-key) var(--bl-light-lightest));
+
+  /* Neutral Color */
+  --bl-color-neutral-key: var(--bl-color-neutral-key-h) var(--bl-color-neutral-key-s);
+  --bl-color-neutral-none: hsl(var(--bl-color-neutral-key) var(--bl-light-none));
+  --bl-color-neutral-darkest: hsl(var(--bl-color-neutral-key) var(--bl-light-darkest));
+  --bl-color-neutral-darker: hsl(var(--bl-color-neutral-key) var(--bl-light-darker));
+  --bl-color-neutral-dark: hsl(var(--bl-color-neutral-key) var(--bl-light-dark));
+  --bl-color-neutral-light: hsl(var(--bl-color-neutral-key) var(--bl-light-light));
+  --bl-color-neutral-lighter: hsl(var(--bl-color-neutral-key) var(--bl-light-lighter));
+  --bl-color-neutral-lightest: hsl(var(--bl-color-neutral-key) var(--bl-light-lightest));
+  --bl-color-neutral-full: hsl(var(--bl-color-neutral-key) var(--bl-light-full));
       }
     </style>
   </head>

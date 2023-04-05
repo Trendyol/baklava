@@ -24,6 +24,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
     return [style];
   }
 
+  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+
   static formControlValidators = innerInputValidators;
 
   @query('input')
@@ -200,8 +202,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   @state() private passwordVisible = false;
 
-  @state() private passwordInput = false;
-
   private textVisibilityToggle() {
     this.passwordVisible = !this.passwordVisible;
   }
@@ -231,7 +231,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   firstUpdated() {
-    this.passwordInput = this.type === 'password';
     this.setValue(this.value);
   }
 
@@ -259,8 +258,9 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
     const icon = this.icon ? html`<bl-icon class="custom-icon" name="${this.icon}"></bl-icon>` : '';
     const label = this.label ? html`<label for=${this.inputId}>${this.label}</label>` : '';
+    const passwordInput = this.type === 'password';
 
-    const revealButton = this.passwordInput
+    const revealButton = passwordInput
       ? html`<bl-button
           size="small"
           kind="neutral"
@@ -281,16 +281,17 @@ export default class BlInput extends FormControlMixin(LitElement) {
       'wrapper': true,
       'dirty': this.dirty,
       'invalid': !this.checkValidity(),
-      'has-icon': this.passwordInput || this.icon || (this.dirty && !this.checkValidity()),
+      'has-icon': passwordInput || this.icon || (this.dirty && !this.checkValidity()),
       'has-value': this.value !== null && this.value !== '',
     };
 
     const passwordType = this.passwordVisible ? 'text' : 'password';
-    const inputType = this.passwordInput ? passwordType : this.type;
+    const inputType = passwordInput ? passwordType : this.type;
 
     return html`<div class=${classMap(classes)}>
       ${label}
-      <div class="input-wrapper">
+      <fieldset class="input-wrapper">
+        <legend><span>${this.label}</span></legend>
         <input
           id=${this.inputId}
           type=${inputType}
@@ -317,7 +318,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           ${revealButton} ${icon}
           <bl-icon class="error-icon" name="alert"></bl-icon>
         </div>
-      </div>
+      </fieldset>
       <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div>`;
   }
