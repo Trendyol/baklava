@@ -98,7 +98,7 @@ label {
   left: var(--padding-horizontal);
   right: var(--padding-horizontal);
   pointer-events: none;
-  color: var(--bl-color-content-tertiary);
+  color: var(--bl-color-neutral-light);
 }
 
 .has-icon label {
@@ -247,7 +247,7 @@ bl-icon[name='eye_on'] {
   right: calc(var(--padding-horizontal) - var(--label-padding));
   transform: translateY(-50%);
   font: var(--bl-font-caption);
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-darker);
   padding: 0 var(--label-padding);
   pointer-events: initial;
   z-index: var(--bl-index-base);

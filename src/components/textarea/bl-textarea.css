@@ -123,7 +123,7 @@ label {
   left: var(--padding-horizontal);
   right: var(--padding-horizontal);
   pointer-events: none;
-  color: var(--bl-color-content-tertiary);
+  color: var(--bl-color-neutral-light);
 }
 
 .input-wrapper legend {
