@@ -40,6 +40,7 @@ const extraPaddingForChromatic = makeDecorator({
     const decoratedStory = html`
       ${isChromatic() ?  html`<style>
         .chromatic-wrapper {
+          display: inline-block;
           padding: 25px;
         }
       </style>` : html``}
