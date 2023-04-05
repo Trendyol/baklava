@@ -35,7 +35,7 @@
   right: 0;
   top: var(--bl-size-m);
   height: calc(100% - var(--bl-size-2xl));
-  border-right: 1px solid var(--bl-color-neutral-lightest);
+  border-right: 1px solid var(--bl-color-neutral-lighter);
 }
 
 :host(:last-of-type) .container::after {

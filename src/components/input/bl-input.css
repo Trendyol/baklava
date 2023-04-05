@@ -247,7 +247,7 @@ bl-icon[name='eye_on'] {
   right: calc(var(--padding-horizontal) - var(--label-padding));
   transform: translateY(-50%);
   font: var(--bl-font-caption);
-  color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-neutral-dark);
   padding: 0 var(--label-padding);
   pointer-events: initial;
   z-index: var(--bl-index-base);
