@@ -25,8 +25,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
   static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
 
-  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
-
   static formControlValidators = innerInputValidators;
 
   @query('input')

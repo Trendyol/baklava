@@ -22,8 +22,6 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   }
   static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
 
-  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
-
   static formControlValidators = textAreaValidators;
 
   @query('textarea')

@@ -44,8 +44,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
   static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
 
-  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
-
   static formControlValidators = [requiredValidator];
 
   /**
