@@ -1,0 +1,259 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
+
+<Meta
+  title="Components/Dialog"
+  component="bl-dialog"
+  parameters={{
+    layout: 'fullscreen',
+    chromatic: { viewports: [1000] },
+  }}
+  argTypes={{
+    open: {
+      control: "boolean",
+      default: false
+    },
+    caption: {
+      control: "text"
+    },
+  }}
+/>
+
+export const dialogOpener = async (event, dialogId) => {
+  const dialog = document.getElementById(dialogId);
+  dialog.open = true;
+}
+
+export const BasicTemplate = (args) => html`
+<bl-button @bl-click="${(event) => dialogOpener(event, args.id)}" variant="secondary">Open Dialog</bl-button>
+<bl-dialog
+  id=${args.id}
+  class="${ifDefined(args.className)}"
+  caption="${ifDefined(args.caption)}"
+  open="${ifDefined(args.open)}"
+  style="font: var(--bl-font-body-text-2)">
+  ${ unsafeHTML(args.content) }
+  ${ args.primaryAction ? html`<bl-button slot="primary-action" variant="primary" ?autofocus=${args.focusPrimary} size="large">${args.primaryAction}</bl-button>` : ''}
+  ${ args.secondaryAction ? html`<bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large">${args.secondaryAction}</bl-button>` : ''}
+  ${ args.tertiaryAction ? html`<bl-button slot="tertiary-action" variant="tertiary" ?autofocus=${args.focusTertiary} size="large">${args.tertiaryAction}</bl-button>` : ''}
+</bl-dialog>
+`
+
+export const FullWidthActionsTemplate = (args) => html`
+<style>
+  bl-dialog.full-width-actions bl-button {
+    --bl-button-display: block;
+    flex: 1;
+  }
+</style>
+${BasicTemplate({...args, className: "full-width-actions"})}
+`
+
+export const TemplateWithStickyFooter = (args) => html`
+${BasicTemplate({...args, content: `<bl-alert icon>Please read all terms and conditions.</bl-alert>
+  <h4>Lorem ipsum dolor sit amet</h4>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
+   Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <ul>
+    <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+  </ul>
+  <p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced  <br/> below for those interested.
+  Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et  <br/> Malorum" by Cicero are also reproduced in their exact original form, <br/>
+  accompanied by English versions from the 1914 translation by H. Rackham.</p>
+  <h4>Quis autem vel eum iure reprehenderit qui</h4>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. <br/>
+  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, <br/> when an unknown printer took a galley of type and scrambled <br/>
+  it to make a type specimen book.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <ul>
+    <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+  </ul>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.<br/>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.<br/>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.<br/>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.<br/>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>` })}
+`
+
+export const SizingTemplate = (args) => html`
+${BasicTemplate({...args, content: `<p style="width:400px; height:200px; margin:0; padding:0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+  when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+  remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
+  software like Aldus PageMaker including versions of Lorem Ipsum. Let us help determine location. This means sending anonymous location data to us.
+  Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock,
+  a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites
+  of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"
+  (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum,
+  "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+  </p>` })}
+`
+
+# Dialog
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/137)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=1992%3A8280)</bl-badge>
+
+Dialogs inform users about a task ansd can contain critical information, require decisions, or involve multiple tasks.
+
+<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+
+### Design Rules
+
+* By default a dialog contains a close button.
+* A dialog should contain at least one content (text, image etc.).
+* Dialogs are always centered on the page, with an overlay behind them that hides the page content.
+* Only large buttons can be used in the action bar and there can be maximum 3 buttons (**primary**, **secondary** and **tertiary**).
+To maintain usability level of dialog component:
+* When the dialog sticks to the page edges and does not fit in its minimum size, it switches to mobile view and the buttons are lined up one after.
+* Dialog can be dismissed by clicking backdrop or pressing Esc.
+
+
+## Basic Usage
+
+<Canvas>
+  <Story name="Basic Usage" play={(event) => dialogOpener(event, "dl-basic")}
+   args={{
+    id: 'dl-basic',
+    caption: "Use location service?",
+    content: 'Let us help determine location. This means sending anonymous location data to us.',
+    primaryAction: 'Agree',
+    secondaryAction: 'Disagree',
+    tertiaryAction: 'Cancel'
+  }}>
+    {BasicTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Dialog With Sticky Footer
+
+For long content that does not fit on the page, the dialog action area remains sticky at the bottom of the dialog so that it appears on the page.
+
+<Canvas>
+  <Story name="Dialog With Sticky Footer" play={(event) => dialogOpener(event,"dl-sticky-footer")}
+   args={{
+    id: 'dl-sticky-footer',
+    caption: "Terms And Conditions",
+    primaryAction: 'Agree',
+    secondaryAction: 'Disagree',
+  }}>
+    {TemplateWithStickyFooter.bind({})}
+  </Story>
+</Canvas>
+
+## Dialog Sizing
+
+The dialog doesn't have any size, it will be fluidly sized regarding its content. You can give your own width and height style to your content.
+
+<Canvas>
+  <Story name="Dialog Sizing" play={(event) => dialogOpener(event,"dl-sizing")} args={{
+    id: 'dl-sizing',
+    primaryAction: 'Agree',
+    secondaryAction: 'Disagree',
+    tertiaryAction: 'Cancel'
+  }}>
+    {SizingTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Autofocusing elements in Dialog
+
+By default, when you open a dialog, "close" button get focus automatically. But you can also auto focus on a dialog action this by using
+`autofocus` attribute of the `bl-button`.
+
+<Canvas>
+  <Story name="Dialog with focused action" play={(event) => dialogOpener(event, "dl-focused-action")}
+   args={{
+    id: 'dl-focused-action',
+    caption: "Use location service?",
+    content: 'Let us help determine location. This means sending anonymous location data to us.',
+    primaryAction: 'Agree',
+    secondaryAction: 'Disagree',
+    focusSecondary: true,
+    tertiaryAction: 'Cancel'
+  }}>
+    {BasicTemplate.bind({})}
+  </Story>
+</Canvas>
+
+You may also consider to autofocus user to an input inside the dialog.
+
+<Canvas>
+  <Story name="Dialog with focused input" play={(event) => dialogOpener(event, "dl-focused-input")}
+   args={{
+    id: 'dl-focused-input',
+    caption: 'Name your file',
+    content: '<p>Please provide a name for your file</p><bl-input placeholder="filename.pdf" autofocus></bl-input>',
+    primaryAction: 'OK',
+    tertiaryAction: 'Cancel'
+  }}>
+    {BasicTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Full-width dialog actions
+
+It's possible to use full-width dialog buttons with small lines of CSS definitions.
+
+```css
+bl-dialog.full-width-actions bl-button {
+  --bl-button-display: block;
+  flex: 1;
+}
+```
+
+In this case action button(s) will fill the row by sharing space equally if there are more than one actions.
+
+<Canvas>
+  <Story name="Dialog with full-width action" play={(event) => dialogOpener(event, "dl-full-width-action")}
+   args={{
+    id: 'dl-full-width-action',
+    caption: 'Action completed',
+    content: '<p>Your process is done!</p>',
+    primaryAction: 'OK'
+  }}>
+    {FullWidthActionsTemplate.bind({})}
+  </Story>
+  <Story name="Dialog with full-width actions" play={(event) => dialogOpener(event, "dl-full-width-actions")}
+   args={{
+    id: 'dl-full-width-actions',
+    caption: 'Are you sure to delete?',
+    content: '<p>Do you want to really delete the file?</p>',
+    primaryAction: 'Delete',
+    secondaryAction: 'Cancel'
+  }}>
+    {FullWidthActionsTemplate.bind({})}
+  </Story>
+</Canvas>
+
+
+## Reference
+
+<ArgsTable of="bl-dialog" />

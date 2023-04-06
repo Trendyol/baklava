@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baklava Playground</title>
+    <link rel="stylesheet" href="./dist/themes/default.css" />
+    <script type="module" src="./dist/baklava.js"></script>
+    <script>
+      // Live reload
+      new EventSource('/esbuild').addEventListener('change', () => location.reload());
+    </script>
+    <style>
+      *:not(:defined) {
+        display: none;
+      }
+
+      body {
+        font-family: var(--bl-font-family);
+      }
+
+      h1 {
+        font: var(--bl-font-display-1);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Baklava Playground</h1>
+
+    <p>
+      Copy this file as playground/index.html and try your work here by running
+      <code>npm run serve</code>.
+    </p>
+
+    <bl-button>Baklava is ready</bl-button>
+  </body>
+</html>

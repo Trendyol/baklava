@@ -1,0 +1,17 @@
+{
+  "branches": [
+    "main",
+    { "name": "1.0.x", "range": "1.0.x", "channel": "1.0.x" },
+    {
+      "name": "next",
+      "prerelease": "beta",
+      "channel": "beta"
+    }
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/npm",
+    "@semantic-release/github"
+  ]
+}

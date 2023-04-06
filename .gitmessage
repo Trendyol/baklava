@@ -1,0 +1,52 @@
+
+<type>(<scope>): <summary>
+
+<Describe the motivation behind this change - explain WHY you are making this change. Wrap all lines
+at 100 characters.>
+
+Fixes #<issue number>
+
+# ────────────────────────────────────────── 100 chars ────────────────────────────────────────────┤
+
+# Example Commit Messages
+# =======================
+
+
+# ─── Example: Simple refactor ────────────────────────────────────────────────────────────────────┤
+# refactor(design): rename --bl-title-1 to --bl-title-sm
+#
+# Improve consistency of CSS variable names
+# ─────────────────────────────────────────────────────────────────────────────────────────────────┤
+
+
+# ─── Example: Simple docs change ─────────────────────────────────────────────────────────────────┤
+# docs: more examples added about commit rules
+#
+# Fixes #36332
+# ─────────────────────────────────────────────────────────────────────────────────────────────────┤
+
+
+# ─── Example: A bug fix ──────────────────────────────────────────────────────────────────────────┤
+# fix(button): fix hover state for zoomed browsers
+#
+# When user opens our button component in a zoomed-in browser, hover state flickers because of
+# background gradient scales.
+#
+# Now we use percentage units to avoid this.
+# ─────────────────────────────────────────────────────────────────────────────────────────────────┤
+
+
+# ─── Example: Breaking change ────────────────────────────────────────────────────────────────────┤
+# feat(design): design tokens simplified with new default theme
+#
+# Design team improved default theme design by providing new type of tokens. This commit implements
+# those changes.
+#
+# More information about changes can be found: https://github.com/Trendyol/baklava/discussions/1234
+#
+# BREAKING CHANGE: default theme has UI changes
+#
+# This commit changes spacings and colors in default theme as well as providing new type of tokens
+#
+# Fixes #1234
+# ─────────────────────────────────────────────────────────────────────────────────────────────────┤

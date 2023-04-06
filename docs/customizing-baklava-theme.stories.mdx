@@ -1,0 +1,176 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta
+  title="Documentation/Customizing Baklava Theme"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: {
+        hidden: true,
+      },
+    },
+  }}
+/>
+
+# Customizing Baklava Theme
+
+Baklava Design System provides a set of well defined components with some UX decisions. Baklava is not a generic UI library, so it doesn't intend
+to provide a list of component that you can customize every part of it. Instead Baklava aims to provide a good and consistent UX for the applications
+uses it.
+
+But there are still many customization options in Baklava, those doesn't effect UX result of the components a lot. These are design tokens and a set of
+design token definitions are named as a "theme". Baklava comes with a default theme that you can import from `themes/default.css` file and will provide
+more soon (like a dark theme). But you can also create your own theme or extend/override some part of the default theme in your applications.
+
+## Creating your own theme
+
+You can simply copy our `themes/default.css` file to your codebase, change any of the CSS variables inside the file and put that CSS file on your document
+instead of `themes/default.css` file. Like:
+
+```html
+<link rel="stylesheet" href="/syles/my-baklava-theme.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.0.0/dist/baklava.js"></script>
+```
+
+With this opportunity you can use all of the Baklava components with your own branding colors, own selection of Font or different sizing values.
+
+## Extending default theme
+
+If you want to change a small set of the design tokens, you may consider to extend default theme.
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.0.0/dist/themes/default.css" />
+<link rel="stylesheet" href="/syles/my-baklava-theme.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.0.0/dist/baklava.js"></script>
+```
+
+With this, you can -for example- only override color pallette for your app and continue to use typography or spacing rules from the default theme.
+
+## Using themes in a smaller scope
+
+Our theme files are setting CSS variables on `:root` level. That means they are being set on document level. But since we are only talking about
+classic CSS styling here, in some cases, it's perfectly fine to set a design token for a part of your document.
+
+```html
+<div class="hero">
+   <bl-button>Get Started</bl-button>
+</div>
+
+<style>
+.hero {
+  --bl-primary-color: purple;
+}
+</style>
+```
+
+In this example we are an exceptional part in our document that we want to make a primary button that is different then our theme colors. So we
+set `--bl-primary-color` variable on `.hero` element and make primary button inside this element in a different color.
+
+But you need to be careful about setting a design token in a scope, because in the example below, if I put a `bl-badge` component inside `.hero`
+element, that will also use same color we set instead of our theme color. But of course you can easily address that kind of issues, like:
+
+```css
+.hero bl-button {
+  --bl-primary-color: purple;
+}
+```
+
+This opportunity gives a big power for handling esceptional use cases like:
+
+* Using dark theme in a part of your document (like header or footer)
+* Having more color or spacing options inside your app.
+
+## Changing default styles of components
+
+In addition to setting design tokens, some of our components has their own CSS custom properties to make customisation on their style. And if you want
+you can use those custom properties in your theme definition to make all of those components in a desired style troughout your app.
+
+For example, our badge component has `--bl-badge-color` property and by default it uses `--bl-color-primary`. If you want you can use a different default
+color for all of the badges on your app by just adding:
+
+```css
+:root {
+  --bl-badge-color: purple;
+}
+```
+
+Using design tokens here is of course also possible:
+
+```css
+:root {
+  --bl-badge-color: var(--bl-color-success);
+}
+```
+
+## Customizing Typography Styles
+
+Baklava Design System provides many design tokens for typography. You can customize font styles in different levels according to your needs. For example:
+
+```css
+.my-header {
+  font: var(--bl-font-display-light);
+}
+```
+
+In the example above we are using "Display Light" font for an element. In your own theme, you can override this font definition like below:
+
+```css
+:root {
+  --bl-font-display-light: 400 40px/48px Helvetica;
+}
+```
+
+On the other hand, this variable uses multiple other variables behind the scene. Let's check how it's defined in our default theme:
+
+```css
+:root {
+  ...
+  --bl-font-display-font-size: var(--bl-font-size-5xl);
+  --bl-font-display-line-height: calc(var(--bl-font-display-font-size) + var(--bl-size-2xs));
+  --bl-font-display-size: var(--bl-font-display-font-size)/var(--bl-font-display-line-height);
+  --bl-font-display: var(--bl-font-display-size) var(--bl-font-family);
+  --bl-font-display-light: var(--bl-font-weight-light) var(--bl-font-display);
+  ...
+}
+```
+
+As you can see `--bl-font-display-light` is extending `--bl-font-display` by just setting font-weight with another variable we provide in design tokens
+named `--bl-font-weight-light`. It's also possible to override `--bl-font-display` to change font and size definitions of all of the "display" fonts
+without touching their font-weights:
+
+```css
+:root {
+  --bl-font-display: 40px/48px Helvetica;
+}
+```
+
+Same applies for other variables. Let's check how can we set custom line-heights.
+
+In Baklava typography line-height values are "font size + a value from the sizing list". For display font, `--bl-font-display-font-size` is set
+by `--bl-font-size-5xl` and this value is summed with `--bl-size-2xs` while setting `--bl-font-display-line-height`. You are able customize this
+logic in any level you want.
+
+```css
+:root {
+  --bl-font-display-line-height: 68px;
+}
+```
+
+Or an element level like:
+
+```css
+.my-header {
+  font: var(--bl-font-display-light);
+  --bl-font-display-line-height: 68px;
+}
+```
+
+Or you can set just font size:
+```css
+.my-header {
+  font: var(--bl-font-display-light);
+  --bl-font-display-font-size: 60px;
+}
+```
+
+In this case line-height of my-header will be set as 60px + value of `--bl-size-2xs`. Line-height is still calculated automatically.

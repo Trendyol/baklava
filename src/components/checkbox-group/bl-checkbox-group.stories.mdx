@@ -1,0 +1,86 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
+
+<Meta
+  title="Components/Checkbox/Checkbox Group"
+  component="bl-checkbox-group"
+  argTypes={{
+    label: {
+      control: 'text',
+      type: 'string'
+    },
+    name: {
+      control: 'text',
+      type: 'string'
+    },
+    value: {
+      control: 'text',
+      type: 'array',
+    },
+    required: {
+      control: 'boolean',
+    },
+  }}
+/>
+
+export const CheckboxGroupTemplate = (args) => html`
+<bl-checkbox-group
+    class='${ifDefined(args.class)}'
+    label='${ifDefined(args.label)}'
+    name='${ifDefined(args.name)}'
+    value='${ifDefined(args.value)}'
+    ?required=${args.required}
+    >${args.options.map((option) =>
+      html`\n  <bl-checkbox value=${option.value}>${option.label}</bl-checkbox>`
+    )}
+</bl-checkbox-group>`
+
+export const StyledTemplate = (args) => html`
+<style>
+  .${args.class} {
+    --bl-checkbox-direction: row;
+  }
+</style>
+${CheckboxGroupTemplate(args)}
+`
+
+export const focusSecondOption = async ({ }) => {
+  await userEvent.tab();
+  await userEvent.keyboard('{ArrowRight}');
+}
+
+# Checkbox Group Component
+
+Checkbox Group is a component to take multiple selections from user with a list of options. It needs to be used with `bl-checkbox` component.
+If you set a list of `values`, options with those values will be selected.
+
+<Canvas>
+  <Story name="Basic Usage" args={{ label: 'Favorite animals', name: 'favoriteAnimals', value:'["dog","bird"]', options: [{ value: 'cat', label: 'Cat'}, {value: 'dog', label: 'Dog'},{value: 'bird', label: 'Bird'}] }}>
+    {CheckboxGroupTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Checkbox Group component handles keyboard navigation and highlights active checkbox option while navigating with keyboard. First `Tab` focuses on first available option and user can navigate with arrow keys or `Tab`, `Shift+Tab` within options, and `Space` key for selecting it.
+
+<Canvas>
+  <Story name="Focused option" parameters={{
+    extraPaddingForChromatic: true,
+  }} args={{ label: 'Favorite animals', name: 'favoriteAnimals',  options: [{ value: 'cat', label: 'Cat'}, {value: 'dog', label: 'Dog'}] }} play={focusSecondOption}>
+    {CheckboxGroupTemplate.bind({})}
+  </Story>
+</Canvas>
+
+By default checkbox options are listed in vertical stack. You can change this by setting `--bl-checkbox-direction` CSS variable as `row`.
+
+<Canvas>
+  <Story name="Horizontal Stack" args={{ label: 'Favorite animals', name: 'favoriteAnimals',  options: [{ value: 'cat', label: 'Cat'}, {value: 'dog', label: 'Dog'}],class: 'favorite-animals' }}>
+    {StyledTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-checkbox-group" />

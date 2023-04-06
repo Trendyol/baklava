@@ -1,0 +1,98 @@
+import { html } from 'lit';
+import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Switch"
+  component="bl-switch"
+  argTypes={{
+    disabled: {
+      control: 'boolean',
+      default: false
+    },
+    checked: {
+      control: 'boolean',
+      default: false
+    },
+  }}
+/>
+
+export const SwitchTemplate = (args) => html`
+<bl-switch
+  ?disabled=${args.disabled}
+  ?checked=${args.checked}>
+</bl-switch>
+`;
+
+export const SwitchWithLabel = (args) => html`
+<div style="display: flex;align-items: center;gap: var(--bl-size-2xs)">
+  <label style="font: var(--bl-font-title-3);color: var(--bl-color-neutral-dark)">${args.label}</label>
+  <bl-switch
+    ?disabled=${args.disabled}
+    ?checked=${args.checked}
+    aria-label="${args.label}"
+  ></bl-switch>
+</div>
+`
+
+# Switch
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/266)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=118%3A4070)</bl-badge>
+
+Switch component can be used to toggle On or Off states of any single item.
+
+### Usage
+
+Switch can be used as an action button to quickly toggle the state.
+
+* Clicking on switch triggers the action immediately, it shouldn't require users to click an extra button to apply or save the settings.
+* You can use your own label outside of this component, but please set `aria-label` attribute whenever you do so.
+* Switch doesn't have an indeterminate state.
+* Switch should not be used as an input field. For boolean inputs, use [checkbox](/?path=/docs/components-checkbox--basic-usage) instead.
+
+## Basic
+
+Switch is _Off_ by default.
+
+<Canvas>
+  <Story name="Basic Usage">
+    {SwitchTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Switch with label.
+
+<bl-alert variant="warning" icon>Inline styles in this example are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+
+<Canvas>
+  <Story name="Switch with label" args={{ label: "Label for Switch" }}>
+    {SwitchWithLabel.bind({})}
+  </Story>
+</Canvas>
+
+## Checked
+
+_On_ state can be set via `checked` attribute.
+
+<Canvas>
+  <Story name="Checked" args={{ checked: true }}>
+    {SwitchTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled
+
+Disabled state can be set via `disabled` attribute. A switch can be `disabled` and `checked` at the same time.
+
+<Canvas>
+  <Story name="Disabled" args={{ disabled: true }}>
+    {SwitchTemplate.bind({})}
+  </Story>
+  <Story name="Disabled and Checked" args={{ disabled: true, checked: true }}>
+    {SwitchTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-switch" />

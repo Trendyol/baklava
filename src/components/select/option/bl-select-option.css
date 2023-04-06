@@ -1,0 +1,73 @@
+:host {
+  position: relative;
+}
+
+.option-container {
+  --option-font: var(--bl-font-title-3-regular);
+  --option-spacing: var(--bl-size-xs) 0;
+  --option-selected-color: var(--bl-color-primary);
+  --option-hover-color: var(--bl-color-primary-highlight);
+  --option-color: var(--bl-color-neutral-darker);
+  --option-disabled-color: var(--bl-color-neutral-light);
+  --option-seperator: 1px solid var(--bl-color-neutral-lighter);
+  --option-gap: var(--bl-size-2xs);
+  --option-transition: color 120ms ease-out;
+}
+
+.option-container::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  bottom: 0;
+  border-bottom: var(--option-separator);
+}
+
+:host(:last-of-type) .option-container::after {
+  border-bottom: none;
+}
+
+.single-option {
+  width: 100%;
+  display: block;
+  cursor: pointer;
+  color: var(--option-color);
+  margin: var(--option-spacing);
+  transition: var(--option-transition);
+  font: var(--option-font);
+  user-select: none;
+  position: relative;
+  outline: none;
+}
+
+.single-option:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: calc(var(--bl-size-3xs) * -1);
+  border: var(--bl-size-4xs) solid var(--option-hover-color);
+  border-radius: var(--bl-size-4xs);
+}
+
+:host(:hover) .single-option {
+  color: var(--option-hover-color);
+}
+
+:host([selected]) .single-option {
+  color: var(--option-selected-color);
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+}
+
+:host([disabled]) .single-option {
+  color: var(--option-disabled-color);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.checkbox-option {
+  width: 100%;
+  display: block;
+  color: var(--option-color);
+  padding: var(--option-spacing);
+}

@@ -1,0 +1,26 @@
+import { Meta, Description } from '@storybook/addon-docs';
+import playgroundLandingPage from './images/playground-landing-page.png'
+
+<Meta
+  title="Documentation/Contributing Baklava/How To Use Playground"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: {
+        hidden: true,
+      },
+    },
+  }}
+/>
+
+# How to use playground?
+
+Playground is a demonstration area for developers. It stays under the `playground` folder in the root. It helps you to test your features & components by eliminating the need for stories.
+We suggest you that start by copying `template.html` file as your `foo.html` and work on it. Every change in your `html` file will be served immediately.
+
+<bl-alert variant="warning" icon>Playground folder is ignored from Git index except template.html file. It's not intended to make changes on template.html file unless you want to suggest something on template that you consider it will be helpful for everyone.</bl-alert>
+
+You can run it with `npm run serve`, then it builds project and run the build in `watch mode` at port `8000`.
+
+<img src={playgroundLandingPage}></img>
+

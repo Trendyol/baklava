@@ -1,0 +1,135 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { styleMap } from 'lit/directives/style-map.js';
+import { map } from 'lit/directives/map.js';
+import icons from './icon-list';
+
+<Meta
+  title="Components/Icon"
+  component="bl-icon"
+  argTypes={{
+    name: {
+      control: {
+        type: 'select',
+        options: icons,
+        description: 'Name of the icon'
+      }
+    },
+    size: {
+      control: {
+        type: 'number',
+        description: 'Size of the icon (in pixels)',
+        min: 8,
+        max: 64
+      }
+    },
+    color: {
+      control: {
+        type: 'color',
+        description: 'Color of the icon',
+        presetColors: [{
+          color: 'var(--bl-color-primary)',
+          title: 'Primary'
+        },{
+          color: 'var(--bl-color-success)',
+          title: 'Success'
+        },{
+          color: 'var(--bl-color-danger)',
+          title: 'Danger'
+        }]
+      }
+    },
+  }}
+/>
+
+export const Template = (args) => html`<bl-icon
+  name="${args.name}"
+  style=${styleMap({'font-size': parseInt(args.size) > 0 ? `${args.size}px` : args.size, 'color': args.color})}></bl-icon>`;
+
+export const SizeVariations = (args) => html`
+<bl-icon name="${args.name}" style="font-size: var(--bl-font-size-m)"></bl-icon>
+<bl-icon name="${args.name}" style="font-size: var(--bl-font-size-l)"></bl-icon>
+<bl-icon name="${args.name}" style="font-size: var(--bl-font-size-xl)"></bl-icon>
+<bl-icon name="${args.name}" style="font-size: var(--bl-font-size-2xl)"></bl-icon>
+<bl-icon name="${args.name}" style="font-size: var(--bl-font-size-3xl)"></bl-icon>
+`
+
+export const ColorVariations = (args) => html`
+<bl-icon name="${args.name}" style="color: var(--bl-color-neutral-darker)"></bl-icon>
+<bl-icon name="${args.name}" style="color: var(--bl-color-neutral-dark)"></bl-icon>
+<bl-icon name="${args.name}" style="color: var(--bl-color-neutral-light)"></bl-icon>
+<bl-icon name="${args.name}" style="color: var(--bl-color-neutral-lighter)"></bl-icon>
+`
+
+export const AllIcons = (args) => html`<div
+  style="${styleMap({'font-size': `${args.size}px`, 'color': args.color})}">\n${
+    icons.map(iconName => html`  <bl-icon name=${iconName} title="${iconName}"></bl-icon> \n`)
+  }</div>`;
+
+# Icon
+
+<bl-badge icon="document">ADR</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=0%3A1)</bl-badge>
+
+Icon component is an **internal** component for using inside other Baklava components to show some decorative icons.
+
+<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+
+## Showing Icons
+
+You can show icons by just using `name` attribute.
+
+<Canvas>
+  <Story name="Single Icon" args={{ name: 'info' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+You can see a list of icons that Baklava provides now in our [Iconography](/docs/design-system-iconography--page) page.
+
+## Sizing Icons
+
+Icon size can be set via CSS with `font-size` property. By default icons are in the size of current font-size of the tag placement.
+
+<Canvas>
+  <Story name="Icon sizes" parameters={{
+      controls: {
+        include: ['name']
+      }
+    }} args={{ name: 'info' }}>
+    {SizeVariations.bind({})}
+  </Story>
+</Canvas>
+
+## Coloring Icons
+
+Icon color can be set via CSS with `color` property. By default icons are in the color of current tag placement.
+
+<Canvas>
+  <Story name="Icon colors" parameters={{
+      controls: {
+        include: ['name']
+      }
+    }} args={{ name: 'info' }}>
+    {ColorVariations.bind({})}
+  </Story>
+</Canvas>
+
+## List of all icons
+
+Here we provide a list of all provided icons. You can see them in custom size and colors in Canvas tab.
+
+<Canvas>
+  <Story name="Icon list" parameters={{
+      controls: {
+        exclude: ['name']
+      }
+    }} args={{ size: 32 }}>
+    {AllIcons.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-icon" />

@@ -1,0 +1,157 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
+
+<Meta
+  title="Components/Tooltip"
+  component="bl-tooltip"
+  parameters={{
+    layout: 'centered',
+    chromatic: { viewports: [1000] },
+  }}
+  argTypes={{
+    placement: {
+      control: 'text'
+    }
+  }}
+/>
+
+export const tooltipOpener = async ({ canvasElement }) => {
+  const button = canvasElement.querySelector('bl-button')
+  await userEvent.click(button);
+}
+
+export const IconTriggerTemplate = (args) => html`
+<bl-tooltip placement="${ifDefined(args.placement)}">
+  <bl-button slot="tooltip-trigger" icon="settings" variant="tertiary" kind="neutral" label="Settings" variant="secondary"></bl-button>
+  Settings
+</bl-tooltip>`
+
+export const ButtonTriggerTemplate = (args) => html`
+<bl-tooltip placement="${ifDefined(args.placement)}">
+  <bl-button slot="tooltip-trigger" icon="plus_fill"></bl-button>
+  You can add text, photos and graphics. If you put a very long text, it will be wrapped after max-length of the tooltip.
+</bl-tooltip>`
+
+
+export const PlacementTemplate = (args) => html`
+<bl-tooltip placement="${ifDefined(args.placement)}">
+  <bl-button slot="tooltip-trigger">${args.placement}</bl-button>
+  You can use this section to cancel your order.
+</bl-tooltip>`
+
+# Tooltip
+
+<bl-badge icon="document">ADR</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=25%3A3611)</bl-badge>
+
+Tooltips display informative text when users hover over an element.
+
+<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+
+## Basic Usage
+
+Tooltip can be used with any trigger such as button, icon, text, etc.
+Only you have to give slot name as `tooltip-trigger`. The remaining content will be shown in the tooltip hovering over the trigger component.
+
+<Canvas>
+  <Story name="Usage With Icon Button" play={tooltipOpener}>
+    {IconTriggerTemplate.bind({})}
+  </Story>
+  <Story name="Usage With Button" play={tooltipOpener}>
+    {ButtonTriggerTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Placement
+
+You can give `placement` for tooltip direction.The position of the tooltip and arrow change according to this property.  Default placement is `top`.
+
+You can use the other options:
+
+* `top-start`
+* `top`
+* `top-end`
+* `bottom-start`
+* `bottom`
+* `bottom-end`
+* `left-start`
+* `left`
+* `left-end`
+* `right-start`
+* `right`
+* `right-end`
+
+If there is not enough room for the tooltip in the given placement, the tooltip is repositioned automatically according to the empty area.
+
+For example, if there is not enough room on the top, the tooltip is shown on the bottom.
+
+<Canvas>
+  <Story name="Top-Start Placement"
+    args={{ placement: 'top-start' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Top Placement"
+    args={{ placement: 'top' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Top-End Placement"
+    args={{ placement: 'top-end' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Bottom-Start Placement"
+    args={{ placement: 'bottom-start' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Bottom Placement"
+    args={{ placement: 'bottom' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Bottom-End Placement"
+    args={{ placement: 'bottom-end' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Left-Start Placement"
+    args={{ placement: 'left-start' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Left Placement"
+    args={{ placement: 'left' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Left-End Placement"
+    args={{ placement: 'left-end' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Right-Start Placement"
+    args={{ placement: 'right-start' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Right Placement"
+    args={{ placement: 'right' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+  <Story name="Right-End Placement"
+    args={{ placement: 'right-end' }}
+    play={tooltipOpener}>
+    {PlacementTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-tooltip" />

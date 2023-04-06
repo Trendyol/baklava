@@ -1,0 +1,12 @@
+{
+	"recommendations": [
+		"EditorConfig.EditorConfig",
+		"dbaeumer.vscode-eslint",
+		"runem.lit-plugin",
+		"streetsidesoftware.code-spell-checker",
+		"esbenp.prettier-vscode",
+		"stylelint.vscode-stylelint",
+		"vunguyentuan.vscode-css-variables"
+	],
+	"unwantedRecommendations": []
+}

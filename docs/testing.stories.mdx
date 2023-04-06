@@ -1,0 +1,22 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta
+  title="Documentation/Contributing Baklava/Testing"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: {
+        hidden: true,
+      },
+    },
+  }}
+/>
+
+# Baklava Testing
+> This guide will help contributors about how to test Baklava.
+
+### Brief
+- Our coverage percentage for tests is `100%`.
+- To run tests, you can simply type `npm run test` and run.
+- We are using [@open-wc/testing](https://www.npmjs.com/package/@open-wc/testing) to write tests. You can check [here](https://open-wc.org/docs/testing/helpers/) to have more information about how to write tests.
+- We are using [playwright](https://playwright.dev/) to run our tests for `Chromium`, `Firefox` and `Webkit` with [@web/test-runner](https://modern-web.dev/docs/test-runner/overview/).

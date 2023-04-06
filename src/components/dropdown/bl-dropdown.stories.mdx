@@ -1,0 +1,150 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
+
+<Meta
+  title="Components/Dropdown Button/Dropdown"
+  component="bl-dropdown"
+  argTypes={{
+    label: {
+      control: {
+        type: 'text'
+      }
+    },
+    variant: {
+      options: ['primary', 'secondary', 'tertiary'],
+      default: 'primary',
+      control: { type: 'select' }
+    },
+    kind: {
+      options: ['default', 'neutral', 'success', 'danger'],
+      default: 'default',
+      control: { type: 'select' }
+    },
+    disabled: {
+      control: 'boolean'
+    },
+    size: {
+      options: ['large', 'medium', 'small'],
+      control: { type: 'select' }
+    }
+  }}
+/>
+
+export const dropdownOpener = async ({ canvasElement }) => {
+  const dropdown = canvasElement?.querySelector('bl-dropdown')
+  if(dropdown.shadowRoot) {
+    const button = dropdown.shadowRoot.querySelector('bl-button')
+    await userEvent.click(button);
+  }
+}
+
+export const SingleDropdownButtonTemplate = (args) => html`<bl-dropdown
+    variant=${ifDefined(args.variant)}
+    kind=${ifDefined(args.kind)}
+    size=${ifDefined(args.size)}
+    label="${ifDefined(args.label)}"
+    ?disabled=${args.disabled}
+    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+      ><bl-dropdown-group caption="Caption">
+        <bl-dropdown-item>${args.content || 'Action 1'}</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+      </bl-dropdown-group>
+      <bl-dropdown-item>Action 3</bl-dropdown-item>
+      <bl-dropdown-item icon="info">Action 4</bl-dropdown-item>
+      <bl-dropdown-item>Action 5</bl-dropdown-item>
+      <bl-dropdown-group caption="Caption">
+        <bl-dropdown-item icon="heart">Action 6</bl-dropdown-item>
+        <bl-dropdown-item>Action 7</bl-dropdown-item>
+      </bl-dropdown-group>
+      </bl-dropdown>`
+
+export const Template = (args) => html`
+${SingleDropdownButtonTemplate({...args})}
+${SingleDropdownButtonTemplate({variant: 'secondary', ...args})}
+${SingleDropdownButtonTemplate({variant: 'tertiary', ...args})}`
+
+export const ButtonTypes = (args) => html`
+${SingleDropdownButtonTemplate({...args})}
+${SingleDropdownButtonTemplate({kind: 'neutral', ...args})}
+${SingleDropdownButtonTemplate({kind: 'success', ...args})}
+${SingleDropdownButtonTemplate({kind: 'danger', ...args})}`
+
+export const SizesTemplate = (args) => html`
+${SingleDropdownButtonTemplate({size: 'large', ...args})}
+${SingleDropdownButtonTemplate({size: 'medium', ...args})}
+${SingleDropdownButtonTemplate({size: 'small', ...args})}`
+
+# Dropdown Button
+
+<bl-badge icon="document">ADR</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=2158%3A8508)</bl-badge>
+
+Dropdown Button is used to display a list of actions.
+
+<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+
+## Dropdown Button Variants
+
+Dropdown Button has the same variants ([Primary](/docs/components-button--primary-buttons), [Secondary](/docs/components-button--secondary-buttons) and [Tertiary](/docs/components-button--tertiary-buttons)) with the [Button](/docs/components-button--variants).
+Every variant represents the importance of the actions inside it.
+
+<Canvas>
+  <Story name="Variants" play={dropdownOpener}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Dropdown Button Kinds
+
+Dropdown Button has the same kinds as the button has.
+Every kind indicates a state of the dropdown buttons. It can has 4 different "kind"s. `default`, `neutral`, `success` and `danger`.
+
+<Canvas>
+  <Story name="Kinds" play={dropdownOpener}>
+    {ButtonTypes.bind({})}
+  </Story>
+</Canvas>
+
+## Dropdown Button Sizes
+
+We have 3 sizes of dropdown buttons: **Large**, **Medium**, **Small**. Default size is **Medium**.
+
+<Canvas>
+  <Story name="Dropdown Button Sizes" play={dropdownOpener}>
+    {SizesTemplate.bind({})}
+  </Story>
+</Canvas>
+
+If dropdown button has an action with a long text that can not fit in a single line, popover will be automatically widen to the right side of the dropdown button.
+
+<Canvas>
+  <Story name="Automatic Left Align" args={{ content: 'Action with very long text' }} play={dropdownOpener}>
+    {SingleDropdownButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabling Dropdown Buttons
+
+We have 2 types of disabled dropdown buttons: Disable version of Primary and Secondary buttons is the same.
+
+<Canvas columns={1}>
+  <Story name="Disabling Dropdown Buttons" args={{ disabled: true }} play={dropdownOpener}>
+    {SizesTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Whereas Tertiary buttons keep their transparent backgrounds.
+
+<Canvas columns={1}>
+  <Story name="Disabling Tertiary Dropdown Buttons" args={{ disabled: true, variant:"tertiary" }} play={dropdownOpener}>
+    {SizesTemplate.bind({})}
+  </Story>
+</Canvas>
+
+
+## Reference
+
+<ArgsTable of="bl-dropdown" />

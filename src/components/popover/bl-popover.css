@@ -1,0 +1,39 @@
+.popover {
+  --arrow-display: var(--bl-popover-arrow-display, none);
+  --background-color: var(--bl-popover-background-color, var(--bl-color-neutral-full));
+  --border-color: var(--bl-popover-border-color, var(--bl-color-primary-highlight));
+  --padding: var(--bl-popover-padding, var(--bl-size-m));
+  --border-radius: var(--bl-popover-border-radius, var(--bl-size-3xs));
+  --position: var(--bl-popover-position, fixed);
+
+  position: var(--position);
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  z-index: var(--bl-index-popover);
+  width: max-content;
+  hyphens: auto;
+  background-color: var(--background-color);
+  font: var(--bl-font-title-3-regular);
+  color: var(--bl-color-neutral-darker);
+}
+
+.popover:not(.visible) {
+  visibility: hidden;
+}
+
+.arrow {
+  --arrow-rotation: 45deg;
+
+  box-sizing: border-box;
+  display: var(--arrow-display);
+  position: absolute;
+  background-color: var(--background-color);
+  width: var(--bl-size-2xs);
+  height: var(--bl-size-2xs);
+  transform: rotate(var(--arrow-rotation));
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+  border-right: none;
+}

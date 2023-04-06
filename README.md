@@ -1,154 +1,37 @@
-<p align="center">
-  <img width="300" src="./assets/grace-logo.png" alt="logo of grace repository">
-</p>
+<p align="center"><img src="https://user-images.githubusercontent.com/127687/194415334-0dc8fbf2-3e87-44ed-b23a-0cc9da767b11.png" alt="Baklava Design System Logo" /></p>
 
-<div align="center">
-    <h1>Grace</h1>
-    <h3>Design System For Vue Applications</h3>
-    <p align="center">
-    <a href="https://main--62c032861cb75ca233ce4f28.chromatic.com/"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://main--62c032861cb75ca233ce4f28.chromatic.com/">View Demo</a>
-    ·
-    <a href="https://github.com/Trendyol/grace/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/Trendyol/grace/issues">Request Feature</a>
-  </p>
-</div>
+<h1 align="center">Baklava Design System</h1>
 
-<p align="center">
-  <img src="./assets/grace-components.png" alt="components of grace repository">
-</p>
+[![npm package stable](https://img.shields.io/npm/v/@trendyol/baklava.svg)](https://www.npmjs.com/package/@trendyol/baklava) [![npm package beta](https://img.shields.io/npm/v/@trendyol/baklava/beta.svg)](https://www.npmjs.com/package/@trendyol/baklava/v/beta) [![License](https://img.shields.io/github/license/trendyol/baklava)](https://github.com/Trendyol/baklava/blob/next/LICENSE) [![jsDelivr hits (npm scoped)](https://img.shields.io/jsdelivr/npm/hm/@trendyol/baklava)](https://www.jsdelivr.com/package/npm/@trendyol/baklava) [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
-### Built With
+Baklava is a design system provided by [Trendyol](https://github.com/trendyol) to create a consistent UI/UX for app users.
 
-* [Vue](https://vuejs.org/)
-* [Typescript](https://www.typescriptlang.org/)
-* [Sass](https://sass-lang.com/)
-* [Jest](https://jestjs.io/m)
-* [Rollup](https://rollupjs.org/)
-* [Storybook](https://storybook.js.org/)
+Web implementation of the design system is created as native web components so it can be used within every type of web frameworks including Vue, React or Angular. Our target is providing a UI library that has neatly designed and developed for providing best possible user experience for the users of applications that uses Baklava DS.
 
-## 📦 Install
-```
-npm install --save @trendyol-js/grace
-```
-or
+## How to use
 
-```
-yarn add @trendyol-js/grace
-```
+Preferred way of using Baklava is using it via CDN. Just import library JS and CSS files to your main document like below:
 
-## 🔨 Usage
-
-#### Font installation:
-Grace uses Google’s Rubik font. Add to style file
-```css
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap');
-```
-or your main ```index.html``` file.
 ```html
-<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-```
-If you want to use another font, follow the instructions above for the font you will use and add the following code to your style file
-```css
-:root {
-    --font-family-base: 'Your Font Name';
-}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.0.0/dist/themes/default.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.0.0/dist/baklava.js"></script>
 ```
 
-##### Import styles manually:
-```css
-@import "~@trendyol-js/grace/css/root";
-@import "~@trendyol-js/grace/css/system";
-@import '~vue2-datepicker/index.css'; // for datepicker
-```
+This way library will be served from a very high performant CDN and all of the Baklava web components will be ready to use inside your web project.
 
-##### Components:
 ```html
-<template>
-  <div class="g-p-10">
-    <GButton size="medium">Base Button</GButton>
-  </div>
-</template>
-
-<script>
-  import GButton from '@trendyol-js/grace/core/GButton';
-  
-  export default {
-    name: 'Component',
-  }
-</script>
+<bl-button>Baklava works!</bl-button>
 ```
 
-##### Plugins:
-```js
-import GToasterPlugin from '@trendyol-js/grace/plugins/GToaster.plugin';
+## How to contribute
 
-Vue.use(GToasterPlugin);
-```
+Baklava Design System is always open for direct contributions. Contributions can be in the form of design suggestions, documentation improvements, new component
+suggestions, code improvements, adding new features or fixing problems. For more information please check our [Contribution Guideline document](./CONTRIBUTING.md).
 
-##### Directives:
-```html
-<template>
-  <div v-click-outside="hide()" />
-</template>
+## Useful Links
 
-<script>
-  import ClickOutside from '@trendyol-js/grace/directives/ClickOutside';
-  
-  export default {
-    name: 'Component',
-  }
-</script>
-```
-
-## 👨‍💻 Local Development
-
-##### Project setup
-```
-npm install
-```
-
-##### Compiles and hot-reloads for development
-```
-npm run storybook:start
-```
-
-##### Compiles and minifies for production
-```
-npm run build
-```
-
-##### Lints and fixes files
-```
-npm run lint
-```
-
-##### Run your unit tests
-```
-npm run test:unit
-```
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/Trendyol/grace/issues) for a list of proposed features (and known issues).
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+* [Storybook Documentation](https://baklava.design/)
+* [Figma Design Document](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide)
+* [Project Board](https://github.com/orgs/Trendyol/projects/4)
+* [Discussion Board](https://github.com/Trendyol/baklava/discussions)
+* [Mobile (React-Native) Implementation](https://github.com/Trendyol/baklava-react-native)

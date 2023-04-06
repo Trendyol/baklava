@@ -1,0 +1,15 @@
+.tabs {
+  background-color: var(--bl-color-neutral-full);
+  border-bottom: var(--bl-size-4xs) solid var(--bl-color-neutral-lightest);
+  display: flex;
+  flex-direction: row;
+}
+
+.tabs-list {
+  overflow-x: scroll;
+  border-radius: var(--bl-border-radius-m) var(--bl-border-radius-m) 0 0;
+}
+
+.panels {
+  border-radius: 0 0 var(--bl-border-radius-m) var(--bl-border-radius-m);
+}

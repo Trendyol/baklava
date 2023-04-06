@@ -1,0 +1,36 @@
+.trigger {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: fixed;
+  box-sizing: border-box;
+  border: none;
+  background-color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-neutral-full);
+  border-radius: var(--bl-size-3xs);
+  pointer-events: none;
+  font: var(--bl-font-title-3-regular);
+  padding: var(--bl-size-m);
+  z-index: var(--bl-index-tooltip);
+  width: max-content;
+  hyphens: auto;
+
+  --max-viewport: calc(100vw - var(--bl-size-s));
+  --tooltip-max-width: 424px;
+
+  max-width: min(var(--max-viewport), var(--tooltip-max-width));
+}
+
+.tooltip:not(.visible) {
+  visibility: hidden;
+}
+
+.arrow {
+  position: absolute;
+  background-color: var(--bl-color-neutral-darker);
+  width: var(--bl-size-2xs);
+  height: var(--bl-size-2xs);
+  transform: rotate(45deg);
+}

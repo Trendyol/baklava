@@ -1,0 +1,47 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import {
+  Meta,
+  Canvas,
+  ArgsTable,
+  Story,
+} from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Dropdown Button/Dropdown Item"
+  component="bl-dropdown-item"
+  argTypes={{
+    icon: {
+      control: {
+        type: 'text'
+      },
+    },
+  }}
+/>
+
+# Dropdown Item
+Dropdown Item component is a component should be used inside a bl-dropdown or bl-dropdown-group component. It is used to display an action in the these components.
+
+export const Template = (args) => html`
+  <bl-dropdown-item
+    icon='${ifDefined(args.icon)}'
+  >Dropdown Item</bl-dropdown-item>
+`
+
+## Basic Usage
+<Canvas>
+  <Story name="Basic Usage">
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## With Icon
+If you want to have an icon for your actions, you can use the `icon` attribute.
+<Canvas>
+  <Story name="With Icon" args={{ icon: "info" }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+
+<ArgsTable of="bl-dropdown-item" />

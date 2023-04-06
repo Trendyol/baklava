@@ -1,0 +1,156 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
+
+<Meta
+  title="Components/Tab/Tab"
+  component="bl-tab"
+/>
+
+export const TabsTemplate = (args) => html`
+    <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" disabled>Disabled</bl-tab>
+      <bl-tab name="test-2" slot="tabs" selected >Selected</bl-tab>
+      <bl-tab name="test-3" slot="tabs">Tab</bl-tab>
+    </bl-tab-group>
+  `
+
+export const TabsAttributeTemplate = (args) => html`
+    <bl-tab-group>
+        <bl-tab name="test-1" slot="tabs" Caption='${ifDefined(args.caption)}' help-text='${ifDefined(args.helpText)}' badge='${ifDefined(args.badge)}' >Tab 1</bl-tab>
+        <bl-tab name="test-2" slot="tabs">Tab 2</bl-tab>
+        <bl-tab name="test-3" slot="tabs" Caption='${ifDefined(args.caption)}' help-text='${ifDefined(args.helpText)}
+        ' badge='${ifDefined(args.badge)}'  disabled >Tab 3</bl-tab>
+    </bl-tab-group>
+    `
+export const NotifyTemplate = (args) => html`
+    <bl-tab-group>
+         <bl-tab name="test-1" slot="tabs" notify >Tab 1</bl-tab>
+         <bl-tab name="test-2" slot="tabs" selected notify >Tab 2</bl-tab>
+         <bl-tab name="test-3" slot="tabs" disabled notify >Tab 3</bl-tab>
+    </bl-tab-group>
+        `
+export const IconTemplate = (args) => html`
+    <bl-tab-group>
+         <bl-tab name="test-1" slot="tabs" icon='${ifDefined(args.icon1)}' >Tab 1</bl-tab>
+         <bl-tab name="test-2" slot="tabs" icon='${ifDefined(args.icon2)}' >Tab 2</bl-tab>
+         <bl-tab name="test-3" slot="tabs" icon='${ifDefined(args.icon3)}' disabled >Tab 3</bl-tab>
+    </bl-tab-group>
+        `
+export const MoreThanOneSelectedTemplate = (args) => html`
+    <bl-tab-group>
+         <bl-tab name="test-1" slot="tabs" selected >Selected Tab 1</bl-tab>
+         <bl-tab name="test-2" slot="tabs" selected >Selected Tab 2</bl-tab>
+         <bl-tab name="test-3" slot="tabs">Tab 3</bl-tab>
+    </bl-tab-group>
+        `
+
+export const SelectedDisabledTogetherTemplate = (args) => html`
+    <bl-tab-group>
+         <bl-tab name="test-1" slot="tabs" >Tab 1</bl-tab>
+         <bl-tab name="test-2" slot="tabs" selected disabled >Selected and Disabled Tab 2</bl-tab>
+         <bl-tab name="test-3" slot="tabs" >Tab 3</bl-tab>
+    </bl-tab-group>
+        `
+
+export const focusTab = async ({ }) => {
+  await userEvent.tab();
+  await userEvent.keyboard('{ArrowRight}');
+  await userEvent.keyboard(' ');
+}
+
+# Tab
+Within tab groups, tabs are used to represent and activate tab panels. A tab can be disabled by setting the disabled prop and can be selected by selected prop.
+
+<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+
+<Canvas>
+<Story name="Basic Usage">
+    {TabsTemplate.bind({})}
+  </Story>
+</Canvas>
+
+
+## Tab with Caption
+Title can be clarified with caption attribute. Caption is located just below the tab title
+
+<Canvas>
+<Story name="Tab With Caption"  args={{ caption: 'Caption' }}>>
+    {TabsAttributeTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Tab With Help Text
+You can give extra information to user with help-text attribute. help-text attribute adds a `bl-tooltip` component at right of the tab
+
+<Canvas>
+<Story name="Tab With Help Text"  args={{helpText:'helpText' }}>>
+    {TabsAttributeTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Tab With Badge
+A Badge can be added to tab. This Badge is showed with `bl-badge` component internally
+
+<Canvas>
+<Story name="Tab With Badge"  args={{badge:'New' }}>>
+    {TabsAttributeTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Tab With Icon
+An icon can be added to tab. This icon is showed with `bl-icon` component internally and it's color synced with tab's title color
+
+<Canvas>
+<Story name="Tab With Icon" args={{icon1:'heart', icon2:'settings', icon3:'book', icon4:'academy', icon5:'account', icon6:'attach', icon7:'award', icon8:'browser' }}>>
+    {IconTemplate.bind({})}
+ </Story>
+</Canvas>
+
+## Tab With Notification Dot
+A notification dot can be used in tab compnenet in order for user to get notified by updates in related content
+
+<Canvas>
+<Story name="Tab With Notification Dot">>
+    {NotifyTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Edge Cases
+
+#### More Than One Selected Tab
+If more than one selected tabs are used, the last one is picked as selected
+
+<Canvas>
+<Story name="More Than One Selected Tab">
+    {MoreThanOneSelectedTemplate.bind({})}
+  </Story>
+</Canvas>
+
+#### Using Disabled and Selected Props Together
+If disabled and selected props are used in same table, disabled prop overrides selected prop
+
+<Canvas>
+<Story name="Using Disabled and Selected Props Together">
+    {SelectedDisabledTogetherTemplate.bind({})}
+  </Story>
+</Canvas>
+
+### Keyboard navigation
+
+This component can handle keyboard navigation to switch between available tabs using arrow keys. First `Tab` focuses on the selected tab and user can navigate to other tabs with arrow keys, and `Space` or `Enter` key to select the tab.
+
+<Canvas>
+<Story name="Keyboard navigation" play={focusTab}>
+    {TabsTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-tab" />
+
+

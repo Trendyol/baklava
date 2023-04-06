@@ -1,0 +1,267 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Button"
+  component="bl-button"
+  argTypes={{
+    label: {
+      control: {
+        type: 'text'
+      }
+    },
+    variant: {
+      options: ['primary', 'secondary', 'tertiary'],
+      default: 'primary',
+      control: { type: 'select' }
+    },
+    kind: {
+      options: ['default', 'neutral', 'success', 'danger'],
+      default: 'default',
+      control: { type: 'select' }
+    },
+    loadingLabel: {
+      control: 'text'
+    },
+    loading: {
+      control: 'boolean'
+    },
+    disabled: {
+      control: 'boolean'
+    },
+    text: {
+      control: {
+        type: 'boolean'
+      }
+    },
+    href: {
+       control: {
+        type: 'text'
+      }
+    },
+    target: {
+       control: {
+        type: 'text'
+      }
+    },
+    size: {
+      options: ['large', 'medium', 'small'],
+      control: { type: 'select' }
+    }
+  }}
+/>
+
+export const SingleButtonTemplate = (args) => html`<bl-button
+    class=${ifDefined(args.class)}
+    variant=${ifDefined(args.variant)}
+    kind=${ifDefined(args.kind)}
+    href=${ifDefined(args.href)}
+    target=${ifDefined(args.target)}
+    size=${ifDefined(args.size)}
+    icon="${ifDefined(args.icon)}"
+    label="${ifDefined(args.label)}"
+    loading-label="${ifDefined(args.loadingLabel)}"
+    ?disabled=${args.disabled}
+    ?loading=${args.loading}
+    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+      >${unsafeHTML(args.content)}</bl-button>`
+
+export const Template = (args) => html`
+${SingleButtonTemplate({content: 'Primary Button', ...args})}
+${SingleButtonTemplate({variant: 'secondary', content: 'Secondary Button', ...args})}
+${SingleButtonTemplate({variant: 'tertiary', content: 'Tertiary Button', ...args})}`
+
+export const ButtonTypes = (args) => html`
+${SingleButtonTemplate({...args})}
+${SingleButtonTemplate({kind: 'neutral', ...args})}
+${SingleButtonTemplate({kind: 'success', ...args})}
+${SingleButtonTemplate({kind: 'danger', ...args})}`
+
+export const SizesTemplate = (args) => html`
+${SingleButtonTemplate({size: 'large', ...args})}
+${SingleButtonTemplate({size: 'medium', ...args})}
+${SingleButtonTemplate({size: 'small', ...args})}`
+
+export const LoadingStateTemplate = (args) => html`
+${SingleButtonTemplate({ size: 'large', loading: true, icon: "info", ...args})}
+${SingleButtonTemplate({ size: 'large', loading: true, loadingLabel: 'Custom Loading Label...', content: 'Login', icon: 'account', ...args})}
+${SingleButtonTemplate({ loading: true, disabled: true, content: 'Disabled' })}
+${SingleButtonTemplate({ size: 'small', loading: true, content: 'Create' })}
+`
+
+# Button
+
+<bl-badge icon="document">ADR</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=4%3A5584)</bl-badge>
+
+Buttons allow users to take actions, and make choices with a single tap.
+
+<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+
+### Usage
+
+* A button should contain at least one text, icon or both (text + icon).
+* The first letter of the word on the buttons is capitalized and the rest is lowercase.
+* The icons on the buttons are left aligned.
+* Button texts are limited to one line.
+
+## Button Variants
+
+We have 3 variants for each button: **Primary**, **Secondary** and **Tertiary**.
+
+<Canvas>
+  <Story name="Variants">
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Primary Buttons
+
+Primary buttons are used for main actions of the screens. Like a submit button in a form or main button of a dialog.It can has 4 different "kind"s. `default`, `neutral`, `success` and `danger`.
+
+<Canvas>
+  <Story name="Primary Buttons" args={{ content: 'Primary Button' }}>
+    {ButtonTypes.bind({})}
+  </Story>
+</Canvas>
+
+### Secondary Buttons
+
+Secondary buttons represent the important actions in the app. But not the primary ones. They work with all the kinds.
+
+<Canvas>
+  <Story name="Secondary Buttons" args={{ variant:'secondary',content: 'Secondary button' }}>
+    {ButtonTypes.bind({})}
+  </Story>
+</Canvas>
+
+### Tertiary Buttons
+
+Tertiary buttons are typically used for less important actions which also have all the kinds.
+
+<Canvas>
+  <Story name="Tertiary Buttons" args={{ variant:'tertiary',content: 'Tertiary button' }}>
+    {ButtonTypes.bind({})}
+  </Story>
+</Canvas>
+
+## Icon Buttons
+
+To boost UX, you might want to add icons to your button. Because human brain recognize icons more easily than text.
+Our icons are defined to be left of the default slot.
+
+To be able to use icon with button, you should give the name of icon to `icon` attribute.
+
+<Canvas>
+  <Story name="Icon Buttons" args={{ content: 'Save', icon: 'info' }}>
+    {ButtonTypes.bind({})}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Tertiary Buttons With Icon" args={{href: "https://trendyol.com", content: 'Save',variant:'tertiary', icon: 'info' }}>
+    {ButtonTypes.bind({})}
+  </Story>
+</Canvas>
+
+
+## Icon Only Buttons
+
+Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favorites.)
+
+<Canvas>
+  <Story name="Icon Only Buttons" args={{ content: '', label: 'Save', icon: 'info' }}>
+    {ButtonTypes.bind({})}
+  </Story>
+</Canvas>
+
+## Button Sizes
+
+We have 3 sizes of buttons: **Large**, **Medium**, **Small**. Default size is **Medium**.
+
+<Canvas>
+  <Story name="Button Sizes" args={{ content: 'Primary Button', icon: 'info' }}>
+    {SizesTemplate.bind({})}
+  </Story>
+</Canvas>
+
+By default our buttons are `inline-block`. If you want to make it a block level button that will fill it's container, you need to set `--bl-button-display` property to `block`.
+
+<Canvas>
+  <Story name="Block Level Buttons" args={{ content: 'Confirm', icon: 'info', styles: { '--bl-button-display': 'block' } }}>
+    {SingleButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
+If button has a limited width and a long text that can not fit in a single line, text will be automatically cropped with three dot at the end.
+
+<Canvas>
+  <Story name="Automatic Clipping Text" args={{ content: 'A very long text content', icon: 'info', styles: { '--bl-button-display': 'block', 'max-width': '150px' } }}>
+    {SingleButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Loading Buttons
+
+Button can be set in loading state. In this state button becomes disabled with a loading indicator. You can set this state by setting `loading` attribute. Additionally, button icons are overridden by the spinner during the loading state.
+
+A custom loading text can be also set with `loading-label` attribute. It's suggested to use `loading-label` to inform the user about the process.
+
+<Canvas columns={1}>
+  <Story name="Loading State Button" parameters={{ chromatic: { diffThreshold: 0.2 } }}>
+    {LoadingStateTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled Buttons
+
+We have 2 types of disabled buttons: Disable version of Primary and Secondary buttons is the same.
+
+<Canvas columns={1}>
+  <Story name="Disabled Primary and Secondary Buttons" args={{ disabled: true, content: 'Passive Button' }}>
+    {SizesTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Whereas Tertiary buttons keep their transparent backgrounds.
+
+<Canvas columns={1}>
+  <Story name="Disabled Tertiary Buttons" args={{ disabled: true, content: 'Passive Button',variant:"tertiary" }}>
+    {SizesTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Hover States
+
+export const SingleButtonHoverTemplate = (args) => html`${SingleButtonTemplate({ class: '__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__', ...args})}`;
+
+export const HoverTemplate = (args) => html`
+${SingleButtonHoverTemplate({content: 'Primary Button', ...args})}
+${SingleButtonHoverTemplate({kind: 'neutral', content: 'Secondary Button', ...args})}
+${SingleButtonHoverTemplate({kind: 'success', content: 'Success Button', ...args})}
+${SingleButtonHoverTemplate({kind: 'danger', content: 'Danger Button', ...args})}`;
+
+
+<Canvas isColumn>
+  <Story name="Primary Buttons Hover" args={{ content: 'Save', icon: 'info' }}>
+    {HoverTemplate.bind({})}
+  </Story>
+  <Story name="Secondary Buttons Hover" args={{ content: 'Save', variant: 'secondary', icon: 'info' }}>
+    {HoverTemplate.bind({})}
+  </Story>
+    <Story name="Tertiary Buttons Hover" args={{ content: 'Save', variant: 'tertiary', icon: 'info' }}>
+    {HoverTemplate.bind({})}
+  </Story>
+</Canvas>
+
+
+
+
+
+
+## Reference
+
+<ArgsTable of="bl-button" />

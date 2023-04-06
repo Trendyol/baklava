@@ -1,0 +1,72 @@
+:host {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+:host * {
+  outline: none;
+}
+
+label {
+  display: flex;
+  gap: var(--bl-size-2xs);
+  color: var(--bl-color-neutral-darker);
+  font: var(--bl-font-title-3);
+  cursor: pointer;
+  user-select: none;
+}
+
+.label {
+  word-break: break-all;
+}
+
+input {
+  appearance: none;
+  position: absolute;
+}
+
+.check-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--bl-size-m);
+  height: var(--bl-size-m);
+  min-width: var(--bl-size-m);
+  min-height: var(--bl-size-m);
+  max-width: var(--bl-size-m);
+  max-height: var(--bl-size-m);
+  border: 1px solid var(--bl-color-neutral-lighter);
+  border-radius: var(--bl-border-radius-xs);
+  color: var(--bl-color-neutral-full);
+  font-size: var(--bl-font-size-2xs);
+  background-color: var(--bl-color-neutral-full);
+}
+
+:host([checked]) .label,
+:host(:hover) .label {
+  color: var(--bl-color-primary);
+}
+
+:host(:is([checked], [indeterminate])) .check-mark {
+  background-color: var(--bl-color-primary);
+  border: none;
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+:host([disabled]) .check-mark,
+:host([disabled]) .label {
+  color: var(--bl-color-neutral-light);
+}
+
+:host([disabled]) .check-mark {
+  background-color: var(--bl-color-neutral-lightest);
+}
+
+:host(:not([disabled])) input:focus-visible + .check-mark {
+  box-shadow: 0 0 0 1px white, 0 0 0 3px var(--bl-color-primary);
+}

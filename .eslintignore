@@ -1,0 +1,13 @@
+node_modules/*
+docs/*
+dist/*
+docs-src/*
+rollup-config.js
+custom-elements.json
+.history/
+storybook-static/
+*.js
+.github/
+.octane-ci/
+.bin/
+.docksal/

@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  flex-direction: row;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+legend {
+  font: var(--bl-font-title-3-medium);
+  color: var(--bl-color-neutral-darker);
+}
+
+.options {
+  display: flex;
+  flex-flow: var(--bl-checkbox-direction, column) wrap;
+  gap: var(--bl-size-m);
+  margin-block: var(--bl-size-xs);
+}

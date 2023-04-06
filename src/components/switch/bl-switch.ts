@@ -1,0 +1,77 @@
+import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { customElement, property } from 'lit/decorators.js';
+import { event, EventDispatcher } from '../../utilities/event';
+import style from './bl-switch.css';
+
+export const blSwitchTag = 'bl-switch';
+
+/**
+ * @tag bl-switch
+ * @summary Baklava Switch component
+ *
+ * @cssproperty [--bl-switch-color=--bl-color-primary] Set the accent color
+ * @cssproperty [--bl-switch-animation-duration=300ms] Set the animation duration of switch toggle
+ */
+@customElement(blSwitchTag)
+export default class BlSwitch extends LitElement {
+  static get styles(): CSSResultGroup {
+    return [style];
+  }
+
+  /**
+   * Sets the checked state for switch
+   */
+  @property({ type: Boolean, reflect: true })
+  checked = false;
+
+  /**
+   * Sets the disabled state for switch
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled? = false;
+
+  /**
+   * Fires whenever user toggles the switch
+   */
+  @event('bl-switch-toggle') private onToggle: EventDispatcher<boolean>;
+
+  toggle() {
+    if (this.disabled) return;
+
+    this.checked = !this.checked;
+    this.onToggle(this.checked);
+  }
+
+  private handleKeyDown(event: KeyboardEvent) {
+    if (event.code === 'Enter' || event.code === 'Space') {
+      this.toggle();
+      event.preventDefault();
+    }
+  }
+
+  render(): TemplateResult {
+    const ariaLabel =
+      this.ariaLabel ?? this.attributes.getNamedItem('aria-label')?.value ?? undefined;
+
+    return html`
+      <span
+        class="switch"
+        role="switch"
+        aria-checked=${this.checked}
+        aria-readonly=${!!this.disabled}
+        @click=${this.toggle}
+        @keydown=${this.handleKeyDown}
+        aria-label=${ifDefined(ariaLabel)}
+        tabindex="0"
+      >
+      </span>
+    `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    [blSwitchTag]: BlSwitch;
+  }
+}

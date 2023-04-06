@@ -1,0 +1,45 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
+import { html } from 'lit';
+
+<Meta title="Design System/Colors" />
+
+# Baklava Color Palette
+
+Baklava uses a list of defined color with some default values.
+
+<ColorPalette>
+  <ColorItem
+    title="--bl-color-primary"
+    subtitle="Primary Color"
+    colors={{ '': 'var(--bl-color-primary)', '--highlight': 'var(--bl-color-primary-highlight)', '--contrast': 'var(--bl-color-primary-contrast)' }}
+  />
+  <ColorItem
+    title="--bl-color-success"
+    subtitle="Success Color"
+    colors={{ '': 'var(--bl-color-success)', '--highlight': 'var(--bl-color-success-highlight)', '--contrast': 'var(--bl-color-success-contrast)' }}
+  />
+  <ColorItem
+    title="--bl-color-danger"
+    subtitle="Danger Color"
+    colors={{ '': 'var(--bl-color-danger)', '--highlight': 'var(--bl-color-danger-highlight)', '--contrast': 'var(--bl-color-danger-contrast)' }}
+  />
+  <ColorItem
+    title="--bl-color-warning"
+    subtitle="Warning Color"
+    colors={{ '': 'var(--bl-color-warning)', '--highlight': 'var(--bl-color-warning-highlight)', '--contrast': 'var(--bl-color-warning-contrast)' }}
+  />
+  <ColorItem
+    title="--bl-color-neutral"
+    subtitle="Neutral Colors"
+    colors={{
+        '--none': 'var(--bl-color-neutral-none)',
+        '--darkest': 'var(--bl-color-neutral-darkest)',
+        '--darker': 'var(--bl-color-neutral-darker)',
+        '--dark': 'var(--bl-color-neutral-dark)',
+        '--light' : 'var(--bl-color-neutral-light)',
+        '--lighter' : 'var(--bl-color-neutral-lighter)',
+        '--lightest' : 'var(--bl-color-neutral-lightest)',
+        '--full' : 'var(--bl-color-neutral-full)',
+    }}
+  />
+</ColorPalette>

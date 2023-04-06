@@ -1,0 +1,36 @@
+import { Meta, Title, IconGallery, IconItem } from '@storybook/addon-docs';
+import icons from '../../src/components/icon/icon-list';
+
+<Meta
+  title="Design System/Icons/Iconography"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: {
+        hidden: true,
+      },
+    },
+  }}
+/>
+
+# Iconography
+
+* All icons are provided as SVGs
+* All icons are single color (Some have multiple layers with different opacity of same color)
+* All icons has square canvas (By default 24x24)
+* Icon names as in `snake_case`
+* Icons are for decorative purposes. Don't use them as a data in your documents (like an instructive image)
+
+You can check [icon component](/docs/components-icon--single-icon) for usage information and interactive demos.
+
+## List of icons
+
+<IconGallery>
+  {
+    icons.map((iconName) => (
+      <IconItem key={iconName} name={iconName}>
+        <bl-icon name={iconName}></bl-icon>
+      </IconItem>
+    ))
+  }
+</IconGallery>
