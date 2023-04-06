@@ -41,7 +41,7 @@ Let's take a badge component as an example:
 
 .badge {
     /* Variable definition start */
-  --bg-color: var(--bl-badge-bg-color, var(--bl-color-accent-primary-background));
+  --bg-color: var(--bl-badge-bg-color, var(--bl-color-primary-contrast));
   --color: var(--bl-badge-color, var(--bl-color-primary));
   --font: var(--bl-font-title-4-medium);
   --padding-vertical: var(--bl-size-3xs);
@@ -68,7 +68,7 @@ By the __nature__ of this component, we let users to change background color and
 we define a default variables `--bl-badge-bg-color` and `--bl-badge-color` and fill it with our default definitions like this:
 
 ```css
---bg-color: var(--bl-badge-bg-color, var(--bl-color-accent-primary-background));
+--bg-color: var(--bl-badge-bg-color, var(--bl-color-primary-contrast));
 --color: var(--bl-badge-color, var(--bl-color-primary));
 ```
 

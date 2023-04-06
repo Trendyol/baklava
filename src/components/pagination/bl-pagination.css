@@ -31,7 +31,7 @@
 
 .dots::before {
   content: ' \B7 \B7 \B7';
-  color: var(--bl-color-content-primary);
+  color: var(--bl-color-neutral-darker);
 }
 
 .pagination-helpers {
@@ -40,7 +40,7 @@
   justify-content: center;
   align-items: center;
   gap: var(--bl-size-m);
-  color: var(--bl-color-content-primary);
+  color: var(--bl-color-neutral-darker);
 }
 
 .jumper,

@@ -18,7 +18,7 @@ span {
   --animation-duration: var(--bl-switch-animation-duration, 300ms);
   --switch-color: var(--bl-switch-color, var(--bl-color-primary));
 
-  background-color: var(--bl-color-content-passive);
+  background-color: var(--bl-color-neutral-lighter);
   border-radius: var(--bl-border-radius-pill);
   height: var(--track-height);
   transition-property: background-color;

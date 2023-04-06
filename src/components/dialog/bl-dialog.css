@@ -1,5 +1,5 @@
 .container {
-  --background-color: var(--bl-color-primary-background);
+  --background-color: var(--bl-color-neutral-full);
 
   display: flex;
   flex-direction: column;
@@ -25,8 +25,7 @@
 }
 
 .dialog::backdrop {
-  background: #273142;
-  opacity: 0.7;
+  background-color: #273142b3;
 }
 
 .dialog-polyfill {
@@ -39,9 +38,7 @@
   align-items: center;
   justify-content: center;
   z-index: var(--bl-index-dialog);
-
-  /* FIXME: Use css variables for alpha colors */
-  background: #273142b3;
+  background-color: #273142b3;
 }
 
 :host([open]) .dialog-polyfill {
@@ -62,7 +59,7 @@ header bl-button {
 
 header h2 {
   font: var(--bl-font-title-1-medium);
-  color: var(--bl-color-secondary);
+  color: var(--bl-color-neutral-darker);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -83,6 +80,7 @@ footer {
 }
 
 footer.shadow {
+  /* FIXME: Use variables for sizes */
   box-shadow: 0 -4px 15px #27314226;
 }
 

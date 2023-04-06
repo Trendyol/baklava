@@ -13,18 +13,18 @@
   --padding-horizontal: var(--bl-size-xs);
   --label-padding: var(--bl-size-3xs);
   --border-size: 1px;
-  --background-color: var(--bl-color-primary-background);
-  --border-color: var(--bl-color-border);
-  --border-focus-color: var(--bl-color-primary-hover);
-  --icon-color: var(--bl-color-content-tertiary);
-  --text-color: var(--bl-color-content-primary);
-  --label-color: var(--bl-color-content-secondary);
-  --placeholder-color: var(--bl-color-content-tertiary);
+  --background-color:  var(--bl-color-neutral-full);
+  --border-color: var(--bl-color-neutral-lighter);
+  --border-focus-color: var(--bl-color-primary-highlight);
+  --icon-color: var(--bl-color-neutral-light);
+  --text-color: var(--bl-color-neutral-darker);
+  --label-color: var(--bl-color-neutral-dark);
+  --placeholder-color: var(--bl-color-neutral-light);
   --height: var(--bl-size-2xl);
   --menu-padding: 0 var(--bl-size-m);
   --menu-margin-top: var(--bl-size-2xs);
   --font-size: var(--bl-font-size-m);
-  --disabled-color: var(--bl-color-tertiary);
+  --disabled-color: var(--bl-color-neutral-lightest);
   --menu-height: 250px;
   --popover-position: var(--bl-popover-position, fixed);
 }
@@ -43,12 +43,12 @@
 }
 
 :host([disabled]) .select-wrapper {
-  --placeholder-color: var(--bl-color-content-passive);
+  --placeholder-color: var(--bl-color-neutral-light);
 }
 
 .dirty.invalid {
   --border-color: var(--bl-color-danger);
-  --border-focus-color: var(--bl-color-danger-hover);
+  --border-focus-color: var(--bl-color-danger-highlight);
   --label-color: var(--bl-color-danger);
 }
 
@@ -98,7 +98,7 @@
   left: 1.5rem;
   bottom: 4px;
   height: 1rem;
-  border-left: 1px solid var(--bl-color-border);
+  border-left: 1px solid var(--bl-color-neutral-lighter);
 }
 
 .selected .remove-all {
@@ -127,11 +127,11 @@
 }
 
 .selected .dropdown-icon {
-  --icon-color: var(--bl-color-secondary);
+  --icon-color: var(--bl-color-neutral-darker);
 }
 
 :host([disabled]) .dropdown-icon {
-  --icon-color: var(--bl-color-content-passive);
+  --icon-color: var(--bl-color-neutral-light);
 }
 
 .select-open .select-input,
@@ -174,8 +174,9 @@
   display: none;
 }
 
-:host([disabled]) .selected-options li {
-  color: var(--bl-color-content-passive);
+:host([disabled]) .selected-options li
+{
+  color: var(--bl-color-neutral-light);
 }
 
 .select-input .actions {
@@ -305,7 +306,7 @@ legend span {
 }
 
 .help-text {
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
 }
 
 .select-open .help-text,

@@ -10,7 +10,7 @@
 label {
   display: flex;
   gap: var(--bl-size-2xs);
-  color: var(--bl-color-secondary);
+  color: var(--bl-color-neutral-darker);
   font: var(--bl-font-title-3);
   cursor: pointer;
   user-select: none;
@@ -36,12 +36,11 @@ input {
   min-height: var(--bl-size-m);
   max-width: var(--bl-size-m);
   max-height: var(--bl-size-m);
-  border: 1px solid var(--bl-color-border);
+  border: 1px solid var(--bl-color-neutral-lighter);
   border-radius: var(--bl-border-radius-xs);
-  color: var(--bl-color-content-primary-contrast);
+  color: var(--bl-color-neutral-full);
   font-size: var(--bl-font-size-2xs);
-  line-height: 100%;
-  background-color: var(--bl-color-primary-background);
+  background-color: var(--bl-color-neutral-full);
 }
 
 :host([checked]) .label,
@@ -61,11 +60,11 @@ input {
 
 :host([disabled]) .check-mark,
 :host([disabled]) .label {
-  color: var(--bl-color-content-passive);
+  color: var(--bl-color-neutral-light);
 }
 
 :host([disabled]) .check-mark {
-  background-color: var(--bl-color-secondary-background);
+  background-color: var(--bl-color-neutral-lightest);
 }
 
 :host(:not([disabled])) input:focus-visible + .check-mark {

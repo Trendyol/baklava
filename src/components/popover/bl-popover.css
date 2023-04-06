@@ -1,7 +1,7 @@
 .popover {
   --arrow-display: var(--bl-popover-arrow-display, none);
-  --background-color: var(--bl-popover-background-color, var(--bl-color-primary-background));
-  --border-color: var(--bl-popover-border-color, var(--bl-color-primary-hover));
+  --background-color: var(--bl-popover-background-color, var(--bl-color-neutral-full));
+  --border-color: var(--bl-popover-border-color, var(--bl-color-primary-highlight));
   --padding: var(--bl-popover-padding, var(--bl-size-m));
   --border-radius: var(--bl-popover-border-radius, var(--bl-size-3xs));
   --position: var(--bl-popover-position, fixed);
@@ -16,7 +16,7 @@
   hyphens: auto;
   background-color: var(--background-color);
   font: var(--bl-font-title-3-regular);
-  color: var(--bl-color-content-primary);
+  color: var(--bl-color-neutral-darker);
 }
 
 .popover:not(.visible) {

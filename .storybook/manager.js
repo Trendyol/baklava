@@ -11,6 +11,7 @@ const theme = create({
   fontBase: 'RubikVariable, sans-serif',
   fontCode:
     '"Operator Mono","Fira Code Retina","Fira Code","FiraCode-Retina","Andale Mono","Lucida Console",Consolas,Monaco,monospace',
+  textColor: '#273142',
 });
 
 addons.setConfig({ theme });

@@ -153,11 +153,11 @@ By default arrow is not visible. You can use options below:
 
 ## Background Color
 
-You can give `--bl-popover-background-color` for popover background. Default color is `--bl-color-primary-background`.
+You can give `--bl-popover-background-color` for popover background. Default color is `--bl-color-neutral-full`.
 
 <Canvas>
   <Story name="Background Color"
-         args={{  id:'4', style: '--bl-popover-background-color:var(--bl-color-featured-background); --bl-popover-arrow-display: block;',
+         args={{  id:'4', style: '--bl-popover-background-color: #f4edff; --bl-popover-arrow-display: block;',
          buttonText:'Custom Background'}}
          play={popoverOpener}>
     {StoryTemplate.bind({})}
@@ -167,7 +167,7 @@ You can give `--bl-popover-background-color` for popover background. Default col
 
 ## Border Color
 
-You can give `--bl-popover-border-color` for popover border color. Default color is `--bl-color-primary-hover`.
+You can give `--bl-popover-border-color` for popover border color. Default color is `--bl-color-primary-highlight`.
 
 <Canvas>
   <Story name="Border Color"
