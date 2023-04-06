@@ -5,7 +5,7 @@ const theme = create({
   base: 'light',
   brandTitle: 'Baklava Design System',
   brandUrl: 'https://github.com/Trendyol/baklava',
-  brandImage: 'https://user-images.githubusercontent.com/127687/228982173-df396f7f-9f1e-4b40-a96c-15aecc9ae344.png',
+  brandImage: 'https://user-images.githubusercontent.com/127687/230370329-71295041-f5fc-4e12-8bf5-f37e98831efb.svg',
   colorPrimary: '#F27A1A',
   colorSecondary: '#273142',
   fontBase: 'RubikVariable, sans-serif',
