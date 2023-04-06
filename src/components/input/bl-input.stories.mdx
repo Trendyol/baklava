@@ -221,6 +221,10 @@ Validation error messages are used from default browser error messages by defaul
   </Story>
 </Canvas>
 
+You can also set input validation as invalid by calling `forceCustomError()` method of the input. In this case input will be in invalid state and will report
+its validity. Error message can be set with `invalid-text`. To clear this error state you would call `clearCustomError()` method. With the help of these 2 methods
+you can run your custom validation logic outside of the basic validation rules we provide with validation attributes.
+
 ## Input Sizes
 
 Inputs have 3 size options: `large`, `medium` and `small`. `medium` size is default and if you want to show a large or small input you can set `size` attribute.
