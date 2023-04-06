@@ -63,6 +63,7 @@ export const decorators = [
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   viewMode: 'docs',
+  chromatic: { delay: 300 },
   docs: {
     transformSource: source =>
       source
