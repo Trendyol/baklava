@@ -253,7 +253,7 @@ bl-icon[name='eye_on'] {
   z-index: var(--bl-index-base);
 }
 
-:host([label]) :where(:focus-within, .has-value) legend {
+:host([label]:not([label-fixed])) :where(:focus-within, .has-value) legend {
   max-width: 100%;
   font: var(--bl-font-caption);
   display: block;

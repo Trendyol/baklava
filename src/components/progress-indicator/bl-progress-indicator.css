@@ -6,7 +6,7 @@
   --radius: var(--bl-border-radius-s);
 
   position: relative;
-  background-color: var(--bl-color-neutral-full);
+  background-color: var(--bl-color-neutral-lightest);
   height: var(--height);
   border-radius: var(--radius);
   width: 100%;
