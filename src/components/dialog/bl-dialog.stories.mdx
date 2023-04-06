@@ -25,7 +25,6 @@ import { userEvent } from '@storybook/testing-library';
 
 export const dialogOpener = async (event, dialogId) => {
   const dialog = document.getElementById(dialogId);
-  console.log(dialogId, dialog);
   dialog.open = true;
 }
 
@@ -140,9 +139,9 @@ To maintain usability level of dialog component:
 ## Basic Usage
 
 <Canvas>
-  <Story name="Basic Usage" play={(event) => dialogOpener(event, "basic-dialog")}
+  <Story name="Basic Usage" play={(event) => dialogOpener(event, "dl-basic")}
    args={{
-    id: 'basic-dialog',
+    id: 'dl-basic',
     caption: "Use location service?",
     content: 'Let us help determine location. This means sending anonymous location data to us.',
     primaryAction: 'Agree',
@@ -158,9 +157,9 @@ To maintain usability level of dialog component:
 For long content that does not fit on the page, the dialog action area remains sticky at the bottom of the dialog so that it appears on the page.
 
 <Canvas>
-  <Story name="Dialog With Sticky Footer" play={(event) => dialogOpener(event,"dialog-with-sticky-footer")}
+  <Story name="Dialog With Sticky Footer" play={(event) => dialogOpener(event,"dl-sticky-footer")}
    args={{
-    id: 'dialog-with-sticky-footer',
+    id: 'dl-sticky-footer',
     caption: "Terms And Conditions",
     primaryAction: 'Agree',
     secondaryAction: 'Disagree',
@@ -174,8 +173,8 @@ For long content that does not fit on the page, the dialog action area remains s
 The dialog doesn't have any size, it will be fluidly sized regarding its content. You can give your own width and height style to your content.
 
 <Canvas>
-  <Story name="Dialog Sizing" play={(event) => dialogOpener(event,"dialog-sizing")} args={{
-    id: 'dialog-sizing',
+  <Story name="Dialog Sizing" play={(event) => dialogOpener(event,"dl-sizing")} args={{
+    id: 'dl-sizing',
     primaryAction: 'Agree',
     secondaryAction: 'Disagree',
     tertiaryAction: 'Cancel'
@@ -190,9 +189,9 @@ By default, when you open a dialog, "close" button get focus automatically. But 
 `autofocus` attribute of the `bl-button`.
 
 <Canvas>
-  <Story name="Dialog with focused action" play={(event) => dialogOpener(event, "dialog-with-focused-action")}
+  <Story name="Dialog with focused action" play={(event) => dialogOpener(event, "dl-focused-action")}
    args={{
-    id: 'dialog-with-focused-action',
+    id: 'dl-focused-action',
     caption: "Use location service?",
     content: 'Let us help determine location. This means sending anonymous location data to us.',
     primaryAction: 'Agree',
@@ -207,9 +206,9 @@ By default, when you open a dialog, "close" button get focus automatically. But 
 You may also consider to autofocus user to an input inside the dialog.
 
 <Canvas>
-  <Story name="Dialog with focused input" play={(event) => dialogOpener(event, "dialog-with-focused-input")}
+  <Story name="Dialog with focused input" play={(event) => dialogOpener(event, "dl-focused-input")}
    args={{
-    id: 'dialog-with-focused-input',
+    id: 'dl-focused-input',
     caption: 'Name your file',
     content: '<p>Please provide a name for your file</p><bl-input placeholder="filename.pdf" autofocus></bl-input>',
     primaryAction: 'OK',
@@ -233,18 +232,18 @@ bl-dialog.full-width-actions bl-button {
 In this case action button(s) will fill the row by sharing space equally if there are more than one actions.
 
 <Canvas>
-  <Story name="Dialog with full-width action" play={(event) => dialogOpener(event, "dialog-with-full-width-action")}
+  <Story name="Dialog with full-width action" play={(event) => dialogOpener(event, "dl-full-width-action")}
    args={{
-    id: 'dialog-with-full-width-action',
+    id: 'dl-full-width-action',
     caption: 'Action completed',
     content: '<p>Your process is done!</p>',
     primaryAction: 'OK'
   }}>
     {FullWidthActionsTemplate.bind({})}
   </Story>
-  <Story name="Dialog with full-width actions" play={(event) => dialogOpener(event, "dialog-with-full-width-actions")}
+  <Story name="Dialog with full-width actions" play={(event) => dialogOpener(event, "dl-full-width-actions")}
    args={{
-    id: 'dialog-with-full-width-actions',
+    id: 'dl-full-width-actions',
     caption: 'Are you sure to delete?',
     content: '<p>Do you want to really delete the file?</p>',
     primaryAction: 'Delete',
