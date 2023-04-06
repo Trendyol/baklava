@@ -25,11 +25,12 @@ import { userEvent } from '@storybook/testing-library';
 
 export const dialogOpener = async (event, dialogId) => {
   const dialog = document.getElementById(dialogId);
+  console.log(dialogId, dialog);
   dialog.open = true;
 }
 
 export const BasicTemplate = (args) => html`
-<bl-button @click="${(event) => dialogOpener(event, args.id)}" variant="secondary">Open Dialog</bl-button>
+<bl-button @bl-click="${(event) => dialogOpener(event, args.id)}" variant="secondary">Open Dialog</bl-button>
 <bl-dialog
   id=${args.id}
   class="${ifDefined(args.className)}"
