@@ -11,7 +11,7 @@
   "files": [
     "dist/"
   ],
-  "homepage": "https://github.com/Trendyol/baklava",
+  "homepage": "https://baklava.design",
   "repository": "github:Trendyol/baklava",
   "bugs": {
     "url": "https://github.com/Trendyol/baklava/issues"
@@ -107,6 +107,7 @@
     "esbuild-plugin-lit-css": "^2.0.0",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-storybook": "^0.6.11",
     "globby": "^13.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
@@ -115,7 +116,7 @@
     "pascal-case": "^3.1.2",
     "prettier": "^2.0.4",
     "rollup-plugin-lit-css": "^4.0.0",
-    "storybook": "6.5.9",
+    "storybook": "6.5.16",
     "stylelint": "^14.11.0",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^28.0.0",
