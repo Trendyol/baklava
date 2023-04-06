@@ -45,6 +45,39 @@ export default class BlTooltip extends LitElement {
 
   @state() private _visible = false;
 
+  /**
+   * Target elements state
+   */
+  @state() _target: string | Element;
+
+
+  /**
+   * Sets the target element of the popover to align and trigger.
+   * It can be a string id of the target element or can be a direct Element reference of it.
+   */
+  @property()
+  get target(): string | Element {
+    return this._target;
+  }
+
+  set target(value: string | Element) {
+    if (typeof value === 'string') {
+      this._target = document.getElementById(value) as Element;
+    } else if (value instanceof Element) {
+      this._target = value;
+    } else {
+      console.warn(
+        'BlTooltip target only accepts an Element instance or a string id of a DOM element.'
+      );
+    }
+
+    if(this._target instanceof Element){
+      this._target.addEventListener("focus",this.show.bind(this));
+      this._target.addEventListener("blur",this.hide.bind(this));
+      this._target.addEventListener("mouseover",this.show.bind(this));
+      this._target.addEventListener("mouseleave",this.hide.bind(this));
+    }
+  }
 
 
   /**
@@ -77,7 +110,7 @@ export default class BlTooltip extends LitElement {
    */
   show() {
     this._visible = true
-    this.popover.target = this.trigger;
+    this.popover.target = this.trigger ? this.trigger : this._target;
     this.popover.show();
     this.onShow('Show event fired!');
   }
@@ -105,8 +138,8 @@ export default class BlTooltip extends LitElement {
     }
   }
 
-  render(): TemplateResult {
-    return html`<slot
+  private triggerTemplate() {
+      return html`<slot
         class="trigger"
         name="tooltip-trigger"
         aria-describedby="tooltip"
@@ -115,9 +148,15 @@ export default class BlTooltip extends LitElement {
         @mouseover=${() => this.show()}
         @mouseleave=${() => this.hide()}
       >
-      </slot>
+      </slot>`
+
+  }
+
+  render(): TemplateResult {
+    return html`
+      ${!this._target ? this.triggerTemplate() : ''}
       <div class="wrapper">
-        <bl-popover class="tooltip" .target="${this.trigger}" placement="${ifDefined(this.placement)}">
+        <bl-popover class="tooltip" .target="${!this._target ? this.trigger : this._target}" placement="${ifDefined(this.placement)}">
           <slot id="tooltip" class="content" role="tooltip"></slot>
         </bl-popover>
       </div>`;

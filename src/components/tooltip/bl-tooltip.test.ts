@@ -3,6 +3,7 @@ import { sendMouse } from '@web/test-runner-commands';
 import BlTooltip from './bl-tooltip';
 import type typeOfBlTooltip from './bl-tooltip';
 import type typeOfBlPopover from "../popover/bl-popover";
+import typeOfBlButton from "../button/bl-button";
 
 describe('bl-tooltip', () => {
   it('should be defined tooltip instance', () => {
@@ -198,7 +199,74 @@ describe('bl-tooltip', () => {
     expect(ev).to.exist;
     expect(ev.detail).to.be.equal('Hide event fired!');
     expect(el.visible).to.be.false;
-  })
+  });
+  it('should be triggered successful when target assigned by id', async () => {
+    //given
+    const body = await fixture<HTMLBodyElement>(html`
+      <div style="width: 1500px;height: 1500px;">
+        <bl-button id="mybtn">My Button</bl-button>
+        <bl-tooltip id="mytooltip" placement="bottom" target="mybtn">
+          <span>Tooltip Content</span>
+        </bl-tooltip>
+      </div>
+    `);
+
+    const tooltipEl = body.querySelector('bl-tooltip') as typeOfBlTooltip;
+    const btnEl = body.querySelector('#mybtn') as typeOfBlButton;
+    tooltipEl.setAttribute('target', 'mybtn');
+    await elementUpdated(tooltipEl);
+    const { x, y } = getMiddleOfElement(btnEl);
+
+
+    //when
+    await sendMouse({ type: 'move', position: [x, y] });
+
+    //then
+    expect(tooltipEl.visible).to.equal(true);
+  });
+  it('should be triggered successful when target assigned by object', async () => {
+    //given
+    const body = await fixture<HTMLBodyElement>(html`
+      <div style="width: 1500px;height: 1500px;">
+        <bl-button id="mybtn">My Button</bl-button>
+        <bl-button id="mybtn2">My Button2</bl-button>
+        <bl-tooltip id="mytooltip" placement="bottom">
+          <span>Tooltip Content</span>
+        </bl-tooltip>
+      </div>
+    `);
+
+    const tooltipEl = body.querySelector('bl-tooltip') as typeOfBlTooltip;
+    const btnEl = body.querySelector('#mybtn') as typeOfBlButton;
+    tooltipEl.target = btnEl;
+    await elementUpdated(tooltipEl);
+    const { x, y } = getMiddleOfElement(btnEl);
+
+
+    //when
+    await sendMouse({ type: 'move', position: [200, 200] });
+
+    await sendMouse({ type: 'move', position: [x, y] });
+
+    //then
+    expect(tooltipEl.visible).to.equal(true);
+  });
+  it('should get warning when invalid target type assigned', async () => {
+    const body = await fixture<HTMLBodyElement>(html`
+      <div style="width: 1500px;height: 1500px;">
+        <bl-button id="mybtn">My Button</bl-button>
+        <bl-tooltip id="mytooltip"  placement="bottom">
+          <span>Tooltip Content</span>
+        </bl-tooltip>
+      </div>
+    `);
+
+    const tooltipEl = body.querySelector('bl-tooltip') as typeOfBlTooltip;
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
+    // @ts-ignore
+    tooltipEl.target = 2;
+    expect(tooltipEl.target).to.be.undefined;
+  });
 });
 
 function getMiddleOfElement(element: Element) {
