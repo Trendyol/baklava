@@ -26,26 +26,20 @@ To make the rule more generic, easiest way is ignoring the elements start with `
 
 To be able to use Baklava via CDN, you should add our default.css and baklava.js at head tag in your index.html file.
 
-> Baklava is currently in beta version. So, if you want to keep updated for new changes, you can add `@beta` tag like the example below.However, you can simply use any version you want by adding the version number.
-
-  <bl-alert variant="warning" icon>
-  Since we are in beta version, there can be breaking changes in build. We don’t suggest you to use beta tag. Use versions instead.
-  </bl-alert>
-
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/themes/default.css"/>
-<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/baklava.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.0.0/dist/themes/default.css"/>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.0.0/dist/baklava.js"></script>
 ```
 
 ### Via NPM
 
-To be able to use Baklava via npm, run ```npm install @trendyol/baklava@beta```
+To be able to use Baklava via npm, run ```npm install @trendyol/baklava```
 then,
 
 ```js
 @import "@trendyol/baklava/dist/themes/default.css";
 import { setIconPath } from '@trendyol/baklava'
-setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava@beta/dist/assets')
+setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.0.0/dist/assets')
 ```
 
 #### Vue2

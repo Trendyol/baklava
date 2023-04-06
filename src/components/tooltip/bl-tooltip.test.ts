@@ -174,9 +174,7 @@ describe('bl-tooltip', () => {
   it('should hide with keyboard escape button', async () => {
     //given
     const el = await fixture<typeOfBlTooltip>(
-      html`<bl-tooltip>
-        <button slot="tooltip-trigger">Test</button> Test Tooltip
-      </bl-tooltip>`
+      html`<bl-tooltip> <button slot="tooltip-trigger">Test</button> Test Tooltip </bl-tooltip>`
     );
     const trigger = document.querySelector('button') as HTMLElement;
 
@@ -187,7 +185,7 @@ describe('bl-tooltip', () => {
 
     const escEvent = new KeyboardEvent('keydown', {
       key: 'Escape',
-      cancelable: true
+      cancelable: true,
     });
 
     setTimeout(() => {

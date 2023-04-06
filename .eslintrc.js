@@ -2,35 +2,27 @@ module.exports = {
   root: true,
   parserOptions: {
     ecmaVersion: 2020,
-    sourceType: 'module',
+    sourceType: 'module'
   },
-  extends: [
-    'eslint:recommended',
-    'prettier',
-  ],
+  extends: ['eslint:recommended', 'prettier', 'plugin:storybook/recommended'],
   env: {
-    browser: true,
+    browser: true
   },
   globals: {
-    process: 'readonly',
+    process: 'readonly'
   },
   rules: {
-    strict: ['error', 'never'],
+    strict: ['error', 'never']
   },
-  overrides: [
-    {
-      files: ['*.ts'],
-      parser: '@typescript-eslint/parser',
-      extends: [
-        'plugin:@typescript-eslint/recommended'
-      ],
-      plugins: ['@typescript-eslint'],
-    },
-    {
-      files: ['web-test-runner.config.js'],
-      env: {
-        node: true,
-      },
+  overrides: [{
+    files: ['*.ts'],
+    parser: '@typescript-eslint/parser',
+    extends: ['plugin:@typescript-eslint/recommended'],
+    plugins: ['@typescript-eslint']
+  }, {
+    files: ['web-test-runner.config.js'],
+    env: {
+      node: true
     }
-  ],
+  }]
 };

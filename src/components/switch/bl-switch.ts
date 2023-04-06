@@ -9,6 +9,9 @@ export const blSwitchTag = 'bl-switch';
 /**
  * @tag bl-switch
  * @summary Baklava Switch component
+ *
+ * @cssproperty [--bl-switch-color=--bl-color-primary] Set the accent color
+ * @cssproperty [--bl-switch-animation-duration=300ms] Set the animation duration of switch toggle
  */
 @customElement(blSwitchTag)
 export default class BlSwitch extends LitElement {
@@ -48,7 +51,8 @@ export default class BlSwitch extends LitElement {
   }
 
   render(): TemplateResult {
-    const ariaLabel = this.ariaLabel ?? this.attributes.getNamedItem("aria-label")?.value ?? undefined;
+    const ariaLabel =
+      this.ariaLabel ?? this.attributes.getNamedItem('aria-label')?.value ?? undefined;
 
     return html`
       <span

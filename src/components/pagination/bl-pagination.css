@@ -1,8 +1,8 @@
 .pagination {
   display: flex;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   justify-content: center;
-  max-width:max-content;
+  max-width: max-content;
   gap: var(--bl-size-s);
 }
 
@@ -26,12 +26,12 @@
 }
 
 .dots {
-  margin:0 var(--bl-size-2xs);
+  margin: 0 var(--bl-size-2xs);
 }
 
 .dots::before {
   content: ' \B7 \B7 \B7';
-  color: var(--bl-color-content-primary);
+  color: var(--bl-color-neutral-darker);
 }
 
 .pagination-helpers {
@@ -40,7 +40,7 @@
   justify-content: center;
   align-items: center;
   gap: var(--bl-size-m);
-  color: var(--bl-color-content-primary);
+  color: var(--bl-color-neutral-darker);
 }
 
 .jumper,
@@ -64,11 +64,11 @@ bl-input {
 }
 
 bl-select {
-  width:128px;
+  width: 128px;
 }
 
 @media only screen and (max-width: 768px) {
   label {
-    display:none;
+    display: none;
   }
 }

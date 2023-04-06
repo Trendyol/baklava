@@ -16,8 +16,8 @@ export type TargetType = '_blank' | '_parent' | '_self' | '_top';
  * @tag bl-button
  * @summary Baklava Button component
  *
- * @cssproperty --bl-button-display - Sets the display property of button. Default value is 'inline-block'.
- * @cssproperty --bl-button-justify - Sets the justify-content property of button. Default value is 'center'.
+ * @cssproperty [--bl-button-display=inline-block] Sets the display property of button
+ * @cssproperty [--bl-button-justify=center] Sets the justify-content property of button
  *
  */
 @customElement('bl-button')
@@ -99,6 +99,12 @@ export default class BlButton extends LitElement {
   dropdown = false;
 
   /**
+   * Sets button to get keyboard focus automatically
+   */
+  @property({ type: Boolean, reflect: true })
+  autofocus = false;
+
+  /**
    * Active state
    */
   @state({})
@@ -164,10 +170,12 @@ export default class BlButton extends LitElement {
 
   render(): TemplateResult {
     const isDisabled = this.loading || this.disabled;
-    const label = (this.loading && this.loadingLabel) ? this.loadingLabel : html`<slot></slot>`;
+    const label = this.loading && this.loadingLabel ? this.loadingLabel : html`<slot></slot>`;
     const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
-    const loadingIcon = this.loading ? html`<bl-icon class="loading-icon" name="loading"></bl-icon>` : '';
+    const loadingIcon = this.loading
+      ? html`<bl-icon class="loading-icon" name="loading"></bl-icon>`
+      : '';
     const slots = html`<slot name="icon">${icon}</slot> <span class="label">${label}</span>`;
     const caret = this.dropdown ? this.caretTemplate() : '';
     const classes = classMap({
@@ -180,6 +188,7 @@ export default class BlButton extends LitElement {
     return isAnchor
       ? html`<a
           class=${classes}
+          ?autofocus=${this.autofocus}
           aria-disabled="${ifDefined(isDisabled)}"
           aria-label="${ifDefined(this.label)}"
           href=${ifDefined(this.href)}
@@ -189,12 +198,13 @@ export default class BlButton extends LitElement {
         </a>`
       : html`<button
           class=${classes}
+          ?autofocus=${this.autofocus}
           aria-disabled="${ifDefined(isDisabled)}"
           aria-label="${ifDefined(this.label)}"
           ?disabled=${isDisabled}
           @click="${this._handleClick}"
         >
-         ${loadingIcon} ${slots} ${caret}
+          ${loadingIcon} ${slots} ${caret}
         </button>`;
   }
 }

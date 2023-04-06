@@ -5,19 +5,21 @@
 }
 
 .wrapper {
-  --border-color: var(--bl-color-border);
-  --icon-color: var(--bl-color-content-tertiary);
-  --text-color: var(--bl-color-content-primary);
+  --border-color: var(--bl-color-neutral-lighter);
+  --icon-color: var(--bl-color-neutral-light);
+  --text-color: var(--bl-color-neutral-darker);
   --height: var(--bl-size-2xl);
   --input-font: var(--bl-font-body-text-2);
   --line-height: var(--bl-font-body-text-2-line-height);
   --icon-size: var(--line-height);
+  --icon-gap: var(--bl-size-xs);
   --padding-vertical: calc((var(--height) - var(--line-height)) / 2);
   --padding-horizontal: var(--bl-size-xs);
-  --autofill-bg-color: var(--bl-color-accent-primary-background);
+  --autofill-bg-color: var(--bl-color-primary-contrast);
+  --label-padding: var(--bl-size-3xs);
+  --background-color: var(--bl-color-neutral-full);
 
-  display: flex;
-  flex-direction: column;
+  display: grid;
   position: relative;
   gap: var(--bl-size-3xs);
 }
@@ -36,6 +38,7 @@
   --height: var(--bl-size-3xl);
   --padding-vertical: var(--bl-size-xs);
   --padding-horizontal: var(--bl-size-m);
+  --icon-gap: var(--bl-size-m);
 }
 
 :host([size='small']) .wrapper {
@@ -43,49 +46,76 @@
   --input-font: var(--bl-font-body-text-3);
   --padding-vertical: var(--bl-size-3xs);
   --icon-size: var(--bl-font-body-text-3-line-height);
+  --icon-gap: var(--bl-size-2xs);
 }
 
 .input-wrapper {
   --border-size: 1px;
 
+  outline: none;
   display: flex;
   box-sizing: border-box;
   gap: var(--padding-vertical);
   height: var(--height);
   border: solid var(--border-size) var(--border-color);
-  padding: 0 calc(var(--padding-horizontal) - var(--border-size));
+  padding: 0 calc(var(--padding-horizontal) - var(--label-padding) - var(--border-size));
+  background-color: var(--background-color);
   border-radius: var(--bl-size-3xs);
+  margin: 0;
+  width: 0;
+  min-width: 100%;
 }
 
-:host([disabled]) .input-wrapper {
+:host([disabled]) .wrapper {
   cursor: not-allowed;
-  background-color: var(--bl-color-secondary-background);
 
-  --text-color: var(--bl-color-content-passive);
+  --background-color: var(--bl-color-neutral-lightest);
+  --text-color: var(--bl-color-neutral-light);
 }
 
-.input-wrapper:has(input:autofill) {
-  background-color: var(--autofill-bg-color);
+.wrapper:has(input:autofill) {
+  --background-color: var(--autofill-bg-color);
 }
 
-.input-wrapper:has(input:-webkit-autofill) {
-  background-color: var(--autofill-bg-color);
+.wrapper:has(input:-webkit-autofill) {
+  --background-color: var(--autofill-bg-color);
 }
 
+.input-wrapper legend,
 label {
-  position: absolute;
-  top: var(--padding-vertical);
-  left: var(--padding-horizontal);
-  right: var(--padding-horizontal);
-  max-width: max-content;
-  transition: all ease-in 0.2s;
-  pointer-events: none;
-  font: var(--input-font);
-  color: var(--bl-color-content-tertiary);
   padding: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+label {
+  position: absolute;
+  max-width: max-content;
+  transition: all ease-in .1s;
+  font: var(--input-font);
+  top: var(--padding-vertical);
+  left: var(--padding-horizontal);
+  right: var(--padding-horizontal);
+  pointer-events: none;
+  color: var(--bl-color-neutral-light);
+}
+
+.has-icon label {
+  right: calc(var(--padding-horizontal) + var(--icon-size) + var(--padding-vertical));
+}
+
+.input-wrapper legend {
+  height: 0;
+  visibility: hidden;
+  display: none;
+}
+
+.input-wrapper legend span {
+  padding: 0 var(--label-padding);
+  display: inline-block;
+  opacity: 0;
+  visibility: visible;
 }
 
 input {
@@ -94,10 +124,19 @@ input {
   outline: 0;
   border: 0;
   padding: 0;
+  padding-left: var(--label-padding);
   font: var(--input-font);
   color: var(--text-color);
   -webkit-text-fill-color: var(--text-color);
   background-color: transparent;
+}
+
+input::-webkit-credentials-auto-fill-button {
+  color: red;
+}
+
+:where(.wrapper:focus-within, .wrapper.has-value) input {
+  padding-left: var(--label-padding);
 }
 
 input:disabled {
@@ -127,10 +166,11 @@ input:-webkit-autofill {
 .icon {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--icon-gap);
   flex-basis: var(--icon-size);
   align-self: center;
   height: var(--icon-size);
+  margin-right: var(--label-padding);
 }
 
 bl-icon:not(.reveal-icon) {
@@ -170,8 +210,8 @@ bl-icon[name='eye_on'] {
 }
 
 ::placeholder {
-  color: var(--bl-color-content-tertiary);
-  -webkit-text-fill-color: var(--bl-color-content-tertiary);
+  color: var(--bl-color-neutral-light);
+  -webkit-text-fill-color: var(--bl-color-neutral-light);
 }
 
 :host([label]) ::placeholder {
@@ -181,26 +221,9 @@ bl-icon[name='eye_on'] {
 }
 
 :host([label-fixed]) ::placeholder,
-:host .wrapper:focus-within ::placeholder {
-  color: var(--bl-color-content-tertiary);
-  -webkit-text-fill-color: var(--bl-color-content-tertiary);
-}
-
-:where(.wrapper:focus-within, .wrapper.has-value) label {
-  --label-padding: var(--bl-size-3xs);
-
-  top: 0;
-  left: calc(var(--padding-horizontal) - var(--label-padding));
-  transform: translateY(-50%);
-  font: var(--bl-font-caption);
-  color: var(--bl-color-content-secondary);
-  padding: 0 var(--label-padding);
-  background-color: var(--bl-color-primary-background);
-  pointer-events: initial;
-}
-
-:where(.has-icon:not(:focus-within), .has-icon:not(.has-value)) label {
-  right: calc(var(--padding-horizontal) + var(--icon-size) + var(--padding-vertical));
+:host :focus-within ::placeholder {
+  color: var(--bl-color-neutral-light);
+  -webkit-text-fill-color: var(--bl-color-neutral-light);
 }
 
 :host([label-fixed]) label {
@@ -209,8 +232,31 @@ bl-icon[name='eye_on'] {
   transform: none;
   pointer-events: initial;
   font: var(--bl-font-caption);
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
   padding: 0;
+}
+
+:host([label-fixed]) legend {
+  display: none;
+}
+
+:host(:not([label-fixed])) :focus-within label,
+:host(:not([label-fixed])) .has-value label {
+  top: 0;
+  left: calc(var(--padding-horizontal) - var(--label-padding));
+  right: calc(var(--padding-horizontal) - var(--label-padding));
+  transform: translateY(-50%);
+  font: var(--bl-font-caption);
+  color: var(--bl-color-neutral-dark);
+  padding: 0 var(--label-padding);
+  pointer-events: initial;
+  z-index: var(--bl-index-base);
+}
+
+:host([label]:not([label-fixed])) :where(:focus-within, .has-value) legend {
+  max-width: 100%;
+  font: var(--bl-font-caption);
+  display: block;
 }
 
 .error-icon,
@@ -225,7 +271,7 @@ bl-icon[name='eye_on'] {
 }
 
 .help-text {
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
 }
 
 :host([help-text]) .hint,

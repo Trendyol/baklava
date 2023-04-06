@@ -35,8 +35,8 @@ export type Placement =
  * @summary Baklava Popover component
  *
  * @cssproperty [--bl-popover-arrow-display=none] - Sets the display of popovers arrow. Set as `block` to make arrow visible.
- * @cssproperty [--bl-popover-background-color=--bl-color-primary-background] - Sets the background color of popover.
- * @cssproperty [--bl-popover-border-color=--bl-color-primary-hover] - Sets the border color of popover.
+ * @cssproperty [--bl-popover-background-color=--bl-color-neutral-full] - Sets the background color of popover.
+ * @cssproperty [--bl-popover-border-color=--bl-color-primary-highlight] - Sets the border color of popover.
  * @cssproperty [--bl-popover-padding=--bl-size-m] - Sets the padding of popover.
  * @cssproperty [--bl-popover-border-radius=--bl-size-3xs] - Sets the border radius of popover.
  * @cssproperty [--bl-popover-position=fixed] - Sets the position of popover. You can set it to `absolute` if parent element is a fixed positioned element like drawer or dialog.
@@ -60,7 +60,6 @@ export default class BlPopover extends LitElement {
    * Target elements state
    */
   @state() _target: string | Element;
-
 
   /**
    * Sets size of popover same as trigger element
@@ -105,7 +104,7 @@ export default class BlPopover extends LitElement {
 
   private getMiddleware(): Middleware[] {
     const middlewareParams: Middleware[] = [];
-    middlewareParams.push(offset(this.offset), inline(), flip(),shift({ padding: 4 }));
+    middlewareParams.push(offset(this.offset), inline(), flip(), shift({ padding: 4 }));
 
     if (this.fitSize) {
       middlewareParams.push(
@@ -113,7 +112,7 @@ export default class BlPopover extends LitElement {
           apply(args: MiddlewareState) {
             if (args.elements.floating && args.elements.reference) {
               Object.assign(args.elements.floating.style, {
-                width: `${args.elements.reference.getBoundingClientRect().width}px`,
+                'min-width': `${args.elements.reference.getBoundingClientRect().width}px`,
               });
             }
           },

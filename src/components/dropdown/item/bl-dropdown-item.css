@@ -1,6 +1,6 @@
 :host {
-    width: 100%;
+  width: 100%;
 
-    --bl-button-display: block;
-    --bl-button-justify: start;
+  --bl-button-display: block;
+  --bl-button-justify: start;
 }

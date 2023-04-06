@@ -10,7 +10,7 @@ describe('bl-tab-panel', function () {
   it('should render with default values', async function () {
     const el = await fixture<BlTabPanel>(html` <bl-tab-panel tab="test-panel"></bl-tab-panel>`);
     const expected = `
-      <slot></slot>
+      <div hidden><slot></slot></div>
     `;
     expect(el).to.be.shadowDom.equal(expected);
   });

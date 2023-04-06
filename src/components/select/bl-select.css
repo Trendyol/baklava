@@ -6,27 +6,25 @@
 .select-wrapper {
   width: 100%;
   position: relative;
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: var(--bl-size-3xs);
 
   --padding-vertical: var(--bl-size-2xs);
   --padding-horizontal: var(--bl-size-xs);
-  --background-color:  var(--bl-color-primary-background);
-  --border-color: var(--bl-color-border);
-  --border-focus-color: var(--bl-color-primary-hover);
-  --icon-color: var(--bl-color-content-tertiary);
-  --text-color: var(--bl-color-content-primary);
-  --label-color: var(--bl-color-content-secondary);
-  --placeholder-color: var(--bl-color-content-tertiary);
+  --label-padding: var(--bl-size-3xs);
+  --border-size: 1px;
+  --background-color:  var(--bl-color-neutral-full);
+  --border-color: var(--bl-color-neutral-lighter);
+  --border-focus-color: var(--bl-color-primary-highlight);
+  --icon-color: var(--bl-color-neutral-light);
+  --text-color: var(--bl-color-neutral-darker);
+  --label-color: var(--bl-color-neutral-dark);
+  --placeholder-color: var(--bl-color-neutral-light);
   --height: var(--bl-size-2xl);
   --menu-padding: 0 var(--bl-size-m);
   --menu-margin-top: var(--bl-size-2xs);
   --font-size: var(--bl-font-size-m);
-  --disabled-color: var(--bl-color-tertiary);
-
-  /* TODO: Use predefined z-index values */
-  --z-index: 100;
+  --disabled-color: var(--bl-color-neutral-lightest);
   --menu-height: 250px;
   --popover-position: var(--bl-popover-position, fixed);
 }
@@ -45,34 +43,40 @@
 }
 
 :host([disabled]) .select-wrapper {
-  --placeholder-color: var(--bl-color-content-passive);
+  --placeholder-color: var(--bl-color-neutral-light);
 }
 
 .dirty.invalid {
   --border-color: var(--bl-color-danger);
-  --border-focus-color: var(--bl-color-danger-hover);
+  --border-focus-color: var(--bl-color-danger-highlight);
   --label-color: var(--bl-color-danger);
 }
 
 .select-input {
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: space-between;
+  grid-template-columns: 1fr max-content max-content;
   cursor: pointer;
   box-sizing: border-box;
   height: var(--height);
   border: solid 1px var(--border-color);
   font: var(--bl-font-title-3-regular);
-  padding: 0 var(--padding-horizontal);
+  padding: 0 calc(var(--padding-horizontal) - var(--label-padding) - var(--border-size));
   border-radius: var(--bl-border-radius-s);
   color: var(--text-color);
+  background-color: var(--background-color);
   /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-user-select: none;
   user-select: none;
+  margin: 0;
+  width: 0;
+  min-width: 100%;
 }
 
 .placeholder {
   color: var(--placeholder-color);
+  padding-left: var(--label-padding);
   white-space: nowrap;
   max-width: 100%;
   overflow: hidden;
@@ -94,7 +98,7 @@
   left: 1.5rem;
   bottom: 4px;
   height: 1rem;
-  border-left: 1px solid var(--bl-color-border);
+  border-left: 1px solid var(--bl-color-neutral-lighter);
 }
 
 .selected .remove-all {
@@ -123,11 +127,11 @@
 }
 
 .selected .dropdown-icon {
-  --icon-color: var(--bl-color-secondary);
+  --icon-color: var(--bl-color-neutral-darker);
 }
 
 :host([disabled]) .dropdown-icon {
-  --icon-color: var(--bl-color-content-passive);
+  --icon-color: var(--bl-color-neutral-light);
 }
 
 .select-open .select-input,
@@ -146,10 +150,11 @@
 }
 
 .select-input .selected-options {
-  flex: 1;
   padding: 0;
+  padding-left: var(--label-padding);
   margin: 0;
   list-style: none;
+  flex: 1;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -171,7 +176,7 @@
 
 :host([disabled]) .selected-options li
 {
-  color: var(--bl-color-content-passive);
+  color: var(--bl-color-neutral-light);
 }
 
 .select-input .actions {
@@ -198,7 +203,7 @@
   overflow-y: auto;
   display: none;
   flex-direction: column;
-  z-index: var(--z-index);
+  z-index: var(--bl-index-popover);
   width: 100%;
   top: var(--top);
   left: var(--left);
@@ -213,35 +218,57 @@ bl-icon {
   color: var(--icon-color);
 }
 
+legend,
 label {
-  position: absolute;
-  display: block;
-  top: var(--padding-vertical);
-  left: var(--padding-horizontal);
-  right: calc(var(--bl-size-2xs) + var(--bl-size-m) + var(--bl-size-2xs));
   max-width: max-content;
-  transition: all ease-in 0.2s;
-  pointer-events: none;
-  font: var(--bl-font-title-3-regular);
-  font-size: var(--font-size);
-  color: var(--placeholder-color);
   padding: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+label {
+  position: absolute;
+  display: block;
+  top: var(--padding-vertical);
+  left: var(--padding-horizontal);
+  right: calc(var(--bl-size-2xs) + var(--bl-size-m) + var(--bl-size-2xs));
+  transition: all ease-in 0.1s;
+  pointer-events: none;
+  font: var(--bl-font-title-3-regular);
+  font-size: var(--font-size);
+  color: var(--placeholder-color);
+}
+
+legend {
+  height: 0;
+  visibility: hidden;
+  display: none;
+}
+
+legend span {
+  padding: 0 var(--label-padding);
+  display: inline-block;
+  opacity: 0;
+  visibility: visible;
+}
+
 :where(.select-open, .selected) label {
   top: 0;
-  left: var(--bl-size-2xs);
   transform: translateY(-50%);
   font: var(--bl-font-caption);
   color: var(--label-color);
-  padding: 0 var(--bl-size-3xs);
-  background-color: var(--bl-color-primary-background);
   pointer-events: initial;
   right: var(--padding-horizontal);
 }
+
+
+:host([label]) :where(.select-open, .selected) legend {
+  max-width: 100%;
+  font: var(--bl-font-caption);
+  display: block;
+}
+
 
 :host([label-fixed]) label {
   position: static;
@@ -253,6 +280,9 @@ label {
   color: var(--label-color);
 }
 
+:host([label-fixed]) legend {
+  display: none;
+}
 
 .hint {
   display: none;
@@ -276,7 +306,7 @@ label {
 }
 
 .help-text {
-  color: var(--bl-color-content-secondary);
+  color: var(--bl-color-neutral-dark);
 }
 
 .select-open .help-text,

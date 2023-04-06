@@ -1,43 +1,35 @@
 @import '@fontsource/rubik/variable.css';
 
 :root {
-  /* Colors */
+  /* Primary Color */
   --bl-color-primary: #f27a1a;
-  --bl-color-primary-hover: #ef6114;
-  --bl-color-secondary: #273142;
-  --bl-color-secondary-hover: #0f131a;
-  --bl-color-tertiary: #f1f2f7;
-  --bl-color-tertiary-hover: #d5d9e1;
+  --bl-color-primary-highlight: #ef6114;
+  --bl-color-primary-contrast: #fef2e8;
+
+  /* Success Color */
   --bl-color-success: #0bc15c;
-  --bl-color-success-hover: #09a44e;
+  --bl-color-success-highlight: #09a44e;
+  --bl-color-success-contrast: #e7f9ef;
+
+  /* Danger Color */
   --bl-color-danger: #ff5043;
-  --bl-color-danger-hover: #ff3028;
+  --bl-color-danger-highlight: #ff3028;
+  --bl-color-danger-contrast: #ffeeec;
+
+  /* Warning Color */
   --bl-color-warning: #ffb600;
-  --bl-color-warning-hover: #ff9800;
-  --bl-color-alternative: #5794ff;
-  --bl-color-alternative-hover: #457eff;
-  --bl-color-featured: #8c4eff;
-  --bl-color-featured-hover: #753eff;
+  --bl-color-warning-highlight: #ff9800;
+  --bl-color-warning-contrast: #fff8e6;
 
-  /* Background Colors */
-  --bl-color-primary-background: #fff;
-  --bl-color-accent-primary-background: #fef2e8;
-  --bl-color-secondary-background: #f1f2f7;
-  --bl-color-tertiary-background: #f7f7fa;
-  --bl-color-success-background: #e7f9ef;
-  --bl-color-danger-background: #ffeeec;
-  --bl-color-warning-background: #fff8e6;
-  --bl-color-alternative-background: #eef4ff;
-  --bl-color-featured-background: #f4edff;
-
-  /* Content Colors */
-  --bl-color-content-primary: #273142;
-  --bl-color-content-secondary: #6e7787;
-  --bl-color-content-tertiary: #95a1b5;
-  --bl-color-content-passive: #afbbca;
-  --bl-color-content-primary-contrast: #fff;
-  --bl-color-content-hover: #f27a1a;
-  --bl-color-border: #d5d9e1;
+  /* Neutral Color */
+  --bl-color-neutral-none: #000;
+  --bl-color-neutral-darkest: #0f131a;
+  --bl-color-neutral-darker: #273142;
+  --bl-color-neutral-dark: #6e7787;
+  --bl-color-neutral-light: #95a1b5;
+  --bl-color-neutral-lighter: #afbbca;
+  --bl-color-neutral-lightest: #f1f2f7;
+  --bl-color-neutral-full: #fff;
 
   /* Size and Spacing */
   --bl-size-4xs: 0.125rem; /* 2px */
@@ -53,6 +45,16 @@
   --bl-size-4xl: 3rem; /* 48px */
   --bl-size-5xl: 4rem; /* 64px */
   --bl-size-6xl: 5rem; /* 80px */
+
+  /* Z-indexes */
+  --bl-index-deep: -1;
+  --bl-index-base: 1;
+  --bl-index-popover: 100;
+  --bl-index-tooltip: 200;
+  --bl-index-sticky: 300;
+  --bl-index-overlay: 400;
+  --bl-index-dialog: 500;
+  --bl-index-notification: 600;
 
   /* Typography */
   --bl-font-family: 'RubikVariable', sans-serif;
@@ -88,7 +90,7 @@
   /* Font Style: Display */
   --bl-font-display-font-size: var(--bl-font-size-5xl);
   --bl-font-display-line-height: calc(var(--bl-font-display-font-size) + var(--bl-size-2xs));
-  --bl-font-display-size: var(--bl-font-display-font-size)/var(--bl-font-display-line-height);
+  --bl-font-display-size: var(--bl-font-display-font-size) / var(--bl-font-display-line-height);
   --bl-font-display: var(--bl-font-display-size) var(--bl-font-family);
   --bl-font-display-light: var(--bl-font-weight-light) var(--bl-font-display);
   --bl-font-display-regular: var(--bl-font-weight-regular) var(--bl-font-display);
@@ -99,25 +101,31 @@
   /* Font Style: Heading 1 */
   --bl-font-heading-1-font-size: var(--bl-font-size-4xl);
   --bl-font-heading-1-line-height: calc(var(--bl-font-heading-1-font-size) + var(--bl-size-3xs));
-  --bl-font-heading-1-size: var(--bl-font-heading-1-font-size)/var(--bl-font-heading-1-line-height);
-  --bl-font-heading-1: var(--bl-font-weight-light) var(--bl-font-heading-1-size) var(--bl-font-family);
+  --bl-font-heading-1-size: var(--bl-font-heading-1-font-size) /
+    var(--bl-font-heading-1-line-height);
+  --bl-font-heading-1: var(--bl-font-weight-light) var(--bl-font-heading-1-size)
+    var(--bl-font-family);
 
-   /* Font Style: Heading 2 */
-   --bl-font-heading-2-font-size: var(--bl-font-size-3xl);
-   --bl-font-heading-2-line-height: calc(var(--bl-font-heading-2-font-size) + var(--bl-size-3xs));
-   --bl-font-heading-2-size: var(--bl-font-heading-2-font-size)/var(--bl-font-heading-2-line-height);
-   --bl-font-heading-2: var(--bl-font-weight-regular) var(--bl-font-heading-2-size) var(--bl-font-family);
+  /* Font Style: Heading 2 */
+  --bl-font-heading-2-font-size: var(--bl-font-size-3xl);
+  --bl-font-heading-2-line-height: calc(var(--bl-font-heading-2-font-size) + var(--bl-size-3xs));
+  --bl-font-heading-2-size: var(--bl-font-heading-2-font-size) /
+    var(--bl-font-heading-2-line-height);
+  --bl-font-heading-2: var(--bl-font-weight-regular) var(--bl-font-heading-2-size)
+    var(--bl-font-family);
 
-   /* Font Style: Heading 3 */
-   --bl-font-heading-3-font-size: var(--bl-font-size-2xl);
-   --bl-font-heading-3-line-height: calc(var(--bl-font-heading-3-font-size) + var(--bl-size-3xs));
-   --bl-font-heading-3-size: var(--bl-font-heading-3-font-size)/var(--bl-font-heading-3-line-height);
-   --bl-font-heading-3: var(--bl-font-weight-regular) var(--bl-font-heading-3-size) var(--bl-font-family);
+  /* Font Style: Heading 3 */
+  --bl-font-heading-3-font-size: var(--bl-font-size-2xl);
+  --bl-font-heading-3-line-height: calc(var(--bl-font-heading-3-font-size) + var(--bl-size-3xs));
+  --bl-font-heading-3-size: var(--bl-font-heading-3-font-size) /
+    var(--bl-font-heading-3-line-height);
+  --bl-font-heading-3: var(--bl-font-weight-regular) var(--bl-font-heading-3-size)
+    var(--bl-font-family);
 
   /* Font Style: Title 1 */
   --bl-font-title-1-font-size: var(--bl-font-size-xl);
   --bl-font-title-1-line-height: calc(var(--bl-font-title-1-font-size) + var(--bl-size-3xs));
-  --bl-font-title-1-size: var(--bl-font-title-1-font-size)/var(--bl-font-title-1-line-height);
+  --bl-font-title-1-size: var(--bl-font-title-1-font-size) / var(--bl-font-title-1-line-height);
   --bl-font-title-1: var(--bl-font-title-1-size) var(--bl-font-family);
   --bl-font-title-1-regular: var(--bl-font-weight-regular) var(--bl-font-title-1);
   --bl-font-title-1-medium: var(--bl-font-weight-medium) var(--bl-font-title-1);
@@ -127,7 +135,7 @@
   /* Font Style: Title 2 */
   --bl-font-title-2-font-size: var(--bl-font-size-l);
   --bl-font-title-2-line-height: calc(var(--bl-font-title-2-font-size) + var(--bl-size-3xs));
-  --bl-font-title-2-size: var(--bl-font-title-2-font-size)/var(--bl-font-title-2-line-height);
+  --bl-font-title-2-size: var(--bl-font-title-2-font-size) / var(--bl-font-title-2-line-height);
   --bl-font-title-2: var(--bl-font-title-2-size) var(--bl-font-family);
   --bl-font-title-2-regular: var(--bl-font-weight-regular) var(--bl-font-title-2);
   --bl-font-title-2-medium: var(--bl-font-weight-medium) var(--bl-font-title-2);
@@ -137,7 +145,7 @@
   /* Font Style: Title 3 */
   --bl-font-title-3-font-size: var(--bl-font-size-m);
   --bl-font-title-3-line-height: calc(var(--bl-font-title-3-font-size) + var(--bl-size-4xs));
-  --bl-font-title-3-size: var(--bl-font-title-3-font-size)/var(--bl-font-title-3-line-height);
+  --bl-font-title-3-size: var(--bl-font-title-3-font-size) / var(--bl-font-title-3-line-height);
   --bl-font-title-3: var(--bl-font-title-3-size) var(--bl-font-family);
   --bl-font-title-3-regular: var(--bl-font-weight-regular) var(--bl-font-title-3);
   --bl-font-title-3-medium: var(--bl-font-weight-medium) var(--bl-font-title-3);
@@ -147,7 +155,7 @@
   /* Font Style: Title 4 */
   --bl-font-title-4-font-size: var(--bl-font-size-s);
   --bl-font-title-4-line-height: calc(var(--bl-font-title-4-font-size) + var(--bl-size-4xs));
-  --bl-font-title-4-size: var(--bl-font-title-4-font-size)/var(--bl-font-title-4-line-height);
+  --bl-font-title-4-size: var(--bl-font-title-4-font-size) / var(--bl-font-title-4-line-height);
   --bl-font-title-4: var(--bl-font-title-4-size) var(--bl-font-family);
   --bl-font-title-4-regular: var(--bl-font-weight-regular) var(--bl-font-title-4);
   --bl-font-title-4-medium: var(--bl-font-weight-medium) var(--bl-font-title-4);
@@ -156,25 +164,77 @@
 
   /* Font Style: Body Text 1 */
   --bl-font-body-text-1-font-size: var(--bl-font-size-l);
-  --bl-font-body-text-1-line-height: calc(var(--bl-font-body-text-1-font-size) + var(--bl-size-4xs));
-  --bl-font-body-text-1-size: var(--bl-font-body-text-1-font-size)/var(--bl-font-body-text-1-line-height);
-  --bl-font-body-text-1: var(--bl-font-weight-regular) var(--bl-font-body-text-1-size) var(--bl-font-family);
+  --bl-font-body-text-1-line-height: calc(
+    var(--bl-font-body-text-1-font-size) + var(--bl-size-4xs)
+  );
+  --bl-font-body-text-1-size: var(--bl-font-body-text-1-font-size) /
+    var(--bl-font-body-text-1-line-height);
+  --bl-font-body-text-1: var(--bl-font-weight-regular) var(--bl-font-body-text-1-size)
+    var(--bl-font-family);
 
   /* Font Style: Body Text 2 */
   --bl-font-body-text-2-font-size: var(--bl-font-size-m);
-  --bl-font-body-text-2-line-height: calc(var(--bl-font-body-text-2-font-size) + var(--bl-size-4xs));
-  --bl-font-body-text-2-size: var(--bl-font-body-text-2-font-size)/var(--bl-font-body-text-2-line-height);
-  --bl-font-body-text-2: var(--bl-font-weight-regular) var(--bl-font-body-text-2-size) var(--bl-font-family);
+  --bl-font-body-text-2-line-height: calc(
+    var(--bl-font-body-text-2-font-size) + var(--bl-size-4xs)
+  );
+  --bl-font-body-text-2-size: var(--bl-font-body-text-2-font-size) /
+    var(--bl-font-body-text-2-line-height);
+  --bl-font-body-text-2: var(--bl-font-weight-regular) var(--bl-font-body-text-2-size)
+    var(--bl-font-family);
 
   /* Font Style: Body Text 3 */
   --bl-font-body-text-3-font-size: var(--bl-font-size-s);
-  --bl-font-body-text-3-line-height: calc(var(--bl-font-body-text-3-font-size) + var(--bl-size-4xs));
-  --bl-font-body-text-3-size: var(--bl-font-body-text-3-font-size)/var(--bl-font-body-text-3-line-height);
-  --bl-font-body-text-3: var(--bl-font-weight-regular) var(--bl-font-body-text-3-size) var(--bl-font-family);
+  --bl-font-body-text-3-line-height: calc(
+    var(--bl-font-body-text-3-font-size) + var(--bl-size-4xs)
+  );
+  --bl-font-body-text-3-size: var(--bl-font-body-text-3-font-size) /
+    var(--bl-font-body-text-3-line-height);
+  --bl-font-body-text-3: var(--bl-font-weight-regular) var(--bl-font-body-text-3-size)
+    var(--bl-font-family);
 
   /* Font Style: Caption */
   --bl-font-caption-font-size: var(--bl-font-size-xs);
   --bl-font-caption-line-height: calc(var(--bl-font-caption-font-size) + var(--bl-size-4xs));
-  --bl-font-caption-size: var(--bl-font-caption-font-size)/var(--bl-font-caption-line-height);
+  --bl-font-caption-size: var(--bl-font-caption-font-size) / var(--bl-font-caption-line-height);
   --bl-font-caption: var(--bl-font-weight-medium) var(--bl-font-caption-size) var(--bl-font-family);
+
+  /*
+  @DEPRECATED
+
+  Color names below is kept for backward compatibility,
+
+  Will be removed in V3
+  */
+  --bl-color-primary-hover: var(--bl-color-primary-highlight);
+  --bl-color-success-hover: var(--bl-color-success-highlight);
+  --bl-color-danger-hover: var(--bl-color-danger-highlight);
+  --bl-color-warning-hover: var(--bl-color-warning-highlight);
+  --bl-color-accent-primary-background: var(--bl-color-primary-contrast);
+  --bl-color-success-background: var(--bl-color-success-contrast);
+  --bl-color-danger-background: var(--bl-color-danger-contrast);
+  --bl-color-warning-background: var(--bl-color-warning-contrast);
+  --bl-color-primary-background: var(--bl-color-neutral-full);
+
+  /* Content Colors */
+  --bl-color-content-primary: var(--bl-color-neutral-darker);
+  --bl-color-content-secondary: var(--bl-color-neutral-dark);
+  --bl-color-content-tertiary: var(--bl-color-neutral-light);
+  --bl-color-content-passive: var(--bl-color-neutral-lighter);
+  --bl-color-content-primary-contrast: var(--bl-color-neutral-full);
+  --bl-color-content-hover: var(--bl-color-primary-highlight);
+  --bl-color-border: var(--bl-color-neutral-lighter);
+
+  /* Removed Colors */
+  --bl-color-secondary: #273142;
+  --bl-color-secondary-hover: #0f131a;
+  --bl-color-secondary-background: var(--bl-color-neutral-lightest);
+  --bl-color-tertiary: #f1f2f7;
+  --bl-color-tertiary-hover: #d5d9e1;
+  --bl-color-alternative: #5794ff;
+  --bl-color-alternative-hover: #457eff;
+  --bl-color-featured: #8c4eff;
+  --bl-color-featured-hover: #753eff;
+  --bl-color-tertiary-background: #f7f7fa;
+  --bl-color-alternative-background: #eef4ff;
+  --bl-color-featured-background: #f4edff;
 }

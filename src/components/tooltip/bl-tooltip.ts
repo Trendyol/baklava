@@ -1,11 +1,11 @@
+import { ReferenceElement } from '@floating-ui/core';
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
-import { ReferenceElement } from '@floating-ui/core';
-import style from './bl-tooltip.css';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { event, EventDispatcher } from '../../utilities/event';
-import "../popover/bl-popover";
-import {ifDefined} from "lit/directives/if-defined.js";
-import type BlPopover from "../popover/bl-popover";
+import '../popover/bl-popover';
+import type BlPopover from '../popover/bl-popover';
+import style from './bl-tooltip.css';
 
 export type Placement =
   | 'top-start'
@@ -50,7 +50,6 @@ export default class BlTooltip extends LitElement {
    */
   @state() _target: string | Element;
 
-
   /**
    * Sets the target element of the popover to align and trigger.
    * It can be a string id of the target element or can be a direct Element reference of it.
@@ -71,14 +70,13 @@ export default class BlTooltip extends LitElement {
       );
     }
 
-    if(this._target instanceof Element){
-      this._target.addEventListener("focus",this.show.bind(this));
-      this._target.addEventListener("blur",this.hide.bind(this));
-      this._target.addEventListener("mouseover",this.show.bind(this));
-      this._target.addEventListener("mouseleave",this.hide.bind(this));
+    if (this._target instanceof Element) {
+      this._target.addEventListener('focus', this.show.bind(this));
+      this._target.addEventListener('blur', this.hide.bind(this));
+      this._target.addEventListener('mouseover', this.show.bind(this));
+      this._target.addEventListener('mouseleave', this.hide.bind(this));
     }
   }
-
 
   /**
    * Fires when hovering over a trigger
@@ -100,16 +98,13 @@ export default class BlTooltip extends LitElement {
     super.disconnectedCallback();
 
     this.removeEventListener('keydown', this.handleKeyDown);
-
   }
-
-
 
   /**
    * Shows tooltip
    */
   show() {
-    this._visible = true
+    this._visible = true;
     this.popover.target = this.trigger ? this.trigger : this._target;
     this.popover.show();
     this.onShow('Show event fired!');
@@ -139,24 +134,26 @@ export default class BlTooltip extends LitElement {
   }
 
   private triggerTemplate() {
-      return html`<slot
-        class="trigger"
-        name="tooltip-trigger"
-        aria-describedby="tooltip"
-        @focus=${{ handleEvent: () => this.show(), capture: true }}
-        @blur=${{ handleEvent: () => this.hide(), capture: true }}
-        @mouseover=${() => this.show()}
-        @mouseleave=${() => this.hide()}
-      >
-      </slot>`
-
+    return html`<slot
+      class="trigger"
+      name="tooltip-trigger"
+      aria-describedby="tooltip"
+      @focus=${{ handleEvent: () => this.show(), capture: true }}
+      @blur=${{ handleEvent: () => this.hide(), capture: true }}
+      @mouseover=${() => this.show()}
+      @mouseleave=${() => this.hide()}
+    >
+    </slot>`;
   }
 
   render(): TemplateResult {
-    return html`
-      ${!this._target ? this.triggerTemplate() : ''}
+    return html` ${!this._target ? this.triggerTemplate() : ''}
       <div class="wrapper">
-        <bl-popover class="tooltip" .target="${!this._target ? this.trigger : this._target}" placement="${ifDefined(this.placement)}">
+        <bl-popover
+          class="tooltip"
+          .target="${!this._target ? this.trigger : this._target}"
+          placement="${ifDefined(this.placement)}"
+        >
           <slot id="tooltip" class="content" role="tooltip"></slot>
         </bl-popover>
       </div>`;

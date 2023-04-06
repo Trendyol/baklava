@@ -2,15 +2,15 @@
   position: relative;
   display: flex;
   align-items: center;
-  background-color: var(--bl-color-primary-background);
+  background-color: var(--bl-color-neutral-full);
 }
 
 .container {
   --title-padding-vertical: var(--bl-size-m);
   --title-padding-horizontal: var(--bl-size-xl);
-  --title-color: var(--bl-color-secondary);
-  --caption-color: var(--bl-color-secondary);
-  --icon-color: var(--bl-color-secondary);
+  --title-color: var(--bl-color-neutral-darker);
+  --caption-color: var(--bl-color-neutral-darker);
+  --icon-color: var(--bl-color-neutral-darker);
   --border-bottom-width: var(--bl-size-4xs);
   --border-left-space: var(--bl-size-xl);
   --font-title: var(--bl-font-title-3-medium);
@@ -26,6 +26,7 @@
   width: max-content;
   height: var(--tab-height);
   padding: 0 var(--tab-right-padding);
+  margin-right: 1px;
 }
 
 .container::after {
@@ -34,11 +35,22 @@
   right: 0;
   top: var(--bl-size-m);
   height: calc(100% - var(--bl-size-2xl));
-  border-right: 1px solid var(--bl-color-tertiary-hover);
+  border-right: 1px solid var(--bl-color-neutral-lighter);
 }
 
 :host(:last-of-type) .container::after {
   border-right: none;
+}
+
+:host(:focus-visible) {
+  outline: none;
+}
+
+:host(:focus-visible) .container,
+.container:focus-visible {
+  outline: 2px solid var(--bl-color-primary);
+  outline-offset: calc(-1 * var(--bl-size-3xs));
+  border-radius: var(--bl-border-radius-s);
 }
 
 :host .container::before {
@@ -64,9 +76,9 @@
 :host([disabled]) .container {
   cursor: not-allowed;
 
-  --title-color: var(--bl-color-content-passive);
-  --caption-color: var(--bl-color-content-passive);
-  --icon-color: var(--bl-color-content-passive);
+  --title-color: var(--bl-color-neutral-lighter);
+  --caption-color: var(--bl-color-neutral-lighter);
+  --icon-color: var(--bl-color-neutral-lighter);
 }
 
 :host(:hover) :where(.title, .icon) {

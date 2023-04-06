@@ -24,6 +24,7 @@ jobs:
         run: npm run test
       - name: Create coverage artifact
         uses: actions/upload-artifact@master
+        if: always()
         with:
           name: test-coverage-report
           path: coverage/

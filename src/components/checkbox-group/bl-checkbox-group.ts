@@ -14,7 +14,7 @@ export const blChangeEventName = 'bl-checkbox-group-change';
  * @tag bl-checkbox-group
  * @summary Baklava Button component
  *
- * @cssproperty --bl-checkbox-direction - Can be used for showing checkbox options as columns instead of rows. Options are `row` or `column`
+ * @cssproperty [--bl-checkbox-direction=row] Can be used for showing checkbox options as columns instead of rows. Options are `row` or `column`
  */
 @customElement(blCheckboxGroupTag)
 export default class BlCheckboxGroup extends FormControlMixin(LitElement) {

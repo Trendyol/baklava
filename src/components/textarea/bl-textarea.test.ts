@@ -15,17 +15,20 @@ describe('bl-textarea', () => {
       `
         <div class="wrapper" style="--row-count:4;">
           <label for="input">Label</label>
-          <div class="input-wrapper">
+          <fieldset class="input-wrapper">
+            <legend><span>Label</span></legend>
             <textarea
             id="input"
             name=""
             rows="4"
+            spellcheck="false"
             >
             </textarea>
-          </div>
+          </fieldset>
           <div class="hint"></div>
         </div>
-      `
+      `,
+      { ignoreAttributes: ['for', 'id'] }
     );
   });
 

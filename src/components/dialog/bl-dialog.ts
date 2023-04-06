@@ -4,16 +4,15 @@ import { event, EventDispatcher } from '../../utilities/event';
 import '../button/bl-button';
 import style from './bl-dialog.css';
 
-/**
- * @tag bl-dialog
- * @summary Baklava Dialog component
- */
-
 type DialogElement = {
   showModal: () => void;
   close: () => void;
 };
 
+/**
+ * @tag bl-dialog
+ * @summary Baklava Dialog component
+ */
 @customElement('bl-dialog')
 export default class BlDialog extends LitElement {
   static get styles(): CSSResultGroup {
@@ -142,9 +141,20 @@ export default class BlDialog extends LitElement {
   render(): TemplateResult {
     return this.hasHtmlDialogSupport
       ? html`
-          <dialog class="dialog" aria-labelledby="dialog-caption" @click=${this.clickOutsideHandler}>${this.renderContainer()}</dialog>
+          <dialog
+            class="dialog"
+            aria-labelledby="dialog-caption"
+            @click=${this.clickOutsideHandler}
+          >
+            ${this.renderContainer()}
+          </dialog>
         `
-      : html`<div class="dialog-polyfill" role="dialog" aria-labelledby="dialog-caption" @click=${this.clickOutsideHandler}>
+      : html`<div
+          class="dialog-polyfill"
+          role="dialog"
+          aria-labelledby="dialog-caption"
+          @click=${this.clickOutsideHandler}
+        >
           ${this.renderContainer()}
         </div>`;
   }

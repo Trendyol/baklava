@@ -8,6 +8,10 @@ import { userEvent } from '@storybook/testing-library';
 <Meta
   title="Components/Dialog"
   component="bl-dialog"
+  parameters={{
+    layout: 'fullscreen',
+    chromatic: { viewports: [1000] },
+  }}
   argTypes={{
     open: {
       control: "boolean",
@@ -19,43 +23,38 @@ import { userEvent } from '@storybook/testing-library';
   }}
 />
 
-export const dialogOpener = async (event,dialogClass) => {
-  const target= event.target;
-  const isCanvas = !event.target || target.parentNode.parentNode.getAttribute("id") === "root";
-  let selector=`#docs-root .${dialogClass}`;
-  if(isCanvas){
-    selector = `#root .${dialogClass}`;
-  }
-  const dialog = document.querySelector(selector);
-  dialog.setAttribute("open",true);
-}
-
-export const closeAllDialog = async () => {
-  const dialog = document.querySelector(`#root bl-dialog[open]`);
-  dialog?.removeAttribute("open");
+export const dialogOpener = async (event, dialogId) => {
+  const dialog = document.getElementById(dialogId);
+  dialog.open = true;
 }
 
 export const BasicTemplate = (args) => html`
-<bl-button @click="${(event) => dialogOpener(event,"basic-dialog")}" variant="secondary">Open Dialog</bl-button>
-<bl-dialog class="basic-dialog"
-caption="${ifDefined(args.caption)}"
-open="${ifDefined(args.open)}"
-style = "font: var(--bl-font-body-text-2)">
-  Let us help determine location. This means sending anonymous location data to us.
-  <bl-button slot="primary-action" variant="primary" size="large">Agree</bl-button>
-  <bl-button slot="secondary-action" variant="secondary" kind="danger" size="large">Disagree</bl-button>
-  <bl-button slot="tertiary-action" variant="tertiary" kind="neutral" size="large">Cancel</bl-button>
+<bl-button @bl-click="${(event) => dialogOpener(event, args.id)}" variant="secondary">Open Dialog</bl-button>
+<bl-dialog
+  id=${args.id}
+  class="${ifDefined(args.className)}"
+  caption="${ifDefined(args.caption)}"
+  open="${ifDefined(args.open)}"
+  style="font: var(--bl-font-body-text-2)">
+  ${ unsafeHTML(args.content) }
+  ${ args.primaryAction ? html`<bl-button slot="primary-action" variant="primary" ?autofocus=${args.focusPrimary} size="large">${args.primaryAction}</bl-button>` : ''}
+  ${ args.secondaryAction ? html`<bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large">${args.secondaryAction}</bl-button>` : ''}
+  ${ args.tertiaryAction ? html`<bl-button slot="tertiary-action" variant="tertiary" ?autofocus=${args.focusTertiary} size="large">${args.tertiaryAction}</bl-button>` : ''}
 </bl-dialog>
-<script>${closeAllDialog()}</script>
+`
+
+export const FullWidthActionsTemplate = (args) => html`
+<style>
+  bl-dialog.full-width-actions bl-button {
+    --bl-button-display: block;
+    flex: 1;
+  }
+</style>
+${BasicTemplate({...args, className: "full-width-actions"})}
 `
 
 export const TemplateWithStickyFooter = (args) => html`
-<bl-button @click="${(event) => dialogOpener(event,"dialog-with-sticky-footer")}" variant="secondary" kind="success">Open Dialog</bl-button>
-<bl-dialog class="dialog-with-sticky-footer"
-caption="${ifDefined(args.caption)}"
-open="${ifDefined(args.open)}"
-style = "font: var(--bl-font-body-text-2)">
-  <bl-alert icon>Please read all terms and conditions.</bl-alert>
+${BasicTemplate({...args, content: `<bl-alert icon>Please read all terms and conditions.</bl-alert>
   <h4>Lorem ipsum dolor sit amet</h4>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
    Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -101,19 +100,11 @@ style = "font: var(--bl-font-body-text-2)">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
   Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.<br/>
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br/> ut labore et dolore magna aliqua.
-  Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-  <bl-button slot="primary-action" kind='success' variant="primary" size="large">Got It</bl-button>
-  <bl-button slot="secondary-action" variant="secondary" kind="neutral" size="large">Cancel</bl-button>
-</bl-dialog>
+  Ut enim ad minim veniam, quis nostrud exercitation <br/>ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>` })}
 `
 
 export const SizingTemplate = (args) => html`
-<bl-button @click="${(event) => dialogOpener(event,"dialog-sizing")}" variant="tertiary" kind="neutral">Open Dialog</bl-button>
-<bl-dialog class="dialog-sizing"
-caption="${ifDefined(args.caption)}"
-open="${ifDefined(args.open)}"
-style = "font: var(--bl-font-body-text-2)">
-  <p style="width:400px; height:200px; margin:0; padding:0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+${BasicTemplate({...args, content: `<p style="width:400px; height:200px; margin:0; padding:0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
   when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
   remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
   software like Aldus PageMaker including versions of Lorem Ipsum. Let us help determine location. This means sending anonymous location data to us.
@@ -122,11 +113,7 @@ style = "font: var(--bl-font-body-text-2)">
   of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"
   (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum,
   "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-  </p>
-  <bl-button slot="primary-action" variant="primary" size="large">Agree</bl-button>
-  <bl-button slot="secondary-action" variant="secondary" kind="danger" size="large">Disagree</bl-button>
-  <bl-button slot="tertiary-action" variant="tertiary" kind="neutral" size="large">Cancel</bl-button>
-</bl-dialog>
+  </p>` })}
 `
 
 # Dialog
@@ -152,8 +139,15 @@ To maintain usability level of dialog component:
 ## Basic Usage
 
 <Canvas>
-  <Story name="Basic Usage" play={(event) => dialogOpener(event,"basic-dialog")}
-   args={{ caption: "Use location service?"}}>
+  <Story name="Basic Usage" play={(event) => dialogOpener(event, "dl-basic")}
+   args={{
+    id: 'dl-basic',
+    caption: "Use location service?",
+    content: 'Let us help determine location. This means sending anonymous location data to us.',
+    primaryAction: 'Agree',
+    secondaryAction: 'Disagree',
+    tertiaryAction: 'Cancel'
+  }}>
     {BasicTemplate.bind({})}
   </Story>
 </Canvas>
@@ -163,8 +157,13 @@ To maintain usability level of dialog component:
 For long content that does not fit on the page, the dialog action area remains sticky at the bottom of the dialog so that it appears on the page.
 
 <Canvas>
-  <Story name="Dialog With Sticky Footer" play={(event) => dialogOpener(event,"dialog-with-sticky-footer")}
-   args={{ caption: "Terms And Conditions"}}>
+  <Story name="Dialog With Sticky Footer" play={(event) => dialogOpener(event,"dl-sticky-footer")}
+   args={{
+    id: 'dl-sticky-footer',
+    caption: "Terms And Conditions",
+    primaryAction: 'Agree',
+    secondaryAction: 'Disagree',
+  }}>
     {TemplateWithStickyFooter.bind({})}
   </Story>
 </Canvas>
@@ -174,10 +173,86 @@ For long content that does not fit on the page, the dialog action area remains s
 The dialog doesn't have any size, it will be fluidly sized regarding its content. You can give your own width and height style to your content.
 
 <Canvas>
-  <Story name="Dialog Sizing" play={(event) => dialogOpener(event,"dialog-sizing")}>
+  <Story name="Dialog Sizing" play={(event) => dialogOpener(event,"dl-sizing")} args={{
+    id: 'dl-sizing',
+    primaryAction: 'Agree',
+    secondaryAction: 'Disagree',
+    tertiaryAction: 'Cancel'
+  }}>
     {SizingTemplate.bind({})}
   </Story>
 </Canvas>
+
+## Autofocusing elements in Dialog
+
+By default, when you open a dialog, "close" button get focus automatically. But you can also auto focus on a dialog action this by using
+`autofocus` attribute of the `bl-button`.
+
+<Canvas>
+  <Story name="Dialog with focused action" play={(event) => dialogOpener(event, "dl-focused-action")}
+   args={{
+    id: 'dl-focused-action',
+    caption: "Use location service?",
+    content: 'Let us help determine location. This means sending anonymous location data to us.',
+    primaryAction: 'Agree',
+    secondaryAction: 'Disagree',
+    focusSecondary: true,
+    tertiaryAction: 'Cancel'
+  }}>
+    {BasicTemplate.bind({})}
+  </Story>
+</Canvas>
+
+You may also consider to autofocus user to an input inside the dialog.
+
+<Canvas>
+  <Story name="Dialog with focused input" play={(event) => dialogOpener(event, "dl-focused-input")}
+   args={{
+    id: 'dl-focused-input',
+    caption: 'Name your file',
+    content: '<p>Please provide a name for your file</p><bl-input placeholder="filename.pdf" autofocus></bl-input>',
+    primaryAction: 'OK',
+    tertiaryAction: 'Cancel'
+  }}>
+    {BasicTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Full-width dialog actions
+
+It's possible to use full-width dialog buttons with small lines of CSS definitions.
+
+```css
+bl-dialog.full-width-actions bl-button {
+  --bl-button-display: block;
+  flex: 1;
+}
+```
+
+In this case action button(s) will fill the row by sharing space equally if there are more than one actions.
+
+<Canvas>
+  <Story name="Dialog with full-width action" play={(event) => dialogOpener(event, "dl-full-width-action")}
+   args={{
+    id: 'dl-full-width-action',
+    caption: 'Action completed',
+    content: '<p>Your process is done!</p>',
+    primaryAction: 'OK'
+  }}>
+    {FullWidthActionsTemplate.bind({})}
+  </Story>
+  <Story name="Dialog with full-width actions" play={(event) => dialogOpener(event, "dl-full-width-actions")}
+   args={{
+    id: 'dl-full-width-actions',
+    caption: 'Are you sure to delete?',
+    content: '<p>Do you want to really delete the file?</p>',
+    primaryAction: 'Delete',
+    secondaryAction: 'Cancel'
+  }}>
+    {FullWidthActionsTemplate.bind({})}
+  </Story>
+</Canvas>
+
 
 ## Reference
 

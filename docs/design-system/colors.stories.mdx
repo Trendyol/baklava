@@ -1,4 +1,5 @@
 import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
+import { html } from 'lit';
 
 <Meta title="Design System/Colors" />
 
@@ -10,53 +11,35 @@ Baklava uses a list of defined color with some default values.
   <ColorItem
     title="--bl-color-primary"
     subtitle="Primary Color"
-    colors={{ '': '#F27A1A', '--hover': '#EF6114', '--background': '#FEF2E8' }}
-  />
-  <ColorItem
-    title="--bl-color-secondary"
-    subtitle="Secondary Color"
-    colors={{ '': '#273142', '--hover': '#0F131A', '--background': '#F1F2F7' }}
-  />
-  <ColorItem
-    title="--bl-color-tertiary"
-    subtitle="Tertiary Color"
-    colors={{ '': '#f1f2f7', '--hover': '#d5d9e1', '--background': '#F7F7FA' }}
+    colors={{ '': 'var(--bl-color-primary)', '--highlight': 'var(--bl-color-primary-highlight)', '--contrast': 'var(--bl-color-primary-contrast)' }}
   />
   <ColorItem
     title="--bl-color-success"
     subtitle="Success Color"
-    colors={{ '': '#0bc15c', '--hover': '#09a44e', '--background': '#E7F9EF' }}
+    colors={{ '': 'var(--bl-color-success)', '--highlight': 'var(--bl-color-success-highlight)', '--contrast': 'var(--bl-color-success-contrast)' }}
   />
   <ColorItem
     title="--bl-color-danger"
     subtitle="Danger Color"
-    colors={{ '': '#ff5043', '--hover': '#ff3028', '--background': '#FFEEEC' }}
+    colors={{ '': 'var(--bl-color-danger)', '--highlight': 'var(--bl-color-danger-highlight)', '--contrast': 'var(--bl-color-danger-contrast)' }}
   />
   <ColorItem
     title="--bl-color-warning"
     subtitle="Warning Color"
-    colors={{ '': '#FFB600', '--hover': '#FF9800', '--background': '#FFF8E6' }}
+    colors={{ '': 'var(--bl-color-warning)', '--highlight': 'var(--bl-color-warning-highlight)', '--contrast': 'var(--bl-color-warning-contrast)' }}
   />
   <ColorItem
-    title="--bl-color-alternative"
-    subtitle="Alternative Color"
-    colors={{ '': '#5794FF', '--hover': '#3469FF', '--background': '#EEF4FF' }}
-  />
-  <ColorItem
-    title="--bl-color-featured"
-    subtitle="Featured Color"
-    colors={{ '': '#8C4EFF', '--hover': '#5E2EFF', '--background': '#F4EDFF' }}
-  />
-  <ColorItem
-    title="--bl-color-content"
-    subtitle="Content Colors"
+    title="--bl-color-neutral"
+    subtitle="Neutral Colors"
     colors={{
-        '--primary': '#273142',
-        '--secondary': '#6E7787',
-        '--tertiary': '#95A1B5',
-        '--passive': '#AFBBCA',
-        '--primary-contrast' : '#FFF',
-        '--hover' : '#F27A1A'
+        '--none': 'var(--bl-color-neutral-none)',
+        '--darkest': 'var(--bl-color-neutral-darkest)',
+        '--darker': 'var(--bl-color-neutral-darker)',
+        '--dark': 'var(--bl-color-neutral-dark)',
+        '--light' : 'var(--bl-color-neutral-light)',
+        '--lighter' : 'var(--bl-color-neutral-lighter)',
+        '--lightest' : 'var(--bl-color-neutral-lightest)',
+        '--full' : 'var(--bl-color-neutral-full)',
     }}
   />
 </ColorPalette>

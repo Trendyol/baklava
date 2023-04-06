@@ -18,7 +18,7 @@ span {
   --animation-duration: var(--bl-switch-animation-duration, 300ms);
   --switch-color: var(--bl-switch-color, var(--bl-color-primary));
 
-  background-color: var(--bl-color-content-passive);
+  background-color: var(--bl-color-neutral-lighter);
   border-radius: var(--bl-border-radius-pill);
   height: var(--track-height);
   transition-property: background-color;
@@ -27,7 +27,7 @@ span {
 }
 
 .switch::before {
-  content: "";
+  content: '';
   display: inline-block;
   background-color: white;
   border-radius: var(--bl-border-radius-circle);
@@ -45,7 +45,9 @@ span {
 }
 
 :host([checked]) .switch::before {
-  transform: translateX(calc(var(--track-width) - var(--thumb-width) - calc(2 * var(--thumb-offset))));
+  transform: translateX(
+    calc(var(--track-width) - var(--thumb-width) - calc(2 * var(--thumb-offset)))
+  );
 }
 
 :host([disabled]) .switch {
@@ -64,7 +66,7 @@ span {
 .switch:focus-visible::after {
   border: 2px solid var(--switch-color);
   border-radius: var(--bl-border-radius-pill);
-  content: "";
+  content: '';
   position: absolute;
   top: -3px;
   right: -3px;

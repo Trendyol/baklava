@@ -20,7 +20,7 @@ import {
     type: {
       control: {
         type: 'select',
-        options: ['number', 'text']
+        options: ['text', 'password', 'number', 'tel', 'url']
       },
     },
     placeholder: {
@@ -220,6 +220,10 @@ Validation error messages are used from default browser error messages by defaul
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
+
+You can also set input validation as invalid by calling `forceCustomError()` method of the input. In this case input will be in invalid state and will report
+its validity. Error message can be set with `invalid-text`. To clear this error state you would call `clearCustomError()` method. With the help of these 2 methods
+you can run your custom validation logic outside of the basic validation rules we provide with validation attributes.
 
 ## Input Sizes
 

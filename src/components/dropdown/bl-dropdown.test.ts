@@ -1,9 +1,19 @@
 import BlDropdown from './bl-dropdown';
-import { assert, fixture, html, oneEvent, expect, elementUpdated, waitUntil } from '@open-wc/testing';
+import {
+  assert,
+  fixture,
+  html,
+  oneEvent,
+  expect,
+  elementUpdated,
+  waitUntil,
+} from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 
 import type typeOfBlDropdown from './bl-dropdown';
 import BlButton from '../button/bl-button';
+import '../popover/bl-popover';
+import BlPopover from '../popover/bl-popover';
 
 describe('bl-dropdown', () => {
   it('is defined', () => {
@@ -25,7 +35,7 @@ describe('bl-dropdown', () => {
       >
         Dropdown Button
       </bl-button>
-      <div class="popover" aria-expanded="false" role="menu"><slot></slot></div>
+      <bl-popover placement="bottom-start" fit-size><slot></slot></bl-popover>
     `
     );
   });
@@ -35,10 +45,12 @@ describe('bl-dropdown', () => {
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
     const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
+    const popover = <BlPopover>el.shadowRoot?.querySelector('bl-popover');
 
     button?.click();
 
     expect(el.opened).to.true;
+    expect(popover.visible).to.true;
   });
 
   it('should close dropdown', async () => {
@@ -46,12 +58,15 @@ describe('bl-dropdown', () => {
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
     const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
+    const popover = <BlPopover>el.shadowRoot?.querySelector('bl-popover');
 
     button?.click();
     expect(el.opened).to.true;
+    expect(popover.visible).to.true;
 
     button?.click();
     expect(el.opened).to.false;
+    expect(popover.visible).to.false;
   });
 
   it('should close dropdown when click outside', async () => {
@@ -61,15 +76,18 @@ describe('bl-dropdown', () => {
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
     const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
+    const popover = <BlPopover>el.shadowRoot?.querySelector('bl-popover');
 
     button?.click();
     expect(el.opened).to.true;
+    expect(popover.visible).to.true;
 
     const body = <HTMLBodyElement>el.closest('body');
     body.click();
 
     setTimeout(() => {
       expect(el.opened).to.false;
+      expect(popover.visible).to.false;
     });
   });
 
@@ -105,32 +123,45 @@ describe('bl-dropdown', () => {
     expect(event.detail).to.be.equal('Dropdown closed!');
   });
 
+  it('should not change opened property when disabled', async () => {
+    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown disabled></bl-dropdown>`);
+    expect(el.opened).to.false;
+
+    const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
+    const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
+    const popover = <BlPopover>el.shadowRoot?.querySelector('bl-popover');
+
+    button?.click();
+
+    expect(el.opened).to.false;
+    expect(popover.visible).to.false;
+  });
+
   describe('keyboard navigation', () => {
     it('should focus next action with down arrow key', async () => {
-
       //when
       const el = await fixture(
-        html`<div><input id="previnput"><bl-dropdown>
-        <bl-dropdown-item>Action 1</bl-dropdown-item>
-        <bl-dropdown-item>Action 2</bl-dropdown-item>
-        <bl-dropdown-item>Action 3</bl-dropdown-item>
-        </bl-dropdown></div>`
+        html`<div>
+          <input id="previnput" /><bl-dropdown>
+            <bl-dropdown-item>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+            <bl-dropdown-item>Action 3</bl-dropdown-item>
+          </bl-dropdown>
+        </div>`
       );
 
       await elementUpdated(el);
 
       el.querySelector<HTMLInputElement>('#previnput')?.focus();
 
-      await waitUntil(
-        () => el.querySelector('bl-dropdown'),
-        'Element did not render children',
-      );
+      await waitUntil(() => el.querySelector('bl-dropdown'), 'Element did not render children');
 
       const dropdown = el.querySelector('bl-dropdown');
 
-      const tabKey = navigator.userAgent.includes('Safari') &&
-      !navigator.userAgent.includes('HeadlessChrome')
-      ? 'Alt+Tab' : 'Tab'
+      const tabKey =
+        navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('HeadlessChrome')
+          ? 'Alt+Tab'
+          : 'Tab';
 
       //given
       await sendKeys({
@@ -148,30 +179,29 @@ describe('bl-dropdown', () => {
     });
 
     it('should focus previous action with up arrow key', async () => {
-
       //when
       const el = await fixture(
-        html`<div><input id="previnput"><bl-dropdown>
-        <bl-dropdown-item>Action 1</bl-dropdown-item>
-        <bl-dropdown-item>Action 2</bl-dropdown-item>
-        <bl-dropdown-item>Action 3</bl-dropdown-item>
-        </bl-dropdown></div>`
+        html`<div>
+          <input id="previnput" /><bl-dropdown>
+            <bl-dropdown-item>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+            <bl-dropdown-item>Action 3</bl-dropdown-item>
+          </bl-dropdown>
+        </div>`
       );
 
       await elementUpdated(el);
 
       el.querySelector<HTMLInputElement>('#previnput')?.focus();
 
-      await waitUntil(
-        () => el.querySelector('bl-dropdown'),
-        'Element did not render children',
-      );
+      await waitUntil(() => el.querySelector('bl-dropdown'), 'Element did not render children');
 
       const dropdown = el.querySelector('bl-dropdown');
 
-      const tabKey = navigator.userAgent.includes('Safari') &&
-      !navigator.userAgent.includes('HeadlessChrome')
-      ? 'Alt+Tab' : 'Tab'
+      const tabKey =
+        navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('HeadlessChrome')
+          ? 'Alt+Tab'
+          : 'Tab';
 
       //given
       await sendKeys({
@@ -201,27 +231,27 @@ describe('bl-dropdown', () => {
     it('should close dropdown with escape key', async () => {
       //when
       const el = await fixture(
-        html`<div><input id="previnput"><bl-dropdown>
-        <bl-dropdown-item>Action 1</bl-dropdown-item>
-        <bl-dropdown-item>Action 2</bl-dropdown-item>
-        <bl-dropdown-item>Action 3</bl-dropdown-item>
-        </bl-dropdown></div>`
+        html`<div>
+          <input id="previnput" /><bl-dropdown>
+            <bl-dropdown-item>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+            <bl-dropdown-item>Action 3</bl-dropdown-item>
+          </bl-dropdown>
+        </div>`
       );
 
       await elementUpdated(el);
 
       el.querySelector<HTMLInputElement>('#previnput')?.focus();
 
-      await waitUntil(
-        () => el.querySelector('bl-dropdown'),
-        'Element did not render children',
-      );
+      await waitUntil(() => el.querySelector('bl-dropdown'), 'Element did not render children');
 
       const dropdown = el.querySelector('bl-dropdown');
 
-      const tabKey = navigator.userAgent.includes('Safari') &&
-      !navigator.userAgent.includes('HeadlessChrome')
-      ? 'Alt+Tab' : 'Tab'
+      const tabKey =
+        navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('HeadlessChrome')
+          ? 'Alt+Tab'
+          : 'Tab';
 
       //given
       await sendKeys({

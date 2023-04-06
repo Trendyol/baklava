@@ -3,10 +3,10 @@
   --value: 0;
   --value-color: var(--bl-color-success);
   --height: var(--bl-size-2xs);
-  --radius: var(--bl-size-3xs);
+  --radius: var(--bl-border-radius-s);
 
   position: relative;
-  background-color: var(--bl-color-secondary-background);
+  background-color: var(--bl-color-neutral-lightest);
   height: var(--height);
   border-radius: var(--radius);
   width: 100%;
@@ -19,16 +19,17 @@
   width: calc(100% / var(--max) * var(--value));
   background-color: var(--value-color);
   border-radius: var(--radius);
+  transition: width ease var(--bl-progress-indicator-transition-duration, .2s);
 }
 
 :host([size='small']) .progress-indicator {
   --height: var(--bl-size-3xs);
-  --radius: var(--bl-size-4xs);
+  --radius: var(--bl-border-radius-xs);
 }
 
 :host([size='large']) .progress-indicator {
   --height: var(--bl-size-xs);
-  --radius: 6px;
+  --radius: var(--bl-border-radius-m);
 }
 
 :host([failed]) .progress-indicator {

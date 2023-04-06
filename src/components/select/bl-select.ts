@@ -1,4 +1,11 @@
-import { autoUpdate, computePosition, flip, MiddlewareArguments, offset, size } from '@floating-ui/dom';
+import {
+  autoUpdate,
+  computePosition,
+  flip,
+  MiddlewareState,
+  offset,
+  size,
+} from '@floating-ui/dom';
 import { FormControlMixin, requiredValidator } from '@open-wc/form-control';
 import { FormValue } from '@open-wc/form-helpers';
 import 'element-internals-polyfill';
@@ -22,18 +29,20 @@ export type SelectSize = 'medium' | 'large' | 'small';
 
 export type CleanUpFunction = () => void;
 
-
 /**
  * @tag bl-select
  * @summary Baklava Select component
  *
- * @cssproperty --bl-popover-position - Sets the positioning strategy of select popover. You can set it as `absolute` if you need to show popover relative to its trigger element. Default value is `fixed`
+ * @cssproperty [--bl-popover-position=fixed] Sets the positioning strategy of select popover. You can set it as `absolute` if you need to show popover relative to its trigger element.
  */
 @customElement('bl-select')
-export default class BlSelect<ValueType extends FormValue = string> extends FormControlMixin(LitElement) {
+export default class BlSelect<ValueType extends FormValue = string> extends FormControlMixin(
+  LitElement
+) {
   static get styles(): CSSResultGroup {
     return [style];
   }
+  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
 
   static formControlValidators = [requiredValidator];
 
@@ -60,7 +69,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
     if (Array.isArray(val)) {
       const formData = new FormData();
-      val.forEach((option) => formData.append(this.name, `${option}`));
+      val.forEach(option => formData.append(this.name, `${option}`));
       this.setValue(formData);
     } else {
       this.setValue(val);
@@ -111,6 +120,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   multiple = false;
 
   /**
+   * Sets input to get keyboard focus automatically
+   */
+  @property({ type: Boolean, reflect: true })
+  autofocus = false;
+
+  /**
    * Makes label as fixed positioned
    */
   @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
@@ -131,7 +146,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /* Declare internal reactive properties */
   @state()
   private _isPopoverOpen = false;
-
 
   @state()
   private _additionalSelectedOptionCount = 0;
@@ -158,17 +172,14 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _cleanUpPopover: CleanUpFunction | null = null;
 
   private setOptionsSelected() {
-    this._connectedOptions
-      .forEach(
-        (option) => option.selected = (
-            this.value === option.value ||
-            (Array.isArray(this.value) && this.value.includes(option.value))
-          )
-      );
+    this._connectedOptions.forEach(
+      option =>
+        (option.selected =
+          this.value === option.value ||
+          (Array.isArray(this.value) && this.value.includes(option.value)))
+    );
 
-    this._selectedOptions = [...this.options
-      .filter(option => option.selected)
-    ];
+    this._selectedOptions = [...this.options.filter(option => option.selected)];
   }
 
   get options() {
@@ -247,7 +258,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           flip(),
           offset(8),
           size({
-            apply(args: MiddlewareArguments) {
+            apply(args: MiddlewareState) {
               Object.assign(args.elements.floating.style, {
                 width: `${args.elements.reference.getBoundingClientRect().width}px`,
               });
@@ -282,64 +293,63 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       ${this._selectedOptions.map(item => html`<li>${item.textContent}</li>`)}
     </ul>`;
     const removeButton = html`<bl-button
-        class="remove-all"
-        size="small"
-        variant="tertiary"
-        kind="neutral"
-        icon="close"
-        @click=${this._onClickRemove}></bl-button>`;
+      class="remove-all"
+      size="small"
+      variant="tertiary"
+      kind="neutral"
+      icon="close"
+      @click=${this._onClickRemove}
+    ></bl-button>`;
 
-    return html`<div
+    return html`<fieldset
       class=${classMap({
         'select-input': true,
-        'has-overflowed-options': this._additionalSelectedOptionCount > 0
+        'has-overflowed-options': this._additionalSelectedOptionCount > 0,
       })}
       tabindex="${this.disabled ? '-1' : 0}"
+      ?autofocus=${this.autofocus}
       @click=${this.togglePopover}
     >
+      <legend><span>${this.label}</span></legend>
       <span class="placeholder">${this.placeholder}</span>
       ${inputSelectedOptions}
       <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
       <div class="actions">
         ${this.multiple ? removeButton : null}
-        <bl-icon
-          class="dropdown-icon open"
-          name="arrow_up"
-        ></bl-icon>
+        <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
-        <bl-icon
-          class="dropdown-icon closed"
-          name="arrow_down"
-        ></bl-icon>
+        <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
       </div>
-    </div>`;
+    </fieldset>`;
   }
 
   render() {
     const invalidMessage = !this.checkValidity()
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
           ${this.validationMessage}
-        </p>`: '';
+        </p>`
+      : '';
 
-    const helpMessage = this.helpText && !invalidMessage
-      ? html`<p class="help-text">${this.helpText}</p>` : '';
+    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : '';
 
-    const label = this.label
-      ? html`<label>${this.label}</label>` : '';
+    const label = this.label ? html`<label>${this.label}</label>` : '';
 
     return html`<div
       class=${classMap({
-      'select-wrapper': true,
-      'select-open': this.opened,
-      'selected': this._selectedOptions.length > 0,
-      'invalid': !this.validity.valid,
-      'dirty': this.dirty
-    })}
+        'select-wrapper': true,
+        'select-open': this.opened,
+        'selected': this._selectedOptions.length > 0,
+        'invalid': !this.validity.valid,
+        'dirty': this.dirty,
+      })}
       @keydown=${this.handleKeydown}
     >
-      ${label}
-      ${this.inputTemplate()}
-      <div class="popover" tabindex="${ifDefined(this._isPopoverOpen ? undefined : '-1')}" @bl-select-option=${this._handleSelectOptionEvent}>
+      ${label} ${this.inputTemplate()}
+      <div
+        class="popover"
+        tabindex="${ifDefined(this._isPopoverOpen ? undefined : '-1')}"
+        @bl-select-option=${this._handleSelectOptionEvent}
+      >
         <slot></slot>
       </div>
       <div class="hint">${invalidMessage} ${helpMessage}</div>
@@ -372,7 +382,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
       event.preventDefault();
     }
-
   }
 
   private togglePopover() {
@@ -380,11 +389,16 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private _handleSelectEvent() {
-    this._onBlSelect(this._selectedOptions.map(option => ({
-      value: option.value,
-      selected: option.selected,
-      text: option.textContent
-    } as ISelectOption<ValueType>)));
+    this._onBlSelect(
+      this._selectedOptions.map(
+        option =>
+          ({
+            value: option.value,
+            selected: option.selected,
+            text: option.textContent,
+          } as ISelectOption<ValueType>)
+      )
+    );
   }
 
   private _handleSingleSelect(optionItem: BlSelectOption<ValueType>) {
@@ -395,7 +409,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private _handleMultipleSelect() {
-    this.value = this._connectedOptions.filter((option) => option.selected).map(option => option.value);
+    this.value = this._connectedOptions
+      .filter(option => option.selected)
+      .map(option => option.value);
 
     this._handleSelectEvent();
   }
@@ -426,13 +442,18 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private _checkAdditionalItemCount() {
-    if (!this.multiple || !this.selectedOptionsItems || this.selectedOptionsItems.length < 2) return;
+    if (!this.multiple || !this.selectedOptionsItems || this.selectedOptionsItems.length < 2) {
+      this._additionalSelectedOptionCount = 0;
+      return;
+    }
 
-    const firstNonVisibleItemIndex = [...this.selectedOptionsItems]
-      .findIndex((item) => item.offsetLeft > this.selectedOptionsContainer.offsetWidth);
+    const firstNonVisibleItemIndex = [...this.selectedOptionsItems].findIndex(
+      item => item.offsetLeft > this.selectedOptionsContainer.offsetWidth
+    );
 
     if (firstNonVisibleItemIndex > -1) {
-      this._additionalSelectedOptionCount = this.selectedOptionsItems.length - firstNonVisibleItemIndex;
+      this._additionalSelectedOptionCount =
+        this.selectedOptionsItems.length - firstNonVisibleItemIndex;
     } else {
       this._additionalSelectedOptionCount = 0;
     }

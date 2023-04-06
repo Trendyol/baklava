@@ -14,6 +14,7 @@ describe('bl-tab', function () {
       <button
         role="tab"
         class="container"
+        aria-selected="false"
       >
         <div class="title-container">
           <div class="title">
@@ -57,8 +58,8 @@ describe('bl-tab', function () {
 
   it('should create custom event when change selected attribute', async () => {
     const el = await fixture<BlTab>(html` <bl-tab name="test"></bl-tab>`);
-    el.selected=true;
-    
+    el.selected = true;
+
     const listener = await oneEvent(el, 'bl-tab-selected');
     const { detail } = await listener;
 
@@ -70,5 +71,13 @@ describe('bl-tab', function () {
     const caption = el.shadowRoot?.querySelector('.caption');
 
     expect(caption).is.exist;
+  });
+
+  it('should have aria-selected attribute set to true if the tab is selected', async function () {
+    const el = await fixture<BlTab>(html`<bl-tab name="test" selected></bl-tab>`);
+
+    const tabButton = el.shadowRoot?.querySelector<HTMLButtonElement>('.container');
+    expect(el).has.attribute('tabindex', '0');
+    expect(tabButton).has.attribute('aria-selected', 'true');
   });
 });
