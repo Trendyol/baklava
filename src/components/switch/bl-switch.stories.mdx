@@ -18,6 +18,7 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 
 export const SwitchTemplate = (args) => html`
 <bl-switch
+  ?class="${args.class}"
   ?disabled=${args.disabled}
   ?checked=${args.checked}>
 </bl-switch>
@@ -32,7 +33,18 @@ export const SwitchWithLabel = (args) => html`
     aria-label="${args.label}"
   ></bl-switch>
 </div>
-`
+`;
+
+export const SwitchStyled = args => html`
+<style>
+  .${args.class} {
+    ${Object.entries(args.styles)
+      .map(([key, value]) => `${key}: ${value};`)
+      .join('\n    ')}
+  }
+</style>
+${SwitchTemplate(args)}
+`;
 
 # Switch
 
@@ -90,6 +102,42 @@ Disabled state can be set via `disabled` attribute. A switch can be `disabled` a
   </Story>
   <Story name="Disabled and Checked" args={{ disabled: true, checked: true }}>
     {SwitchTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Customization
+
+To customize colors for the switch component, you can utilize CSS properties `--bl-switch-color-on` and `--bl-switch-color-off`.
+
+Please note that the usage of `--bl-switch-color` is deprecated and should be replaced with `--bl-switch-color-on`.
+
+We strongly advise against customizing switch with any colors other than success (indicating _on_) and danger (indicating _off_) colors. If you wish to use a different color scheme, we suggest you consider about your theming. You can refer to the [documentation on customizing the Baklava theme](/docs/documentation-customizing-baklava-theme--page#customizing-baklava-theme) for more information.
+
+<Canvas>
+  <Story
+    name="Customizing Colors"
+    args={{
+      class: 'colored-switch-1',
+      styles: {
+        '--bl-switch-color-on': 'var(--bl-color-success)',
+        '--bl-switch-color-off': 'var(--bl-color-danger)',
+      },
+    }}
+  >
+    {SwitchStyled.bind({})}
+  </Story>
+  <Story
+    name="Customizing Colors Checked"
+    args={{
+      class: 'colored-switch-2',
+      styles: {
+        '--bl-switch-color-on': 'var(--bl-color-success)',
+        '--bl-switch-color-off': 'var(--bl-color-danger)',
+      },
+      checked: true,
+    }}
+  >
+    {SwitchStyled.bind({})}
   </Story>
 </Canvas>
 
