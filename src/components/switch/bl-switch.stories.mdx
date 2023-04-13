@@ -1,4 +1,5 @@
 import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 
 <Meta
@@ -18,7 +19,7 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 
 export const SwitchTemplate = (args) => html`
 <bl-switch
-  ?class="${args.class}"
+  class="${ifDefined(args.class)}"
   ?disabled=${args.disabled}
   ?checked=${args.checked}>
 </bl-switch>
