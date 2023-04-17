@@ -20,7 +20,7 @@ export const TabsTemplate = (args) => html`
 
 export const TabsAttributeTemplate = (args) => html`
     <bl-tab-group>
-        <bl-tab name="test-1" slot="tabs" Caption='${ifDefined(args.caption)}' help-text='${ifDefined(args.helpText)}' badge='${ifDefined(args.badge)}' >Tab 1</bl-tab>
+       <bl-tab name="test-1" slot="tabs" Caption='${ifDefined(args.caption)}' help-text='${ifDefined(args.helpText)}' badge='${ifDefined(args.badge)}' >Tab 1</bl-tab>
         <bl-tab name="test-2" slot="tabs">Tab 2</bl-tab>
         <bl-tab name="test-3" slot="tabs" Caption='${ifDefined(args.caption)}' help-text='${ifDefined(args.helpText)}
         ' badge='${ifDefined(args.badge)}'  disabled >Tab 3</bl-tab>
@@ -78,7 +78,7 @@ Within tab groups, tabs are used to represent and activate tab panels. A tab can
 Title can be clarified with caption attribute. Caption is located just below the tab title
 
 <Canvas>
-<Story name="Tab With Caption"  args={{ caption: 'Caption' }}>>
+<Story name="Tab With Caption"  args={{ caption: 'Caption' }}>
     {TabsAttributeTemplate.bind({})}
   </Story>
 </Canvas>
@@ -87,7 +87,7 @@ Title can be clarified with caption attribute. Caption is located just below the
 You can give extra information to user with help-text attribute. help-text attribute adds a `bl-tooltip` component at right of the tab
 
 <Canvas>
-<Story name="Tab With Help Text"  args={{helpText:'helpText' }}>>
+<Story name="Tab With Help Text"  args={{helpText:'helpText' }}>
     {TabsAttributeTemplate.bind({})}
   </Story>
 </Canvas>
@@ -96,7 +96,7 @@ You can give extra information to user with help-text attribute. help-text attri
 A Badge can be added to tab. This Badge is showed with `bl-badge` component internally
 
 <Canvas>
-<Story name="Tab With Badge"  args={{badge:'New' }}>>
+<Story name="Tab With Badge"  args={{badge:'New' }}>
     {TabsAttributeTemplate.bind({})}
   </Story>
 </Canvas>
@@ -105,7 +105,7 @@ A Badge can be added to tab. This Badge is showed with `bl-badge` component inte
 An icon can be added to tab. This icon is showed with `bl-icon` component internally and it's color synced with tab's title color
 
 <Canvas>
-<Story name="Tab With Icon" args={{icon1:'heart', icon2:'settings', icon3:'book', icon4:'academy', icon5:'account', icon6:'attach', icon7:'award', icon8:'browser' }}>>
+<Story name="Tab With Icon" args={{icon1:'heart', icon2:'settings', icon3:'book', icon4:'academy', icon5:'account', icon6:'attach', icon7:'award', icon8:'browser' }}>
     {IconTemplate.bind({})}
  </Story>
 </Canvas>
@@ -114,7 +114,7 @@ An icon can be added to tab. This icon is showed with `bl-icon` component intern
 A notification dot can be used in tab compnenet in order for user to get notified by updates in related content
 
 <Canvas>
-<Story name="Tab With Notification Dot">>
+<Story name="Tab With Notification Dot">
     {NotifyTemplate.bind({})}
   </Story>
 </Canvas>
@@ -135,8 +135,8 @@ If disabled and selected props are used in same table, disabled prop overrides s
 
 <Canvas>
 <Story name="Using Disabled and Selected Props Together">
-    {SelectedDisabledTogetherTemplate.bind({})}
-  </Story>
+  {SelectedDisabledTogetherTemplate.bind({})}
+</Story>
 </Canvas>
 
 ### Keyboard navigation
@@ -145,8 +145,8 @@ This component can handle keyboard navigation to switch between available tabs u
 
 <Canvas>
 <Story name="Keyboard navigation" play={focusTab}>
-    {TabsTemplate.bind({})}
-  </Story>
+  {TabsTemplate.bind({})}
+</Story>
 </Canvas>
 
 ## Reference
