@@ -12,6 +12,7 @@ import '../icon/bl-icon';
 import '../button/bl-button';
 
 import style from './bl-input.css';
+import { BaklavaIcon } from '../icon/icon-list';
 
 export type InputSize = 'small' | 'medium' | 'large';
 /**
@@ -124,7 +125,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Sets the custom icon name. `bl-icon` component is used to show an icon
    */
   @property({ type: String, reflect: true })
-  icon?: string;
+  icon?: BaklavaIcon;
 
   /**
    * Sets input size.

@@ -6,6 +6,7 @@ import { submit } from '@open-wc/form-helpers';
 import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-button.css';
 import '../icon/bl-icon';
+import { BaklavaIcon } from '../icon/icon-list';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 export type ButtonKind = 'default' | 'neutral' | 'success' | 'danger';
@@ -78,7 +79,7 @@ export default class BlButton extends LitElement {
    * Sets the icon name. Shows icon with bl-icon component
    */
   @property({ type: String })
-  icon?: string;
+  icon?: BaklavaIcon;
 
   /**
    * Sets the anchor target. Used when `href` is set.
