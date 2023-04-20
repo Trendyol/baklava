@@ -16,9 +16,9 @@ span {
 
   /* TODO: use predefined animation duration once it is ready */
   --animation-duration: var(--bl-switch-animation-duration, 300ms);
-  --switch-color: var(--bl-switch-color, var(--bl-color-primary));
+  --switch-color: var(--bl-switch-color-off, var(--bl-color-neutral-lighter));
 
-  background-color: var(--bl-color-neutral-lighter);
+  background-color: var(--switch-color);
   border-radius: var(--bl-border-radius-pill);
   height: var(--track-height);
   transition-property: background-color;
@@ -41,7 +41,7 @@ span {
 }
 
 :host([checked]) .switch {
-  background-color: var(--switch-color);
+  --switch-color: var(--bl-switch-color-on, var(--bl-switch-color, var(--bl-color-primary)));
 }
 
 :host([checked]) .switch::before {
