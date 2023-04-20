@@ -36,7 +36,7 @@ export const openDialog = async (event, args) => {
   document.getElementById(args.id).open=true
 }
 
-export const DummyContent = () => html`
+export const DummyContent = () => `
   <p>
     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
   </p>
@@ -52,7 +52,7 @@ export const DummyContent = () => html`
   <p>
     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
   </p>
-`
+`;
 
 export const DrawerTemplate = (args) => html`
   <bl-drawer id=${ifDefined(args.id)}
@@ -63,12 +63,12 @@ export const DrawerTemplate = (args) => html`
       ${ifDefined(args.content)}
     </div>
   </bl-drawer>
-`
+`;
 
 export const StoryTemplate = (args) => html`
   ${DrawerTemplate(args)}
   <bl-button @click="${(event)=>openDialog(event, args)}">${ifDefined(args.buttonText)}</bl-button>
-`
+`;
 
 # Drawer
 
@@ -92,10 +92,10 @@ A drawer presents context-specific information and/or actions without leaving th
 
 ## Usage
 
-<Canvas>
+<Canvas isColumn>
   <Story name="Default Values"
          play={(event) => openDialog(event,{id:'drawer-1'})}
-         args={{id:"drawer-1", buttonText:"default drawer", content:DummyContent()}}>
+         args={{id:"drawer-1", buttonText:"default drawer", content: DummyContent()}}>
     {StoryTemplate.bind({})}
   </Story>
   <Story name="With caption"
