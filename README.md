@@ -2,7 +2,6 @@
 
 <h1 align="center">Baklava Design System</h1>
 
-
 [![npm package stable](https://img.shields.io/npm/v/@trendyol/baklava.svg)](https://www.npmjs.com/package/@trendyol/baklava) [![npm package beta](https://img.shields.io/npm/v/@trendyol/baklava/beta.svg)](https://www.npmjs.com/package/@trendyol/baklava/v/beta) [![License](https://img.shields.io/github/license/trendyol/baklava)](https://github.com/Trendyol/baklava/blob/next/LICENSE) [![jsDelivr hits (npm scoped)](https://img.shields.io/jsdelivr/npm/hm/@trendyol/baklava)](https://www.jsdelivr.com/package/npm/@trendyol/baklava) [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
 Baklava is a design system provided by [Trendyol](https://github.com/trendyol) to create a consistent UI/UX for app users.
