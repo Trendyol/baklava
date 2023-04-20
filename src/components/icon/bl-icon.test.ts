@@ -10,6 +10,8 @@ describe('bl-icon', () => {
   const oldFetch = window.fetch;
 
   before(() => {
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
+    // @ts-ignore
     window.fetch = async (url: RequestInfo) => {
       if (/info\.svg$/.test(url.toString())) {
         return new Response(infoIcon);

@@ -19,7 +19,7 @@ import style from '../select/bl-select.css';
 import '../select/option/bl-select-option';
 import type BlSelectOption from './option/bl-select-option';
 
-export interface ISelectOption<T> {
+export interface ISelectOption<T = string> {
   value: T;
   text: string;
   selected: boolean;
