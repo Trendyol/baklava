@@ -5,13 +5,13 @@ import { PartialStoryFn } from '@storybook/types';
 const chromaticDecorator = (story: PartialStoryFn, addition: TemplateResult) => html`
       ${isChromatic() ?  addition : html``}
 
-      <div class="custom-wrapper">
+      <div class="chromatic-wrapper">
         ${ story() }
       </div>
     `;
 
 export const withNoAnimation = (story: PartialStoryFn) => chromaticDecorator(story, html`<style>
-.custom-wrapper {
+.chromatic-wrapper {
   --bl-drawer-animation-duration: 0;
 }
 </style>`);

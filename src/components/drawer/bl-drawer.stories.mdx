@@ -2,11 +2,13 @@ import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 import { fullscreenLayout, withNoAnimation } from '../../utilities/chromatic-decorators';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 <Meta
   title="Components/Drawer"
   component="bl-drawer"
   parameters={{
+    layout: 'fullscreen',
     chromatic: {
       viewports: [768, 320],
     },
@@ -63,7 +65,7 @@ export const DrawerTemplate = (args) => html`
              embed-url=${ifDefined(args.embedUrl)}
              external-link=${ifDefined(args.externalLink)}>
     <div style="font: var(--bl-font-body-text-2)">
-      ${ifDefined(args.content)}
+      ${unsafeHTML(args.content)}
     </div>
   </bl-drawer>
 `;
