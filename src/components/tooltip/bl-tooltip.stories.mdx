@@ -4,14 +4,17 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 import { userEvent } from '@storybook/testing-library';
+import { centeredLayout } from '../../utilities/chromatic-decorators';
 
 <Meta
   title="Components/Tooltip"
   component="bl-tooltip"
   parameters={{
-    layout: 'centered',
     chromatic: { viewports: [1000] },
   }}
+  decorators={[
+    centeredLayout,
+  ]}
   argTypes={{
     placement: {
       control: 'text'

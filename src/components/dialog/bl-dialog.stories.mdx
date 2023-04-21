@@ -4,14 +4,17 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 import { userEvent } from '@storybook/testing-library';
+import { fullscreenLayout } from '../../utilities/chromatic-decorators';
 
 <Meta
   title="Components/Dialog"
   component="bl-dialog"
   parameters={{
-    layout: 'fullscreen',
     chromatic: { viewports: [1000] },
   }}
+  decorators={[
+    fullscreenLayout,
+  ]}
   argTypes={{
     open: {
       control: "boolean",
