@@ -25,7 +25,7 @@ export const extraPadding = (story: PartialStoryFn) => chromaticDecorator(story,
 </style>`);
 
 export const centeredLayout = (story: PartialStoryFn) => chromaticDecorator(story, html`<style>
-  .sb-main-fullscreen #root-inner {
+  #root-inner {
     width: 1000px;
     height: 400px;
     display: flex;
@@ -35,7 +35,7 @@ export const centeredLayout = (story: PartialStoryFn) => chromaticDecorator(stor
 </style>`);
 
 export const fullscreenLayout = (story: PartialStoryFn) => chromaticDecorator(story, html`<style>
-  .sb-main-fullscreen #root-inner {
+  #root-inner {
     height: 600px;
   }
 </style>`);
