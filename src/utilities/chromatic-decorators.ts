@@ -32,6 +32,9 @@ export const centeredLayout = (story: PartialStoryFn) => chromaticDecorator(stor
     justify-content: center;
     align-items: center;
   }
+  .chromatic-wrapper {
+    display: flex;
+  }
 </style>`);
 
 export const fullscreenLayout = (story: PartialStoryFn) => chromaticDecorator(story, html`<style>

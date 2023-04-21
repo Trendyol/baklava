@@ -18,13 +18,13 @@ const config: StorybookConfig = {
     '@storybook/addon-links',
     {
       name: '@storybook/addon-docs',
-      options: {
-        mdxPluginOptions: {
-          mdxCompileOptions: {
-            remarkPlugins: [remarkGfm],
-          },
-        },
-      },
+      // options: {
+      //   mdxPluginOptions: {
+      //     mdxCompileOptions: {
+      //       remarkPlugins: [remarkGfm],
+      //     },
+      //   },
+      // },
     },
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
