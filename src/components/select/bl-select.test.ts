@@ -344,6 +344,10 @@ describe('bl-select', () => {
 
   describe('keyboard navigation', () => {
     let el: HTMLDivElement, blSelect: BlSelect;
+    const tabKey =
+        navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('HeadlessChrome')
+          ? 'Alt+Tab'
+          : 'Tab';
 
     beforeEach(async () => {
       //when
@@ -367,7 +371,7 @@ describe('bl-select', () => {
     it('should get focus with tab key', async () => {
       //given
       await sendKeys({
-        press: 'Tab',
+        press: tabKey,
       });
 
       //then
@@ -379,7 +383,7 @@ describe('bl-select', () => {
 
       // given
       await sendKeys({
-        press: 'Tab',
+        press: tabKey,
       });
 
       // then
@@ -390,7 +394,7 @@ describe('bl-select', () => {
       it(`should open popover with ${keyCode} key`, async () => {
         //given
         await sendKeys({
-          press: 'Tab',
+          press: tabKey,
         });
         await sendKeys({
           press: keyCode,
@@ -408,7 +412,7 @@ describe('bl-select', () => {
 
         //given
         await sendKeys({
-          press: 'Tab',
+          press: tabKey,
         });
         await sendKeys({
           press: keyCode,
@@ -424,7 +428,7 @@ describe('bl-select', () => {
 
       //given
       await sendKeys({
-        press: 'Tab',
+        press: tabKey,
       });
       await sendKeys({
         press: 'Space',
@@ -442,7 +446,7 @@ describe('bl-select', () => {
 
       //given
       await sendKeys({
-        press: 'Tab',
+        press: tabKey,
       });
       await sendKeys({
         press: 'Space',
