@@ -8,6 +8,7 @@ const importStatements = [
 
   // FIXME: These types should be determined automatically
   'import { ISelectOption } from "./components/select/bl-select"',
+  'export type { BaklavaIcon } from "./components/icon/icon-list"',
 ];
 
 function writeBaklavaReactFile(fileContentParts) {
@@ -81,12 +82,24 @@ for (const module of customElementsModules) {
     )
   }))`;
 
+  if (componentDeclaration.typeParameters) {
+    const typeParamDefinition = componentDeclaration.typeParameters.map((param) =>
+    `${param.name}${param.extends ? ` extends ${param.extends}` : ''}${param.default ? ` = ${param.default}` : ''}`
+  ).join(', ');
+
+  const typeParam = componentDeclaration.typeParameters.map((param) => `${param.name}`).join(', ');
+
+  const compType = `${Type}<${typeParam}>`;
+  const wrapperCompType = `ReactWebComponent<${compType}${eventTypes}>`;
   const componentType = `<${Type}${eventTypes}>`;
   const componentPromise = `() => ${componentDefinition(componentType)}`;
   const componentLazy = `React.lazy<ReactWebComponent${componentType}>(${componentPromise})`;
-  const componentExport = `export const ${componentName} = ${componentLazy};`;
-
+  const componentExport = `export function ${componentName}<${typeParamDefinition}>(props: React.ComponentPropsWithRef<${wrapperCompType}>): JSX.Element {
+    return ${componentLazy}(props)}`;
   baklavaReactFileParts.push(componentExport);
+  } else {
+    baklavaReactFileParts.push(`export const ${componentName} = React.lazy<ReactWebComponent<${Type}${eventTypes}>>(() => ${componentDefinition(`<${Type}>`)} );`);
+  }
 }
 
 writeBaklavaReactFile(baklavaReactFileParts);

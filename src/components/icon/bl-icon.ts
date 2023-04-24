@@ -5,7 +5,6 @@ import { getIconPath } from '../../utilities/asset-paths';
 import { event, EventDispatcher } from '../../utilities/event';
 
 import style from './bl-icon.css';
-import { BaklavaIcon } from './icon-list';
 
 const requestMap = new Map<string, Promise<Response>>();
 
@@ -17,22 +16,22 @@ const requestMap = new Map<string, Promise<Response>>();
  * @cssproperty [color=currentColor] Setting color of icon
  */
 @customElement('bl-icon')
-export default class BlIcon extends LitElement {
+export default class BlIcon<T extends string = string> extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
 
-  private _iconName: BaklavaIcon;
+  private _iconName!: T;
 
   /**
    * Name of the icon to show
    */
   @property()
-  get name(): BaklavaIcon {
+  get name(): T {
     return this._iconName;
   }
 
-  set name(value: BaklavaIcon) {
+  set name(value: T) {
     if (value !== this._iconName) {
       this._iconName = value;
       this.load();
