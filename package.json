@@ -73,7 +73,7 @@
     "node": ">=16"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.2.4",
+    "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^16.2.4",
     "@commitlint/prompt-cli": "^16.2.4",
     "@custom-elements-manifest/analyzer": "^0.6.3",
