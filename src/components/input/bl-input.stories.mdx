@@ -6,13 +6,14 @@ import {
   ArgsTable,
   Story,
 } from '@storybook/addon-docs';
+import { extraPadding } from '../../utilities/chromatic-decorators';
 
 <Meta
   title="Components/Input"
   component="bl-input"
-  parameters={{
-    extraPaddingForChromatic: true,
-  }}
+  decorators={[
+    extraPadding,
+  ]}
   argTypes={{
     label: {
       control: 'text',
