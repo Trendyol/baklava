@@ -36,6 +36,7 @@ export default class BlDropdownItem extends LitElement {
   @event('bl-dropdown-item-click') private onClick: EventDispatcher<string>;
 
   private _handleClick() {
+    this.BlDropdownField?.close();
     this.onClick('Action clicked!');
   }
 

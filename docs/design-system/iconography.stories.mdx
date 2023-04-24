@@ -1,17 +1,8 @@
-import { Meta, Title, IconGallery, IconItem } from '@storybook/addon-docs';
+import { Meta, IconGallery, IconItem } from '@storybook/blocks';
 import icons from '../../src/components/icon/icon-list';
+import { BlIcon } from '../../src/baklava-react';
 
-<Meta
-  title="Design System/Icons/Iconography"
-  parameters={{
-    viewMode: 'docs',
-    previewTabs: {
-      canvas: {
-        hidden: true,
-      },
-    },
-  }}
-/>
+<Meta title="Design System/Icons/Iconography" />
 
 # Iconography
 
@@ -29,7 +20,7 @@ You can check [icon component](/docs/components-icon--single-icon) for usage inf
   {
     icons.map((iconName) => (
       <IconItem key={iconName} name={iconName}>
-        <bl-icon name={iconName}></bl-icon>
+        <BlIcon name={iconName} />
       </IconItem>
     ))
   }
