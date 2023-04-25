@@ -29,7 +29,10 @@ function cleanGenericTypes(typeParameters, eventType) {
   let result = eventType;
 
   typeParameters?.forEach(param => {
-    result = result.replace(`<${param.name}>`, '');
+    // TODO: This is a very naive implementation, it should be improved
+    result = result.replace(`<${param.name}>`, '')
+      .replace(`${param.name} | `, '')
+      .replace(` | ${param.name}`, '');
   });
 
   return result;
