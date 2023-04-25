@@ -7,14 +7,17 @@ import {
   Story,
 } from '@storybook/addon-docs';
 import { userEvent } from '@storybook/testing-library';
+import { centeredLayout } from '../../utilities/chromatic-decorators';
 
 <Meta
   title="Components/Select/Select"
   component="bl-select"
   parameters={{
-    layout: 'centered',
     chromatic: { viewports: [1000] },
   }}
+  decorators={[
+    centeredLayout,
+  ]}
   argTypes={{
     label: {
       control: 'text'

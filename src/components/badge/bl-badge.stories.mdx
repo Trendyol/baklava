@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 
 <Meta
   title="Components/Badge"
@@ -59,6 +59,7 @@ Badge component can be used for highlighting a status or labeling an item.
 <bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
 
 ## Badge Variants
+
 There are no specific variants for the badge but we suggest using our color palette for badge colors. If you need else colors you can change color by using `--bl-badge-bg-color` and `--bl-badge-color` variables.
 You dont have to give style parameter you can change color by giving css class like this:
 

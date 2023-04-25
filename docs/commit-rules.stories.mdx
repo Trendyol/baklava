@@ -1,16 +1,6 @@
-import { Meta } from '@storybook/addon-docs';
+import { Meta } from '@storybook/blocks';
 
-<Meta
-  title="Documentation/Contributing Baklava/Commit Rules"
-  parameters={{
-    viewMode: 'docs',
-    previewTabs: {
-      canvas: {
-        hidden: true,
-      },
-    },
-  }}
-/>
+<Meta title="Documentation/Contributing Baklava/Commit Rules" />
 
 # Baklava Commit Rules
 
@@ -49,7 +39,7 @@ Also a scope is defined every component. Examples are `button`, `icon`, `select`
 
 We also provide a git message template file (`.gitmessage`) within the repository. To be able to use it with your `git commit` command, you need to run following command inside the repository root path:
 
-```
+```bash
 git config --local include.path ../.gitconfig
 ```
 
