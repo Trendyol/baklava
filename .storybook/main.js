@@ -1,7 +1,6 @@
 const TITLE = 'Baklava Design System';
-const configureWebpack = async (config, {
-  configType
-}) => {
+
+const configureWebpack = async (config, { configType }) => {
   if (configType === 'PRODUCTION') {
     for (const plugin of config.plugins) {
       if (plugin.__proto__.constructor.name === 'HtmlWebpackPlugin') {
@@ -9,32 +8,30 @@ const configureWebpack = async (config, {
       }
     }
   }
+
   return config;
 };
+
 module.exports = {
-  stories: ['../src/**/*.stories.mdx'],
-  addons: ['@storybook/addon-links', {
-    name: '@storybook/addon-docs',
-    options: {
-      transcludeMarkdown: true
-    }
-  }, '@storybook/addon-essentials', '@storybook/addon-a11y', '@storybook/addon-interactions', '@storybook/addon-viewport', '@storybook/addon-mdx-gfm'],
+  stories: ['../*.md', '../docs/**/*.stories.mdx', '../src/**/*.stories.mdx'],
+  addons: [
+    '@storybook/addon-links',
+    {
+      name: '@storybook/addon-docs',
+      options: { transcludeMarkdown: true },
+    },
+    '@storybook/addon-essentials',
+    '@storybook/addon-a11y',
+    '@storybook/addon-interactions',
+    '@storybook/addon-viewport',
+  ],
   features: {
     postcss: false,
     interactionsDebugger: true,
-    buildStoriesJson: true
+    buildStoriesJson: true,
   },
-  framework: {
-    name: '@storybook/web-components-webpack5',
-    options: {}
-  },
-  staticDirs: ['../dist', {
-    from: './assets',
-    to: '/assets'
-  }],
+  framework: '@storybook/web-components',
+  staticDirs: ['../dist', { from: './assets', to: '/assets' }],
   webpackFinal: configureWebpack,
   managerWebpack: configureWebpack,
-  docs: {
-    autodocs: true
-  }
 };
