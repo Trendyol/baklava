@@ -24,3 +24,4 @@ export { default as BlDropdownItem } from './components/dropdown/item/bl-dropdow
 export { default as BlDropdownGroup } from './components/dropdown/group/bl-dropdown-group';
 export { default as BlSwitch } from './components/switch/bl-switch';
 export { getIconPath, setIconPath } from './utilities/asset-paths';
+export { registerIconLibrary } from './components/icon/bl-icon';

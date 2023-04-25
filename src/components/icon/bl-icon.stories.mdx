@@ -116,9 +116,9 @@ Icon color can be set via CSS with `color` property. By default icons are in the
   </Story>
 </Canvas>
 
-## List of all icons
+## List of all default icons
 
-Here we provide a list of all provided icons. You can see them in custom size and colors in Canvas tab.
+Baklava provides a list of default icons. You can see them in custom size and colors in Canvas tab.
 
 <Canvas>
   <Story name="Icon list" parameters={{
@@ -129,6 +129,27 @@ Here we provide a list of all provided icons. You can see them in custom size an
     {AllIcons.bind({})}
   </Story>
 </Canvas>
+
+## Using with custom icon libraries
+
+You can register and use custom icon libraries with `bl-icon` component. First you need to register your icon library with `registerIconLibrary` function.
+
+```js
+import { registerIconLibrary } from '@trendyol/baklava';
+
+registerIconLibrary('bootstrap', {
+  resolver: (name) => {
+    return `https://cdn.jsdelivr.net/npm/bootstrap-icons@1.0.0/icons/${name}.svg`
+  }
+})
+```
+
+Then you can use your custom icon library with `library` attribute.
+
+```html
+<bl-icon library="bootstrap" name="info-circle-fill"></bl-icon>
+```
+
 
 ## Reference
 
