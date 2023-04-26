@@ -98,6 +98,7 @@ export default class BlDialog extends LitElement {
 
   private onKeydown = (event: KeyboardEvent): void => {
     if (event.code === 'Escape' && this.open) {
+      event.preventDefault();
       this.closeDialog();
     }
   };
