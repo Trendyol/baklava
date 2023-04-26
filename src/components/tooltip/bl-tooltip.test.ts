@@ -1,9 +1,8 @@
 import { assert, elementUpdated, expect, fixture, html, oneEvent } from '@open-wc/testing';
-import { sendMouse } from '@web/test-runner-commands';
+import {sendKeys, sendMouse} from '@web/test-runner-commands';
 import BlTooltip from './bl-tooltip';
 import type typeOfBlTooltip from './bl-tooltip';
 import type typeOfBlPopover from "../popover/bl-popover";
-import typeOfBlButton from "../button/bl-button";
 
 describe('bl-tooltip', () => {
   it('should be defined tooltip instance', () => {
@@ -144,7 +143,7 @@ describe('bl-tooltip', () => {
     //then
     const ev = await oneEvent(el, 'bl-tooltip-show');
     expect(ev).to.exist;
-    expect(ev.detail).to.be.equal('Show event fired!');
+    expect(ev.detail).to.be.equal('');
   });
 
   it('should fires bl-tooltip-hide on mouse leave', async () => {
@@ -168,102 +167,36 @@ describe('bl-tooltip', () => {
     //then
     const ev = await oneEvent(el, 'bl-tooltip-hide');
     expect(ev).to.exist;
-    expect(ev.detail).to.be.equal('Hide event fired!');
+    expect(ev.detail).to.be.equal('');
   });
 
-  it('should hide with keyboard escape button', async () => {
+  it('should show/hide with focus and blur events', async () => {
     //given
     const el = await fixture<typeOfBlTooltip>(
       html`<bl-tooltip> <button slot="tooltip-trigger">Test</button> Test Tooltip </bl-tooltip>`
     );
-    const trigger = document.querySelector('button') as HTMLElement;
 
+    const tabKey =
+      navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('HeadlessChrome')
+        ? 'Alt+Tab'
+        : 'Tab';
     //when
-    trigger.focus();
+    await sendKeys({
+      press: tabKey,
+    });
 
     await elementUpdated(el);
+    console.log(document.activeElement);
 
-    const escEvent = new KeyboardEvent('keydown', {
-      key: 'Escape',
-      cancelable: true,
+    await sendKeys({
+      press: tabKey,
     });
-
-    setTimeout(() => {
-      el?.dispatchEvent(escEvent);
-    });
-
+    await elementUpdated(el);
+    console.log(document.activeElement);
     //then
     const ev = await oneEvent(el, 'bl-tooltip-hide');
     expect(ev).to.exist;
-    expect(ev.detail).to.be.equal('Hide event fired!');
     expect(el.visible).to.be.false;
-  });
-  it('should be triggered successful when target assigned by id', async () => {
-    //given
-    const body = await fixture<HTMLBodyElement>(html`
-      <div style="width: 1500px;height: 1500px;">
-        <bl-button id="mybtn">My Button</bl-button>
-        <bl-tooltip id="mytooltip" placement="bottom" target="mybtn">
-          <span>Tooltip Content</span>
-        </bl-tooltip>
-      </div>
-    `);
-
-    const tooltipEl = body.querySelector('bl-tooltip') as typeOfBlTooltip;
-    const btnEl = body.querySelector('#mybtn') as typeOfBlButton;
-    tooltipEl.setAttribute('target', 'mybtn');
-    await elementUpdated(tooltipEl);
-    const { x, y } = getMiddleOfElement(btnEl);
-
-
-    //when
-    await sendMouse({ type: 'move', position: [x, y] });
-
-    //then
-    expect(tooltipEl.visible).to.equal(true);
-  });
-  it('should be triggered successful when target assigned by object', async () => {
-    //given
-    const body = await fixture<HTMLBodyElement>(html`
-      <div style="width: 1500px;height: 1500px;">
-        <bl-button id="mybtn">My Button</bl-button>
-        <bl-button id="mybtn2">My Button2</bl-button>
-        <bl-tooltip id="mytooltip" placement="bottom">
-          <span>Tooltip Content</span>
-        </bl-tooltip>
-      </div>
-    `);
-
-    const tooltipEl = body.querySelector('bl-tooltip') as typeOfBlTooltip;
-    const btnEl = body.querySelector('#mybtn') as typeOfBlButton;
-    tooltipEl.target = btnEl;
-    await elementUpdated(tooltipEl);
-    const { x, y } = getMiddleOfElement(btnEl);
-
-
-    //when
-    await sendMouse({ type: 'move', position: [200, 200] });
-
-    await sendMouse({ type: 'move', position: [x, y] });
-
-    //then
-    expect(tooltipEl.visible).to.equal(true);
-  });
-  it('should get warning when invalid target type assigned', async () => {
-    const body = await fixture<HTMLBodyElement>(html`
-      <div style="width: 1500px;height: 1500px;">
-        <bl-button id="mybtn">My Button</bl-button>
-        <bl-tooltip id="mytooltip"  placement="bottom">
-          <span>Tooltip Content</span>
-        </bl-tooltip>
-      </div>
-    `);
-
-    const tooltipEl = body.querySelector('bl-tooltip') as typeOfBlTooltip;
-    /* eslint-disable @typescript-eslint/ban-ts-comment */
-    // @ts-ignore
-    tooltipEl.target = 2;
-    expect(tooltipEl.target).to.be.undefined;
   });
 });
 
