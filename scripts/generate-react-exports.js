@@ -1,6 +1,11 @@
-const fs = require('fs-extra');
-const prettier = require('prettier');
-const { pascalCase } = require('pascal-case');
+import fs from 'fs-extra';
+import { format } from 'prettier';
+import { pascalCase } from 'pascal-case';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const importStatements = [
   'import React from "react";',
@@ -16,7 +21,7 @@ function writeBaklavaReactFile(fileContentParts) {
     `// @ts-nocheck\n` +
     `${importStatements.join('\n')}\n\n` +
     `${fileContentParts.join('\n\n')}\n`;
-  const codeResult = prettier.format(fileContentText, { parser: 'typescript' });
+  const codeResult = format(fileContentText, { parser: 'typescript' });
 
   fs.writeFileSync(`${__dirname}/../src/baklava-react.ts`, codeResult);
 }
@@ -30,7 +35,8 @@ function cleanGenericTypes(typeParameters, eventType) {
 
   typeParameters?.forEach(param => {
     // TODO: This is a very naive implementation, it should be improved
-    result = result.replace(`<${param.name}>`, '')
+    result = result
+      .replace(`<${param.name}>`, '')
       .replace(`${param.name} | `, '')
       .replace(` | ${param.name}`, '');
   });
