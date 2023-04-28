@@ -303,7 +303,7 @@ describe('bl-dialog', () => {
       });
 
       it('should not fire bl-dialog-close event when dialog open prop is false in default', async () => {
-        const el = await fixture<typeOfBlDialog>(html`<bl-dialog :open="false" caption="My title">
+        const el = await fixture<typeOfBlDialog>(html`<bl-dialog .open=${false} caption="My title">
         </bl-dialog>`);
 
         setTimeout(async () => {

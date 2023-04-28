@@ -54,8 +54,8 @@ export default class BlDialog extends LitElement {
   @event('bl-dialog-close') private onClose: EventDispatcher<object>;
 
   updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('open')) {
-      this.toggleDialogHandler(changedProperties.get('open'));
+    if (changedProperties.has('open') && changedProperties.get('open') !== undefined || this.open){
+      this.toggleDialogHandler();
     }
   }
 
@@ -67,15 +67,15 @@ export default class BlDialog extends LitElement {
     return [...this.childNodes].some(node => node.nodeName === 'BL-BUTTON');
   }
 
-  private toggleDialogHandler(wasOpen: boolean) {
-    if (this.open && !wasOpen) {
+  private toggleDialogHandler() {
+    if (this.open) {
       this.dialog?.showModal?.();
       this.onOpen({ isOpen: true });
       document.body.style.overflow = 'hidden';
       this.toggleFooterShadow();
       window?.addEventListener('keydown', event => this.onKeydown(event));
       window?.addEventListener('resize', () => this.toggleFooterShadow());
-    } else if(!this.open && wasOpen) {
+    } else if(!this.open) {
       this.dialog?.close?.();
       this.onClose({ isOpen: false });
       document.body.style.overflow = 'auto';
