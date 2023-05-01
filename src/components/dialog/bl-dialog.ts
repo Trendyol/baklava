@@ -54,7 +54,7 @@ export default class BlDialog extends LitElement {
   @event('bl-dialog-close') private onClose: EventDispatcher<object>;
 
   updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('open') && changedProperties.get('open') !== undefined || this.open){
+    if (changedProperties.has('open') && changedProperties.get('open') !== undefined || this.open) {
       this.toggleDialogHandler();
     }
   }
@@ -75,7 +75,7 @@ export default class BlDialog extends LitElement {
       this.toggleFooterShadow();
       window?.addEventListener('keydown', event => this.onKeydown(event));
       window?.addEventListener('resize', () => this.toggleFooterShadow());
-    } else if(!this.open) {
+    } else {
       this.dialog?.close?.();
       this.onClose({ isOpen: false });
       document.body.style.overflow = 'auto';
