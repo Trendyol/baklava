@@ -92,7 +92,7 @@ export default class BlPopover extends LitElement {
     super.connectedCallback();
 
     this._handlePopoverShowEvent = this._handlePopoverShowEvent.bind(this);
-    this._handleKeyupEvent = this._handleKeyupEvent.bind(this);
+    this._handleKeydownEvent = this._handleKeydownEvent.bind(this);
     this._handleClickOutside = this._handleClickOutside.bind(this);
   }
 
@@ -207,7 +207,7 @@ export default class BlPopover extends LitElement {
     this.setPopover();
     this.onBlPopoverShow('');
     document.addEventListener('click', this._handleClickOutside);
-    document.addEventListener('keyup', this._handleKeyupEvent);
+    document.addEventListener('keydown', this._handleKeydownEvent);
     document.addEventListener('bl-popover-show', this._handlePopoverShowEvent);
   }
 
@@ -217,7 +217,7 @@ export default class BlPopover extends LitElement {
   hide() {
     this._visible = false;
     document.removeEventListener('click', this._handleClickOutside);
-    document.removeEventListener('keyup', this._handleKeyupEvent);
+    document.removeEventListener('keydown', this._handleKeydownEvent);
     document.removeEventListener('bl-popover-show', this._handlePopoverShowEvent);
     this.onBlPopoverHide('');
   }
@@ -235,10 +235,10 @@ export default class BlPopover extends LitElement {
     }
   }
 
-  private _handleKeyupEvent(event: KeyboardEvent) {
+  private _handleKeydownEvent(event: KeyboardEvent) {
     if (event.key === 'Escape' && this.visible) {
-      this.hide();
       event.preventDefault();
+      this.hide();
     }
   }
 
