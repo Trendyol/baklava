@@ -4,8 +4,8 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { event, EventDispatcher } from '../../utilities/event';
 import '../popover/bl-popover';
-import {Placement} from '../popover/bl-popover';
 import type BlPopover from '../popover/bl-popover';
+import { Placement } from '../popover/bl-popover';
 import style from './bl-tooltip.css';
 
 /**
@@ -21,7 +21,6 @@ export default class BlTooltip extends LitElement {
     return [style];
   }
 
-  // @query('.tooltip') private tooltip: HTMLElement;
   @query('.trigger') private trigger: ReferenceElement;
   @query('bl-popover') private popover: BlPopover;
 
@@ -85,7 +84,9 @@ export default class BlTooltip extends LitElement {
           .target="${this.trigger}"
           placement="${ifDefined(this.placement)}"
           @bl-popover-hide="${() => this.onHide('')}"
-        ><slot class="content" id="tooltip" role="tooltip"></slot></bl-popover>
+          >
+          <slot class="content" id="tooltip" role="tooltip"></slot>
+        </bl-popover>
       </div>`;
   }
 }
