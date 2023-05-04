@@ -28,12 +28,11 @@ describe('bl-tooltip', () => {
       </slot>
       <div class="wrapper">
       <bl-popover placement="top">
-        <div class="content">
-          <slot
-            id="tooltip"
-            role="tooltip">
-          </slot>
-        </div>
+        <slot
+          class="content"
+          id="tooltip"
+          role="tooltip">
+        </slot>
        </bl-popover>
       </div>
       `

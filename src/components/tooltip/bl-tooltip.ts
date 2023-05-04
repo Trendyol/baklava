@@ -85,9 +85,7 @@ export default class BlTooltip extends LitElement {
           .target="${this.trigger}"
           placement="${ifDefined(this.placement)}"
           @bl-popover-hide="${() => this.onHide('')}"
-        >
-          <div class="content"><slot id="tooltip" role="tooltip"></slot></div>
-        </bl-popover>
+        ><slot class="content" id="tooltip" role="tooltip"></slot></bl-popover>
       </div>`;
   }
 }
