@@ -40,6 +40,7 @@ export type Placement =
  * @cssproperty [--bl-popover-border-size=1px] - Sets the border size of popover. You can set it to `0` to not have a border (if you use a custom background color).
  * @cssproperty [--bl-popover-padding=--bl-size-m] - Sets the padding of popover.
  * @cssproperty [--bl-popover-border-radius=--bl-size-3xs] - Sets the border radius of popover.
+ * @cssproperty [--bl-popover-max-width=100vw] - Sets the maximum width of the popover (including border and padding).
  * @cssproperty [--bl-popover-position=fixed] - Sets the position of popover. You can set it to `absolute` if parent element is a fixed positioned element like drawer or dialog.
  */
 @customElement('bl-popover')
