@@ -173,26 +173,27 @@ describe('bl-tooltip', () => {
   it('should show/hide with focus and blur events', async () => {
     //given
     const el = await fixture<typeOfBlTooltip>(
-      html`<bl-tooltip> <button slot="tooltip-trigger">Test</button> Test Tooltip </bl-tooltip>`
+      html`<bl-tooltip><button slot="tooltip-trigger">Test</button> Test Tooltip </bl-tooltip>`
     );
 
     const tabKey =
       navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('HeadlessChrome')
         ? 'Alt+Tab'
         : 'Tab';
+
     //when
-    await sendKeys({
-      press: tabKey,
+    setTimeout(async () => {
+      // Focus tooltip
+      await sendKeys({
+        press: tabKey,
+      });
+
+      // Blur tooltip
+      await sendKeys({
+        press: tabKey,
+      });
     });
 
-    await elementUpdated(el);
-    console.log(document.activeElement);
-
-    await sendKeys({
-      press: tabKey,
-    });
-    await elementUpdated(el);
-    console.log(document.activeElement);
     //then
     const ev = await oneEvent(el, 'bl-tooltip-hide');
     expect(ev).to.exist;
