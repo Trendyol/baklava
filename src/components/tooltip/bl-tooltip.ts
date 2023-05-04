@@ -11,6 +11,7 @@ import style from './bl-tooltip.css';
 /**
  * @tag bl-tooltip
  * @summary Baklava Tooltip component
+ * @dependency bl-popover
  *
  * @property {string} placement - Sets the tooltip placement
  */
@@ -81,12 +82,11 @@ export default class BlTooltip extends LitElement {
     return html` ${this.triggerTemplate()}
       <div class="wrapper">
         <bl-popover
-          class="tooltip"
           .target="${this.trigger}"
           placement="${ifDefined(this.placement)}"
           @bl-popover-hide="${() => this.onHide('')}"
         >
-          <slot id="tooltip" class="content" role="tooltip"></slot>
+          <div class="content"><slot id="tooltip" role="tooltip"></slot></div>
         </bl-popover>
       </div>`;
   }

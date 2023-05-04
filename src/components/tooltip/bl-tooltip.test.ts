@@ -26,13 +26,14 @@ describe('bl-tooltip', () => {
        class="trigger"
        name="tooltip-trigger">
       </slot>
-      <div class='wrapper'>
-      <bl-popover class='tooltip' placement='top'>
-        <slot
-          id="tooltip"
-          class="content"
-          role="tooltip">
-        </slot>
+      <div class="wrapper">
+      <bl-popover placement="top">
+        <div class="content">
+          <slot
+            id="tooltip"
+            role="tooltip">
+          </slot>
+        </div>
        </bl-popover>
       </div>
       `
@@ -55,7 +56,7 @@ describe('bl-tooltip', () => {
 
     //then
     expect(el.shadowRoot?.querySelector('.trigger')).to.exist;
-    expect(el.shadowRoot?.querySelector('.tooltip')).to.exist;
+    expect(el.shadowRoot?.querySelector('bl-popover')).to.exist;
   });
 
   it('should be rendered with correct placement attribute', async () => {
@@ -93,7 +94,7 @@ describe('bl-tooltip', () => {
         ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
       >`
     );
-    const tooltipPopover = el.shadowRoot?.querySelector('.tooltip') as typeOfBlPopover;
+    const tooltipPopover = el.shadowRoot?.querySelector('bl-popover') as typeOfBlPopover;
     const trigger = document.querySelector('button') as HTMLElement;
     const { x, y } = getMiddleOfElement(trigger);
 
@@ -112,7 +113,7 @@ describe('bl-tooltip', () => {
         ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
       >`
     );
-    const tooltip = el.shadowRoot?.querySelector('.tooltip') as HTMLElement;
+    const tooltip = el.shadowRoot?.querySelector('bl-popover') as HTMLElement;
     const trigger = document.querySelector('button') as HTMLElement;
     const body = document.querySelector('body') as HTMLElement;
 

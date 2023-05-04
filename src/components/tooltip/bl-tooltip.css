@@ -7,17 +7,17 @@
   display: inline-block;
 }
 
-.content{
-  color: var(--bl-color-neutral-full);;
-}
-
-.tooltip {
+bl-popover {
   --bl-popover-background-color: var(--bl-color-neutral-darker);
   --bl-popover-border-color: var(--bl-color-neutral-darker);
   --bl-popover-arrow-display: block;
+}
+
+.content {
   --max-viewport: calc(100vw - var(--bl-size-s));
   --tooltip-max-width: 424px;
 
+  color: var(--bl-color-neutral-full);;
   width: max-content;
   hyphens: auto;
   max-width: min(var(--max-viewport), var(--tooltip-max-width));
