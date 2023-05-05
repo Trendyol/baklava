@@ -21,7 +21,7 @@ const args = parseArgs(process.argv.slice(2), {
     return matched.concat(', ', replacedWithNewClass)
   });
 
-  const cssCleaner = (content) => new CleanCSS({}).minify(content).styles;
+  const cssCleaner = (content) => new CleanCSS({ level: 1 }).minify(content).styles;
 
   const cssTransformers = [cssCleaner];
 
