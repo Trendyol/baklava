@@ -1,5 +1,6 @@
 const esbuild = require('esbuild');
 const parseArgs = require('minimist');
+const CleanCSS = require('clean-css');
 const del = require('del');
 const { litCssPlugin } = require('esbuild-plugin-lit-css');
 
@@ -12,20 +13,25 @@ const args = parseArgs(process.argv.slice(2), {
   const destinationPath = 'dist';
   const isRelease = process.env.RELEASE || false;
 
-  const cssPluginOptions = {
-    uglify: true,
-    filter: /components\/.*\.css$/
-  };
+  const cssHoverClassCleaner = (content) => content.replace(/.*:hover[^{]*/g, matched => {
+    // Replace :hover with special class. (There will be additional classes for focus, etc. Should be implemented in here.)
+    const replacedWithNewClass = matched.replace(/:hover/, '.__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__')
+    // Concat strings
+    return matched.concat(', ', replacedWithNewClass)
+  });
+
+  const cssCleaner = (content) => new CleanCSS({}).minify(content).styles;
+
+  const cssTransformers = [cssCleaner];
 
   if (!isRelease) {
-    cssPluginOptions.transform = (content) => content.replace(/.*:hover[^{]*/g, matched => {
-      // Replace :hover with special class. (There will be additional classes for focus, etc. Should be implemented in here.)
-      const replacedWithNewClass = matched.replace(/:hover/, '.__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__')
-      // Concat strings
-      return matched.concat(', ', replacedWithNewClass)
-    })
+    cssTransformers.push(cssHoverClassCleaner);
   }
 
+  const cssPluginOptions = {
+    filter: /components\/.*\.css$/,
+    transform: (content) => cssTransformers.reduce((result, transformer) => transformer(result), content)
+  };
 
   try {
     const buildOptions = {
