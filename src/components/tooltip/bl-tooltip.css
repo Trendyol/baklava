@@ -11,7 +11,7 @@
 bl-popover {
   --bl-popover-background-color: var(--bl-color-neutral-darker);
   --bl-popover-arrow-display: block;
-  --bl-popover-border-size: calc(0 * 1px);
+  --bl-popover-border-size: 0px;
   --bl-popover-max-width: 424px;
 }
 
