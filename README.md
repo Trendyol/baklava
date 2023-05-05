@@ -42,7 +42,7 @@ This way library will be served from a very high performant CDN and all of the B
 ## How to contribute
 
 Baklava Design System is always open for direct contributions. Contributions can be in the form of design suggestions, documentation improvements, new component
-suggestions, code improvements, adding new features or fixing problems. For more information please check our [Contribution Guideline document](./CONTRIBUTING.md).
+suggestions, code improvements, adding new features or fixing problems. For more information please check our [Contribution Guideline document on GitHub](https://github.com/Trendyol/baklava/blob/next/CONTRIBUTING.md), or [on Storybook](https://baklava.design/?path=/docs/documentation-contributing-baklava-contribution-guideline--page).
 
 ## Useful Links
 
