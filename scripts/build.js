@@ -13,7 +13,8 @@ const args = parseArgs(process.argv.slice(2), {
   const destinationPath = 'dist';
   const isRelease = process.env.RELEASE || false;
 
-  const cssHoverClassCleaner = (content) => content.replace(/.*:hover[^{]*/g, matched => {
+  /* This is for using inside Storybook for demonstration purposes. */
+  const cssHoverClassAdder = (content) => content.replace(/.*:hover[^{]*/g, matched => {
     // Replace :hover with special class. (There will be additional classes for focus, etc. Should be implemented in here.)
     const replacedWithNewClass = matched.replace(/:hover/, '.__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__')
     // Concat strings
@@ -25,7 +26,8 @@ const args = parseArgs(process.argv.slice(2), {
   const cssTransformers = [cssCleaner];
 
   if (!isRelease) {
-    cssTransformers.push(cssHoverClassCleaner);
+    // Add hover class for demonstration purposes, only if it's not a release build.
+    cssTransformers.push(cssHoverClassAdder);
   }
 
   const cssPluginOptions = {
