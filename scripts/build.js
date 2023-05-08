@@ -14,21 +14,33 @@ const args = parseArgs(process.argv.slice(2), {
   const isRelease = process.env.RELEASE || false;
 
   /* This is for using inside Storybook for demonstration purposes. */
-  const cssHoverClassAdder = (content) => content.replace(/.*:hover[^{]*/g, matched => {
+  const cssHoverClassAdder = (content) => content.replace(/.*:hover[^{,]*/g, matched => {
+    console.log(matched);
     // Replace :hover with special class. (There will be additional classes for focus, etc. Should be implemented in here.)
     const replacedWithNewClass = matched.replace(/:hover/, '.__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__')
     // Concat strings
-    return matched.concat(', ', replacedWithNewClass)
+    return matched.concat(', ', replacedWithNewClass);
   });
 
-  const cssCleaner = (content) => new CleanCSS({ level: 1 }).minify(content).styles;
+  const cssCleaner = (content) => {
+    const { styles, errors, warnings } = new CleanCSS({ level: 1 }).minify(content);
+    if (errors.length) {
+      console.error(errors);
+    }
+    if (warnings.length) {
+      console.warn(warnings);
+    }
+    return styles;
+  };
 
-  const cssTransformers = [cssCleaner];
+  const cssTransformers = [];
 
   if (!isRelease) {
     // Add hover class for demonstration purposes, only if it's not a release build.
     cssTransformers.push(cssHoverClassAdder);
   }
+
+  cssTransformers.push(cssCleaner);
 
   const cssPluginOptions = {
     filter: /components\/.*\.css$/,
@@ -104,12 +116,18 @@ const args = parseArgs(process.argv.slice(2), {
       .map(([fileName, data]) => ({
         fileName,
         size: `${(data.bytes / 1024).toFixed(2)} KB`,
+        bytes: data.bytes,
       }))
       .filter(
         ({ fileName }) =>
           !/icon\/icons\/.*\.js/.test(fileName) &&
           (fileName.endsWith('.js') || fileName.endsWith('.css'))
       );
+
+    analyzeResult.push({
+      fileName: 'TOTAL',
+      size: `${(analyzeResult.reduce((acc, { bytes }) => acc + bytes, 0) / 1024).toFixed(2)} KB`,
+    })
 
     del(`${destinationPath}/components/icon/icons`);
 
