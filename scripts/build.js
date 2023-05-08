@@ -1,8 +1,8 @@
-const esbuild = require('esbuild');
-const parseArgs = require('minimist');
-const CleanCSS = require('clean-css');
-const del = require('del');
-const { litCssPlugin } = require('esbuild-plugin-lit-css');
+import { context, build } from 'esbuild';
+import parseArgs from 'minimist';
+import CleanCSS from 'clean-css';
+import del from 'del';
+import { litCssPlugin } from 'esbuild-plugin-lit-css';
 
 const args = parseArgs(process.argv.slice(2), {
   boolean: true,
@@ -82,7 +82,7 @@ const args = parseArgs(process.argv.slice(2), {
     if (args.serve) {
       const servedir = 'playground';
 
-      let ctx = await esbuild.context({
+      let ctx = await context({
         ...buildOptions,
         outdir: `${servedir}/dist`
       });
@@ -99,7 +99,7 @@ const args = parseArgs(process.argv.slice(2), {
       return;
     }
 
-    const { errors, warnings, metafile } = await esbuild.build(buildOptions);
+    const { errors, warnings, metafile } = await build(buildOptions);
 
     if (errors.length > 0) {
       console.table(errors);
