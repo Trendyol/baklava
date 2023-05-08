@@ -1,5 +1,6 @@
 {
   "name": "@trendyol/baklava",
+  "type": "module",
   "version": "0.0.0-dev",
   "description": "Trendyol Baklava Design System",
   "main": "dist/baklava.js",
