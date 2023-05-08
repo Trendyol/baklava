@@ -14,16 +14,15 @@ const args = parseArgs(process.argv.slice(2), {
   const isRelease = process.env.RELEASE || false;
 
   /* This is for using inside Storybook for demonstration purposes. */
-  const cssHoverClassAdder = (content) => content.replace(/.*:hover[^{,]*/g, matched => {
-    console.log(matched);
+  const cssHoverClassAdder = (content) => content.replace(/.*:hover[^{]*/g, matched => {
     // Replace :hover with special class. (There will be additional classes for focus, etc. Should be implemented in here.)
     const replacedWithNewClass = matched.replace(/:hover/, '.__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__')
     // Concat strings
-    return matched.concat(', ', replacedWithNewClass);
+    return replacedWithNewClass.concat(', ', matched);
   });
 
   const cssCleaner = (content) => {
-    const { styles, errors, warnings } = new CleanCSS({ level: 1 }).minify(content);
+    const { styles, errors, warnings } = new CleanCSS({ level: 0 }).minify(content);
     if (errors.length) {
       console.error(errors);
     }
