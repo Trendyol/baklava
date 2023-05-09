@@ -1,7 +1,8 @@
 import { assert, elementUpdated, expect, fixture, html, oneEvent } from '@open-wc/testing';
-import { sendMouse } from '@web/test-runner-commands';
+import {sendKeys, sendMouse} from '@web/test-runner-commands';
 import BlTooltip from './bl-tooltip';
 import type typeOfBlTooltip from './bl-tooltip';
+import type typeOfBlPopover from "../popover/bl-popover";
 
 describe('bl-tooltip', () => {
   it('should be defined tooltip instance', () => {
@@ -25,13 +26,14 @@ describe('bl-tooltip', () => {
        class="trigger"
        name="tooltip-trigger">
       </slot>
-      <div class='tooltip'>
+      <div class="wrapper">
+      <bl-popover placement="top">
         <slot
-          aria-live="off"
+          class="content"
           id="tooltip"
           role="tooltip">
         </slot>
-        <div aria-hidden="true" class="arrow"></div>
+       </bl-popover>
       </div>
       `
     );
@@ -53,8 +55,7 @@ describe('bl-tooltip', () => {
 
     //then
     expect(el.shadowRoot?.querySelector('.trigger')).to.exist;
-    expect(el.shadowRoot?.querySelector('.arrow')).to.exist;
-    expect(el.shadowRoot?.querySelector('.tooltip')).to.exist;
+    expect(el.shadowRoot?.querySelector('bl-popover')).to.exist;
   });
 
   it('should be rendered with correct placement attribute', async () => {
@@ -92,7 +93,7 @@ describe('bl-tooltip', () => {
         ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
       >`
     );
-    const tooltip = el.shadowRoot?.querySelector('.tooltip') as HTMLElement;
+    const tooltipPopover = el.shadowRoot?.querySelector('bl-popover') as typeOfBlPopover;
     const trigger = document.querySelector('button') as HTMLElement;
     const { x, y } = getMiddleOfElement(trigger);
 
@@ -100,7 +101,7 @@ describe('bl-tooltip', () => {
     await sendMouse({ type: 'move', position: [x, y] });
 
     //then
-    expect(tooltip).to.have.class('visible');
+    expect(tooltipPopover.visible).to.be.true;
     expect(el.visible).to.be.true;
   });
 
@@ -111,7 +112,7 @@ describe('bl-tooltip', () => {
         ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
       >`
     );
-    const tooltip = el.shadowRoot?.querySelector('.tooltip') as HTMLElement;
+    const tooltip = el.shadowRoot?.querySelector('bl-popover') as HTMLElement;
     const trigger = document.querySelector('button') as HTMLElement;
     const body = document.querySelector('body') as HTMLElement;
 
@@ -142,7 +143,7 @@ describe('bl-tooltip', () => {
     //then
     const ev = await oneEvent(el, 'bl-tooltip-show');
     expect(ev).to.exist;
-    expect(ev.detail).to.be.equal('Show event fired!');
+    expect(ev.detail).to.be.equal('');
   });
 
   it('should fires bl-tooltip-hide on mouse leave', async () => {
@@ -166,34 +167,36 @@ describe('bl-tooltip', () => {
     //then
     const ev = await oneEvent(el, 'bl-tooltip-hide');
     expect(ev).to.exist;
-    expect(ev.detail).to.be.equal('Hide event fired!');
+    expect(ev.detail).to.be.equal('');
   });
 
-  it('should hide with keyboard escape button', async () => {
+  it('should show/hide with focus and blur events', async () => {
     //given
     const el = await fixture<typeOfBlTooltip>(
-      html`<bl-tooltip> <button slot="tooltip-trigger">Test</button> Test Tooltip </bl-tooltip>`
+      html`<bl-tooltip><button slot="tooltip-trigger">Test</button> Test Tooltip </bl-tooltip>`
     );
-    const trigger = document.querySelector('button') as HTMLElement;
+
+    const tabKey =
+      navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('HeadlessChrome')
+        ? 'Alt+Tab'
+        : 'Tab';
 
     //when
-    trigger.focus();
+    setTimeout(async () => {
+      // Focus tooltip
+      await sendKeys({
+        press: tabKey,
+      });
 
-    await elementUpdated(el);
-
-    const escEvent = new KeyboardEvent('keydown', {
-      key: 'Escape',
-      cancelable: true,
-    });
-
-    setTimeout(() => {
-      el?.dispatchEvent(escEvent);
+      // Blur tooltip
+      await sendKeys({
+        press: tabKey,
+      });
     });
 
     //then
     const ev = await oneEvent(el, 'bl-tooltip-hide');
     expect(ev).to.exist;
-    expect(ev.detail).to.be.equal('Hide event fired!');
     expect(el.visible).to.be.false;
   });
 });

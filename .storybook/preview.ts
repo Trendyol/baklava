@@ -11,7 +11,9 @@ export const parameters = {
       source
         .replace(/<!--\?lit\$[0-9]+\$-->|<!--\??-->/g, '')
         // Clean empty boolean attribute values
-        .replace(/=\"\"/g, ''),
+        .replace(/=\"\"/g, '')
+        // Clean hover hack classes
+        .replace(/ class=\"__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__\"/g, ''),
   },
   options: {
     storySort: {
