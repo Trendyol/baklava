@@ -73,6 +73,7 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
       include: ['src/components/**/*.css'],
     }),
     replace({
+      'preventAssignment': true,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
     esbuildPlugin({ ts: true, target: 'esnext' }),

@@ -37,8 +37,10 @@ export type Placement =
  * @cssproperty [--bl-popover-arrow-display=none] - Sets the display of popovers arrow. Set as `block` to make arrow visible.
  * @cssproperty [--bl-popover-background-color=--bl-color-neutral-full] - Sets the background color of popover.
  * @cssproperty [--bl-popover-border-color=--bl-color-primary-highlight] - Sets the border color of popover.
+ * @cssproperty [--bl-popover-border-size=1px] - Sets the border size of popover. You can set it to `0px` to not have a border (if you use a custom background color). Always use with a length unit.
  * @cssproperty [--bl-popover-padding=--bl-size-m] - Sets the padding of popover.
  * @cssproperty [--bl-popover-border-radius=--bl-size-3xs] - Sets the border radius of popover.
+ * @cssproperty [--bl-popover-max-width=100vw] - Sets the maximum width of the popover (including border and padding).
  * @cssproperty [--bl-popover-position=fixed] - Sets the position of popover. You can set it to `absolute` if parent element is a fixed positioned element like drawer or dialog.
  */
 @customElement('bl-popover')
@@ -92,7 +94,7 @@ export default class BlPopover extends LitElement {
     super.connectedCallback();
 
     this._handlePopoverShowEvent = this._handlePopoverShowEvent.bind(this);
-    this._handleKeyupEvent = this._handleKeyupEvent.bind(this);
+    this._handleKeydownEvent = this._handleKeydownEvent.bind(this);
     this._handleClickOutside = this._handleClickOutside.bind(this);
   }
 
@@ -147,31 +149,15 @@ export default class BlPopover extends LitElement {
             top: `${y}px`,
           });
 
+          this.popover.dataset.placement = placement;
+
           if (middlewareData.arrow) {
             const { x: arrowX, y: arrowY } = middlewareData.arrow;
 
             Object.assign(this.arrow.style, {
-              left: `${arrowX}px`,
-              top: `${arrowY}px`,
+              left: arrowX != null ? `${arrowX}px` : '',
+              top: arrowY != null ? `${arrowY}px` : '',
             });
-
-            const arrowFlipDirections = {
-              top: 'bottom',
-              right: 'left',
-              bottom: 'top',
-              left: 'right',
-            };
-            const arrowRotateDegrees = {
-              top: '225deg',
-              right: '315deg',
-              bottom: '45deg',
-              left: '135deg',
-            };
-            const popoverPlacement = placement.split('-')[0] as keyof typeof arrowFlipDirections;
-            const arrowDirection = arrowFlipDirections[popoverPlacement];
-
-            this.arrow.style.setProperty(arrowDirection, '-5px');
-            this.arrow.style.setProperty('--arrow-rotation', arrowRotateDegrees[popoverPlacement]);
           }
         });
       });
@@ -207,7 +193,7 @@ export default class BlPopover extends LitElement {
     this.setPopover();
     this.onBlPopoverShow('');
     document.addEventListener('click', this._handleClickOutside);
-    document.addEventListener('keyup', this._handleKeyupEvent);
+    document.addEventListener('keydown', this._handleKeydownEvent);
     document.addEventListener('bl-popover-show', this._handlePopoverShowEvent);
   }
 
@@ -217,7 +203,7 @@ export default class BlPopover extends LitElement {
   hide() {
     this._visible = false;
     document.removeEventListener('click', this._handleClickOutside);
-    document.removeEventListener('keyup', this._handleKeyupEvent);
+    document.removeEventListener('keydown', this._handleKeydownEvent);
     document.removeEventListener('bl-popover-show', this._handlePopoverShowEvent);
     this.onBlPopoverHide('');
   }
@@ -235,10 +221,10 @@ export default class BlPopover extends LitElement {
     }
   }
 
-  private _handleKeyupEvent(event: KeyboardEvent) {
+  private _handleKeydownEvent(event: KeyboardEvent) {
     if (event.key === 'Escape' && this.visible) {
-      this.hide();
       event.preventDefault();
+      this.hide();
     }
   }
 

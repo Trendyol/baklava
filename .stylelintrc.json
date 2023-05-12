@@ -1,6 +1,9 @@
 {
   "extends": ["stylelint-config-standard", "stylelint-config-prettier"],
   "rules": {
-    "custom-property-no-missing-var-function": true
+    "custom-property-no-missing-var-function": true,
+    "length-zero-no-unit": [true, {
+      "ignore": ["custom-properties"]
+    }]
   }
 }
