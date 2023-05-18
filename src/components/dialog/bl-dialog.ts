@@ -54,7 +54,7 @@ export default class BlDialog extends LitElement {
   @event('bl-dialog-close') private onClose: EventDispatcher<object>;
 
   updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('open') && changedProperties.get('open') !== undefined || this.open) {
+    if (changedProperties.has('open') && (changedProperties.get('open') !== undefined || this.open)) {
       this.toggleDialogHandler();
     }
   }
