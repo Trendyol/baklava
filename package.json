@@ -1,5 +1,6 @@
 {
   "name": "@trendyol/baklava",
+  "type": "module",
   "version": "0.0.0-dev",
   "description": "Trendyol Baklava Design System",
   "main": "dist/baklava.js",
@@ -39,7 +40,6 @@
     "format": "npm-run-all -s format:*",
     "format:code": "eslint --fix ./src && prettier --write ./src",
     "fix": "npm run format && npm run lint",
-    "chromatic": "npx chromatic --only-changed --allow-console-errors",
     "ci": "rm -rf node_modules && npm install --frozen-lockfile",
     "clean": "npm-run-all -s clean:*",
     "clean:dist": "rimraf dist",
@@ -103,6 +103,7 @@
     "@web/test-runner-puppeteer": "^0.12.0",
     "@webcomponents/webcomponentsjs": "^2.7.0",
     "chromatic": "^6.17.1",
+    "clean-css": "^5.3.2",
     "del": "^6.1.0",
     "del-cli": "^5.0.0",
     "esbuild": "^0.17.16",

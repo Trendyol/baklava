@@ -9,6 +9,7 @@ const validityStates: Array<keyof ValidityState> = [
   'rangeOverflow',
   'stepMismatch',
   'badInput',
+  'patternMismatch',
   'customError',
 ];
 

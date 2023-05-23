@@ -114,6 +114,8 @@
 
 bl-tooltip {
   --bl-tooltip-position: fixed;
+
+  display: flex;
 }
 
 .title {
