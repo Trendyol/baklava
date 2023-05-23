@@ -21,4 +21,6 @@ jobs:
       - name: Run build
         run: npm run build
       - name: Publish to Chromatic
-        run: npx chromatic --project-token b94aebe774cc
+        uses: chromaui/action@v1
+        with:
+          projectToken: b94aebe774cc

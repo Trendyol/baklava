@@ -20,4 +20,4 @@ jobs:
     needs: verify
     steps:
       - name: Preview Release
-        run: npx semantic-release@20 --dry-run -p '@semantic-release/commit-analyzer' -p '@semantic-release/release-notes-generator'
+        run: npx semantic-release@20 --dry-run --no-ci -p '@semantic-release/commit-analyzer' -p '@semantic-release/release-notes-generator'
