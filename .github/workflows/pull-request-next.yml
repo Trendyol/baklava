@@ -15,9 +15,3 @@ jobs:
   chromatic:
     uses: trendyol/baklava/.github/workflows/publish-chromatic.yml@next
     needs: verify
-  release-preview:
-    runs-on: ubuntu-latest
-    needs: verify
-    steps:
-      - name: Preview Release
-        run: npx semantic-release@20 --dry-run --no-ci -p '@semantic-release/commit-analyzer' -p '@semantic-release/release-notes-generator'
