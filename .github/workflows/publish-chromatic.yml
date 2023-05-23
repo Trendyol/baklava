@@ -1,20 +1,15 @@
 name: Publish Chromatic
 
 on:
-  workflow_run:
-    workflows: ["Verify and Preview", "Verify and Release Beta"]
-    types:
-      - completed
+  workflow_call:
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success'
+    if: github.repository == 'Trendyol/baklava'
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: ${{ github.event.workflow_run.head_repository.full_name }}
-          ref: ${{ github.event.workflow_run.head_branch }}
           fetch-depth: 0
       - name: Set Node env
         uses: actions/setup-node@v3
@@ -26,6 +21,4 @@ jobs:
       - name: Run build
         run: npm run build
       - name: Publish to Chromatic
-        uses: chromaui/action@v1
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        run: npx chromatic --project-token b94aebe774cc

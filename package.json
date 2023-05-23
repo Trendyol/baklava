@@ -40,7 +40,6 @@
     "format": "npm-run-all -s format:*",
     "format:code": "eslint --fix ./src && prettier --write ./src",
     "fix": "npm run format && npm run lint",
-    "chromatic": "npx chromatic --only-changed --allow-console-errors",
     "ci": "rm -rf node_modules && npm install --frozen-lockfile",
     "clean": "npm-run-all -s clean:*",
     "clean:dist": "rimraf dist",
