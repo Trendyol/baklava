@@ -12,4 +12,6 @@ jobs:
   release:
     uses: trendyol/baklava/.github/workflows/release.yml@next
     needs: verify
-    secrets: inherit
+  chromatic:
+    uses: trendyol/baklava/.github/workflows/publish-chromatic.yml@next
+    needs: verify
