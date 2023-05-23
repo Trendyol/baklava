@@ -13,5 +13,8 @@ jobs:
     uses: trendyol/baklava/.github/workflows/verify.yml@next
     secrets: inherit
   release-preview:
-    run: npx semantic-release@20 --dry-run -p '@semantic-release/commit-analyzer' -p '@semantic-release/release-notes-generator'
-    needs: verify
+      runs-on: ubuntu-latest
+      needs: verify
+      steps:
+        - name: Preview Release
+          run: npx semantic-release@20 --dry-run -p '@semantic-release/commit-analyzer' -p '@semantic-release/release-notes-generator'
