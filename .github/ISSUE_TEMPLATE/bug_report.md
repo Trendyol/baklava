@@ -1,38 +1,62 @@
----
 name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
+description: Create a report to help us improve
+title: "[BUG]: <Context of the issue>"
+labels: bug
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Issue description
+      description: |
+        Describe the issue in as much detail as possible.
 
----
+        Tip: You can attach images or log files by clicking this area to highlight it and then dragging files into it.
+      placeholder: |
+        Steps to reproduce with below code sample:
+        1. do thing
+        2. click...
+        3. observe behavior
+        4. see error logs below
+    validations:
+      required: true
+  - type: textarea
+    id: media
+    attributes:
+      label: Media & Screenshots
+      description: Include screenshots or video of reproduction as much as possible
+      render: md
+  - type: input
+    id: baklava-version
+    attributes:
+      label: Baklava Version
+      description: What version of Baklava are you using?
+      placeholder: 2.1.0-beta.7
+    validations:
+      required: false
+  - type: textarea
+    id: os
+    attributes:
+      label: Operating system
+      description: Which OS does your application run on?
+      value: |
+       - OS: [e.g. iOS]:
+       - Browser [e.g. chrome, safari]:
 
-**Describe the bug**
-A clear and concise description of what the bug is.
-
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
-
-**Expected behavior**
-A clear and concise description of what you expected to happen.
-
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
-
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.
+       - Any other details...
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority this issue should have
+      description: Please be realistic. If you need to elaborate on your reasoning, please use the Issue description field above.
+      options:
+        - Low (slightly annoying)
+        - Medium (should be fixed soon)
+        - High (immediate attention needed)
+    validations:
+      required: true
+  - type: checkboxes
+    id: questions
+    attributes:
+      options:
+        - label: This issue is directly related to React
+          required: true
