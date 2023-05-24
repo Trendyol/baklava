@@ -35,7 +35,7 @@ export default class BlDropdown extends LitElement {
    * Sets the dropdown button label
    */
   @property({ type: String, reflect: true })
-  label = 'Dropdown Button';
+  label: string;
 
   /**
    * Sets the dropdown button variant
@@ -150,7 +150,6 @@ export default class BlDropdown extends LitElement {
         variant="${this.variant}"
         kind="${this.kind}"
         size="${this.size}"
-        aria-label="${ifDefined(this.label)}"
         @bl-click="${this._handleClick}"
       >
         ${this.label}

@@ -22,7 +22,7 @@ describe('bl-dropdown', () => {
   });
 
   it('should render with the default values', async () => {
-    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown></bl-dropdown>`);
+    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown label="Dropdown Button"></bl-dropdown>`);
     assert.shadowDom.equal(
       el,
       `
@@ -31,7 +31,6 @@ describe('bl-dropdown', () => {
         kind="default"
         size="medium"
         variant="primary"
-        aria-label="Dropdown Button"
       >
         Dropdown Button
       </bl-button>
@@ -41,7 +40,7 @@ describe('bl-dropdown', () => {
   });
 
   it('should open dropdown', async () => {
-    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown></bl-dropdown>`);
+    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown label="Dropdown Button"></bl-dropdown>`);
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
     const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
@@ -54,7 +53,7 @@ describe('bl-dropdown', () => {
   });
 
   it('should close dropdown', async () => {
-    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown></bl-dropdown>`);
+    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown label="Dropdown Button"></bl-dropdown>`);
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
     const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
@@ -71,7 +70,7 @@ describe('bl-dropdown', () => {
 
   it('should close dropdown when click outside', async () => {
     const el = await fixture<typeOfBlDropdown>(html`<body>
-      <bl-dropdown></bl-dropdown>
+      <bl-dropdown label="Dropdown Button"></bl-dropdown>
     </body>`);
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
@@ -93,7 +92,7 @@ describe('bl-dropdown', () => {
 
   it('should close dropdown when click dropdown item', async () => {
     const el = await fixture<typeOfBlDropdown>(html`
-      <bl-dropdown>
+      <bl-dropdown label="Dropdown Button">
         <bl-dropdown-item>dropdown-item</bl-dropdown-item>
       </bl-dropdown>
     `);
@@ -118,7 +117,7 @@ describe('bl-dropdown', () => {
   });
 
   it('should fire event when dropdown opened', async () => {
-    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown></bl-dropdown>`);
+    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown label="Dropdown Button"></bl-dropdown>`);
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
     const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
@@ -134,7 +133,7 @@ describe('bl-dropdown', () => {
   });
 
   it('should fire event when dropdown closed', async () => {
-    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown></bl-dropdown>`);
+    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown label="Dropdown Button"></bl-dropdown>`);
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
     const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
@@ -150,7 +149,7 @@ describe('bl-dropdown', () => {
   });
 
   it('should not change opened property when disabled', async () => {
-    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown disabled></bl-dropdown>`);
+    const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown label="Dropdown Button" disabled></bl-dropdown>`);
     expect(el.opened).to.false;
 
     const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
@@ -168,7 +167,7 @@ describe('bl-dropdown', () => {
       //when
       const el = await fixture(
         html`<div>
-          <input id="previnput" /><bl-dropdown>
+          <input id="previnput" /><bl-dropdown label="Dropdown Button">
             <bl-dropdown-item>Action 1</bl-dropdown-item>
             <bl-dropdown-item>Action 2</bl-dropdown-item>
             <bl-dropdown-item>Action 3</bl-dropdown-item>
@@ -208,7 +207,7 @@ describe('bl-dropdown', () => {
       //when
       const el = await fixture(
         html`<div>
-          <input id="previnput" /><bl-dropdown>
+          <input id="previnput" /><bl-dropdown label="Dropdown Button">
             <bl-dropdown-item>Action 1</bl-dropdown-item>
             <bl-dropdown-item>Action 2</bl-dropdown-item>
             <bl-dropdown-item>Action 3</bl-dropdown-item>
@@ -258,7 +257,7 @@ describe('bl-dropdown', () => {
       //when
       const el = await fixture(
         html`<div>
-          <input id="previnput" /><bl-dropdown>
+          <input id="previnput" /><bl-dropdown label="Dropdown Button">
             <bl-dropdown-item>Action 1</bl-dropdown-item>
             <bl-dropdown-item>Action 2</bl-dropdown-item>
             <bl-dropdown-item>Action 3</bl-dropdown-item>
