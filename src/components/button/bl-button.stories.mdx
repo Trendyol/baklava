@@ -45,7 +45,8 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
     target: {
        control: {
         type: 'text'
-      }
+      },
+      if: { arg: 'href', truthy: true }
     },
     size: {
       options: ['large', 'medium', 'small'],

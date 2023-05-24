@@ -7,6 +7,7 @@ import {
   Story,
 } from '@storybook/addon-docs';
 import { extraPadding } from '../../utilities/chromatic-decorators';
+import IconList from '../../components/icon/icon-list';
 
 <Meta
   title="Components/Input"
@@ -17,66 +18,110 @@ import { extraPadding } from '../../utilities/chromatic-decorators';
   argTypes={{
     label: {
       control: 'text',
+      name: 'Label',
     },
     type: {
+      name: 'Input Type',
       control: {
         type: 'select',
-        options: ['text', 'password', 'number', 'tel', 'url']
+        labels: {
+          text: 'Text',
+          password: 'Password',
+          number: 'Number',
+          tel: 'Telephone',
+          url: 'URL',
+        },
+        default: 'text',
       },
+      options: ['text', 'password', 'number', 'tel', 'url'],
     },
     placeholder: {
       control: 'text',
+      name: 'Placeholder',
     },
     value: {
       control: 'text',
-    },
-    required: {
-      control: 'boolean',
-    },
-    minlength: {
-      control: 'text',
-      type: 'number'
-    },
-    maxlength: {
-      control: 'text',
-      type: 'number'
-    },
-    min: {
-      control: 'text',
-      type: 'number'
-    },
-    max: {
-      control: 'text',
-      type: 'number'
-    },
-    pattern: {
-      control: 'text',
-      type: 'string'
-    },
-    step: {
-      control: 'text',
-      type: 'number'
+      name: 'Value',
     },
     icon: {
-      control: 'text',
-      type: 'string'
+      name: 'Icon',
+      control: 'select',
+      options: IconList
     },
     size: {
+      name: 'Size',
       control: {
         type: 'select',
-        options: ['small', 'medium', 'large']
+        labels: {
+          small: 'Small',
+          medium: 'Medium',
+          large: 'Large'
+        },
       },
-      type: 'string'
-    },
-    disabled: {
-      control: 'boolean',
+      options: ['small', 'medium', 'large']
     },
     labelFixed: {
+      name: 'Use fixed label',
       control: 'boolean',
     },
     helpText: {
+      name: 'Help Text',
       control: 'text'
-    }
+    },
+    required: {
+      control: 'boolean',
+      table: {
+        category: 'Validation',
+      }
+    },
+    minlength: {
+      control: 'text',
+      type: 'number',
+      table: {
+        category: 'Validation',
+      }
+    },
+    maxlength: {
+      control: 'text',
+      type: 'number',
+      table: {
+        category: 'Validation',
+      }
+    },
+    min: {
+      control: 'text',
+      type: 'number',
+      table: {
+        category: 'Validation',
+      }
+    },
+    max: {
+      control: 'text',
+      type: 'number',
+      table: {
+        category: 'Validation',
+      }
+    },
+    pattern: {
+      control: 'text',
+      type: 'string',
+      table: {
+        category: 'Validation',
+      }
+    },
+    step: {
+      control: 'text',
+      type: 'number',
+      table: {
+        category: 'Validation',
+      }
+    },
+    disabled: {
+      control: 'boolean',
+      table: {
+        category: 'Validation',
+      }
+    },
   }}
 />
 
