@@ -51,6 +51,11 @@ export default class BlDialog extends LitElement {
   /**
    * Fires when the dialog is closed
    */
+  @event('bl-dialog-before-close') private onBeforeClose: EventDispatcher<object>;
+
+  /**
+   * Fires before the dialog is closed. Can be prevented by calling `event.preventDefault()`
+   */
   @event('bl-dialog-close') private onClose: EventDispatcher<object>;
 
   updated(changedProperties: PropertyValues<this>) {
@@ -85,6 +90,12 @@ export default class BlDialog extends LitElement {
   }
 
   private closeDialog() {
+    const beforeCloseEvent = this.onBeforeClose({ }, { cancelable: true });
+
+    if (beforeCloseEvent.defaultPrevented) {
+      return;
+    }
+
     this.open = false;
   }
 
@@ -113,11 +124,11 @@ export default class BlDialog extends LitElement {
 
   private renderFooter() {
     return this._hasFooter
-      ? html`<footer>
+      ? html`<footer><form>
           <slot name="primary-action"></slot>
           <slot name="secondary-action"></slot>
           <slot name="tertiary-action"></slot>
-        </footer>`
+        </form></footer>`
       : '';
   }
 

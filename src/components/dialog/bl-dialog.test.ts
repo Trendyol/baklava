@@ -301,6 +301,37 @@ describe('bl-dialog', () => {
           expect(ev.detail.isOpen).to.equal(false);
         });
       });
+
+      it('should fire bl-dialog-before-close event before closing dialog', async () => {
+        const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
+        </bl-dialog>`);
+
+        const closeBtn = el?.shadowRoot?.querySelector('bl-button');
+
+        setTimeout(async () => {
+          closeBtn?.click();
+          const ev = await oneEvent(el, 'bl-dialog-before-close');
+          expect(ev).to.exist;
+          expect(ev.detail.isOpen).to.equal(false);
+        });
+      });
+
+      it('should prevent closing if bl-dialog-before-close event defaultPrevented', async () => {
+        const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
+        </bl-dialog>`);
+
+        const closeBtn = el?.shadowRoot?.querySelector('bl-button');
+
+        el.addEventListener('bl-dialog-before-close', (ev) => {
+          ev.preventDefault();
+        });
+
+        setTimeout(async () => {
+          closeBtn?.click();
+          const ev = await oneEvent(el, 'bl-dialog-before-close');
+          expect(ev.detail.isOpen).to.equal(true);
+        });
+      });
     });
   });
 });
