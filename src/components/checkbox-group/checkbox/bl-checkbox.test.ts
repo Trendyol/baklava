@@ -15,7 +15,6 @@ describe('bl-checkbox', () => {
       `
         <label>
             <input type="checkbox"
-              aria-labelledby="label"
               aria-readonly="false"
               aria-required="false" />
             <div class="check-mark"></div>
