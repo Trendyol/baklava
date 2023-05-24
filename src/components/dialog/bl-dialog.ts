@@ -49,12 +49,12 @@ export default class BlDialog extends LitElement {
   @event('bl-dialog-open') private onOpen: EventDispatcher<object>;
 
   /**
-   * Fires when the dialog is closed
+   * Fires before the dialog is closed. Can be prevented by calling `event.preventDefault()`
    */
   @event('bl-dialog-before-close') private onBeforeClose: EventDispatcher<object>;
 
   /**
-   * Fires before the dialog is closed. Can be prevented by calling `event.preventDefault()`
+   * Fires when the dialog is closed
    */
   @event('bl-dialog-close') private onClose: EventDispatcher<object>;
 
@@ -124,11 +124,11 @@ export default class BlDialog extends LitElement {
 
   private renderFooter() {
     return this._hasFooter
-      ? html`<footer><form>
+      ? html`<footer>
           <slot name="primary-action"></slot>
           <slot name="secondary-action"></slot>
           <slot name="tertiary-action"></slot>
-        </form></footer>`
+        </footer>`
       : '';
   }
 
