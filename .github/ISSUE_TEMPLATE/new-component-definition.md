@@ -1,58 +1,57 @@
----
 name: New Component Definition
-about: Use this template to define implementation details of a new component
-title: "{name} Component"
+description: Use this template to define implementation
+title: "[Component]: <Name of the component>"
 labels: baklava-ds, enhancement
-assignees: ''
-
----
-
-## Design
-
-[Figma Design Document
-]()
-
-## Implementation
-
-General usage example:
-
-```html 
-<bl-button>Example</bl-button>
-```
-
-### Rules
-
-Put some rules about how this component should behave and implemented
-
-* Rule 1
-* Rule 2
-
-## API Reference:
-
-### `bl-{name}` component
-
-Description
-
-#### Attributes
-
-| Attribute | Description | Default Value |
-| --------------- | --------------- | --------------- |
-| attr (`string`) | attr desc | - |
-
-#### Slots
-
-| Name | Description | Default Content |
-| --------------- | --------------- | --------------- |
-| `default` slot | What to put | - |
-
-#### Events
-
-| Event | Description |
-| --------------- | --------------- |
-| `bl-{event-name}` | Event description |
-
-#### CSS Custom Properties
-
-| Property | Description | Default Value |
-| --------------- | --------------- | --------------- |
-| `—bl-name` | Property desc | - |
+body:
+  - type: input
+    id: figma
+    attributes:
+      label: Figma Design Document
+  - type: textarea
+    id: implementation
+    attributes:
+      label: General Usage Example
+      placeholder: |
+        ```html
+        <bl-button>Example</bl-button>
+        ```
+  - type: textarea
+    id: rules
+    attributes:
+      label: Rules
+      description: Put some rules about how this component should behave and implemented
+      placeholder: |
+        * Rule 1
+        * Rule 2
+  - type: textarea
+    id: attributes
+    attributes:
+      label: Attributes
+      value: |
+        | Attribute | Description | Default Value |
+        | --------------- | --------------- | --------------- |
+        | attr (`string`) | attr desc | - |
+  - type: textarea
+      id: slots
+      attributes:
+        label: Slots
+        value: |
+          | Name | Description | Default Content |
+          | --------------- | --------------- | --------------- |
+          | `default` slot | What to put | - |
+  - type: textarea
+        id: events
+        attributes:
+          label: Events
+          value: |
+            | Event | Description |
+            | --------------- | --------------- |
+            | `bl-{event-name}` | Event description |
+  - type: textarea
+        id: css
+        attributes:
+          label: CSS Custom Properties
+          value: |
+            | Property | Description | Default Value |
+            | --------------- | --------------- | --------------- |
+            | `—bl-name` | Property desc | - |
