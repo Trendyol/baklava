@@ -1,29 +1,38 @@
 name: Feature request
-description: Suggest an idea for this project
-title: "[Suggestion]: <Context of the suggestion>"
+description: Suggest a new feature or enhancement for the library
+title: "[Feature Request]: <Context of the feature request>"
 body:
   - type: textarea
-    id: description
+    id: problem-description
     attributes:
-      label: Is your feature request related to a problem? Please describe.
+      label: Describe the problem or use case
       description: |
-        A clear and concise description of what the problem is.
+        Provide a detailed description of the problem or use case that the proposed feature aims to address.
 
-        Ex. I'm always frustrated when [...]
+        For example: "When using the Web Component in scenario X, I encountered issues with..."
     validations:
       required: true
   - type: textarea
-    id: description
+    id: solution-description
     attributes:
-      label: Describe the solution you'd like
-      description: A clear and concise description of what you want to happen.
+      label: Proposed solution
+      description: |
+        Describe your proposed solution or enhancement in detail.
+
+        Explain how the new feature would work and how it would address the problem or improve the Web Component.
   - type: textarea
-    id: description
+    id: alternatives-description
     attributes:
-      label: Describe alternatives you've considered
-      description: A clear and concise description of any alternative solutions or features you've considered.
+      label: Alternatives considered
+      description: |
+        If you have considered any alternative approaches or solutions, please describe them here.
+
+        Explain why the proposed solution is preferred over the alternatives.
   - type: textarea
-    id: description
+    id: additional-context
     attributes:
-      label: Additional context
-      description: Add any other context or screenshots about the feature request here.
+      label: Additional technical context
+      description: |
+        Provide any additional technical context or considerations that may be relevant to the feature request.
+
+        Include code snippets, relevant documentation, or any other information that can help the development team understand and evaluate the request better.
