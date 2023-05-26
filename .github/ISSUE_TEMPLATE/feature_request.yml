@@ -9,7 +9,7 @@ body:
       description: |
         Provide a detailed description of the problem or use case that the proposed feature aims to address.
 
-        For example: "When using the Web Component in scenario X, I encountered issues with..."
+        For example: "When using the Baklava in scenario X, I encountered issues with..."
     validations:
       required: true
   - type: textarea
@@ -19,7 +19,7 @@ body:
       description: |
         Describe your proposed solution or enhancement in detail.
 
-        Explain how the new feature would work and how it would address the problem or improve the Web Component.
+        Explain how the new feature would work and how it would address the problem or improve the Baklava.
   - type: textarea
     id: alternatives-description
     attributes:
