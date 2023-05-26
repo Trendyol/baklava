@@ -57,6 +57,6 @@ body:
   - type: checkboxes
     id: questions
     attributes:
+      label: Please review the checkboxes that are applicable.
       options:
         - label: This issue is directly related to React
-          required: true

@@ -19,7 +19,7 @@ body:
     id: rules
     attributes:
       label: Rules
-      description: Put some rules about how this component should behave and implemented
+      description: Put some rules about how this component should behave and be implemented
       placeholder: |
         * Rule 1
         * Rule 2
@@ -32,26 +32,26 @@ body:
         | --------------- | --------------- | --------------- |
         | attr (`string`) | attr desc | - |
   - type: textarea
-      id: slots
-      attributes:
-        label: Slots
-        value: |
-          | Name | Description | Default Content |
-          | --------------- | --------------- | --------------- |
-          | `default` slot | What to put | - |
+    id: slots
+    attributes:
+      label: Slots
+      value: |
+        | Name | Description | Default Content |
+        | --------------- | --------------- | --------------- |
+        | `default` slot | What to put | - |
   - type: textarea
-        id: events
-        attributes:
-          label: Events
-          value: |
-            | Event | Description |
-            | --------------- | --------------- |
-            | `bl-{event-name}` | Event description |
+    id: events
+    attributes:
+      label: Events
+      value: |
+        | Event | Description |
+        | --------------- | --------------- |
+        | `bl-{event-name}` | Event description |
   - type: textarea
-        id: css
-        attributes:
-          label: CSS Custom Properties
-          value: |
-            | Property | Description | Default Value |
-            | --------------- | --------------- | --------------- |
-            | `—bl-name` | Property desc | - |
+    id: css
+    attributes:
+      label: CSS Custom Properties
+      value: |
+        | Property | Description | Default Value |
+        | --------------- | --------------- | --------------- |
+        | `--bl-name` | Property desc | - |
