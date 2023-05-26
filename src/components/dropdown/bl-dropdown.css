@@ -14,3 +14,9 @@
 :host([kind='danger']) bl-popover {
   --bl-popover-border-color: var(--bl-color-danger);
 }
+
+.popover-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bl-size-xs);
+}

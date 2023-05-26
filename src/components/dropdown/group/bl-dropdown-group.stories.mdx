@@ -19,32 +19,45 @@ import {
   }}
 />
 
+export const dropdownOpener = async ({ canvasElement }) => {
+  const dropdown = canvasElement?.querySelector('bl-dropdown')
+  if(dropdown.shadowRoot) {
+    const button = dropdown.shadowRoot.querySelector('bl-button')
+    await userEvent.click(button);
+  }
+}
+
 # Dropdown Group
 Dropdown Group component is a component should be used inside a bl-dropdown or bl-dropdown-group component. It is used to display an action in the these components.
 
-export const Template = (args) => html`
-    <bl-dropdown>
-    <bl-dropdown-item>Action outside of Group</bl-dropdown-item>
-  <bl-dropdown-group
-    caption='${ifDefined(args.caption)}'
-  ><bl-dropdown-item>Action 1</bl-dropdown-item><bl-dropdown-item>Action 1</bl-dropdown-item></bl-dropdown-group>
-  </bl-dropdown>
+export const Template = (args) => html`<bl-dropdown label="Dropdown Button">
+  <bl-dropdown-item>Action outside of Group</bl-dropdown-item>
+  <bl-dropdown-group caption="${ifDefined(args.caption)}">
+    <bl-dropdown-item>Action 1</bl-dropdown-item>
+    <bl-dropdown-item>Action 2</bl-dropdown-item>
+  </bl-dropdown-group>
+  <bl-dropdown-group caption="${ifDefined(args.caption)}">
+    <bl-dropdown-item>Action 1</bl-dropdown-item>
+    <bl-dropdown-item>Action 2</bl-dropdown-item>
+  </bl-dropdown-group>
+</bl-dropdown>
 `
 
 ## Basic Usage
+
 <Canvas>
-  <Story name="Basic Usage" args={{ label: "Dropdown Button" }}>
+  <Story name="Basic Usage" play={dropdownOpener}>
     {Template.bind({})}
   </Story>
 </Canvas>
 
 ## With Caption
+
 <Canvas>
-  <Story name="With Caption" args={{ label: "Dropdown Button", caption: "Caption" }}>
+  <Story name="With Caption" args={{ caption: "Caption" }} play={dropdownOpener}>
     {Template.bind({})}
   </Story>
 </Canvas>
-
 
 
 <ArgsTable of="bl-dropdown-group" />
