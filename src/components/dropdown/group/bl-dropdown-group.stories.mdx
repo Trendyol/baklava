@@ -33,14 +33,14 @@ export const Template = (args) => html`
 
 ## Basic Usage
 <Canvas>
-  <Story name="Basic Usage">
+  <Story name="Basic Usage" args={{ label: "Dropdown Button" }}>
     {Template.bind({})}
   </Story>
 </Canvas>
 
 ## With Caption
 <Canvas>
-  <Story name="With Caption" args={{ caption: "Caption" }}>
+  <Story name="With Caption" args={{ label: "Dropdown Button", caption: "Caption" }}>
     {Template.bind({})}
   </Story>
 </Canvas>
