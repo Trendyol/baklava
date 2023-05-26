@@ -57,6 +57,7 @@ body:
   - type: checkboxes
     id: questions
     attributes:
+      label: 
       options:
         - label: This issue is directly related to React
           required: true
