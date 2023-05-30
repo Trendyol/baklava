@@ -27,7 +27,7 @@ describe('bl-radio-group', () => {
         aria-required="false"
         role="radiogroup"
        >
-        <legend>Payment Type</legend>
+        <legend id="label">Payment Type</legend>
         <div class="options">
           <slot></slot>
         </div>
