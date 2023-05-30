@@ -1,4 +1,4 @@
-@import '@fontsource/rubik/variable.css';
+@import '@fontsource-variable/rubik';
 
 :root {
   /* Primary Color */
@@ -57,7 +57,7 @@
   --bl-index-notification: 600;
 
   /* Typography */
-  --bl-font-family: 'RubikVariable', sans-serif;
+  --bl-font-family: 'Rubik Variable', sans-serif;
 
   /* Font weights */
   --bl-font-weight-light: 300;
