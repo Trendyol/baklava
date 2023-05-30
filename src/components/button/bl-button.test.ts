@@ -174,5 +174,33 @@ describe('bl-button', () => {
       const ev = await oneEvent(form, 'submit');
       expect(ev).to.exist;
     });
+
+    it('should submit form that is specified in form attribute', async () => {
+      const el = await fixture(html`<div><form id="form"></form>
+        <bl-button form="form" type="submit">button</bl-button></div>`);
+      const form = el.querySelector('form') as HTMLFormElement;
+      form.addEventListener('submit', e => e.preventDefault());
+
+      const button = el.querySelector('bl-button')?.shadowRoot?.querySelector('button');
+
+      setTimeout(() => button?.click());
+      const ev = await oneEvent(form, 'submit');
+      expect(ev).to.exist;
+    });
+
+    it('should submit form that is specified in form property', async () => {
+      const el = await fixture(html`<div><form></form>
+        <bl-button type="submit">button</bl-button></div>`);
+      const form = el.querySelector('form') as HTMLFormElement;
+      form.addEventListener('submit', e => e.preventDefault());
+      const blButton = el.querySelector('bl-button') as typeOfBlButton;
+      blButton.form = form;
+
+      const button = el.querySelector('bl-button')?.shadowRoot?.querySelector('button');
+
+      setTimeout(() => button?.click());
+      const ev = await oneEvent(form, 'submit');
+      expect(ev).to.exist;
+    });
   });
 });
