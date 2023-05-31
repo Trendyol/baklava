@@ -22,7 +22,13 @@ export default class BlDialog extends LitElement {
   /**
    * Sets dialog open-close status
    */
-  @property({ type: Boolean, reflect: true })
+  @property({ type: Boolean, reflect: true, hasChanged(newVal: boolean, oldVal: boolean | undefined) {
+    if (newVal === false && oldVal === undefined) {
+      // Assume that the initial value is false
+      return false;
+    }
+    return newVal !== oldVal;
+  } })
   open = false;
 
   /**
@@ -49,9 +55,10 @@ export default class BlDialog extends LitElement {
   @event('bl-dialog-open') private onOpen: EventDispatcher<object>;
 
   /**
-   * Fires before the dialog is closed. Can be prevented by calling `event.preventDefault()`
+   * Fires before the dialog is closed with internal actions like clicking close button,
+   * pressing Escape key or clicking backdrop. Can be prevented by calling `event.preventDefault()`
    */
-  @event('bl-dialog-before-close') private onBeforeClose: EventDispatcher<object>;
+  @event('bl-dialog-request-close') private onRequestClose: EventDispatcher<{ source: 'close-button' | 'keyboard' | 'backdrop' }>;
 
   /**
    * Fires when the dialog is closed
@@ -89,10 +96,10 @@ export default class BlDialog extends LitElement {
     }
   }
 
-  private closeDialog() {
-    const beforeCloseEvent = this.onBeforeClose({ }, { cancelable: true });
+  private closeDialog(source: 'close-button' | 'keyboard' | 'backdrop') {
+    const requestCloseEvent = this.onRequestClose({ source }, { cancelable: true });
 
-    if (beforeCloseEvent.defaultPrevented) {
+    if (requestCloseEvent.defaultPrevented) {
       return;
     }
 
@@ -103,14 +110,14 @@ export default class BlDialog extends LitElement {
     const eventPath = event.composedPath() as HTMLElement[];
 
     if (!eventPath.includes(this.container)) {
-      this.closeDialog();
+      this.closeDialog('backdrop');
     }
   };
 
   private onKeydown = (event: KeyboardEvent): void => {
     if (event.code === 'Escape' && this.open) {
       event.preventDefault();
-      this.closeDialog();
+      this.closeDialog('keyboard');
     }
   };
 
@@ -139,7 +146,7 @@ export default class BlDialog extends LitElement {
       <header>
         ${title}
         <bl-button
-          @click="${this.closeDialog}"
+          @click="${() => this.closeDialog('close-button')}"
           icon="close"
           variant="tertiary"
           kind="neutral"
