@@ -1,6 +1,7 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../utilities/event';
+import { classMap } from 'lit/directives/class-map.js';
 import '../button/bl-button';
 import style from './bl-dialog.css';
 
@@ -142,7 +143,12 @@ export default class BlDialog extends LitElement {
   private renderContainer() {
     const title = this.caption ? html`<h2 id="dialog-caption">${this.caption}</h2>` : '';
 
-    return html` <div class="container">
+    const classes = {
+      container: true,
+      'has-footer': this._hasFooter,
+    };
+
+    return html` <div class="${classMap(classes)}">
       <header>
         ${title}
         <bl-button
