@@ -1,0 +1,109 @@
+
+import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
+import * as DialogStories from './bl-dialog.stories';
+
+<Meta of={DialogStories} />
+
+# Dialog
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/137)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=1992%3A8280)</bl-badge>
+
+Dialogs inform users about a task ansd can contain critical information, require decisions, or involve multiple tasks.
+
+## Design Rules
+
+* By default a dialog contains a close button.
+* A dialog should contain at least one content (text, image etc.).
+* Dialogs are always centered on the page, with an overlay behind them that hides the page content.
+* Only large buttons can be used in the action bar and there can be maximum 3 buttons (**primary**, **secondary** and **tertiary**).
+
+To maintain usability level of dialog component:
+
+* When the dialog sticks to the page edges and does not fit in its minimum size, it switches to mobile view and the buttons are lined up one after.
+* Dialog can be dismissed by clicking backdrop or pressing Esc.
+
+## Basic Usage
+
+A basic dialog can be show by setting `open` attribute/property to `true` via HTML or JavaScript.
+
+```html
+<bl-dialog caption="Some title" open>
+  <p>Some content</p>
+
+  <bl-button slot="primary-action" variant="primary" size="large">Done</bl-button>
+</bl-dialog>
+```
+
+<Canvas of={DialogStories.BasicUsage} />
+
+## Dialog With Sticky Footer
+
+For long content that does not fit on the page, the dialog action area remains sticky at the bottom of the dialog so that it appears on the page.
+
+<Canvas of={DialogStories.DialogWithStickyFooter} />
+
+## Dialog Sizing
+
+The dialog doesn't have any default size, it will be fluidly sized regarding its content. You can give your own width and height style to your content.
+But dialog keeps itself inside the viewport. So dialog can not be bigger than the viewport.
+
+<Canvas of={DialogStories.DialogSizing} />
+
+## Autofocusing elements in Dialog
+
+By default, when you open a dialog, "close" button get focus automatically. But you can also auto focus on a dialog action this by using
+`autofocus` attribute of the `bl-button`.
+
+<Canvas of={DialogStories.DialogWithFocusedAction} />
+
+You may also consider to autofocus user to an input inside the dialog.
+
+<Canvas of={DialogStories.DialogWithFocusedInput} />
+
+## Full-width dialog actions
+
+It's possible to use full-width dialog buttons with small lines of CSS definitions.
+
+```css
+bl-dialog.full-width-actions bl-button {
+  --bl-button-display: block;
+  flex: 1;
+}
+```
+
+In this case action button(s) will fill the row by sharing space equally if there are more than one actions.
+
+<Canvas>
+  <Story of={DialogStories.DialogWithFullWidthAction} />
+  <Story of={DialogStories.DialogWithFullWidthActions} />
+</Canvas>
+
+## Preventing closing dialog
+
+In some cases you may want to prevent closing dialog when user clicks on backdrop, built-in close button or presses Esc key.
+You can listen `bl-dialog-request-close` event and use `event.preventDefault()` to prevent closing dialog.
+
+Source of the initiator of this request can be found in `event.detail.source` property. It can be one of `backdrop`, `close-button` or `keyboard`.
+
+```js
+document.querySelector('bl-dialog').addEventListener('bl-dialog-request-close', (event) => {
+  if (event.detail.source === 'backdrop') {
+    event.preventDefault();
+  }
+});
+```
+
+## Reference
+
+<ArgsTable of="bl-dialog" />
+
+## Contribute
+
+Do you see a bug or do you have an idea for Dialog component? Feel free to contribute! 💪
+
+* [Dialog related issues](https://github.com/Trendyol/baklava/issues?q=is%3Aissue+is%3Aopen+label%3Abl-dialog)
+* [Create a new issue](https://github.com/Trendyol/baklava/issues/new)
+
+Learn more about [contributing to Baklava](https://baklava.design/?path=/docs/documentation-contributing-baklava-contribution-guideline--documentation).
