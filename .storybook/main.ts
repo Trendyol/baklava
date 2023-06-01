@@ -12,14 +12,6 @@ const config: StorybookConfig = {
     '@storybook/addon-interactions',
     '@storybook/addon-viewport',
     '@storybook/addon-mdx-gfm',
-    {
-      name: '@storybook/addon-storysource',
-      options: {
-        loaderOptions: {
-          prettierConfig: { printWidth: 80, singleQuote: false },
-        },
-      },
-    },
   ],
   features: {
     buildStoriesJson: true,

@@ -13,21 +13,23 @@ const meta: Meta = {
     chromatic: {
       viewports: [1000]
     },
+    controls: {
+      exclude: ['id'],
+    }
   },
   decorators: [
     fullscreenLayout,
   ],
   argTypes: {
-    id: {
-      control: "text",
-    },
     open: {
       control: "boolean",
-      default: false
     },
     caption: {
       control: "text"
     },
+    content: {
+      control: "text"
+    }
   }
 };
 
@@ -61,7 +63,7 @@ const BasicTemplate = (args: DialogArgs) => html`
   id=${args.id}
   class="${ifDefined(args.className)}"
   caption="${ifDefined(args.caption)}"
-  open="${ifDefined(args.open)}">
+  ?open="${args.open}">
     ${
       unsafeHTML(args.content)
     }${
