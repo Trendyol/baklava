@@ -257,6 +257,20 @@ In this case action button(s) will fill the row by sharing space equally if ther
   </Story>
 </Canvas>
 
+## Preventing closing dialog
+
+In some cases you may want to prevent closing dialog when user clicks on backdrop, built-in close button or presses Esc key.
+You can listen `bl-dialog-request-close` event and use `event.preventDefault()` to prevent closing dialog.
+
+Source of the initiator of this request can be found in `event.detail.source` property. It can be one of `backdrop`, `close-button` or `keyboard`.
+
+```js
+document.querySelector('bl-dialog').addEventListener('bl-dialog-request-close', (event) => {
+  if (event.detail.source === 'backdrop') {
+    event.preventDefault();
+  }
+});
+```
 
 ## Reference
 
