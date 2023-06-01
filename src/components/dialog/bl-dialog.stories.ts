@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
-import { loremIpsum } from "lorem-ipsum";
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -99,8 +98,53 @@ const TemplateWithStickyFooter = (args: DialogArgs) => html`
 ${BasicTemplate({...args, className: 'limited-width', content: `<div class="content">
   <bl-alert icon>Please read all terms and conditions.</bl-alert>
   <h4>Lorem ipsum dolor sit amet</h4>
-  ${loremIpsum({format: 'html', count: 20, units: 'paragraph'})}` })}
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun ut labore et dolore magna aliqua.
+   Ut enim ad minim veniam, quis nostrud exercitatioullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <ul>
+    <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+  </ul>
+  <p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.
+  Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form
+  accompanied by English versions from the 1914 translation by H. Rackham.</p>
+  <h4>Quis autem vel eum iure reprehenderit qui</h4>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry
+  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scramble
+  it to make a type specimen book.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitatioullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitatioullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <ul>
+    <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+    <li>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit</li>
+    <li>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.</li>
+  </ul>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitatioullamco laboris nisi ut aliquip ex ea commodo consequat.<br/>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitatioullamco laboris nisi ut aliquip ex ea commodo consequat.<br/>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitatioullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitatioullamco laboris nisi ut aliquip ex ea commodo consequat.<br/>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitatioullamco laboris nisi ut aliquip ex ea commodo consequat.<br/>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun ut labore et dolore magna aliqua.
+  Ut enim ad minim veniam, quis nostrud exercitatioullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 </div>`
+})}`;
 
 const SizingTemplate = (args: DialogArgs) => html`
 <style>
@@ -112,7 +156,15 @@ const SizingTemplate = (args: DialogArgs) => html`
   }
 </style>
 
-${BasicTemplate({...args, content: `<p class="my-dialog-content">${loremIpsum({count: 20, units: 'sentences'})}</p>` })}
+${BasicTemplate({...args, content: `<p class="my-dialog-content">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
+software like Aldus PageMaker including versions of Lorem Ipsum. Let us help determine location. This means sending anonymous location data to us.
+Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock,
+a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites
+of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"
+(The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum,
+"Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>` })}
 `
 
 export const BasicUsage: Story = {
