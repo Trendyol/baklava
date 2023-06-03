@@ -19,7 +19,7 @@ describe('bl-checkbox', () => {
               aria-readonly="false"
               aria-required="false" />
             <div class="check-mark"></div>
-            <span class="label"><slot></slot></span>
+            <span class="label" hidden=""><slot></slot></span>
         </label>
       `
     );

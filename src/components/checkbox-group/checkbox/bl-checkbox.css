@@ -20,6 +20,10 @@ label {
   word-break: break-all;
 }
 
+.label[hidden] {
+  display: none;
+}
+
 input {
   appearance: none;
   position: absolute;
