@@ -1,6 +1,6 @@
 import { FormControlMixin } from '@open-wc/form-control';
 import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import 'element-internals-polyfill';
@@ -70,9 +70,6 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
 
   @query('[type=checkbox]') checkboxElement: HTMLElement;
 
-  @state()
-  private _hasLabel = false;
-
   protected field: BlCheckboxGroup | null;
 
   connectedCallback(): void {
@@ -130,10 +127,6 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
     this.checked = event.detail.includes(this.value);
   };
 
-  private handleSlotChange(e: CustomEvent) {
-    this._hasLabel = (e.target as HTMLSlotElement).assignedNodes().length > 0;
-  }
-
   render(): TemplateResult {
     let icon = '';
     if (this.checked) icon = 'check';
@@ -154,9 +147,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
           @blur=${this.blur}
         />
         <div class="check-mark">${icon ? html`<bl-icon name="${icon}"></bl-icon>` : null}</div>
-        <span class="label" ?hidden=${!this._hasLabel}
-          ><slot @slotchange=${this.handleSlotChange}></slot
-        ></span>
+        <slot class="label"></slot>
       </label>
     `;
   }
