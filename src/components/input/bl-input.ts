@@ -23,7 +23,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
-  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+  static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   static formControlValidators = innerInputValidators;
 
@@ -137,6 +137,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
+
+  /**
+   * Makes the input readonly.
+   */
+  @property({ type: Boolean, reflect: true })
+  readonly = false;
 
   /**
    * Makes label as fixed positioned
@@ -337,6 +343,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           step="${ifDefined(this.step)}"
           ?required=${this.required}
           ?disabled=${this.disabled}
+          ?readonly=${this.readonly}
           @change=${this.changeHandler}
           @input=${this.inputHandler}
           aria-invalid=${this.checkValidity() ? 'false' : 'true'}
