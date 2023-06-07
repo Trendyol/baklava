@@ -139,7 +139,6 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
           .checked=${live(this.checked)}
           ?disabled=${this.disabled}
           aria-required=${this.required}
-          aria-labelledby="label"
           aria-readonly=${this.disabled}
           .indeterminate=${this.indeterminate}
           @change=${this.handleChange}
