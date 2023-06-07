@@ -301,6 +301,68 @@ describe('bl-dialog', () => {
           expect(ev.detail.isOpen).to.equal(false);
         });
       });
+
+      it('should fire bl-dialog-request-close event when dialog closes via built-in close button', async () => {
+        const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
+        </bl-dialog>`);
+
+        const closeBtn = el?.shadowRoot?.querySelector('bl-button');
+
+        setTimeout(() => {
+          closeBtn?.click();
+        });
+
+        const ev = await oneEvent(el, 'bl-dialog-request-close');
+        expect(ev).to.exist;
+        expect(ev.detail.source).to.equal('close-button');
+      });
+
+      it('should fire bl-dialog-request-close event when dialog closes via Escape key', async () => {
+        const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
+        </bl-dialog>`);
+
+        setTimeout(async () => {
+          await sendKeys({ press: 'Escape' });
+        });
+
+        const ev = await oneEvent(el, 'bl-dialog-request-close');
+        expect(ev).to.exist;
+        expect(ev.detail.source).to.equal('keyboard');
+      });
+
+      it('should fire bl-dialog-request-close event when dialog closes by clicking backdrop', async () => {
+        const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
+        </bl-dialog>`);
+
+        const dialog = el?.shadowRoot?.querySelector<HTMLDialogElement>('.dialog');
+
+        setTimeout(() => {
+          dialog?.click();
+        });
+
+        const ev = await oneEvent(el, 'bl-dialog-request-close');
+        expect(ev).to.exist;
+        expect(ev.detail.source).to.equal('backdrop');
+      });
+
+      it('should prevent closing if bl-dialog-request-close event defaultPrevented', async () => {
+        const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
+        </bl-dialog>`);
+
+        const closeBtn = el?.shadowRoot?.querySelector('bl-button');
+
+        el.addEventListener('bl-dialog-request-close', (ev) => {
+          ev.preventDefault();
+        });
+
+        setTimeout(() => {
+          closeBtn?.click();
+        });
+
+        await oneEvent(el, 'bl-dialog-request-close');
+
+        expect(el.open).to.be.true
+      });
     });
   });
 });

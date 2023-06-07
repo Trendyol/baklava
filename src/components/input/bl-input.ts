@@ -221,7 +221,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Force to set input as in invalid state.
    */
-  forceCustomError() {
+  async forceCustomError() {
+    await this.updateComplete;
     this.validationTarget.setCustomValidity(this.customInvalidText || 'An error occurred');
     this.setValue(this.value);
     this.reportValidity();
@@ -230,7 +231,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Clear forced invalid state
    */
-  clearCustomError() {
+  async clearCustomError() {
+    await this.updateComplete;
     this.validationTarget.setCustomValidity('');
     this.setValue(this.value);
     this.reportValidity();
