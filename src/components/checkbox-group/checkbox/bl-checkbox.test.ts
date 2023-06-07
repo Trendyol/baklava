@@ -19,27 +19,28 @@ describe('bl-checkbox', () => {
               aria-readonly="false"
               aria-required="false" />
             <div class="check-mark"></div>
-            <span class="label"><slot></slot></span>
+            <slot class="label"></slot>
         </label>
       `
     );
   });
 
-  it('should be rendered with correct label attribute', async () => {
-    const el = await fixture(html`<bl-checkbox label="test label"></bl-checkbox>`);
+  it('should be rendered with correct label', async () => {
+    const labelText = 'test label';
+    const el = await fixture(html`<bl-checkbox>${labelText}</bl-checkbox>`);
 
-    expect(el.shadowRoot?.querySelector('span')).to.exist;
-    expect(el.getAttribute('label')).to.eq('test label');
+    expect(el.shadowRoot?.querySelector('slot')).to.exist;
+    expect(el.textContent).to.eq(labelText);
   });
 
-  it('should be rendered with correct label attribute when label attribute was changed', async () => {
-    const el = await fixture(html`<bl-checkbox label="test label"></bl-checkbox>`);
-
-    el.setAttribute('label', 'new test label');
+  it('should be rendered with correct label when label was changed', async () => {
+    const el = await fixture(html`<bl-checkbox>test label</bl-checkbox>`);
+    const newLabelText = 'new test label';
+    el.textContent = newLabelText;
 
     await elementUpdated(el);
 
-    expect(el.getAttribute('label')).to.eq('new test label');
+    expect(el.textContent).to.eq('new test label');
   });
 
   it('should be rendered with check icon when checkbox checked', async () => {
