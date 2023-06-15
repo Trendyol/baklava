@@ -45,7 +45,7 @@ export default class BlDialog extends LitElement {
   /**
    * Sets whether to use the native dialog element.
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   levelled = !window.HTMLDialogElement;
 
   @query('.dialog')
@@ -79,7 +79,7 @@ export default class BlDialog extends LitElement {
   @event('bl-dialog-close') private onClose: EventDispatcher<object>;
 
   updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('open')) {
+    if (changedProperties.has('open') || changedProperties.has('levelled')) {
       this.toggleDialogHandler();
     }
   }

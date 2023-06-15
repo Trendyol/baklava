@@ -23,6 +23,9 @@ const meta: Meta = {
     open: {
       control: "boolean",
     },
+    levelled: {
+      control: "boolean",
+    },
     caption: {
       control: "text"
     },
@@ -39,6 +42,7 @@ interface DialogArgs {
   className?: string;
   caption?: string;
   open?: boolean;
+  levelled?: boolean;
   content?: string;
   primaryAction?: string;
   secondaryAction?: string;
@@ -62,7 +66,8 @@ const BasicTemplate = (args: DialogArgs) => html`
   id=${args.id}
   class="${ifDefined(args.className)}"
   caption="${ifDefined(args.caption)}"
-  ?open="${args.open}">
+  ?open="${args.open}"
+  ?levelled="${args.levelled}">
     ${
       unsafeHTML(args.content)
     }${
