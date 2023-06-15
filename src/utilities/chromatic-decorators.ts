@@ -2,13 +2,11 @@ import { html, TemplateResult } from 'lit';
 import isChromatic from 'chromatic/isChromatic';
 import { PartialStoryFn } from '@storybook/types';
 
-const chromaticDecorator = (story: PartialStoryFn, addition: TemplateResult) => html`
-      ${isChromatic() ?  addition : html``}
-
-      <div class="chromatic-wrapper">
-        ${ story() }
-      </div>
-    `;
+const chromaticDecorator = (story: PartialStoryFn, addition: TemplateResult) =>
+  isChromatic() ?
+    html`${addition} <div class="chromatic-wrapper">
+${ story() }
+</div>` : html`${ story() }`;
 
 export const withNoAnimation = (story: PartialStoryFn) => chromaticDecorator(story, html`<style>
 .chromatic-wrapper {
