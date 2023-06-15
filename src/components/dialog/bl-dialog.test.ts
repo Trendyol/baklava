@@ -351,7 +351,7 @@ describe('bl-dialog', () => {
 
         const closeBtn = el?.shadowRoot?.querySelector('bl-button');
 
-        el.addEventListener('bl-dialog-request-close', (ev) => {
+        el.addEventListener('bl-dialog-request-close', ev => {
           ev.preventDefault();
         });
 
@@ -361,7 +361,7 @@ describe('bl-dialog', () => {
 
         await oneEvent(el, 'bl-dialog-request-close');
 
-        expect(el.open).to.be.true
+        expect(el.open).to.be.true;
       });
     });
   });

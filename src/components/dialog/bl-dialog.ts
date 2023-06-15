@@ -23,13 +23,17 @@ export default class BlDialog extends LitElement {
   /**
    * Sets dialog open-close status
    */
-  @property({ type: Boolean, reflect: true, hasChanged(newVal: boolean, oldVal: boolean | undefined) {
-    if (newVal === false && oldVal === undefined) {
-      // Assume that the initial value is false
-      return false;
-    }
-    return newVal !== oldVal;
-  } })
+  @property({
+    type: Boolean,
+    reflect: true,
+    hasChanged(newVal: boolean, oldVal: boolean | undefined) {
+      if (newVal === false && oldVal === undefined) {
+        // Assume that the initial value is false
+        return false;
+      }
+      return newVal !== oldVal;
+    },
+  })
   open = false;
 
   /**
@@ -37,6 +41,12 @@ export default class BlDialog extends LitElement {
    */
   @property({ type: String })
   caption?: string;
+
+  /**
+   * Sets whether to use the native dialog element.
+   */
+  @property({ type: Boolean })
+  levelled = !window.HTMLDialogElement;
 
   @query('.dialog')
   private dialog: HTMLDialogElement & DialogElement;
@@ -59,7 +69,9 @@ export default class BlDialog extends LitElement {
    * Fires before the dialog is closed with internal actions like clicking close button,
    * pressing Escape key or clicking backdrop. Can be prevented by calling `event.preventDefault()`
    */
-  @event('bl-dialog-request-close') private onRequestClose: EventDispatcher<{ source: 'close-button' | 'keyboard' | 'backdrop' }>;
+  @event('bl-dialog-request-close') private onRequestClose: EventDispatcher<{
+    source: 'close-button' | 'keyboard' | 'backdrop';
+  }>;
 
   /**
    * Fires when the dialog is closed
@@ -70,10 +82,6 @@ export default class BlDialog extends LitElement {
     if (changedProperties.has('open')) {
       this.toggleDialogHandler();
     }
-  }
-
-  private get hasHtmlDialogSupport() {
-    return !!window.HTMLDialogElement;
   }
 
   private get _hasFooter() {
@@ -144,7 +152,7 @@ export default class BlDialog extends LitElement {
     const title = this.caption ? html`<h2 id="dialog-caption">${this.caption}</h2>` : '';
 
     const classes = {
-      container: true,
+      'container': true,
       'has-footer': this._hasFooter,
     };
 
@@ -164,8 +172,16 @@ export default class BlDialog extends LitElement {
   }
 
   render(): TemplateResult {
-    return this.hasHtmlDialogSupport
-      ? html`
+    return this.levelled
+      ? html`<div
+          class="dialog-polyfill"
+          role="dialog"
+          aria-labelledby="dialog-caption"
+          @click=${this.clickOutsideHandler}
+        >
+          ${this.renderContainer()}
+        </div>`
+      : html`
           <dialog
             class="dialog"
             aria-labelledby="dialog-caption"
@@ -173,15 +189,7 @@ export default class BlDialog extends LitElement {
           >
             ${this.renderContainer()}
           </dialog>
-        `
-      : html`<div
-          class="dialog-polyfill"
-          role="dialog"
-          aria-labelledby="dialog-caption"
-          @click=${this.clickOutsideHandler}
-        >
-          ${this.renderContainer()}
-        </div>`;
+        `;
   }
 }
 
