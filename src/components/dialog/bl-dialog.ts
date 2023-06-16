@@ -43,10 +43,14 @@ export default class BlDialog extends LitElement {
   caption?: string;
 
   /**
-   * Sets whether to use the native dialog element.
+   * Determines if dialog currently uses polyfilled version instead of native HTML Dialog. By
+   * default, it uses native Dialog if the browser supports it, otherwise polyfills. You can force
+   * using polyfill by setting this to true in some cases like to show some content on top of dialog
+   * in case you are not able to use Popover API. Be aware that, polyfilled version can cause some
+   * inconsistencies in terms of accessibility and stacking context. So use it with extra caution.
    */
   @property({ type: Boolean, reflect: true })
-  levelled = !window.HTMLDialogElement;
+  polyfilled = !window.HTMLDialogElement;
 
   @query('.dialog')
   private dialog: HTMLDialogElement & DialogElement;
@@ -79,7 +83,7 @@ export default class BlDialog extends LitElement {
   @event('bl-dialog-close') private onClose: EventDispatcher<object>;
 
   updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('open') || changedProperties.has('levelled')) {
+    if (changedProperties.has('open') || changedProperties.has('polyfilled')) {
       this.toggleDialogHandler();
     }
   }
@@ -172,7 +176,7 @@ export default class BlDialog extends LitElement {
   }
 
   render(): TemplateResult {
-    return this.levelled
+    return this.polyfilled
       ? html`<div
           class="dialog-polyfill"
           role="dialog"

@@ -23,7 +23,7 @@ const meta: Meta = {
     open: {
       control: "boolean",
     },
-    levelled: {
+    polyfilled: {
       control: "boolean",
     },
     caption: {
@@ -42,7 +42,7 @@ interface DialogArgs {
   className?: string;
   caption?: string;
   open?: boolean;
-  levelled?: boolean;
+  polyfilled?: boolean;
   content?: string;
   primaryAction?: string;
   secondaryAction?: string;
@@ -67,7 +67,7 @@ const BasicTemplate = (args: DialogArgs) => html`
   class="${ifDefined(args.className)}"
   caption="${ifDefined(args.caption)}"
   ?open="${args.open}"
-  ?levelled="${args.levelled}">
+  ?polyfilled="${args.polyfilled}">
     ${
       unsafeHTML(args.content)
     }${
