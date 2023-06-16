@@ -179,6 +179,7 @@ export default [
   'split_money',
   'star',
   'star_double',
+  'star_fill',
   'star_triple',
   'stop',
   'stop_fill',
