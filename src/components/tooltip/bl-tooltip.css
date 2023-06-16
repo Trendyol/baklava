@@ -1,5 +1,9 @@
+:host {
+  display: contents;
+}
+
 .trigger {
-  display: inline-block;
+  display: inline-flex;
   cursor: pointer;
 }
 
