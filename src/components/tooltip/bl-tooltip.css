@@ -7,11 +7,6 @@
   cursor: pointer;
 }
 
-.wrapper{
-  display: inline-block;
-  color: var(--bl-color-neutral-full);;
-}
-
 bl-popover {
   --bl-popover-background-color: var(--bl-color-neutral-darker);
   --bl-popover-arrow-display: block;
