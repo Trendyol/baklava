@@ -1,5 +1,4 @@
 :host {
-  display: inline-block;
   cursor: pointer;
   outline: none;
 }
@@ -13,7 +12,6 @@
 #label {
   display: flex;
   font: var(--bl-font-title-3-regular);
-  height: var(--size);
   line-height: normal;
   vertical-align: middle;
   margin-block: 0;
@@ -31,6 +29,7 @@
   border: solid 1px var(--bl-color-neutral-lighter);
   margin-right: var(--bl-size-2xs);
   vertical-align: middle;
+  flex-shrink: 0;
 }
 
 .selected #label::before {
