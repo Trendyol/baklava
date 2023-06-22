@@ -127,6 +127,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   icon?: string;
 
   /**
+   * Forcefully removes the icon.
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'remove-icon' })
+  removeIcon = false;
+
+  /**
    * Sets input size.
    */
   @property({ type: String, reflect: true })
@@ -316,7 +322,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
       'wrapper': true,
       'dirty': this.dirty,
       'invalid': !this.checkValidity(),
-      'has-icon': passwordInput || this.icon || (this.dirty && !this.checkValidity()),
+      'has-icon':
+        !this.removeIcon && (passwordInput || this.icon || (this.dirty && !this.checkValidity())),
       'has-value': this.value !== null && this.value !== '',
     };
 
