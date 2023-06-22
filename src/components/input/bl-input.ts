@@ -17,6 +17,9 @@ export type InputSize = 'small' | 'medium' | 'large';
 /**
  * @tag bl-input
  * @summary Baklava Input component
+ *
+ * @cssproperty [--bl-input-padding-left] Sets the padding left
+ * @cssproperty [--bl-input-padding-right] Sets the padding right
  */
 @customElement('bl-input')
 export default class BlInput extends FormControlMixin(LitElement) {
