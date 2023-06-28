@@ -23,7 +23,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
-  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+  static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   static formControlValidators = innerInputValidators;
 
@@ -139,6 +139,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   disabled = false;
 
   /**
+   * Makes the input readonly.
+   */
+  @property({ type: Boolean, reflect: true })
+  readonly = false;
+
+  /**
    * Makes label as fixed positioned
    */
   @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
@@ -221,7 +227,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Force to set input as in invalid state.
    */
-  forceCustomError() {
+  async forceCustomError() {
+    await this.updateComplete;
     this.validationTarget.setCustomValidity(this.customInvalidText || 'An error occurred');
     this.setValue(this.value);
     this.reportValidity();
@@ -230,7 +237,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Clear forced invalid state
    */
-  clearCustomError() {
+  async clearCustomError() {
+    await this.updateComplete;
     this.validationTarget.setCustomValidity('');
     this.setValue(this.value);
     this.reportValidity();
@@ -335,6 +343,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           step="${ifDefined(this.step)}"
           ?required=${this.required}
           ?disabled=${this.disabled}
+          ?readonly=${this.readonly}
           @change=${this.changeHandler}
           @input=${this.inputHandler}
           aria-invalid=${this.checkValidity() ? 'false' : 'true'}

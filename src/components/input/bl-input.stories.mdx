@@ -49,6 +49,10 @@ import { extraPadding } from '../../utilities/chromatic-decorators';
       control: 'text',
       type: 'number'
     },
+    pattern: {
+      control: 'text',
+      type: 'string'
+    },
     step: {
       control: 'text',
       type: 'number'
@@ -65,6 +69,9 @@ import { extraPadding } from '../../utilities/chromatic-decorators';
       type: 'string'
     },
     disabled: {
+      control: 'boolean',
+    },
+    readonly: {
       control: 'boolean',
     },
     labelFixed: {
@@ -86,6 +93,7 @@ export const SingleInputTemplate = (args) => html`<bl-input
     value='${ifDefined(args.value)}'
     ?required='${args.required}'
     ?disabled='${args.disabled}'
+    ?readonly='${args.readonly}'
     ?label-fixed='${args.labelFixed}'
     invalid-text='${ifDefined(args.customInvalidText)}'
     help-text='${ifDefined(args.helpText)}'
@@ -93,6 +101,7 @@ export const SingleInputTemplate = (args) => html`<bl-input
     maxlength='${ifDefined(args.maxlength)}'
     min='${ifDefined(args.min)}'
     max='${ifDefined(args.max)}'
+    pattern='${ifDefined(args.pattern)}'
     step='${ifDefined(args.step)}'
     icon='${ifDefined(args.icon)}'
     size='${ifDefined(args.size)}'

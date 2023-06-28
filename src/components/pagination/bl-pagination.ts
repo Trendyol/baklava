@@ -238,7 +238,7 @@ export default class BlPagination extends LitElement {
       ? html`
           <div class="select">
             <label>${this.selectLabel}</label>
-            <bl-select @bl-select="${this._selectHandler}" .value=${this.itemsPerPage}>
+            <bl-select @bl-select="${this._selectHandler}" .value=${this.itemsPerPage} required>
               ${this.itemsPerPageOptions.map(option => {
                 return html`<bl-select-option .value=${option.value}
                   >${option.text}</bl-select-option
