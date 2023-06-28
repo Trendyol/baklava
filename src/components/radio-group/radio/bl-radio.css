@@ -13,9 +13,10 @@
   display: flex;
   font: var(--bl-font-title-3-regular);
   line-height: normal;
-  vertical-align: middle;
+  align-items: var(--bl-radio-align-items, center);
   margin-block: 0;
   color: var(--bl-color-neutral-darker);
+  gap: var(--bl-size-2xs);
 }
 
 #label::before {
@@ -29,9 +30,6 @@
   background-color: white;
   border-radius: var(--bl-border-radius-circle);
   border: solid 1px var(--bl-color-neutral-lighter);
-  margin-right: var(--bl-size-2xs);
-  vertical-align: middle;
-  flex-shrink: 0;
 }
 
 .selected #label::before {

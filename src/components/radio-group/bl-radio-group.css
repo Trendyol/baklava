@@ -1,3 +1,7 @@
+:host {
+  display: block;
+}
+
 fieldset {
   border: none;
   padding: 0;
