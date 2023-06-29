@@ -78,16 +78,16 @@ export default class BlTooltip extends LitElement {
   }
 
   render(): TemplateResult {
-    return html` ${this.triggerTemplate()}
-      <div class="wrapper">
-        <bl-popover
-          .target="${this.trigger}"
-          placement="${ifDefined(this.placement)}"
-          @bl-popover-hide="${() => this.onHide('')}"
-          >
-          <slot class="content" id="tooltip" role="tooltip"></slot>
-        </bl-popover>
-      </div>`;
+    return html`
+      ${this.triggerTemplate()}
+      <bl-popover
+        .target="${this.trigger}"
+        placement="${ifDefined(this.placement)}"
+        @bl-popover-hide="${() => this.onHide('')}"
+      >
+        <slot class="content" id="tooltip" role="tooltip"></slot>
+      </bl-popover>
+    `;
   }
 }
 

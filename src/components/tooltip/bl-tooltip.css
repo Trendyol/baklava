@@ -1,11 +1,10 @@
-.trigger {
-  display: inline-block;
-  cursor: pointer;
+:host {
+  display: contents;
 }
 
-.wrapper{
-  display: inline-block;
-  color: var(--bl-color-neutral-full);;
+.trigger {
+  display: inline-flex;
+  cursor: pointer;
 }
 
 bl-popover {

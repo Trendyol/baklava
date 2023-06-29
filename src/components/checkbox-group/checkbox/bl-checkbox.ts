@@ -21,7 +21,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
-  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+  static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   /**
    * Sets the checked state for checkbox
@@ -139,7 +139,6 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
           .checked=${live(this.checked)}
           ?disabled=${this.disabled}
           aria-required=${this.required}
-          aria-labelledby="label"
           aria-readonly=${this.disabled}
           .indeterminate=${this.indeterminate}
           @change=${this.handleChange}
@@ -147,7 +146,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
           @blur=${this.blur}
         />
         <div class="check-mark">${icon ? html`<bl-icon name="${icon}"></bl-icon>` : null}</div>
-        <span class="label"><slot></slot></span>
+        <slot class="label"></slot>
       </label>
     `;
   }
