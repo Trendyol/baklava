@@ -33,6 +33,9 @@ export default class BlInput extends FormControlMixin(LitElement) {
   @query('input')
   validationTarget: HTMLInputElement;
 
+  @query('slot[name="icon"]')
+  iconSlot: HTMLSlotElement;
+
   /**
    * Sets name of the input
    */
@@ -294,7 +297,15 @@ export default class BlInput extends FormControlMixin(LitElement) {
       ? html`<p id="helpText" class="help-text">${this.helpText}</p>`
       : ``;
 
-    const icon = this.icon ? html`<bl-icon class="custom-icon" name="${this.icon}"></bl-icon>` : '';
+    const icon = html`
+      <slot name="icon">
+        ${this.icon
+          ? html`<bl-icon name="${this.icon}"></bl-icon>`
+          : html`<bl-icon class="error-icon" name="alert"></bl-icon>`
+        }
+      </slot>
+    `;
+
     const label = this.label ? html`<label for=${this.inputId}>${this.label}</label>` : '';
     const passwordInput = this.type === 'password';
 
@@ -315,11 +326,13 @@ export default class BlInput extends FormControlMixin(LitElement) {
         </bl-button>`
       : '';
 
+    const hasCustomIconSlot = Boolean(this.iconSlot?.assignedNodes().length);
+    const hasCustomIcon = this.icon || hasCustomIconSlot;
     const classes = {
       'wrapper': true,
       'dirty': this.dirty,
       'invalid': !this.checkValidity(),
-      'has-icon': passwordInput || this.icon || (this.dirty && !this.checkValidity()),
+      'has-icon': passwordInput || hasCustomIcon || (this.dirty && !this.checkValidity()),
       'has-value': this.value !== null && this.value !== '',
     };
 
@@ -355,7 +368,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
         />
         <div class="icon">
           ${revealButton} ${icon}
-          <bl-icon class="error-icon" name="alert"></bl-icon>
         </div>
       </fieldset>
       <div class="hint">${invalidMessage} ${helpMessage}</div>

@@ -20,11 +20,13 @@ describe('bl-input', () => {
             type="text"
           >
           <div class="icon">
-            <bl-icon
-              class="error-icon"
-              name="alert"
-            >
-            </bl-icon>
+            <slot name="icon">
+              <bl-icon
+                class="error-icon"
+                name="alert"
+              >
+              </bl-icon>
+            </slot>
           </div>
         </fieldset>
         <div class="hint"></div>
@@ -64,9 +66,20 @@ describe('bl-input', () => {
   describe('input with icon', () => {
     it('should show custom icon', async () => {
       const el = await fixture<BlInput>(html`<bl-input icon="info"></bl-input>`);
-      const customIcon = el.shadowRoot?.querySelector('bl-icon.custom-icon');
+      const customIcon = el.shadowRoot?.querySelector('bl-icon[name="info"]');
       expect(customIcon).to.exist;
       expect(customIcon?.getAttribute('name')).to.equal('info');
+    });
+
+    it('should show slot icon', async () => {
+      const el = await fixture<BlInput>(html`<bl-input><bl-icon slot="icon" name="info"></bl-icon></bl-input>`);
+      const slotIcon = el.querySelector('bl-icon[name="info"]');
+
+      expect(el.iconSlot.assignedNodes()).have.lengthOf(1);
+      expect(el.iconSlot.assignedNodes()[0]).to.equal(slotIcon);
+
+      expect(slotIcon).to.exist;
+      expect(slotIcon?.getAttribute('name')).to.equal('info');
     });
 
     it('should show reveal button on password type', async () => {
@@ -172,6 +185,16 @@ describe('bl-input', () => {
         el.shadowRoot?.querySelector('.invalid-text')
       );
       expect(errorMessageElement).to.not.exist;
+    });
+
+    it('should render alert icon when invalid and without custom icon', async () => {
+      const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
+      el.reportValidity();
+
+      await elementUpdated(el);
+
+      const alertIcon = el.shadowRoot?.querySelector('bl-icon[name="alert"]');
+      expect(alertIcon).to.exist;
     });
   });
 

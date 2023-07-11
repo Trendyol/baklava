@@ -172,7 +172,8 @@ input:-webkit-autofill {
   margin-right: var(--label-padding);
 }
 
-bl-icon:not(.reveal-icon) {
+bl-icon:not(.reveal-icon),
+::slotted(bl-icon) {
   font-size: var(--icon-size);
   color: var(--icon-color);
   height: var(--icon-size);
@@ -290,6 +291,3 @@ bl-icon[name='eye_on'] {
   display: inline-block;
 }
 
-.dirty.invalid .custom-icon ~ .error-icon {
-  display: none;
-}
