@@ -84,13 +84,13 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Sets the smallest number can be entered to a `number` input
    */
-  @property({ type: Number, reflect: true })
+  @property({ reflect: true })
   min?: number;
 
   /**
    * Sets the biggest number can be entered to a `number` input
    */
-  @property({ type: Number, reflect: true })
+  @property({ reflect: true })
   max?: number;
 
   /**
