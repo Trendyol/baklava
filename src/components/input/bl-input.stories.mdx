@@ -86,27 +86,6 @@ import { extraPadding } from '../../utilities/chromatic-decorators';
 export const BlButton = args => html`
   <bl-button>Check</bl-button>`
 
-export const SpinnerIcon = args => html`
-  <style>
-    .spinner {
-      animation: spin 1s linear infinite;
-      color: var(--bl-color-primary);
-    }
-
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
-
-  <bl-icon slot="icon" name="loading" class="spinner"></bl-icon>
-`
-
 export const SingleInputTemplate = (args) => html`<bl-input
     type='${ifDefined(args.type)}'
     label='${ifDefined(args.label)}'
@@ -127,6 +106,30 @@ export const SingleInputTemplate = (args) => html`<bl-input
     icon='${ifDefined(args.icon)}'
     size='${ifDefined(args.size)}'
   >${args.slot?.()}</bl-input>`
+
+export const SingleInputTemplateWithSpinner = (args) => html`
+<style>
+  .spinner {
+    animation: spin 1s linear infinite;
+    color: var(--bl-color-primary);
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+${SingleInputTemplate({
+  ...args,
+  slot: () => html`<bl-icon slot="icon" name="loading" class="spinner"></bl-icon>`,
+})}
+`
 
 export const SizeVariantsTemplate = args => html`
 ${SingleInputTemplate({ size: 'large', ...args })}
@@ -226,9 +229,13 @@ Input can have an icon. This icon is showed with `bl-icon` component internally 
 Input also supports slot icons for more complex use cases. You can use `icon` slot for this.
 
 <Canvas>
-  <Story name="Input With Spinner"
-         args={{ type: 'text', placeholder: 'Enter Name', required: true, slot: SpinnerIcon }}>
+  <Story name="Input With Slot Icon"
+         args={{ placeholder: 'Name', slot: () => html`<bl-icon slot="icon" name="flash"></bl-icon>` }}>
     {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Input With Spinner"
+         args={{ placeholder: 'Name' }}>
+    {SingleInputTemplateWithSpinner.bind({})}
   </Story>
 </Canvas>
 
