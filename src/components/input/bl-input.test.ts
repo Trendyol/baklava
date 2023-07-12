@@ -69,17 +69,21 @@ describe('bl-input', () => {
       const customIcon = el.shadowRoot?.querySelector('bl-icon[name="info"]');
       expect(customIcon).to.exist;
       expect(customIcon?.getAttribute('name')).to.equal('info');
+      expect(el.shadowRoot?.querySelector('.has-icon')).to.exist;
     });
 
     it('should show slot icon', async () => {
       const el = await fixture<BlInput>(html`<bl-input><bl-icon slot="icon" name="info"></bl-icon></bl-input>`);
+      const slot = el.shadowRoot?.querySelector('slot[name="icon"]') as HTMLSlotElement;
       const slotIcon = el.querySelector('bl-icon[name="info"]');
 
-      expect(el.iconSlot.assignedNodes()).have.lengthOf(1);
-      expect(el.iconSlot.assignedNodes()[0]).to.equal(slotIcon);
+      expect(slot.assignedNodes()).have.lengthOf(1);
+      expect(slot.assignedNodes()[0]).to.equal(slotIcon);
 
       expect(slotIcon).to.exist;
       expect(slotIcon?.getAttribute('name')).to.equal('info');
+
+      expect(el.shadowRoot?.querySelector('.has-icon')).to.exist;
     });
 
     it('should show reveal button on password type', async () => {

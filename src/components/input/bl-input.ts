@@ -33,9 +33,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
   @query('input')
   validationTarget: HTMLInputElement;
 
-  @query('slot[name="icon"]')
-  iconSlot: HTMLSlotElement;
-
   /**
    * Sets name of the input
    */
@@ -287,6 +284,10 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   private inputId = Math.random().toString(36).substring(2);
 
+  private get _hasIconSlot() {
+    return this.querySelector(':scope > [slot="icon"]') !== null;
+  }
+
   render(): TemplateResult {
     const invalidMessage = !this.checkValidity()
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
@@ -326,8 +327,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
         </bl-button>`
       : '';
 
-    const hasCustomIconSlot = Boolean(this.iconSlot?.assignedNodes().length);
-    const hasCustomIcon = this.icon || hasCustomIconSlot;
+    const hasCustomIcon = this.icon || this._hasIconSlot;
     const classes = {
       'wrapper': true,
       'dirty': this.dirty,
