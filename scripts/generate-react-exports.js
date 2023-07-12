@@ -15,11 +15,14 @@ const importStatements = [
   'import { ISelectOption } from "./components/select/bl-select"',
 ];
 
+const exportStatements = [];
+
 function writeBaklavaReactFile(fileContentParts) {
   let fileContentText =
     `/* eslint-disable @typescript-eslint/ban-ts-comment */\n` +
     `// @ts-nocheck\n` +
     `${importStatements.join('\n')}\n\n` +
+    `${exportStatements.join('\n')}\n\n` +
     `${fileContentParts.join('\n\n')}\n`;
   const codeResult = format(fileContentText, { parser: 'typescript' });
 
@@ -77,6 +80,7 @@ for (const module of customElementsModules) {
   const Type = componentName + 'Type';
 
   importStatements.push(`import type ${Type} from "./${importPath}";`);
+  exportStatements.push(`export declare type ${Type.replace('Type', '')} = ${Type}`);
 
   const componentDefinition =
     typeParam => `  customElements.whenDefined('${fileName}').then(() => ({
