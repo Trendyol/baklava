@@ -192,7 +192,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
   connectedCallback(): void {
     super.connectedCallback();
     this.addEventListener('keydown', this.onKeydown);
-    this.addEventListener('invalid', this.onError);
 
     this.form?.addEventListener('submit', () => {
       this.reportValidity();
@@ -202,17 +201,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeEventListener('keydown', this.onKeydown);
-    this.removeEventListener('invalid', this.onError);
   }
 
   private onKeydown = (event: KeyboardEvent): void => {
     if (event.code === 'Enter' && this.form) {
       submit(this.form);
     }
-  };
-
-  private onError = (): void => {
-    this.onInvalid(this.internals.validity);
   };
 
   @state() private dirty = false;
@@ -224,6 +218,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   validityCallback(): string | void {
+    this.onInvalid(this.internals.validity);
     return this.customInvalidText || this.validationTarget?.validationMessage;
   }
 
