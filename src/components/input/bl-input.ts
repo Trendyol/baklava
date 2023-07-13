@@ -43,7 +43,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Type of the input. It's used to set `type` attribute of native input inside. Only `text`, `number` and `password` is supported for now.
    */
   @property({ reflect: true })
-  type: 'text' | 'password' | 'number' | 'tel' | 'url' = 'text';
+  type: 'text' | 'date' | 'password' | 'number' | 'tel' | 'url' = 'text';
 
   /**
    * Sets label of the input
