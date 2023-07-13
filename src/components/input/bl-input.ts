@@ -85,13 +85,13 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Sets the smallest number can be entered to a `number` input
    */
   @property({ reflect: true })
-  min?: number;
+  min?: number | string;
 
   /**
    * Sets the biggest number can be entered to a `number` input
    */
   @property({ reflect: true })
-  max?: number;
+  max?: number | string;
 
   /**
    * Sets a regex pattern form the input validation
