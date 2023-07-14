@@ -13,6 +13,8 @@ export const blCheckedEventName = 'bl-checked';
 /**
  * @tag bl-radio
  * @summary Baklava Radio Option component
+ *
+ * @cssprop [--bl-radio-align-items=center] Align items of radio option
  */
 @customElement(blRadioTag)
 export default class BlRadio extends LitElement {
