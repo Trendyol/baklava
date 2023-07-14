@@ -1,3 +1,7 @@
+:host {
+  display: contents;
+}
+
 .popover {
   --arrow-display: var(--bl-popover-arrow-display, none);
   --background-color: var(--bl-popover-background-color, var(--bl-color-neutral-full));

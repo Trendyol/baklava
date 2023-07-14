@@ -71,6 +71,9 @@ import { extraPadding } from '../../utilities/chromatic-decorators';
     disabled: {
       control: 'boolean',
     },
+    readonly: {
+      control: 'boolean',
+    },
     labelFixed: {
       control: 'boolean',
     },
@@ -90,6 +93,7 @@ export const SingleInputTemplate = (args) => html`<bl-input
     value='${ifDefined(args.value)}'
     ?required='${args.required}'
     ?disabled='${args.disabled}'
+    ?readonly='${args.readonly}'
     ?label-fixed='${args.labelFixed}'
     invalid-text='${ifDefined(args.customInvalidText)}'
     help-text='${ifDefined(args.helpText)}'
