@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import style from './bl-badge.css';
 import '../icon/bl-icon';
+import { BaklavaIcon } from '../icon/icon-list';
 
 export type BadgeSize = 'small' | 'medium' | 'large';
 
@@ -29,7 +30,7 @@ export default class BlBadge extends LitElement {
    * Sets the name of the icon
    */
   @property({ type: String })
-  icon?: string;
+  icon?: BaklavaIcon;
 
   render(): TemplateResult {
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';

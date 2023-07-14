@@ -4,6 +4,7 @@ import { event, EventDispatcher } from '../../../utilities/event';
 
 import style from './bl-tab.css';
 import type BlTabGroup from '../bl-tab-group';
+import { BaklavaIcon } from '../../icon/icon-list';
 
 /**
  * @tag bl-tab
@@ -54,7 +55,7 @@ export default class BlTab extends LitElement {
    * Name of the icon which display on the left side of the tab.
    */
   @property({ type: String })
-  icon = '';
+  icon?: BaklavaIcon;
 
   /**
    * Shows notification dot.
