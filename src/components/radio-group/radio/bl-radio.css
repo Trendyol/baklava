@@ -24,8 +24,10 @@
   content: '';
   display: inline-block;
   box-sizing: border-box;
-  width: var(--size);
-  height: var(--size);
+  min-width: var(--size);
+  min-height: var(--size);
+  max-width: var(--size);
+  max-height: var(--size);
   background-color: white;
   border-radius: var(--bl-border-radius-circle);
   border: solid 1px var(--bl-color-neutral-lighter);

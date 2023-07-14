@@ -18,13 +18,16 @@ export type InputSize = 'small' | 'medium' | 'large';
 /**
  * @tag bl-input
  * @summary Baklava Input component
+ *
+ * @cssproperty [--bl-input-padding-start] Sets the padding start
+ * @cssproperty [--bl-input-padding-end] Sets the padding end
  */
 @customElement('bl-input')
 export default class BlInput extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
-  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+  static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   static formControlValidators = innerInputValidators;
 
@@ -41,7 +44,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Type of the input. It's used to set `type` attribute of native input inside. Only `text`, `number` and `password` is supported for now.
    */
   @property({ reflect: true })
-  type: 'text' | 'password' | 'number' | 'tel' | 'url' = 'text';
+  type: 'text' | 'date' | 'password' | 'number' | 'tel' | 'url' = 'text';
 
   /**
    * Sets label of the input
@@ -80,16 +83,16 @@ export default class BlInput extends FormControlMixin(LitElement) {
   maxlength?: number;
 
   /**
-   * Sets the smallest number can be entered to a `number` input
+   * Sets the minimum acceptable value for the input
    */
-  @property({ type: Number, reflect: true })
-  min?: number;
+  @property({ reflect: true })
+  min?: number | string;
 
   /**
-   * Sets the biggest number can be entered to a `number` input
+   * Sets the maximum acceptable value for the input
    */
-  @property({ type: Number, reflect: true })
-  max?: number;
+  @property({ reflect: true })
+  max?: number | string;
 
   /**
    * Sets a regex pattern form the input validation
@@ -140,6 +143,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   disabled = false;
 
   /**
+   * Makes the input readonly.
+   */
+  @property({ type: Boolean, reflect: true })
+  readonly = false;
+
+  /**
    * Makes label as fixed positioned
    */
   @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
@@ -184,7 +193,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
   connectedCallback(): void {
     super.connectedCallback();
     this.addEventListener('keydown', this.onKeydown);
-    this.addEventListener('invalid', this.onError);
 
     this.form?.addEventListener('submit', () => {
       this.reportValidity();
@@ -194,17 +202,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeEventListener('keydown', this.onKeydown);
-    this.removeEventListener('invalid', this.onError);
   }
 
   private onKeydown = (event: KeyboardEvent): void => {
     if (event.code === 'Enter' && this.form) {
       submit(this.form);
     }
-  };
-
-  private onError = (): void => {
-    this.onInvalid(this.internals.validity);
   };
 
   @state() private dirty = false;
@@ -216,13 +219,15 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   validityCallback(): string | void {
+    this.onInvalid(this.internals.validity);
     return this.customInvalidText || this.validationTarget?.validationMessage;
   }
 
   /**
    * Force to set input as in invalid state.
    */
-  forceCustomError() {
+  async forceCustomError() {
+    await this.updateComplete;
     this.validationTarget.setCustomValidity(this.customInvalidText || 'An error occurred');
     this.setValue(this.value);
     this.reportValidity();
@@ -231,7 +236,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Clear forced invalid state
    */
-  clearCustomError() {
+  async clearCustomError() {
+    await this.updateComplete;
     this.validationTarget.setCustomValidity('');
     this.setValue(this.value);
     this.reportValidity();
@@ -336,6 +342,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           step="${ifDefined(this.step)}"
           ?required=${this.required}
           ?disabled=${this.disabled}
+          ?readonly=${this.readonly}
           @change=${this.changeHandler}
           @input=${this.inputHandler}
           aria-invalid=${this.checkValidity() ? 'false' : 'true'}

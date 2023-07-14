@@ -6,7 +6,8 @@ module.exports = {
   },
   extends: ['eslint:recommended', 'prettier', 'plugin:storybook/recommended'],
   env: {
-    browser: true
+    browser: true,
+    node: true
   },
   globals: {
     process: 'readonly'

@@ -128,7 +128,7 @@ describe('bl-popover', () => {
     const popoverEl = body.querySelector('bl-popover') as typeOfBlPopover;
     popoverEl.show();
 
-    await sendKeys({ up: 'Escape' });
+    await sendKeys({ down: 'Escape' });
 
     expect(popoverEl.visible).to.equal(false);
   });
