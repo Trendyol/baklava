@@ -3,8 +3,28 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { getIconPath } from '../../utilities/asset-paths';
 import { event, EventDispatcher } from '../../utilities/event';
-
+import iconList from './icon-list';
 import style from './bl-icon.css';
+
+export interface IconLibrary {
+  icons: string[];
+  resolver: (iconName: string) => string;
+}
+
+export interface IconLibraries {
+  [key: string]: IconLibrary;
+}
+
+const iconLibraries: IconLibraries = {};
+
+export function registerIconLibrary(name: string, library: IconLibrary) {
+  iconLibraries[name] = library;
+}
+
+registerIconLibrary('default', {
+  icons: iconList,
+  resolver: (iconName: string) => `${getIconPath()}/${iconName}.svg`
+});
 
 const requestMap = new Map<string, Promise<Response>>();
 
@@ -21,12 +41,18 @@ export default class BlIcon extends LitElement {
     return [style];
   }
 
+  /**
+   * Name of the icon library. You can register your own icon library with `registerIconLibrary` function
+   */
+  @property({ type: String, reflect: true })
+  library = 'default';
+
   private _iconName: string;
 
   /**
    * Name of the icon to show
    */
-  @property()
+  @property({ type: String, reflect: true})
   get name(): string {
     return this._iconName;
   }
@@ -51,8 +77,7 @@ export default class BlIcon extends LitElement {
   @state() private svg: string;
 
   async load() {
-    const iconPath = getIconPath();
-    const fileUrl = `${iconPath}/${this.name}.svg`;
+    const fileUrl = iconLibraries[this.library].resolver(this.name);
 
     if (!requestMap.has(fileUrl)) {
       requestMap.set(fileUrl, fetch(fileUrl));
