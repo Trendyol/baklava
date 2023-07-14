@@ -1,8 +1,8 @@
 import { assert, elementUpdated, expect, fixture, html, oneEvent } from '@open-wc/testing';
-import {sendKeys, sendMouse} from '@web/test-runner-commands';
+import { sendKeys, sendMouse } from '@web/test-runner-commands';
 import BlTooltip from './bl-tooltip';
 import type typeOfBlTooltip from './bl-tooltip';
-import type typeOfBlPopover from "../popover/bl-popover";
+import type typeOfBlPopover from '../popover/bl-popover';
 
 describe('bl-tooltip', () => {
   it('should be defined tooltip instance', () => {
@@ -26,7 +26,6 @@ describe('bl-tooltip', () => {
        class="trigger"
        name="tooltip-trigger">
       </slot>
-      <div class="wrapper">
       <bl-popover placement="top">
         <slot
           class="content"
@@ -34,7 +33,6 @@ describe('bl-tooltip', () => {
           role="tooltip">
         </slot>
        </bl-popover>
-      </div>
       `
     );
   });

@@ -34,6 +34,14 @@ describe('bl-select', () => {
             +0
           </span>
           <div class="actions">
+          <bl-button
+            class="remove-all"
+            icon="close"
+            kind="neutral"
+            size="small"
+            variant="tertiary"
+          >
+          </bl-button>
           <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
           <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
           </div>
@@ -128,6 +136,23 @@ describe('bl-select', () => {
     expect(el.checkValidity()).to.false;
     expect(invalidText).to.exist;
   });
+  it('should remove selected option on remove all click on non-required single select', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select>
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2" selected>Option 2</bl-select-option>
+    </bl-select>`);
+    const removeAll = el.shadowRoot?.querySelector<BlButton>('.remove-all');
+    setTimeout(() => removeAll?.click());
+
+    const event = await oneEvent(el, 'bl-select');
+
+    expect(removeAll).to.exist;
+    expect(event).to.exist;
+    expect(event.detail).to.eql([]);
+    expect(el.options.length).to.equal(2);
+    expect(el.selectedOptions.length).to.equal(0);
+    expect(el.value).to.null;
+  });
   it('should remove selected options', async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
       <bl-select-option value="1">Option 1</bl-select-option>
@@ -146,8 +171,8 @@ describe('bl-select', () => {
     expect(el.selectedOptions.length).to.equal(0);
     expect(el.value).to.null;
   });
-  it('should hide remove icon button on single selection', async () => {
-    const el = await fixture<BlSelect>(html`<bl-select>
+  it('should hide remove icon button on single required selection', async () => {
+    const el = await fixture<BlSelect>(html`<bl-select required>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);

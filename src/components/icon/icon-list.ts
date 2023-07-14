@@ -1,4 +1,4 @@
-export default [
+const icons = [
   'academy',
   'account',
   'add_note',
@@ -71,6 +71,7 @@ export default [
   'global_export',
   'globe',
   'go_forward',
+  'graphic_decrease',
   'graphic',
   'group_of_people',
   'growth',
@@ -84,6 +85,7 @@ export default [
   'home',
   'hourglass',
   'image',
+  'incognito',
   'info',
   'instagram',
   'label',
@@ -127,6 +129,7 @@ export default [
   'order',
   'order_back',
   'order_box',
+  'order_boxes',
   'order_cancel',
   'order_check',
   'order_return',
@@ -166,6 +169,7 @@ export default [
   'settings',
   'share',
   'shopping_bag',
+  'shopping_bag_add',
   'shopping_bag_back',
   'shopping_bag_cancel',
   'shopping_bag_discount',
@@ -175,6 +179,7 @@ export default [
   'split_money',
   'star',
   'star_double',
+  'star_fill',
   'star_triple',
   'stop',
   'stop_fill',
@@ -197,4 +202,9 @@ export default [
   'youtube',
   'zoom_in',
   'zoom_out',
-];
+] as const;
+
+type BaklavaIcon = typeof icons[number];
+
+export type { BaklavaIcon }
+export default icons;

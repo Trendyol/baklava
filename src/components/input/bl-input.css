@@ -58,7 +58,7 @@
   gap: var(--padding-vertical);
   height: var(--height);
   border: solid var(--border-size) var(--border-color);
-  padding: 0 calc(var(--padding-horizontal) - var(--label-padding) - var(--border-size));
+  padding: 0 calc(var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding) - var(--border-size)) 0 calc(var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding) - var(--border-size));
   background-color: var(--background-color);
   border-radius: var(--bl-size-3xs);
   margin: 0;
@@ -95,14 +95,14 @@ label {
   transition: all ease-in .1s;
   font: var(--input-font);
   top: var(--padding-vertical);
-  left: var(--padding-horizontal);
-  right: var(--padding-horizontal);
+  left: var(--bl-input-padding-start, var(--padding-horizontal));
+  right: var(--bl-input-padding-end, var(--padding-horizontal));
   pointer-events: none;
   color: var(--bl-color-neutral-light);
 }
 
 .has-icon label {
-  right: calc(var(--padding-horizontal) + var(--icon-size) + var(--padding-vertical));
+  right: calc(var(--bl-input-padding-end, var(--padding-horizontal)) + var(--icon-size) + var(--padding-vertical));
 }
 
 .input-wrapper legend {
@@ -123,8 +123,7 @@ input {
   align-self: stretch;
   outline: 0;
   border: 0;
-  padding: 0;
-  padding-left: var(--label-padding);
+  padding: 0 0 0 var(--label-padding);
   font: var(--input-font);
   color: var(--text-color);
   -webkit-text-fill-color: var(--text-color);
@@ -173,7 +172,8 @@ input:-webkit-autofill {
   margin-right: var(--label-padding);
 }
 
-bl-icon:not(.reveal-icon) {
+bl-icon:not(.reveal-icon),
+::slotted(bl-icon) {
   font-size: var(--icon-size);
   color: var(--icon-color);
   height: var(--icon-size);
@@ -243,8 +243,8 @@ bl-icon[name='eye_on'] {
 :host(:not([label-fixed])) :focus-within label,
 :host(:not([label-fixed])) .has-value label {
   top: 0;
-  left: calc(var(--padding-horizontal) - var(--label-padding));
-  right: calc(var(--padding-horizontal) - var(--label-padding));
+  left: calc(var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding));
+  right: calc(var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding));
   transform: translateY(-50%);
   font: var(--bl-font-caption);
   color: var(--bl-color-neutral-dark);
@@ -291,6 +291,3 @@ bl-icon[name='eye_on'] {
   display: inline-block;
 }
 
-.dirty.invalid .custom-icon ~ .error-icon {
-  display: none;
-}

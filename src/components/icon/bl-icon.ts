@@ -5,6 +5,7 @@ import { getIconPath } from '../../utilities/asset-paths';
 import { event, EventDispatcher } from '../../utilities/event';
 
 import style from './bl-icon.css';
+import { BaklavaIcon } from './icon-list';
 
 const requestMap = new Map<string, Promise<Response>>();
 
@@ -21,17 +22,17 @@ export default class BlIcon extends LitElement {
     return [style];
   }
 
-  private _iconName: string;
+  private _iconName: BaklavaIcon;
 
   /**
    * Name of the icon to show
    */
   @property()
-  get name(): string {
+  get name(): BaklavaIcon {
     return this._iconName;
   }
 
-  set name(value: string) {
+  set name(value: BaklavaIcon) {
     if (value !== this._iconName) {
       this._iconName = value;
       this.load();
@@ -60,7 +61,7 @@ export default class BlIcon extends LitElement {
 
     try {
       const iconRequest = await requestMap.get(fileUrl);
-      const res = await iconRequest?.clone();
+      const res = iconRequest?.clone();
 
       if (res?.ok) {
         this.svg = await res.text();

@@ -319,7 +319,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       ${inputSelectedOptions}
       <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
       <div class="actions">
-        ${this.multiple ? removeButton : null}
+        ${this.multiple || !this.required ? removeButton : null}
         <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
         <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
