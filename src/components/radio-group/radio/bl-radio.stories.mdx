@@ -1,6 +1,7 @@
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
+import { when } from 'lit/directives/when.js';
 import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 
 <Meta
@@ -23,18 +24,14 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 
 export const RadioTemplate = (args) => html`
 <bl-radio
-    class=${ifDefined(args.class)}
+    class=${ifDefined(args.itemClass)}
     value=${ifDefined(args.value)}
     ?disabled=${args.disabled}
     >${args.label}</bl-radio>`
 
-export const RadioGroupTemplate = (args) => html`
-<bl-radio-group value=${args.value}>
-  <bl-radio
-    class=${ifDefined(args.class)}
-    value=${ifDefined(args.value)}
-    ?disabled=${args.disabled}
-    >${args.label}</bl-radio>
+export const RadioGroupTemplate = (args) => html`${ when(args.customStyle, () => html`<style>${args.customStyle}</style>\n`) }
+<bl-radio-group value=${args.value} class=${ifDefined(args.groupClass)}>
+  ${RadioTemplate(args)}
 </bl-radio-group>`
 
 # Radio Component
@@ -67,6 +64,17 @@ An option can be disabled and selected at the same time if value of `radio-group
 
 <Canvas>
   <Story name="Disabled and selected option" args={{ label: 'Cash Payment', value: 'cash', disabled: true }}>
+    {RadioGroupTemplate.bind({})}
+  </Story>
+</Canvas>
+
+By default radio options are centered vertically. You can change this by setting `--bl-radio-align-items` CSS variable to `flex-start` or `flex-end`.
+
+<Canvas>
+  <Story name="Option with large value" args={{ groupClass: 'limited-width', label: 'Very long option text that will not fit to a single line' }}>
+    {RadioGroupTemplate.bind({})}
+  </Story>
+  <Story name="Setting vertical alignment" args={{ groupClass: 'limited-width my-items', customStyle: '.my-items { --bl-radio-align-items: flex-start; }', label: 'Very long option text that will not fit to a single line' }}>
     {RadioGroupTemplate.bind({})}
   </Story>
 </Canvas>

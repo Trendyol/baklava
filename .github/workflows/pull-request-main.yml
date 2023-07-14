@@ -3,7 +3,7 @@ name: 'Verify and Preview'
 on:
   pull_request:
     branches:
-      - next
+      - main
 
 permissions:
   pull-requests: read

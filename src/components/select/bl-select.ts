@@ -309,13 +309,17 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       tabindex="${this.disabled ? '-1' : 0}"
       ?autofocus=${this.autofocus}
       @click=${this.togglePopover}
+      role="button"
+      aria-haspopup="listbox"
+      aria-expanded="${this.opened}"
+      aria-labelledby="label"
     >
       <legend><span>${this.label}</span></legend>
       <span class="placeholder">${this.placeholder}</span>
       ${inputSelectedOptions}
       <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
       <div class="actions">
-        ${this.multiple ? removeButton : null}
+        ${this.multiple || !this.required ? removeButton : null}
         <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
         <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
@@ -332,7 +336,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
     const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : '';
 
-    const label = this.label ? html`<label>${this.label}</label>` : '';
+    const label = this.label ? html`<label id="label">${this.label}</label>` : '';
 
     return html`<div
       class=${classMap({
@@ -349,6 +353,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         class="popover"
         tabindex="${ifDefined(this._isPopoverOpen ? undefined : '-1')}"
         @bl-select-option=${this._handleSelectOptionEvent}
+        role="listbox"
+        aria-multiselectable="${this.multiple}"
+        aria-labelledby="label"
       >
         <slot></slot>
       </div>

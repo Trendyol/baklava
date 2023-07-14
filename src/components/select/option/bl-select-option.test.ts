@@ -8,6 +8,30 @@ describe('bl-select', () => {
     assert.instanceOf(el, BlSelectOption);
   });
 
+  it('renders with default values', async () => {
+    const el = await fixture<BlSelectOption>(html`<bl-select-option></bl-select-option>`);
+
+    expect(el).shadowDom.equal(
+      `<div class="option-container">
+       <div class="focus-target single-option" role="option" aria-selected="false">
+        <slot>
+        </slot>
+       </div>
+      </div>
+      `
+    );
+  });
+
+  it('should have aria-selected attribute set to true if the option is selected', async function () {
+    const el = await fixture<BlSelectOption>(
+      html`<bl-select-option value="basketball" selected>Basketball</bl-select-option>`
+    );
+
+    const option = el.shadowRoot?.querySelector<HTMLButtonElement>('.focus-target');
+
+    expect(option).has.attribute('aria-selected', 'true');
+  });
+
   describe('keyboard navigation', () => {
     it('should get focus', async () => {
       //when

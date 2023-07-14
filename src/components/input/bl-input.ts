@@ -12,18 +12,22 @@ import '../icon/bl-icon';
 import '../button/bl-button';
 
 import style from './bl-input.css';
+import { BaklavaIcon } from '../icon/icon-list';
 
 export type InputSize = 'small' | 'medium' | 'large';
 /**
  * @tag bl-input
  * @summary Baklava Input component
+ *
+ * @cssproperty [--bl-input-padding-start] Sets the padding start
+ * @cssproperty [--bl-input-padding-end] Sets the padding end
  */
 @customElement('bl-input')
 export default class BlInput extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
-  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+  static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   static formControlValidators = innerInputValidators;
 
@@ -40,7 +44,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Type of the input. It's used to set `type` attribute of native input inside. Only `text`, `number` and `password` is supported for now.
    */
   @property({ reflect: true })
-  type: 'text' | 'password' | 'number' | 'tel' | 'url' = 'text';
+  type: 'text' | 'date' | 'password' | 'number' | 'tel' | 'url' = 'text';
 
   /**
    * Sets label of the input
@@ -79,16 +83,16 @@ export default class BlInput extends FormControlMixin(LitElement) {
   maxlength?: number;
 
   /**
-   * Sets the smallest number can be entered to a `number` input
+   * Sets the minimum acceptable value for the input
    */
-  @property({ type: Number, reflect: true })
-  min?: number;
+  @property({ reflect: true })
+  min?: number | string;
 
   /**
-   * Sets the biggest number can be entered to a `number` input
+   * Sets the maximum acceptable value for the input
    */
-  @property({ type: Number, reflect: true })
-  max?: number;
+  @property({ reflect: true })
+  max?: number | string;
 
   /**
    * Sets a regex pattern form the input validation
@@ -124,7 +128,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Sets the custom icon name. `bl-icon` component is used to show an icon
    */
   @property({ type: String, reflect: true })
-  icon?: string;
+  icon?: BaklavaIcon;
 
   /**
    * Sets input size.
@@ -137,6 +141,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
+
+  /**
+   * Makes the input readonly.
+   */
+  @property({ type: Boolean, reflect: true })
+  readonly = false;
 
   /**
    * Makes label as fixed positioned
@@ -183,7 +193,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
   connectedCallback(): void {
     super.connectedCallback();
     this.addEventListener('keydown', this.onKeydown);
-    this.addEventListener('invalid', this.onError);
 
     this.form?.addEventListener('submit', () => {
       this.reportValidity();
@@ -193,17 +202,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeEventListener('keydown', this.onKeydown);
-    this.removeEventListener('invalid', this.onError);
   }
 
   private onKeydown = (event: KeyboardEvent): void => {
     if (event.code === 'Enter' && this.form) {
       submit(this.form);
     }
-  };
-
-  private onError = (): void => {
-    this.onInvalid(this.internals.validity);
   };
 
   @state() private dirty = false;
@@ -215,13 +219,15 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   validityCallback(): string | void {
+    this.onInvalid(this.internals.validity);
     return this.customInvalidText || this.validationTarget?.validationMessage;
   }
 
   /**
    * Force to set input as in invalid state.
    */
-  forceCustomError() {
+  async forceCustomError() {
+    await this.updateComplete;
     this.validationTarget.setCustomValidity(this.customInvalidText || 'An error occurred');
     this.setValue(this.value);
     this.reportValidity();
@@ -230,7 +236,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Clear forced invalid state
    */
-  clearCustomError() {
+  async clearCustomError() {
+    await this.updateComplete;
     this.validationTarget.setCustomValidity('');
     this.setValue(this.value);
     this.reportValidity();
@@ -273,6 +280,10 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   private inputId = Math.random().toString(36).substring(2);
 
+  private get _hasIconSlot() {
+    return this.querySelector(':scope > [slot="icon"]') !== null;
+  }
+
   render(): TemplateResult {
     const invalidMessage = !this.checkValidity()
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
@@ -283,7 +294,15 @@ export default class BlInput extends FormControlMixin(LitElement) {
       ? html`<p id="helpText" class="help-text">${this.helpText}</p>`
       : ``;
 
-    const icon = this.icon ? html`<bl-icon class="custom-icon" name="${this.icon}"></bl-icon>` : '';
+    const icon = html`
+      <slot name="icon">
+        ${this.icon
+          ? html`<bl-icon name="${this.icon}"></bl-icon>`
+          : html`<bl-icon class="error-icon" name="alert"></bl-icon>`
+        }
+      </slot>
+    `;
+
     const label = this.label ? html`<label for=${this.inputId}>${this.label}</label>` : '';
     const passwordInput = this.type === 'password';
 
@@ -304,11 +323,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
         </bl-button>`
       : '';
 
+    const hasCustomIcon = this.icon || this._hasIconSlot;
     const classes = {
       'wrapper': true,
       'dirty': this.dirty,
       'invalid': !this.checkValidity(),
-      'has-icon': passwordInput || this.icon || (this.dirty && !this.checkValidity()),
+      'has-icon': passwordInput || hasCustomIcon || (this.dirty && !this.checkValidity()),
       'has-value': this.value !== null && this.value !== '',
     };
 
@@ -335,6 +355,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           step="${ifDefined(this.step)}"
           ?required=${this.required}
           ?disabled=${this.disabled}
+          ?readonly=${this.readonly}
           @change=${this.changeHandler}
           @input=${this.inputHandler}
           aria-invalid=${this.checkValidity() ? 'false' : 'true'}
@@ -343,7 +364,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
         />
         <div class="icon">
           ${revealButton} ${icon}
-          <bl-icon class="error-icon" name="alert"></bl-icon>
         </div>
       </fieldset>
       <div class="hint">${invalidMessage} ${helpMessage}</div>

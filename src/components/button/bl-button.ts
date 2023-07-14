@@ -6,6 +6,7 @@ import { submit } from '@open-wc/form-helpers';
 import { event, EventDispatcher } from '../../utilities/event';
 import style from './bl-button.css';
 import '../icon/bl-icon';
+import { BaklavaIcon } from '../icon/icon-list';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 export type ButtonKind = 'default' | 'neutral' | 'success' | 'danger';
@@ -78,7 +79,7 @@ export default class BlButton extends LitElement {
    * Sets the icon name. Shows icon with bl-icon component
    */
   @property({ type: String })
-  icon?: string;
+  icon?: BaklavaIcon;
 
   /**
    * Sets the anchor target. Used when `href` is set.
@@ -90,7 +91,7 @@ export default class BlButton extends LitElement {
    * Sets the type of the button. Set `submit` to use button as the submitter of parent form.
    */
   @property({ type: String })
-  type: 'submit' | null;
+  type: 'submit';
 
   /**
    * Sets button type to dropdown
@@ -103,6 +104,13 @@ export default class BlButton extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   autofocus = false;
+
+
+  /**
+   * Sets the associated form of the button. Use when `type` is set to `submit` and button is not inside the target form.
+   */
+  @property({ type: String })
+  form: HTMLFormElement | string;
 
   /**
    * Active state
@@ -122,11 +130,8 @@ export default class BlButton extends LitElement {
     return this.active;
   }
 
-  private form: HTMLFormElement | null;
-
   connectedCallback() {
     super.connectedCallback();
-    this.form = this.closest('form');
   }
 
   private caretTemplate(): TemplateResult {
@@ -135,8 +140,20 @@ export default class BlButton extends LitElement {
   }
 
   private _handleClick() {
-    if (this.type === 'submit' && this.form) {
-      submit(this.form);
+    if (this.type === 'submit') {
+      let targetForm: HTMLFormElement;
+
+      if (this.form instanceof HTMLFormElement) {
+        targetForm = this.form;
+      } else if (typeof this.form === 'string') {
+        targetForm = document.getElementById(this.form) as HTMLFormElement;
+      } else {
+        targetForm = this.closest('form') as HTMLFormElement;
+      }
+
+      if (targetForm) {
+        submit(targetForm);
+      }
     }
 
     this.onClick('Click event fired!');
