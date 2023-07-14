@@ -13,7 +13,7 @@ import style from './bl-tooltip.css';
  * @summary Baklava Tooltip component
  * @dependency bl-popover
  *
- * @property {string} placement - Sets the tooltip placement
+ * @cssproperty [--bl-tooltip-trigger-display=inline-flex] Set the display of the tooltip trigger.
  */
 @customElement('bl-tooltip')
 export default class BlTooltip extends LitElement {
