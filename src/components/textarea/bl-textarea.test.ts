@@ -15,17 +15,20 @@ describe('bl-textarea', () => {
       `
         <div class="wrapper" style="--row-count:4;">
           <label for="input">Label</label>
-          <div class="input-wrapper">
+          <fieldset class="input-wrapper">
+            <legend><span>Label</span></legend>
             <textarea
             id="input"
             name=""
             rows="4"
+            spellcheck="false"
             >
             </textarea>
-          </div>
+          </fieldset>
           <div class="hint"></div>
         </div>
-      `
+      `,
+      { ignoreAttributes: ['for', 'id'] }
     );
   });
 
@@ -79,15 +82,12 @@ describe('bl-textarea', () => {
 
   it('should expand when input text is longer than one row', async () => {
     const el = await fixture<BlTextarea>(
-      html`<bl-textarea value="some dummy text" expand rows="1"></bl-textarea>`
+      html`<bl-textarea
+        value="some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text"
+        expand
+        rows="1"
+      ></bl-textarea>`
     );
-    const textarea = el.shadowRoot?.querySelector('textarea');
-
-    await textarea?.focus();
-
-    await sendKeys({
-      type: 'some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text',
-    });
 
     const height = getComputedStyle(el.validationTarget).height;
 
@@ -96,7 +96,8 @@ describe('bl-textarea', () => {
 
   it('should have same heights if they have same max-rows', async () => {
     const longText = 'some dummy text some dummy text some dummy text some dummy text';
-    const longerText = 'some dummy text some dummy text some dummy text some dummy text' +
+    const longerText =
+      'some dummy text some dummy text some dummy text some dummy text' +
       ' some dummy text some dummy text some dummy text some dummy text' +
       'some dummy text some dummy text some dummy text some dummy text';
 

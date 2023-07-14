@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 
 <Meta
   title="Components/Progress Indicator"
@@ -43,7 +43,7 @@ export const FailedTemplate = (args) => html`
 
 export const WithMaxTemplate = (args) => html`
 <div>
-<p style='color: var(--bl-color-content-secondary); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'> Completed Tasks: <b style='color: var(--bl-color-success)'> 5/8 </b></p>${ProgressIndicatorTemplate({ max:'8', value: '5', ...args })}
+<p style='color: var(--bl-color-neutral-dark); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'> Completed Tasks: <b style='color: var(--bl-color-success)'> 5/8 </b></p>${ProgressIndicatorTemplate({ max:'8', value: '5', ...args })}
 </div>`;
 
 # Progress Indicator

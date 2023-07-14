@@ -6,7 +6,6 @@ import type BlRadioGroup from '../bl-radio-group';
 import { blChangeEventName, blRadioGroupTag } from '../bl-radio-group';
 import style from './bl-radio.css';
 
-
 export const blRadioTag = 'bl-radio';
 
 export const blCheckedEventName = 'bl-checked';
@@ -33,7 +32,6 @@ export default class BlRadio extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
-
   @state() private selected = false;
 
   /**
@@ -44,7 +42,7 @@ export default class BlRadio extends LitElement {
   /**
    * Fires when radio is blurred
    */
-   @event('bl-focus') private onFocus: EventDispatcher<string>;
+  @event('bl-focus') private onFocus: EventDispatcher<string>;
 
   /**
    * Fires when radio is blurred
@@ -80,7 +78,7 @@ export default class BlRadio extends LitElement {
   /**
    * Blurs from this option
    */
-   blur() {
+  blur() {
     this.radioElement.tabIndex = -1;
     this.onBlur(this.value);
   }
@@ -88,7 +86,7 @@ export default class BlRadio extends LitElement {
   private handleFieldValueChange = (event: CustomEvent<string>) => {
     const newValue = event.detail;
     this.selected = newValue === this.value;
-  }
+  };
 
   private field: BlRadioGroup | null;
 
@@ -112,7 +110,7 @@ export default class BlRadio extends LitElement {
   render(): TemplateResult {
     const classes = classMap({
       wrapper: true,
-      selected: this.selected
+      selected: this.selected,
     });
 
     return html`<div
@@ -122,7 +120,8 @@ export default class BlRadio extends LitElement {
       aria-disabled=${this.disabled}
       aria-readonly=${this.disabled}
       @blur=${this.blur}
-      @click=${this.select}>
+      @click=${this.select}
+    >
       <p id="label"><slot></slot></p>
     </div>`;
   }
@@ -133,6 +132,6 @@ declare global {
     [blRadioTag]: BlRadio;
   }
   interface HTMLElementEventMap {
-    [blCheckedEventName]: CustomEvent<string>
+    [blCheckedEventName]: CustomEvent<string>;
   }
 }

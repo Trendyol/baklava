@@ -6,15 +6,15 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    if: github.repository == 'Trendyol/baklava'
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Set Node env
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
@@ -23,4 +23,4 @@ jobs:
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
-          projectToken: 14b660c71183
+          projectToken: b94aebe774cc

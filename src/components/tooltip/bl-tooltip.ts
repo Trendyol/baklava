@@ -1,28 +1,17 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
-import { computePosition, flip, shift, offset, arrow, inline, autoUpdate } from '@floating-ui/dom';
-import { classMap } from 'lit/directives/class-map.js';
 import { ReferenceElement } from '@floating-ui/core';
-import style from './bl-tooltip.css';
+import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
+import { customElement, property, query } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { event, EventDispatcher } from '../../utilities/event';
-
-export type Placement =
-  | 'top-start'
-  | 'top'
-  | 'top-end'
-  | 'bottom-start'
-  | 'bottom'
-  | 'bottom-end'
-  | 'left-start'
-  | 'left'
-  | 'left-end'
-  | 'right-start'
-  | 'right'
-  | 'right-end';
+import '../popover/bl-popover';
+import type BlPopover from '../popover/bl-popover';
+import { Placement } from '../popover/bl-popover';
+import style from './bl-tooltip.css';
 
 /**
  * @tag bl-tooltip
  * @summary Baklava Tooltip component
+ * @dependency bl-popover
  *
  * @property {string} placement - Sets the tooltip placement
  */
@@ -32,17 +21,14 @@ export default class BlTooltip extends LitElement {
     return [style];
   }
 
-  @query('.tooltip') private tooltip: HTMLElement;
   @query('.trigger') private trigger: ReferenceElement;
-  @query('.arrow') private arrow: HTMLElement;
+  @query('bl-popover') private popover: BlPopover;
 
   /**
    * Sets placement of the tooltip
    */
   @property({ type: String })
   placement: Placement = 'top';
-
-  @state() private _visible = false;
 
   /**
    * Fires when hovering over a trigger
@@ -54,114 +40,54 @@ export default class BlTooltip extends LitElement {
    */
   @event('bl-tooltip-hide') private onHide: EventDispatcher<string>;
 
-  connectedCallback() {
-    super.connectedCallback();
-
-    this.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-
-    this.removeEventListener('keydown', this.handleKeyDown);
-
-    this.popoverAutoUpdateCleanup && this.popoverAutoUpdateCleanup();
-  }
-
-  private popoverAutoUpdateCleanup: () => void;
-
-  private setTooltip() {
-    this.popoverAutoUpdateCleanup = autoUpdate(this.trigger, this.tooltip, () => {
-      computePosition(this.trigger, this.tooltip, {
-        placement: this.placement,
-        strategy: 'fixed',
-        middleware: [
-          offset(8),
-          shift({ padding: 5 }),
-          flip(),
-          inline(),
-          arrow({ element: this.arrow, padding: 5 }),
-        ],
-      }).then(({ x, y, placement, middlewareData }) => {
-        Object.assign(this.tooltip.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-        });
-
-        if (middlewareData.arrow) {
-          const {x: arrowX, y: arrowY} = middlewareData.arrow;
-
-          Object.assign(this.arrow.style, {
-            left: arrowX != null ? `${arrowX}px` : '',
-            top: arrowY != null ? `${arrowY}px` : '',
-          });
-
-          const arrowFlipDirections = {
-            top: 'bottom',
-            right: 'left',
-            bottom: 'top',
-            left: 'right',
-          };
-          const tooltipPlacement = placement.split('-')[0] as keyof typeof arrowFlipDirections;
-          const arrowDirection = arrowFlipDirections[tooltipPlacement];
-
-          this.arrow.style.setProperty(arrowDirection, '-4px');
-        }
-      });
-    });
-  }
-
   /**
    * Shows tooltip
    */
   show() {
-    this._visible = true;
-    this.setTooltip();
-    this.onShow('Show event fired!');
+    this.popover.target = this.trigger;
+    this.popover.show();
+    this.onShow('');
   }
 
   /**
    * Hides tooltip
    */
   hide() {
-    this._visible = false;
-    this.onHide('Hide event fired!');
+    this.popover.hide();
+    this.onHide('');
   }
 
   /**
    * Gives the visibility status of the tooltip
    */
   get visible(): boolean {
-    return this._visible;
+    return this.popover.visible;
   }
 
-  private handleKeyDown(event: KeyboardEvent) {
-    if (this._visible && event.key === 'Escape') {
-      event.stopPropagation();
-      this.hide();
-    }
+  private triggerTemplate() {
+    return html`<slot
+      class="trigger"
+      name="tooltip-trigger"
+      aria-describedby="tooltip"
+      @focus=${{ handleEvent: () => this.show(), capture: true }}
+      @blur=${{ handleEvent: () => this.hide(), capture: true }}
+      @mouseover=${() => this.show()}
+      @mouseleave=${() => this.hide()}
+    >
+    </slot>`;
   }
 
   render(): TemplateResult {
-    const classes = classMap({
-      tooltip: true,
-      visible: this._visible,
-    });
-
-    return html`<slot
-        class="trigger"
-        name="tooltip-trigger"
-        aria-describedby="tooltip"
-        @focus=${{ handleEvent: () => this.show(), capture: true }}
-        @blur=${{ handleEvent: () => this.hide(), capture: true }}
-        @mouseover=${() => this.show()}
-        @mouseleave=${() => this.hide()}
+    return html`
+      ${this.triggerTemplate()}
+      <bl-popover
+        .target="${this.trigger}"
+        placement="${ifDefined(this.placement)}"
+        @bl-popover-hide="${() => this.onHide('')}"
       >
-      </slot>
-      <div class=${classes}>
-        <slot id="tooltip" role="tooltip" aria-live=${this._visible ? 'polite' : 'off'}></slot>
-        <div class="arrow" aria-hidden="true"></div>
-      </div>`;
+        <slot class="content" id="tooltip" role="tooltip"></slot>
+      </bl-popover>
+    `;
   }
 }
 

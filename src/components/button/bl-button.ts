@@ -16,8 +16,8 @@ export type TargetType = '_blank' | '_parent' | '_self' | '_top';
  * @tag bl-button
  * @summary Baklava Button component
  *
- * @cssproperty --bl-button-display - Sets the display property of button. Default value is 'inline-block'.
- * @cssproperty --bl-button-justify - Sets the justify-content property of button. Default value is 'center'.
+ * @cssproperty [--bl-button-display=inline-block] Sets the display property of button
+ * @cssproperty [--bl-button-justify=center] Sets the justify-content property of button
  *
  */
 @customElement('bl-button')
@@ -51,6 +51,18 @@ export default class BlButton extends LitElement {
   label: string;
 
   /**
+   * Sets the button label for loading status.
+   */
+  @property({ type: String, attribute: 'loading-label' })
+  loadingLabel: string;
+
+  /**
+   * Sets loading state of button
+   */
+  @property({ type: Boolean, reflect: true })
+  loading = false;
+
+  /**
    * Sets button as disabled
    */
   @property({ type: Boolean, reflect: true })
@@ -78,13 +90,26 @@ export default class BlButton extends LitElement {
    * Sets the type of the button. Set `submit` to use button as the submitter of parent form.
    */
   @property({ type: String })
-  type: 'submit' | null;
+  type: 'submit';
 
   /**
    * Sets button type to dropdown
    */
   @property({ type: Boolean })
   dropdown = false;
+
+  /**
+   * Sets button to get keyboard focus automatically
+   */
+  @property({ type: Boolean, reflect: true })
+  autofocus = false;
+
+
+  /**
+   * Sets the associated form of the button. Use when `type` is set to `submit` and button is not inside the target form.
+   */
+  @property({ type: String })
+  form: HTMLFormElement | string;
 
   /**
    * Active state
@@ -104,11 +129,8 @@ export default class BlButton extends LitElement {
     return this.active;
   }
 
-  private form: HTMLFormElement | null;
-
   connectedCallback() {
     super.connectedCallback();
-    this.form = this.closest('form');
   }
 
   private caretTemplate(): TemplateResult {
@@ -117,8 +139,20 @@ export default class BlButton extends LitElement {
   }
 
   private _handleClick() {
-    if (this.type === 'submit' && this.form) {
-      submit(this.form);
+    if (this.type === 'submit') {
+      let targetForm: HTMLFormElement;
+
+      if (this.form instanceof HTMLFormElement) {
+        targetForm = this.form;
+      } else if (typeof this.form === 'string') {
+        targetForm = document.getElementById(this.form) as HTMLFormElement;
+      } else {
+        targetForm = this.closest('form') as HTMLFormElement;
+      }
+
+      if (targetForm) {
+        submit(targetForm);
+      }
     }
 
     this.onClick('Click event fired!');
@@ -151,9 +185,14 @@ export default class BlButton extends LitElement {
   }
 
   render(): TemplateResult {
+    const isDisabled = this.loading || this.disabled;
+    const label = this.loading && this.loadingLabel ? this.loadingLabel : html`<slot></slot>`;
     const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
-    const slots = html`<slot name="icon">${icon}</slot> <span class="label"><slot></slot></span>`;
+    const loadingIcon = this.loading
+      ? html`<bl-icon class="loading-icon" name="loading"></bl-icon>`
+      : '';
+    const slots = html`<slot name="icon">${icon}</slot> <span class="label">${label}</span>`;
     const caret = this.dropdown ? this.caretTemplate() : '';
     const classes = classMap({
       'button': true,
@@ -165,21 +204,23 @@ export default class BlButton extends LitElement {
     return isAnchor
       ? html`<a
           class=${classes}
-          aria-disabled="${ifDefined(this.disabled)}"
+          ?autofocus=${this.autofocus}
+          aria-disabled="${ifDefined(isDisabled)}"
           aria-label="${ifDefined(this.label)}"
           href=${ifDefined(this.href)}
           target=${ifDefined(this.target)}
           role="button"
-          >${slots}
+          >${loadingIcon} ${slots}
         </a>`
       : html`<button
           class=${classes}
-          aria-disabled="${ifDefined(this.disabled)}"
+          ?autofocus=${this.autofocus}
+          aria-disabled="${ifDefined(isDisabled)}"
           aria-label="${ifDefined(this.label)}"
-          ?disabled=${this.disabled}
+          ?disabled=${isDisabled}
           @click="${this._handleClick}"
         >
-          ${slots} ${caret}
+          ${loadingIcon} ${slots} ${caret}
         </button>`;
   }
 }

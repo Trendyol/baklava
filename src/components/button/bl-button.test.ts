@@ -86,6 +86,20 @@ describe('bl-button', () => {
 
       expect(el.getAttribute('target')).to.eq('_self');
     });
+
+    it('is disabled button during loading state', async () => {
+      const el = await fixture<typeOfBlButton>(html`<bl-button loading>Test</bl-button>`);
+      expect(el.shadowRoot?.querySelector('.loading-icon')).to.exist;
+      expect(el).to.have.attribute('loading');
+      expect(el.shadowRoot?.querySelector('button')).to.have.attribute('disabled');
+
+      el.removeAttribute('loading');
+      await elementUpdated(el);
+
+      expect(el.shadowRoot?.querySelector('.loading-icon')).not.to.exist;
+      expect(el).not.have.attribute('loading');
+      expect(el.shadowRoot?.querySelector('button')).not.have.attribute('disabled');
+    });
   });
   describe('Slot', () => {
     it('renders default slot with element', async () => {
@@ -93,6 +107,14 @@ describe('bl-button', () => {
         html` <bl-button><strong>https://trendyol.com</strong></bl-button> `
       );
       expect(el.shadowRoot?.querySelector('button')).to.exist;
+    });
+
+    it('renders loading label when set and loading', async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button loading-label="Loading..." loading>Login</bl-button>`
+      );
+
+      expect(el.shadowRoot?.querySelector('.label')).to.have.text('Loading...');
     });
   });
   describe('Link button', () => {
@@ -144,9 +166,37 @@ describe('bl-button', () => {
       const form = await fixture<HTMLFormElement>(html`<form>
         <bl-button type="submit">button</bl-button>
       </form>`);
-      form.addEventListener('submit', (e) => e.preventDefault());
+      form.addEventListener('submit', e => e.preventDefault());
 
       const button = form.querySelector('bl-button')?.shadowRoot?.querySelector('button');
+
+      setTimeout(() => button?.click());
+      const ev = await oneEvent(form, 'submit');
+      expect(ev).to.exist;
+    });
+
+    it('should submit form that is specified in form attribute', async () => {
+      const el = await fixture(html`<div><form id="form"></form>
+        <bl-button form="form" type="submit">button</bl-button></div>`);
+      const form = el.querySelector('form') as HTMLFormElement;
+      form.addEventListener('submit', e => e.preventDefault());
+
+      const button = el.querySelector('bl-button')?.shadowRoot?.querySelector('button');
+
+      setTimeout(() => button?.click());
+      const ev = await oneEvent(form, 'submit');
+      expect(ev).to.exist;
+    });
+
+    it('should submit form that is specified in form property', async () => {
+      const el = await fixture(html`<div><form></form>
+        <bl-button type="submit">button</bl-button></div>`);
+      const form = el.querySelector('form') as HTMLFormElement;
+      form.addEventListener('submit', e => e.preventDefault());
+      const blButton = el.querySelector('bl-button') as typeOfBlButton;
+      blButton.form = form;
+
+      const button = el.querySelector('bl-button')?.shadowRoot?.querySelector('button');
 
       setTimeout(() => button?.click());
       const ev = await oneEvent(form, 'submit');

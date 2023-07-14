@@ -4,16 +4,10 @@ on:
   push:
     branches:
       - main
-      - next
-      - 1.0.x
 
 jobs:
   verify:
     uses: trendyol/baklava/.github/workflows/verify.yml@next
-    secrets: inherit
-  preview:
-    uses: trendyol/baklava/.github/workflows/publish-chromatic.yml@next
-    needs: verify
     secrets: inherit
   publish:
     uses: trendyol/baklava/.github/workflows/publish-storybook.yml@next

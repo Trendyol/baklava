@@ -14,7 +14,7 @@ export const blChangeEventName = 'bl-radio-change';
  * @tag bl-radio-group
  * @summary Baklava Button component
  *
- * @cssproperty --bl-radio-direction - Can be used for showing radio options as columns instead of rows. Options are `row` or `column`
+ * @cssproperty [--bl-radio-direction=row] Can be used for showing radio options as columns instead of rows. Options are `row` or `column`
  */
 @customElement(blRadioGroupTag)
 export default class BlRadioGroup extends FormControlMixin(LitElement) {
@@ -110,12 +110,8 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
   }
 
   render(): TemplateResult {
-    return html`<fieldset
-      role="radiogroup"
-      aria-labelledby="label"
-      aria-required=${this.required}
-    >
-      <legend>${this.label}</legend>
+    return html`<fieldset role="radiogroup" aria-labelledby="label" aria-required=${this.required}>
+      <legend id="label">${this.label}</legend>
       <div class="options" @bl-checked=${this.handleOptionChecked}>
         <slot></slot>
       </div>

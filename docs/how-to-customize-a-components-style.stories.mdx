@@ -1,18 +1,8 @@
-import { Meta, Description } from '@storybook/addon-docs';
+import { Meta } from '@storybook/blocks';
 import cssCustomPropertiesStorybookImage from './images/css-custom-properties-storybook.png'
 import cssCustomPropertiesComponentImage from './images/css-custom-properties-component.png'
 
-<Meta
-  title="Documentation/Customizing Components Style"
-  parameters={{
-    viewMode: 'docs',
-    previewTabs: {
-      canvas: {
-        hidden: true,
-      },
-    },
-  }}
-/>
+<Meta title="Documentation/Customizing Components Style" />
 
 # How to customize a component's style?
 > You can look at our [discussion](https://github.com/Trendyol/baklava/discussions/164) to know more about our decision process.
@@ -31,6 +21,7 @@ with prefixes in every component. Therefore, should be no prefixes in local vari
 However, if we want to add some flexibility, customizability, we define variables with components prefix like `--bl-badge-bg-color`.
 
 #### Example
+
 Let's take a badge component as an example:
 ```css
 /* bl-badge.css */
@@ -41,7 +32,7 @@ Let's take a badge component as an example:
 
 .badge {
     /* Variable definition start */
-  --bg-color: var(--bl-badge-bg-color, var(--bl-color-accent-primary-background));
+  --bg-color: var(--bl-badge-bg-color, var(--bl-color-primary-contrast));
   --color: var(--bl-badge-color, var(--bl-color-primary));
   --font: var(--bl-font-title-4-medium);
   --padding-vertical: var(--bl-size-3xs);
@@ -68,7 +59,7 @@ By the __nature__ of this component, we let users to change background color and
 we define a default variables `--bl-badge-bg-color` and `--bl-badge-color` and fill it with our default definitions like this:
 
 ```css
---bg-color: var(--bl-badge-bg-color, var(--bl-color-accent-primary-background));
+--bg-color: var(--bl-badge-bg-color, var(--bl-color-primary-contrast));
 --color: var(--bl-badge-color, var(--bl-color-primary));
 ```
 

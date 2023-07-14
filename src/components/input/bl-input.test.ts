@@ -11,9 +11,9 @@ describe('bl-input', () => {
     const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
     assert.shadowDom.equal(
       el,
-      `
-      <div class="wrapper">
-        <div class="input-wrapper">
+      `<div class="wrapper">
+        <fieldset class="input-wrapper">
+          <legend><span></span></legend>
           <input
             aria-invalid="false"
             id="input"
@@ -26,10 +26,10 @@ describe('bl-input', () => {
             >
             </bl-icon>
           </div>
-        </div>
+        </fieldset>
         <div class="hint"></div>
-      </div>
-    `
+      </div>`,
+      { ignoreAttributes: ['for', 'id'] }
     );
   });
 
@@ -141,6 +141,38 @@ describe('bl-input', () => {
       );
       expect(errorMessageElement).to.visible;
     });
+
+    it('should set custom error state with forceCustomError method', async () => {
+      const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
+
+      el.forceCustomError();
+
+      await elementUpdated(el);
+
+      expect(el.validity.valid).to.be.false;
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector('.invalid-text')
+      );
+      expect(errorMessageElement).to.visible;
+    });
+
+    it('should clear custom error state with clearCustomError method', async () => {
+      const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
+
+      el.forceCustomError();
+
+      await elementUpdated(el);
+
+      el.clearCustomError();
+
+      await elementUpdated(el);
+
+      expect(el.validity.valid).to.be.true;
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector('.invalid-text')
+      );
+      expect(errorMessageElement).to.not.exist;
+    });
   });
 
   describe('events', () => {
@@ -199,7 +231,7 @@ describe('bl-input', () => {
 
       form.addEventListener('submit', e => e.preventDefault());
 
-      form.dispatchEvent(new SubmitEvent('submit', {cancelable: true}));
+      form.dispatchEvent(new SubmitEvent('submit', { cancelable: true }));
 
       await elementUpdated(form);
 
@@ -233,7 +265,7 @@ describe('bl-input', () => {
 
       const enterEvent = new KeyboardEvent('keydown', {
         code: 'Enter',
-        cancelable: true
+        cancelable: true,
       });
 
       blInput?.dispatchEvent(enterEvent);

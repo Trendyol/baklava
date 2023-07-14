@@ -12,9 +12,7 @@ describe('bl-radio', () => {
 
   it('should be rendered with default values', async () => {
     //when
-    const el = await fixture<BlRadio>(
-      html`<bl-radio value="cc">Credit Card</bl-radio>`
-    );
+    const el = await fixture<BlRadio>(html`<bl-radio value="cc">Credit Card</bl-radio>`);
 
     //then
     expect(el).shadowDom.equal(

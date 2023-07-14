@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addon-docs';
+import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
 
 <Meta
   title="Components/Button"
@@ -22,6 +22,12 @@ import { Meta, Canvas, ArgsTable, Story, Preview, Source } from '@storybook/addo
       options: ['default', 'neutral', 'success', 'danger'],
       default: 'default',
       control: { type: 'select' }
+    },
+    loadingLabel: {
+      control: 'text'
+    },
+    loading: {
+      control: 'boolean'
     },
     disabled: {
       control: 'boolean'
@@ -57,7 +63,9 @@ export const SingleButtonTemplate = (args) => html`<bl-button
     size=${ifDefined(args.size)}
     icon="${ifDefined(args.icon)}"
     label="${ifDefined(args.label)}"
+    loading-label="${ifDefined(args.loadingLabel)}"
     ?disabled=${args.disabled}
+    ?loading=${args.loading}
     style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
       >${unsafeHTML(args.content)}</bl-button>`
 
@@ -76,6 +84,13 @@ export const SizesTemplate = (args) => html`
 ${SingleButtonTemplate({size: 'large', ...args})}
 ${SingleButtonTemplate({size: 'medium', ...args})}
 ${SingleButtonTemplate({size: 'small', ...args})}`
+
+export const LoadingStateTemplate = (args) => html`
+${SingleButtonTemplate({ size: 'large', loading: true, icon: "info", ...args})}
+${SingleButtonTemplate({ size: 'large', loading: true, loadingLabel: 'Custom Loading Label...', content: 'Login', icon: 'account', ...args})}
+${SingleButtonTemplate({ loading: true, disabled: true, content: 'Disabled' })}
+${SingleButtonTemplate({ size: 'small', loading: true, content: 'Create' })}
+`
 
 # Button
 
@@ -189,6 +204,18 @@ If button has a limited width and a long text that can not fit in a single line,
   </Story>
 </Canvas>
 
+## Loading Buttons
+
+Button can be set in loading state. In this state button becomes disabled with a loading indicator. You can set this state by setting `loading` attribute. Additionally, button icons are overridden by the spinner during the loading state.
+
+A custom loading text can be also set with `loading-label` attribute. It's suggested to use `loading-label` to inform the user about the process.
+
+<Canvas columns={1}>
+  <Story name="Loading State Button" parameters={{ chromatic: { diffThreshold: 0.2 } }}>
+    {LoadingStateTemplate.bind({})}
+  </Story>
+</Canvas>
+
 ## Disabled Buttons
 
 We have 2 types of disabled buttons: Disable version of Primary and Secondary buttons is the same.
@@ -230,10 +257,43 @@ ${SingleButtonHoverTemplate({kind: 'danger', content: 'Danger Button', ...args})
   </Story>
 </Canvas>
 
+## Using Button with Forms
 
+Button can be used as the submit button of an HTML form. To use it as a submit button, you need to set `type` attribute to `submit`.
 
+```html
+<form action="/form/message" method="POST">
+  <bl-textarea name="message" placeholder="Your message"></bl-textarea>
+  <bl-button type="submit">Send</bl-button>
+</form>
+```
 
+In the example above, button automatically finds its wrapping form and submits it when clicked (by triggering validations, if needed).
+If you need to put a button outside of a form, you can set `form` attribute to the id of the form.
 
+```html
+<form id="contactForm" action="/form/message" method="POST">
+  <bl-textarea name="message" placeholder="Your message"></bl-textarea>
+</form>
+
+<bl-button form="contactForm" type="submit">Send</bl-button>
+```
+
+You can also set `form` **property** with a reference to an HTMLFormElement with JS in case you need:
+
+```html
+<form id="contactForm" action="/form/message" method="POST">
+  <bl-textarea name="message" placeholder="Your message"></bl-textarea>
+</form>
+
+<bl-button type="submit">Send</bl-button>
+
+<script>
+  const contactForm = document.getElementById('contactForm');
+  const button = document.querySelector('bl-button');
+  button.form = contactForm;
+</script>
+```
 
 ## Reference
 

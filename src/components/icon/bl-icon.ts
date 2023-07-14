@@ -12,8 +12,8 @@ const requestMap = new Map<string, Promise<Response>>();
  * @tag bl-icon
  * @summary Baklava Icon component
  *
- * @cssproperty font-size - Setting size of icon. Default is current font size in DOM place
- * @cssproperty color - Setting color of icon. Default is `currentColor`
+ * @cssproperty [font-size] Setting size of icon. Default is current font size in DOM place
+ * @cssproperty [color=currentColor] Setting color of icon
  */
 @customElement('bl-icon')
 export default class BlIcon extends LitElement {

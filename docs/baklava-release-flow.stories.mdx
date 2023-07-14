@@ -1,16 +1,6 @@
-import { Meta } from '@storybook/addon-docs';
+import { Meta } from '@storybook/blocks';
 
-<Meta
-  title="Documentation/Release Flow"
-  parameters={{
-    viewMode: 'docs',
-    previewTabs: {
-      canvas: {
-        hidden: true,
-      },
-    },
-  }}
-/>
+<Meta title="Documentation/Release Flow" />
 
 # Baklava Release Flow
 
@@ -18,9 +8,8 @@ We use semantic-release library for making our version releases automatically. W
 
 | Branch | Release Channel | Notes |
 |--------|:---------------:|:-----:|
-| main   | `latest` | Every push to `main` branch makes a stable release. [^1] |
+| main   | `latest` | Every push to `main` branch makes a stable release. |
 | next   | `beta` | Every push to `next` branch triggers a beta release flow. |
-| 1.0.x  | `1.0.x` | This is the maintenance branch for 1.0 version. [^2] |
 
 When we have some commits that has `BREAKING CHANGE` strings in commit message, that push creates a `major` release in current channel. Backward incompatible changes should have breaking change commits. We'll
 try to avoid making breaking changes as much as possible, but when we need them, maintainers will make a release plan for them. So breaking changes will not directly merged to `next` or `main` branches. We'll
@@ -35,6 +24,3 @@ like [jsDelivr](https://www.jsdelivr.com), [Unpkg](https://unpkg.com) or [cdnjs]
 
 We are not pushing changes to `main` and `next` branches directly. `main` branch will only be updated by a PR from `next` branch that contains features/fixes that we are ready to release as stable release.
 And all of the changes for the current version will be done in PRs targeting `next` branch. PRs are not making any release
-
-[^1]: `main` branch will start publishing stable releases with Baklava's first stable release (v2.0)
-[^2]: Once we publish our first stable release (v2.0) current `main` branch that contains Grace will be contuniued to maintain in `1.0.x` branch for bugfixes. When we'll have next major release (v3.0) we'll have another maintenance branch for `v2.x`

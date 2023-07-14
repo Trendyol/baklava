@@ -1,12 +1,12 @@
 .tabs {
-  background-color: var(--bl-color-primary-background);
-  border-bottom: var(--bl-size-4xs) solid var(--bl-color-secondary-background);
+  background-color: var(--bl-color-neutral-full);
+  border-bottom: var(--bl-size-4xs) solid var(--bl-color-neutral-lightest);
   display: flex;
   flex-direction: row;
 }
 
 .tabs-list {
-  overflow-x: scroll;
+  overflow-x: auto;
   border-radius: var(--bl-border-radius-m) var(--bl-border-radius-m) 0 0;
 }
 

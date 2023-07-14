@@ -9,6 +9,7 @@ import { PropertyValues } from 'lit';
  * @tag bl-drawer
  * @summary Baklava Drawer component
  *
+ * @cssproperty [--bl-drawer-animation-duration=250ms] Drawer slide in animation duration
  */
 
 @customElement('bl-drawer')
@@ -93,7 +94,9 @@ export default class BlDrawer extends LitElement {
   }
 
   private renderContent() {
-    const content = this.embedUrl ? html`<iframe src=${this.embedUrl}></iframe>` : html`<slot></slot>`;
+    const content = this.embedUrl
+      ? html`<iframe src=${this.embedUrl}></iframe>`
+      : html`<slot></slot>`;
 
     return html`<section class=${this.embedUrl ? 'iframe-content' : 'content'}>
       ${content}

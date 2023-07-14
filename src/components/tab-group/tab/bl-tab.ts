@@ -1,11 +1,5 @@
-import {
-  CSSResultGroup,
-  html,
-  LitElement,
-  PropertyValues,
-  TemplateResult,
-} from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from 'lit';
+import { customElement, property, query } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../../utilities/event';
 
 import style from './bl-tab.css';
@@ -91,6 +85,9 @@ export default class BlTab extends LitElement {
    */
   @event('bl-tab-selected') private _onSelect: EventDispatcher<string>;
 
+  @query('.container')
+  private tab: HTMLButtonElement;
+
   /**
    * Set tab selected.
    */
@@ -98,7 +95,12 @@ export default class BlTab extends LitElement {
     this.selected = true;
   }
 
-  updated(changedProperties: PropertyValues<this>) {    
+  focus() {
+    this.tab.focus();
+  }
+
+  updated(changedProperties: PropertyValues<this>) {
+    this.tabIndex = this.selected ? 0 : -1;
     if (changedProperties.has('selected') && this.selected) {
       this._onSelect(this.name);
     }
@@ -142,6 +144,7 @@ export default class BlTab extends LitElement {
         role="tab"
         class="container"
         @click="${() => this.select()}"
+        aria-selected="${this.selected}"
       >
         <div class="title-container">
           <div class="title">${icon} ${title} ${badge}</div>

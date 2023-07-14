@@ -7,6 +7,9 @@ module.exports = {
       [
         'storybook',
         'design',
+        'react',
+        'deps',
+        'deps-dev',
         // Components as scopes listed below
         'button',
         'icon',
@@ -26,6 +29,7 @@ module.exports = {
         'dropdown',
         'switch',
         'textarea',
+        'popover',
       ],
     ],
   },

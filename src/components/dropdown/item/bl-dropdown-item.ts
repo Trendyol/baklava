@@ -35,6 +35,7 @@ export default class BlDropdownItem extends LitElement {
   @event('bl-dropdown-item-click') private onClick: EventDispatcher<string>;
 
   private _handleClick() {
+    this.BlDropdownField?.close();
     this.onClick('Action clicked!');
   }
 
@@ -43,7 +44,7 @@ export default class BlDropdownItem extends LitElement {
   /**
    * Focuses this action
    */
-   focus() {
+  focus() {
     this.menuElement.focus();
   }
 
@@ -57,7 +58,10 @@ export default class BlDropdownItem extends LitElement {
     this.BlDropdownField = this.closest<BlDropdown>(blDropdownTag);
 
     if (!this.BlDropdownField && !this.BlDropdownGroupField) {
-      console.warn(`bl-dropdown-item is designed to be used inside a ${blDropdownGroupTag} or ${blDropdownTag}`, this);
+      console.warn(
+        `bl-dropdown-item is designed to be used inside a ${blDropdownGroupTag} or ${blDropdownTag}`,
+        this
+      );
     }
   }
 

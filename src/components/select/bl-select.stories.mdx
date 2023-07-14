@@ -7,14 +7,17 @@ import {
   Story,
 } from '@storybook/addon-docs';
 import { userEvent } from '@storybook/testing-library';
+import { centeredLayout } from '../../utilities/chromatic-decorators';
 
 <Meta
   title="Components/Select/Select"
   component="bl-select"
   parameters={{
-    layout: 'centered',
     chromatic: { viewports: [1000] },
   }}
+  decorators={[
+    centeredLayout,
+  ]}
   argTypes={{
     label: {
       control: 'text'
@@ -40,8 +43,40 @@ import { userEvent } from '@storybook/testing-library';
     helpText: {
       control: 'text'
     },
+    value: {
+      control: 'text'
+    },
+    valueProp: {
+      control: 'multi-select',
+      options: defaultOptions.map((option) => option.value)
+    }
   }}
 />
+
+export const defaultOptions = [{
+  label: 'Turkiye',
+  value: 'tr'
+},{
+  label: 'The Netherlands',
+  value: 'nl'
+},{
+  label: 'Germany',
+  value: 'de'
+},{
+  label: 'United Kingdom',
+  value: 'uk'
+}]
+
+export const formSubmitter = async ({ canvasElement }) => {
+  const form = canvasElement?.querySelector('form');
+  form.addEventListener('submit', (e) => e.preventDefault());
+  const submitter = form.querySelector('bl-button[type=submit]');
+  if(submitter.shadowRoot) {
+    const innerButton = submitter.shadowRoot.querySelector('.button')
+    await userEvent.click(innerButton);
+  }
+}
+
 
 export const selectOpener = async ({ canvasElement }) => {
   const select = canvasElement?.querySelector('bl-select')
@@ -52,34 +87,28 @@ export const selectOpener = async ({ canvasElement }) => {
 }
 
 export const SelectTemplate = (args) => html`<bl-select
-    label='${ifDefined(args.label)}'
-    ?label-fixed='${args.labelFixed}'
-    ?multiple='${args.multiple}'
-    ?required='${args.required}'
-    ?disabled='${args.disabled}'
-    ?success='${args.success}'
-    size='${ifDefined(args.size)}'
-    help-text='${ifDefined(args.helpText)}'
-    invalid-text='${ifDefined(args.customInvalidText)}'
-    placeholder='${ifDefined(args.placeholder)}'>
-    <bl-select-option value="tr">Turkey</bl-select-option>
-    <bl-select-option value="nl">Netherlands</bl-select-option>
+    label=${ifDefined(args.label)}
+    ?label-fixed=${args.labelFixed}
+    ?multiple=${args.multiple}
+    ?required=${args.required}
+    ?disabled=${args.disabled}
+    ?success=${args.success}
+    size=${ifDefined(args.size)}
+    help-text=${ifDefined(args.helpText)}
+    invalid-text=${ifDefined(args.customInvalidText)}
+    placeholder=${ifDefined(args.placeholder)}
+    value=${ifDefined(args.value)}>${
+  (args.options || defaultOptions).map((option) => html`
+  <bl-select-option value=${ifDefined(option.value)} ?selected=${
+    ( args.selected || []).includes(option.value) }>${option.label}</bl-select-option>`
+  )}
 </bl-select>`
 
-export const SelectOptionsSelectedTemplate = (args) => html`<bl-select
-    label='${ifDefined(args.label)}'
-    ?label-fixed='${args.labelFixed}'
-    ?multiple='${args.multiple}'
-    ?required='${args.required}'
-    ?disabled='${args.disabled}'
-    ?success='${args.success}'
-    size='${ifDefined(args.size)}'
-    help-text='${ifDefined(args.helpText)}'
-    invalid-text='${ifDefined(args.customInvalidText)}'
-    placeholder='${ifDefined(args.placeholder)}'>
-    <bl-select-option value="tr">Turkey</bl-select-option>
-    <bl-select-option value="nl" selected>Netherlands</bl-select-option>
-</bl-select>`
+export const FormTemplate = (args) => html`<form class="stacked-form" novalidate>
+${SelectTemplate(args)}
+<bl-button type="submit">Submit</bl-button>
+</form>
+`
 
 # Select
 
@@ -92,11 +121,14 @@ Each option should be wrapped with `bl-select-option` component.
 ## Basic Usage
 
 <Canvas>
-  <Story name="Basic Usage" args={{ placeholder: "Choose country" }} play={selectOpener}>
+  <Story name="Basic Usage" args={{ placeholder: "Choose country", }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
-  <Story name="Select With Selected Option" args={{ placeholder: "Choose country"  }} play={selectOpener}>
-    {SelectOptionsSelectedTemplate.bind({})}
+  <Story name="Select with initial value" args={{ placeholder: "Choose country", value: 'tr' }} play={selectOpener}>
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story name="Select With Selected Option" args={{ placeholder: "Choose country", selected: ['nl']  }} play={selectOpener}>
+    {SelectTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -108,8 +140,25 @@ Selected options will be visible on input seperated by commas.
   <Story name="Multiple Select" args={{ placeholder: "Choose countries", multiple: true }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
-  <Story name="Multiple Select With Selected Options" args={{ placeholder: "Choose countries", multiple: true  }} play={selectOpener}>
-    {SelectOptionsSelectedTemplate.bind({})}
+  <Story name="Multiple Select initial selection" args={{ placeholder: "Choose countries", valueProp: ['nl'], multiple: true  }} play={selectOpener}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Clear Button
+
+The select component includes a clear button. For single select, the clear button is hidden when the `required` attribute is set.
+However, in multiple select, the clear button is always shown, irrespective of the `required` attribute.
+
+<Canvas>
+  <Story name="Select With Clear Button" args={{ placeholder: "Choose country", value: 'tr' }} play={selectOpener}>
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story name="Required Select Without Clear Button" args={{ placeholder: "Choose country", value: 'tr', required: true }} play={selectOpener}>
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story name="Required Multiple Select With Clear Button" args={{ placeholder: "Choose countries", value: ['nl'], multiple: true, required: true  }} play={selectOpener}>
+    {SelectTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -152,8 +201,132 @@ Select component can be disabled by using `disabled` attribute.
   <Story name="Disabled Select" args={{ placeholder: "Choose country", disabled: true }}>
     {SelectTemplate.bind({})}
   </Story>
-  <Story name="Disabled Select with Selected Option" args={{ placeholder: "Choose country", disabled: true }}>
-    {SelectOptionsSelectedTemplate.bind({})}
+  <Story name="Disabled Select with initial value" args={{ placeholder: "Choose country", value: 'nl', disabled: true }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## `bl-select` Event
+
+Select component fires `bl-select` event once selection changes. This event has a payload in the type of
+`CustomEvent<ISelectOption<ValueType>[]>` which `ValueType` is the generic comes from `BlSelect<ValueType = string>`.
+`ISelectOption` interface consists of:
+
+```ts
+interface ISelectOption<T> {
+  value: T;
+  text: string;
+  selected: boolean;
+}
+```
+
+So once you get a `bl-select` event, event object is a [`CustomEvent`](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)
+that always has an array of `ISelectOption` as `detail` property.
+
+
+## Using as form input
+
+Select component can be used inside HTML Forms. You can set `name` attribute to attach select value
+to form.
+
+```html
+<form method="get" action="/survey" novalidate>
+  <bl-select name="country" label="Country" help-text="Please select the country you live in" required>
+    <bl-select-option value="tr">Turkiye</bl-select-option>
+    <bl-select-option value="nl">The Netherlands</bl-select-option>
+  </bl-select>
+
+  <bl-button type="submit">Submit</bl-button>
+</form>
+```
+
+When you submit form above from value will be sent to the server as `?country=tr` values. If you use with `multiple`
+attributes, values will be sent as `?country=tr&country=nl` (as same as native select and checkbox inputs).
+
+## Using with complex values
+
+HTML form fields only handles string values (if we exclude file uploads). But Select component can work with complex
+values with the help of Javascript. Altough `value` attribute only accepts `string` format, `value` **property**
+accepts arbitrary types (Same applies to `bl-select-option`'s `value`). Check example below:
+
+```html
+<form action="/product-select" method="get" novalidate>
+  <bl-select id="productSelect" name="product" label="Products" multiple></bl-select>
+
+  <bl-button type="submit">Submit</bl-button>
+</form>
+
+<bl-button id="addProduct">Add Random Product</bl-button>
+
+<script>
+document.getElementById('addProduct').addEventListener('bl-click', () => {
+  const id = Math.floor(Math.random() * 1000);
+  const product = {
+    id,
+    name: `Product ${id}`,
+    price: `$${id}`,
+    toString() {
+      return this.id;
+    }
+  };
+
+  const option = document.createElement('bl-select-option');
+  option.value = product;
+  option.textContent = product.name;
+  document.getElementById('productSelect').appendChild(option);
+});
+
+document.getElementById('productSelect').addEventListener('bl-select', (e) => {
+  console.log(e.detail.value);
+});
+</script>
+```
+
+In example above, we add dynamic options to our product select. As you can see option values are
+full product objects that has multiple properties. When you make a selection, you'll notice that
+you get list selected of objects. If you submit this selection as an HTML form, since an object can
+not be used as a form value, `toString` method of the object will be used. In this example we return
+`id` property of the object in our `toString` method.
+
+As a more advanced usage with TypeScript, you can use generic types to set the type of BlSelect value.
+
+```ts
+interface IProduct {
+  id: number;
+  name: string;
+  price: number;
+}
+
+const option = document.createElement<BlSelectOption<IProduct>>('bl-select-option');
+option.value = product;
+
+...
+
+document.getElementById<BlSelect<IProduct>>('productSelect')
+  .addEventListener('bl-select', (e: CustomEvent<ISelectOption<IProduct>[]>) => {
+    console.log(e.detail[0].value); // Will be a product
+  })
+```
+
+## Select Validation
+
+Select component supports `required` rule to do validation.
+
+Select validation will run after user selects a value and go out from the input, or wrapping form submits.
+If there is a validation issue, select will be highlighted in error state. After this state every change
+will have immediate effect on input to update validation state.
+
+<Canvas>
+  <Story name="Validation with Select" args={{ label: 'Choose country', labelFixed: true, required: true }} play={formSubmitter}>
+    {FormTemplate.bind({})}
+  </Story>
+</Canvas>
+
+You can set an error message by setting `invalid-text` attribute.
+
+<Canvas>
+  <Story name="Custom Error Message" args={{ label: 'Choose country', labelFixed: true, required: true, customInvalidText: 'This field is mandatory' }} play={formSubmitter}>
+    {FormTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -163,26 +336,6 @@ You can give extra information to user with `help-text` attribute.
 
 <Canvas>
   <Story name="Select Help Text" args={{ helpText: 'You should select your country' }}>
-    {SelectTemplate.bind({})}
-  </Story>
-</Canvas>
-
-## Select Validation
-
-Select component supports only `required` rule just for now. Other validation rules will come soon.
-
-Select validation will run after user selects a value and go out from the input. If there is a validation issue, select will be highlighted in error state. After this state every change will have immediate effect on input to update validation state.
-
-<Canvas>
-  <Story name="Validation with Select" args={{ label: 'Choose country', required: true }}>
-    {SelectTemplate.bind({})}
-  </Story>
-</Canvas>
-
-You can set an error message by setting `invalid-text` attribute.
-
-<Canvas>
-  <Story name="Custom Error Message" args={{ label: 'Choose country', required: true, customInvalidText: 'This field is mandatory' }}>
     {SelectTemplate.bind({})}
   </Story>
 </Canvas>

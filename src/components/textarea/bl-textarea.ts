@@ -20,6 +20,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
+  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
 
   static formControlValidators = textAreaValidators;
 
@@ -29,13 +30,13 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   /**
    * Name of textarea
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   name = '';
 
   /**
    * Makes textarea a mandatory field
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   required = false;
 
   /**
@@ -77,50 +78,74 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   /**
    * Sets placeholder of the textarea
    */
-  @property({})
+  @property({ reflect: true })
   placeholder?: string;
 
   /**
    * Enables showing character counter.
    */
-  @property({ type: Boolean, attribute: 'character-counter' })
+  @property({ type: Boolean, attribute: 'character-counter', reflect: true })
   characterCounter = false;
 
   /**
    * Adds help text
    */
-  @property({ type: String, attribute: 'help-text' })
+  @property({ type: String, attribute: 'help-text', reflect: true })
   helpText?: string;
 
   /**
    * Set custom error message
    */
-  @property({ type: String, attribute: 'invalid-text' })
+  @property({ type: String, attribute: 'invalid-text', reflect: true })
   customInvalidText?: string;
 
   /**
    * Sets minimum length of the textarea
    */
-  @property({ type: Number })
+  @property({ type: Number, reflect: true })
   minlength?: number;
 
   /**
    * Sets max length of textarea
    */
-  @property({ type: Number })
+  @property({ type: Number, reflect: true })
   maxlength?: number;
 
   /**
    * Sets initial value of the textarea
    */
-  @property()
+  @property({ reflect: true })
   value = '';
 
   /**
    * Sets textarea visible row count.
    */
-  @property({ type: Number })
+  @property({ type: Number, reflect: true })
   rows?: number = 4;
+
+  /**
+   * Sets the input mode of the field for asking browser to show the desired keyboard.
+   */
+  @property({ type: String, reflect: true })
+  inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
+
+  /**
+   * Sets input to get keyboard focus automatically
+   */
+  @property({ type: Boolean, reflect: true })
+  autofocus = false;
+
+  /**
+   * Hints browser to autocomplete this field.
+   */
+  @property({ type: String, reflect: true })
+  autocomplete: string;
+
+  /**
+   * Enables/disables spellcheck feature inside the textarea
+   */
+  @property({ type: String, reflect: true, attribute: 'spellcheck' })
+  spellchecker: 'true' | 'false' = 'false';
 
   @event('bl-input') private onInput: EventDispatcher<string>;
 
@@ -130,6 +155,8 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
 
   @state()
   private customScrollHeight: string | null = null;
+
+  private inputId = Math.random().toString(36).substring(2);
 
   connectedCallback() {
     super.connectedCallback();
@@ -146,7 +173,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     this.autoResize();
 
     const value = (event.target as HTMLTextAreaElement).value;
-    this.setValue(value);
+    this.value = value;
     this.onInput(value);
   }
 
@@ -154,7 +181,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     const value = (event.target as HTMLTextAreaElement).value;
 
     this.dirty = true;
-    this.setValue(value);
+    this.value = value;
     this.onChange(value);
   }
 
@@ -163,9 +190,17 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     this.autoResize();
   }
 
-  protected updated(changedProperties: PropertyValues) {
+  protected async updated(changedProperties: PropertyValues) {
     if (changedProperties.has('rows')) {
       this.autoResize();
+    }
+
+    if (changedProperties.has('value')) {
+      this.setValue(this.value);
+
+      await this.validationComplete;
+
+      this.requestUpdate();
     }
   }
 
@@ -200,10 +235,9 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     const invalidMessage = !this.checkValidity()
       ? html`<p class="invalid-text">${this.validationMessage}</p>`
       : ``;
-    const helpMessage =
-      this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
+    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
 
-    const label = this.label ? html`<label for="input">${this.label}</label>` : '';
+    const label = this.label ? html`<label for="${this.inputId}">${this.label}</label>` : '';
     const characterCounterText =
       this.characterCounter && this.maxlength
         ? `${this.value.length}/${this.maxlength}`
@@ -231,22 +265,27 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     return html`
       <div style=${styleMap(styles)} class=${classMap(wrapperClasses)}>
         ${label}
-        <div class="input-wrapper">
+        <fieldset class="input-wrapper">
+          <legend><span>${this.label}</span></legend>
           <textarea
-            id="input"
+            id="${this.inputId}"
             name="${ifDefined(this.name)}"
             .value=${live(this.value)}
+            ?autofocus=${this.autofocus}
+            autocomplete="${ifDefined(this.autocomplete)}"
+            inputmode="${ifDefined(this.inputmode)}"
             placeholder="${ifDefined(this.placeholder)}"
             minlength="${ifDefined(this.minlength)}"
             rows="${ifDefined(this.rows)}"
             ?required=${this.required}
             ?disabled=${this.disabled}
+            spellcheck="${this.spellchecker}"
             @change=${this.changeHandler}
             @input=${this.inputHandler}
             @invalid=${this.onError}
           >
           </textarea>
-        </div>
+        </fieldset>
         <div class="hint">${invalidMessage}${helpMessage}${characterCounter}</div>
       </div>
     `;

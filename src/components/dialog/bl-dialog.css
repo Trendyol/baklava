@@ -1,7 +1,13 @@
+:host {
+  display: contents;
+}
+
 .container {
+  --background-color: var(--bl-color-neutral-full);
+
   display: flex;
   flex-direction: column;
-  background: var(--bl-color-primary-background);
+  background: var(--background-color);
   max-width: calc(100vw - var(--bl-size-4xl));
   max-height: calc(100vh - var(--bl-size-4xl));
   min-width: 424px;
@@ -19,14 +25,11 @@
 
 .dialog-polyfill .container {
   position: fixed;
+  z-index: var(--bl-index-dialog);
+}
 
-  /* FIXME: Use z-index variable */
-  z-index: 999; 
- }
- 
 .dialog::backdrop {
-  background: #273142;
-  opacity: 0.7;
+  background-color: #273142b3;
 }
 
 .dialog-polyfill {
@@ -38,15 +41,11 @@
   height: 100vh;
   align-items: center;
   justify-content: center;
+  z-index: var(--bl-index-dialog);
+  background-color: #273142b3;
+}
 
-  /* FIXME: Use css variables for alpha colors */
-  background: #273142b3;
-  
-  /* FIXME: Use z-index variable */
-  z-index: 999; 
- }
- 
- :host([open]) .dialog-polyfill {
+:host([open]) .dialog-polyfill {
   display: flex;
 }
 
@@ -64,7 +63,7 @@ header bl-button {
 
 header h2 {
   font: var(--bl-font-title-1-medium);
-  color: var(--bl-color-secondary);
+  color: var(--bl-color-neutral-darker);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -73,8 +72,12 @@ header h2 {
 }
 
 .content {
-  padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m) var(--bl-size-xl);
+  padding: var(--bl-size-xl);
   overflow: auto;
+}
+
+.container.has-footer .content {
+  padding-bottom: 0;
 }
 
 footer {
@@ -85,11 +88,12 @@ footer {
 }
 
 footer.shadow {
+  /* FIXME: Use variables for sizes */
   box-shadow: 0 -4px 15px #27314226;
 }
 
 @media only screen and (max-width: 471px) {
-   .container {
+  .container {
     max-width: calc(100vw - var(--bl-size-2xl));
     max-height: calc(100vh - var(--bl-size-2xl));
     min-width: auto;

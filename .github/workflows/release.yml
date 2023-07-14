@@ -17,7 +17,7 @@ jobs:
       - name: Set Node env
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - name: Install dependencies
         run: npm ci
       - name: Create env file with release config
@@ -32,7 +32,7 @@ jobs:
           name: build-output
           path: dist/
       - name: Publish
-        run: npx semantic-release@19
+        run: npx semantic-release@20
         env:
           NPM_TOKEN: ${{ secrets.TRENDYOL_JS_NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

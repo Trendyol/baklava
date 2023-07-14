@@ -4,7 +4,7 @@
 }
 
 .badge {
-  --bg-color: var(--bl-badge-bg-color, var(--bl-color-accent-primary-background));
+  --bg-color: var(--bl-badge-bg-color, var(--bl-color-primary-contrast));
   --color: var(--bl-badge-color, var(--bl-color-primary));
   --font: var(--bl-font-title-4-medium);
   --padding-vertical: var(--bl-size-4xs);
