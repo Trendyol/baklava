@@ -1,17 +1,25 @@
+:host {
+  display: contents;
+}
+
 .popover {
   --arrow-display: var(--bl-popover-arrow-display, none);
   --background-color: var(--bl-popover-background-color, var(--bl-color-neutral-full));
   --border-color: var(--bl-popover-border-color, var(--bl-color-primary-highlight));
+  --border-size: var(--bl-popover-border-size, 1px);
   --padding: var(--bl-popover-padding, var(--bl-size-m));
   --border-radius: var(--bl-popover-border-radius, var(--bl-size-3xs));
   --position: var(--bl-popover-position, fixed);
+  --max-width: var(--bl-popover-max-width, 100vw);
+  --max-viewport: calc(100vw - var(--bl-size-s));
 
   position: var(--position);
   box-sizing: border-box;
-  border: 1px solid var(--border-color);
+  border: var(--border-size) solid var(--border-color);
   padding: var(--padding);
   border-radius: var(--border-radius);
   z-index: var(--bl-index-popover);
+  max-width: min(var(--max-viewport), var(--max-width));
   width: max-content;
   hyphens: auto;
   background-color: var(--background-color);
@@ -25,15 +33,39 @@
 
 .arrow {
   --arrow-rotation: 45deg;
+  --size: var(--bl-size-2xs);
+  --arrow-position: calc((var(--size) / -2) - var(--border-size));
 
   box-sizing: border-box;
   display: var(--arrow-display);
   position: absolute;
   background-color: var(--background-color);
-  width: var(--bl-size-2xs);
-  height: var(--bl-size-2xs);
+  width: var(--size);
+  height: var(--size);
   transform: rotate(var(--arrow-rotation));
-  border: 1px solid var(--border-color);
+  border: var(--border-size) solid var(--border-color);
   border-bottom: none;
   border-right: none;
+}
+
+.popover[data-placement*="bottom"] .arrow {
+  top: var(--arrow-position);
+}
+
+.popover[data-placement*="top"] .arrow {
+  --arrow-rotation: 225deg;
+
+  bottom: var(--arrow-position);
+}
+
+.popover[data-placement*="left"] .arrow {
+  --arrow-rotation: 135deg;
+
+  right: var(--arrow-position);
+}
+
+.popover[data-placement*="right"] .arrow {
+  --arrow-rotation: 315deg;
+
+  left: var(--arrow-position);
 }

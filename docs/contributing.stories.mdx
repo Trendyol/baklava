@@ -1,16 +1,7 @@
-import { Meta, Description } from '@storybook/addon-docs';
-import Contributing from '../CONTRIBUTING.md';
+import { Meta, Markdown } from '@storybook/blocks';
+import Contributing from '../CONTRIBUTING.md?raw';
 
-<Meta
-  title="Documentation/Contributing Baklava/Contribution Guideline"
-  parameters={{
-    viewMode: 'docs',
-    previewTabs: {
-      canvas: {
-        hidden: true,
-      },
-    },
-  }}
-/>
+<Meta title="Documentation/Contributing Baklava/Contribution Guideline" />
 
-<Contributing />
+<Markdown>{Contributing}</Markdown>
+

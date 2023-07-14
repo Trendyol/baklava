@@ -1,4 +1,4 @@
-name: 'Verify and Release'
+name: 'Verify and Release Beta'
 
 on:
   push:
@@ -9,11 +9,10 @@ jobs:
   verify:
     uses: trendyol/baklava/.github/workflows/verify.yml@next
     secrets: inherit
-  preview:
-    uses: trendyol/baklava/.github/workflows/publish-chromatic.yml@next
-    needs: verify
-    secrets: inherit
   release:
     uses: trendyol/baklava/.github/workflows/release.yml@next
     needs: verify
     secrets: inherit
+  chromatic:
+    uses: trendyol/baklava/.github/workflows/publish-chromatic.yml@next
+    needs: verify

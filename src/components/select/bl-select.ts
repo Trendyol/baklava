@@ -19,7 +19,7 @@ import style from '../select/bl-select.css';
 import '../select/option/bl-select-option';
 import type BlSelectOption from './option/bl-select-option';
 
-export interface ISelectOption<T> {
+export interface ISelectOption<T = string> {
   value: T;
   text: string;
   selected: boolean;
@@ -315,7 +315,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       ${inputSelectedOptions}
       <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
       <div class="actions">
-        ${this.multiple ? removeButton : null}
+        ${this.multiple || !this.required ? removeButton : null}
         <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
         <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>

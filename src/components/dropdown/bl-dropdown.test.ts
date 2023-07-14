@@ -91,6 +91,32 @@ describe('bl-dropdown', () => {
     });
   });
 
+  it('should close dropdown when click dropdown item', async () => {
+    const el = await fixture<typeOfBlDropdown>(html`
+      <bl-dropdown>
+        <bl-dropdown-item>dropdown-item</bl-dropdown-item>
+      </bl-dropdown>
+    `);
+
+    const buttonHost = <BlButton>el.shadowRoot?.querySelector('bl-button');
+    const button = buttonHost.shadowRoot?.querySelector('.button') as HTMLElement | null;
+    const popover = <BlPopover>el.shadowRoot?.querySelector('bl-popover');
+
+    button?.click();
+    expect(el.opened).to.true;
+    expect(popover.visible).to.true;
+
+    const item = el
+      .querySelector('bl-dropdown-item')
+      ?.shadowRoot?.querySelector('bl-button') as HTMLElement | null;
+    item?.click();
+
+    setTimeout(() => {
+      expect(el.opened).to.false;
+      expect(popover.visible).to.false;
+    });
+  });
+
   it('should fire event when dropdown opened', async () => {
     const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown></bl-dropdown>`);
 

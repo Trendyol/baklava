@@ -1,8 +1,24 @@
-<p align="center"><img src="https://user-images.githubusercontent.com/127687/194415334-0dc8fbf2-3e87-44ed-b23a-0cc9da767b11.png" alt="Baklava Design System Logo" /></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/127687/233114483-c5b0a8e7-c072-4ced-a7b5-76bce1be4b21.svg" width="200" alt="Baklava Design System Logo" /></p>
 
 <h1 align="center">Baklava Design System</h1>
 
-[![npm package stable](https://img.shields.io/npm/v/@trendyol/baklava.svg)](https://www.npmjs.com/package/@trendyol/baklava) [![npm package beta](https://img.shields.io/npm/v/@trendyol/baklava/beta.svg)](https://www.npmjs.com/package/@trendyol/baklava/v/beta) [![License](https://img.shields.io/github/license/trendyol/baklava)](https://github.com/Trendyol/baklava/blob/next/LICENSE) [![jsDelivr hits (npm scoped)](https://img.shields.io/jsdelivr/npm/hm/@trendyol/baklava)](https://www.jsdelivr.com/package/npm/@trendyol/baklava) [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+<p align="center">
+  <a href="https://www.npmjs.com/package/@trendyol/baklava">
+    <img src="https://img.shields.io/npm/v/@trendyol/baklava.svg" alt="NPM Package Stable" />
+  </a>
+  <a href="https://www.npmjs.com/package/@trendyol/baklava/v/beta">
+    <img src="https://img.shields.io/npm/v/@trendyol/baklava/beta.svg" alt="NPM Package Beta" />
+  </a>
+  <a href="https://github.com/Trendyol/baklava/blob/next/LICENSE">
+    <img src="https://img.shields.io/github/license/trendyol/baklava" alt="License" />
+  </a>
+  <a href="https://www.jsdelivr.com/package/npm/@trendyol/baklava">
+    <img src="https://img.shields.io/jsdelivr/npm/hm/@trendyol/baklava" alt="jsDelivr hits" />
+  </a>
+  <a href="https://github.com/semantic-release/semantic-release">
+    <img src="https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release" alt="semantic-release: angular" />
+  </a>
+</p>
 
 Baklava is a design system provided by [Trendyol](https://github.com/trendyol) to create a consistent UI/UX for app users.
 
@@ -13,8 +29,8 @@ Web implementation of the design system is created as native web components so i
 Preferred way of using Baklava is using it via CDN. Just import library JS and CSS files to your main document like below:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.0.0/dist/themes/default.css" />
-<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.0.0/dist/baklava.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.1.0/dist/themes/default.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.1.0/dist/baklava.js"></script>
 ```
 
 This way library will be served from a very high performant CDN and all of the Baklava web components will be ready to use inside your web project.

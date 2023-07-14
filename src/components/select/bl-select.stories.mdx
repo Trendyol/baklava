@@ -7,14 +7,17 @@ import {
   Story,
 } from '@storybook/addon-docs';
 import { userEvent } from '@storybook/testing-library';
+import { centeredLayout } from '../../utilities/chromatic-decorators';
 
 <Meta
   title="Components/Select/Select"
   component="bl-select"
   parameters={{
-    layout: 'centered',
     chromatic: { viewports: [1000] },
   }}
+  decorators={[
+    centeredLayout,
+  ]}
   argTypes={{
     label: {
       control: 'text'
@@ -138,6 +141,23 @@ Selected options will be visible on input seperated by commas.
     {SelectTemplate.bind({})}
   </Story>
   <Story name="Multiple Select initial selection" args={{ placeholder: "Choose countries", valueProp: ['nl'], multiple: true  }} play={selectOpener}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Clear Button
+
+The select component includes a clear button. For single select, the clear button is hidden when the `required` attribute is set.
+However, in multiple select, the clear button is always shown, irrespective of the `required` attribute.
+
+<Canvas>
+  <Story name="Select With Clear Button" args={{ placeholder: "Choose country", value: 'tr' }} play={selectOpener}>
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story name="Required Select Without Clear Button" args={{ placeholder: "Choose country", value: 'tr', required: true }} play={selectOpener}>
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story name="Required Multiple Select With Clear Button" args={{ placeholder: "Choose countries", value: ['nl'], multiple: true, required: true  }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
 </Canvas>

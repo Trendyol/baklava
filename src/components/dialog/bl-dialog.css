@@ -1,3 +1,7 @@
+:host {
+  display: contents;
+}
+
 .container {
   --background-color: var(--bl-color-neutral-full);
 
@@ -68,8 +72,12 @@ header h2 {
 }
 
 .content {
-  padding: var(--bl-size-xl) var(--bl-size-xl) var(--bl-size-m) var(--bl-size-xl);
+  padding: var(--bl-size-xl);
   overflow: auto;
+}
+
+.container.has-footer .content {
+  padding-bottom: 0;
 }
 
 footer {

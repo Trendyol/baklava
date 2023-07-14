@@ -1,6 +1,11 @@
-const fs = require('fs-extra');
-const prettier = require('prettier');
-const { pascalCase } = require('pascal-case');
+import fs from 'fs-extra';
+import { format } from 'prettier';
+import { pascalCase } from 'pascal-case';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const importStatements = [
   'import React from "react";',
@@ -10,13 +15,16 @@ const importStatements = [
   'import { ISelectOption } from "./components/select/bl-select"',
 ];
 
+const exportStatements = [];
+
 function writeBaklavaReactFile(fileContentParts) {
   let fileContentText =
     `/* eslint-disable @typescript-eslint/ban-ts-comment */\n` +
     `// @ts-nocheck\n` +
     `${importStatements.join('\n')}\n\n` +
+    `${exportStatements.join('\n')}\n\n` +
     `${fileContentParts.join('\n\n')}\n`;
-  const codeResult = prettier.format(fileContentText, { parser: 'typescript' });
+  const codeResult = format(fileContentText, { parser: 'typescript' });
 
   fs.writeFileSync(`${__dirname}/../src/baklava-react.ts`, codeResult);
 }
@@ -29,7 +37,11 @@ function cleanGenericTypes(typeParameters, eventType) {
   let result = eventType;
 
   typeParameters?.forEach(param => {
-    result = result.replace(`<${param.name}>`, '');
+    // TODO: This is a very naive implementation, it should be improved
+    result = result
+      .replace(`<${param.name}>`, '')
+      .replace(`${param.name} | `, '')
+      .replace(` | ${param.name}`, '');
   });
 
   return result;
@@ -68,6 +80,7 @@ for (const module of customElementsModules) {
   const Type = componentName + 'Type';
 
   importStatements.push(`import type ${Type} from "./${importPath}";`);
+  exportStatements.push(`export declare type ${componentName} = ${Type}`);
 
   const componentDefinition =
     typeParam => `  customElements.whenDefined('${fileName}').then(() => ({
