@@ -12,6 +12,7 @@ import style from './bl-dropdown-item.css';
 import '../../button/bl-button';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import BlButton from '../../button/bl-button';
+import { BaklavaIcon } from '../../icon/icon-list';
 
 export const blDropdownItemTag = 'bl-dropdown-item';
 
@@ -30,7 +31,7 @@ export default class BlDropdownItem extends LitElement {
    */
 
   @property({ type: String })
-  icon?: string;
+  icon?: BaklavaIcon;
 
   @event('bl-dropdown-item-click') private onClick: EventDispatcher<string>;
 

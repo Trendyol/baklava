@@ -22,6 +22,10 @@ describe('bl-select', () => {
         <fieldset
           class="select-input"
           tabindex="0"
+          role="button"
+          aria-haspopup="listbox"
+          aria-labelledby="label"
+          aria-expanded="false"
         >
           <legend><span></span></legend>
           <span class="placeholder"></span>
@@ -42,7 +46,11 @@ describe('bl-select', () => {
           <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
           </div>
         </fieldset>
-        <div class="popover" tabindex="-1">
+        <div class="popover" tabindex="-1"
+          role="listbox"
+          aria-multiselectable="false"
+          aria-labelledby="label"
+        >
           <slot></slot>
         </div>
         <div class="hint"></div>

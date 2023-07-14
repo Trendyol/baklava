@@ -47,6 +47,32 @@ export const StyledTemplate = (args) => html`
 ${RadioGroupTemplate(args)}
 `
 
+export const AlignmentRadioGroupTemplate = (args) => html`
+<bl-radio-group
+    class='${ifDefined(args.class)}'
+    label='${ifDefined(args.label)}'
+    name='${ifDefined(args.name)}'
+    value='${ifDefined(args.value)}'
+    ?required=${args.required}
+    >${args.options.map((option) =>
+      html`\n  <bl-radio value=${option.value} class='${ifDefined(args.radioClass)}'>${option.label}</bl-radio>`
+    )}
+</bl-radio-group>`
+
+export const AlignmentsTemplate = (args) => html`
+<style>
+  .${args.class} {
+    --bl-radio-direction: row;
+    --bl-radio-group-cross-axis-item-alignment: center;
+    --bl-radio-group-main-axis-content-alignment: center;
+  }
+  .${args.radioClass} {
+    width: 200px;
+  }
+</style>
+${AlignmentRadioGroupTemplate(args)}
+`
+
 export const KeyboardNavigationTemplate = (args) => html`
 <input id="previnput" placeholder="Previous Input" autofocus>
 ${RadioGroupTemplate(args)}
@@ -91,6 +117,14 @@ By default radio options are listed in vertical stack. You can change this by se
 <Canvas>
   <Story name="Horizontal Stack" args={{ label: 'Payment Type', name: 'paymentType', value: 'ideal', class: 'payment-type-field', options: [{ value: 'cc', label: 'Credit Card'}, {value: 'ideal', label: 'iDeal'}] }}>
     {StyledTemplate.bind({})}
+  </Story>
+</Canvas>
+
+By default radio options acts as default flex layout. You can change this by setting `--bl-radio-group-cross-axis-item-alignment`, `--bl-radio-group-cross-axis-content-alignment` and `--bl-radio-group-main-axis-content-alignment` CSS variables.
+
+<Canvas>
+  <Story name="Aligning radio elements" args={{ label: 'Alignments', name: 'paymentType', value: 'ideal', class: 'alignment-field', radioClass:'alignment-item', options: [{ value: 'loremone', label: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum amet aperiam provident mollitia.'}, {value: 'loremtwo', label: 'Lorem, ipsum dolor.'}] }}>
+    {AlignmentsTemplate.bind({})}
   </Story>
 </Canvas>
 

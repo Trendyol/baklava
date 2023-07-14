@@ -15,6 +15,9 @@ export const blChangeEventName = 'bl-radio-change';
  * @summary Baklava Button component
  *
  * @cssproperty [--bl-radio-direction=row] Can be used for showing radio options as columns instead of rows. Options are `row` or `column`
+ * @cssproperty [--bl-radio-group-cross-axis-item-alignment=normal] Can be used for aligning radio items on cross axis. Acts same with align-item
+ * @cssproperty [--bl-radio-group-cross-axis-content-alignment=normal] Can be used for aligning radio group content on cross axis. Acts same with align-content
+ * @cssproperty [--bl-radio-group-main-axis-content-alignment=normal] Can be used for aligning radio group content on main axis. Acts same with justify-content
  */
 @customElement(blRadioGroupTag)
 export default class BlRadioGroup extends FormControlMixin(LitElement) {

@@ -105,7 +105,30 @@ export const SingleInputTemplate = (args) => html`<bl-input
     step='${ifDefined(args.step)}'
     icon='${ifDefined(args.icon)}'
     size='${ifDefined(args.size)}'
-  ></bl-input>`
+  >${args.slot?.()}</bl-input>`
+
+export const SingleInputTemplateWithSpinner = (args) => html`
+<style>
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+${SingleInputTemplate({
+  ...args,
+  slot: () => html`<bl-icon slot="icon" name="loading" class="spinner"></bl-icon>`,
+})}
+`
 
 export const SizeVariantsTemplate = args => html`
 ${SingleInputTemplate({ size: 'large', ...args })}
@@ -199,6 +222,19 @@ Input can have an icon. This icon is showed with `bl-icon` component internally 
   <Story name="Password Input With Icon"
          args={{ type: 'password', placeholder: 'Enter Password', required: true, icon: 'lock' }}>
     {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
+Input also supports slot icons for more complex use cases. You can use `icon` slot for this.
+
+<Canvas>
+  <Story name="Input With Slot Icon"
+         args={{ placeholder: 'Name', slot: () => html`<bl-icon slot="icon" name="flash"></bl-icon>` }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Input With Spinner"
+         args={{ placeholder: 'Name' }}>
+    {SingleInputTemplateWithSpinner.bind({})}
   </Story>
 </Canvas>
 

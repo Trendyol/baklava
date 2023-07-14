@@ -90,7 +90,7 @@
     "@storybook/testing-library": "^0.1.0",
     "@storybook/web-components": "7.0.18",
     "@storybook/web-components-vite": "^7.0.18",
-    "@types/estree": "0.0.47",
+    "@types/estree": "1.0.0",
     "@types/prettier": "^2.6.4",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",

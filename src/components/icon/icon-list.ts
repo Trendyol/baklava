@@ -1,4 +1,4 @@
-export default [
+const icons = [
   'academy',
   'account',
   'add_note',
@@ -202,4 +202,9 @@ export default [
   'youtube',
   'zoom_in',
   'zoom_out',
-];
+] as const;
+
+type BaklavaIcon = typeof icons[number];
+
+export type { BaklavaIcon }
+export default icons;
