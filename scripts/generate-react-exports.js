@@ -80,7 +80,7 @@ for (const module of customElementsModules) {
   const Type = componentName + 'Type';
 
   importStatements.push(`import type ${Type} from "./${importPath}";`);
-  exportStatements.push(`export declare type ${Type.replace('Type', '')} = ${Type}`);
+  exportStatements.push(`export declare type ${componentName} = ${Type}`);
 
   const componentDefinition =
     typeParam => `  customElements.whenDefined('${fileName}').then(() => ({
