@@ -16,7 +16,7 @@
 
 .option-container::after {
   position: absolute;
-  content: '';
+  content: "";
   width: 100%;
   bottom: 0;
   border-bottom: var(--option-separator);
@@ -40,7 +40,7 @@
 }
 
 .single-option:focus-visible::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: calc(var(--bl-size-3xs) * -1);
   border: var(--bl-size-4xs) solid var(--option-hover-color);

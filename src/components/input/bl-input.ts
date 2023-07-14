@@ -1,20 +1,19 @@
-import { CSSResultGroup, html, LitElement, TemplateResult, PropertyValues } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { FormControlMixin } from '@open-wc/form-control';
-import { submit } from '@open-wc/form-helpers';
-import { live } from 'lit/directives/live.js';
-import { event, EventDispatcher } from '../../utilities/event';
-import { innerInputValidators } from '../../utilities/form-control';
-import 'element-internals-polyfill';
-import '../icon/bl-icon';
-import '../button/bl-button';
+import { CSSResultGroup, html, LitElement, TemplateResult, PropertyValues } from "lit";
+import { customElement, property, query, state } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { live } from "lit/directives/live.js";
+import { FormControlMixin } from "@open-wc/form-control";
+import { submit } from "@open-wc/form-helpers";
+import "element-internals-polyfill";
+import { event, EventDispatcher } from "../../utilities/event";
+import { innerInputValidators } from "../../utilities/form-control";
+import "../button/bl-button";
+import "../icon/bl-icon";
+import { BaklavaIcon } from "../icon/icon-list";
+import style from "./bl-input.css";
 
-import style from './bl-input.css';
-import { BaklavaIcon } from '../icon/icon-list';
-
-export type InputSize = 'small' | 'medium' | 'large';
+export type InputSize = "small" | "medium" | "large";
 /**
  * @tag bl-input
  * @summary Baklava Input component
@@ -22,7 +21,7 @@ export type InputSize = 'small' | 'medium' | 'large';
  * @cssproperty [--bl-input-padding-start] Sets the padding start
  * @cssproperty [--bl-input-padding-end] Sets the padding end
  */
-@customElement('bl-input')
+@customElement("bl-input")
 export default class BlInput extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
@@ -31,7 +30,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   static formControlValidators = innerInputValidators;
 
-  @query('input')
+  @query("input")
   validationTarget: HTMLInputElement;
 
   /**
@@ -44,7 +43,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Type of the input. It's used to set `type` attribute of native input inside. Only `text`, `number` and `password` is supported for now.
    */
   @property({ reflect: true })
-  type: 'text' | 'date' | 'password' | 'number' | 'tel' | 'url' = 'text';
+  type: "text" | "date" | "password" | "number" | "tel" | "url" = "text";
 
   /**
    * Sets label of the input
@@ -62,7 +61,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Sets initial value of the input
    */
   @property({ reflect: true })
-  value = '';
+  value = "";
 
   /**
    * Makes input a mandatory field
@@ -116,7 +115,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Sets the input mode of the field for asking browser to show the desired keyboard.
    */
   @property({ type: String, reflect: true })
-  inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
+  inputmode: "none" | "text" | "decimal" | "numeric" | "tel" | "search" | "email" | "url";
 
   /**
    * Sets input to get keyboard focus automatically
@@ -134,7 +133,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Sets input size.
    */
   @property({ type: String, reflect: true })
-  size?: InputSize = 'medium';
+  size?: InputSize = "medium";
 
   /**
    * Disables the input
@@ -151,13 +150,13 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Makes label as fixed positioned
    */
-  @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
+  @property({ type: Boolean, attribute: "label-fixed", reflect: true })
   labelFixed = false;
 
   /**
    * Overrides error message. This message will override default error messages
    */
-  @property({ type: String, attribute: 'invalid-text', reflect: true })
+  @property({ type: String, attribute: "invalid-text", reflect: true })
   set customInvalidText(value: string) {
     this._customInvalidText = value;
     this.setValue(this.value);
@@ -172,40 +171,40 @@ export default class BlInput extends FormControlMixin(LitElement) {
   /**
    * Adds help text
    */
-  @property({ type: String, attribute: 'help-text', reflect: true })
+  @property({ type: String, attribute: "help-text", reflect: true })
   helpText?: string;
 
   /**
    * Fires when an alteration to the element's value is committed by the user. Unlike the input event, the change event is not necessarily fired for each alteration to an element's value.
    */
-  @event('bl-change') private onChange: EventDispatcher<string>;
+  @event("bl-change") private onChange: EventDispatcher<string>;
 
   /**
    * Fires when the value of an input element has been changed.
    */
-  @event('bl-input') private onInput: EventDispatcher<string>;
+  @event("bl-input") private onInput: EventDispatcher<string>;
 
   /**
    * Fires when the value of an input element has been changed.
    */
-  @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
+  @event("bl-invalid") private onInvalid: EventDispatcher<ValidityState>;
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.addEventListener('keydown', this.onKeydown);
+    this.addEventListener("keydown", this.onKeydown);
 
-    this.form?.addEventListener('submit', () => {
+    this.form?.addEventListener("submit", () => {
       this.reportValidity();
     });
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.removeEventListener('keydown', this.onKeydown);
+    this.removeEventListener("keydown", this.onKeydown);
   }
 
   private onKeydown = (event: KeyboardEvent): void => {
-    if (event.code === 'Enter' && this.form) {
+    if (event.code === "Enter" && this.form) {
       submit(this.form);
     }
   };
@@ -228,7 +227,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    */
   async forceCustomError() {
     await this.updateComplete;
-    this.validationTarget.setCustomValidity(this.customInvalidText || 'An error occurred');
+    this.validationTarget.setCustomValidity(this.customInvalidText || "An error occurred");
     this.setValue(this.value);
     this.reportValidity();
   }
@@ -238,7 +237,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    */
   async clearCustomError() {
     await this.updateComplete;
-    this.validationTarget.setCustomValidity('');
+    this.validationTarget.setCustomValidity("");
     this.setValue(this.value);
     this.reportValidity();
   }
@@ -269,7 +268,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   protected async updated(changedProperties: PropertyValues) {
-    if (changedProperties.has('value')) {
+    if (changedProperties.has("value")) {
       this.setValue(this.value);
 
       await this.validationComplete;
@@ -289,22 +288,21 @@ export default class BlInput extends FormControlMixin(LitElement) {
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
           ${this.validationMessage}
         </p>`
-      : ``;
+      : "";
     const helpMessage = this.helpText
       ? html`<p id="helpText" class="help-text">${this.helpText}</p>`
-      : ``;
+      : "";
 
     const icon = html`
       <slot name="icon">
         ${this.icon
           ? html`<bl-icon name="${this.icon}"></bl-icon>`
-          : html`<bl-icon class="error-icon" name="alert"></bl-icon>`
-        }
+          : html`<bl-icon class="error-icon" name="alert"></bl-icon>`}
       </slot>
     `;
 
-    const label = this.label ? html`<label for=${this.inputId}>${this.label}</label>` : '';
-    const passwordInput = this.type === 'password';
+    const label = this.label ? html`<label for=${this.inputId}>${this.label}</label>` : "";
+    const passwordInput = this.type === "password";
 
     const revealButton = passwordInput
       ? html`<bl-button
@@ -312,8 +310,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
           kind="neutral"
           variant="tertiary"
           class="${classMap({
-            'reveal-button': true,
-            'password-visible': this.passwordVisible,
+            "reveal-button": true,
+            "password-visible": this.passwordVisible,
           })}"
           aria-label="Toggle password reveal"
           @bl-click="${this.textVisibilityToggle}"
@@ -321,18 +319,18 @@ export default class BlInput extends FormControlMixin(LitElement) {
           <bl-icon class="reveal-icon" slot="icon" name="eye_on"></bl-icon>
           <bl-icon class="reveal-icon" slot="icon" name="eye_off"></bl-icon>
         </bl-button>`
-      : '';
+      : "";
 
     const hasCustomIcon = this.icon || this._hasIconSlot;
     const classes = {
-      'wrapper': true,
-      'dirty': this.dirty,
-      'invalid': !this.checkValidity(),
-      'has-icon': passwordInput || hasCustomIcon || (this.dirty && !this.checkValidity()),
-      'has-value': this.value !== null && this.value !== '',
+      "wrapper": true,
+      "dirty": this.dirty,
+      "invalid": !this.checkValidity(),
+      "has-icon": passwordInput || hasCustomIcon || (this.dirty && !this.checkValidity()),
+      "has-value": this.value !== null && this.value !== "",
     };
 
-    const passwordType = this.passwordVisible ? 'text' : 'password';
+    const passwordType = this.passwordVisible ? "text" : "password";
     const inputType = passwordInput ? passwordType : this.type;
 
     return html`<div class=${classMap(classes)}>
@@ -358,13 +356,11 @@ export default class BlInput extends FormControlMixin(LitElement) {
           ?readonly=${this.readonly}
           @change=${this.changeHandler}
           @input=${this.inputHandler}
-          aria-invalid=${this.checkValidity() ? 'false' : 'true'}
-          aria-describedby=${ifDefined(this.helpText ? 'helpText' : undefined)}
-          aria-errormessage=${ifDefined(this.checkValidity() ? undefined : 'errorMessage')}
+          aria-invalid=${this.checkValidity() ? "false" : "true"}
+          aria-describedby=${ifDefined(this.helpText ? "helpText" : undefined)}
+          aria-errormessage=${ifDefined(this.checkValidity() ? undefined : "errorMessage")}
         />
-        <div class="icon">
-          ${revealButton} ${icon}
-        </div>
+        <div class="icon">${revealButton} ${icon}</div>
       </fieldset>
       <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div>`;
@@ -373,6 +369,6 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-input': BlInput;
+    "bl-input": BlInput;
   }
 }

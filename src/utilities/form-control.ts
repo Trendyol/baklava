@@ -1,16 +1,16 @@
-import { maxLengthValidator } from '@open-wc/form-control';
+import { maxLengthValidator } from "@open-wc/form-control";
 
 const validityStates: Array<keyof ValidityState> = [
-  'valueMissing',
-  'typeMismatch',
-  'tooLong',
-  'tooShort',
-  'rangeUnderflow',
-  'rangeOverflow',
-  'stepMismatch',
-  'badInput',
-  'patternMismatch',
-  'customError',
+  "valueMissing",
+  "typeMismatch",
+  "tooLong",
+  "tooShort",
+  "rangeUnderflow",
+  "rangeOverflow",
+  "stepMismatch",
+  "badInput",
+  "patternMismatch",
+  "customError",
 ];
 
 export const innerInputValidators = validityStates.map(key => ({
@@ -26,8 +26,10 @@ export const innerInputValidators = validityStates.map(key => ({
 export const textareaLengthValidator = {
   ...maxLengthValidator,
   isValid(instance: HTMLElement & { validationTarget: HTMLTextAreaElement }) {
-    if (instance.validationTarget && instance.getAttribute('maxlength')) {
-      return Number(instance.getAttribute('maxlength')) >= instance.validationTarget.value.length;
+    if (instance.validationTarget && instance.getAttribute("maxlength")) {
+      return (
+        Number(instance.getAttribute("maxlength")) >= instance.validationTarget.value.length
+      );
     }
     return true;
   },

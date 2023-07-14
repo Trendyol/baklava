@@ -1,3 +1,7 @@
+import { CSSResultGroup, html, LitElement, PropertyValues } from "lit";
+import { customElement, property, query, queryAll, state } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import {
   autoUpdate,
   computePosition,
@@ -5,19 +9,15 @@ import {
   MiddlewareState,
   offset,
   size,
-} from '@floating-ui/dom';
-import { FormControlMixin, requiredValidator } from '@open-wc/form-control';
-import { FormValue } from '@open-wc/form-helpers';
-import 'element-internals-polyfill';
-import { CSSResultGroup, html, LitElement, PropertyValues } from 'lit';
-import { customElement, property, query, queryAll, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { event, EventDispatcher } from '../../utilities/event';
-import '../icon/bl-icon';
-import style from '../select/bl-select.css';
-import '../select/option/bl-select-option';
-import type BlSelectOption from './option/bl-select-option';
+} from "@floating-ui/dom";
+import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
+import { FormValue } from "@open-wc/form-helpers";
+import "element-internals-polyfill";
+import { event, EventDispatcher } from "../../utilities/event";
+import "../icon/bl-icon";
+import style from "../select/bl-select.css";
+import "../select/option/bl-select-option";
+import type BlSelectOption from "./option/bl-select-option";
 
 export interface ISelectOption<T = string> {
   value: T;
@@ -25,7 +25,7 @@ export interface ISelectOption<T = string> {
   selected: boolean;
 }
 
-export type SelectSize = 'medium' | 'large' | 'small';
+export type SelectSize = "medium" | "large" | "small";
 
 export type CleanUpFunction = () => void;
 
@@ -35,14 +35,14 @@ export type CleanUpFunction = () => void;
  *
  * @cssproperty [--bl-popover-position=fixed] Sets the positioning strategy of select popover. You can set it as `absolute` if you need to show popover relative to its trigger element.
  */
-@customElement('bl-select')
+@customElement("bl-select")
 export default class BlSelect<ValueType extends FormValue = string> extends FormControlMixin(
   LitElement
 ) {
   static get styles(): CSSResultGroup {
     return [style];
   }
-  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+  static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   static formControlValidators = [requiredValidator];
 
@@ -69,6 +69,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
     if (Array.isArray(val)) {
       const formData = new FormData();
+
       val.forEach(option => formData.append(this.name, `${option}`));
       this.setValue(formData);
     } else {
@@ -79,7 +80,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   shouldFormValueUpdate(): boolean {
-    return this.value !== null && this.value !== '';
+    return this.value !== null && this.value !== "";
   }
 
   /* Declare reactive properties */
@@ -99,7 +100,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
    * Sets the size value. Select component's height value will be changed accordingly
    */
   @property({ type: String, reflect: true })
-  size: SelectSize = 'medium';
+  size: SelectSize = "medium";
 
   /**
    * When option is not selected, shows component in error state
@@ -128,19 +129,19 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Makes label as fixed positioned
    */
-  @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
+  @property({ type: Boolean, attribute: "label-fixed", reflect: true })
   labelFixed = false;
 
   /**
    * Adds help text
    */
-  @property({ type: String, attribute: 'help-text' })
+  @property({ type: String, attribute: "help-text" })
   helpText?: string;
 
   /**
    * Set custom error message
    */
-  @property({ type: String, attribute: 'invalid-text' })
+  @property({ type: String, attribute: "invalid-text" })
   customInvalidText?: string;
 
   /* Declare internal reactive properties */
@@ -150,22 +151,22 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   @state()
   private _additionalSelectedOptionCount = 0;
 
-  @query('.selected-options')
+  @query(".selected-options")
   private selectedOptionsContainer!: HTMLElement;
 
-  @queryAll('.selected-options li')
+  @queryAll(".selected-options li")
   private selectedOptionsItems!: NodeListOf<HTMLElement>;
 
-  @query('.popover')
+  @query(".popover")
   private _popover: HTMLElement;
 
-  @query('.select-input')
+  @query(".select-input")
   private _selectInput: HTMLElement;
 
   /**
    * Fires when selection changes
    */
-  @event('bl-select') private _onBlSelect: EventDispatcher<ISelectOption<ValueType>[]>;
+  @event("bl-select") private _onBlSelect: EventDispatcher<ISelectOption<ValueType>[]>;
 
   private _connectedOptions: BlSelectOption<ValueType>[] = [];
 
@@ -208,7 +209,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     if (this.customInvalidText) {
       return this.customInvalidText;
     }
-    const select = document.createElement('select');
+    const select = document.createElement("select");
+
     select.required = this.required;
 
     return select.validationMessage;
@@ -223,28 +225,28 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     this.value = this._initialValue;
   }
 
-  @query('.select-input')
+  @query(".select-input")
   validationTarget: HTMLElement;
 
   open() {
     this._isPopoverOpen = true;
     this._setupPopover();
-    document.addEventListener('click', this._interactOutsideHandler, true);
-    document.addEventListener('focus', this._interactOutsideHandler, true);
+    document.addEventListener("click", this._interactOutsideHandler, true);
+    document.addEventListener("focus", this._interactOutsideHandler, true);
   }
 
   close() {
     this._isPopoverOpen = false;
     this.focusedOptionIndex = -1;
     this._cleanUpPopover && this._cleanUpPopover();
-    document.removeEventListener('click', this._interactOutsideHandler, true);
-    document.removeEventListener('focus', this._interactOutsideHandler, true);
+    document.removeEventListener("click", this._interactOutsideHandler, true);
+    document.removeEventListener("focus", this._interactOutsideHandler, true);
   }
 
   private _interactOutsideHandler = (event: MouseEvent | FocusEvent) => {
     const eventPath = event.composedPath() as HTMLElement[];
 
-    if (!eventPath?.find(el => el.tagName === 'BL-SELECT')?.contains(this)) {
+    if (!eventPath?.find(el => el.tagName === "BL-SELECT")?.contains(this)) {
       this.close();
     }
   };
@@ -252,8 +254,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _setupPopover() {
     this._cleanUpPopover = autoUpdate(this._selectInput, this._popover, () => {
       computePosition(this._selectInput, this._popover, {
-        placement: 'bottom',
-        strategy: 'fixed',
+        placement: "bottom",
+        strategy: "fixed",
         middleware: [
           flip(),
           offset(8),
@@ -266,8 +268,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           }),
         ],
       }).then(({ x, y }) => {
-        this._popover.style.setProperty('--left', `${x}px`);
-        this._popover.style.setProperty('--top', `${y}px`);
+        this._popover.style.setProperty("--left", `${x}px`);
+        this._popover.style.setProperty("--top", `${y}px`);
       });
     });
   }
@@ -275,7 +277,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.form?.addEventListener('submit', (e: SubmitEvent) => {
+    this.form?.addEventListener("submit", (e: SubmitEvent) => {
       if (!this.reportValidity()) {
         e.preventDefault();
       }
@@ -303,10 +305,10 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
     return html`<fieldset
       class=${classMap({
-        'select-input': true,
-        'has-overflowed-options': this._additionalSelectedOptionCount > 0,
+        "select-input": true,
+        "has-overflowed-options": this._additionalSelectedOptionCount > 0,
       })}
-      tabindex="${this.disabled ? '-1' : 0}"
+      tabindex="${this.disabled ? "-1" : 0}"
       ?autofocus=${this.autofocus}
       @click=${this.togglePopover}
       role="button"
@@ -332,26 +334,26 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
           ${this.validationMessage}
         </p>`
-      : '';
+      : "";
 
-    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : '';
+    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : "";
 
-    const label = this.label ? html`<label id="label">${this.label}</label>` : '';
+    const label = this.label ? html`<label id="label">${this.label}</label>` : "";
 
     return html`<div
       class=${classMap({
-        'select-wrapper': true,
-        'select-open': this.opened,
-        'selected': this._selectedOptions.length > 0,
-        'invalid': !this.validity.valid,
-        'dirty': this.dirty,
+        "select-wrapper": true,
+        "select-open": this.opened,
+        "selected": this._selectedOptions.length > 0,
+        "invalid": !this.validity.valid,
+        "dirty": this.dirty,
       })}
       @keydown=${this.handleKeydown}
     >
       ${label} ${this.inputTemplate()}
       <div
         class="popover"
-        tabindex="${ifDefined(this._isPopoverOpen ? undefined : '-1')}"
+        tabindex="${ifDefined(this._isPopoverOpen ? undefined : "-1")}"
         @bl-select-option=${this._handleSelectOptionEvent}
         role="listbox"
         aria-multiselectable="${this.multiple}"
@@ -366,18 +368,21 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private focusedOptionIndex = -1;
 
   private handleKeydown(event: KeyboardEvent) {
-    if (this.focusedOptionIndex === -1 && ['Enter', 'Space'].includes(event.code)) {
+    if (this.focusedOptionIndex === -1 && ["Enter", "Space"].includes(event.code)) {
       this.togglePopover();
       event.preventDefault();
-    } else if (this._isPopoverOpen === false && ['ArrowDown', 'ArrowUp'].includes(event.code)) {
+    } else if (
+      this._isPopoverOpen === false &&
+      ["ArrowDown", "ArrowUp"].includes(event.code)
+    ) {
       this.open();
       event.preventDefault();
-    } else if (event.code === 'Escape') {
+    } else if (event.code === "Escape") {
       this.close();
       event.preventDefault();
-    } else if (this._isPopoverOpen && ['ArrowDown', 'ArrowUp'].includes(event.code)) {
-      event.code === 'ArrowDown' && this.focusedOptionIndex++;
-      event.code === 'ArrowUp' && this.focusedOptionIndex--;
+    } else if (this._isPopoverOpen && ["ArrowDown", "ArrowUp"].includes(event.code)) {
+      event.code === "ArrowDown" && this.focusedOptionIndex++;
+      event.code === "ArrowUp" && this.focusedOptionIndex--;
 
       // Don't exceed array indexes
       this.focusedOptionIndex = Math.max(
@@ -425,6 +430,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   private _handleSelectOptionEvent(e: CustomEvent) {
     const optionItem = e.target as BlSelectOption<ValueType>;
+
     this.dirty = true;
 
     if (this.multiple) {
@@ -468,7 +474,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   protected firstUpdated(): void {
     if (this.value === undefined) {
-      this.value = '' as ValueType;
+      this.value = "" as ValueType;
     }
 
     this._initialValue = this._value;
@@ -476,8 +482,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   protected updated(_changedProperties: PropertyValues) {
     if (
-      _changedProperties.has('multiple') &&
-      typeof _changedProperties.get('multiple') === 'boolean'
+      _changedProperties.has("multiple") &&
+      typeof _changedProperties.get("multiple") === "boolean"
     ) {
       this.value = null;
     }
@@ -518,6 +524,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-select': BlSelect;
+    "bl-select": BlSelect;
   }
 }

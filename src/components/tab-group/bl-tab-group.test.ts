@@ -1,27 +1,29 @@
-import { fixture, html, fixtureCleanup, expect, nextFrame, elementUpdated } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
-import BlTabGroup from './bl-tab-group';
+import { fixture, html, fixtureCleanup, expect, nextFrame, elementUpdated } from "@open-wc/testing";
+import { sendKeys } from "@web/test-runner-commands";
+import BlTabGroup from "./bl-tab-group";
 
 const createTab = () => {
   const tabName = Date.now().toString();
-  const tab = document.createElement('bl-tab');
-  tab.slot = 'tabs';
+  const tab = document.createElement("bl-tab");
+
+  tab.slot = "tabs";
   tab.name = tabName;
-  tab.title = 'Add Player';
+  tab.title = "Add Player";
 
   return tab;
 };
 
-describe('bl-tab-group', function () {
+describe("bl-tab-group", function () {
   afterEach(() => {
     fixtureCleanup();
   });
-  it('should defined', async () => {
-    const el = document.createElement('bl-tab-group');
+  it("should defined", async () => {
+    const el = document.createElement("bl-tab-group");
+
     expect(el).to.be.instanceof(BlTabGroup);
   });
 
-  it('render with default values', async function () {
+  it("render with default values", async function () {
     const expected = `
       <div class="container">
          <div role="tablist" class="tabs-list">
@@ -35,10 +37,11 @@ describe('bl-tab-group', function () {
       </div>
     `;
     const el = await fixture<BlTabGroup>(html` <bl-tab-group></bl-tab-group>`);
+
     expect(el).to.be.shadowDom.equal(expected);
   });
 
-  it('should render panels', async function () {
+  it("should render panels", async function () {
     const el = await fixture<BlTabGroup>(
       html` <bl-tab-group>
         <bl-tab name="test" slot="tabs">Test Tab</bl-tab>
@@ -49,29 +52,30 @@ describe('bl-tab-group', function () {
     expect(el.tabs.length).to.be.equal(1);
   });
 
-  it('should select correct tab if has selected attr', async function () {
+  it("should select correct tab if has selected attr", async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
       <bl-tab name="test-2" slot="tabs" selected>Test 2 Tab</bl-tab>
       <bl-tab-panel tab="test-1"></bl-tab-panel>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
-    const selectedPanel = el.panels.find(p => p.tab === 'test-2');
+    const selectedPanel = el.panels.find(p => p.tab === "test-2");
 
-    expect(el.selectedTabName).to.be.equal('test-2');
+    expect(el.selectedTabName).to.be.equal("test-2");
     expect(selectedPanel?.hidden).to.be.false;
   });
 
-  it('should handle bl-tab-selected event', async function () {
+  it("should handle bl-tab-selected event", async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
       <bl-tab name="test-2" slot="tabs" selected>Test 2 Tab</bl-tab>
       <bl-tab-panel tab="test-1"></bl-tab-panel>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
+
     el.tabs[0].select();
     await el.updateComplete;
-    expect(el.selectedTabName).to.be.equal('test-1');
+    expect(el.selectedTabName).to.be.equal("test-1");
     expect(el.tabs[0].selected).to.be.true;
     expect(el.tabs[1].selected).to.be.false;
     expect(el.panels.find(p => p.tab === el.tabs[0].name)?.hidden).to.be.false;
@@ -79,16 +83,18 @@ describe('bl-tab-group', function () {
   });
 });
 
-describe('should selected tab functionality works when add or remove tabs ', function () {
-  it('should new tab selected', async function () {
+describe("should selected tab functionality works when add or remove tabs ", function () {
+  it("should new tab selected", async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
+
     expect(el.tabs[0].selected).to.be.true;
 
     // add new tab with selected flag
     const tab = createTab();
+
     tab.selected = true;
     el.appendChild(tab);
 
@@ -99,15 +105,17 @@ describe('should selected tab functionality works when add or remove tabs ', fun
     expect(el.tabs[1].selected).to.be.true;
   });
 
-  it('add a tab with disabled flag', async function () {
+  it("add a tab with disabled flag", async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
+
     expect(el.tabs[0].selected).to.be.true;
 
     // add new tab with disabled flag
     const tab = createTab();
+
     tab.disabled = true;
     el.appendChild(tab);
 
@@ -118,15 +126,17 @@ describe('should selected tab functionality works when add or remove tabs ', fun
     expect(el.tabs[1].selected).to.be.false;
   });
 
-  it('first tab is disabled', async function () {
+  it("first tab is disabled", async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs" disabled>Test 1 Tab</bl-tab>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
+
     expect(el.tabs[0].selected).to.be.false;
 
     // add new tab
     const tab = createTab();
+
     el.appendChild(tab);
 
     await nextFrame();
@@ -136,16 +146,18 @@ describe('should selected tab functionality works when add or remove tabs ', fun
     expect(el.tabs[1].selected).to.be.true;
   });
 
-  it('added two tabs that first is disabled and second is selected', async function () {
+  it("added two tabs that first is disabled and second is selected", async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs" disabled>Test 1 Tab</bl-tab>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
     </bl-tab-group>`);
+
     expect(el.tabs[0].selected).to.be.false;
 
     // add new tabs
     const disabledTab = createTab();
     const selectedTab = createTab();
+
     disabledTab.disabled = true;
     selectedTab.selected = true;
     el.appendChild(disabledTab);
@@ -158,7 +170,7 @@ describe('should selected tab functionality works when add or remove tabs ', fun
     expect(el.tabs[2].selected).to.be.true;
   });
 
-  it('add a disabled and selected tab then remove selected tab', async function () {
+  it("add a disabled and selected tab then remove selected tab", async function () {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
       <bl-tab-panel tab="test-2"></bl-tab-panel>
@@ -167,6 +179,7 @@ describe('should selected tab functionality works when add or remove tabs ', fun
     // add new tabs
     const disabledTab = createTab();
     const selectedTab = createTab();
+
     disabledTab.disabled = true;
     selectedTab.selected = true;
     el.appendChild(disabledTab);
@@ -189,8 +202,8 @@ describe('should selected tab functionality works when add or remove tabs ', fun
   });
 });
 
-describe('accessibility', () => {
-  it('should change the tab when the right arrow key followed by enter key is used', async () => {
+describe("accessibility", () => {
+  it("should change the tab when the right arrow key followed by enter key is used", async () => {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs">Test 1 Tab</bl-tab>
       <bl-tab name="test-2" slot="tabs">Test 2 Tab</bl-tab>
@@ -203,20 +216,20 @@ describe('accessibility', () => {
     await elementUpdated(el);
 
     await sendKeys({
-      press: 'Tab',
+      press: "Tab",
     });
     await sendKeys({
-      press: 'ArrowRight',
+      press: "ArrowRight",
     });
     await sendKeys({
-      press: 'Enter',
+      press: "Enter",
     });
 
     expect(el.tabs[0].selected).to.be.true;
     expect(el.tabs[2].selected).to.be.false;
   });
 
-  it('should change the tab when the left arrow key followed by enter key is used', async () => {
+  it("should change the tab when the left arrow key followed by enter key is used", async () => {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs" selected>Test 1 Tab</bl-tab>
       <bl-tab name="test-2" slot="tabs">Test 2 Tab</bl-tab>
@@ -229,20 +242,20 @@ describe('accessibility', () => {
     await elementUpdated(el);
 
     await sendKeys({
-      press: 'Tab',
+      press: "Tab",
     });
     await sendKeys({
-      press: 'ArrowLeft',
+      press: "ArrowLeft",
     });
     await sendKeys({
-      press: 'Enter',
+      press: "Enter",
     });
 
     expect(el.tabs[0].selected).to.be.false;
     expect(el.tabs[2].selected).to.be.true;
   });
 
-  it('should skip the disabled tabs when the arrow keys are used', async () => {
+  it("should skip the disabled tabs when the arrow keys are used", async () => {
     const el = await fixture<BlTabGroup>(html` <bl-tab-group>
       <bl-tab name="test-1" slot="tabs" selected>Test 1 Tab</bl-tab>
       <bl-tab name="test-2" slot="tabs" disabled>Test 2 Tab</bl-tab>
@@ -255,13 +268,13 @@ describe('accessibility', () => {
     await elementUpdated(el);
 
     await sendKeys({
-      press: 'Tab',
+      press: "Tab",
     });
     await sendKeys({
-      press: 'ArrowRight',
+      press: "ArrowRight",
     });
     await sendKeys({
-      press: 'Enter',
+      press: "Enter",
     });
 
     expect(el.tabs[0].selected).to.be.false;

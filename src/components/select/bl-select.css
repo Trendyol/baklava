@@ -13,7 +13,7 @@
   --padding-horizontal: var(--bl-size-xs);
   --label-padding: var(--bl-size-3xs);
   --border-size: 1px;
-  --background-color:  var(--bl-color-neutral-full);
+  --background-color: var(--bl-color-neutral-full);
   --border-color: var(--bl-color-neutral-lighter);
   --border-focus-color: var(--bl-color-primary-highlight);
   --icon-color: var(--bl-color-neutral-light);
@@ -29,13 +29,13 @@
   --popover-position: var(--bl-popover-position, fixed);
 }
 
-:host([size='large']) .select-wrapper {
+:host([size="large"]) .select-wrapper {
   --height: var(--bl-size-3xl);
   --padding-vertical: var(--bl-size-xs);
   --padding-horizontal: var(--bl-size-m);
 }
 
-:host([size='small']) .select-wrapper {
+:host([size="small"]) .select-wrapper {
   --height: var(--bl-size-xl);
   --padding-vertical: var(--bl-size-3xs);
   --padding-horizontal: var(--bl-size-xs);
@@ -93,7 +93,7 @@
 }
 
 .remove-all::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 1.5rem;
   bottom: 4px;
@@ -167,15 +167,14 @@
 }
 
 .selected-options li:not(:last-child)::after {
-  content: ', ';
+  content: ", ";
 }
 
 .select-input:not(.has-overflowed-options) .additional-selection-count {
   display: none;
 }
 
-:host([disabled]) .selected-options li
-{
+:host([disabled]) .selected-options li {
   color: var(--bl-color-neutral-light);
 }
 
@@ -262,13 +261,11 @@ legend span {
   right: var(--padding-horizontal);
 }
 
-
 :host([label]) :where(.select-open, .selected) legend {
   max-width: 100%;
   font: var(--bl-font-caption);
   display: block;
 }
-
 
 :host([label-fixed]) label {
   position: static;

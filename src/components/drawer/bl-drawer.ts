@@ -1,9 +1,9 @@
-import { customElement, property, state } from 'lit/decorators.js';
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { event, EventDispatcher } from '../../utilities/event';
-import '../button/bl-button';
-import style from './bl-drawer.css';
-import { PropertyValues } from 'lit';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { PropertyValues } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
+import { event, EventDispatcher } from "../../utilities/event";
+import "../button/bl-button";
+import style from "./bl-drawer.css";
 
 /**
  * @tag bl-drawer
@@ -12,7 +12,7 @@ import { PropertyValues } from 'lit';
  * @cssproperty [--bl-drawer-animation-duration=250ms] Drawer slide in animation duration
  */
 
-@customElement('bl-drawer')
+@customElement("bl-drawer")
 export default class BlDrawer extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
@@ -33,34 +33,34 @@ export default class BlDrawer extends LitElement {
   /**
    *  Sets the drawer embed url for iframe
    */
-  @property({ type: String, attribute: 'embed-url' })
+  @property({ type: String, attribute: "embed-url" })
   embedUrl?: string;
 
   /**
    *  Sets the drawer external link
    */
-  @property({ type: String, attribute: 'external-link' })
+  @property({ type: String, attribute: "external-link" })
   externalLink?: string;
 
   /**
    * Fires when the drawer is opened
    */
-  @event('bl-drawer-open') private onOpen: EventDispatcher<string>;
+  @event("bl-drawer-open") private onOpen: EventDispatcher<string>;
 
   /**
    * Fires when the drawer is closed
    */
-  @event('bl-drawer-close') private onClose: EventDispatcher<string>;
+  @event("bl-drawer-close") private onClose: EventDispatcher<string>;
 
   connectedCallback() {
     super.connectedCallback();
-    window?.addEventListener('bl-drawer-open', event => {
+    window?.addEventListener("bl-drawer-open", event => {
       if (event.target !== this) this.closeDrawer();
     });
   }
 
   updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('open')) {
+    if (changedProperties.has("open")) {
       this.toggleDialogHandler();
     }
   }
@@ -75,7 +75,7 @@ export default class BlDrawer extends LitElement {
 
       this.domExistence = true;
       // FIXME: Allow events without payload
-      this.onOpen('');
+      this.onOpen("");
     } else {
       // Give some time for exit animation
       this.domExistenceSchedule = window.setTimeout(() => {
@@ -83,7 +83,7 @@ export default class BlDrawer extends LitElement {
       }, 1000);
 
       // FIXME: Allow events without payload
-      this.onClose('');
+      this.onClose("");
     }
   }
 
@@ -98,13 +98,13 @@ export default class BlDrawer extends LitElement {
       ? html`<iframe src=${this.embedUrl}></iframe>`
       : html`<slot></slot>`;
 
-    return html`<section class=${this.embedUrl ? 'iframe-content' : 'content'}>
+    return html`<section class=${this.embedUrl ? "iframe-content" : "content"}>
       ${content}
     </section>`;
   }
 
   private renderContainer() {
-    const title = this.caption ? html`<h2 id="drawer-caption">${this.caption}</h2>` : '';
+    const title = this.caption ? html`<h2 id="drawer-caption">${this.caption}</h2>` : "";
     const external_button = this.externalLink
       ? html`<bl-button
           icon="external_link"
@@ -114,7 +114,7 @@ export default class BlDrawer extends LitElement {
           href="${this.externalLink}"
           target="_blank"
         ></bl-button>`
-      : '';
+      : "";
 
     return html`<div class="container">
       <header>
@@ -144,6 +144,6 @@ export default class BlDrawer extends LitElement {
 }
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-drawer': BlDrawer;
+    "bl-drawer": BlDrawer;
   }
 }

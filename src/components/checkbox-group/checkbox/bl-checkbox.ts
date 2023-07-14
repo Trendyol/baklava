@@ -1,16 +1,16 @@
-import { FormControlMixin } from '@open-wc/form-control';
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
-import { live } from 'lit/directives/live.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import 'element-internals-polyfill';
-import { event, EventDispatcher } from '../../../utilities/event';
-import '../../icon/bl-icon';
-import type BlCheckboxGroup from '../bl-checkbox-group';
-import style from './bl-checkbox.css';
-import { blCheckboxGroupTag, blChangeEventName } from '../bl-checkbox-group';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property, query } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { live } from "lit/directives/live.js";
+import { FormControlMixin } from "@open-wc/form-control";
+import "element-internals-polyfill";
+import { event, EventDispatcher } from "../../../utilities/event";
+import "../../icon/bl-icon";
+import type BlCheckboxGroup from "../bl-checkbox-group";
+import { blCheckboxGroupTag, blChangeEventName } from "../bl-checkbox-group";
+import style from "./bl-checkbox.css";
 
-export const blCheckboxTag = 'bl-checkbox';
+export const blCheckboxTag = "bl-checkbox";
 
 /**
  * @tag bl-checkbox
@@ -56,19 +56,19 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
   /**
    * Fires whenever user change the value of the checkbox.
    */
-  @event('bl-checkbox-change') private onChange: EventDispatcher<boolean>;
+  @event("bl-checkbox-change") private onChange: EventDispatcher<boolean>;
 
   /**
    * Fires when checkbox is focused
    */
-  @event('bl-focus') private onFocus: EventDispatcher<string>;
+  @event("bl-focus") private onFocus: EventDispatcher<string>;
 
   /**
    * Fires when checkbox is blurred
    */
-  @event('bl-blur') private onBlur: EventDispatcher<string>;
+  @event("bl-blur") private onBlur: EventDispatcher<string>;
 
-  @query('[type=checkbox]') checkboxElement: HTMLElement;
+  @query("[type=checkbox]") checkboxElement: HTMLElement;
 
   protected field: BlCheckboxGroup | null;
 
@@ -85,7 +85,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
   }
 
   updated(changedProperties: Map<string, unknown>): void {
-    if (changedProperties.has('checked') && this.required && this.checked) {
+    if (changedProperties.has("checked") && this.required && this.checked) {
       this.setValue(this.value);
     }
   }
@@ -94,7 +94,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
     super.update(changedProperties);
     if (this.indeterminate && this.checked) {
       this.checked = false;
-      this.requestUpdate('checked', true);
+      this.requestUpdate("checked", true);
     }
   }
 
@@ -118,6 +118,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
 
   private handleChange(event: CustomEvent) {
     const target = event.target as HTMLInputElement;
+
     this.checked = target.checked;
     this.onChange(target.checked);
     this.indeterminate = false;
@@ -128,9 +129,10 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
   };
 
   render(): TemplateResult {
-    let icon = '';
-    if (this.checked) icon = 'check';
-    if (this.indeterminate) icon = 'minus';
+    let icon = "";
+
+    if (this.checked) icon = "check";
+    if (this.indeterminate) icon = "minus";
 
     return html`
       <label>

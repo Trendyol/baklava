@@ -13,7 +13,9 @@
   --padding-horizontal: var(--bl-size-xs);
   --label-padding: var(--bl-size-3xs);
   --border-size: 1px;
-  --default-scroll-height: calc((var(--row-count) * var(--line-height)) + var(--padding-vertical));
+  --default-scroll-height: calc(
+    (var(--row-count) * var(--line-height)) + var(--padding-vertical)
+  );
   --height: max(var(--scroll-height), var(--default-scroll-height));
   --input-font: var(--bl-font-body-text-2);
   --border-radius: var(--bl-size-3xs);
@@ -40,7 +42,9 @@
 }
 
 textarea {
-  --parent-padding: calc(var(--padding-horizontal) - var(--label-padding) - var(--border-size));
+  --parent-padding: calc(
+    var(--padding-horizontal) - var(--label-padding) - var(--border-size)
+  );
 
   width: 100%;
   align-self: stretch;
@@ -57,12 +61,12 @@ textarea {
   display: block;
 }
 
-:host([size='large']) .wrapper {
+:host([size="large"]) .wrapper {
   --padding-vertical: var(--bl-size-xs);
   --padding-horizontal: var(--bl-size-m);
 }
 
-:host([size='small']) .wrapper {
+:host([size="small"]) .wrapper {
   --padding-vertical: var(--bl-size-3xs);
   --padding-horizontal: var(--bl-size-xs);
   --input-font: var(--bl-font-body-text-3);
@@ -117,7 +121,7 @@ label {
 label {
   max-width: max-content;
   position: absolute;
-  transition: all ease-in .1s;
+  transition: all ease-in 0.1s;
   font: var(--bl-font-title-3-regular);
   top: var(--padding-vertical);
   left: var(--padding-horizontal);
