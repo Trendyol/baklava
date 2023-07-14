@@ -14,7 +14,7 @@ describe('bl-dropdown-group', () => {
     assert.shadowDom.equal(
       el,
       `
-      <div class="dropdown-group" role="group"><slot></slot></div>
+      <div class="dropdown-group" role="group" aria-labelledby="label"><slot></slot></div>
     `
     );
   });
@@ -25,7 +25,7 @@ describe('bl-dropdown-group', () => {
     assert.shadowDom.equal(
       el,
       `
-      <div class="dropdown-group" role="group" aria-labelledby="caption"><span class="caption">caption</span><slot></slot></div>
+      <div class="dropdown-group" role="group" aria-labelledby="label"><span id="label" class="caption">caption</span><slot></slot></div>
     `
     );
   });

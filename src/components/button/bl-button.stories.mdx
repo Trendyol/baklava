@@ -257,10 +257,43 @@ ${SingleButtonHoverTemplate({kind: 'danger', content: 'Danger Button', ...args})
   </Story>
 </Canvas>
 
+## Using Button with Forms
 
+Button can be used as the submit button of an HTML form. To use it as a submit button, you need to set `type` attribute to `submit`.
 
+```html
+<form action="/form/message" method="POST">
+  <bl-textarea name="message" placeholder="Your message"></bl-textarea>
+  <bl-button type="submit">Send</bl-button>
+</form>
+```
 
+In the example above, button automatically finds its wrapping form and submits it when clicked (by triggering validations, if needed).
+If you need to put a button outside of a form, you can set `form` attribute to the id of the form.
 
+```html
+<form id="contactForm" action="/form/message" method="POST">
+  <bl-textarea name="message" placeholder="Your message"></bl-textarea>
+</form>
+
+<bl-button form="contactForm" type="submit">Send</bl-button>
+```
+
+You can also set `form` **property** with a reference to an HTMLFormElement with JS in case you need:
+
+```html
+<form id="contactForm" action="/form/message" method="POST">
+  <bl-textarea name="message" placeholder="Your message"></bl-textarea>
+</form>
+
+<bl-button type="submit">Send</bl-button>
+
+<script>
+  const contactForm = document.getElementById('contactForm');
+  const button = document.querySelector('bl-button');
+  button.form = contactForm;
+</script>
+```
 
 ## Reference
 

@@ -1,6 +1,7 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { event, EventDispatcher } from '../../utilities/event';
+import { classMap } from 'lit/directives/class-map.js';
 import '../button/bl-button';
 import style from './bl-dialog.css';
 
@@ -22,7 +23,17 @@ export default class BlDialog extends LitElement {
   /**
    * Sets dialog open-close status
    */
-  @property({ type: Boolean, reflect: true })
+  @property({
+    type: Boolean,
+    reflect: true,
+    hasChanged(newVal: boolean, oldVal: boolean | undefined) {
+      if (newVal === false && oldVal === undefined) {
+        // Assume that the initial value is false
+        return false;
+      }
+      return newVal !== oldVal;
+    },
+  })
   open = false;
 
   /**
@@ -30,6 +41,16 @@ export default class BlDialog extends LitElement {
    */
   @property({ type: String })
   caption?: string;
+
+  /**
+   * Determines if dialog currently uses polyfilled version instead of native HTML Dialog. By
+   * default, it uses native Dialog if the browser supports it, otherwise polyfills. You can force
+   * using polyfill by setting this to true in some cases like to show some content on top of dialog
+   * in case you are not able to use Popover API. Be aware that, polyfilled version can cause some
+   * inconsistencies in terms of accessibility and stacking context. So use it with extra caution.
+   */
+  @property({ type: Boolean, reflect: true })
+  polyfilled = !window.HTMLDialogElement;
 
   @query('.dialog')
   private dialog: HTMLDialogElement & DialogElement;
@@ -49,18 +70,22 @@ export default class BlDialog extends LitElement {
   @event('bl-dialog-open') private onOpen: EventDispatcher<object>;
 
   /**
+   * Fires before the dialog is closed with internal actions like clicking close button,
+   * pressing Escape key or clicking backdrop. Can be prevented by calling `event.preventDefault()`
+   */
+  @event('bl-dialog-request-close') private onRequestClose: EventDispatcher<{
+    source: 'close-button' | 'keyboard' | 'backdrop';
+  }>;
+
+  /**
    * Fires when the dialog is closed
    */
   @event('bl-dialog-close') private onClose: EventDispatcher<object>;
 
   updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('open')) {
+    if (changedProperties.has('open') || changedProperties.has('polyfilled')) {
       this.toggleDialogHandler();
     }
-  }
-
-  private get hasHtmlDialogSupport() {
-    return !!window.HTMLDialogElement;
   }
 
   private get _hasFooter() {
@@ -84,7 +109,13 @@ export default class BlDialog extends LitElement {
     }
   }
 
-  private closeDialog() {
+  private closeDialog(source: 'close-button' | 'keyboard' | 'backdrop') {
+    const requestCloseEvent = this.onRequestClose({ source }, { cancelable: true });
+
+    if (requestCloseEvent.defaultPrevented) {
+      return;
+    }
+
     this.open = false;
   }
 
@@ -92,14 +123,14 @@ export default class BlDialog extends LitElement {
     const eventPath = event.composedPath() as HTMLElement[];
 
     if (!eventPath.includes(this.container)) {
-      this.closeDialog();
+      this.closeDialog('backdrop');
     }
   };
 
   private onKeydown = (event: KeyboardEvent): void => {
     if (event.code === 'Escape' && this.open) {
       event.preventDefault();
-      this.closeDialog();
+      this.closeDialog('keyboard');
     }
   };
 
@@ -124,11 +155,16 @@ export default class BlDialog extends LitElement {
   private renderContainer() {
     const title = this.caption ? html`<h2 id="dialog-caption">${this.caption}</h2>` : '';
 
-    return html` <div class="container">
+    const classes = {
+      'container': true,
+      'has-footer': this._hasFooter,
+    };
+
+    return html` <div class="${classMap(classes)}">
       <header>
         ${title}
         <bl-button
-          @click="${this.closeDialog}"
+          @click="${() => this.closeDialog('close-button')}"
           icon="close"
           variant="tertiary"
           kind="neutral"
@@ -140,8 +176,16 @@ export default class BlDialog extends LitElement {
   }
 
   render(): TemplateResult {
-    return this.hasHtmlDialogSupport
-      ? html`
+    return this.polyfilled
+      ? html`<div
+          class="dialog-polyfill"
+          role="dialog"
+          aria-labelledby="dialog-caption"
+          @click=${this.clickOutsideHandler}
+        >
+          ${this.renderContainer()}
+        </div>`
+      : html`
           <dialog
             class="dialog"
             aria-labelledby="dialog-caption"
@@ -149,15 +193,7 @@ export default class BlDialog extends LitElement {
           >
             ${this.renderContainer()}
           </dialog>
-        `
-      : html`<div
-          class="dialog-polyfill"
-          role="dialog"
-          aria-labelledby="dialog-caption"
-          @click=${this.clickOutsideHandler}
-        >
-          ${this.renderContainer()}
-        </div>`;
+        `;
   }
 }
 
