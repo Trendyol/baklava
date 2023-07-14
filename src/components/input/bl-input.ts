@@ -43,7 +43,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Type of the input. It's used to set `type` attribute of native input inside. Only `text`, `number` and `password` is supported for now.
    */
   @property({ reflect: true })
-  type: 'text' | 'password' | 'number' | 'tel' | 'url' = 'text';
+  type: 'text' | 'date' | 'password' | 'number' | 'tel' | 'url' = 'text';
 
   /**
    * Sets label of the input
@@ -82,16 +82,16 @@ export default class BlInput extends FormControlMixin(LitElement) {
   maxlength?: number;
 
   /**
-   * Sets the smallest number can be entered to a `number` input
+   * Sets the minimum acceptable value for the input
    */
-  @property({ type: Number, reflect: true })
-  min?: number;
+  @property({ reflect: true })
+  min?: number | string;
 
   /**
-   * Sets the biggest number can be entered to a `number` input
+   * Sets the maximum acceptable value for the input
    */
-  @property({ type: Number, reflect: true })
-  max?: number;
+  @property({ reflect: true })
+  max?: number | string;
 
   /**
    * Sets a regex pattern form the input validation
