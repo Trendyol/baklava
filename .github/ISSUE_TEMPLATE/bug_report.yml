@@ -24,7 +24,6 @@ body:
     attributes:
       label: Media & Screenshots
       description: Include screenshots or video of reproduction as much as possible
-      render: md
   - type: input
     id: baklava-version
     attributes:
