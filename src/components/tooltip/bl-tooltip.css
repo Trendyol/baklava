@@ -3,7 +3,7 @@
 }
 
 .trigger {
-  display: inline-flex;
+  display: var(--bl-tooltip-trigger-display, inline-flex);
   cursor: pointer;
 }
 
