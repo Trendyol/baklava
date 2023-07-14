@@ -15,6 +15,9 @@ legend {
 .options {
   display: flex;
   flex-flow: var(--bl-radio-direction, column) wrap;
+  align-items: var(--bl-radio-group-cross-axis-item-alignment, normal);
+  align-content: var(--bl-radio-group-cross-axis-content-alignment, normal);
+  justify-content: var(--bl-radio-group-main-axis-content-alignment, normal);
   gap: var(--bl-size-m);
   margin-block: var(--bl-size-xs);
 }

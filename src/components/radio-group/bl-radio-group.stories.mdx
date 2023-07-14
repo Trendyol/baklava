@@ -47,6 +47,16 @@ export const StyledTemplate = (args) => html`
 ${RadioGroupTemplate(args)}
 `
 
+export const AlignmentsTemplate = (args) => html`
+<style>
+  .${args.class} {
+    --bl-radio-group-main-axis-content-alignment: center;
+    --bl-radio-group-cross-axis-item-alignment: center;
+  }
+</style>
+${RadioGroupTemplate(args)}
+`
+
 export const KeyboardNavigationTemplate = (args) => html`
 <input id="previnput" placeholder="Previous Input" autofocus>
 ${RadioGroupTemplate(args)}
@@ -91,6 +101,14 @@ By default radio options are listed in vertical stack. You can change this by se
 <Canvas>
   <Story name="Horizontal Stack" args={{ label: 'Payment Type', name: 'paymentType', value: 'ideal', class: 'payment-type-field', options: [{ value: 'cc', label: 'Credit Card'}, {value: 'ideal', label: 'iDeal'}] }}>
     {StyledTemplate.bind({})}
+  </Story>
+</Canvas>
+
+By default radio options acts as default flex layout. You can change this by setting `--bl-radio-group-cross-axis-item-alignment`, `--bl-radio-group-cross-axis-content-alignment` and `--bl-radio-group-main-axis-content-alignment` CSS variables.
+
+<Canvas>
+  <Story name="Aligning radio elements" args={{ label: 'Payment Type', name: 'paymentType', value: 'ideal', class: 'payment-type-alignment-field', options: [{ value: 'cc', label: 'Credit Card'}, {value: 'ideal', label: 'iDeal'}] }}>
+    {AlignmentsTemplate.bind({})}
   </Story>
 </Canvas>
 
