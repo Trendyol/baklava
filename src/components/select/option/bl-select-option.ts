@@ -85,6 +85,8 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
       @blur=${this.blur}
       @keydown=${this.handleKeydown}
       @click="${this._onClickOption}"
+      role="option"
+      aria-selected="${this.selected}"
     >
       <slot></slot>
     </div>`;
@@ -96,6 +98,8 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
       .checked="${this.selected}"
       .disabled="${this.disabled}"
       @bl-checkbox-change="${this._onCheckboxChange}"
+      role="option"
+      aria-selected="${this.selected}"
     >
       <slot></slot>
     </bl-checkbox>`;
