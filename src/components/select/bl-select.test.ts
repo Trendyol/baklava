@@ -138,7 +138,7 @@ describe('bl-select', () => {
     const removeAll = el.shadowRoot?.querySelector<BlButton>('.remove-all');
     expect(removeAll).to.exist;
   });
-  it('should remove selected option on remove all click on non-required single select', async () => {
+  it('should remove selected option on remove all click on single select with clearable prop', async () => {
     const el = await fixture<BlSelect>(html`<bl-select clearable>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
