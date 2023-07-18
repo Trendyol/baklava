@@ -157,10 +157,7 @@ The select component includes a clear button. Clear button can be displayed by p
   <Story name="Select With Clear Button" args={{ placeholder: "Choose country", value: 'tr', clearable: true }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
-  <Story name="Required Select Without Clear Button" args={{ placeholder: "Choose country", value: 'tr', clearable: true }} play={selectOpener}>
-    {SelectTemplate.bind({})}
-  </Story>
-  <Story name="Required Multiple Select With Clear Button" args={{ placeholder: "Choose countries", value: ['nl'], multiple: true, clearable: true  }} play={selectOpener}>
+  <Story name="Multiple Select With Clear Button" args={{ placeholder: "Choose countries", value: ['nl'], multiple: true, clearable: true  }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
 </Canvas>
