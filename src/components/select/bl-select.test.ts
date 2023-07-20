@@ -156,7 +156,7 @@ describe('bl-select', () => {
     expect(el.value).to.null;
   });
   it('should remove selected options', async () => {
-    const el = await fixture<BlSelect>(html`<bl-select clearable multiple>
+    const el = await fixture<BlSelect>(html`<bl-select multiple>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);

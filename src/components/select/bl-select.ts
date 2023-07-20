@@ -291,16 +291,17 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     const inputSelectedOptions = html`<ul class="selected-options">
       ${this._selectedOptions.map(item => html`<li>${item.textContent}</li>`)}
     </ul>`;
-    const removeButton = this.clearable
-      ? html`<bl-button
-          class="remove-all"
-          size="small"
-          variant="tertiary"
-          kind="neutral"
-          icon="close"
-          @click=${this._onClickRemove}
-        ></bl-button>`
-      : '';
+    const removeButton =
+      this.clearable || this.multiple
+        ? html`<bl-button
+            class="remove-all"
+            size="small"
+            variant="tertiary"
+            kind="neutral"
+            icon="close"
+            @click=${this._onClickRemove}
+          ></bl-button>`
+        : '';
 
     return html`<fieldset
       class=${classMap({
