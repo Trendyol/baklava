@@ -1,11 +1,4 @@
-import {
-  autoUpdate,
-  computePosition,
-  flip,
-  MiddlewareState,
-  offset,
-  size,
-} from '@floating-ui/dom';
+import { autoUpdate, computePosition, flip, MiddlewareState, offset, size } from '@floating-ui/dom';
 import { FormControlMixin, requiredValidator } from '@open-wc/form-control';
 import { FormValue } from '@open-wc/form-helpers';
 import 'element-internals-polyfill';
@@ -42,7 +35,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   static get styles(): CSSResultGroup {
     return [style];
   }
-  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+  static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   static formControlValidators = [requiredValidator];
 
@@ -112,6 +105,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
+
+  /**
+   * Sets whether the selected option is clearable
+   */
+  @property({ type: Boolean })
+  clearable = false;
 
   /**
    * Allows multiple options to be selected
@@ -292,14 +291,17 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     const inputSelectedOptions = html`<ul class="selected-options">
       ${this._selectedOptions.map(item => html`<li>${item.textContent}</li>`)}
     </ul>`;
-    const removeButton = html`<bl-button
-      class="remove-all"
-      size="small"
-      variant="tertiary"
-      kind="neutral"
-      icon="close"
-      @click=${this._onClickRemove}
-    ></bl-button>`;
+    const removeButton =
+      this.clearable || this.multiple
+        ? html`<bl-button
+            class="remove-all"
+            size="small"
+            variant="tertiary"
+            kind="neutral"
+            icon="close"
+            @click=${this._onClickRemove}
+          ></bl-button>`
+        : '';
 
     return html`<fieldset
       class=${classMap({
@@ -319,7 +321,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       ${inputSelectedOptions}
       <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
       <div class="actions">
-        ${this.multiple || !this.required ? removeButton : null}
+        ${removeButton}
         <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
         <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
