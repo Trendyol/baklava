@@ -1,11 +1,9 @@
 import { assert, elementUpdated, expect, fixture, html, oneEvent } from "@open-wc/testing";
-
-import BlSelect from "./bl-select";
-import type BlSelectOption from "./option/bl-select-option";
-import type BlButton from "../button/bl-button";
-
-import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
 import { sendKeys } from "@web/test-runner-commands";
+import BlSelect from "./bl-select";
+import BlButton from "../button/bl-button";
+import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
+import type BlSelectOption from "./option/bl-select-option";
 
 describe("bl-select", () => {
   it("is defined", () => {
@@ -36,14 +34,6 @@ describe("bl-select", () => {
             +0
           </span>
           <div class="actions">
-          <bl-button
-            class="remove-all"
-            icon="close"
-            kind="neutral"
-            size="small"
-            variant="tertiary"
-          >
-          </bl-button>
           <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
           <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
           </div>
@@ -142,8 +132,19 @@ describe("bl-select", () => {
     expect(el.checkValidity()).to.false;
     expect(invalidText).to.exist;
   });
-  it("should remove selected option on remove all click on non-required single select", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select>
+  it('should render "remove all" button on clearable attribute is given', async () => {
+    const el = await fixture<BlSelect>(html`
+      <bl-select clearable>
+        <bl-select-option value="1">Option 1</bl-select-option>
+        <bl-select-option value="2" selected>Option 2</bl-select-option>
+      </bl-select>
+    `);
+    const removeAll = el.shadowRoot?.querySelector<BlButton>(".remove-all");
+
+    expect(removeAll).to.exist;
+  });
+  it("should remove selected option on remove all click on single select with clearable prop", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select clearable>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);
@@ -388,9 +389,9 @@ describe("bl-select", () => {
   describe("keyboard navigation", () => {
     let el: HTMLDivElement, blSelect: BlSelect;
     const tabKey =
-        navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("HeadlessChrome")
-          ? "Alt+Tab"
-          : "Tab";
+      navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("HeadlessChrome")
+        ? "Alt+Tab"
+        : "Tab";
 
     beforeEach(async () => {
       //when

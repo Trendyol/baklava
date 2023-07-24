@@ -34,6 +34,9 @@ import { centeredLayout } from '../../utilities/chromatic-decorators';
     required: {
       control: 'boolean'
     },
+    clearable: {
+      control: 'boolean'
+    },
     disabled: {
       control: 'boolean'
     },
@@ -90,6 +93,7 @@ export const SelectTemplate = (args) => html`<bl-select
     label=${ifDefined(args.label)}
     ?label-fixed=${args.labelFixed}
     ?multiple=${args.multiple}
+    ?clearable=${args.clearable}
     ?required=${args.required}
     ?disabled=${args.disabled}
     ?success=${args.success}
@@ -147,17 +151,13 @@ Selected options will be visible on input seperated by commas.
 
 ## Clear Button
 
-The select component includes a clear button. For single select, the clear button is hidden when the `required` attribute is set.
-However, in multiple select, the clear button is always shown, irrespective of the `required` attribute.
+The select component includes a clear button. Clear button can be displayed by passing `clearable` attribute to the Select component.
 
 <Canvas>
-  <Story name="Select With Clear Button" args={{ placeholder: "Choose country", value: 'tr' }} play={selectOpener}>
+  <Story name="Select With Clear Button" args={{ placeholder: "Choose country", value: 'tr', clearable: true }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
-  <Story name="Required Select Without Clear Button" args={{ placeholder: "Choose country", value: 'tr', required: true }} play={selectOpener}>
-    {SelectTemplate.bind({})}
-  </Story>
-  <Story name="Required Multiple Select With Clear Button" args={{ placeholder: "Choose countries", value: ['nl'], multiple: true, required: true  }} play={selectOpener}>
+  <Story name="Multiple Select With Clear Button" args={{ placeholder: "Choose countries", value: ['nl'], multiple: true, clearable: true  }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
 </Canvas>
