@@ -5,6 +5,7 @@ import { event, EventDispatcher } from "../../utilities/event";
 import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
 import { ButtonVariant, ButtonKind, ButtonSize } from "../button/bl-button";
 import "../icon/bl-icon";
+import { BaklavaIcon } from "../icon/icon-list";
 import style from "./bl-alert.css";
 
 export type AlertVariant = "info" | "warning" | "success" | "danger";
@@ -30,13 +31,13 @@ export default class BlAlert extends LitElement {
    * Sets alert description
    */
   @property()
-  description?: "string";
+  description?: string;
 
   /**
    * Allows to customize alert icon
    */
   @property({ converter: stringBooleanConverter() })
-  icon?: boolean | string;
+  icon?: boolean | BaklavaIcon;
 
   /**
    * Displays a close button.
@@ -95,7 +96,7 @@ export default class BlAlert extends LitElement {
     }
   }
 
-  private _getIcon(): string | undefined {
+  private _getIcon(): BaklavaIcon | undefined {
     if (!this.icon) return;
     if (this.icon === true) return this._predefinedIcons();
     return this.icon;
@@ -143,10 +144,9 @@ export default class BlAlert extends LitElement {
       ? html`<bl-button
           class="close"
           label="close"
-          variant="tertiary"
           kind="neutral"
           icon="close"
-          variant="secondary"
+          variant="tertiary"
           @click=${this._closeHandler}
         ></bl-button>`
       : null;

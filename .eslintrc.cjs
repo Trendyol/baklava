@@ -9,6 +9,8 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
     "plugin:storybook/recommended",
+    "plugin:lit/recommended",
+    "plugin:wc/recommended",
   ],
   plugins: ["prettier", "unused-imports", "@typescript-eslint"],
   env: {

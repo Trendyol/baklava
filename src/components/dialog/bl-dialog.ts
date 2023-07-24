@@ -170,7 +170,7 @@ export default class BlDialog extends LitElement {
           kind="neutral"
         ></bl-button>
       </header>
-      <section class="content"><slot /></section>
+      <section class="content"><slot></slot></section>
       ${this.renderFooter()}
     </div>`;
   }
