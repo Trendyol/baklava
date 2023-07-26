@@ -14,6 +14,19 @@ import '../button/bl-button';
 import style from './bl-input.css';
 import { BaklavaIcon } from '../icon/icon-list';
 
+export type InputType =
+  | "text"
+  | "email"
+  | "date"
+  | "time"
+  | "datetime-local"
+  | "month"
+  | "week"
+  | "password"
+  | "number"
+  | "tel"
+  | "url";
+
 export type InputSize = 'small' | 'medium' | 'large';
 /**
  * @tag bl-input
@@ -44,7 +57,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Type of the input. It's used to set `type` attribute of native input inside. Only `text`, `number` and `password` is supported for now.
    */
   @property({ reflect: true })
-  type: 'text' | 'date' | 'password' | 'number' | 'tel' | 'url' = 'text';
+  type: InputType = 'text';
 
   /**
    * Sets label of the input
