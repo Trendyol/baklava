@@ -100,12 +100,25 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
     event.preventDefault();
   }
 
+  getFocusedOptionIndex() {
+    return this.focusedOptionIndex;
+  }
+
   connectedCallback(): void {
     super.connectedCallback();
 
     this.tabIndex = 0;
     this.addEventListener('focus', this.handleFocus);
     this.addEventListener('keydown', this.handleKeyDown);
+    this.addEventListener('mouseover', this.handleMouseOver);
+  }
+
+  private handleMouseOver(event: MouseEvent) {
+    const mouseOverElement = event.target;
+
+    if (mouseOverElement instanceof BlRadio) {
+      this.focusedOptionIndex = this.availableOptions.indexOf(mouseOverElement);
+    }
   }
 
   private handleFocus() {

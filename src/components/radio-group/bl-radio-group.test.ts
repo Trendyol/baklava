@@ -259,4 +259,40 @@ describe('bl-radio-group', () => {
     //then
     expect(document.activeElement).to.equal(radioGroup?.options[0]);
   });
+
+  it('should focus to option when mouseover on it', async () => {
+    const el = await fixture<BlRadioGroup>(
+      html`
+        <bl-radio-group label="Payment Type" name="pt">
+          <bl-radio value="cc">Credit Card</bl-radio>
+          <bl-radio value="ch">Cash</bl-radio>
+        </bl-radio-group>
+      `
+    );
+
+    await elementUpdated(el);
+
+    const radioGroup = el as BlRadioGroup;
+
+    const option1 = radioGroup.options[0];
+    const option2 = radioGroup.options[1];
+
+    option2.dispatchEvent(
+      new MouseEvent('mouseover', {
+        relatedTarget: radioGroup,
+        bubbles: true,
+      })
+    );
+
+    expect(radioGroup.getFocusedOptionIndex()).to.equal(1);
+
+    option1.dispatchEvent(
+      new MouseEvent('mouseover', {
+        relatedTarget: radioGroup,
+        bubbles: true,
+      })
+    );
+
+    expect(radioGroup.getFocusedOptionIndex()).to.equal(0);
+  });
 });
