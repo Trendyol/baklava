@@ -61,6 +61,7 @@ input {
 :host([disabled]) .check-mark,
 :host([disabled]) .label {
   color: var(--bl-color-neutral-light);
+  border: 1px solid var(--bl-color-neutral-lighter);
 }
 
 :host([disabled]) .check-mark {
