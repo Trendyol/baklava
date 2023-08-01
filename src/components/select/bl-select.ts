@@ -164,7 +164,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Fires when selection changes
    */
-  @event('bl-select') private _onBlSelect: EventDispatcher<ISelectOption<ValueType>[]>;
+  @event('bl-select') private _onBlSelect: EventDispatcher<
+    ISelectOption<ValueType>[] | ISelectOption<ValueType>
+  >;
 
   private _connectedOptions: BlSelectOption<ValueType>[] = [];
 
@@ -398,16 +400,17 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private _handleSelectEvent() {
-    this._onBlSelect(
-      this._selectedOptions.map(
-        option =>
-          ({
-            value: option.value,
-            selected: option.selected,
-            text: option.textContent,
-          } as ISelectOption<ValueType>)
-      )
+    const options = this._selectedOptions.map(
+      option =>
+        ({
+          value: option.value,
+          selected: option.selected,
+          text: option.textContent,
+        } as ISelectOption<ValueType>)
     );
+
+    if (!this.multiple) this._onBlSelect(options[0]);
+    else this._onBlSelect(options);
   }
 
   private _handleSingleSelect(optionItem: BlSelectOption<ValueType>) {
