@@ -65,6 +65,8 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
 
   private focusedOptionIndex = 0;
 
+  private isMouseEventFocus = false;
+
   private handleOptionChecked(event: CustomEvent) {
     const checkedOption = event.target as BlRadio;
     this.setValue(checkedOption.value);
@@ -100,8 +102,8 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
     event.preventDefault();
   }
 
-  getFocusedOptionIndex() {
-    return this.focusedOptionIndex;
+  getIsMouseEventFocus() {
+    return this.isMouseEventFocus;
   }
 
   connectedCallback(): void {
@@ -110,19 +112,17 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
     this.tabIndex = 0;
     this.addEventListener('focus', this.handleFocus);
     this.addEventListener('keydown', this.handleKeyDown);
-    this.addEventListener('mouseover', this.handleMouseOver);
+    this.addEventListener('mousedown', this.handleMouseDown);
   }
 
-  private handleMouseOver(event: MouseEvent) {
-    const mouseOverElement = event.target;
-
-    if (mouseOverElement instanceof BlRadio) {
-      this.focusedOptionIndex = this.availableOptions.indexOf(mouseOverElement);
-    }
+  private handleMouseDown() {
+    this.isMouseEventFocus ||= true;
   }
 
   private handleFocus() {
-    this.availableOptions[this.focusedOptionIndex].focus();
+    if (!this.isMouseEventFocus) {
+      this.availableOptions[this.focusedOptionIndex].focus();
+    }
   }
 
   render(): TemplateResult {

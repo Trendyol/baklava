@@ -259,8 +259,33 @@ describe('bl-radio-group', () => {
     //then
     expect(document.activeElement).to.equal(radioGroup?.options[0]);
   });
+});
 
-  it('should focus to option when mouseover on it', async () => {
+describe('focused radio option', () => {
+  it('should focus on the first option when isMouseEventFocus is false', async () => {
+    // When
+    const el = await fixture<BlRadioGroup>(
+      html`<bl-radio-group label="Payment Type" name="pt" value="cc">
+        <bl-radio value="cc">Credit Card</bl-radio>
+        <bl-radio value="ch">Cash</bl-radio>
+      </bl-radio-group>`
+    );
+
+    await elementUpdated(el);
+
+    const radioGroup = el as BlRadioGroup;
+
+    expect(radioGroup.getIsMouseEventFocus()).to.equal(false);
+
+    //given
+    radioGroup.dispatchEvent(new FocusEvent('focus'));
+
+    //then
+    expect(document.activeElement).to.equal(el.options[0]);
+  });
+
+  it('should set isMouseEventFocus to true in a mouse event', async () => {
+    //when
     const el = await fixture<BlRadioGroup>(
       html`
         <bl-radio-group label="Payment Type" name="pt">
@@ -275,24 +300,45 @@ describe('bl-radio-group', () => {
     const radioGroup = el as BlRadioGroup;
 
     const option1 = radioGroup.options[0];
+
+    //given
+    option1.dispatchEvent(
+      new MouseEvent('mousedown', {
+        relatedTarget: radioGroup,
+        bubbles: true,
+      })
+    );
+
+    //then
+    expect(radioGroup.getIsMouseEventFocus()).to.equal(true);
+  });
+
+  it('should not focus on the first option if a mouse event occurs', async () => {
+    // When
+    const el = await fixture<BlRadioGroup>(
+      html`<bl-radio-group label="Payment Type" name="pt" value="cc">
+        <bl-radio value="cc">Credit Card</bl-radio>
+        <bl-radio value="ch">Cash</bl-radio>
+      </bl-radio-group>`
+    );
+
+    await elementUpdated(el);
+
+    const radioGroup = el as BlRadioGroup;
+
+    const option1 = radioGroup.options[0];
     const option2 = radioGroup.options[1];
 
+    //given
     option2.dispatchEvent(
-      new MouseEvent('mouseover', {
+      new MouseEvent('mousedown', {
         relatedTarget: radioGroup,
         bubbles: true,
       })
     );
+    radioGroup.dispatchEvent(new FocusEvent('focus'));
 
-    expect(radioGroup.getFocusedOptionIndex()).to.equal(1);
-
-    option1.dispatchEvent(
-      new MouseEvent('mouseover', {
-        relatedTarget: radioGroup,
-        bubbles: true,
-      })
-    );
-
-    expect(radioGroup.getFocusedOptionIndex()).to.equal(0);
+    //then
+    expect(document.activeElement).not.to.equal(option1);
   });
 });
