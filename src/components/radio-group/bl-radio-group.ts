@@ -1,14 +1,14 @@
-import { FormControlMixin } from '@open-wc/form-control';
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import 'element-internals-polyfill';
-import { event, EventDispatcher } from '../../utilities/event';
-import style from './bl-radio-group.css';
-import BlRadio, { blRadioTag } from './radio/bl-radio';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { FormControlMixin } from "@open-wc/form-control";
+import "element-internals-polyfill";
+import { event, EventDispatcher } from "../../utilities/event";
+import style from "./bl-radio-group.css";
+import BlRadio, { blRadioTag } from "./radio/bl-radio";
 
-export const blRadioGroupTag = 'bl-radio-group';
+export const blRadioGroupTag = "bl-radio-group";
 
-export const blChangeEventName = 'bl-radio-change';
+export const blChangeEventName = "bl-radio-change";
 
 /**
  * @tag bl-radio-group
@@ -35,7 +35,7 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
    * Set and gets the actual value of the field
    */
   @property()
-  value = '';
+  value = "";
 
   /**
    * Sets option as required
@@ -52,7 +52,7 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
   }
 
   updated(changedProperties: Map<string, unknown>): void {
-    if (changedProperties.has('value')) {
+    if (changedProperties.has("value")) {
       this.setValue(this.value);
       this.onChange(this.value);
     }
@@ -61,27 +61,28 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
   /**
    * Fires when radio group value changed
    */
-  @event('bl-radio-change') private onChange: EventDispatcher<string>;
+  @event("bl-radio-change") private onChange: EventDispatcher<string>;
 
   private focusedOptionIndex = 0;
 
   private handleOptionChecked(event: CustomEvent) {
     const checkedOption = event.target as BlRadio;
+
     this.setValue(checkedOption.value);
     this.onChange(checkedOption.value);
   }
 
   private handleKeyDown(event: KeyboardEvent) {
     // Next option
-    if (['ArrowDown', 'ArrowRight'].includes(event.key)) {
+    if (["ArrowDown", "ArrowRight"].includes(event.key)) {
       this.focusedOptionIndex++;
 
       // Previous option
-    } else if (['ArrowUp', 'ArrowLeft'].includes(event.key)) {
+    } else if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
       this.focusedOptionIndex--;
 
       // Select option
-    } else if ([' '].includes(event.key)) {
+    } else if ([" "].includes(event.key)) {
       this.availableOptions[this.focusedOptionIndex].select();
       return;
     } else {
@@ -104,8 +105,8 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
     super.connectedCallback();
 
     this.tabIndex = 0;
-    this.addEventListener('focus', this.handleFocus);
-    this.addEventListener('keydown', this.handleKeyDown);
+    this.addEventListener("focus", this.handleFocus);
+    this.addEventListener("keydown", this.handleKeyDown);
   }
 
   private handleFocus() {

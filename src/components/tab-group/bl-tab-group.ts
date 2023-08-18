@@ -1,16 +1,16 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement } from 'lit/decorators.js';
-import style from './bl-tab-group.css';
-import './tab-panel/bl-tab-panel';
-import './tab/bl-tab';
-import type BlTabPanel from './tab-panel/bl-tab-panel';
-import type BlTab from './tab/bl-tab';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement } from "lit/decorators.js";
+import style from "./bl-tab-group.css";
+import "./tab-panel/bl-tab-panel";
+import type BlTabPanel from "./tab-panel/bl-tab-panel";
+import "./tab/bl-tab";
+import type BlTab from "./tab/bl-tab";
 
 /**
  * @tag bl-tab-group
  * @summary Baklava Tab group component
  */
-@customElement('bl-tab-group')
+@customElement("bl-tab-group")
 export default class BlTabGroup extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
@@ -35,6 +35,7 @@ export default class BlTabGroup extends LitElement {
   registerTab(tab: BlTab) {
     const isFirstAndNotDisabled =
       this._connectedTabs.filter(t => !t.disabled).length === 0 && !tab.disabled;
+
     this._connectedTabs.push(tab);
 
     if ((!tab.disabled && tab.selected) || isFirstAndNotDisabled) {
@@ -94,15 +95,15 @@ export default class BlTabGroup extends LitElement {
   }
 
   private _handleTabListKeyDown(e: KeyboardEvent) {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-      if (e.key === 'ArrowRight') {
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      if (e.key === "ArrowRight") {
         do {
           this._tabFocus++;
           if (this._tabFocus >= this._connectedTabs.length) {
             this._tabFocus = 0;
           }
         } while (this._connectedTabs[this._tabFocus].disabled);
-      } else if (e.key === 'ArrowLeft') {
+      } else if (e.key === "ArrowLeft") {
         do {
           this._tabFocus--;
           if (this._tabFocus < 0) {
@@ -131,6 +132,6 @@ export default class BlTabGroup extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-tab-group': BlTabGroup;
+    "bl-tab-group": BlTabGroup;
   }
 }

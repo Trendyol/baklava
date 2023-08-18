@@ -1,19 +1,19 @@
-import type { Meta, StoryObj } from '@storybook/web-components';
-import { html } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { fullscreenLayout } from '../../utilities/chromatic-decorators';
-import type BlDialog from './bl-dialog';
+import type { Meta, StoryObj } from "@storybook/web-components";
+import { html } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { fullscreenLayout } from "../../utilities/chromatic-decorators";
+import type BlDialog from "./bl-dialog";
 
 const meta: Meta = {
-  title: 'Components/Dialog',
-  component: 'bl-dialog',
+  title: "Components/Dialog",
+  component: "bl-dialog",
   parameters: {
     chromatic: {
       viewports: [1000]
     },
     controls: {
-      exclude: ['id'],
+      exclude: ["id"],
     }
   },
   decorators: [
@@ -56,8 +56,9 @@ type Story = StoryObj<DialogArgs>;
 
 const dialogOpener = (dialogId: string) => async () => {
   const dialog = document.getElementById(dialogId) as BlDialog;
+
   dialog.open = true;
-}
+};
 
 const BasicTemplate = (args: DialogArgs) => html`
 <bl-button @bl-click="${dialogOpener(args.id)}" variant="secondary">Open Dialog</bl-button>
@@ -73,13 +74,13 @@ const BasicTemplate = (args: DialogArgs) => html`
     }${
       args.primaryAction ? html`
 
-  <bl-button slot="primary-action" variant="primary" ?autofocus=${args.focusPrimary} size="large">${args.primaryAction}</bl-button>` : ''}${
+  <bl-button slot="primary-action" variant="primary" ?autofocus=${args.focusPrimary} size="large">${args.primaryAction}</bl-button>` : ""}${
       args.secondaryAction ? html`
-  <bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large">${args.secondaryAction}</bl-button>` : ''}${
+  <bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large">${args.secondaryAction}</bl-button>` : ""}${
       args.tertiaryAction ? html`
-  <bl-button slot="tertiary-action" variant="tertiary" ?autofocus=${args.focusTertiary} size="large">${args.tertiaryAction}</bl-button>` : ''}
+  <bl-button slot="tertiary-action" variant="tertiary" ?autofocus=${args.focusTertiary} size="large">${args.tertiaryAction}</bl-button>` : ""}
 </bl-dialog>
-`
+`;
 
 const FullWidthActionsTemplate = (args: DialogArgs) => html`
 <style>
@@ -90,7 +91,7 @@ const FullWidthActionsTemplate = (args: DialogArgs) => html`
 </style>
 
 ${BasicTemplate({...args, className: "full-width-actions"})}
-`
+`;
 
 const TemplateWithStickyFooter = (args: DialogArgs) => html`
 <style>
@@ -100,7 +101,7 @@ const TemplateWithStickyFooter = (args: DialogArgs) => html`
   }
 </style>
 
-${BasicTemplate({...args, className: 'limited-width', content: `<div class="content">
+${BasicTemplate({...args, className: "limited-width", content: `<div class="content">
   <bl-alert icon>Please read all terms and conditions.</bl-alert>
   <h4>Lorem ipsum dolor sit amet</h4>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididun ut labore et dolore magna aliqua.
@@ -170,16 +171,16 @@ a Latin professor at Hampden-Sydney College in Virginia, looked up one of the mo
 of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"
 (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum,
 "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>` })}
-`
+`;
 
 export const BasicUsage: Story = {
   args: {
-    id: 'dl-basic',
+    id: "dl-basic",
     caption: "Use location service?",
-    content: 'Let us help determine location. This means sending anonymous location data to us.',
-    primaryAction: 'Agree',
-    secondaryAction: 'Disagree',
-    tertiaryAction: 'Cancel',
+    content: "Let us help determine location. This means sending anonymous location data to us.",
+    primaryAction: "Agree",
+    secondaryAction: "Disagree",
+    tertiaryAction: "Cancel",
   },
   render: BasicTemplate,
   play: dialogOpener("dl-basic")
@@ -187,10 +188,10 @@ export const BasicUsage: Story = {
 
 export const DialogWithStickyFooter: Story = {
   args: {
-    id: 'dl-sticky-footer',
+    id: "dl-sticky-footer",
     caption: "Terms And Conditions",
-    primaryAction: 'Agree',
-    secondaryAction: 'Disagree',
+    primaryAction: "Agree",
+    secondaryAction: "Disagree",
   },
   render: TemplateWithStickyFooter,
   play: dialogOpener("dl-sticky-footer")
@@ -198,10 +199,10 @@ export const DialogWithStickyFooter: Story = {
 
 export const DialogSizing: Story = {
   args: {
-    id: 'dl-sizing',
-    primaryAction: 'Agree',
-    secondaryAction: 'Disagree',
-    tertiaryAction: 'Cancel'
+    id: "dl-sizing",
+    primaryAction: "Agree",
+    secondaryAction: "Disagree",
+    tertiaryAction: "Cancel"
   },
   render: SizingTemplate,
   play: dialogOpener("dl-sizing")
@@ -209,13 +210,13 @@ export const DialogSizing: Story = {
 
 export const DialogWithFocusedAction: Story = {
   args: {
-    id: 'dl-focused-action',
+    id: "dl-focused-action",
     caption: "Use location service?",
-    content: 'Let us help determine location. This means sending anonymous location data to us.',
-    primaryAction: 'Agree',
-    secondaryAction: 'Disagree',
+    content: "Let us help determine location. This means sending anonymous location data to us.",
+    primaryAction: "Agree",
+    secondaryAction: "Disagree",
     focusSecondary: true,
-    tertiaryAction: 'Cancel'
+    tertiaryAction: "Cancel"
   },
   render: BasicTemplate,
   play: dialogOpener("dl-focused-action")
@@ -223,11 +224,11 @@ export const DialogWithFocusedAction: Story = {
 
 export const DialogWithFocusedInput: Story = {
   args: {
-    id: 'dl-focused-input',
-    caption: 'Name your file',
+    id: "dl-focused-input",
+    caption: "Name your file",
     content: '<p>Please provide a name for your file</p><bl-input placeholder="filename.pdf" autofocus></bl-input>',
-    primaryAction: 'OK',
-    tertiaryAction: 'Cancel'
+    primaryAction: "OK",
+    tertiaryAction: "Cancel"
   },
   render: BasicTemplate,
   play: dialogOpener("dl-focused-input")
@@ -235,10 +236,10 @@ export const DialogWithFocusedInput: Story = {
 
 export const DialogWithFullWidthAction: Story = {
   args: {
-    id: 'dl-full-width-action',
-    caption: 'Action completed',
-    content: '<p>Your process is done!</p>',
-    primaryAction: 'OK'
+    id: "dl-full-width-action",
+    caption: "Action completed",
+    content: "<p>Your process is done!</p>",
+    primaryAction: "OK"
   },
   render: FullWidthActionsTemplate,
   play: dialogOpener("dl-full-width-action")
@@ -247,11 +248,11 @@ export const DialogWithFullWidthAction: Story = {
 
 export const DialogWithFullWidthActions: Story = {
   args: {
-    id: 'dl-full-width-actions',
-    caption: 'Are you sure to delete?',
-    content: '<p>Do you want to really delete the file?</p>',
-    primaryAction: 'Delete',
-    secondaryAction: 'Cancel'
+    id: "dl-full-width-actions",
+    caption: "Are you sure to delete?",
+    content: "<p>Do you want to really delete the file?</p>",
+    primaryAction: "Delete",
+    secondaryAction: "Cancel"
   },
   render: FullWidthActionsTemplate,
   play: dialogOpener("dl-full-width-actions")

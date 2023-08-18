@@ -1,8 +1,8 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
-import style from './bl-progress-indicator.css';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property, query, state } from "lit/decorators.js";
+import style from "./bl-progress-indicator.css";
 
-export type ProgressIndicatorSize = 'small' | 'medium' | 'large';
+export type ProgressIndicatorSize = "small" | "medium" | "large";
 
 /**
  * @tag bl-progress-indicator
@@ -13,19 +13,19 @@ export type ProgressIndicatorSize = 'small' | 'medium' | 'large';
  * @property {number} [value=0]
  */
 
-@customElement('bl-progress-indicator')
+@customElement("bl-progress-indicator")
 export default class BlProgressIndicator extends LitElement {
   static get styles(): CSSResultGroup {
     return style;
   }
 
-  @query('.progress-indicator') private wrapper: HTMLElement;
+  @query(".progress-indicator") private wrapper: HTMLElement;
 
   /**
    * Sets the size
    */
   @property({ type: String, reflect: true })
-  size: ProgressIndicatorSize = 'medium';
+  size: ProgressIndicatorSize = "medium";
 
   /**
    * Sets the status
@@ -62,8 +62,8 @@ export default class BlProgressIndicator extends LitElement {
 
   async updateCssVariable() {
     await this.updateComplete;
-    this.wrapper.style.setProperty('--value', `${this.value}`);
-    this.wrapper.style.setProperty('--max', `${this.max}`);
+    this.wrapper.style.setProperty("--value", `${this.value}`);
+    this.wrapper.style.setProperty("--max", `${this.max}`);
   }
 
   render(): TemplateResult {
@@ -78,6 +78,6 @@ export default class BlProgressIndicator extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-progress-indicator': BlProgressIndicator;
+    "bl-progress-indicator": BlProgressIndicator;
   }
 }

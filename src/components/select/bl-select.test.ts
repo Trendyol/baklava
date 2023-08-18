@@ -1,20 +1,20 @@
-import { assert, elementUpdated, expect, fixture, html, oneEvent } from '@open-wc/testing';
+import { assert, elementUpdated, expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { sendKeys } from "@web/test-runner-commands";
+import BlSelect from "./bl-select";
+import BlButton from "../button/bl-button";
+import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
+import type BlSelectOption from "./option/bl-select-option";
 
-import BlSelect from './bl-select';
-import type BlSelectOption from './option/bl-select-option';
-import BlButton from '../button/bl-button';
+describe("bl-select", () => {
+  it("is defined", () => {
+    const el = document.createElement("bl-select");
 
-import BlCheckbox from '../checkbox-group/checkbox/bl-checkbox';
-import { sendKeys } from '@web/test-runner-commands';
-
-describe('bl-select', () => {
-  it('is defined', () => {
-    const el = document.createElement('bl-select');
     assert.instanceOf(el, BlSelect);
   });
 
-  it('renders with default values', async () => {
+  it("renders with default values", async () => {
     const el = await fixture<BlSelect>(html`<bl-select></bl-select>`);
+
     assert.shadowDom.equal(
       el,
       `
@@ -50,23 +50,23 @@ describe('bl-select', () => {
     `
     );
   });
-  it('should set label', async () => {
-    const labelText = 'Some Label';
+  it("should set label", async () => {
+    const labelText = "Some Label";
     const el = await fixture<BlSelect>(html`<bl-select label="${labelText}"></bl-select>`);
-    const label = el.shadowRoot?.querySelector('label');
+    const label = el.shadowRoot?.querySelector("label");
 
     expect(label).to.exist;
     expect(label?.innerText).to.equal(labelText);
   });
-  it('should set help text', async () => {
-    const helpText = 'Some help text';
+  it("should set help text", async () => {
+    const helpText = "Some help text";
     const el = await fixture<BlSelect>(html`<bl-select help-text="${helpText}"></bl-select>`);
-    const helpMessage = el.shadowRoot?.querySelector<HTMLParagraphElement>('.help-text');
+    const helpMessage = el.shadowRoot?.querySelector<HTMLParagraphElement>(".help-text");
 
     expect(helpMessage).to.exist;
     expect(helpMessage?.innerText).to.equal(helpText);
   });
-  it('should render bl-select-options', async () => {
+  it("should render bl-select-options", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2">Option 2</bl-select-option>
@@ -74,7 +74,7 @@ describe('bl-select', () => {
 
     expect(el.options.length).to.equal(2);
   });
-  it('should render bl-select-options when multiple options is true', async () => {
+  it("should render bl-select-options when multiple options is true", async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2">Option 2</bl-select-option>
@@ -82,7 +82,7 @@ describe('bl-select', () => {
 
     expect(el.options.length).to.equal(2);
   });
-  it('should render bl-select-options when there is a selected option', async () => {
+  it("should render bl-select-options when there is a selected option", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>
       <bl-select-option value="1" selected>Option 1</bl-select-option>
       <bl-select-option value="2">Option 2</bl-select-option>
@@ -92,37 +92,41 @@ describe('bl-select', () => {
     expect(el.selectedOptions.length).to.equal(1);
   });
 
-  it('should open select menu', async () => {
+  it("should open select menu", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
 
-    const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>('.select-input');
+    const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
+
     selectInput?.click();
 
     expect(el.opened).to.true;
   });
-  it('should close select menu', async () => {
+  it("should close select menu", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
 
-    const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>('.select-input');
+    const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
+
     selectInput?.click();
     selectInput?.click();
 
     expect(el.opened).to.false;
   });
-  it('should close select menu when click outside & run validations', async () => {
+  it("should close select menu when click outside & run validations", async () => {
     const el = await fixture<BlSelect>(html`<body>
       <bl-select required invalid-text="This field is mandatory"></bl-select>
     </body>`);
 
-    const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>('.select-input');
+    const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
+
     selectInput?.click();
 
-    const body = el.closest<HTMLBodyElement>('body');
+    const body = el.closest<HTMLBodyElement>("body");
+
     body?.click();
 
     await elementUpdated(el);
 
-    const invalidText = el.shadowRoot?.querySelector<HTMLParagraphElement>('.invalid-text');
+    const invalidText = el.shadowRoot?.querySelector<HTMLParagraphElement>(".invalid-text");
 
     expect(el.opened).to.false;
     expect(el.checkValidity()).to.false;
@@ -135,18 +139,20 @@ describe('bl-select', () => {
         <bl-select-option value="2" selected>Option 2</bl-select-option>
       </bl-select>
     `);
-    const removeAll = el.shadowRoot?.querySelector<BlButton>('.remove-all');
+    const removeAll = el.shadowRoot?.querySelector<BlButton>(".remove-all");
+
     expect(removeAll).to.exist;
   });
-  it('should remove selected option on remove all click on single select with clearable prop', async () => {
+  it("should remove selected option on remove all click on single select with clearable prop", async () => {
     const el = await fixture<BlSelect>(html`<bl-select clearable>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);
-    const removeAll = el.shadowRoot?.querySelector<BlButton>('.remove-all');
+    const removeAll = el.shadowRoot?.querySelector<BlButton>(".remove-all");
+
     setTimeout(() => removeAll?.click());
 
-    const event = await oneEvent(el, 'bl-select');
+    const event = await oneEvent(el, "bl-select");
 
     expect(removeAll).to.exist;
     expect(event).to.exist;
@@ -155,16 +161,17 @@ describe('bl-select', () => {
     expect(el.selectedOptions.length).to.equal(0);
     expect(el.value).to.null;
   });
-  it('should remove selected options', async () => {
+  it("should remove selected options", async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);
 
-    const removeAll = el.shadowRoot?.querySelector<BlButton>('.remove-all');
+    const removeAll = el.shadowRoot?.querySelector<BlButton>(".remove-all");
+
     setTimeout(() => removeAll?.click());
 
-    const event = await oneEvent(el, 'bl-select');
+    const event = await oneEvent(el, "bl-select");
 
     expect(removeAll).to.exist;
     expect(event).to.exist;
@@ -173,15 +180,15 @@ describe('bl-select', () => {
     expect(el.selectedOptions.length).to.equal(0);
     expect(el.value).to.null;
   });
-  it('should hide remove icon button on single required selection', async () => {
+  it("should hide remove icon button on single required selection", async () => {
     const el = await fixture<BlSelect>(html`<bl-select required>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);
 
-    expect(el.shadowRoot?.querySelector('.remove-all')).not.to.exist;
+    expect(el.shadowRoot?.querySelector(".remove-all")).not.to.exist;
   });
-  it('should fire event when click select option when it is not selected', async () => {
+  it("should fire event when click select option when it is not selected", async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
@@ -189,15 +196,16 @@ describe('bl-select', () => {
 
     const selectOption = el.querySelector<BlSelectOption>('bl-select-option[value="1"]');
 
-    const selectOptionCheckbox = selectOption?.shadowRoot?.querySelector<BlCheckbox>('bl-checkbox');
-    const checkboxEvent = new CustomEvent('bl-checkbox-change', {
+    const selectOptionCheckbox = selectOption?.shadowRoot?.querySelector<BlCheckbox>("bl-checkbox");
+    const checkboxEvent = new CustomEvent("bl-checkbox-change", {
       detail: true,
     });
+
     selectOptionCheckbox?.dispatchEvent(checkboxEvent);
 
     expect(el.selectedOptions.length).to.equal(2);
   });
-  it('should fire event when click select option', async () => {
+  it("should fire event when click select option", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
@@ -205,46 +213,47 @@ describe('bl-select', () => {
 
     const selectOption = el.querySelector<BlSelectOption>('bl-select-option[value="1"]');
     const selectOptionDiv =
-      selectOption?.shadowRoot?.querySelector<HTMLDivElement>('.single-option');
+      selectOption?.shadowRoot?.querySelector<HTMLDivElement>(".single-option");
 
     setTimeout(() => selectOptionDiv?.click());
-    const event = await oneEvent(el, 'bl-select');
+    const event = await oneEvent(el, "bl-select");
 
     expect(event).to.exist;
     expect(event.detail.length).to.equal(1);
     expect(el.selectedOptions.length).to.equal(1);
   });
-  it('should remove selected item if it is already selected', async () => {
+  it("should remove selected item if it is already selected", async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);
 
     const selectOption = el.querySelector<BlSelectOption>('bl-select-option[value="2"]');
-    const selectOptionCheckbox = selectOption?.shadowRoot?.querySelector<BlCheckbox>('bl-checkbox');
-    const checkboxEvent = new CustomEvent('bl-checkbox-change', {
+    const selectOptionCheckbox = selectOption?.shadowRoot?.querySelector<BlCheckbox>("bl-checkbox");
+    const checkboxEvent = new CustomEvent("bl-checkbox-change", {
       detail: false,
     });
+
     selectOptionCheckbox?.dispatchEvent(checkboxEvent);
 
     expect(el.selectedOptions.length).to.equal(0);
   });
-  it('should clear connected options & selected items when multiple property has changed', async () => {
+  it("should clear connected options & selected items when multiple property has changed", async () => {
     const el = await fixture<BlSelect>(html`<bl-select multiple>
       <bl-select-option value="1">Option 1</bl-select-option>
       <bl-select-option value="2" selected>Option 2</bl-select-option>
     </bl-select>`);
 
-    el.removeAttribute('multiple');
+    el.removeAttribute("multiple");
 
     await elementUpdated(el);
 
-    const selectOption = el.querySelector<BlSelectOption>('bl-select-option[selected]');
+    const selectOption = el.querySelector<BlSelectOption>("bl-select-option[selected]");
 
     expect(selectOption).is.not.exist;
   });
 
-  describe('additional selection counter', () => {
+  describe("additional selection counter", () => {
     let el: BlSelect;
 
     beforeEach(async () => {
@@ -261,35 +270,35 @@ describe('bl-select', () => {
       await elementUpdated(el);
     });
 
-    it('should render bl-select-options when multiple options is true and there are selected options', async () => {
+    it("should render bl-select-options when multiple options is true and there are selected options", async () => {
       expect(el.options.length).to.equal(5);
-      expect(el.selectedOptions.length).to.equal(4, 'selectedOptions count is wrong');
+      expect(el.selectedOptions.length).to.equal(4, "selectedOptions count is wrong");
       expect(el.additionalSelectedOptionCount).to.equal(
         3,
-        'non visible selected option count is wrong'
+        "non visible selected option count is wrong"
       );
     });
 
-    it('should show additional selection number', async () => {
-      const inputWrapper = el.shadowRoot?.querySelector('.select-input');
+    it("should show additional selection number", async () => {
+      const inputWrapper = el.shadowRoot?.querySelector(".select-input");
 
-      expect(inputWrapper?.classList.contains('has-overflowed-options')).to.be.true;
+      expect(inputWrapper?.classList.contains("has-overflowed-options")).to.be.true;
     });
 
-    it('should clear additional selection number when value set', async () => {
+    it("should clear additional selection number when value set", async () => {
       el.value = [];
 
       await elementUpdated(el);
 
-      const inputWrapper = el.shadowRoot?.querySelector('.select-input');
+      const inputWrapper = el.shadowRoot?.querySelector(".select-input");
 
-      expect(inputWrapper?.classList.contains('has-overflowed-options')).to.be.false;
+      expect(inputWrapper?.classList.contains("has-overflowed-options")).to.be.false;
     });
   });
 
-  describe('value attribute', () => {
-    describe('initial value', () => {
-      it('should set correct option as selected when value is simple string', async () => {
+  describe("value attribute", () => {
+    describe("initial value", () => {
+      it("should set correct option as selected when value is simple string", async () => {
         const el = await fixture<BlSelect>(html`<bl-select name="test" value="2">
           <bl-select-option value="1">Option 1</bl-select-option>
           <bl-select-option value="2">Option 2</bl-select-option>
@@ -303,7 +312,7 @@ describe('bl-select', () => {
           .true;
       });
 
-      it('should be overriden by the selected attribute of options', async () => {
+      it("should be overriden by the selected attribute of options", async () => {
         const el = await fixture<BlSelect>(html`<bl-select name="test" value="2">
           <bl-select-option value="1" selected>Option 1</bl-select-option>
           <bl-select-option value="2">Option 2</bl-select-option>
@@ -315,27 +324,27 @@ describe('bl-select', () => {
           .true;
         expect(el.querySelector<BlSelectOption>('bl-select-option[value="2"]')?.selected).to.be
           .false;
-        expect(el.value).to.equal('1');
+        expect(el.value).to.equal("1");
       });
     });
   });
 
-  describe('form integration', () => {
-    it('should show errors when parent form is submitted', async () => {
+  describe("form integration", () => {
+    it("should show errors when parent form is submitted", async () => {
       const form = await fixture<HTMLFormElement>(html`<form novalidate>
         <bl-select required></bl-select>
       </form>`);
 
-      const blSelect = form.querySelector<BlSelect>('bl-select');
+      const blSelect = form.querySelector<BlSelect>("bl-select");
 
-      form.addEventListener('submit', e => e.preventDefault());
+      form.addEventListener("submit", e => e.preventDefault());
 
-      form.dispatchEvent(new SubmitEvent('submit', { cancelable: true }));
+      form.dispatchEvent(new SubmitEvent("submit", { cancelable: true }));
 
       await elementUpdated(form);
 
       const errorMessageElement = <HTMLParagraphElement>(
-        blSelect?.shadowRoot?.querySelector('.invalid-text')
+        blSelect?.shadowRoot?.querySelector(".invalid-text")
       );
 
       expect(blSelect?.validity.valid).to.be.false;
@@ -343,7 +352,7 @@ describe('bl-select', () => {
       expect(errorMessageElement).to.exist;
     });
 
-    it('should return the initial value when form reset called', async () => {
+    it("should return the initial value when form reset called", async () => {
       const form = await fixture<HTMLFormElement>(html`<form novalidate>
         <bl-select name="country" value="tr">
           <bl-select-option value="tr">Turkiye</bl-select-option>
@@ -354,35 +363,35 @@ describe('bl-select', () => {
         <button type="reset">Reset</button>
       </form>`);
 
-      const blSelect = form.querySelector<BlSelect>('bl-select');
+      const blSelect = form.querySelector<BlSelect>("bl-select");
 
       await elementUpdated(form);
 
       form.querySelector('bl-select-option[value="nl"]')?.dispatchEvent(
-        new CustomEvent('bl-select-option', {
+        new CustomEvent("bl-select-option", {
           bubbles: true,
-          detail: 'nl',
+          detail: "nl",
         })
       );
 
       await elementUpdated(form);
 
-      expect(blSelect?.value).to.equal('nl');
+      expect(blSelect?.value).to.equal("nl");
 
       form.querySelector<HTMLButtonElement>('button[type="reset"]')?.click();
 
       await elementUpdated(form);
 
-      expect(blSelect?.value).to.equal('tr');
+      expect(blSelect?.value).to.equal("tr");
     });
   });
 
-  describe('keyboard navigation', () => {
+  describe("keyboard navigation", () => {
     let el: HTMLDivElement, blSelect: BlSelect;
     const tabKey =
-      navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('HeadlessChrome')
-        ? 'Alt+Tab'
-        : 'Tab';
+      navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("HeadlessChrome")
+        ? "Alt+Tab"
+        : "Tab";
 
     beforeEach(async () => {
       //when
@@ -398,12 +407,12 @@ describe('bl-select', () => {
 
       await elementUpdated(el);
 
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+      el.querySelector<HTMLInputElement>("#previnput")?.focus();
 
-      blSelect = el.querySelector('bl-select') as BlSelect;
+      blSelect = el.querySelector("bl-select") as BlSelect;
     });
 
-    it('should get focus with tab key', async () => {
+    it("should get focus with tab key", async () => {
       //given
       await sendKeys({
         press: tabKey,
@@ -413,7 +422,7 @@ describe('bl-select', () => {
       expect(document.activeElement).to.equal(blSelect);
     });
 
-    it('should not get focus if it is disabled', async () => {
+    it("should not get focus if it is disabled", async () => {
       blSelect.disabled = true;
 
       // given
@@ -425,7 +434,7 @@ describe('bl-select', () => {
       expect(document.activeElement).to.not.equal(blSelect);
     });
 
-    ['Space', 'Enter', 'ArrowDown', 'ArrowUp'].forEach(keyCode => {
+    ["Space", "Enter", "ArrowDown", "ArrowUp"].forEach(keyCode => {
       it(`should open popover with ${keyCode} key`, async () => {
         //given
         await sendKeys({
@@ -440,7 +449,7 @@ describe('bl-select', () => {
       });
     });
 
-    ['Space', 'Enter', 'Escape'].forEach(keyCode => {
+    ["Space", "Enter", "Escape"].forEach(keyCode => {
       it(`should close popover with ${keyCode} key`, async () => {
         // when
         blSelect?.open();
@@ -458,42 +467,42 @@ describe('bl-select', () => {
       });
     });
 
-    it('should focus first option with arrow down key', async () => {
-      const firstOption = el.querySelector<BlSelectOption>('bl-select-option');
+    it("should focus first option with arrow down key", async () => {
+      const firstOption = el.querySelector<BlSelectOption>("bl-select-option");
 
       //given
       await sendKeys({
         press: tabKey,
       });
       await sendKeys({
-        press: 'Space',
+        press: "Space",
       });
       await sendKeys({
-        press: 'ArrowDown',
+        press: "ArrowDown",
       });
 
       //then
       expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
     });
 
-    it('should focus previous option with arrow up key', async () => {
-      const firstOption = el.querySelector<BlSelectOption>('bl-select-option');
+    it("should focus previous option with arrow up key", async () => {
+      const firstOption = el.querySelector<BlSelectOption>("bl-select-option");
 
       //given
       await sendKeys({
         press: tabKey,
       });
       await sendKeys({
-        press: 'Space',
+        press: "Space",
       });
       await sendKeys({
-        press: 'ArrowDown',
+        press: "ArrowDown",
       });
       await sendKeys({
-        press: 'ArrowDown',
+        press: "ArrowDown",
       });
       await sendKeys({
-        press: 'ArrowUp',
+        press: "ArrowUp",
       });
 
       //then

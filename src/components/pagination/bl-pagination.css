@@ -30,7 +30,7 @@
 }
 
 .dots::before {
-  content: ' \B7 \B7 \B7';
+  content: " \B7 \B7 \B7";
   color: var(--bl-color-neutral-darker);
 }
 

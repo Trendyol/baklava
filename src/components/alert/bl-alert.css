@@ -73,17 +73,17 @@
   display: none;
 }
 
-:host([variant='success']) .alert {
+:host([variant="success"]) .alert {
   --main-color: var(--bl-color-success);
   --main-bg-color: var(--bl-color-success-contrast);
 }
 
-:host([variant='warning']) .alert {
+:host([variant="warning"]) .alert {
   --main-color: var(--bl-color-warning);
   --main-bg-color: var(--bl-color-warning-contrast);
 }
 
-:host([variant='danger']) .alert {
+:host([variant="danger"]) .alert {
   --main-color: var(--bl-color-danger);
   --main-bg-color: var(--bl-color-danger-contrast);
 }

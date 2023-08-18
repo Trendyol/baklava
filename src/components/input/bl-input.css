@@ -34,14 +34,14 @@
   --icon-color: var(--bl-color-danger);
 }
 
-:host([size='large']) .wrapper {
+:host([size="large"]) .wrapper {
   --height: var(--bl-size-3xl);
   --padding-vertical: var(--bl-size-xs);
   --padding-horizontal: var(--bl-size-m);
   --icon-gap: var(--bl-size-m);
 }
 
-:host([size='small']) .wrapper {
+:host([size="small"]) .wrapper {
   --height: var(--bl-size-xl);
   --input-font: var(--bl-font-body-text-3);
   --padding-vertical: var(--bl-size-3xs);
@@ -58,7 +58,16 @@
   gap: var(--padding-vertical);
   height: var(--height);
   border: solid var(--border-size) var(--border-color);
-  padding: 0 calc(var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding) - var(--border-size)) 0 calc(var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding) - var(--border-size));
+  padding: 0
+    calc(
+      var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding) -
+        var(--border-size)
+    )
+    0
+    calc(
+      var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding) -
+        var(--border-size)
+    );
   background-color: var(--background-color);
   border-radius: var(--bl-size-3xs);
   margin: 0;
@@ -92,7 +101,7 @@ label {
 label {
   position: absolute;
   max-width: max-content;
-  transition: all ease-in .1s;
+  transition: all ease-in 0.1s;
   font: var(--input-font);
   top: var(--padding-vertical);
   left: var(--bl-input-padding-start, var(--padding-horizontal));
@@ -102,7 +111,10 @@ label {
 }
 
 .has-icon label {
-  right: calc(var(--bl-input-padding-end, var(--padding-horizontal)) + var(--icon-size) + var(--padding-vertical));
+  right: calc(
+    var(--bl-input-padding-end, var(--padding-horizontal)) + var(--icon-size) +
+      var(--padding-vertical)
+  );
 }
 
 .input-wrapper legend {
@@ -183,15 +195,15 @@ bl-icon:not(.reveal-icon),
   display: none;
 }
 
-bl-icon[name='eye_on'] {
+bl-icon[name="eye_on"] {
   display: inline-block;
 }
 
-.password-visible bl-icon[name='eye_on'] {
+.password-visible bl-icon[name="eye_on"] {
   display: none;
 }
 
-.password-visible bl-icon[name='eye_off'] {
+.password-visible bl-icon[name="eye_off"] {
   display: inline-block;
 }
 
@@ -290,4 +302,3 @@ bl-icon[name='eye_on'] {
 .dirty.invalid .error-icon {
   display: inline-block;
 }
-
