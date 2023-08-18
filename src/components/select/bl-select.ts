@@ -2,14 +2,7 @@ import { CSSResultGroup, html, LitElement, PropertyValues } from "lit";
 import { customElement, property, query, queryAll, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import {
-  autoUpdate,
-  computePosition,
-  flip,
-  MiddlewareState,
-  offset,
-  size,
-} from "@floating-ui/dom";
+import { autoUpdate, computePosition, flip, MiddlewareState, offset, size } from "@floating-ui/dom";
 import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
@@ -380,10 +373,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     if (this.focusedOptionIndex === -1 && ["Enter", "Space"].includes(event.code)) {
       this.togglePopover();
       event.preventDefault();
-    } else if (
-      this._isPopoverOpen === false &&
-      ["ArrowDown", "ArrowUp"].includes(event.code)
-    ) {
+    } else if (this._isPopoverOpen === false && ["ArrowDown", "ArrowUp"].includes(event.code)) {
       this.open();
       event.preventDefault();
     } else if (event.code === "Escape") {

@@ -132,13 +132,7 @@ export default class BlPagination extends LitElement {
     if (this.currentPage < 5) {
       this.pages.push(2, 3, 4, 5, "...");
     } else if (this.currentPage >= 5 && this.currentPage <= pageListLength - 4) {
-      this.pages.push(
-        "...",
-        this.currentPage - 1,
-        this.currentPage,
-        this.currentPage + 1,
-        "..."
-      );
+      this.pages.push("...", this.currentPage - 1, this.currentPage, this.currentPage + 1, "...");
     } else {
       this.pages.push(
         "...",
@@ -245,11 +239,7 @@ export default class BlPagination extends LitElement {
       ? html`
           <div class="select">
             <label>${this.selectLabel}</label>
-            <bl-select
-              @bl-select="${this._selectHandler}"
-              .value=${this.itemsPerPage}
-              required
-            >
+            <bl-select @bl-select="${this._selectHandler}" .value=${this.itemsPerPage} required>
               ${this.itemsPerPageOptions.map(option => {
                 return html`<bl-select-option .value=${option.value}
                   >${option.text}</bl-select-option

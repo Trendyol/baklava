@@ -13,9 +13,7 @@
   --padding-horizontal: var(--bl-size-xs);
   --label-padding: var(--bl-size-3xs);
   --border-size: 1px;
-  --default-scroll-height: calc(
-    (var(--row-count) * var(--line-height)) + var(--padding-vertical)
-  );
+  --default-scroll-height: calc((var(--row-count) * var(--line-height)) + var(--padding-vertical));
   --height: max(var(--scroll-height), var(--default-scroll-height));
   --input-font: var(--bl-font-body-text-2);
   --border-radius: var(--bl-size-3xs);
@@ -42,9 +40,7 @@
 }
 
 textarea {
-  --parent-padding: calc(
-    var(--padding-horizontal) - var(--label-padding) - var(--border-size)
-  );
+  --parent-padding: calc(var(--padding-horizontal) - var(--label-padding) - var(--border-size));
 
   width: 100%;
   align-self: stretch;

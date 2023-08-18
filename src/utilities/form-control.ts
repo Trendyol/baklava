@@ -27,9 +27,7 @@ export const textareaLengthValidator = {
   ...maxLengthValidator,
   isValid(instance: HTMLElement & { validationTarget: HTMLTextAreaElement }) {
     if (instance.validationTarget && instance.getAttribute("maxlength")) {
-      return (
-        Number(instance.getAttribute("maxlength")) >= instance.validationTarget.value.length
-      );
+      return Number(instance.getAttribute("maxlength")) >= instance.validationTarget.value.length;
     }
     return true;
   },
