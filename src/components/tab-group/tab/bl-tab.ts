@@ -112,13 +112,7 @@ export default class BlTab extends LitElement {
     const helpTooltip = this.helpText
       ? html` <div class="help-container">
           <bl-tooltip>
-            <bl-button
-              slot="tooltip-trigger"
-              icon="info"
-              variant="tertiary"
-              kind="neutral"
-              label="${this.helpText}"
-            ></bl-button>
+            <bl-icon name="info" slot="tooltip-trigger"></bl-icon>
             ${this.helpText}
           </bl-tooltip>
         </div>`
