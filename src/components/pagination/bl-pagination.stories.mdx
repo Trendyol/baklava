@@ -69,8 +69,8 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
   }}
 />
 
-export const PaginationTemplate = (args) => html`
-      <bl-pagination
+export const PaginationTemplate = (args) => html`<bl-pagination
+      class=${ifDefined(args.class)}
       current-page=${ifDefined(args.currentPage)}
       total-items=${ifDefined(args.totalItems)}
       items-per-page=${ifDefined(args.itemsPerPage)}
@@ -79,9 +79,16 @@ export const PaginationTemplate = (args) => html`
       has-select=${ifDefined(args.hasSelect)}
       select-label=${ifDefined(args.selectLabel)}
       .itemsPerPageOptions=${ifDefined(args.itemsPerPageOptions)}
-      >
-      </bl-pagination>
+      ></bl-pagination>
   `
+export const PaginationTemplateWithStyle = (args) => html`
+<style>
+  .${args.class} {
+    --bl-pagination-page-size-width: ${args.pageSizeWidth};
+  }
+</style>
+${PaginationTemplate(args)}
+`
 
 # Pagination
 
@@ -180,6 +187,44 @@ To set a custom options list for `bl-pagination`, use the **itemsPerPageOptions*
   ]
 </script>
 ```
+
+### Customizing styles
+
+Currently pagination component uses other Baklava components internally (`bl-select`, `bl-input`, `bl-button`). So you are able yo customize them with their respected CSS variables.
+
+Also you can set width page size field with `--bl-pagination-page-size-width` CSS variable.
+
+<Canvas>
+<Story name="Customizing Page Size Width" args={{
+class: 'page-size-width-example',
+totalItems:15000,
+hasJumper:true,
+hasSelect:true,
+pageSizeWidth: '144px',
+itemsPerPage: 1000,
+itemsPerPageOptions:
+[
+  {
+    text: '100 Products',
+    value: 100,
+  },
+  {
+    text: '250 Products',
+    value: 250,
+  },
+  {
+    text: '500 Products',
+    value: 500,
+  },
+  {
+    text: '1000 Products',
+    value: 1000,
+  }
+]
+}}>
+    {PaginationTemplateWithStyle.bind({})}
+  </Story>
+</Canvas>
 
 ## Reference
 
