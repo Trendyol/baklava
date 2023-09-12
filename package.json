@@ -71,7 +71,7 @@
     "lit": "^2.8.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=16"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
