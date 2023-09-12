@@ -143,10 +143,10 @@ If label doesn't fit the row and goes multiline, checkmark stays on top.
   </Story>
 </Canvas>
 
-Also if a single word doesn't fit the line, it also being forced to multiline (with `word-break: break-all;`).
+Also if a single word doesn't fit the line, it also being forced to multiline (with `overflow-wrap: break-word;`).
 
 <Canvas>
-  <Story name="A very long word" args={{ label: "Some/Very&LongSingleWord" }}>
+  <Story name="A very long word" args={{ label: "Some Short and Some/Very&LongSingleWords Together" }}>
     {CheckboxLimitedWidthTemplate.bind({})}
   </Story>
 </Canvas>

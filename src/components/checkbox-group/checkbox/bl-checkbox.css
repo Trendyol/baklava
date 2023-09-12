@@ -17,7 +17,7 @@ label {
 }
 
 .label {
-  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 input {
