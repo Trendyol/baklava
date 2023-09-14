@@ -219,7 +219,12 @@ export default class BlPopover extends LitElement {
 
   private _handlePopoverShowEvent(event: Event) {
     if (event.target !== this) {
-      this.hide();
+      const { parentElement } = event.target as HTMLElement;
+      const hasPopoverParent = parentElement?.closest("bl-popover") === this;
+
+      if (!hasPopoverParent) {
+        this.hide();
+      }
     }
   }
 
