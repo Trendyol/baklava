@@ -39,6 +39,8 @@ export const popoverOpener = async ({canvasElement}) => {
 
 export const nestedPopoverOpener = async ({canvasElement}) => {
   await popoverOpener({ canvasElement });
+  // Prevent flaky chromatic firefox screenshot.
+  await new Promise((resolve) => setTimeout(resolve, 100));
   await popoverOpener({ canvasElement: canvasElement.querySelector('#popover-nested-parent') });
 }
 
