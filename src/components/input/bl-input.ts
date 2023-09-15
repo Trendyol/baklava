@@ -285,9 +285,9 @@ export default class BlInput extends FormControlMixin(LitElement) {
       this.setValue(this.value);
 
       await this.validationComplete;
-
-      this.requestUpdate();
     }
+
+    this.requestUpdate();
   }
 
   private inputId = Math.random().toString(36).substring(2);
