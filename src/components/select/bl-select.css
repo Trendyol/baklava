@@ -70,10 +70,11 @@
   -webkit-user-select: none;
   user-select: none;
   margin: 0;
-  width: 0;
+  width: auto;
   min-width: 100%;
 }
 
+.label,
 .placeholder {
   color: var(--placeholder-color);
   padding-left: var(--label-padding);
@@ -83,8 +84,14 @@
   text-overflow: ellipsis;
 }
 
+:host(:not([placeholder])) .placeholder,
 .select-wrapper.selected .placeholder,
 :host([label]:not([label-fixed])) .select-wrapper:not(.select-open) .placeholder {
+  display: none;
+}
+
+:host([label-fixed]) .label,
+:host(:not([label])) .label {
   display: none;
 }
 
@@ -219,7 +226,6 @@ bl-icon {
 
 legend,
 label {
-  max-width: max-content;
   padding: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -234,6 +240,7 @@ label {
   right: calc(var(--bl-size-2xs) + var(--bl-size-m) + var(--bl-size-2xs));
   transition: all ease-in 0.1s;
   pointer-events: none;
+  opacity: 0;
   font: var(--bl-font-title-3-regular);
   font-size: var(--font-size);
   color: var(--placeholder-color);
@@ -252,6 +259,11 @@ legend span {
   visibility: visible;
 }
 
+:where(.selected) .label,
+:host(:not([placeholder]).select-open) .label {
+  display: none;
+}
+
 :where(.select-open, .selected) label {
   top: 0;
   transform: translateY(-50%);
@@ -259,6 +271,7 @@ legend span {
   color: var(--label-color);
   pointer-events: initial;
   right: var(--padding-horizontal);
+  opacity: 1;
 }
 
 :host([label]) :where(.select-open, .selected) legend {
@@ -275,6 +288,7 @@ legend span {
   pointer-events: initial;
   font: var(--bl-font-caption);
   color: var(--label-color);
+  opacity: 1;
 }
 
 :host([label-fixed]) legend {
