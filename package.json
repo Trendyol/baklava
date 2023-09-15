@@ -68,10 +68,10 @@
     "@open-wc/form-control": "^0.7.0",
     "@open-wc/form-helpers": "^0.2.2",
     "element-internals-polyfill": "^1.2.3",
-    "lit": "^2.6.1"
+    "lit": "^2.8.0"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
