@@ -1,5 +1,8 @@
 import { assert, expect, fixture, oneEvent, html, elementUpdated } from "@open-wc/testing";
+import spies from "chai-spies";
 import BlInput from "./bl-input";
+
+chai.use(spies);
 
 describe("bl-input", () => {
   it("is defined", () => {
@@ -42,6 +45,16 @@ describe("bl-input", () => {
 
     expect(el.type).to.equal("number");
     expect(el.shadowRoot?.querySelector("input")?.getAttribute("type")).to.equal("number");
+  });
+
+  it('should call showPicker if "showPicker" is in HTMLInputElement.prototype', async () => {
+    const el = await fixture<BlInput>(html`<bl-input type="input"></bl-input>`);
+    const spy = chai.spy.on(el.validationTarget, "showPicker");
+
+    el.showPicker();
+
+    expect(HTMLInputElement.prototype).to.have.property("showPicker");
+    expect(spy).to.have.been.called.once;
   });
 
   it("should set type password", async () => {
