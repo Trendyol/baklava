@@ -64,7 +64,7 @@
   "dependencies": {
     "@floating-ui/dom": "^1.2.3",
     "@fontsource-variable/rubik": "^5.0.2",
-    "@lit-labs/react": "^1.1.1",
+    "@lit-labs/react": "^2.0.3",
     "@open-wc/form-control": "^0.7.0",
     "@open-wc/form-helpers": "^0.2.2",
     "element-internals-polyfill": "^1.2.3",
