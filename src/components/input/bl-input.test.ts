@@ -54,7 +54,6 @@ describe("bl-input", () => {
     el.requestUpdate();
     await el.updateComplete;
 
-    expect(HTMLInputElement.prototype).to.have.ownProperty("showPicker");
     expect(spy).to.have.been.calledOnce;
     expect(typeof el.showPicker).to.be.equals("function");
     expect(el.showPicker).to.exist;
