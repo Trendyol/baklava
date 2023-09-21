@@ -281,13 +281,13 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   protected async updated(changedProperties: PropertyValues) {
-    if (changedProperties.has("value")) {
+    if (changedProperties.size > 0) {
       this.setValue(this.value);
 
       await this.validationComplete;
-    }
 
-    this.requestUpdate();
+      this.requestUpdate();
+    }
   }
 
   private inputId = Math.random().toString(36).substring(2);
