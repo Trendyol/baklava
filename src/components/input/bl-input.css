@@ -61,12 +61,12 @@
   padding: 0
     calc(
       var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding) -
-      var(--border-size)
+        var(--border-size)
     )
     0
     calc(
       var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding) -
-      var(--border-size)
+        var(--border-size)
     );
   background-color: var(--background-color);
   border-radius: var(--bl-size-3xs);
@@ -113,7 +113,7 @@ label {
 .has-icon label {
   right: calc(
     var(--bl-input-padding-end, var(--padding-horizontal)) + var(--icon-size) +
-    var(--padding-vertical)
+      var(--padding-vertical)
   );
 }
 
