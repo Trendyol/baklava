@@ -11,3 +11,7 @@ declare module "*.svg" {
   export default content;
 }
 declare module "*.css";
+
+interface HTMLInputElement {
+  showPicker: () => void;
+}

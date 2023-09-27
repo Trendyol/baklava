@@ -240,6 +240,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
     this.passwordVisible = !this.passwordVisible;
   }
 
+  showPicker() {
+    if ("showPicker" in HTMLInputElement.prototype) {
+      this.validationTarget.showPicker();
+    }
+  }
+
   validityCallback(): string | void {
     this.onInvalid(this.internals.validity);
     return this.customInvalidText || this.validationTarget?.validationMessage;
