@@ -1,4 +1,5 @@
 import { assert, expect, fixture, oneEvent, html, elementUpdated } from "@open-wc/testing";
+import { stub } from "sinon";
 import BlInput from "./bl-input";
 
 describe("bl-input", () => {
@@ -42,6 +43,20 @@ describe("bl-input", () => {
 
     expect(el.type).to.equal("number");
     expect(el.shadowRoot?.querySelector("input")?.getAttribute("type")).to.equal("number");
+  });
+
+  it('should call showPicker if "showPicker" is in HTMLInputElement.prototype', async () => {
+    const el = await fixture<BlInput>(html`<bl-input type="input"></bl-input>`);
+    const spy = stub(el.validationTarget, "showPicker");
+
+    el.showPicker();
+
+    el.requestUpdate();
+    await el.updateComplete;
+
+    expect(spy).to.have.been.calledOnce;
+    expect(typeof el.showPicker).to.be.equals("function");
+    expect(el.showPicker).to.exist;
   });
 
   it("should set type password", async () => {
