@@ -24,8 +24,7 @@ export type InputType =
   | "password"
   | "number"
   | "tel"
-  | "url"
-  | "search";
+  | "url";
 
 export type InputSize = "small" | "medium" | "large";
 /**
