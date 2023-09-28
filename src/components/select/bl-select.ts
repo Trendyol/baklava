@@ -320,6 +320,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     >
       <legend><span>${this.label}</span></legend>
       <span class="placeholder">${this.placeholder}</span>
+      <span class="label">${this.label}</span>
       ${inputSelectedOptions}
       <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
       <div class="actions">

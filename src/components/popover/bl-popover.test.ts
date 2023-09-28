@@ -167,4 +167,73 @@ describe("bl-popover", () => {
       expect(popoverEl.visible).to.false;
     });
   });
+
+  it("should hide when another bl-popover triggers show", async () => {
+    const body = await fixture<HTMLBodyElement>(html`
+      <div style="width: 1500px;height: 1500px;">
+        <bl-button id="mybtn"></bl-button>
+        <bl-popover id="mypopover" fit-size placement="bottom" offset="5" target="mybtn">
+          <span>Popover Content</span>
+        </bl-popover>
+        <bl-button id="mybtn-2"></bl-button>
+        <bl-popover id="mypopover2" fit-size placement="bottom" offset="5" target="mybtn2">
+          <span>Popover Content</span>
+        </bl-popover>
+      </div>
+    `);
+
+    const popoverEl = body.querySelector("#mypopover") as typeOfBlPopover;
+    const popoverEl2 = body.querySelector("#mypopover2") as typeOfBlPopover;
+    const btnEl = body.querySelector("bl-button") as typeOfBlButton;
+
+    popoverEl.setAttribute("target", "mybtn");
+    popoverEl2.setAttribute("target", "mybtn-2");
+    btnEl.onclick = () => {
+      popoverEl.show();
+    };
+    await btnEl.click();
+
+    expect(popoverEl.visible).to.true;
+
+    popoverEl2.show();
+
+    setTimeout(() => {
+      expect(popoverEl2.visible).to.true;
+      expect(popoverEl.visible).to.false;
+    });
+  });
+
+  it("should not hide when child bl-popover triggers show", async () => {
+    const body = await fixture<HTMLBodyElement>(html`
+      <div style="width: 1500px;height: 1500px;">
+        <bl-button id="mybtn"></bl-button>
+        <bl-popover id="mypopover" fit-size placement="bottom" offset="5" target="mybtn">
+          <bl-button id="mybtn-2"></bl-button>
+          <bl-popover id="mypopover2" fit-size placement="bottom" offset="5" target="mybtn2">
+            <span>Popover Content</span>
+          </bl-popover>
+        </bl-popover>
+      </div>
+    `);
+
+    const popoverEl = body.querySelector("#mypopover") as typeOfBlPopover;
+    const popoverEl2 = body.querySelector("#mypopover2") as typeOfBlPopover;
+    const btnEl = body.querySelector("bl-button") as typeOfBlButton;
+
+    popoverEl.setAttribute("target", "mybtn");
+    popoverEl2.setAttribute("target", "mybtn-2");
+    btnEl.onclick = () => {
+      popoverEl.show();
+    };
+    await btnEl.click();
+
+    expect(popoverEl.visible).to.true;
+
+    popoverEl2.show();
+
+    setTimeout(() => {
+      expect(popoverEl2.visible).to.true;
+      expect(popoverEl.visible).to.true;
+    });
+  });
 });

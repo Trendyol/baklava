@@ -230,6 +230,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
     this.passwordVisible = !this.passwordVisible;
   }
 
+  showPicker() {
+    if ("showPicker" in HTMLInputElement.prototype) {
+      this.validationTarget.showPicker();
+    }
+  }
+
   validityCallback(): string | void {
     this.onInvalid(this.internals.validity);
     return this.customInvalidText || this.validationTarget?.validationMessage;
@@ -281,7 +287,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   protected async updated(changedProperties: PropertyValues) {
-    if (changedProperties.has("value")) {
+    if (changedProperties.size > 0) {
       this.setValue(this.value);
 
       await this.validationComplete;

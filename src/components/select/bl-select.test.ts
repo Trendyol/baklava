@@ -29,6 +29,7 @@ describe("bl-select", () => {
         >
           <legend><span></span></legend>
           <span class="placeholder"></span>
+          <span class="label"></span>
           <ul class="selected-options"></ul>
           <span class="additional-selection-count">
             +0
