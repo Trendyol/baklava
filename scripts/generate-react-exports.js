@@ -27,12 +27,14 @@ for (const module of customElementsModules) {
   const componentDeclaration = declarations.find(declaration => declaration.customElement === true);
   const { events, name: componentName, tagName: fileName, jsDoc } = componentDeclaration;
 
-  const eventNames = events?.reduce((acc, curr) => {
+  const eventNames =
+    events?.reduce((acc, curr) => {
       acc[getReactEventName(curr.name)] = curr.name;
       return acc;
     }, {}) || {};
 
-  const eventTypes = events?.map(event => {
+  const eventTypes =
+    events?.map(event => {
       const eventName = getReactEventName(event.name);
       const eventType = cleanGenericTypes(componentDeclaration.typeParameters, event.type.text);
       const predefinedEventName = `${componentName}${eventName.split("onBl")[1]}`;
@@ -52,13 +54,15 @@ for (const module of customElementsModules) {
   const source = `
   ${jsDoc}
   export const ${componentName}: React.LazyExoticComponent<ReactWebComponent<${componentType}>> =
-  React.lazy(() => customElements.whenDefined('${fileName}').then(() =>
-    createComponent<${componentType}>({
-      react: React,
-      displayName: "${componentName}",
-      tagName: "${fileName}",
-      elementClass: customElements.get("${fileName}"),
-      events: ${JSON.stringify(eventNames)},
+  React.lazy(() =>
+    customElements.whenDefined('${fileName}').then(() => ({
+      default: createComponent<${componentType}>({
+        react: React,
+        displayName: "${componentName}",
+        tagName: "${fileName}",
+        elementClass: customElements.get("${fileName}"),
+        events: ${JSON.stringify(eventNames)},
+      })
     }))
   );
   `;
