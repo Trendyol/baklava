@@ -10,8 +10,6 @@ import style from "./bl-pagination.css";
 /**
  * @tag bl-pagination
  * @summary Baklava Pagination component
-
- * @cssproperty [--bl-pagination-page-size-width=128px] Sets the width of items per page field
  */
 
 @customElement("bl-pagination")
