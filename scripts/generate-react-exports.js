@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const importStatements = [
   'import React from "react";',
-  'import { type EventName, createComponent, ReactWebComponent } from "@lit-labs/react";',
+  'import { type EventName, createComponent } from "@lit-labs/react";',
 
   // FIXME: These types should be determined automatically
   'import { ISelectOption } from "./components/select/bl-select"',
@@ -52,9 +52,8 @@ for (const module of customElementsModules) {
   exportStatements.push(`export declare type ${componentName} = ${typeName}`);
 
   const source = `
-  ${jsDoc}
-  export const ${componentName}: React.LazyExoticComponent<ReactWebComponent<${componentType}>> =
-  React.lazy(() =>
+  ${jsDoc || ""}
+  export const ${componentName} = React.lazy(() =>
     customElements.whenDefined('${fileName}').then(() => ({
       default: createComponent<${componentType}>({
         react: React,
