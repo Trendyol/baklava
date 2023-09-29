@@ -27,19 +27,21 @@ for (const module of customElementsModules) {
   const componentDeclaration = declarations.find(declaration => declaration.customElement === true);
   const { events, name: componentName, tagName: fileName, jsDoc } = componentDeclaration;
 
-  const eventNames = events?.reduce((acc, curr) => {
-    acc[getReactEventName(curr.name)] = curr.name;
-    return acc;
-  }, {}) || {};
+  const eventNames =
+    events?.reduce((acc, curr) => {
+      acc[getReactEventName(curr.name)] = curr.name;
+      return acc;
+    }, {}) || {};
 
-  const eventTypes = events?.map(event => {
-    const eventName = getReactEventName(event.name);
-    const eventType = cleanGenericTypes(componentDeclaration.typeParameters, event.type.text);
-    const predefinedEventName = `${componentName}${eventName.split("onBl")[1]}`;
+  const eventTypes =
+    events?.map(event => {
+      const eventName = getReactEventName(event.name);
+      const eventType = cleanGenericTypes(componentDeclaration.typeParameters, event.type.text);
+      const predefinedEventName = `${componentName}${eventName.split("onBl")[1]}`;
 
-    eventStatements.push(`export declare type ${predefinedEventName} = ${eventType};`);
-    return `${eventName}: EventName<${predefinedEventName}>`;
-  }) || [];
+      eventStatements.push(`export declare type ${predefinedEventName} = ${eventType};`);
+      return `${eventName}: EventName<${predefinedEventName}>`;
+    }) || [];
 
   const importPath = path.replace(/^src\//, "").replace(/\.ts$/, "");
   const typeName = componentName + "Type";
@@ -52,13 +54,17 @@ for (const module of customElementsModules) {
   const source = `
   ${jsDoc}
   export const ${componentName}: React.LazyExoticComponent<ReactWebComponent<${componentType}>> =
-  customElements.whenDefined('${fileName}').then(() => createComponent<${componentType}>({
-    react: React,
-    displayName: "${componentName}",
-    tagName: "${fileName}",
-    elementClass: customElements.get("${fileName}"),
-    events: ${JSON.stringify(eventNames)},
-  }));
+  React.lazy(() =>
+    customElements.whenDefined('${fileName}').then(() => ({
+      default: createComponent<${componentType}>({
+        react: React,
+        displayName: "${componentName}",
+        tagName: "${fileName}",
+        elementClass: customElements.get("${fileName}"),
+        events: ${JSON.stringify(eventNames)},
+      })
+    }))
+  );
   `;
 
   baklavaReactFileParts.push(source);
