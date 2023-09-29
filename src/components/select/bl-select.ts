@@ -86,7 +86,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Sets the placeholder value. If left blank, the label value (if specified) is set as placeholder.
    */
-  @property({})
+  @property({ reflect: true })
   placeholder?: string;
 
   /**
@@ -110,13 +110,13 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Sets whether the selected option is clearable
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   clearable = false;
 
   /**
    * Allows multiple options to be selected
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   multiple = false;
 
   /**
@@ -134,13 +134,13 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Adds help text
    */
-  @property({ type: String, attribute: "help-text" })
+  @property({ type: String, attribute: "help-text", reflect: true })
   helpText?: string;
 
   /**
    * Set custom error message
    */
-  @property({ type: String, attribute: "invalid-text" })
+  @property({ type: String, attribute: "invalid-text", reflect: true })
   customInvalidText?: string;
 
   /* Declare internal reactive properties */
