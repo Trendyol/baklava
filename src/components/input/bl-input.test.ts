@@ -85,6 +85,25 @@ describe("bl-input", () => {
   });
 
   describe("input with icon", () => {
+    it("should show default icon", async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="time"></bl-input>`);
+      const defaultIcon = el.shadowRoot?.querySelector('bl-icon[name="clock"]');
+
+      expect(defaultIcon).to.exist;
+      expect(defaultIcon?.getAttribute("name")).to.equal("clock");
+      expect(el.shadowRoot?.querySelector(".has-icon")).to.exist;
+    });
+
+    it("should override default icon when custom icon is set", async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="time" icon="academy"></bl-input>`);
+      const defaultIcon = el.shadowRoot?.querySelector('bl-icon[name="clock"]');
+      const customIcon = el.shadowRoot?.querySelector('bl-icon[name="academy"]');
+
+      expect(defaultIcon).to.not.exist;
+      expect(customIcon).to.exist;
+      expect(el.shadowRoot?.querySelector(".has-icon")).to.exist;
+    });
+
     it("should show custom icon", async () => {
       const el = await fixture<BlInput>(html`<bl-input icon="info"></bl-input>`);
       const customIcon = el.shadowRoot?.querySelector('bl-icon[name="info"]');

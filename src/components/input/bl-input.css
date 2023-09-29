@@ -154,6 +154,14 @@ input:disabled {
   cursor: not-allowed;
 }
 
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+input::-moz-calendar-picker-indicator {
+  display: none;
+}
+
 input:autofill {
   background-color: var(--autofill-bg-color);
 
