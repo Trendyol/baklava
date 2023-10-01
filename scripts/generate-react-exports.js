@@ -3,7 +3,7 @@ import { pascalCase } from "pascal-case";
 import path from "path";
 import { format } from "prettier";
 import { fileURLToPath } from "url";
-
+import prettierConfig from "../.prettierrc.json" assert { type: "json" };
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -24,19 +24,18 @@ const baklavaReactFileParts = [];
 
 for (const module of customElementsModules) {
   const { declarations, path } = module;
-  const componentDeclaration = declarations.find(declaration => declaration.customElement === true);
-  const { events, name: componentName, tagName: fileName, jsDoc } = componentDeclaration;
+  const component = declarations.find(declaration => declaration.customElement === true);
+  const { name: componentName, tagName: fileName } = component;
 
-  const eventNames =
-    events?.reduce((acc, curr) => {
-      acc[getReactEventName(curr.name)] = curr.name;
-      return acc;
-    }, {}) || {};
+  const eventNames = (component.events || []).map(event => {
+    const reactEvent = getReactEventName(event.name);
+      const reactEventName = `${componentName}${reactEvent.split("onBl")[1]}`;
+      return `${reactEvent}: '${event.name}' as EventName<${reactEventName}>`;
+    }).join(',\n');
 
-  const eventTypes =
-    events?.map(event => {
+  const eventTypes = component.events?.map(event => {
       const eventName = getReactEventName(event.name);
-      const eventType = cleanGenericTypes(componentDeclaration.typeParameters, event.type.text);
+      const eventType = cleanGenericTypes(component.typeParameters, event.type.text);
       const predefinedEventName = `${componentName}${eventName.split("onBl")[1]}`;
 
       eventStatements.push(`export declare type ${predefinedEventName} = ${eventType};`);
@@ -51,16 +50,20 @@ for (const module of customElementsModules) {
   importStatements.push(`import type ${typeName} from "./${importPath}";`);
   exportStatements.push(`export declare type ${componentName} = ${typeName}`);
 
+  const jsDoc = component.jsDoc || "";
+
   const source = `
-  ${jsDoc || ""}
+  ${jsDoc}
   export const ${componentName} = React.lazy(() =>
     customElements.whenDefined('${fileName}').then(() => ({
-      default: createComponent<${componentType}>({
+      default: createComponent({
         react: React,
         displayName: "${componentName}",
         tagName: "${fileName}",
-        elementClass: customElements.get("${fileName}"),
-        events: ${JSON.stringify(eventNames)},
+        elementClass: customElements.get("${fileName}") as Constructor<${componentName}>,
+        events: {
+          ${eventNames}
+        },
       })
     }))
   );
@@ -76,16 +79,18 @@ function getReactEventName(baklavaEventName) {
 }
 
 function writeBaklavaReactFile(fileContentParts) {
+  const constructorType = `type Constructor<T> = { new (): T };`;
+
+
   const content = [
-    `/* eslint-disable @typescript-eslint/ban-ts-comment */`,
-    `// @ts-nocheck`,
     ...importStatements,
     ...eventStatements,
+    constructorType,
     ...exportStatements,
     ...fileContentParts,
   ].join("\n\n");
 
-  const formattedContent = format(content, { parser: "typescript" });
+  const formattedContent = format(content, Object.assign(prettierConfig, { parser: "typescript" }));
   const outputPath = `${__dirname}/../src/baklava-react.ts`;
   fs.writeFileSync(outputPath, formattedContent);
 }
