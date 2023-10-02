@@ -81,8 +81,9 @@ function getReactEventName(baklavaEventName) {
 function writeBaklavaReactFile(fileContentParts) {
   const constructorType = `type Constructor<T> = { new (): T };`;
 
-
   const content = [
+    `/* eslint-disable @typescript-eslint/ban-ts-comment */`,
+    `// @ts-nocheck`,
     ...importStatements,
     ...eventStatements,
     constructorType,
