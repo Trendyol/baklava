@@ -86,6 +86,13 @@ Also, you can add ignore rule as compiler options to your webpack or vite.
 }
 ```
 
+### TypeScript
+
+Baklava offers TypeScript support for Vue versions 2.7 and higher. To enable this support, you should create a file named `components.d.ts` within the "src" directory and include the following line:
+```ts
+/// <reference types="@trendyol/baklava/dist/baklava-vue.d.ts" />
+```
+
 #### Eslint Configuration
 
 Baklava components are developed with `kebab case`. Eslint uses `pascal case` by default. If you are using eslint in your project, it will automatically convert the baklava components to `pascal case`. To prevent this, you need to turn off the `pascal case` rule in your project.
