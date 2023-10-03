@@ -33,19 +33,9 @@ for (const module of customElementsModules) {
       return `${reactEvent}: '${event.name}' as EventName<${reactEventName}>`;
     }).join(',\n');
 
-  const eventTypes = component.events?.map(event => {
-      const eventName = getReactEventName(event.name);
-      const eventType = cleanGenericTypes(component.typeParameters, event.type.text);
-      const predefinedEventName = `${componentName}${eventName.split("onBl")[1]}`;
-
-      eventStatements.push(`export declare type ${predefinedEventName} = ${eventType};`);
-      return `${eventName}: EventName<${predefinedEventName}>`;
-    }) || [];
 
   const importPath = path.replace(/^src\//, "").replace(/\.ts$/, "");
   const typeName = componentName + "Type";
-  const formattedEventTypes = eventTypes.length ? `, {${eventTypes.join(", ")}}` : "";
-  const componentType = `${typeName}${formattedEventTypes}`;
 
   importStatements.push(`import type ${typeName} from "./${importPath}";`);
   exportStatements.push(`export declare type ${componentName} = ${typeName}`);
@@ -60,7 +50,7 @@ for (const module of customElementsModules) {
         react: React,
         displayName: "${componentName}",
         tagName: "${fileName}",
-        elementClass: customElements.get("${fileName}") as Constructor<${componentName}>,
+        elementClass: customElements.get("${fileName}") as Constructor<${componentName}Type>,
         events: {
           ${eventNames}
         },
@@ -94,14 +84,4 @@ function writeBaklavaReactFile(fileContentParts) {
   const formattedContent = format(content, Object.assign(prettierConfig, { parser: "typescript" }));
   const outputPath = `${__dirname}/../src/baklava-react.ts`;
   fs.writeFileSync(outputPath, formattedContent);
-}
-
-function cleanGenericTypes(typeParameters, eventType) {
-  if (!typeParameters?.length || typeParameters.length === 0) return eventType;
-
-  const paramNames = typeParameters.map(param => param.name);
-  const paramNamesPattern = paramNames.map(name => `<${name}>|${name} \\| | \\| ${name}`).join("|");
-  const regex = new RegExp(paramNamesPattern, "g");
-
-  return eventType.replace(regex, "");
 }
