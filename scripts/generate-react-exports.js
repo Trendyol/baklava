@@ -33,6 +33,13 @@ for (const module of customElementsModules) {
       return `${reactEvent}: '${event.name}' as EventName<${reactEventName}>`;
     }).join(',\n');
 
+    component.events?.forEach(event => {
+      const eventName = getReactEventName(event.name);
+      const eventType = cleanGenericTypes(component.typeParameters, event.type.text);
+      const predefinedEventName = `${componentName}${eventName.split("onBl")[1]}`;
+
+      eventStatements.push(`export declare type ${predefinedEventName} = ${eventType};`);
+    }) || [];
 
   const importPath = path.replace(/^src\//, "").replace(/\.ts$/, "");
   const typeName = componentName + "Type";
@@ -84,4 +91,14 @@ function writeBaklavaReactFile(fileContentParts) {
   const formattedContent = format(content, Object.assign(prettierConfig, { parser: "typescript" }));
   const outputPath = `${__dirname}/../src/baklava-react.ts`;
   fs.writeFileSync(outputPath, formattedContent);
+}
+
+function cleanGenericTypes(typeParameters, eventType) {
+  if (!typeParameters?.length || typeParameters.length === 0) return eventType;
+
+  const paramNames = typeParameters.map(param => param.name);
+  const paramNamesPattern = paramNames.map(name => `<${name}>|${name} \\| | \\| ${name}`).join("|");
+  const regex = new RegExp(paramNamesPattern, "g");
+
+  return eventType.replace(regex, "");
 }
