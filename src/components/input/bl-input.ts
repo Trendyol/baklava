@@ -24,7 +24,17 @@ export type InputType =
   | "password"
   | "number"
   | "tel"
-  | "url";
+  | "url"
+  | "search";
+
+const inputTypeIcons: Partial<Record<InputType, BaklavaIcon>> = {
+  "date": "calendar",
+  "datetime-local": "calendar",
+  "month": "calendar",
+  "week": "calendar",
+  "time": "clock",
+  "search": "search",
+};
 
 export type InputSize = "small" | "medium" | "large";
 /**
@@ -53,7 +63,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   name?: string;
 
   /**
-   * Type of the input. It's used to set `type` attribute of native input inside. Only `text`, `number` and `password` is supported for now.
+   * Type of the input. It's used to set `type` attribute of native input inside.
    */
   @property({ reflect: true })
   type: InputType = "text";
@@ -284,6 +294,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   firstUpdated() {
     this.setValue(this.value);
+    if (!this.icon) this.icon = inputTypeIcons[this.type];
   }
 
   protected async updated(changedProperties: PropertyValues) {
