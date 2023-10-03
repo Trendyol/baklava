@@ -33,19 +33,17 @@ for (const module of customElementsModules) {
       return `${reactEvent}: '${event.name}' as EventName<${reactEventName}>`;
     }).join(',\n');
 
-    component.events?.forEach(event => {
-      const eventName = getReactEventName(event.name);
-      const eventType = cleanGenericTypes(component.typeParameters, event.type.text);
-      const predefinedEventName = `${componentName}${eventName.split("onBl")[1]}`;
+  component.events?.forEach(event => {
+    const eventName = getReactEventName(event.name);
+    const eventType = cleanGenericTypes(component.typeParameters, event.type.text);
+    const predefinedEventName = `${componentName}${eventName.split("onBl")[1]}`;
 
-      eventStatements.push(`export declare type ${predefinedEventName} = ${eventType};`);
-    }) || [];
+    eventStatements.push(`export declare type ${predefinedEventName} = ${eventType};`);
+  }) || [];
 
   const importPath = path.replace(/^src\//, "").replace(/\.ts$/, "");
-  const typeName = componentName + "Type";
 
-  importStatements.push(`import type ${typeName} from "./${importPath}";`);
-  exportStatements.push(`export declare type ${componentName} = ${typeName}`);
+  importStatements.push(`export type ${componentName} = import("./${importPath}").default;`);
 
   const jsDoc = component.jsDoc || "";
 
@@ -57,7 +55,7 @@ for (const module of customElementsModules) {
         react: React,
         displayName: "${componentName}",
         tagName: "${fileName}",
-        elementClass: customElements.get("${fileName}") as Constructor<${componentName}Type>,
+        elementClass: customElements.get("${fileName}") as Constructor<${componentName}>,
         events: {
           ${eventNames}
         },
