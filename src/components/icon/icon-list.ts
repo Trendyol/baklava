@@ -110,7 +110,7 @@ const icons = [
   "market_order_cancel",
   "market_order_change",
   "market_order_check",
-  "market_order_processing",
+  "market_processing",
   "meal_bag",
   "medal",
   "message",
