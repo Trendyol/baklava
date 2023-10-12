@@ -21,3 +21,4 @@ docs/
 .octane-ci/
 .bin/
 .docksal/
+*.test.ts

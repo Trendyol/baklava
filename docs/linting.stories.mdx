@@ -10,7 +10,7 @@ Linters that we use are [`eslint`](https://eslint.org), [`stylelint`](https://st
 [`commitlint`](https://commitlint.js.org). When make a git commit, some staged files processed with linters (via
 [`husky`](https://typicode.github.io/husky/)) to check some syntax issues. `eslint` run for `ts` and `js` files and
 `stylelint` run for `css` files. Also we check commit message with `commitlint`. [More information about our commit
-rules](/docs/documentation-commit-rules--page). If there are any issues commit will be
+rules](/docs/documentation-contributing-baklava-commit-rules--documentation). If there are any issues commit will be
 interrupted with the message.
 
 Same rules also apply in pipeline flow for every push. In the pipelines, we run `npm run lint` which is doing same

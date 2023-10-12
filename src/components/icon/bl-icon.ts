@@ -1,11 +1,10 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
-import { getIconPath } from '../../utilities/asset-paths';
-import { event, EventDispatcher } from '../../utilities/event';
-
-import style from './bl-icon.css';
-import { BaklavaIcon } from './icon-list';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
+import { unsafeSVG } from "lit/directives/unsafe-svg.js";
+import { getIconPath } from "../../utilities/asset-paths";
+import { event, EventDispatcher } from "../../utilities/event";
+import style from "./bl-icon.css";
+import { BaklavaIcon } from "./icon-list";
 
 const requestMap = new Map<string, Promise<Response>>();
 
@@ -16,7 +15,7 @@ const requestMap = new Map<string, Promise<Response>>();
  * @cssproperty [font-size] Setting size of icon. Default is current font size in DOM place
  * @cssproperty [color=currentColor] Setting color of icon
  */
-@customElement('bl-icon')
+@customElement("bl-icon")
 export default class BlIcon extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
@@ -42,12 +41,12 @@ export default class BlIcon extends LitElement {
   /**
    * Fires when SVG icon loaded
    */
-  @event('bl-load') private onLoad: EventDispatcher<string>;
+  @event("bl-load") private onLoad: EventDispatcher<string>;
 
   /**
    * Fires when SVG icon failed to load
    */
-  @event('bl-error') private onError: EventDispatcher<string>;
+  @event("bl-error") private onError: EventDispatcher<string>;
 
   @state() private svg: string;
 
@@ -82,6 +81,6 @@ export default class BlIcon extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-icon': BlIcon;
+    "bl-icon": BlIcon;
   }
 }
