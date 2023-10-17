@@ -39,7 +39,7 @@ for (const module of customElementsModules) {
     const predefinedEventName = `${componentName}${eventName.split("onBl")[1]}`;
 
     eventStatements.push(`export declare type ${predefinedEventName} = ${eventType};`);
-  }) || [];
+  });
 
   const importPath = path.replace(/^src\//, "").replace(/\.ts$/, "");
 
