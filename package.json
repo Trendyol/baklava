@@ -34,7 +34,7 @@
     "serve": "node scripts/build.js --serve",
     "storybook:dev": "storybook dev -p 1994",
     "lint": "npm-run-all -s lint:*",
-    "lint:tsc": "tsc --noEmit",
+    "lint:tsc": "tsc --noEmit --project ./tsconfig.json",
     "lint:eslint": "eslint src",
     "lint:style": "stylelint src/**/*.css",
     "lint:prettier": "prettier --check src",
