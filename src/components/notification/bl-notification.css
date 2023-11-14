@@ -1,0 +1,106 @@
+:host {
+  --bl-notification-width: 396px;
+  --bl-notification-gap: var(--bl-size-2xs);
+  --bl-notification-animation-duration: 0.3s;
+}
+
+.wrapper {
+  --margin: var(--bl-size-xl);
+
+  display: flex;
+  flex-direction: column-reverse;
+  position: fixed;
+  top: 0;
+  right: 0;
+  max-width: var(--bl-notification-width);
+  margin: var(--margin);
+  width: calc(100% - var(--margin) * 2);
+  z-index: 1000;
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    flex-direction: column;
+    max-width: 100%;
+  }
+}
+
+.notification {
+  will-change: transform height margin;
+  animation: slide-in-right var(--bl-notification-animation-duration) ease;
+  margin-bottom: var(--bl-notification-gap);
+  touch-action: none;
+}
+
+.notification[data-slide="top"] {
+  animation: slide-in-top var(--bl-notification-animation-duration) ease;
+}
+
+:host([no-animation]) .notification {
+  animation: none;
+}
+
+.notification.removing {
+  animation: slide-out-right var(--bl-notification-animation-duration) ease forwards,
+    size-to-zero var(--bl-notification-animation-duration) ease
+      var(--bl-notification-animation-duration) forwards;
+}
+
+.notification[data-slide="top"].removing {
+  animation: slide-out-top var(--bl-notification-animation-duration) ease forwards,
+    size-to-zero var(--bl-notification-animation-duration) ease
+      var(--bl-notification-animation-duration) forwards;
+}
+
+:host([no-animation]) .notification.removing {
+  animation: size-to-zero 0;
+}
+
+@media (prefers-reduced-motion) {
+  .notification.removing {
+    animation: size-to-zero 0;
+  }
+
+  .notification {
+    animation: none;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(var(--travel-distance, 10px));
+    height: 0;
+    opacity: 0;
+    margin: 0;
+  }
+}
+
+@keyframes slide-in-top {
+  from {
+    transform: translateY(var(--travel-distance, -10px));
+    height: 0;
+    opacity: 0;
+    margin: 0;
+  }
+}
+
+@keyframes slide-out-right {
+  to {
+    transform: translateX(var(--travel-distance, 10px));
+    opacity: 0;
+  }
+}
+
+@keyframes slide-out-top {
+  to {
+    transform: translateY(var(--travel-distance, 10px));
+    opacity: 0;
+  }
+}
+
+@keyframes size-to-zero {
+  to {
+    height: 0;
+    margin: 0;
+  }
+}

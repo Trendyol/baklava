@@ -104,7 +104,14 @@ export default class BlAlert extends LitElement {
 
   private _initAlertActionSlot(event: Event) {
     const slotElement = event.target as HTMLSlotElement;
-    const slotElements = slotElement.assignedElements();
+    let slotElements = slotElement.assignedElements();
+
+    // Allow fallthrough slots. ref: bl-notification-card.ts
+    if (slotElements.some(element => element.tagName === "SLOT")) {
+      slotElements = slotElements.flatMap(element =>
+        (element as HTMLSlotElement).assignedElements()
+      );
+    }
 
     slotElements.forEach(element => {
       if (element.tagName !== "BL-BUTTON") {
