@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, eventOptions, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { repeat } from "lit/directives/repeat.js";
 import BlAlert from "../alert/bl-alert";
@@ -27,6 +27,8 @@ export type Notification = NotificationProps & {
   id: string;
   remove: () => Promise<boolean>;
 };
+
+export const SWIPE_UP_THRESHOLD = -50;
 
 /**
  * @tag bl-notification
@@ -60,6 +62,10 @@ export default class BlNotification extends LitElement {
 
   private get isMobile() {
     return window.matchMedia("(max-width: 480px)").matches;
+  }
+
+  protected firstUpdated() {
+    this.shadowRoot?.querySelector("[popover]")?.showPopover();
   }
 
   /**
@@ -99,7 +105,6 @@ export default class BlNotification extends LitElement {
 
       notificationEl.style.height = `${notificationEl.clientHeight}px`;
       notificationEl.addEventListener("animationend", ({ animationName }: AnimationEvent) => {
-        console.log(animationName);
         if (animationName !== "size-to-zero") {
           return;
         }
@@ -112,6 +117,7 @@ export default class BlNotification extends LitElement {
     });
   }
 
+  @eventOptions({ passive: true })
   private handleTouchStart(event: TouchEvent) {
     if (!this.isMobile) {
       return;
@@ -122,6 +128,7 @@ export default class BlNotification extends LitElement {
     this.touchStartY = event.touches[0].clientY;
   }
 
+  @eventOptions({ passive: true })
   private handleTouchMove(event: TouchEvent) {
     if (!this.isMobile) {
       return;
@@ -136,6 +143,7 @@ export default class BlNotification extends LitElement {
     currentTarget.style.transform = `translateY(${movedY}px)`;
   }
 
+  @eventOptions({ passive: true })
   private handleTouchEnd(event: TouchEvent) {
     if (!this.isMobile) {
       return;
@@ -147,7 +155,7 @@ export default class BlNotification extends LitElement {
     const currentY = event.changedTouches[0].clientY;
     const movedY = currentY - this.touchStartY;
 
-    if (movedY < -50) {
+    if (movedY < SWIPE_UP_THRESHOLD) {
       this.removeNotification(currentTarget.id);
     } else {
       currentTarget.style.transform = "";
@@ -172,7 +180,7 @@ export default class BlNotification extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <div class="wrapper">
+      <div class="wrapper" popover="manual">
         ${repeat(
           this.notifications,
           notification => notification.id,
