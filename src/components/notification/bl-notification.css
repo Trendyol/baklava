@@ -14,12 +14,15 @@
   right: 0;
   max-width: var(--bl-notification-width);
   margin: var(--margin);
-  margin-left: auto;
   width: calc(100% - var(--margin) * 2);
   z-index: var(--bl-index-notification);
-  border: none;
-  border-radius: var(--bl-border-radius-s);
-  background-color: transparent;
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    flex-direction: column;
+    max-width: 100%;
+  }
 }
 
 .notification {
@@ -27,10 +30,6 @@
   animation: slide-in-right var(--bl-notification-animation-duration) ease;
   margin-bottom: var(--bl-notification-gap);
   touch-action: none;
-}
-
-.notification:first-child {
-  margin-bottom: 0;
 }
 
 .notification[data-slide="top"] {
@@ -55,21 +54,6 @@
 
 :host([no-animation]) .notification.removing {
   animation: size-to-zero 0;
-}
-
-@media screen and (max-width: 480px) {
-  .wrapper {
-    flex-direction: column;
-    max-width: 100%;
-  }
-
-  .notification:first-child {
-    margin-bottom: var(--bl-notification-gap);
-  }
-
-  .notification:last-child {
-    margin-bottom: 0;
-  }
 }
 
 @media (prefers-reduced-motion) {

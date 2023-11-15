@@ -64,10 +64,6 @@ export default class BlNotification extends LitElement {
     return window.matchMedia("(max-width: 480px)").matches;
   }
 
-  protected firstUpdated() {
-    this.shadowRoot?.querySelector("[popover]")?.showPopover();
-  }
-
   /**
    * Adds a notification to the list of notifications.
    * @param {NotificationProps} props Notification properties
@@ -180,7 +176,7 @@ export default class BlNotification extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <div class="wrapper" popover="manual">
+      <div class="wrapper">
         ${repeat(
           this.notifications,
           notification => notification.id,
