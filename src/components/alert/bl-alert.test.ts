@@ -161,6 +161,7 @@ describe("Slot", () => {
 
     expect(el.outerHTML).to.eq('<bl-alert variant="info"></bl-alert>');
   });
+  it.todo("renders action slots from fallthrough slots");
 });
 
 describe("Events", () => {

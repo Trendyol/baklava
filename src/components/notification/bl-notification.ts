@@ -18,7 +18,8 @@ export type NotificationProps = {
   description: string;
   icon?: boolean | BaklavaIcon;
   variant?: AlertVariant;
-  action?: Action & { secondary: Action };
+  action?: Action;
+  actionSecondary?: Action;
   duration?: number;
   permanent?: boolean;
 };
@@ -60,6 +61,12 @@ export default class BlNotification extends LitElement {
 
   private touchStartY = 0;
 
+  public get touchStart() {
+    return {
+      y: this.touchStartY,
+    };
+  }
+
   private get isMobile() {
     return window.matchMedia("(max-width: 480px)").matches;
   }
@@ -73,6 +80,7 @@ export default class BlNotification extends LitElement {
     // TODO id generation
     const id = Math.random().toString(36).substr(2, 9);
     const notification: Notification = {
+      duration: this.duration,
       ...props,
       id,
       remove: () => this.removeNotification(id),
@@ -160,11 +168,9 @@ export default class BlNotification extends LitElement {
     this.touchStartY = 0;
   }
 
-  private renderActionSlot(
-    action: Action | undefined,
-    slotName: "action" | "action-secondary",
-    notification: Notification
-  ) {
+  private renderActionSlot(slotName: "action" | "action-secondary", notification: Notification) {
+    const action = slotName === "action" ? notification.action : notification.actionSecondary;
+
     if (!action || !action.label) {
       return "";
     }
@@ -189,15 +195,10 @@ export default class BlNotification extends LitElement {
               id,
               duration = this.duration,
               permanent,
-              action,
             } = notification;
 
-            const actionButton = this.renderActionSlot(action, "action", notification);
-            const secondaryActionButton = this.renderActionSlot(
-              action?.secondary,
-              "action-secondary",
-              notification
-            );
+            const actionButton = this.renderActionSlot("action", notification);
+            const secondaryActionButton = this.renderActionSlot("action-secondary", notification);
 
             return html`
               <bl-notification-card

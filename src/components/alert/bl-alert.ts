@@ -108,9 +108,13 @@ export default class BlAlert extends LitElement {
 
     // Allow fallthrough slots. ref: bl-notification-card.ts
     if (slotElements.some(element => element.tagName === "SLOT")) {
-      slotElements = slotElements.flatMap(element =>
-        (element as HTMLSlotElement).assignedElements()
-      );
+      slotElements = slotElements.flatMap(element => {
+        if (element.tagName === "SLOT") {
+          return (element as HTMLSlotElement).assignedElements();
+        }
+
+        return element;
+      });
     }
 
     slotElements.forEach(element => {

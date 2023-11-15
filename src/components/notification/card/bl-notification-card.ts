@@ -107,7 +107,7 @@ export default class BlNotificationCard extends LitElement {
       return;
     }
 
-    requestIdleCallback(() => {
+    setTimeout(() => {
       this.shadowRoot?.querySelector(".remaining")?.addEventListener(
         "animationend",
         () => {
@@ -115,13 +115,12 @@ export default class BlNotificationCard extends LitElement {
         },
         { once: true }
       );
-    });
+    }, 0);
   }
 
   private close(source: CloseSource) {
     const requestCloseEvent = this.onRequestClose({ source }, { cancelable: true });
 
-    console.log(requestCloseEvent);
     if (requestCloseEvent.defaultPrevented) {
       return;
     }
