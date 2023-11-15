@@ -7,9 +7,9 @@ import BlAlert, { AlertVariant } from "../../alert/bl-alert";
 import { BaklavaIcon } from "../../icon/icon-list";
 import style from "./bl-notification-card.css";
 
-export enum CloseType {
-  Auto = "auto",
-  Manual = "manual",
+export enum CloseSource {
+  DurationEnded = "duration-ended",
+  CloseButton = "close-button",
 }
 
 /**
@@ -73,12 +73,27 @@ export default class BlNotificationCard extends LitElement {
   permanent = false;
 
   /**
-   * Dispatches close event.
-   * The notification will not be closed automatically.
-   * Developer is responsible for not rendering the notification.
+   * Indicates whether the notification is closed.
    */
-  @event("bl-notification-card-close") private onClose: EventDispatcher<"auto" | "manual">;
-  // todo closetype breaks build
+  @property({ type: Boolean })
+  closed = false;
+
+  /**
+   * Dispatches close request event.
+   * The notification will not be closed automatically if the event is prevented.
+   */
+  @event("bl-notification-card-request-close") private onRequestClose: EventDispatcher<{
+    source: "duration-ended" | "close-button";
+  }>;
+
+  /**
+   * Dispatches close event.
+   * The notification will hidden after the event is dispatched and the closed property is set to true.
+   */
+  @event("bl-notification-card-close") private onClose: EventDispatcher<{
+    source: "duration-ended" | "close-button";
+  }>;
+
   protected firstUpdated() {
     this.setupDuration();
   }
@@ -86,8 +101,6 @@ export default class BlNotificationCard extends LitElement {
   /**
    * Sets up duration animation.
    * The notification will dispatch a closed event after the animation ends.
-   * The notification will not be closed automatically.
-   * Developer is responsible for not rendering the notification.
    */
   private async setupDuration() {
     if (this.permanent) {
@@ -98,33 +111,31 @@ export default class BlNotificationCard extends LitElement {
       this.shadowRoot?.querySelector(".remaining")?.addEventListener(
         "animationend",
         () => {
-          this.close(CloseType.Auto);
+          this.close(CloseSource.DurationEnded);
         },
         { once: true }
       );
     });
   }
 
-  /**
-   * Closes the notification.
-   * @param {CloseType} closeType Type of the close event indicating whether it was closed automatically or manually.
-   */
-  private close(closeType: CloseType) {
-    this.onClose(closeType);
+  private close(source: CloseSource) {
+    const requestCloseEvent = this.onRequestClose({ source }, { cancelable: true });
+
+    console.log(requestCloseEvent);
+    if (requestCloseEvent.defaultPrevented) {
+      return;
+    }
+
+    this.onClose({ source });
+    this.closed = true;
   }
 
-  /**
-   * Handles close event on BlAlert.
-   * Prevents alert from closing and dispatches close event.
-   * @param {CustomEvent<boolean>} e Close event
-   */
   private handleClose(e: CustomEvent<boolean>) {
     const target = e.target as BlAlert;
 
-    // todo ?
     target.closed = false;
 
-    this.close(CloseType.Manual);
+    this.close(CloseSource.CloseButton);
   }
 
   private renderProgress() {
@@ -148,6 +159,7 @@ export default class BlNotificationCard extends LitElement {
         caption="${ifDefined(caption)}"
         icon=${icon}
         variant=${variant}
+        ?closed=${this.closed}
         ?closable=${true}
         @bl-close=${this.handleClose}
       >

@@ -6,7 +6,7 @@ import BlAlert from "../alert/bl-alert";
 import { AlertVariant } from "../alert/bl-alert";
 import { BaklavaIcon } from "../icon/icon-list";
 import style from "./bl-notification.css";
-import BlNotificationCard from "./card/bl-notification-card";
+import BlNotificationCard, { CloseSource } from "./card/bl-notification-card";
 
 type Action = {
   label: string;
@@ -209,7 +209,12 @@ export default class BlNotification extends LitElement {
                 icon=${icon}
                 variant=${ifDefined(variant)}
                 ?permanent=${permanent}
-                @bl-notification-card-close=${() => {
+                @bl-notification-card-request-close=${(
+                  event: CustomEvent<{ source: CloseSource }>
+                ) => {
+                  // We will run animations on the notification card
+                  // so we need to prevent the default close behavior
+                  event.preventDefault();
                   this.removeNotification(id);
                 }}
                 @touchstart=${this.handleTouchStart}
