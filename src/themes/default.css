@@ -103,24 +103,33 @@
   --bl-font-heading-1-line-height: calc(var(--bl-font-heading-1-font-size) + var(--bl-size-3xs));
   --bl-font-heading-1-size: var(--bl-font-heading-1-font-size) /
     var(--bl-font-heading-1-line-height);
-  --bl-font-heading-1: var(--bl-font-weight-light) var(--bl-font-heading-1-size)
-    var(--bl-font-family);
+  --bl-font-heading-1: var(--bl-font-heading-1-size) var(--bl-font-family);
+  --bl-font-heading-1-regular: var(--bl-font-weight-regular) var(--bl-font-heading-1);
+  --bl-font-heading-1-medium: var(--bl-font-weight-medium) var(--bl-font-heading-1);
+  --bl-font-heading-1-semibold: var(--bl-font-weight-semibold) var(--bl-font-heading-1);
+  --bl-font-heading-1-bold: var(--bl-font-weight-bold) var(--bl-font-heading-1);
 
   /* Font Style: Heading 2 */
   --bl-font-heading-2-font-size: var(--bl-font-size-3xl);
   --bl-font-heading-2-line-height: calc(var(--bl-font-heading-2-font-size) + var(--bl-size-3xs));
   --bl-font-heading-2-size: var(--bl-font-heading-2-font-size) /
     var(--bl-font-heading-2-line-height);
-  --bl-font-heading-2: var(--bl-font-weight-regular) var(--bl-font-heading-2-size)
-    var(--bl-font-family);
+  --bl-font-heading-2: var(--bl-font-heading-2-size) var(--bl-font-family);
+  --bl-font-heading-2-regular: var(--bl-font-weight-regular) var(--bl-font-heading-2);
+  --bl-font-heading-2-medium: var(--bl-font-weight-medium) var(--bl-font-heading-2);
+  --bl-font-heading-2-semibold: var(--bl-font-weight-semibold) var(--bl-font-heading-2);
+  --bl-font-heading-2-bold: var(--bl-font-weight-bold) var(--bl-font-heading-2);
 
   /* Font Style: Heading 3 */
   --bl-font-heading-3-font-size: var(--bl-font-size-2xl);
   --bl-font-heading-3-line-height: calc(var(--bl-font-heading-3-font-size) + var(--bl-size-3xs));
   --bl-font-heading-3-size: var(--bl-font-heading-3-font-size) /
     var(--bl-font-heading-3-line-height);
-  --bl-font-heading-3: var(--bl-font-weight-regular) var(--bl-font-heading-3-size)
-    var(--bl-font-family);
+  --bl-font-heading-3: var(--bl-font-heading-3-size) var(--bl-font-family);
+  --bl-font-heading-3-regular: var(--bl-font-weight-regular) var(--bl-font-heading-3);
+  --bl-font-heading-3-medium: var(--bl-font-weight-medium) var(--bl-font-heading-3);
+  --bl-font-heading-3-semibold: var(--bl-font-weight-semibold) var(--bl-font-heading-3);
+  --bl-font-heading-3-bold: var(--bl-font-weight-bold) var(--bl-font-heading-3);
 
   /* Font Style: Title 1 */
   --bl-font-title-1-font-size: var(--bl-font-size-xl);
@@ -169,8 +178,9 @@
   );
   --bl-font-body-text-1-size: var(--bl-font-body-text-1-font-size) /
     var(--bl-font-body-text-1-line-height);
-  --bl-font-body-text-1: var(--bl-font-weight-regular) var(--bl-font-body-text-1-size)
-    var(--bl-font-family);
+  --bl-font-body-text-1: var(--bl-font-body-text-1-size) var(--bl-font-family);
+  --bl-font-body-text-1-regular: var(--bl-font-weight-regular) var(--bl-font-body-text-1);
+  --bl-font-body-text-1-medium: var(--bl-font-weight-medium) var(--bl-font-body-text-1);
 
   /* Font Style: Body Text 2 */
   --bl-font-body-text-2-font-size: var(--bl-font-size-m);
@@ -179,8 +189,9 @@
   );
   --bl-font-body-text-2-size: var(--bl-font-body-text-2-font-size) /
     var(--bl-font-body-text-2-line-height);
-  --bl-font-body-text-2: var(--bl-font-weight-regular) var(--bl-font-body-text-2-size)
-    var(--bl-font-family);
+  --bl-font-body-text-2: var(--bl-font-body-text-2-size) var(--bl-font-family);
+  --bl-font-body-text-2-regular: var(--bl-font-weight-regular) var(--bl-font-body-text-2);
+  --bl-font-body-text-2-medium: var(--bl-font-weight-medium) var(--bl-font-body-text-2);
 
   /* Font Style: Body Text 3 */
   --bl-font-body-text-3-font-size: var(--bl-font-size-s);
@@ -189,8 +200,9 @@
   );
   --bl-font-body-text-3-size: var(--bl-font-body-text-3-font-size) /
     var(--bl-font-body-text-3-line-height);
-  --bl-font-body-text-3: var(--bl-font-weight-regular) var(--bl-font-body-text-3-size)
-    var(--bl-font-family);
+  --bl-font-body-text-3: var(--bl-font-body-text-3-size) var(--bl-font-family);
+  --bl-font-body-text-3-regular: var(--bl-font-weight-regular) var(--bl-font-body-text-3);
+  --bl-font-body-text-3-medium: var(--bl-font-weight-medium) var(--bl-font-body-text-3);
 
   /* Font Style: Caption */
   --bl-font-caption-font-size: var(--bl-font-size-xs);
