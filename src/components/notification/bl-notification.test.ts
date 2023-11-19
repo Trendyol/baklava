@@ -207,7 +207,7 @@ describe("bl-notification", () => {
   });
 
   describe("Actions", () => {
-    it('should render action slot when provided with "action" property on notification', async () => {
+    it('should render primaryAction slot when provided with "primaryAction" property on notification', async () => {
       const el = await fixture<BlNotification>(html`<bl-notification></bl-notification>`);
 
       el.addNotification({
@@ -216,7 +216,7 @@ describe("bl-notification", () => {
         variant: "info",
         duration: 5,
         icon: "academy",
-        action: {
+        primaryAction: {
           label: "test",
           onClick: () => {},
         },
@@ -226,8 +226,8 @@ describe("bl-notification", () => {
 
       const notificationEl = el.shadowRoot!.querySelector("bl-notification-card")!;
 
-      assert.exists(notificationEl.querySelector("[slot=action]"));
-      assert.include(notificationEl.querySelector("[slot=action]")?.textContent, "test");
+      assert.exists(notificationEl.querySelector("[slot=primary-action]"));
+      assert.include(notificationEl.querySelector("[slot=primary-action]")?.textContent, "test");
     });
 
     it("should call onClick callback when action is clicked", async () => {
@@ -241,7 +241,7 @@ describe("bl-notification", () => {
         variant: "info",
         duration: 5,
         icon: "academy",
-        action: {
+        primaryAction: {
           label: "test",
           onClick,
         },
@@ -251,7 +251,7 @@ describe("bl-notification", () => {
 
       const notificationEl = el.shadowRoot!.querySelector("bl-notification-card")!;
 
-      notificationEl.querySelector("[slot=action]")?.dispatchEvent(
+      notificationEl.querySelector("[slot=primary-action]")?.dispatchEvent(
         new CustomEvent("bl-click", {
           bubbles: true,
           composed: true,
@@ -264,7 +264,7 @@ describe("bl-notification", () => {
     });
 
     describe("Secondary Actions", () => {
-      it('should render secondary action slot when provided with "actionSecondary" property on notification', async () => {
+      it('should render secondary action slot when provided with "secondaryAction" property on notification', async () => {
         const el = await fixture<BlNotification>(html`<bl-notification></bl-notification>`);
 
         el.addNotification({
@@ -273,7 +273,7 @@ describe("bl-notification", () => {
           variant: "info",
           duration: 5,
           icon: "academy",
-          actionSecondary: {
+          secondaryAction: {
             label: "test",
             onClick: () => {},
           },
@@ -283,9 +283,9 @@ describe("bl-notification", () => {
 
         const notificationEl = el.shadowRoot!.querySelector("bl-notification-card")!;
 
-        assert.exists(notificationEl.querySelector("[slot=action-secondary]"));
+        assert.exists(notificationEl.querySelector("[slot=secondary-action]"));
         assert.include(
-          notificationEl.querySelector("[slot=action-secondary]")?.textContent,
+          notificationEl.querySelector("[slot=secondary-action]")?.textContent,
           "test"
         );
       });
@@ -301,7 +301,7 @@ describe("bl-notification", () => {
           variant: "info",
           duration: 5,
           icon: "academy",
-          actionSecondary: {
+          secondaryAction: {
             label: "test",
             onClick,
           },
@@ -311,7 +311,7 @@ describe("bl-notification", () => {
 
         const notificationEl = el.shadowRoot!.querySelector("bl-notification-card")!;
 
-        notificationEl.querySelector("[slot=action-secondary]")?.dispatchEvent(
+        notificationEl.querySelector("[slot=secondary-action]")?.dispatchEvent(
           new CustomEvent("bl-click", {
             bubbles: true,
             composed: true,

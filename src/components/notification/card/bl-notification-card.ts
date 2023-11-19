@@ -12,6 +12,15 @@ export enum CloseSource {
   CloseButton = "close-button",
 }
 
+export type NotificationVariant = "info" | "success" | "warning" | "error";
+
+const NOTIFICATION_VARIANT_ALERT_MAP: Readonly<Record<NotificationVariant, AlertVariant>> = {
+  info: "info",
+  success: "success",
+  warning: "warning",
+  error: "danger",
+};
+
 /**
  * @tag bl-notification-card
  * @summary Baklava Notification Card component
@@ -51,7 +60,7 @@ export default class BlNotificationCard extends LitElement {
    * @default "info"
    */
   @property({ reflect: true })
-  variant: AlertVariant = "info";
+  variant: NotificationVariant = "info";
 
   /**
    * Sets notification display duration in minutes.
@@ -157,15 +166,15 @@ export default class BlNotificationCard extends LitElement {
         class="notification"
         caption="${ifDefined(caption)}"
         icon=${icon}
-        variant=${variant}
+        variant=${ifDefined(NOTIFICATION_VARIANT_ALERT_MAP[variant])}
         ?closed=${this.closed}
         ?closable=${true}
         @bl-close=${this.handleClose}
       >
         <slot></slot>
         ${this.renderProgress()}
-        <slot slot="action" name="action"></slot>
-        <slot slot="action-secondary" name="action-secondary"></slot>
+        <slot name="primary-action" slot="action"></slot>
+        <slot name="secondary-action" slot="action-secondary"></slot>
       </bl-alert>
     `;
   }
