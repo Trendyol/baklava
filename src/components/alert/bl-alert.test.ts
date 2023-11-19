@@ -147,12 +147,28 @@ describe("Slot", () => {
     const el = await fixture<typeofBlAlert>(
       html`<bl-alert>
         <bl-button slot="action"> Action Slot </bl-button>
+        <span slot="action">Should not render this element</span>
         <bl-button slot="action-secondary"> Action Slot </bl-button>
       </bl-alert>`
     );
-    const actionSlot = el.shadowRoot?.querySelector('slot[name="action"]');
 
-    expect(actionSlot).to.exist;
+    const actionSlot = el.shadowRoot!.querySelector('slot[name="action"]') as HTMLSlotElement;
+    const actionElement = actionSlot?.assignedElements()[0] as HTMLElement;
+
+    expect(actionElement).to.exist;
+    expect(actionElement.tagName).to.eq("BL-BUTTON");
+
+    const actionSpanElement = actionSlot?.assignedElements()[1] as HTMLElement;
+
+    expect(actionSpanElement).to.not.exist;
+
+    const actionSecondarySlot = el.shadowRoot!.querySelector(
+      'slot[name="action-secondary"]'
+    ) as HTMLSlotElement;
+    const actionSecondaryElement = actionSecondarySlot?.assignedElements()[0] as HTMLElement;
+
+    expect(actionSecondaryElement).to.exist;
+    expect(actionSecondaryElement.tagName).to.eq("BL-BUTTON");
   });
   it("renders `action` slot empty when bl-button is not used", async () => {
     const el = await fixture<typeofBlAlert>(
@@ -161,7 +177,6 @@ describe("Slot", () => {
 
     expect(el.outerHTML).to.eq('<bl-alert variant="info"></bl-alert>');
   });
-  it.todo("renders action slots from fallthrough slots");
 });
 
 describe("Events", () => {
