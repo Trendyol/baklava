@@ -1,8 +1,9 @@
 import { assert, elementUpdated, expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys, sendMouse } from "@web/test-runner-commands";
+import { getMiddleOfElement } from "../../utilities/elements";
+import type typeOfBlPopover from "../popover/bl-popover";
 import BlTooltip from "./bl-tooltip";
 import type typeOfBlTooltip from "./bl-tooltip";
-import type typeOfBlPopover from "../popover/bl-popover";
 
 describe("bl-tooltip", () => {
   it("should be defined tooltip instance", () => {
@@ -111,7 +112,7 @@ describe("bl-tooltip", () => {
         ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
       >`
     );
-    const tooltip = el.shadowRoot?.querySelector("bl-popover") as HTMLElement;
+    const tooltip = el.shadowRoot!.querySelector("bl-popover")!;
     const trigger = document.querySelector("button") as HTMLElement;
     const body = document.querySelector("body") as HTMLElement;
 
@@ -202,12 +203,3 @@ describe("bl-tooltip", () => {
     expect(el.visible).to.be.false;
   });
 });
-
-function getMiddleOfElement(element: Element) {
-  const { x, y, width, height } = element.getBoundingClientRect();
-
-  return {
-    x: Math.floor(x + window.pageXOffset + width / 2),
-    y: Math.floor(y + window.pageYOffset + height / 2),
-  };
-}
