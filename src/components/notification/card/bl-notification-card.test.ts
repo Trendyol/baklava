@@ -1,4 +1,4 @@
-import { assert, expect, fixture, html, waitUntil } from "@open-wc/testing";
+import { assert, expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendMouse } from "@web/test-runner-commands";
 import { stub } from "sinon";
 import { getMiddleOfElement } from "../../../utilities/elements";
@@ -66,13 +66,8 @@ describe("bl-notification-card", () => {
 
       const remainingEl = el.shadowRoot!.querySelector(".remaining")!;
 
-      const resolveStub = stub();
-
-      remainingEl.addEventListener("animationend", resolveStub);
-
-      await waitUntil(() => resolveStub.calledOnce);
-
-      await el.updateComplete;
+      await oneEvent(remainingEl, "animationend");
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       expect(requestCloseStub).to.have.been.calledOnce;
       expect(requestCloseStub.args[0][0].detail).to.deep.equal({
@@ -99,13 +94,8 @@ describe("bl-notification-card", () => {
 
       const remainingEl = el.shadowRoot!.querySelector(".remaining")!;
 
-      const resolveStub = stub();
-
-      remainingEl.addEventListener("animationend", resolveStub);
-
-      await waitUntil(() => resolveStub.calledOnce);
-
-      await el.updateComplete;
+      await oneEvent(remainingEl, "animationend");
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       expect(requestCloseStub).to.have.been.calledOnce;
       expect(closeStub).to.not.have.been.called;
