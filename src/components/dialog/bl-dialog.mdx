@@ -94,6 +94,14 @@ document.querySelector("bl-dialog").addEventListener("bl-dialog-request-close", 
 });
 ```
 
+## Using HTML Dialog Element
+
+Starting from version 2.4.0 of Baklava, the `bl-dialog` component uses a polyfill implementation by default due to some quirks in the native HTML Dialog element.
+This change was prompted by issues encountered during the development of the `bl-notification` component, where the native dialog element blocked any actions on it, event with Popover attribute.
+
+If you wish to use the native HTML Dialog element, you can do so by setting the `polyfilled` attribute to `false`.
+Please note that this will cause notifications to render under the dialog backdrop. Prior to version 2.4.0, this was the default behavior.
+
 ## Reference
 
 <ArgsTable of="bl-dialog" />
