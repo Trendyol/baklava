@@ -91,11 +91,11 @@ describe("bl-notification", () => {
         .to.have.attribute("style")
         .match(/height: \d+px/);
       assert.isTrue(notificationEl.classList.contains("removing"));
-      assert.lengthOf(el.notifications, 1);
+      assert.lengthOf(el.notificationList, 1);
 
       await animationPromise;
       await el.updateComplete;
-      assert.lengthOf(el.notifications, 0);
+      assert.lengthOf(el.notificationList, 0);
     });
 
     it("should return false if notification does not exist", async () => {
@@ -350,7 +350,7 @@ describe("bl-notification", () => {
               duration="5"
               icon="academy"
               variant="info"
-              id="${el.notifications[0].id}"
+              id="${el.notificationList[0].id}"
             >
               test
             </bl-notification-card>
@@ -382,7 +382,7 @@ describe("bl-notification", () => {
 
         await el.updateComplete;
 
-        assert.equal(el.notifications[0], notification);
+        assert.equal(el.notificationList[0], notification);
       });
 
       it("should return functional remove method", async () => {
@@ -404,7 +404,7 @@ describe("bl-notification", () => {
 
         await el.updateComplete;
 
-        assert.lengthOf(el.notifications, 0);
+        assert.lengthOf(el.notificationList, 0);
       });
     });
   });
@@ -463,7 +463,7 @@ describe("bl-notification", () => {
 
         sendTouchEvent(100, -100, notificationEl, "touchend");
 
-        expect(removeSpy).to.have.been.calledOnceWith(el.notifications[0].id);
+        expect(removeSpy).to.have.been.calledOnceWith(el.notificationList[0].id);
       });
 
       it("should not remove notification when user swipes up less than 50px", async () => {

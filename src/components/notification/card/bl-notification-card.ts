@@ -56,7 +56,7 @@ export default class BlNotificationCard extends LitElement {
   /**
    * Sets notification variant.
    * @attr variant
-   * @type {AlertVariant}
+   * @type {NotificationVariant}
    * @default "info"
    */
   @property({ reflect: true })
@@ -116,6 +116,11 @@ export default class BlNotificationCard extends LitElement {
       return;
     }
 
+    if (this.duration <= 0) {
+      this.close(CloseSource.DurationEnded);
+      return;
+    }
+
     setTimeout(() => {
       this.shadowRoot?.querySelector(".remaining")?.addEventListener(
         "animationend",
@@ -128,6 +133,7 @@ export default class BlNotificationCard extends LitElement {
   }
 
   private close(source: CloseSource) {
+    console.log("close");
     const requestCloseEvent = this.onRequestClose({ source }, { cancelable: true });
 
     if (requestCloseEvent.defaultPrevented) {

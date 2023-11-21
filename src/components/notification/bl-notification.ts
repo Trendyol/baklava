@@ -41,9 +41,6 @@ export default class BlNotification extends LitElement {
     return [style];
   }
 
-  @state()
-  notifications: Notification[] = [];
-
   /**
    * Disable animations.
    * It will not be possible to use animations if the user has disabled them.
@@ -57,6 +54,13 @@ export default class BlNotification extends LitElement {
    */
   @property({ type: Number })
   duration = 7;
+
+  @state()
+  private notifications: Notification[] = [];
+
+  public get notificationList() {
+    return this.notifications;
+  }
 
   private touchStartY = 0;
 
@@ -79,9 +83,9 @@ export default class BlNotification extends LitElement {
     // TODO id generation
     const id = Math.random().toString(36).substr(2, 9);
     const notification: Notification = {
-      duration: this.duration,
       ...props,
       id,
+      duration: props.duration || this.duration,
       remove: () => this.removeNotification(id),
     };
 

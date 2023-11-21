@@ -119,6 +119,14 @@ describe("bl-notification-card", () => {
       });
       expect(style.getPropertyValue("animation-play-state")).to.equal("paused");
     });
+
+    it("should close automatically if duration is 0", async () => {
+      const el = await fixture<BlNotificationCard>(
+        html`<bl-notification-card duration="0"> Description </bl-notification-card>`
+      );
+
+      expect(el.closed).to.be.true;
+    });
   });
 
   describe("Permanent", () => {
