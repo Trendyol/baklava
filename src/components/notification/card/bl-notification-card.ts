@@ -133,7 +133,6 @@ export default class BlNotificationCard extends LitElement {
   }
 
   private close(source: CloseSource) {
-    console.log("close");
     const requestCloseEvent = this.onRequestClose({ source }, { cancelable: true });
 
     if (requestCloseEvent.defaultPrevented) {
@@ -165,12 +164,12 @@ export default class BlNotificationCard extends LitElement {
   }
 
   render(): TemplateResult {
-    const { caption, icon = true, variant = "info" } = this;
+    const { icon = true, variant = "info" } = this;
 
     return html`
       <bl-alert
         class="notification"
-        caption="${ifDefined(caption)}"
+        caption="${ifDefined(this.caption)}"
         icon=${icon}
         variant=${ifDefined(NOTIFICATION_VARIANT_ALERT_MAP[variant])}
         ?closed=${this.closed}

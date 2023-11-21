@@ -75,6 +75,13 @@
   }
 }
 
+@keyframes slide-out-right {
+  to {
+    transform: translateX(var(--travel-distance, 10px));
+    opacity: 0;
+  }
+}
+
 @keyframes slide-in-top {
   from {
     transform: translateY(var(--travel-distance, -10px));
@@ -84,16 +91,9 @@
   }
 }
 
-@keyframes slide-out-right {
-  to {
-    transform: translateX(var(--travel-distance, 10px));
-    opacity: 0;
-  }
-}
-
 @keyframes slide-out-top {
   to {
-    transform: translateY(var(--travel-distance, 10px));
+    transform: translateY(var(--travel-distance, -10px));
     opacity: 0;
   }
 }
