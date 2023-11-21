@@ -3,10 +3,19 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { Meta, StoryObj } from "@storybook/web-components";
 import type BlNotification from "./bl-notification";
 import type { NotificationProps, Notification } from "./bl-notification";
+import { fullscreenLayout } from "../../utilities/chromatic-decorators";
 
 const meta: Meta = {
   title: "Components/Notification",
   component: "bl-notification",
+  parameters: {
+    chromatic: {
+      viewports: [1000]
+    },
+  },
+  decorators: [
+    fullscreenLayout,
+  ],
   argTypes: {
     noAnimation: {
       control: "boolean",
