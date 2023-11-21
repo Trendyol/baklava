@@ -112,7 +112,7 @@ export default class BlAlert extends LitElement {
         return;
       }
 
-      (slotElement.parentElement as HTMLElement).style.display = "flex";
+      (this.shadowRoot?.querySelector(".actions") as HTMLElement).style.display = "flex";
 
       const variant = slotElement.name === "action-secondary" ? "secondary" : "primary";
       const buttonTypes: Record<AlertVariant, string> = {
