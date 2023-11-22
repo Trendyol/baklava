@@ -492,6 +492,14 @@ describe("bl-notification", () => {
         await el.updateComplete;
 
         expect(removeSpy).to.not.have.been.called;
+        expect(notificationEl.style.transition).to.equal("transform 0.3s ease 0s");
+        expect(notificationEl.style.transform).to.equal("translateY(0px)");
+
+        notificationEl.dispatchEvent(new TransitionEvent("transitionend"));
+
+        await el.updateComplete;
+
+        expect(notificationEl.style.transition).to.equal("");
         expect(notificationEl.style.transform).to.equal("");
       });
 
@@ -565,6 +573,31 @@ describe("bl-notification", () => {
         await el.updateComplete;
 
         expect(removeSpy).to.not.have.been.called;
+      });
+
+      it("should set travel-distance property with current touch position", async () => {
+        // FIXME: Cant emulate touch events in web test runner
+        if (!window.navigator.userAgent.includes("Chrome")) {
+          return;
+        }
+
+        const el = await fixture<BlNotification>(html`<bl-notification></bl-notification>`);
+
+        el.addNotification({
+          caption: "test",
+          description: "test",
+          variant: "info",
+          permanent: true,
+          icon: "academy",
+        });
+
+        await el.updateComplete;
+
+        const notificationEl = el.shadowRoot!.querySelector("bl-notification-card")!;
+
+        sendTouchEvent(100, -150, notificationEl, "touchend");
+
+        assert.equal(notificationEl.style.getPropertyValue("--travel-distance"), "-160px");
       });
     });
 

@@ -163,9 +163,16 @@ export default class BlNotification extends LitElement {
     const movedY = currentY - this.touchStartY;
 
     if (movedY < SWIPE_UP_THRESHOLD) {
+      currentTarget.style.setProperty("--travel-distance", `${movedY - 10}px`);
       this.removeNotification(currentTarget.id);
     } else {
-      currentTarget.style.transform = "";
+      currentTarget.style.transition = "transform 0.3s ease";
+      currentTarget.style.transform = "translateY(0px)";
+
+      currentTarget.addEventListener("transitionend", () => {
+        currentTarget.style.transition = "";
+        currentTarget.style.transform = "";
+      });
     }
 
     this.touchStartY = 0;
