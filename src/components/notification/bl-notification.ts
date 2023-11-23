@@ -145,8 +145,10 @@ export default class BlNotification extends LitElement {
     const currentTarget = event.currentTarget as BlNotificationCard;
 
     const currentY = event.touches[0].clientY;
-    const movedY = currentY - this.touchStartY;
+    // Allow only moving up
+    const movedY = Math.min(currentY - this.touchStartY, 0);
 
+    console.log(movedY);
     currentTarget.style.transform = `translateY(${movedY}px)`;
   }
 

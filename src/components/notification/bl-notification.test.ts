@@ -503,7 +503,7 @@ describe("bl-notification", () => {
         expect(notificationEl.style.transform).to.equal("");
       });
 
-      it("should update transform style when users touch moves up or down", async () => {
+      it("should update transform style when users touch moves up", async () => {
         // FIXME: Cant emulate touch events in web test runner
         if (!window.navigator.userAgent.includes("Chrome")) {
           return;
@@ -523,17 +523,38 @@ describe("bl-notification", () => {
 
         const notificationEl = el.shadowRoot!.querySelector("bl-notification-card")!;
 
-        sendTouchEvent(100, 50, notificationEl, "touchmove");
-
-        await el.updateComplete;
-
-        assert.equal(notificationEl.style.transform, "translateY(50px)");
-
         sendTouchEvent(100, -50, notificationEl, "touchmove");
 
         await el.updateComplete;
 
         assert.equal(notificationEl.style.transform, "translateY(-50px)");
+      });
+
+      it("should not allow user to move notification down", async () => {
+        // FIXME: Cant emulate touch events in web test runner
+        if (!window.navigator.userAgent.includes("Chrome")) {
+          return;
+        }
+
+        const el = await fixture<BlNotification>(html`<bl-notification></bl-notification>`);
+
+        el.addNotification({
+          caption: "test",
+          description: "test",
+          variant: "info",
+          duration: 5,
+          icon: "academy",
+        });
+
+        await el.updateComplete;
+
+        const notificationEl = el.shadowRoot!.querySelector("bl-notification-card")!;
+
+        sendTouchEvent(100, 590, notificationEl, "touchmove");
+
+        await el.updateComplete;
+
+        assert.equal(notificationEl.style.transform, "translateY(0px)");
       });
 
       it("should do nothing if device is not mobile", async () => {
