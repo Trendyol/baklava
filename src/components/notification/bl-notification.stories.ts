@@ -126,6 +126,8 @@ export const AddExample: Story = {
   },
   args: {
     duration: 60,
+    primaryAction: undefined,
+    secondaryAction: undefined,
   },
   play: ({ args }) => {
     addNotification(args);
