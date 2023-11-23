@@ -5,7 +5,7 @@
 .notification {
   position: relative;
   border-radius: var(--bl-border-radius-m);
-  filter: drop-shadow(0 5px 30px rgb(39 49 66 / 25%));
+  box-shadow: 0 5px 30px 0 rgba(39 49 66 / 25%);
 }
 
 .duration {

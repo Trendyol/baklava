@@ -1,93 +1,150 @@
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { Meta, StoryObj } from "@storybook/web-components";
-import type BlNotification from "./bl-notification";
-import type { NotificationProps, Notification } from "./bl-notification";
 import { fullscreenLayout } from "../../utilities/chromatic-decorators";
+import type { NotificationProps, Notification } from "./bl-notification";
 
 const meta: Meta = {
   title: "Components/Notification",
   component: "bl-notification",
   parameters: {
     chromatic: {
-      viewports: [1000]
+      viewports: [1000],
     },
   },
-  decorators: [
-    fullscreenLayout,
-  ],
+  decorators: [fullscreenLayout],
   argTypes: {
-    noAnimation: {
-      control: "boolean",
-    },
+    // Notification Card Props
     duration: {
       control: "number",
+      description: "Duration in seconds",
+      defaultValue: 7,
+    },
+    caption: {
+      control: "text",
+      description: "Caption of the notification",
+    },
+    description: {
+      control: "text",
+      description: "Description of the notification. Required.",
+    },
+    icon: {
+      control: "text",
+      defaultValue: "true",
+      description:
+        "Icon of the notification. If provided with a string, it will be used as an icon name. If provided with a boolean, it will use the default icon or no icon.",
+    },
+    variant: {
+      options: ["info", "warning", "success", "error"],
+      default: "info",
+      control: { type: "select" },
+      description: "Variant of the notification",
+    },
+    permanent: {
+      control: "boolean",
+      defaultValue: false,
+      description:
+        "If true, the notification will not have duration and will be removed when the user clicks on the close button.",
+    },
+    primaryAction: {
+      control: "object",
+      description: "Primary action of the notification. onClick and label properties are required.",
+    },
+    secondaryAction: {
+      control: "object",
+      description:
+        "Secondary action of the notification. onClick and label properties are required.",
+    },
+  },
+  args: {
+    noAnimation: false,
+    duration: 20,
+    caption: "Notification Caption",
+    description: "Notification Description",
+    icon: "true",
+    variant: "info",
+    permanent: false,
+    primaryAction: {
+      label: "Primary Action",
+      onClick() {},
+    },
+    secondaryAction: {
+      label: "Secondary Action",
+      onClick() {},
     },
   },
 };
 
 export default meta;
 
-const addNotification = (selector: string, options: NotificationProps) => {
-  const el = document.querySelector(selector) as BlNotification;
+const addNotification = (options: NotificationProps) => {
+  const el = document.querySelector("bl-notification");
 
   return el?.addNotification(options);
+};
+
+const stringifyArgs = (args: NotificationArgs | NotificationProps) => {
+  return JSON.stringify(args, null, 6);
 };
 
 export type NotificationArgs = {
   noAnimation: boolean;
   duration: number;
-};
+} & NotificationProps;
 
 export type Story = StoryObj<NotificationArgs>;
 
+const BasicTemplate = (args: NotificationArgs) => html`
+  <bl-notification
+    ?no-animation=${args.noAnimation}
+    duration=${ifDefined(args.duration)}
+  ></bl-notification>
+`;
+
+const NotificationCreator = (args: NotificationProps, buttonLabel = "Add Notification") => {
+  const slug = buttonLabel.toLowerCase().replace(/\s/g, "-");
+
+  return html`
+    <bl-button id=${slug}>${buttonLabel}</bl-button>
+
+    <script>
+      (function () {
+        const notificationElement = document.querySelector("bl-notification");
+        const addButton = document.querySelector("bl-button#${slug}");
+
+        addButton.addEventListener("bl-click", () => {
+          notificationElement.addNotification(${stringifyArgs(args)});
+        });
+      })();
+    </script>
+  `;
+};
+
 export const AddExample: Story = {
   render(args: NotificationArgs) {
-    return html`
-      <bl-notification
-        id="basic"
-        ?no-animation=${args.noAnimation}
-        duration=${ifDefined(args.duration)}
-      ></bl-notification>
-      <bl-button id="basic-add-notification">Add Notification</bl-button>
-
-      <script>
-        (function () {
-          const notificationElement = document.querySelector("bl-notification#basic");
-          const addButton = document.querySelector("bl-button#basic-add-notification");
-
-          addButton.addEventListener("bl-click", () => {
-            notification = notificationElement.addNotification({
-              description: "Notification Description",
-            });
-          });
-        })();
-      </script>
-    `;
+    return html`${BasicTemplate(args)} ${NotificationCreator(args)} `;
   },
-  play: () => {
-    addNotification("#basic", {
-      description: "Notification Description",
-    });
+  args: {
+    duration: 60,
+  },
+  play: ({ args }) => {
+    addNotification(args);
   },
 };
 
 export const RemoveExample: Story = {
   render(args: NotificationArgs) {
     return html`
-      <bl-notification
-        id="basic"
-        ?no-animation=${args.noAnimation}
-        duration=${ifDefined(args.duration)}
-      ></bl-notification>
-      <bl-button id="basic-remove-notification">Remove Notification</bl-button>
+      ${BasicTemplate(args)}
+      <bl-button>Remove Notification</bl-button>
 
       <script>
         (function () {
-          const notificationElement = document.querySelector("bl-notification#basic");
-          const removeButton = document.querySelector("bl-button#basic-remove-notification");
+          const notificationElement = document.querySelector("bl-notification");
+          const removeButton = document.querySelector("bl-button");
 
           const notification = notificationElement.addNotification({
+            caption: "Notification Caption",
             description: "Notification Description",
             permanent: true,
           });
@@ -104,17 +161,13 @@ export const RemoveExample: Story = {
 export const RemoveAwaitExample: Story = {
   render(args: NotificationArgs) {
     return html`
-      <bl-notification
-        id="basic"
-        ?no-animation=${args.noAnimation}
-        duration=${ifDefined(args.duration)}
-      ></bl-notification>
-      <bl-button id="basic-remove-notification">Remove Notifications</bl-button>
+      ${BasicTemplate(args)}
+      <bl-button>Remove Notifications</bl-button>
 
       <script>
         (function () {
-          const notificationElement = document.querySelector("bl-notification#basic");
-          const removeButton = document.querySelector("bl-button#basic-remove-notification");
+          const notificationElement = document.querySelector("bl-notification");
+          const removeButton = document.querySelector("bl-button");
 
           const firstNotification = notificationElement.addNotification({
             caption: "Notification Caption",
@@ -145,103 +198,87 @@ export const RemoveAwaitExample: Story = {
   },
 };
 
-export const ActionsExample: Story = {
+export const PrimaryActionExample: Story = {
   render(args: NotificationArgs) {
     return html`
-      <bl-notification
-        id="basic"
-        ?no-animation=${args.noAnimation}
-        duration=${ifDefined(args.duration)}
-      ></bl-notification>
-      <bl-button id="basic-add-notification">Add Notification</bl-button>
-
+      ${BasicTemplate(args)}
       <script>
         (function () {
-          const notificationElement = document.querySelector("bl-notification#basic");
-          const addButton = document.querySelector("bl-button#basic-add-notification");
+          const notificationElement = document.querySelector("bl-notification");
 
-          addButton.addEventListener("bl-click", () => {
-            notification = notificationElement.addNotification({
-              caption: "Notification Caption",
-              description: "Notification Description",
-              primaryAction: {
-                label: "Primary Action",
-                onClick: notification => {
-                  window.alert("Primary Action Clicked");
-                },
+          notificationElement.addNotification({
+            caption: "Notification Caption",
+            description: "Notification Description",
+            permanent: true,
+            primaryAction: {
+              label: "Primary Action",
+              onClick: () => {
+                window.alert("Primary Action Clicked");
               },
-              secondaryAction: {
-                label: "Secondary Action",
-                onClick: notification => {
-                  window.alert("Secondary Action Clicked");
-                },
-              },
-            });
+            },
           });
         })();
       </script>
     `;
   },
-  play: () => {
-    addNotification("#basic", {
-      caption: "Notification Caption",
-      description: "Notification Description",
-      permanent: true,
-      primaryAction: {
-        label: "Primary Action",
-        onClick: () => {
-          window.alert("Primary Action Clicked");
-        },
-      },
-      secondaryAction: {
-        label: "Secondary Action",
-        onClick: () => {
-          window.alert("Secondary Action Clicked");
-        },
-      },
-    });
+};
+
+export const SecondaryActionExample: Story = {
+  render(args: NotificationArgs) {
+    return html`
+      ${BasicTemplate(args)}
+      <script>
+        (function () {
+          const notificationElement = document.querySelector("bl-notification");
+
+          notificationElement.addNotification({
+            caption: "Notification Caption",
+            description: "Notification Description",
+            permanent: true,
+            secondaryAction: {
+              label: "Secondary Action",
+              onClick: () => {
+                window.alert("Secondary Action Clicked");
+              },
+            },
+          });
+        })();
+      </script>
+    `;
   },
 };
 
 export const ActionsRemoveExample: Story = {
   render(args: NotificationArgs) {
     return html`
-      <bl-notification
-        id="basic"
-        ?no-animation=${args.noAnimation}
-        duration=${ifDefined(args.duration)}
-      ></bl-notification>
-      <bl-button id="basic-add-notification">Add Notification</bl-button>
-
+      ${BasicTemplate(args)}
       <script>
         (function () {
-          const notificationElement = document.querySelector("bl-notification#basic");
-          const addButton = document.querySelector("bl-button#basic-add-notification");
+          const notificationElement = document.querySelector("bl-notification");
 
-          addButton.addEventListener("bl-click", () => {
-            notification = notificationElement.addNotification({
-              caption: "Notification Caption",
-              description: "Notification Description",
-              primaryAction: {
-                label: "Primary Action",
-                onClick: notification => {
-                  notification.remove();
-                },
+          const notification = notificationElement.addNotification({
+            caption: "Notification Caption",
+            description: "Notification Description",
+            permanent: true,
+            primaryAction: {
+              label: "Primary Action",
+              onClick: notification => {
+                notification.remove();
               },
-              secondaryAction: {
-                label: "Secondary Action",
-                onClick: notification => {
-                  notification.remove();
-                },
+            },
+            secondaryAction: {
+              label: "Secondary Action",
+              onClick: notification => {
+                notification.remove();
               },
-            });
+            },
           });
         })();
       </script>
     `;
   },
   play: () => {
-    addNotification("#basic", {
+    addNotification({
       caption: "Notification Caption",
       description: "Notification Description",
       permanent: true,
@@ -263,78 +300,107 @@ export const ActionsRemoveExample: Story = {
 
 export const PermanentExample: Story = {
   render(args: NotificationArgs) {
-    return html`
-      <bl-notification
-        id="basic"
-        ?no-animation=${args.noAnimation}
-        duration=${ifDefined(args.duration)}
-      ></bl-notification>
-      <bl-button id="basic-add-notification">Add Notification</bl-button>
-
-      <script>
-        (function () {
-          const notificationElement = document.querySelector("bl-notification#basic");
-          const addButton = document.querySelector("bl-button#basic-add-notification");
-
-          addButton.addEventListener("bl-click", () => {
-            notification = notificationElement.addNotification({
-              caption: "Notification Caption",
-              description: "Notification Description",
-              permanent: true,
-            });
-          });
-        })();
-      </script>
-    `;
+    return html` ${BasicTemplate(args)} ${NotificationCreator(args)} `;
   },
-  play: () => {
-    addNotification("#basic", {
-      caption: "Notification Caption",
-      description: "Notification Description",
-      permanent: true,
-    });
+  args: {
+    permanent: true,
+  },
+  play: ({ args }) => {
+    addNotification(args);
   },
 };
 
 export const VariantsExample: Story = {
   render(args: NotificationArgs) {
     return html`
-      <bl-notification
-        id="basic"
-        ?no-animation=${args.noAnimation}
-        duration=${ifDefined(args.duration)}
-      ></bl-notification>
-      <bl-button id="basic-add-notification">Add Notifications</bl-button>
-
-      <script>
-        (function () {
-          const notificationElement = document.querySelector("bl-notification#basic");
-          const addButton = document.querySelector("bl-button#basic-add-notification");
-
-          addButton.addEventListener("bl-click", () => {
-            const variants = ["info", "success", "warning", "error"];
-            for (const variant of variants) {
-              notificationElement.addNotification({
-                caption: variant,
-                description: variant,
-                permanent: true,
-                variant,
-              });
-            }
-          });
-        })();
-      </script>
+      ${BasicTemplate(args)}
+      ${NotificationCreator(
+        {
+          caption: "Notification Caption",
+          description: "Notification Variant: info",
+          permanent: true,
+          variant: "info",
+          primaryAction: {
+            label: "Primary Action",
+            onClick() {},
+          },
+          secondaryAction: {
+            label: "Secondary Action",
+            onClick() {},
+          },
+        },
+        "Info"
+      )}
+      ${NotificationCreator(
+        {
+          caption: "Notification Caption",
+          description: "Notification Variant: success",
+          permanent: true,
+          variant: "success",
+          primaryAction: {
+            label: "Primary Action",
+            onClick() {},
+          },
+          secondaryAction: {
+            label: "Secondary Action",
+            onClick() {},
+          },
+        },
+        "Success"
+      )}
+      ${NotificationCreator(
+        {
+          caption: "Notification Caption",
+          description: "Notification Variant: warning",
+          permanent: true,
+          variant: "warning",
+          primaryAction: {
+            label: "Primary Action",
+            onClick() {},
+          },
+          secondaryAction: {
+            label: "Secondary Action",
+            onClick() {},
+          },
+        },
+        "Warning"
+      )}
+      ${NotificationCreator(
+        {
+          caption: "Notification Caption",
+          description: "Notification Variant: error",
+          permanent: true,
+          variant: "error",
+          primaryAction: {
+            label: "Primary Action",
+            onClick() {},
+          },
+          secondaryAction: {
+            label: "Secondary Action",
+            onClick() {},
+          },
+        },
+        "Error"
+      )}
     `;
   },
   play: () => {
     const variants = ["info", "success", "warning", "error"] as const;
 
     for (const variant of variants) {
-      addNotification("#basic", {
-        caption: variant,
-        description: variant,
+      addNotification({
+        caption: "Notification Caption",
+        description: `Notification Variant: ${variant}`,
         permanent: true,
         variant,
+        primaryAction: {
+          label: "Primary Action",
+          onClick() {},
+        },
+        secondaryAction: {
+          label: "Secondary Action",
+          onClick() {},
+        },
       });
     }
   },
