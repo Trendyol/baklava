@@ -488,7 +488,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       this.value = null;
     }
 
-    this._checkAdditionalItemCount();
+    if (_changedProperties.has("_selectedOptions")) {
+      this._checkAdditionalItemCount();
+    }
   }
 
   /**
