@@ -240,6 +240,12 @@ export const SecondaryActionExample: Story = {
             caption: "Notification Caption",
             description: "Notification Description",
             permanent: true,
+            primaryAction: {
+              label: "Primary Action",
+              onClick: () => {
+                window.alert("Primary Action Clicked");
+              },
+            },
             secondaryAction: {
               label: "Secondary Action",
               onClick: () => {
