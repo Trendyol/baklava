@@ -131,6 +131,9 @@ export const AddExample: Story = {
   },
   play: ({ args }) => {
     addNotification(args);
+    addNotification({ ...args, variant: "success" });
+    addNotification({ ...args, variant: "warning" });
+    addNotification({ ...args, variant: "error" });
   },
 };
 
