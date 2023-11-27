@@ -153,14 +153,11 @@ describe("Slot", () => {
     );
 
     const actionSlot = el.shadowRoot!.querySelector('slot[name="action"]') as HTMLSlotElement;
-    const actionElement = actionSlot?.assignedElements()[0] as HTMLElement;
+    const [actionElement, actionSpanElement] = actionSlot.assignedElements();
 
-    expect(actionElement).to.exist;
+    expect(actionElement as HTMLElement).to.exist;
     expect(actionElement.tagName).to.eq("BL-BUTTON");
-
-    const actionSpanElement = actionSlot?.assignedElements()[1] as HTMLElement;
-
-    expect(actionSpanElement).to.not.exist;
+    expect(actionSpanElement as HTMLElement).to.not.exist;
 
     const actionSecondarySlot = el.shadowRoot!.querySelector(
       'slot[name="action-secondary"]'

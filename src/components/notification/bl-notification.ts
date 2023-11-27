@@ -148,7 +148,6 @@ export default class BlNotification extends LitElement {
     // Allow only moving up
     const movedY = Math.min(currentY - this.touchStartY, 0);
 
-    console.log(movedY);
     currentTarget.style.transform = `translateY(${movedY}px)`;
   }
 
