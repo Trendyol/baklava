@@ -48,9 +48,17 @@ export default class BlDialog extends LitElement {
    * using polyfill by setting this to true in some cases like to show some content on top of dialog
    * in case you are not able to use Popover API. Be aware that, polyfilled version can cause some
    * inconsistencies in terms of accessibility and stacking context. So use it with extra caution.
+   *
+   * As of the current implementation, you can render above the dialog HTML element using the Popover API. However,
+   * it will block any actions on the Popover element. This issue was encountered during the development of the `bl-notification` component.
+   * As a result, we decided to enable the polyfill for the `bl-dialog` component by default. If you prefer to use the native dialog, you can set
+   * this property to false. Please note, doing so will cause notifications to render under the dialog backdrop.
+   * For more information, refer to the comment linked below:
+   *
+   * https://github.com/Trendyol/baklava/issues/141#issuecomment-1810301413
    */
   @property({ type: Boolean, reflect: true })
-  polyfilled = !window.HTMLDialogElement;
+  polyfilled = true;
 
   @query(".dialog")
   private dialog: HTMLDialogElement & DialogElement;
@@ -176,7 +184,7 @@ export default class BlDialog extends LitElement {
   }
 
   render(): TemplateResult {
-    return this.polyfilled
+    return this.polyfilled || !window.HTMLDialogElement
       ? html`<div
           class="dialog-polyfill"
           role="dialog"
