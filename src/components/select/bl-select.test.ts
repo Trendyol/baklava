@@ -510,4 +510,90 @@ describe("bl-select", () => {
       expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
     });
   });
+
+  describe("select all", () => {
+    it("should select all options", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select multiple>
+        <bl-select-option value="1">Option 1</bl-select-option>
+        <bl-select-option value="2">Option 2</bl-select-option>
+        <bl-select-option value="3">Option 3</bl-select-option>
+        <bl-select-option value="4">Option 4</bl-select-option>
+        <bl-select-option value="5">Option 5</bl-select-option>
+      </bl-select>`);
+
+
+      const selectAll = el.shadowRoot!.querySelector<BlCheckbox>(".select-all")!;
+
+      setTimeout(() => selectAll.dispatchEvent(
+        new CustomEvent("bl-checkbox-change", { detail: true }))
+      );
+      const event = await oneEvent(el, "bl-select");
+
+      expect(event).to.exist;
+      expect(event.detail.length).to.equal(5);
+      expect(el.selectedOptions.length).to.equal(5);
+    });
+
+    it("should deselect all options", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select multiple .value=${["1", "2", "3", "4", "5"]}>
+        <bl-select-option value="1">Option 1</bl-select-option>
+        <bl-select-option value="2">Option 2</bl-select-option>
+        <bl-select-option value="3">Option 3</bl-select-option>
+        <bl-select-option value="4">Option 4</bl-select-option>
+        <bl-select-option value="5">Option 5</bl-select-option>
+      </bl-select>`);
+
+      expect(el.selectedOptions.length).to.equal(5);
+
+      const selectAll = el.shadowRoot!.querySelector<BlCheckbox>(".select-all")!;
+
+      setTimeout(() => selectAll.dispatchEvent(
+        new CustomEvent("bl-checkbox-change", { detail: false }))
+      );
+
+      const event = await oneEvent(el, "bl-select");
+
+      expect(event).to.exist;
+      expect(event.detail.length).to.equal(0);
+      expect(el.selectedOptions.length).to.equal(0);
+    });
+
+    it("should not act on disabled options", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select multiple>
+        <bl-select-option value="1" disabled>Option 1</bl-select-option>
+        <bl-select-option value="2">Option 2</bl-select-option>
+        <bl-select-option value="3">Option 3</bl-select-option>
+        <bl-select-option value="4">Option 4</bl-select-option>
+        <bl-select-option value="5">Option 5</bl-select-option>
+      </bl-select>`);
+
+      const selectAll = el.shadowRoot!.querySelector<BlCheckbox>(".select-all")!;
+
+      setTimeout(() => selectAll.dispatchEvent(
+        new CustomEvent("bl-checkbox-change", { detail: true }))
+      );
+
+      const event = await oneEvent(el, "bl-select");
+
+      expect(event).to.exist;
+      expect(event.detail.length).to.equal(4);
+      expect(el.selectedOptions.length).to.equal(4);
+      expect(el.selectedOptions[0].value).to.equal("2");
+    });
+
+    it("should display indeterminate state when some options are selected", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select multiple>
+        <bl-select-option value="1" selected>Option 1</bl-select-option>
+        <bl-select-option value="2">Option 2</bl-select-option>
+        <bl-select-option value="3">Option 3</bl-select-option>
+        <bl-select-option value="4">Option 4</bl-select-option>
+        <bl-select-option value="5">Option 5</bl-select-option>
+      </bl-select>`);
+
+      const selectAll = el.shadowRoot!.querySelector<BlCheckbox>(".select-all")!;
+
+      expect(selectAll.indeterminate).to.be.true;
+      expect(selectAll.checked).to.be.false;
+    });
+   });
 });

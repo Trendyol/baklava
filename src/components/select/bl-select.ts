@@ -143,6 +143,18 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   @property({ type: String, attribute: "invalid-text", reflect: true })
   customInvalidText?: string;
 
+  /**
+   * Hides select all option in multiple select
+   */
+  @property({ type: Boolean, attribute: "hide-select-all" })
+  hideSelectAll = false;
+
+  /**
+   * Sets select all text in multiple select
+   */
+  @property({ type: String, attribute: "select-all-text" })
+  selectAllText = "Select All";
+
   /* Declare internal reactive properties */
   @state()
   private _isPopoverOpen = false;
@@ -202,6 +214,10 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   get additionalSelectedOptionCount() {
     return this._additionalSelectedOptionCount;
+  }
+
+  get isAllSelected() {
+    return this._selectedOptions.length === this._connectedOptions.length;
   }
 
   validityCallback(): string | void {
@@ -273,6 +289,20 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     });
   }
 
+  private _handleSelectAll(e: CustomEvent) {
+    const checked = e.detail;
+
+    this._connectedOptions.forEach(option => {
+      if (option.disabled) {
+        return;
+      }
+
+      option.selected = checked;
+    });
+
+    this._handleMultipleSelect();
+  }
+
   connectedCallback(): void {
     super.connectedCallback();
 
@@ -332,6 +362,25 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     </fieldset>`;
   }
 
+  selectAllTemplate() {
+    if (!this.multiple || this.hideSelectAll) {
+      return null;
+    }
+
+    const isAnySelected = this._selectedOptions.length > 0;
+
+    return html`<bl-checkbox
+      class="select-all"
+      .checked="${this.isAllSelected}"
+      .indeterminate="${isAnySelected && !this.isAllSelected}"
+      role="option"
+      aria-selected="${this.isAllSelected}"
+      @bl-checkbox-change="${this._handleSelectAll}"
+    >
+      ${this.selectAllText}
+    </bl-checkbox>`;
+  }
+
   render() {
     const invalidMessage = !this.checkValidity()
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
@@ -362,6 +411,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         aria-multiselectable="${this.multiple}"
         aria-labelledby="label"
       >
+        ${this.selectAllTemplate()}
         <slot></slot>
       </div>
       <div class="hint">${invalidMessage} ${helpMessage}</div>
