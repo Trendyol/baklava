@@ -348,6 +348,7 @@ legend span {
   padding: var(--bl-size-xs) 0;
   background: var(--background-color);
   z-index: 1;
+  font: var(--bl-font-title-3-regular);
 
   /* Make sure option focus doesn't overflow */
   box-shadow: 10px 0 0 var(--background-color), -10px 0 0 var(--background-color);

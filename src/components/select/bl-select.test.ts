@@ -3,6 +3,7 @@ import { sendKeys } from "@web/test-runner-commands";
 import BlSelect from "./bl-select";
 import BlButton from "../button/bl-button";
 import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
+import "../checkbox-group/checkbox/bl-checkbox";
 import type BlSelectOption from "./option/bl-select-option";
 
 describe("bl-select", () => {
@@ -593,6 +594,34 @@ describe("bl-select", () => {
       const selectAll = el.shadowRoot!.querySelector<BlCheckbox>(".select-all")!;
 
       expect(selectAll.indeterminate).to.be.true;
+      expect(selectAll.checked).to.be.false;
+    });
+
+    it('should uncheck "select all" checkbox when all available options are selected', async () => {
+      const el = await fixture<BlSelect>(html`<bl-select multiple>
+        <bl-select-option value="1" disabled>Option 1</bl-select-option>
+        <bl-select-option value="2" selected>Option 2</bl-select-option>
+        <bl-select-option value="3" selected>Option 3</bl-select-option>
+        <bl-select-option value="4" selected>Option 4</bl-select-option>
+        <bl-select-option value="5" selected>Option 5</bl-select-option>
+      </bl-select>`);
+
+      const selectAll = el.shadowRoot!.querySelector<BlCheckbox>(".select-all")!;
+
+      expect(selectAll.indeterminate).to.be.true;
+      expect(selectAll.checked).to.be.false;
+
+      setTimeout(() => selectAll.dispatchEvent(
+        new CustomEvent("bl-checkbox-change", { detail: true }))
+      );
+
+      const event = await oneEvent(el, "bl-select");
+
+      expect(event).to.exist;
+      expect(event.detail.length).to.equal(0);
+      expect(el.selectedOptions.length).to.equal(0);
+
+      expect(selectAll.indeterminate).to.be.false;
       expect(selectAll.checked).to.be.false;
     });
    });

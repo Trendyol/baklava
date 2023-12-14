@@ -7,6 +7,7 @@ import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
 import { event, EventDispatcher } from "../../utilities/event";
+import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
 import "../icon/bl-icon";
 import style from "../select/bl-select.css";
 import "../select/option/bl-select-option";
@@ -289,20 +290,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     });
   }
 
-  private _handleSelectAll(e: CustomEvent) {
-    const checked = e.detail;
-
-    this._connectedOptions.forEach(option => {
-      if (option.disabled) {
-        return;
-      }
-
-      option.selected = checked;
-    });
-
-    this._handleMultipleSelect();
-  }
-
   connectedCallback(): void {
     super.connectedCallback();
 
@@ -488,6 +475,40 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     } else {
       this._handleSingleSelect(optionItem);
     }
+  }
+
+  private _handleSelectAll(e: CustomEvent) {
+    const selectAllEl = this.shadowRoot?.querySelector(".select-all") as BlCheckbox;
+
+    const checked = e.detail;
+    const unselectedOptions = this._connectedOptions.filter(option => !option.selected);
+    const isAllUnselectedDisabled = unselectedOptions.every(option => option.disabled);
+
+    // If all available options are selected, instead of checking, uncheck all options
+    if (checked && isAllUnselectedDisabled) {
+      setTimeout(() => {
+        const checkbox = selectAllEl?.shadowRoot?.querySelector("input");
+
+        checkbox?.click();
+      }, 0);
+      return;
+    }
+
+    this._connectedOptions.forEach(option => {
+      if (option.disabled) {
+        return;
+      }
+
+      option.selected = checked;
+    });
+
+    this._handleMultipleSelect();
+
+    // Make sure the checkbox state is in sync with selected options
+    setTimeout(() => {
+      selectAllEl.checked = this.isAllSelected;
+      selectAllEl.indeterminate = this._selectedOptions.length > 0 && !this.isAllSelected;
+    });
   }
 
   private _onClickRemove(e: MouseEvent) {
