@@ -171,6 +171,16 @@ The Select component features a 'Select All' option, which is automatically disp
     args={{ placeholder: "Choose countries", multiple: true, selectAllText: 'Select All Countries', options: [{
       label: 'United States',
       value: 'us',
+    }, ...defaultOptions]  }}
+    play={selectOpener}
+  >
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story
+    name="Select All with Disabled Options"
+    args={{ placeholder: "Choose countries", multiple: true, selectAllText: 'Select All Countries', options: [{
+      label: 'United States',
+      value: 'us',
       disabled: true
     }, ...defaultOptions]  }}
     play={selectOpener}
