@@ -182,6 +182,31 @@ describe("bl-select", () => {
     expect(el.selectedOptions.length).to.equal(0);
     expect(el.value).to.null;
   });
+  it("should keep selected disabled options when remove all clicked", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select multiple>
+      <bl-select-option value="1" disabled selected>Option 1</bl-select-option>
+      <bl-select-option value="2" selected>Option 2</bl-select-option>
+    </bl-select>`);
+
+    const removeAll = el.shadowRoot?.querySelector<BlButton>(".remove-all");
+
+    setTimeout(() => removeAll?.click());
+
+    const event = await oneEvent(el, "bl-select");
+
+    expect(el.shadowRoot?.querySelector<BlButton>(".remove-all")).to.not.exist;
+    expect(event).to.exist;
+    expect(event.detail).to.deep.eq([
+      {
+        selected: true,
+        text: "Option 1",
+        value: "1",
+      }
+    ]);
+    expect(el.options.length).to.equal(2);
+    expect(el.selectedOptions.length).to.equal(1);
+    expect(el.value).to.deep.eq(["1"]);
+  });
   it("should hide remove icon button on single required selection", async () => {
     const el = await fixture<BlSelect>(html`<bl-select required>
       <bl-select-option value="1">Option 1</bl-select-option>

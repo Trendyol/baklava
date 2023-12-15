@@ -310,17 +310,20 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     const inputSelectedOptions = html`<ul class="selected-options">
       ${this._selectedOptions.map(item => html`<li>${item.textContent}</li>`)}
     </ul>`;
-    const removeButton =
-      this.clearable || this.multiple
-        ? html`<bl-button
-            class="remove-all"
-            size="small"
-            variant="tertiary"
-            kind="neutral"
-            icon="close"
-            @click=${this._onClickRemove}
-          ></bl-button>`
-        : "";
+
+    const isAllSelectedDisabled =
+      this._selectedOptions.length > 0 && this._selectedOptions.every(option => option.disabled);
+    const isRemoveButtonShown = !isAllSelectedDisabled && (this.clearable || this.multiple);
+    const removeButton = isRemoveButtonShown
+      ? html`<bl-button
+          class="remove-all"
+          size="small"
+          variant="tertiary"
+          kind="neutral"
+          icon="close"
+          @click=${this._onClickRemove}
+        ></bl-button>`
+      : "";
 
     return html`<fieldset
       class=${classMap({
@@ -514,14 +517,17 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _onClickRemove(e: MouseEvent) {
     e.stopPropagation();
 
+    const selectedDisabledOptions = this._selectedOptions.filter(option => option.disabled);
+
     this._connectedOptions
-      .filter(option => option.selected)
+      .filter(option => !option.disabled && option.selected)
       .forEach(option => {
         option.selected = false;
       });
 
-    this.value = null;
-    this._additionalSelectedOptionCount = 0;
+    this.value = selectedDisabledOptions.length
+      ? selectedDisabledOptions.map(option => option.value)
+      : null;
     this._handleSelectEvent();
   }
 
