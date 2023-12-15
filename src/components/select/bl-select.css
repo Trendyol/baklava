@@ -29,7 +29,7 @@
   --popover-position: var(--bl-popover-position, fixed);
 }
 
-:host([multiple]:not([hide-select-all])) .select-wrapper {
+:host([multiple][view-select-all]) .select-wrapper {
   --menu-height: 290px;
 }
 
