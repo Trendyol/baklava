@@ -145,10 +145,10 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   customInvalidText?: string;
 
   /**
-   * Hides select all option in multiple select
+   * Views select all option in multiple select
    */
-  @property({ type: Boolean, attribute: "hide-select-all" })
-  hideSelectAll = false;
+  @property({ type: Boolean, attribute: "view-select-all" })
+  viewSelectAll = false;
 
   /**
    * Sets select all text in multiple select
@@ -353,7 +353,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   selectAllTemplate() {
-    if (!this.multiple || this.hideSelectAll) {
+    if (!this.multiple || !this.viewSelectAll) {
       return null;
     }
 

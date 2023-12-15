@@ -539,7 +539,7 @@ describe("bl-select", () => {
 
   describe("select all", () => {
     it("should select all options", async () => {
-      const el = await fixture<BlSelect>(html`<bl-select multiple>
+      const el = await fixture<BlSelect>(html`<bl-select multiple view-select-all>
         <bl-select-option value="1">Option 1</bl-select-option>
         <bl-select-option value="2">Option 2</bl-select-option>
         <bl-select-option value="3">Option 3</bl-select-option>
@@ -561,7 +561,7 @@ describe("bl-select", () => {
     });
 
     it("should deselect all options", async () => {
-      const el = await fixture<BlSelect>(html`<bl-select multiple .value=${["1", "2", "3", "4", "5"]}>
+      const el = await fixture<BlSelect>(html`<bl-select multiple view-select-all .value=${["1", "2", "3", "4", "5"]}>
         <bl-select-option value="1">Option 1</bl-select-option>
         <bl-select-option value="2">Option 2</bl-select-option>
         <bl-select-option value="3">Option 3</bl-select-option>
@@ -585,7 +585,7 @@ describe("bl-select", () => {
     });
 
     it("should not act on disabled options", async () => {
-      const el = await fixture<BlSelect>(html`<bl-select multiple>
+      const el = await fixture<BlSelect>(html`<bl-select multiple view-select-all>
         <bl-select-option value="1" disabled>Option 1</bl-select-option>
         <bl-select-option value="2">Option 2</bl-select-option>
         <bl-select-option value="3">Option 3</bl-select-option>
@@ -608,7 +608,7 @@ describe("bl-select", () => {
     });
 
     it("should display indeterminate state when some options are selected", async () => {
-      const el = await fixture<BlSelect>(html`<bl-select multiple>
+      const el = await fixture<BlSelect>(html`<bl-select multiple view-select-all>
         <bl-select-option value="1" selected>Option 1</bl-select-option>
         <bl-select-option value="2">Option 2</bl-select-option>
         <bl-select-option value="3">Option 3</bl-select-option>
@@ -623,7 +623,7 @@ describe("bl-select", () => {
     });
 
     it('should uncheck "select all" checkbox when all available options are selected', async () => {
-      const el = await fixture<BlSelect>(html`<bl-select multiple>
+      const el = await fixture<BlSelect>(html`<bl-select multiple view-select-all>
         <bl-select-option value="1" disabled>Option 1</bl-select-option>
         <bl-select-option value="2" selected>Option 2</bl-select-option>
         <bl-select-option value="3" selected>Option 3</bl-select-option>
