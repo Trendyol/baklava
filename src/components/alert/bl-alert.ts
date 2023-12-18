@@ -104,7 +104,7 @@ export default class BlAlert extends LitElement {
 
   private _initAlertActionSlot(event: Event) {
     const slotElement = event.target as HTMLSlotElement;
-    const slotElements = slotElement.assignedElements();
+    const slotElements = slotElement.assignedElements({ flatten: true });
 
     slotElements.forEach(element => {
       if (element.tagName !== "BL-BUTTON") {
@@ -112,9 +112,9 @@ export default class BlAlert extends LitElement {
         return;
       }
 
-      (slotElement.parentElement as HTMLElement).style.display = "flex";
+      (this.shadowRoot?.querySelector(".actions") as HTMLElement).style.display = "flex";
 
-      const variant = element.slot === "action-secondary" ? "secondary" : "primary";
+      const variant = slotElement.name === "action-secondary" ? "secondary" : "primary";
       const buttonTypes: Record<AlertVariant, string> = {
         info: "default",
         warning: "neutral",

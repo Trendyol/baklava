@@ -90,7 +90,7 @@ describe("bl-dialog", () => {
       window.HTMLDialogElement = htmlDialogElement;
     });
     it("should render html dialog component with the default values when supports html dialog", async () => {
-      const el = await fixture<typeOfBlDialog>(html`<bl-dialog></bl-dialog>`);
+      const el = await fixture<typeOfBlDialog>(html`<bl-dialog .polyfilled=${false}></bl-dialog>`);
 
       assert.shadowDom.equal(
         el,
@@ -132,7 +132,7 @@ describe("bl-dialog", () => {
     });
 
     it("should close the dialog when the close btn is clicked", async () => {
-      const el = await fixture<typeOfBlDialog>(html` <bl-dialog open caption="My title">
+      const el = await fixture<typeOfBlDialog>(html` <bl-dialog .polyfilled=${false} open caption="My title">
         <div>My Content</div>
       </bl-dialog>`);
       const dialog = el.shadowRoot?.querySelector(".dialog") as HTMLDivElement;
@@ -340,7 +340,7 @@ describe("bl-dialog", () => {
       });
 
       it("should fire bl-dialog-request-close event when dialog closes by clicking backdrop", async () => {
-        const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
+        const el = await fixture<typeOfBlDialog>(html`<bl-dialog .polyfilled=${false} open caption="My title">
         </bl-dialog>`);
 
         const dialog = el?.shadowRoot?.querySelector<HTMLDialogElement>(".dialog");
