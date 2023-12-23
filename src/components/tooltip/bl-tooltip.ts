@@ -46,7 +46,7 @@ export default class BlTooltip extends LitElement {
   show() {
     this.popover.target = this.trigger;
     this.popover.show();
-    this.onShow("");
+    this.onShow();
   }
 
   /**
@@ -54,7 +54,7 @@ export default class BlTooltip extends LitElement {
    */
   hide() {
     this.popover.hide();
-    this.onHide("");
+    this.onHide();
   }
 
   /**
@@ -83,7 +83,7 @@ export default class BlTooltip extends LitElement {
       <bl-popover
         .target="${this.trigger}"
         placement="${ifDefined(this.placement)}"
-        @bl-popover-hide="${() => this.onHide("")}"
+        @bl-popover-hide="${() => this.onHide()}"
       >
         <slot class="content" id="tooltip" role="tooltip"></slot>
       </bl-popover>

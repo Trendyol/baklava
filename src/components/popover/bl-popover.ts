@@ -193,7 +193,7 @@ export default class BlPopover extends LitElement {
   show() {
     this._visible = true;
     this.setPopover();
-    this.onBlPopoverShow("");
+    this.onBlPopoverShow();
     document.addEventListener("click", this._handleClickOutside);
     document.addEventListener("keydown", this._handleKeydownEvent);
     document.addEventListener("bl-popover-show", this._handlePopoverShowEvent);
@@ -207,7 +207,7 @@ export default class BlPopover extends LitElement {
     document.removeEventListener("click", this._handleClickOutside);
     document.removeEventListener("keydown", this._handleKeydownEvent);
     document.removeEventListener("bl-popover-show", this._handlePopoverShowEvent);
-    this.onBlPopoverHide("");
+    this.onBlPopoverHide();
   }
 
   /**

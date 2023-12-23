@@ -144,7 +144,7 @@ describe("bl-tooltip", () => {
     const ev = await oneEvent(el, "bl-tooltip-show");
 
     expect(ev).to.exist;
-    expect(ev.detail).to.be.equal("");
+    expect(ev.detail).to.be.null;
   });
 
   it("should fires bl-tooltip-hide on mouse leave", async () => {
@@ -169,7 +169,7 @@ describe("bl-tooltip", () => {
     const ev = await oneEvent(el, "bl-tooltip-hide");
 
     expect(ev).to.exist;
-    expect(ev.detail).to.be.equal("");
+    expect(ev.detail).to.be.null;
   });
 
   it("should show/hide with focus and blur events", async () => {
