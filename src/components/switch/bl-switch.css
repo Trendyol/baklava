@@ -1,6 +1,7 @@
 :host {
   display: inline-block;
   cursor: pointer;
+  vertical-align: middle;
 }
 
 span {
@@ -38,6 +39,32 @@ span {
   transition: transform;
   transition-duration: var(--animation-duration);
   width: var(--thumb-width);
+}
+
+label {
+  display: flex;
+  gap: var(--bl-size-2xs);
+  color: var(--bl-color-neutral-darker);
+  font: var(--bl-font-title-3);
+  cursor: pointer;
+  user-select: none;
+  line-height: normal;
+  align-items: var(--bl-radio-align-items, center);
+  margin-block: 0;
+}
+
+.label {
+  overflow-wrap: anywhere;
+}
+
+:host([disabled]) .label {
+  color: var(--bl-color-neutral-light);
+  border: 1px solid var(--bl-color-neutral-lighter);
+}
+
+:host([checked]) .label,
+:host(:hover) .label {
+  color: var(--bl-color-primary);
 }
 
 :host([checked]) .switch {
