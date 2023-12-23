@@ -158,7 +158,7 @@ describe("bl-select", () => {
 
     expect(removeAll).to.exist;
     expect(event).to.exist;
-    expect(event.detail).to.eql([]);
+    expect(event.detail).to.null;
     expect(el.options.length).to.equal(2);
     expect(el.selectedOptions.length).to.equal(0);
     expect(el.value).to.null;
@@ -246,7 +246,7 @@ describe("bl-select", () => {
     const event = await oneEvent(el, "bl-select");
 
     expect(event).to.exist;
-    expect(event.detail.length).to.equal(1);
+    expect(event.detail.value).to.equal("1");
     expect(el.selectedOptions.length).to.equal(1);
   });
   it("should remove selected item if it is already selected", async () => {

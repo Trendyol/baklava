@@ -178,8 +178,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Fires when selection changes
    */
-  @event("bl-select") private _onBlSelect: EventDispatcher<ISelectOption<ValueType>[]>;
-
+  @event("bl-select") private _onBlSelect: EventDispatcher<
+    ISelectOption<ValueType> | ISelectOption<ValueType>[]
+  >;
   private _connectedOptions: BlSelectOption<ValueType>[] = [];
 
   private _cleanUpPopover: CleanUpFunction | null = null;
@@ -441,16 +442,16 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private _handleSelectEvent() {
-    this._onBlSelect(
-      this._selectedOptions.map(
-        option =>
-          ({
-            value: option.value,
-            selected: option.selected,
-            text: option.textContent,
-          } as ISelectOption<ValueType>)
-      )
+    const selectedOptions = this._selectedOptions.map(
+      option =>
+        ({
+          value: option.value,
+          selected: option.selected,
+          text: option.textContent,
+        } as ISelectOption<ValueType>)
     );
+
+    this._onBlSelect(this.multiple ? selectedOptions : selectedOptions[0]);
   }
 
   private _handleSingleSelect(optionItem: BlSelectOption<ValueType>) {
