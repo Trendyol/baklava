@@ -89,7 +89,7 @@
 }
 
 :host(:not([placeholder])) .placeholder,
-.select-wrapper.selected .placeholder,
+.select-wrapper.select-open .placeholder,
 :host([label]:not([label-fixed])) .select-wrapper:not(.select-open) .placeholder {
   display: none;
 }
