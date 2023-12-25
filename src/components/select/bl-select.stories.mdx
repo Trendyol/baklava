@@ -100,6 +100,9 @@ export const SelectTemplate = (args) => html`<bl-select
     ?success=${args.success}
     ?view-select-all=${args.viewSelectAll}
     select-all-text=${ifDefined(args.selectAllText)}
+    ?search-bar=${args.searchBar}
+    ?search-bar-loading-state=${args.searchBarLoadingState}
+    search-bar-placeholder=${ifDefined(args.searchBarPlaceholder)}
     size=${ifDefined(args.size)}
     help-text=${ifDefined(args.helpText)}
     invalid-text=${ifDefined(args.customInvalidText)}
@@ -245,6 +248,27 @@ Select component can be disabled by using `disabled` attribute.
     {SelectTemplate.bind({})}
   </Story>
   <Story name="Disabled Select with initial value" args={{ placeholder: "Choose country", value: 'nl', disabled: true }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Searchable
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/265#issuecomment-1845414216)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=13059%3A6927)</bl-badge>
+
+Select component can be searchable by using `search-bar` attribute.
+
+<Canvas>
+  <Story name="Searchable" args={{ searchBar: true, searchBarPlaceholder: 'Search your options' }}>
+    {SelectTemplate.bind({})}
+  </Story>
+
+  <Story name="Searchable with Multiple Option" args={{ searchBar: true,  searchBarPlaceholder: 'Search your options', multiple: true }}>
+    {SelectTemplate.bind({})}
+  </Story>
+
+  <Story name="Searchable with Loading State" args={{ searchBar: true, searchBarPlaceholder: 'Search your options', multiple: true, searchBarLoadingState: true }}>
     {SelectTemplate.bind({})}
   </Story>
 </Canvas>
