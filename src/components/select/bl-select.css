@@ -225,7 +225,7 @@
   gap: var(--bl-size-2xs);
   align-items: center;
   justify-content: center;
-  height: var(--menu-height);
+  height: 80px;
 }
 
 .select-open .popover {
