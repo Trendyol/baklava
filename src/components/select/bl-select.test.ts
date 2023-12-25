@@ -304,7 +304,7 @@ describe("bl-select", () => {
     await sendKeys({
       type: "turkey",
     });
-    
+
     el.options.forEach(option => {
       if (option.innerText === "Turkey") {
         expect(option.hidden).to.be.false;
@@ -350,7 +350,7 @@ describe("bl-select", () => {
     const noResultContainer = el.shadowRoot?.querySelector<HTMLInputElement>(".popover .popover-no-result");
     const noResultMessage = el.shadowRoot?.querySelector<HTMLInputElement>(".popover .popover-no-result span")?.innerText;
 
-  
+
     el.options.forEach(option => {
       expect(option.hidden).to.be.true;
     });
@@ -373,11 +373,24 @@ describe("bl-select", () => {
       type: "netherlands",
     });
 
-    const clearSearchButton = el.shadowRoot?.querySelector<BlButton>(".popover .popover-no-result bl-button");    
+    const clearSearchButton = el.shadowRoot?.querySelector<BlButton>(".popover .popover-no-result bl-button");
 
     clearSearchButton?.click();
 
     setTimeout(() => expect(searchInput?.value).to.equal(""));
+  });
+
+  it("should focus if one or more option selected already", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="tr">Turkey</bl-select-option>
+      <bl-select-option value="en">United States of America</bl-select-option>
+    </bl-select>`);
+
+    const dropdownIcon = el.shadowRoot?.querySelector<HTMLDivElement>(".dropdown-icon");
+
+    dropdownIcon?.click();
+
+    await(()=> expect(document.activeElement).to.equal(el));
   });
 
   describe("additional selection counter", () => {
@@ -750,7 +763,7 @@ describe("bl-select", () => {
       expect(selectAll.checked).to.be.false;
     });
   });
-  
+
   describe("events", () => {
     it("should fire search event when 'turkey' is typed", async () => {
         const el = await fixture<BlSelect>(html`<bl-select search-bar>
@@ -762,7 +775,7 @@ describe("bl-select", () => {
 
       if (searchInput) {
         searchInput.focus();
-        
+
         searchInput.value = "turkey";
       }
 

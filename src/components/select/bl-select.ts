@@ -287,6 +287,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   validationTarget: HTMLElement;
 
   open() {
+    if (this.searchBar) {
+      setTimeout(() => {
+        document.activeElement?.shadowRoot?.querySelector("input")?.focus();
+      }, 100);
+    }
+
     this._isPopoverOpen = true;
     this._setupPopover();
     document.addEventListener("click", this._interactOutsideHandler, true);

@@ -399,7 +399,7 @@ legend span {
 
 .search-bar-divider {
   height: 1rem;
-  width: 0.5px;
+  width: 1px;
   background-color: var(--bl-color-neutral-lighter);
 }
 
