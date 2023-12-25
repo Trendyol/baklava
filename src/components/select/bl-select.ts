@@ -372,6 +372,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       : "";
 
     const searchMagIcon = html`<bl-icon
+      class="search-mag-icon"
       name="search"
       style="color: var(--bl-color-primary)"
     ></bl-icon>`;
@@ -381,6 +382,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       name="loading"
       style="color: var(--bl-color-primary)"
     ></bl-icon>`;
+
+    const searchActionDivider = html`<div class="search-bar-divider"></div>`;
 
     const search = html`<fieldset
       class=${classMap({
@@ -398,12 +401,14 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
       ${this._selectedOptions.length > 0 && !this.opened
         ? inputSelectedOptions
-        : html`<input
-            class="search-bar-input"
-            placeholder="${this.searchBarPlaceholder}"
-            @input=${this._handleSearchOptions}
-            .value=${this._searchText}
-          />`}
+        : html`
+            <input
+              class="search-bar-input"
+              placeholder="${ifDefined(this.searchBarPlaceholder || this.label)}"
+              @input=${this._handleSearchOptions}
+              .value=${this._searchText}
+            />
+          `}
       ${!this.opened
         ? html`<span class="additional-selection-count"
             >+${this._additionalSelectedOptionCount}</span
@@ -412,7 +417,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
       <div class="actions" @click=${this.togglePopover}>
         ${this.opened ? (this.searchBarLoadingState ? searchLoadingIcon : searchMagIcon) : ""}
-        ${removeButton}
+        ${this.opened ? searchActionDivider : removeButton}
         <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
         <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>

@@ -379,10 +379,10 @@ legend span {
   outline: none;
   background-color: transparent;
   width: 100%;
+  height: 100%;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  height: var(--height);
 }
 
 .search-bar-input::placeholder {
@@ -395,6 +395,12 @@ legend span {
 
 .search-loading-icon {
   animation: spin 1s linear infinite;
+}
+
+.search-bar-divider {
+  height: 1rem;
+  width: 0.5px;
+  background-color: var(--bl-color-neutral-lighter);
 }
 
 @keyframes spin {
