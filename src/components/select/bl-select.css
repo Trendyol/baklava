@@ -412,7 +412,7 @@ legend span {
 }
 
 @keyframes wiggle {
-  0%, 
+  0%,
   7% {
     transform: rotateZ(0);
   }
