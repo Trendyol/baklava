@@ -377,19 +377,24 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         ></bl-button>`
       : "";
 
+    const isSearchBarVisible = this.searchBar && this.opened;
+    const isMultipleWithSelection = this.multiple && this._selectedOptions.length > 0;
+
+    const isDividerShown = isSearchBarVisible || isMultipleWithSelection;
+
     const searchMagIcon = html`<bl-icon
       class="search-mag-icon"
       name="search"
-      style="color: var(--bl-color-primary)"
+      style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
     ></bl-icon>`;
 
     const searchLoadingIcon = html`<bl-icon
       class="search-loading-icon"
       name="loading"
-      style="color: var(--bl-color-primary)"
+      style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
     ></bl-icon>`;
 
-    const searchActionDivider = html`<div class="search-bar-divider"></div>`;
+    const actionDivider = isDividerShown ? html`<div class="action-divider"></div>` : "";
 
     const search = html`<fieldset
       class=${classMap({
@@ -423,7 +428,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
       <div class="actions" @click=${this.togglePopover}>
         ${this.opened ? (this.searchBarLoadingState ? searchLoadingIcon : searchMagIcon) : ""}
-        ${this.opened ? searchActionDivider : removeButton}
+        ${!this.opened ? removeButton : ""} ${actionDivider}
         <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
         <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
@@ -451,7 +456,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           ${inputSelectedOptions}
           <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
           <div class="actions">
-            ${removeButton}
+            ${removeButton} ${actionDivider}
             <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
             <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>

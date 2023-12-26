@@ -255,16 +255,17 @@ Select component can be disabled by using `disabled` attribute.
 ## Searchable
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/265#issuecomment-1845414216)</bl-badge>
-<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=13059%3A6927)</bl-badge>
 
 Select component can be searchable by using `search-bar` attribute.
+
+Display a loading icon in place of the search icon with using `search-bar-loading-state` attribute, seamlessly integrating it with your API endpoint to provide a smooth user experience during data retrieval.
 
 <Canvas>
   <Story name="Searchable" args={{ searchBar: true, searchBarPlaceholder: 'Search your options' }}>
     {SelectTemplate.bind({})}
   </Story>
 
-  <Story name="Searchable with Multiple Option" args={{ searchBar: true,  searchBarPlaceholder: 'Search your options', multiple: true }}>
+  <Story name="Searchable with Multiple Option" args={{ searchBar: true,  searchBarPlaceholder: 'Search your options', multiple: true, viewSelectAll: true }}>
     {SelectTemplate.bind({})}
   </Story>
 

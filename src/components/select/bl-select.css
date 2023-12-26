@@ -103,15 +103,6 @@
   display: none;
 }
 
-.remove-all::after {
-  content: "";
-  position: absolute;
-  left: 1.5rem;
-  bottom: 4px;
-  height: 1rem;
-  border-left: 1px solid var(--bl-color-neutral-lighter);
-}
-
 .selected .remove-all {
   display: block;
 }
@@ -193,7 +184,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--bl-size-2xs);
+  gap: var(--bl-size-4xs);
   margin-left: var(--bl-size-2xs);
 }
 
@@ -397,7 +388,12 @@ legend span {
   animation: spin 1s linear infinite;
 }
 
-.search-bar-divider {
+.action-divider {
+  display: none;
+}
+
+.select-wrapper .action-divider {
+  display: block;
   height: 1rem;
   width: 1px;
   background-color: var(--bl-color-neutral-lighter);
@@ -411,4 +407,8 @@ legend span {
   to {
     transform: rotate(360deg);
   }
+}
+
+.actions bl-icon {
+  padding: 4px;
 }
