@@ -4,8 +4,8 @@
 
 .alert {
   --padding: var(--bl-size-m);
-  --main-color: var(--bl-color-primary);
-  --main-bg-color: var(--bl-color-primary-contrast);
+  --main-color: var(--bl-color-info);
+  --main-bg-color: var(--bl-color-info-contrast);
 
   position: relative;
   display: flex;

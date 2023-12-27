@@ -53,5 +53,5 @@
 }
 
 .notification[variant="info"] .duration > .remaining {
-  background-color: var(--bl-color-primary);
+  background-color: var(--bl-color-info);
 }
