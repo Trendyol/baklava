@@ -91,20 +91,23 @@ export const selectOpener = async ({ canvasElement }) => {
 
 export const SelectTemplate = (args) => html`<bl-select
     label=${ifDefined(args.label)}
+    class=${ifDefined(args.class)}
     ?label-fixed=${args.labelFixed}
     ?multiple=${args.multiple}
     ?clearable=${args.clearable}
     ?required=${args.required}
     ?disabled=${args.disabled}
     ?success=${args.success}
+    ?view-select-all=${args.viewSelectAll}
+    select-all-text=${ifDefined(args.selectAllText)}
     size=${ifDefined(args.size)}
     help-text=${ifDefined(args.helpText)}
     invalid-text=${ifDefined(args.customInvalidText)}
     placeholder=${ifDefined(args.placeholder)}
-    value=${ifDefined(args.value)}>${
+    .value=${ifDefined(args.value)}>${
   (args.options || defaultOptions).map((option) => html`
   <bl-select-option value=${ifDefined(option.value)} ?selected=${
-    ( args.selected || []).includes(option.value) }>${option.label}</bl-select-option>`
+    ( args.selected || []).includes(option.value) } ?disabled=${option.disabled}>${option.label}</bl-select-option>`
   )}
 </bl-select>`
 
@@ -112,6 +115,15 @@ export const FormTemplate = (args) => html`<form class="stacked-form" novalidate
 ${SelectTemplate(args)}
 <bl-button type="submit">Submit</bl-button>
 </form>
+`
+
+export const SelectWithStyleTemplate = (args) => html`
+<style>
+.${args.class} {
+  width: ${args.width};
+${ args.maxWidth ? `  max-width: ${args.maxWidth};\n` : ''}}
+</style>
+${SelectTemplate(args)}
 `
 
 # Select
@@ -144,7 +156,38 @@ Selected options will be visible on input seperated by commas.
   <Story name="Multiple Select" args={{ placeholder: "Choose countries", multiple: true }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
-  <Story name="Multiple Select initial selection" args={{ placeholder: "Choose countries", valueProp: ['nl'], multiple: true  }} play={selectOpener}>
+  <Story name="Multiple Select initial selection" args={{ placeholder: "Choose countries", value: ['nl'], multiple: true  }} play={selectOpener}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Select All
+
+The Select component features a 'Select All' option in the Multiple Select, which is displayed when the `view-select-all` attribute is enabled. The text for the 'Select All' option can be customized by using the `select-all-text` attribute. Additionally, 'Select All' feature will not have any effect on disabled options.
+
+<Canvas>
+  <Story
+    name="Select All"
+    args={{ placeholder: "Choose countries", multiple: true, viewSelectAll: true, selectAllText: 'Select All Countries', options: [{
+      label: 'United States',
+      value: 'us',
+    }, ...defaultOptions]  }}
+    play={selectOpener}
+  >
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story
+    name="Select All with Disabled Options"
+    args={{ placeholder: "Choose countries", multiple: true, viewSelectAll: true, selectAllText: 'Select All Countries', options: [{
+      label: 'United States',
+      value: 'us',
+      disabled: true
+    }, ...defaultOptions]  }}
+    play={selectOpener}
+  >
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story name="Select All Hidden" args={{ placeholder: "Choose countries", value: ['nl'], multiple: true }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
 </Canvas>
@@ -353,6 +396,25 @@ Select have 3 size options: `small`, `medium` and `large`. `medium` size is defa
   </Story>
   <Story name="Large Select" args={{ label: 'Choose country', size: 'large' }}>
     {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Select with auto width
+
+Select can be used with auto width. If you want to use select with auto width, you can set `width: auto` to the host element.
+
+<Canvas>
+  <Story name="Select Auto Width" args={{ label: 'Choose country', class: 'country-selector', width: 'auto' }}>
+    {SelectWithStyleTemplate.bind({})}
+  </Story>
+  <Story name="Select Auto Width default value" args={{ label: 'Choose country', value: 'de', class: 'country-selector-with-value', width: 'auto' }}>
+    {SelectWithStyleTemplate.bind({})}
+  </Story>
+  <Story name="Select Auto Width multiple" args={{ label: 'Choose country', multiple: true, value: ['tr','nl'], class: 'country-selector-multiple', width: 'auto' }}>
+    {SelectWithStyleTemplate.bind({})}
+  </Story>
+  <Story name="Select Auto Width multiple max-width" args={{ label: 'Choose country', multiple: true, value: ['tr','nl','de'], class: 'country-selector-multiple-many', width: 'auto', maxWidth: '150px' }}>
+    {SelectWithStyleTemplate.bind({})}
   </Story>
 </Canvas>
 

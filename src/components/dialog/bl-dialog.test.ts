@@ -6,20 +6,21 @@ import {
   expect,
   fixtureCleanup,
   elementUpdated,
-} from '@open-wc/testing';
-import { sendKeys, sendMouse, resetMouse } from '@web/test-runner-commands';
-import BlDialog from './bl-dialog';
-import type typeOfBlDialog from './bl-dialog';
+} from "@open-wc/testing";
+import { sendKeys, sendMouse, resetMouse } from "@web/test-runner-commands";
+import BlDialog from "./bl-dialog";
+import type typeOfBlDialog from "./bl-dialog";
 
 const htmlDialogElement = window.HTMLDialogElement;
 
-describe('bl-dialog', () => {
-  it('is defined', () => {
-    const el = document.createElement('bl-dialog');
+describe("bl-dialog", () => {
+  it("is defined", () => {
+    const el = document.createElement("bl-dialog");
+
     assert.instanceOf(el, BlDialog);
   });
 
-  describe('dialog polyfill tests', () => {
+  describe("dialog polyfill tests", () => {
     before(() => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -31,13 +32,14 @@ describe('bl-dialog', () => {
       window.HTMLDialogElement = htmlDialogElement;
     });
 
-    it('should render dialog polyfill component when does not support html dialog', async () => {
+    it("should render dialog polyfill component when does not support html dialog", async () => {
       const el = await fixture<typeOfBlDialog>(html`<bl-dialog></bl-dialog>`);
-      const dialogPolyfill = el.shadowRoot?.querySelector('.dialog-polyfill');
+      const dialogPolyfill = el.shadowRoot?.querySelector(".dialog-polyfill");
+
       expect(dialogPolyfill).to.be.not.null;
     });
 
-    it('should open the dialog when the change open attribute as true', async () => {
+    it("should open the dialog when the change open attribute as true", async () => {
       const el = await fixture<typeOfBlDialog>(html` <bl-dialog caption="My title">
         <div>My Content</div>
       </bl-dialog>`);
@@ -50,12 +52,12 @@ describe('bl-dialog', () => {
       expect(el.open).to.equal(true);
     });
 
-    it('should close the dialog when the close btn is clicked', async () => {
+    it("should close the dialog when the close btn is clicked", async () => {
       const el = await fixture<typeOfBlDialog>(html` <bl-dialog open caption="My title">
         <div>My Content</div>
       </bl-dialog>`);
-      const dialogPolyfill = el.shadowRoot?.querySelector('.dialog-polyfill') as HTMLDivElement;
-      const closeBtn = el?.shadowRoot?.querySelector('bl-button');
+      const dialogPolyfill = el.shadowRoot?.querySelector(".dialog-polyfill") as HTMLDivElement;
+      const closeBtn = el?.shadowRoot?.querySelector("bl-button");
 
       expect(dialogPolyfill).to.exist;
       expect(closeBtn).to.exist;
@@ -70,12 +72,13 @@ describe('bl-dialog', () => {
           dialogPolyfill.offsetHeight ||
           dialogPolyfill.getClientRects().length
         );
+
         expect(visible).to.be.false;
       });
     });
   });
 
-  describe('dialog tests', () => {
+  describe("dialog tests", () => {
     before(() => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -86,8 +89,8 @@ describe('bl-dialog', () => {
       fixtureCleanup();
       window.HTMLDialogElement = htmlDialogElement;
     });
-    it('should render html dialog component with the default values when supports html dialog', async () => {
-      const el = await fixture<typeOfBlDialog>(html`<bl-dialog></bl-dialog>`);
+    it("should render html dialog component with the default values when supports html dialog", async () => {
+      const el = await fixture<typeOfBlDialog>(html`<bl-dialog .polyfilled=${false}></bl-dialog>`);
 
       assert.shadowDom.equal(
         el,
@@ -113,7 +116,7 @@ describe('bl-dialog', () => {
       );
     });
 
-    it('should open the dialog when the change open attribute as true', async () => {
+    it("should open the dialog when the change open attribute as true", async () => {
       const el = await fixture<typeOfBlDialog>(html` <bl-dialog caption="My title">
         <div>My Content</div>
       </bl-dialog>`);
@@ -128,12 +131,12 @@ describe('bl-dialog', () => {
       });
     });
 
-    it('should close the dialog when the close btn is clicked', async () => {
-      const el = await fixture<typeOfBlDialog>(html` <bl-dialog open caption="My title">
+    it("should close the dialog when the close btn is clicked", async () => {
+      const el = await fixture<typeOfBlDialog>(html` <bl-dialog .polyfilled=${false} open caption="My title">
         <div>My Content</div>
       </bl-dialog>`);
-      const dialog = el.shadowRoot?.querySelector('.dialog') as HTMLDivElement;
-      const closeBtn = el?.shadowRoot?.querySelector('bl-button');
+      const dialog = el.shadowRoot?.querySelector(".dialog") as HTMLDivElement;
+      const closeBtn = el?.shadowRoot?.querySelector("bl-button");
 
       expect(dialog).to.exist;
       expect(closeBtn).to.exist;
@@ -148,11 +151,12 @@ describe('bl-dialog', () => {
           dialog.offsetHeight ||
           dialog.getClientRects().length
         );
+
         expect(visible).to.be.false;
       });
     });
 
-    it('should render the title,the content and the footer if provided', async () => {
+    it("should render the title,the content and the footer if provided", async () => {
       const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
         <div class="content">
           <p>My Content</p>
@@ -161,15 +165,15 @@ describe('bl-dialog', () => {
         <bl-button slot="secondary-action" variant="secondary" size="large">Secondary</bl-button>
       </bl-dialog>`);
 
-      const caption = el.shadowRoot?.querySelector('h2') as HTMLElement;
-      const content = el.shadowRoot?.querySelector('.content') as HTMLElement;
-      const footer = el.shadowRoot?.querySelector('footer');
+      const caption = el.shadowRoot?.querySelector("h2") as HTMLElement;
+      const content = el.shadowRoot?.querySelector(".content") as HTMLElement;
+      const footer = el.shadowRoot?.querySelector("footer");
 
       expect(caption).to.exist;
-      expect(caption?.innerText).to.equal('My title');
+      expect(caption?.innerText).to.equal("My title");
 
       expect(content).to.exist;
-      expect(content?.innerHTML).to.equal('<slot></slot>');
+      expect(content?.innerHTML).to.equal("<slot></slot>");
 
       expect(footer).to.exist;
       expect(footer?.slot).to.exist;
@@ -180,14 +184,15 @@ describe('bl-dialog', () => {
         <bl-dialog open caption="My title"> </bl-dialog>
       </div>`);
 
-      const dialog = container.querySelector<typeOfBlDialog>('bl-dialog');
+      const dialog = container.querySelector<typeOfBlDialog>("bl-dialog");
+
       if (dialog) {
-        await sendKeys({ press: 'Escape' });
-        expect(dialog?.getAttribute('open'))?.oneOf(['', null]);
+        await sendKeys({ press: "Escape" });
+        expect(dialog?.getAttribute("open"))?.oneOf(["", null]);
       }
     });
 
-    it('should close the dialog on outside click', async () => {
+    it("should close the dialog on outside click", async () => {
       const body = await fixture<HTMLBodyElement>(html`
         <div style="width:1500px;height:1500px">
           <bl-dialog caption="My Title" open>
@@ -196,14 +201,14 @@ describe('bl-dialog', () => {
         </div>
       `);
 
-      const dialogEl = body.querySelector('bl-dialog') as typeOfBlDialog;
+      const dialogEl = body.querySelector("bl-dialog") as typeOfBlDialog;
 
-      await sendMouse({ type: 'click', position: [1, 1] });
-      expect(dialogEl.getAttribute('open')).oneOf(['', null]);
+      await sendMouse({ type: "click", position: [1, 1] });
+      expect(dialogEl.getAttribute("open")).oneOf(["", null]);
       await resetMouse();
     });
 
-    it('should add shadow to footer when the content is too long', async () => {
+    it("should add shadow to footer when the content is too long", async () => {
       window.innerWidth = 400;
 
       const el = await fixture<HTMLElement>(html`<bl-dialog open caption="My title">
@@ -276,82 +281,87 @@ describe('bl-dialog', () => {
       </bl-dialog>
     </body>`);
 
-      const footer = el?.shadowRoot?.querySelector('footer') as HTMLElement;
+      const footer = el?.shadowRoot?.querySelector("footer") as HTMLElement;
 
-      expect(footer.className).to.oneOf(['shadow', '']);
+      expect(footer.className).to.oneOf(["shadow", ""]);
     });
 
-    describe('Events', () => {
-      it('should fire bl-dialog-open / close event on dialog open / close', async () => {
+    describe("Events", () => {
+      it("should fire bl-dialog-open / close event on dialog open / close", async () => {
         const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
         </bl-dialog>`);
 
         setTimeout(async () => {
-          const ev = await oneEvent(el, 'bl-dialog-open');
+          const ev = await oneEvent(el, "bl-dialog-open");
+
           expect(ev).to.exist;
           expect(ev.detail.isOpen).to.equal(true);
         });
 
-        const closeBtn = el?.shadowRoot?.querySelector('bl-button');
+        const closeBtn = el?.shadowRoot?.querySelector("bl-button");
 
         setTimeout(async () => {
           closeBtn?.click();
-          const ev = await oneEvent(el, 'bl-dialog-close');
+          const ev = await oneEvent(el, "bl-dialog-close");
+
           expect(ev).to.exist;
           expect(ev.detail.isOpen).to.equal(false);
         });
       });
 
-      it('should fire bl-dialog-request-close event when dialog closes via built-in close button', async () => {
+      it("should fire bl-dialog-request-close event when dialog closes via built-in close button", async () => {
         const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
         </bl-dialog>`);
 
-        const closeBtn = el?.shadowRoot?.querySelector('bl-button');
+        const closeBtn = el?.shadowRoot?.querySelector("bl-button");
 
         setTimeout(() => {
           closeBtn?.click();
         });
 
-        const ev = await oneEvent(el, 'bl-dialog-request-close');
+        const ev = await oneEvent(el, "bl-dialog-request-close");
+
         expect(ev).to.exist;
-        expect(ev.detail.source).to.equal('close-button');
+        expect(ev.detail.source).to.equal("close-button");
       });
 
-      it('should fire bl-dialog-request-close event when dialog closes via Escape key', async () => {
+      it("should fire bl-dialog-request-close event when dialog closes via Escape key", async () => {
         const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
         </bl-dialog>`);
 
         setTimeout(async () => {
-          await sendKeys({ press: 'Escape' });
+          await sendKeys({ press: "Escape" });
         });
 
-        const ev = await oneEvent(el, 'bl-dialog-request-close');
+        const ev = await oneEvent(el, "bl-dialog-request-close");
+
         expect(ev).to.exist;
-        expect(ev.detail.source).to.equal('keyboard');
+        expect(ev.detail.source).to.equal("keyboard");
       });
 
-      it('should fire bl-dialog-request-close event when dialog closes by clicking backdrop', async () => {
-        const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
+      it("should fire bl-dialog-request-close event when dialog closes by clicking backdrop", async () => {
+        const el = await fixture<typeOfBlDialog>(html`<bl-dialog .polyfilled=${false} open caption="My title">
         </bl-dialog>`);
 
-        const dialog = el?.shadowRoot?.querySelector<HTMLDialogElement>('.dialog');
+        const dialog = el?.shadowRoot?.querySelector<HTMLDialogElement>(".dialog");
 
         setTimeout(() => {
           dialog?.click();
         });
 
-        const ev = await oneEvent(el, 'bl-dialog-request-close');
+        const ev = await oneEvent(el, "bl-dialog-request-close");
+
         expect(ev).to.exist;
-        expect(ev.detail.source).to.equal('backdrop');
+        expect(ev.detail.source).to.equal("backdrop");
       });
 
-      it('should prevent closing if bl-dialog-request-close event defaultPrevented', async () => {
+      it("should prevent closing if bl-dialog-request-close event defaultPrevented", async () => {
         const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
         </bl-dialog>`);
 
-        const closeBtn = el?.shadowRoot?.querySelector('bl-button');
+        const closeBtn = el?.shadowRoot?.querySelector("bl-button");
 
-        el.addEventListener('bl-dialog-request-close', ev => {
+        el.addEventListener("bl-dialog-request-close", ev => {
           ev.preventDefault();
         });
 
@@ -359,7 +369,7 @@ describe('bl-dialog', () => {
           closeBtn?.click();
         });
 
-        await oneEvent(el, 'bl-dialog-request-close');
+        await oneEvent(el, "bl-dialog-request-close");
 
         expect(el.open).to.be.true;
       });

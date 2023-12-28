@@ -17,8 +17,8 @@ npm install @trendyol/baklava
 Include Baklava library from CDN to your project's `index.html` file's `<head>` section.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.1.0/dist/themes/default.css"/>
-<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.1.0/dist/baklava.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/themes/default.css"/>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/baklava.js"></script>
 ```
 
 Then you can use Baklava React components in your project by importing them from `@trendyol/baklava/dist/baklava-react` in your code.
@@ -62,7 +62,7 @@ import ReactDOM from "react-dom/client";
 import "@trendyol/baklava";
 import { setIconPath } from "@trendyol/baklava";
 import "@trendyol/baklava/dist/themes/default.css";
-setIconPath("https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.1.0/dist/assets");
+setIconPath("https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/assets");
 
 import App from "./App";
 
@@ -159,4 +159,63 @@ function MyComponent() {
 }
 
 export default MyComponent;
+```
+
+## Testing with Vitest
+
+Baklava uses ES modules. We will explain how to install Vitest due to its ES Modules support. If you are using Jest,
+your version should be greater than 26.5.0, and you should add "@trendyol/baklava" to the
+[transformIgnorePatterns](https://jestjs.io/docs/tutorial-react-native#transformignorepatterns-customization).
+
+```shell
+npm install -D vitest vitest-dom jsdom
+```
+
+After downloading Vitest with this command, you should provide a file path to the setupFiles section in your
+Vitest config file. We used './src/setupTest.ts'.
+
+```js
+import {defineConfig} from "vitest/config";
+
+export default defineConfig({
+  test: {
+    ...otherProps,
+    environment: "jsdom",
+    setupFiles: ["./src/setupTest.ts"]
+  }
+});
+```
+
+Afterward, we should edit our setupTest.ts file just like setting up baklava.
+
+```js
+import "vitest-dom/extend-expect";
+import "@trendyol/baklava";
+import { setIconPath } from "@trendyol/baklava";
+import "@trendyol/baklava/dist/themes/default.css";
+setIconPath("https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/assets");
+```
+
+We are ready to write tests.
+
+```tsx
+import { fireEvent, render, screen } from "@testing-library/react";
+import { expect, test, vi } from "vitest";
+import { BlButton } from "@trendyol/baklava/dist/baklava-react";
+import React from "react";
+
+test("should trigger click event", async () => {
+  const onClickFn = vi.fn();
+  render(
+    <React.Suspense fallback={null}>
+      <BlButton onBlClick={onClickFn}>Button</BlButton>
+    </React.Suspense>
+  );
+
+  const blButton = await screen.findByText("Button");
+  const button = blButton.shadowRoot!.querySelector("button")!;
+  fireEvent.click(button);
+
+  expect(onClickFn).toBeCalled();
+});
 ```

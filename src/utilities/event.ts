@@ -18,9 +18,7 @@ function dispatcher<T>(target: HTMLElement, eventName: string): EventDispatcher<
       ...options,
     });
 
-    target.dispatchEvent(
-      customEvent
-    );
+    target.dispatchEvent(customEvent);
 
     return customEvent;
   };
