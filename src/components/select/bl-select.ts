@@ -259,10 +259,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     return this._additionalSelectedOptionCount;
   }
 
-  get isAllSelected() {
-    return this._selectedOptions.length === this._connectedOptions.length;
-  }
-
   validityCallback(): string | void {
     if (this.customInvalidText) {
       return this.customInvalidText;
@@ -469,14 +465,17 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       return null;
     }
 
-    const isAnySelected = this._selectedOptions.length > 0;
+    const isAllRenderedOptionsSelected = this._connectedOptions
+      .filter(option => !option.hidden)
+      .every(option => option.selected);
+    const isAnySelected = this._selectedOptions.filter(option => !option.hidden).length > 0;
 
     return html`<bl-checkbox
       class="select-all"
-      .checked="${this.isAllSelected}"
-      .indeterminate="${isAnySelected && !this.isAllSelected}"
+      .checked="${isAllRenderedOptionsSelected}"
+      .indeterminate="${isAnySelected && !isAllRenderedOptionsSelected}"
       role="option"
-      aria-selected="${this.isAllSelected}"
+      aria-selected="${isAllRenderedOptionsSelected}"
       @bl-checkbox-change="${this._handleSelectAll}"
     >
       ${this.selectAllText}
@@ -648,7 +647,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     const selectAllEl = this.shadowRoot?.querySelector(".select-all") as BlCheckbox;
 
     const checked = e.detail;
-    const unselectedOptions = this._connectedOptions.filter(option => !option.selected);
+    const unselectedOptions = this._connectedOptions.filter(
+      option => !option.selected && !option.hidden
+    );
     const isAllUnselectedDisabled = unselectedOptions.every(option => option.disabled);
 
     // If all available options are selected, instead of checking, uncheck all options
@@ -662,7 +663,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     }
 
     this._connectedOptions.forEach(option => {
-      if (option.disabled) {
+      if (option.disabled || option.hidden) {
         return;
       }
 
@@ -670,12 +671,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     });
 
     this._handleMultipleSelect();
-
-    // Make sure the checkbox state is in sync with selected options
-    setTimeout(() => {
-      selectAllEl.checked = this.isAllSelected;
-      selectAllEl.indeterminate = this._selectedOptions.length > 0 && !this.isAllSelected;
-    });
   }
 
   private _onClickRemove(e: MouseEvent) {

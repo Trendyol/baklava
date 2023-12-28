@@ -195,6 +195,14 @@ The Select component features a 'Select All' option in the Multiple Select, whic
   </Story>
 </Canvas>
 
+Select all is designed to operate on filtered results as well, selecting only those options that meet the filter.
+
+<Canvas>
+  <Story name="Searchable with Select All" args={{ searchBar: true, searchBarPlaceholder: 'Search your options', multiple: true, viewSelectAll: true }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
 ## Clear Button
 
 The select component includes a clear button. Clear button can be displayed by passing `clearable` attribute to the Select component.
