@@ -14,7 +14,7 @@
   background-color: var(--main-bg-color);
   color: var(--bl-color-neutral-darker);
   box-shadow: inset 0 0 0 1px var(--main-color);
-  border-radius: var(--bl-border-radius-s);
+  border-radius: var(--bl-border-radius-l);
   padding: calc(var(--padding) / 2) var(--padding);
   padding-right: calc(var(--padding) / 2);
 }
