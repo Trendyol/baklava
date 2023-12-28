@@ -586,12 +586,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _handleSearchOptions(e: InputEvent): void {
     if (!this.searchBar) return;
 
-    this._searchText = (e.target as HTMLInputElement).value.toLowerCase();
+    this._searchText = (e.target as HTMLInputElement).value;
 
     this._handleSearchEvent();
 
     this._connectedOptions.forEach(option => {
-      const isVisible = option.textContent?.toLowerCase().includes(this._searchText);
+      const isVisible = option.textContent?.toLowerCase().includes(this._searchText.toLowerCase());
 
       option.hidden = !isVisible;
     });
