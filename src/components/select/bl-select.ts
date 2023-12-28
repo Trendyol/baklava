@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, LitElement, PropertyValues } from "lit";
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, queryAll, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -7,7 +7,10 @@ import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
 import { event, EventDispatcher } from "../../utilities/event";
+import "../button/bl-button";
 import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
+import "../checkbox-group/checkbox/bl-checkbox";
+import "../icon/bl-icon";
 import "../icon/bl-icon";
 import style from "../select/bl-select.css";
 import "../select/option/bl-select-option";
@@ -53,7 +56,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Sets the value of the select
    */
-  @property()
+  @property({ type: Array })
   get value(): ValueType | ValueType[] | null {
     return this._value;
   }
@@ -331,8 +334,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         "has-overflowed-options": this._additionalSelectedOptionCount > 0,
       })}
       tabindex="${this.disabled ? "-1" : 0}"
-      ?autofocus=${this.autofocus}
-      @click=${this.togglePopover}
+      .autofocus=${this.autofocus}
+      @click=${this._togglePopover}
       role="button"
       aria-haspopup="listbox"
       aria-expanded="${this.opened}"
@@ -371,7 +374,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     </bl-checkbox>`;
   }
 
-  render() {
+  render(): TemplateResult {
     const invalidMessage = !this.checkValidity()
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
           ${this.validationMessage}
@@ -412,7 +415,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   private handleKeydown(event: KeyboardEvent) {
     if (this.focusedOptionIndex === -1 && ["Enter", "Space"].includes(event.code)) {
-      this.togglePopover();
+      this._togglePopover();
       event.preventDefault();
     } else if (this._isPopoverOpen === false && ["ArrowDown", "ArrowUp"].includes(event.code)) {
       this.open();
@@ -436,7 +439,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     }
   }
 
-  private togglePopover() {
+  private _togglePopover() {
     this._isPopoverOpen ? this.close() : this.open();
   }
 
