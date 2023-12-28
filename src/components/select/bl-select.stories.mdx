@@ -98,6 +98,8 @@ export const SelectTemplate = (args) => html`<bl-select
     ?required=${args.required}
     ?disabled=${args.disabled}
     ?success=${args.success}
+    ?view-select-all=${args.viewSelectAll}
+    select-all-text=${ifDefined(args.selectAllText)}
     size=${ifDefined(args.size)}
     help-text=${ifDefined(args.helpText)}
     invalid-text=${ifDefined(args.customInvalidText)}
@@ -105,7 +107,7 @@ export const SelectTemplate = (args) => html`<bl-select
     .value=${ifDefined(args.value)}>${
   (args.options || defaultOptions).map((option) => html`
   <bl-select-option value=${ifDefined(option.value)} ?selected=${
-    ( args.selected || []).includes(option.value) }>${option.label}</bl-select-option>`
+    ( args.selected || []).includes(option.value) } ?disabled=${option.disabled}>${option.label}</bl-select-option>`
   )}
 </bl-select>`
 
@@ -155,6 +157,37 @@ Selected options will be visible on input seperated by commas.
     {SelectTemplate.bind({})}
   </Story>
   <Story name="Multiple Select initial selection" args={{ placeholder: "Choose countries", value: ['nl'], multiple: true  }} play={selectOpener}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Select All
+
+The Select component features a 'Select All' option in the Multiple Select, which is displayed when the `view-select-all` attribute is enabled. The text for the 'Select All' option can be customized by using the `select-all-text` attribute. Additionally, 'Select All' feature will not have any effect on disabled options.
+
+<Canvas>
+  <Story
+    name="Select All"
+    args={{ placeholder: "Choose countries", multiple: true, viewSelectAll: true, selectAllText: 'Select All Countries', options: [{
+      label: 'United States',
+      value: 'us',
+    }, ...defaultOptions]  }}
+    play={selectOpener}
+  >
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story
+    name="Select All with Disabled Options"
+    args={{ placeholder: "Choose countries", multiple: true, viewSelectAll: true, selectAllText: 'Select All Countries', options: [{
+      label: 'United States',
+      value: 'us',
+      disabled: true
+    }, ...defaultOptions]  }}
+    play={selectOpener}
+  >
+    {SelectTemplate.bind({})}
+  </Story>
+  <Story name="Select All Hidden" args={{ placeholder: "Choose countries", value: ['nl'], multiple: true }} play={selectOpener}>
     {SelectTemplate.bind({})}
   </Story>
 </Canvas>

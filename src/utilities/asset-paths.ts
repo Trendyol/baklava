@@ -11,5 +11,5 @@ export function getIconPath() {
 const modulePath = import.meta.url;
 
 if (modulePath) {
-  setIconPath(modulePath.split("/").slice(0, -1).concat("assets").join("/"));
+  setIconPath(new URL(iconPath, modulePath).toString());
 }

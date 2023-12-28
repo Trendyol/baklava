@@ -7,6 +7,7 @@ import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
 import { event, EventDispatcher } from "../../utilities/event";
+import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
 import "../icon/bl-icon";
 import style from "../select/bl-select.css";
 import "../select/option/bl-select-option";
@@ -86,7 +87,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Sets the placeholder value. If left blank, the label value (if specified) is set as placeholder.
    */
-  @property({})
+  @property({ reflect: true })
   placeholder?: string;
 
   /**
@@ -110,13 +111,13 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Sets whether the selected option is clearable
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   clearable = false;
 
   /**
    * Allows multiple options to be selected
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   multiple = false;
 
   /**
@@ -134,14 +135,26 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Adds help text
    */
-  @property({ type: String, attribute: "help-text" })
+  @property({ type: String, attribute: "help-text", reflect: true })
   helpText?: string;
 
   /**
    * Set custom error message
    */
-  @property({ type: String, attribute: "invalid-text" })
+  @property({ type: String, attribute: "invalid-text", reflect: true })
   customInvalidText?: string;
+
+  /**
+   * Views select all option in multiple select
+   */
+  @property({ type: Boolean, attribute: "view-select-all" })
+  viewSelectAll = false;
+
+  /**
+   * Sets select all text in multiple select
+   */
+  @property({ type: String, attribute: "select-all-text" })
+  selectAllText = "Select All";
 
   /* Declare internal reactive properties */
   @state()
@@ -202,6 +215,10 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   get additionalSelectedOptionCount() {
     return this._additionalSelectedOptionCount;
+  }
+
+  get isAllSelected() {
+    return this._selectedOptions.length === this._connectedOptions.length;
   }
 
   validityCallback(): string | void {
@@ -293,17 +310,20 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     const inputSelectedOptions = html`<ul class="selected-options">
       ${this._selectedOptions.map(item => html`<li>${item.textContent}</li>`)}
     </ul>`;
-    const removeButton =
-      this.clearable || this.multiple
-        ? html`<bl-button
-            class="remove-all"
-            size="small"
-            variant="tertiary"
-            kind="neutral"
-            icon="close"
-            @click=${this._onClickRemove}
-          ></bl-button>`
-        : "";
+
+    const isAllSelectedDisabled =
+      this._selectedOptions.length > 0 && this._selectedOptions.every(option => option.disabled);
+    const isRemoveButtonShown = !isAllSelectedDisabled && (this.clearable || this.multiple);
+    const removeButton = isRemoveButtonShown
+      ? html`<bl-button
+          class="remove-all"
+          size="small"
+          variant="tertiary"
+          kind="neutral"
+          icon="close"
+          @click=${this._onClickRemove}
+        ></bl-button>`
+      : "";
 
     return html`<fieldset
       class=${classMap({
@@ -330,6 +350,25 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
       </div>
     </fieldset>`;
+  }
+
+  selectAllTemplate() {
+    if (!this.multiple || !this.viewSelectAll) {
+      return null;
+    }
+
+    const isAnySelected = this._selectedOptions.length > 0;
+
+    return html`<bl-checkbox
+      class="select-all"
+      .checked="${this.isAllSelected}"
+      .indeterminate="${isAnySelected && !this.isAllSelected}"
+      role="option"
+      aria-selected="${this.isAllSelected}"
+      @bl-checkbox-change="${this._handleSelectAll}"
+    >
+      ${this.selectAllText}
+    </bl-checkbox>`;
   }
 
   render() {
@@ -362,6 +401,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         aria-multiselectable="${this.multiple}"
         aria-labelledby="label"
       >
+        ${this.selectAllTemplate()}
         <slot></slot>
       </div>
       <div class="hint">${invalidMessage} ${helpMessage}</div>
@@ -440,17 +480,54 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     }
   }
 
+  private _handleSelectAll(e: CustomEvent) {
+    const selectAllEl = this.shadowRoot?.querySelector(".select-all") as BlCheckbox;
+
+    const checked = e.detail;
+    const unselectedOptions = this._connectedOptions.filter(option => !option.selected);
+    const isAllUnselectedDisabled = unselectedOptions.every(option => option.disabled);
+
+    // If all available options are selected, instead of checking, uncheck all options
+    if (checked && isAllUnselectedDisabled) {
+      setTimeout(() => {
+        const checkbox = selectAllEl?.shadowRoot?.querySelector("input");
+
+        checkbox?.click();
+      }, 0);
+      return;
+    }
+
+    this._connectedOptions.forEach(option => {
+      if (option.disabled) {
+        return;
+      }
+
+      option.selected = checked;
+    });
+
+    this._handleMultipleSelect();
+
+    // Make sure the checkbox state is in sync with selected options
+    setTimeout(() => {
+      selectAllEl.checked = this.isAllSelected;
+      selectAllEl.indeterminate = this._selectedOptions.length > 0 && !this.isAllSelected;
+    });
+  }
+
   private _onClickRemove(e: MouseEvent) {
     e.stopPropagation();
 
+    const selectedDisabledOptions = this._selectedOptions.filter(option => option.disabled);
+
     this._connectedOptions
-      .filter(option => option.selected)
+      .filter(option => !option.disabled && option.selected)
       .forEach(option => {
         option.selected = false;
       });
 
-    this.value = null;
-    this._additionalSelectedOptionCount = 0;
+    this.value = selectedDisabledOptions.length
+      ? selectedDisabledOptions.map(option => option.value)
+      : null;
     this._handleSelectEvent();
   }
 
@@ -488,7 +565,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       this.value = null;
     }
 
-    this._checkAdditionalItemCount();
+    if (_changedProperties.has("_selectedOptions")) {
+      this._checkAdditionalItemCount();
+    }
   }
 
   /**
