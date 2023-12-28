@@ -11,7 +11,6 @@ import "../button/bl-button";
 import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
 import "../checkbox-group/checkbox/bl-checkbox";
 import "../icon/bl-icon";
-import "../icon/bl-icon";
 import style from "../select/bl-select.css";
 import "../select/option/bl-select-option";
 import type BlSelectOption from "./option/bl-select-option";
