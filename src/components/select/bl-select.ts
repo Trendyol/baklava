@@ -465,7 +465,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   selectAllTemplate() {
-    if (!this.multiple || !this.viewSelectAll) {
+    if (!this.multiple || !this.viewSelectAll || this.noResultFound) {
       return null;
     }
 
