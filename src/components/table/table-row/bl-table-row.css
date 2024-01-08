@@ -1,0 +1,70 @@
+:host {
+  display: table-row;
+}
+
+:host([checked]),
+:host([checked]) ::slotted(bl-table-cell) {
+  background-color: var(--bl-color-primary-contrast);
+}
+
+:host([disabled]),
+:host([disabled]) ::slotted(bl-table-cell) {
+  background-color: var(--bl-color-neutral-lightest);
+}
+
+:host(:not([checked], [disabled]):hover),
+:host(:not([checked], [disabled]):hover) ::slotted(bl-table-cell){
+  background-color: var(--bl-color-tertiary-background);
+}
+
+:host ::slotted(*:first-child) {
+  border-left: none;
+}
+
+:host ::slotted(*:last-child) {
+  border-right: none;
+}
+
+:host(:first-child) ::slotted(bl-table-header-cell) {
+  border-top: none;
+}
+
+:host(:first-child) ::slotted(bl-table-header-cell:first-child) {
+  border-top-left-radius: var(--bl-size-3xs);
+}
+
+:host(:first-child) ::slotted(bl-table-header-cell:last-child) {
+  border-top-right-radius: var(--bl-size-3xs);
+}
+
+:host(:last-child) ::slotted(bl-table-cell) {
+  border-bottom: none;
+}
+
+:host(:first-child) ::slotted(bl-table-cell) {
+  border-top: none;
+}
+
+:host(:last-child) ::slotted(bl-table-cell:first-child) {
+  border-bottom-left-radius: var(--bl-size-3xs);
+}
+
+:host(:last-child) ::slotted(bl-table-cell:last-child) {
+  border-bottom-right-radius: var(--bl-size-3xs);
+}
+
+
+:host([sticky-first-column]) ::slotted(bl-table-header-cell:first-child),
+:host([sticky-first-column]) ::slotted(bl-table-cell:first-child) {
+  position: sticky;
+  z-index: 2;
+  left:0;
+}
+
+
+:host([sticky-last-column]) ::slotted(bl-table-header-cell:last-child),
+:host([sticky-last-column]) ::slotted(bl-table-cell:last-child) {
+  position: sticky;
+  z-index: 2;
+  right:0;
+}

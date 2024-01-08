@@ -1,0 +1,134 @@
+import {html} from 'lit';
+import {Meta, Canvas, ArgsTable, Story} from '@storybook/addon-docs';
+import {userEvent} from '@storybook/testing-library';
+
+<Meta
+		title="Components/Table/bl-table"
+		component="bl-table"
+		argTypes={{
+			headers: {
+				control: 'text',
+				type: 'array',
+			},
+			rows: {
+				control: 'text',
+				type: 'array',
+			},
+		}}
+/>
+
+export const TableTemplate = (args) => html`
+	<div style="height: 400px;">
+    <bl-table
+			select-value=[0,1]
+			?selectable=${true}
+			?multiple=${false}
+			?sortable=${true}
+      ?sticky-first-column=${true}
+      ?sticky-last-column=${false}
+			@bl-table-sort=${console.log}
+		>
+      <bl-table-header ?sticky=${args.stickyHeader}>
+        <bl-table-row>
+					${args.headers.map((header) =>
+						html`<bl-table-header-cell
+              ?sortable=${header.sortable}
+              sort-key='${header.sortKey}'
+              style='${header.width?'--bl-table-header-cell-width: '+header.width+';': ''} ${header.minWidth?'--bl-table-header-cell-min-width: '+header.minWidth+';': ''}'
+            >
+              ${header.text}
+            </bl-table-header-cell>`
+					)}
+        </bl-table-row>
+      </bl-table-header>
+      <bl-table-body>
+				${args.data.map((row) =>
+					html`
+            <bl-table-row>
+							${args.headers.map((header, col_idx) =>
+								html`
+                  <bl-table-cell ?disable-selection=${col_idx===0&&row.disabled}>
+                       ${row[header.key]}
+                  </bl-table-cell>
+								`
+							)}
+            </bl-table-row>
+					`
+				)}
+      </bl-table-body>
+    </bl-table>
+  </div>
+`;
+
+
+export const focusSecondOption = async ({}) => {
+	await userEvent.tab();
+	await userEvent.keyboard('{ArrowRight}');
+}
+
+# Table Component
+
+Checkbox Group is a component to take multiple selections from user with a list of options. It needs to be used with `bl-checkbox` component.
+If you set a list of `values`, options with those values will be selected.
+
+<Canvas>
+  <Story name="Basic Usage" args={{
+    headers: [
+      {key: "id", sortKey: "id", text: "ID", minWidth: '100px', sticky:'left'},
+      {key: "first_name", sortKey: "first_name", text: "First Name", minWidth: "100px"},
+      {key: "last_name", sortKey: "last_name", text: "Last Name", width: "150px", minWidth: "100px"},
+      {key: "email", text: "Email", width: "250px", minWidth: "250px"},
+      {key: "gender", text: "Gender", width: '85px'},
+      {key: "ip_address", text: "IP Address", width: '90px', sticky: 'right'},
+    ],
+    data: Array(1)
+		    .fill([
+				{
+	    id: 1,
+	    first_name: "Antonella",
+	    last_name: "Bellefonte",
+	    email: "abellefonte0@nba.com",
+	    gender: "Female",
+	    ip_address: "193.108.174.118"
+    },
+	    {id:2,first_name:"Wash",last_name:"Carnson",email:"wcarnson1@jalbum.net",gender:"Male",ip_address:"255.169.128.60"},
+	    {id:3,first_name:"Betteanne",last_name:"Cowgill",email:"bcowgill2@timesonline.co.uk",gender:"Female",ip_address:"235.237.3.233", disabled: true},
+	    {id:4,first_name:"Lilith",last_name:"Astbury",email:"lastbury3@shinystat.com",gender:"Female",ip_address:"46.41.60.65"},
+	    {id:5,first_name:"Nikos",last_name:"Vasenkov",email:"nvasenkov4@slate.com",gender:"Male",ip_address:"13.95.130.24"},
+	    {id:6,first_name:"Drucill",last_name:"Runciman",email:"drunciman5@hc360.com",gender:"Female",ip_address:"185.192.50.41"},
+	    {id:7,first_name:"Gaspar",last_name:"Falls",email:"gfalls6@howstuffworks.com",gender:"Male",ip_address:"107.51.243.94"},
+	    {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
+	    {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
+	    {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
+	    {id:11,first_name:"Marjy",last_name:"Makinson",email:"mmakinsona@drupal.org",gender:"Agender",ip_address:"221.18.21.235"},
+	    {id:12,first_name:"Wain",last_name:"Ferrand",email:"wferrandb@mtv.com",gender:"Male",ip_address:"122.1.62.7"},
+	    {id:13,first_name:"Edmund",last_name:"Blasetti",email:"eblasettic@drupal.org",gender:"Male",ip_address:"9.249.190.250"},
+	    {id:14,first_name:"Ketty",last_name:"Faithfull",email:"kfaithfulld@studiopress.com",gender:"Female",ip_address:"173.66.98.165"},
+	    {id:15,first_name:"Giulio",last_name:"Monier",email:"gmoniere@ed.gov",gender:"Male",ip_address:"106.233.94.4"},
+	    {id:16,first_name:"Jeffy",last_name:"Ditt",email:"jdittf@irs.gov",gender:"Agender",ip_address:"213.121.250.127"},
+	    {id:17,first_name:"Ainsley",last_name:"Lowin",email:"alowing@businessinsider.com",gender:"Female",ip_address:"223.185.164.31"},
+	    {id:18,first_name:"Germana",last_name:"Downing",email:"gdowningh@dion.ne.jp",gender:"Female",ip_address:"55.83.134.58"},
+	    {id:19,first_name:"Kizzie",last_name:"Pyzer",email:"kpyzeri@google.com.br",gender:"Female",ip_address:"84.92.93.248"},
+	    {id:20,first_name:"Almire",last_name:"Slinn",email:"aslinnj@wiley.com",gender:"Female",ip_address:"195.56.102.224"},
+    ])
+		    .reduce((a, b)=>a.concat(b), []),
+    stickyHeader:true
+  }}>
+    {TableTemplate.bind({})}
+  </Story>
+</Canvas>
+
+
+## Reference
+### bl-table
+<ArgsTable of="bl-table"/>
+___
+### bl-table-header
+<ArgsTable of="bl-table-header"/>
+___
+### bl-table-header-cell
+<ArgsTable of="bl-table-header-cell"/>
+___
+### bl-table-cell
+<ArgsTable of="bl-table-cell"/>
+___
