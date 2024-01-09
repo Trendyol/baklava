@@ -26,6 +26,9 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
     this._value = val;
   }
 
+  @property({ type: String, reflect: true, attribute: 'option-label' })
+  label = '';
+
   /**
    * Sets option as disabled
    */
