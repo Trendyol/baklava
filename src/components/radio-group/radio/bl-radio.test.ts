@@ -1,16 +1,16 @@
-import { expect, fixture, html } from '@open-wc/testing';
-import BlRadio from './bl-radio';
+import { expect, fixture, html } from "@open-wc/testing";
+import BlRadio from "./bl-radio";
 
-describe('bl-radio', () => {
-  it('should be defined radio instance', () => {
+describe("bl-radio", () => {
+  it("should be defined radio instance", () => {
     //when
-    const el = document.createElement('bl-radio');
+    const el = document.createElement("bl-radio");
 
     //then
     expect(el).instanceOf(BlRadio);
   });
 
-  it('should be rendered with default values', async () => {
+  it("should be rendered with default values", async () => {
     //when
     const el = await fixture<BlRadio>(html`<bl-radio value="cc">Credit Card</bl-radio>`);
 

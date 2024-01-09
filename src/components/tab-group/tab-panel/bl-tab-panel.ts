@@ -1,13 +1,13 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import styles from './bl-tab-panel.css';
-import type BlTabGroup from '../bl-tab-group';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
+import type BlTabGroup from "../bl-tab-group";
+import styles from "./bl-tab-panel.css";
 
 /**
  * @tag bl-tab-panel
  * @summary Baklava Tab panel component
  */
-@customElement('bl-tab-panel')
+@customElement("bl-tab-panel")
 export default class BlTabPanel extends LitElement {
   static get styles(): CSSResultGroup {
     return [styles];
@@ -19,7 +19,7 @@ export default class BlTabPanel extends LitElement {
     super.connectedCallback();
 
     this.updateComplete.then(() => {
-      this.tabGroup = this.closest('bl-tab-group');
+      this.tabGroup = this.closest("bl-tab-group");
       // FIXME: We need to warn if parent is not tab-group
       this.tabGroup?.registerTabPanel(this);
     });
@@ -49,6 +49,6 @@ export default class BlTabPanel extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-tab-panel': BlTabPanel;
+    "bl-tab-panel": BlTabPanel;
   }
 }

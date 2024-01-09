@@ -1,8 +1,8 @@
-import { LitElement, html, CSSResultGroup, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import style from './bl-dropdown-group.css';
+import { LitElement, html, CSSResultGroup, TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import style from "./bl-dropdown-group.css";
 
-export const blDropdownGroupTag = 'bl-dropdown-group';
+export const blDropdownGroupTag = "bl-dropdown-group";
 
 /**
  * @tag bl-dropdown-group
@@ -21,13 +21,11 @@ export default class BlDropdownGroup extends LitElement {
   caption?: string;
 
   render(): TemplateResult {
-    const caption = this.caption ? html`<span id="label" class="caption">${this.caption}</span>` : '';
+    const caption = this.caption
+      ? html`<span id="label" class="caption">${this.caption}</span>`
+      : "";
 
-    return html`<div
-      class="dropdown-group"
-      role="group"
-      aria-labelledby="label"
-    >
+    return html`<div class="dropdown-group" role="group" aria-labelledby="label">
       ${caption}
       <slot></slot>
     </div>`;

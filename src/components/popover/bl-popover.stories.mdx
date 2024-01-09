@@ -37,6 +37,13 @@ export const popoverOpener = async ({canvasElement}) => {
   }
 }
 
+export const nestedPopoverOpener = async ({canvasElement}) => {
+  await popoverOpener({ canvasElement });
+  // Prevent flaky chromatic firefox screenshot.
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  await popoverOpener({ canvasElement: canvasElement.querySelector('#popover-nested-parent') });
+}
+
 export const handleClick = async (event,args) => {
   const popover = document.getElementById(`popover-${ifDefined(args.id)}`);
   popover.target = document.getElementById(`button-${ifDefined(args.id)}`);
@@ -50,7 +57,7 @@ export const PopoverTemplate = (args) => html`
   fit-size="${ifDefined(args.fitSize)}"
   offset="${ifDefined(args.offset)}"
   style="${ifDefined(args.style)}">
-  Popover Content
+  ${args.slot?.() || 'Popover Content'}
 </bl-popover>
   `
 
@@ -70,6 +77,16 @@ Popover Content
 </bl-popover>
 `
 
+export const NestedStoryTemplate = (args) => html`
+<style>
+  #popover-nested {
+    --bl-popover-arrow-display: block;
+  }
+</style>
+<bl-button id="button-${ifDefined(args.id)}" @bl-click="${(event) => handleClick(event,args)}" >${args.buttonText ? args.buttonText : 'Trigger Popover'}</bl-button>
+${PopoverTemplate({...args, slot: () => StoryTemplate({ id: 'nested', placement: 'right'}) })}
+`
+
 # Popover
 
 <bl-badge icon="document">[ADR](https://github.com/orgs/Trendyol/projects/4?pane=issue&itemId=14813896)</bl-badge>
@@ -87,7 +104,7 @@ Be cautious about using this component. Consider using semantically more releava
 ## Main behaviours
 
 * Popovers don't open by themself. `show()` method should be called via JavaScript when desired.
-* Only a single popover can be visible in the screen at the same time. Whenever a popover is shown, other one will close itself automatically.
+* Only a single popover can be visible in the screen at the same time. Whenever another popover is shown, other one will close itself automatically, unless they are nested.
 * Popovers tries to keep themself inside viewport. For example: If you place it to bottom of an element and if there is not enough space to show it below, it automatically flips to the top of the element.
 * Popovers can be closed with `Escape` key.
 * Popovers close themself if user clicks outside of it and its target element.
@@ -132,6 +149,16 @@ Or by passing targert reference:
   </Story>
   <Story name="Show popover with instance trigger" args={{ buttonText:'Trigger with instance' ,id:'2' }} play={popoverOpener}>
     {TargetInstanceStoryTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Nested Popovers
+
+You can nest popovers inside each other.
+
+<Canvas>
+  <Story name="Nested Popovers" args={{ buttonText:'Nested Popovers', id: 'nested-parent' }} play={nestedPopoverOpener}>
+    {NestedStoryTemplate.bind()}
   </Story>
 </Canvas>
 

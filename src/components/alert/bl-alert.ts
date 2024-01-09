@@ -1,20 +1,21 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { event, EventDispatcher } from '../../utilities/event';
-import style from './bl-alert.css';
-import '../icon/bl-icon';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { stringBooleanConverter } from '../../utilities/string-boolean.converter';
-import { ButtonVariant, ButtonKind, ButtonSize } from '../button/bl-button';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { event, EventDispatcher } from "../../utilities/event";
+import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
+import { ButtonVariant, ButtonKind, ButtonSize } from "../button/bl-button";
+import "../icon/bl-icon";
+import { BaklavaIcon } from "../icon/icon-list";
+import style from "./bl-alert.css";
 
-export type AlertVariant = 'info' | 'warning' | 'success' | 'danger';
+export type AlertVariant = "info" | "warning" | "success" | "danger";
 
 /**
  * @tag bl-alert
  * @summary Baklava Alert component
  */
 
-@customElement('bl-alert')
+@customElement("bl-alert")
 export default class BlAlert extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
@@ -24,19 +25,19 @@ export default class BlAlert extends LitElement {
    * Sets alert variant
    */
   @property({ reflect: true })
-  variant: AlertVariant = 'info';
+  variant: AlertVariant = "info";
 
   /**
    * Sets alert description
    */
   @property()
-  description?: 'string';
+  description?: string;
 
   /**
    * Allows to customize alert icon
    */
   @property({ converter: stringBooleanConverter() })
-  icon?: boolean | string;
+  icon?: boolean | BaklavaIcon;
 
   /**
    * Displays a close button.
@@ -73,7 +74,7 @@ export default class BlAlert extends LitElement {
   /**
    * Fires when close button clicked.
    */
-  @event('bl-close') private onClose: EventDispatcher<boolean>;
+  @event("bl-close") private onClose: EventDispatcher<boolean>;
 
   private get _hasAlertCaptionSlot() {
     return this.querySelector(':scope > [slot="caption"]') !== null;
@@ -86,16 +87,16 @@ export default class BlAlert extends LitElement {
 
   private _predefinedIcons() {
     switch (this.variant) {
-      case 'success':
-        return 'check_fill';
-      case 'danger':
-        return 'close_fill';
+      case "success":
+        return "check_fill";
+      case "danger":
+        return "close_fill";
       default:
         return this.variant;
     }
   }
 
-  private _getIcon(): string | undefined {
+  private _getIcon(): BaklavaIcon | undefined {
     if (!this.icon) return;
     if (this.icon === true) return this._predefinedIcons();
     return this.icon;
@@ -103,28 +104,28 @@ export default class BlAlert extends LitElement {
 
   private _initAlertActionSlot(event: Event) {
     const slotElement = event.target as HTMLSlotElement;
-    const slotElements = slotElement.assignedElements();
+    const slotElements = slotElement.assignedElements({ flatten: true });
 
     slotElements.forEach(element => {
-      if (element.tagName !== 'BL-BUTTON') {
+      if (element.tagName !== "BL-BUTTON") {
         element.parentNode?.removeChild(element);
         return;
       }
 
-      (slotElement.parentElement as HTMLElement).style.display = 'flex';
+      (this.shadowRoot?.querySelector(".actions") as HTMLElement).style.display = "flex";
 
-      const variant = element.slot === 'action-secondary' ? 'secondary' : 'primary';
+      const variant = slotElement.name === "action-secondary" ? "secondary" : "primary";
       const buttonTypes: Record<AlertVariant, string> = {
-        info: 'default',
-        warning: 'neutral',
-        success: 'success',
-        danger: 'danger',
+        info: "default",
+        warning: "neutral",
+        success: "success",
+        danger: "danger",
       };
 
-      element.setAttribute('variant', variant as ButtonVariant);
-      element.setAttribute('kind', buttonTypes[this.variant] as ButtonKind);
-      element.setAttribute('size', 'medium' as ButtonSize);
-      element.removeAttribute('icon');
+      element.setAttribute("variant", variant as ButtonVariant);
+      element.setAttribute("kind", buttonTypes[this.variant] as ButtonKind);
+      element.setAttribute("size", "medium" as ButtonSize);
+      element.removeAttribute("icon");
     });
   }
 
@@ -143,10 +144,9 @@ export default class BlAlert extends LitElement {
       ? html`<bl-button
           class="close"
           label="close"
-          variant="tertiary"
           kind="neutral"
           icon="close"
-          variant="secondary"
+          variant="tertiary"
           @click=${this._closeHandler}
         ></bl-button>`
       : null;
@@ -178,6 +178,6 @@ export default class BlAlert extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-alert': BlAlert;
+    "bl-alert": BlAlert;
   }
 }

@@ -1,17 +1,17 @@
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
-import BlRadioGroup from './bl-radio-group';
+import { elementUpdated, expect, fixture, html } from "@open-wc/testing";
+import { sendKeys } from "@web/test-runner-commands";
+import BlRadioGroup from "./bl-radio-group";
 
-describe('bl-radio-group', () => {
-  it('should be defined radio group instance', () => {
+describe("bl-radio-group", () => {
+  it("should be defined radio group instance", () => {
     //when
-    const el = document.createElement('bl-radio-group');
+    const el = document.createElement("bl-radio-group");
 
     //then
     expect(el).instanceOf(BlRadioGroup);
   });
 
-  it('should be rendered with default values', async () => {
+  it("should be rendered with default values", async () => {
     //when
     const el = await fixture<BlRadioGroup>(
       html`<bl-radio-group label="Payment Type" name="pt">
@@ -35,7 +35,7 @@ describe('bl-radio-group', () => {
     );
   });
 
-  it('should set correct option selected with a value', async () => {
+  it("should set correct option selected with a value", async () => {
     //when
     const el = await fixture<BlRadioGroup>(
       html`<bl-radio-group label="Payment Type" name="pt" value="cc">
@@ -49,8 +49,8 @@ describe('bl-radio-group', () => {
     expect(el.options[1].checked).to.be.false;
   });
 
-  describe('keyboard navigation', () => {
-    it('should focus first option with tab key', async () => {
+  describe("keyboard navigation", () => {
+    it("should focus first option with tab key", async () => {
       //when
       const el = await fixture(
         html`<div>
@@ -63,20 +63,20 @@ describe('bl-radio-group', () => {
 
       await elementUpdated(el);
 
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+      el.querySelector<HTMLInputElement>("#previnput")?.focus();
 
-      const radioGroup = el.querySelector('bl-radio-group');
+      const radioGroup = el.querySelector("bl-radio-group");
 
       //given
       await sendKeys({
-        press: 'Tab',
+        press: "Tab",
       });
 
       //then
       expect(document.activeElement).to.equal(radioGroup?.options[0]);
     });
 
-    it('should focus next option with right arrow key', async () => {
+    it("should focus next option with right arrow key", async () => {
       //when
       const el = await fixture(
         html`<div>
@@ -89,23 +89,23 @@ describe('bl-radio-group', () => {
 
       await elementUpdated(el);
 
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+      el.querySelector<HTMLInputElement>("#previnput")?.focus();
 
-      const radioGroup = el.querySelector('bl-radio-group');
+      const radioGroup = el.querySelector("bl-radio-group");
 
       //given
       await sendKeys({
-        press: 'Tab',
+        press: "Tab",
       });
       await sendKeys({
-        press: 'ArrowRight',
+        press: "ArrowRight",
       });
 
       //then
       expect(document.activeElement).to.equal(radioGroup?.options[1]);
     });
 
-    it('should focus next option with down arrow key', async () => {
+    it("should focus next option with down arrow key", async () => {
       //when
       const el = await fixture(
         html`<div>
@@ -118,23 +118,23 @@ describe('bl-radio-group', () => {
 
       await elementUpdated(el);
 
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+      el.querySelector<HTMLInputElement>("#previnput")?.focus();
 
-      const radioGroup = el.querySelector('bl-radio-group');
+      const radioGroup = el.querySelector("bl-radio-group");
 
       //given
       await sendKeys({
-        press: 'Tab',
+        press: "Tab",
       });
       await sendKeys({
-        press: 'ArrowDown',
+        press: "ArrowDown",
       });
 
       //then
       expect(document.activeElement).to.equal(radioGroup?.options[1]);
     });
 
-    it('should focus previous option with up arrow key', async () => {
+    it("should focus previous option with up arrow key", async () => {
       //when
       const el = await fixture(
         html`<div>
@@ -147,19 +147,19 @@ describe('bl-radio-group', () => {
 
       await elementUpdated(el);
 
-      el.querySelector<HTMLInputElement>('#previnput')?.focus();
+      el.querySelector<HTMLInputElement>("#previnput")?.focus();
 
-      const radioGroup = el.querySelector('bl-radio-group');
+      const radioGroup = el.querySelector("bl-radio-group");
 
       //given
       await sendKeys({
-        press: 'Tab',
+        press: "Tab",
       });
       await sendKeys({
-        press: 'ArrowDown',
+        press: "ArrowDown",
       });
       await sendKeys({
-        press: 'ArrowUp',
+        press: "ArrowUp",
       });
 
       //then
@@ -167,7 +167,7 @@ describe('bl-radio-group', () => {
     });
   });
 
-  it('should focus previous option with left arrow key', async () => {
+  it("should focus previous option with left arrow key", async () => {
     //when
     const el = await fixture(
       html`<div>
@@ -180,26 +180,26 @@ describe('bl-radio-group', () => {
 
     await elementUpdated(el);
 
-    el.querySelector<HTMLInputElement>('#previnput')?.focus();
+    el.querySelector<HTMLInputElement>("#previnput")?.focus();
 
-    const radioGroup = el.querySelector('bl-radio-group');
+    const radioGroup = el.querySelector("bl-radio-group");
 
     //given
     await sendKeys({
-      press: 'Tab',
+      press: "Tab",
     });
     await sendKeys({
-      press: 'ArrowRight',
+      press: "ArrowRight",
     });
     await sendKeys({
-      press: 'ArrowLeft',
+      press: "ArrowLeft",
     });
 
     //then
     expect(document.activeElement).to.equal(radioGroup?.options[0]);
   });
 
-  it('should select current option with space key', async () => {
+  it("should select current option with space key", async () => {
     //when
     const el = await fixture(
       html`<div>
@@ -212,26 +212,26 @@ describe('bl-radio-group', () => {
 
     await elementUpdated(el);
 
-    el.querySelector<HTMLInputElement>('#previnput')?.focus();
+    el.querySelector<HTMLInputElement>("#previnput")?.focus();
 
-    const radioGroup = el.querySelector('bl-radio-group');
+    const radioGroup = el.querySelector("bl-radio-group");
 
     //given
     await sendKeys({
-      press: 'Tab',
+      press: "Tab",
     });
     await sendKeys({
-      press: 'ArrowRight',
+      press: "ArrowRight",
     });
     await sendKeys({
-      press: ' ',
+      press: " ",
     });
 
     //then
-    expect(radioGroup?.value).to.equal('cc');
+    expect(radioGroup?.value).to.equal("cc");
   });
 
-  it('should not respond any other keys', async () => {
+  it("should not respond any other keys", async () => {
     //when
     const el = await fixture(
       html`<div>
@@ -244,16 +244,16 @@ describe('bl-radio-group', () => {
 
     await elementUpdated(el);
 
-    el.querySelector<HTMLInputElement>('#previnput')?.focus();
+    el.querySelector<HTMLInputElement>("#previnput")?.focus();
 
-    const radioGroup = el.querySelector('bl-radio-group');
+    const radioGroup = el.querySelector("bl-radio-group");
 
     //given
     await sendKeys({
-      press: 'Tab',
+      press: "Tab",
     });
     await sendKeys({
-      press: 'A',
+      press: "A",
     });
 
     //then

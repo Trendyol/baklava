@@ -20,7 +20,7 @@
 }
 
 #label::before {
-  content: '';
+  content: "";
   display: inline-block;
   box-sizing: border-box;
   min-width: var(--size);
