@@ -152,6 +152,34 @@ The labels and the texts of the jumper and select element are fully customizable
   </Story>
 </Canvas>
 
+To set a custom options list for `bl-pagination`, use the **itemsPerPageOptions** property as an array of objects containing `value` and `text`. Check the example below:
+
+```html
+<bl-pagination current-page="1" total-items="1500" items-per-page="100" has-jumper="true" jumper-label="Sayfaya Git" has-select="true" select-label="Sayfa Başına"></bl-pagination>
+
+<script>
+  const blPagination = document.querySelector('bl-pagination');
+
+  blPagination.itemsPerPageOptions = [
+    {
+      text: '100 Sonuç',
+      value: 100,
+    },
+    {
+      text: '250 Sonuç',
+      value: 250,
+    },
+    {
+      text: '500 Sonuç',
+      value: 500,
+    },
+    {
+      text: '1000 Sonuç',
+      value: 1000,
+    }
+  ]
+</script>
+```
 
 ## Reference
 

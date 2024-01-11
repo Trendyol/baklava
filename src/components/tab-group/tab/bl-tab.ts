@@ -1,15 +1,15 @@
-import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
-import { event, EventDispatcher } from '../../../utilities/event';
-
-import style from './bl-tab.css';
-import type BlTabGroup from '../bl-tab-group';
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
+import { customElement, property, query } from "lit/decorators.js";
+import { event, EventDispatcher } from "../../../utilities/event";
+import { BaklavaIcon } from "../../icon/icon-list";
+import type BlTabGroup from "../bl-tab-group";
+import style from "./bl-tab.css";
 
 /**
  * @tag bl-tab
  * @summary Baklava Tab component
  */
-@customElement('bl-tab')
+@customElement("bl-tab")
 export default class BlTab extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
@@ -21,7 +21,7 @@ export default class BlTab extends LitElement {
     super.connectedCallback();
 
     this.updateComplete.then(() => {
-      this.tabGroup = this.closest<BlTabGroup>('bl-tab-group');
+      this.tabGroup = this.closest<BlTabGroup>("bl-tab-group");
       // FIXME: We need to warn if parent is not tab-group
       this.tabGroup?.registerTab(this);
     });
@@ -47,14 +47,14 @@ export default class BlTab extends LitElement {
   /**
    * Set tooltip text. Should be set to display information icon.
    */
-  @property({ type: String, attribute: 'help-text', reflect: true })
+  @property({ type: String, attribute: "help-text", reflect: true })
   helpText: string;
 
   /**
    * Name of the icon which display on the left side of the tab.
    */
   @property({ type: String })
-  icon = '';
+  icon?: BaklavaIcon;
 
   /**
    * Shows notification dot.
@@ -66,7 +66,7 @@ export default class BlTab extends LitElement {
    * Sets the content of the badge.
    */
   @property({ type: String })
-  badge = '';
+  badge = "";
 
   /**
    * Set `tab` as selected.
@@ -83,9 +83,9 @@ export default class BlTab extends LitElement {
   /**
    * Fires when tab is selected.
    */
-  @event('bl-tab-selected') private _onSelect: EventDispatcher<string>;
+  @event("bl-tab-selected") private _onSelect: EventDispatcher<string>;
 
-  @query('.container')
+  @query(".container")
   private tab: HTMLButtonElement;
 
   /**
@@ -101,7 +101,7 @@ export default class BlTab extends LitElement {
 
   updated(changedProperties: PropertyValues<this>) {
     this.tabIndex = this.selected ? 0 : -1;
-    if (changedProperties.has('selected') && this.selected) {
+    if (changedProperties.has("selected") && this.selected) {
       this._onSelect(this.name);
     }
   }
@@ -158,6 +158,6 @@ export default class BlTab extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-tab': BlTab;
+    "bl-tab": BlTab;
   }
 }

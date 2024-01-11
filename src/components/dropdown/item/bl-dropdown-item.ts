@@ -1,19 +1,17 @@
-import { LitElement, html, CSSResultGroup, TemplateResult } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
-import { event, EventDispatcher } from '../../../utilities/event';
-import type BlDropdownGroup from '../group/bl-dropdown-group';
-import type BlDropdown from '../bl-dropdown';
+import { LitElement, html, CSSResultGroup, TemplateResult } from "lit";
+import { customElement, property, query } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { event, EventDispatcher } from "../../../utilities/event";
+import "../../button/bl-button";
+import BlButton from "../../button/bl-button";
+import { BaklavaIcon } from "../../icon/icon-list";
+import type BlDropdown from "../bl-dropdown";
+import { blDropdownTag } from "../bl-dropdown";
+import type BlDropdownGroup from "../group/bl-dropdown-group";
+import { blDropdownGroupTag } from "../group/bl-dropdown-group";
+import style from "./bl-dropdown-item.css";
 
-import { blDropdownGroupTag } from '../group/bl-dropdown-group';
-import { blDropdownTag } from '../bl-dropdown';
-
-import style from './bl-dropdown-item.css';
-
-import '../../button/bl-button';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import BlButton from '../../button/bl-button';
-
-export const blDropdownItemTag = 'bl-dropdown-item';
+export const blDropdownItemTag = "bl-dropdown-item";
 
 /**
  * @tag bl-dropdown-item
@@ -30,16 +28,16 @@ export default class BlDropdownItem extends LitElement {
    */
 
   @property({ type: String })
-  icon?: string;
+  icon?: BaklavaIcon;
 
-  @event('bl-dropdown-item-click') private onClick: EventDispatcher<string>;
+  @event("bl-dropdown-item-click") private onClick: EventDispatcher<string>;
 
   private _handleClick() {
     this.BlDropdownField?.close();
-    this.onClick('Action clicked!');
+    this.onClick("Action clicked!");
   }
 
-  @query('[role=menuitem]') private menuElement: BlButton;
+  @query("[role=menuitem]") private menuElement: BlButton;
 
   /**
    * Focuses this action

@@ -18,7 +18,6 @@
   color: var(--bl-color-neutral-dark);
 }
 
-
 :host(:not(:first-child)) .dropdown-group {
   border-top: 1px solid var(--bl-color-neutral-lighter);
   padding-top: var(--bl-size-xs);

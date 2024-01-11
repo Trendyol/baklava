@@ -29,7 +29,7 @@ body:
     attributes:
       label: Baklava Version
       description: What version of Baklava are you using?
-      placeholder: 2.1.0-beta.7
+      placeholder: 2.3.0-beta.7
     validations:
       required: false
   - type: textarea

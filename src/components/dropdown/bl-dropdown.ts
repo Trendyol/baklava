@@ -1,17 +1,13 @@
-import { LitElement, html, CSSResultGroup, TemplateResult } from 'lit';
-import { customElement, property, state, query } from 'lit/decorators.js';
-import { event, EventDispatcher } from '../../utilities/event';
+import { LitElement, html, CSSResultGroup, TemplateResult } from "lit";
+import { customElement, property, state, query } from "lit/decorators.js";
+import { event, EventDispatcher } from "../../utilities/event";
+import "../button/bl-button";
+import BlButton, { ButtonSize, ButtonVariant, ButtonKind } from "../button/bl-button";
+import BlPopover from "../popover/bl-popover";
+import style from "./bl-dropdown.css";
+import BlDropdownItem, { blDropdownItemTag } from "./item/bl-dropdown-item";
 
-import style from './bl-dropdown.css';
-
-import '../button/bl-button';
-import BlButton, { ButtonSize, ButtonVariant, ButtonKind } from '../button/bl-button';
-import { ifDefined } from 'lit/directives/if-defined.js';
-
-import BlDropdownItem, { blDropdownItemTag } from './item/bl-dropdown-item';
-import BlPopover from '../popover/bl-popover';
-
-export const blDropdownTag = 'bl-dropdown';
+export const blDropdownTag = "bl-dropdown";
 
 /**
  * @tag bl-dropdown
@@ -23,10 +19,10 @@ export default class BlDropdown extends LitElement {
     return [style];
   }
 
-  @query('bl-popover')
+  @query("bl-popover")
   private _popover: BlPopover;
 
-  @query('bl-button')
+  @query("bl-button")
   private _button: BlButton;
 
   @state() private _isPopoverOpen = false;
@@ -41,19 +37,19 @@ export default class BlDropdown extends LitElement {
    * Sets the dropdown button variant
    */
   @property({ type: String, reflect: true })
-  variant: ButtonVariant = 'primary';
+  variant: ButtonVariant = "primary";
 
   /**
    * Sets the dropdown button kind
    */
   @property({ type: String, reflect: true })
-  kind: ButtonKind = 'default';
+  kind: ButtonKind = "default";
 
   /**
    * Sets the dropdown button size
    */
   @property({ type: String, reflect: true })
-  size: ButtonSize = 'medium';
+  size: ButtonSize = "medium";
 
   /**
    * Sets button as disabled
@@ -64,21 +60,21 @@ export default class BlDropdown extends LitElement {
   /**
    * Fires when dropdown opened
    */
-  @event('bl-dropdown-open') private onOpen: EventDispatcher<string>;
+  @event("bl-dropdown-open") private onOpen: EventDispatcher<string>;
 
   /**
    * Fires when dropdown closed
    */
-  @event('bl-dropdown-close') private onClose: EventDispatcher<string>;
+  @event("bl-dropdown-close") private onClose: EventDispatcher<string>;
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('keydown', this.handleKeyDown);
+    this.addEventListener("keydown", this.handleKeyDown);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.removeEventListener('keydown', this.handleKeyDown);
+    this.removeEventListener("keydown", this.handleKeyDown);
   }
 
   firstUpdated() {
@@ -99,14 +95,14 @@ export default class BlDropdown extends LitElement {
 
   private handleKeyDown(event: KeyboardEvent) {
     // Next action
-    if (['ArrowDown', 'ArrowRight'].includes(event.key)) {
+    if (["ArrowDown", "ArrowRight"].includes(event.key)) {
       this.focusedOptionIndex++;
 
       // Previous action
-    } else if (['ArrowUp', 'ArrowLeft'].includes(event.key)) {
+    } else if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
       this.focusedOptionIndex--;
       // Select action
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       this.focusedOptionIndex = -1;
       this.close();
       return;
@@ -127,26 +123,26 @@ export default class BlDropdown extends LitElement {
   }
 
   get options(): BlDropdownItem[] {
-    return [].slice.call(this.querySelectorAll(blDropdownItemTag));
+    return [...this.querySelectorAll(blDropdownItemTag)];
   }
 
   open() {
     this._isPopoverOpen = true;
     this._popover.show();
-    this.onOpen('Dropdown opened!');
+    this.onOpen("Dropdown opened!");
   }
 
   close() {
     this._isPopoverOpen = false;
     this._popover.visible && this._popover.hide();
-    this.onClose('Dropdown closed!');
+    this.onClose("Dropdown closed!");
   }
 
   render(): TemplateResult {
     return html`<bl-button
         dropdown
         .active=${this.opened}
-        ?disabled=${ifDefined(this.disabled)}
+        ?disabled=${this.disabled}
         variant="${this.variant}"
         kind="${this.kind}"
         size="${this.size}"
@@ -154,13 +150,10 @@ export default class BlDropdown extends LitElement {
       >
         ${this.label}
       </bl-button>
-      <bl-popover
-        fit-size
-        placement="bottom-start"
-        @bl-popover-hide="${this.close}"
-      ><div class="popover-content">
-        <slot></slot>
-      </div></bl-popover> `;
+      <bl-popover fit-size placement="bottom-start" @bl-popover-hide="${this.close}"
+        ><div class="popover-content">
+          <slot></slot></div
+      ></bl-popover> `;
   }
 }
 

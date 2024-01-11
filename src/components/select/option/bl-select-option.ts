@@ -1,11 +1,11 @@
-import { FormValue } from '@open-wc/form-helpers';
-import { CSSResultGroup, html, LitElement } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
-import { event, EventDispatcher } from '../../../utilities/event';
-import BlSelect from '../bl-select';
-import style from './bl-select-option.css';
+import { CSSResultGroup, html, LitElement } from "lit";
+import { customElement, property, query, state } from "lit/decorators.js";
+import { FormValue } from "@open-wc/form-helpers";
+import { event, EventDispatcher } from "../../../utilities/event";
+import BlSelect from "../bl-select";
+import style from "./bl-select-option.css";
 
-@customElement('bl-select-option')
+@customElement("bl-select-option")
 export default class BlSelectOption<ValueType extends FormValue = string> extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
@@ -44,19 +44,19 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
   /**
    * Fires when clicked on the option
    */
-  @event('bl-select-option') private _onSelect: EventDispatcher<ValueType | string | null>;
+  @event("bl-select-option") private _onSelect: EventDispatcher<ValueType | string | null>;
 
   /**
    * Fires when checkbox is focused
    */
-  @event('bl-focus') private onFocus: EventDispatcher<ValueType | string | null>;
+  @event("bl-focus") private onFocus: EventDispatcher<ValueType | string | null>;
 
   /**
    * Fires when checkbox is blurred
    */
-  @event('bl-blur') private onBlur: EventDispatcher<ValueType | string | null>;
+  @event("bl-blur") private onBlur: EventDispatcher<ValueType | string | null>;
 
-  @query('.focus-target') private focusTarget: HTMLElement;
+  @query(".focus-target") private focusTarget: HTMLElement;
 
   /**
    * Focuses this option
@@ -85,6 +85,8 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
       @blur=${this.blur}
       @keydown=${this.handleKeydown}
       @click="${this._onClickOption}"
+      role="option"
+      aria-selected="${this.selected}"
     >
       <slot></slot>
     </div>`;
@@ -96,6 +98,8 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
       .checked="${this.selected}"
       .disabled="${this.disabled}"
       @bl-checkbox-change="${this._onCheckboxChange}"
+      role="option"
+      aria-selected="${this.selected}"
     >
       <slot></slot>
     </bl-checkbox>`;
@@ -108,7 +112,7 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
   }
 
   private handleKeydown(event: KeyboardEvent) {
-    if (event.code === 'Enter' || event.code === 'Space') {
+    if (event.code === "Enter" || event.code === "Space") {
       this._onClickOption();
       event.preventDefault();
     }
@@ -132,7 +136,7 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
     super.connectedCallback();
 
     this.updateComplete.then(() => {
-      this.blSelect = this.closest<BlSelect<ValueType>>('bl-select');
+      this.blSelect = this.closest<BlSelect<ValueType>>("bl-select");
       // FIXME: We should warn when parent is not bl-select
 
       this.multiple = this.blSelect?.multiple || false;
@@ -148,6 +152,6 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-select-option': BlSelectOption;
+    "bl-select-option": BlSelectOption;
   }
 }

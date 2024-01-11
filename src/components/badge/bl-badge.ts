@@ -1,9 +1,10 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import style from './bl-badge.css';
-import '../icon/bl-icon';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import "../icon/bl-icon";
+import { BaklavaIcon } from "../icon/icon-list";
+import style from "./bl-badge.css";
 
-export type BadgeSize = 'small' | 'medium' | 'large';
+export type BadgeSize = "small" | "medium" | "large";
 
 /**
  * @tag bl-badge
@@ -13,7 +14,7 @@ export type BadgeSize = 'small' | 'medium' | 'large';
  * @cssproperty [--bl-badge-color=--bl-color-primary] Sets the color of badge
  */
 
-@customElement('bl-badge')
+@customElement("bl-badge")
 export default class BlBadge extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
@@ -23,16 +24,16 @@ export default class BlBadge extends LitElement {
    * Sets the badge size
    */
   @property({ type: String, reflect: true })
-  size: BadgeSize = 'medium';
+  size: BadgeSize = "medium";
 
   /**
    * Sets the name of the icon
    */
   @property({ type: String })
-  icon?: string;
+  icon?: BaklavaIcon;
 
   render(): TemplateResult {
-    const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
+    const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : "";
 
     return html`<span class="badge">
       <slot name="icon">${icon}</slot>
@@ -43,6 +44,6 @@ export default class BlBadge extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-badge': BlBadge;
+    "bl-badge": BlBadge;
   }
 }

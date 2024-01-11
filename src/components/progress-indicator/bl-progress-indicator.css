@@ -13,21 +13,21 @@
 }
 
 .progress-indicator::before {
-  content: '';
+  content: "";
   position: absolute;
   height: 100%;
   width: calc(100% / var(--max) * var(--value));
   background-color: var(--value-color);
   border-radius: var(--radius);
-  transition: width ease var(--bl-progress-indicator-transition-duration, .2s);
+  transition: width ease var(--bl-progress-indicator-transition-duration, 0.2s);
 }
 
-:host([size='small']) .progress-indicator {
+:host([size="small"]) .progress-indicator {
   --height: var(--bl-size-3xs);
   --radius: var(--bl-border-radius-xs);
 }
 
-:host([size='large']) .progress-indicator {
+:host([size="large"]) .progress-indicator {
   --height: var(--bl-size-xs);
   --radius: var(--bl-border-radius-m);
 }

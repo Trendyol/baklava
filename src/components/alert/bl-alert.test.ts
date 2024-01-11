@@ -1,17 +1,19 @@
-import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
-import BlAlert, { AlertVariant } from './bl-alert';
-import type typeofBlAlert from './bl-alert';
+import { assert, expect, fixture, html, oneEvent } from "@open-wc/testing";
+import BlAlert, { AlertVariant } from "./bl-alert";
+import type typeofBlAlert from "./bl-alert";
 
-const variants: Array<AlertVariant> = ['info', 'warning', 'success', 'danger'];
+const variants: Array<AlertVariant> = ["info", "warning", "success", "danger"];
 
-describe('bl-alert', () => {
-  it('is defined', () => {
-    const el = document.createElement('bl-alert');
+describe("bl-alert", () => {
+  it("is defined", () => {
+    const el = document.createElement("bl-alert");
+
     assert.instanceOf(el, BlAlert);
   });
 
-  it('renders with default values', async () => {
+  it("renders with default values", async () => {
     const el = await fixture<typeofBlAlert>(html`<bl-alert></bl-alert>`);
+
     assert.shadowDom.equal(
       el,
       `
@@ -40,14 +42,16 @@ describe('bl-alert', () => {
     `
     );
   });
-  it('check default values', async () => {
+  it("check default values", async () => {
     const el = await fixture<typeofBlAlert>(html`<bl-alert></bl-alert> `);
-    expect(el.variant).to.equal('info');
+
+    expect(el.variant).to.equal("info");
     expect(el.closable).to.equal(false);
     expect(el.closed).to.equal(false);
   });
-  it('should check open/close public functions', async () => {
+  it("should check open/close public functions", async () => {
     const el = await fixture<typeofBlAlert>(html`<bl-alert></bl-alert> `);
+
     el.close();
     expect(el.closed).to.eq(true);
     el.open();
@@ -56,31 +60,33 @@ describe('bl-alert', () => {
 });
 
 // FIXME: Alert variant colors doesn't pass accessibility checks
-xdescribe('Accessibility tests', () => {
+xdescribe("Accessibility tests", () => {
   variants.forEach(variant => {
     it(`should be accessible when attribute is "${variant}"`, async () => {
       const el = await fixture<typeofBlAlert>(
         `<bl-alert variant=${variant} caption="CAPTION">Description</bl-alert>`
       );
+
       await expect(el).to.be.accessible();
     });
   });
 });
 
-describe('Attributes', () => {
-  it('is bound to `closable` attribute', async () => {
+describe("Attributes", () => {
+  it("is bound to `closable` attribute", async () => {
     const el = await fixture<typeofBlAlert>(html`<bl-alert closable></bl-alert>`);
-    const closeButton = el.shadowRoot?.querySelector('bl-button');
-    const kind = closeButton?.getAttribute('kind');
-    const icon = closeButton?.getAttribute('icon');
-    const variant = closeButton?.getAttribute('variant');
-    const label = closeButton?.getAttribute('label');
-    expect(kind).to.eq('neutral');
-    expect(icon).to.eq('close');
-    expect(variant).to.eq('tertiary');
-    expect(label).to.eq('close');
+    const closeButton = el.shadowRoot?.querySelector("bl-button");
+    const kind = closeButton?.getAttribute("kind");
+    const icon = closeButton?.getAttribute("icon");
+    const variant = closeButton?.getAttribute("variant");
+    const label = closeButton?.getAttribute("label");
+
+    expect(kind).to.eq("neutral");
+    expect(icon).to.eq("close");
+    expect(variant).to.eq("tertiary");
+    expect(label).to.eq("close");
   });
-  it('is bound to `icon` attribute', async () => {
+  it("is bound to `icon` attribute", async () => {
     const infoEl = await fixture<typeofBlAlert>(html`<bl-alert icon>Description</bl-alert>`);
     const successEl = await fixture<typeofBlAlert>(
       html`<bl-alert variant="success" icon>Description</bl-alert>`
@@ -94,70 +100,90 @@ describe('Attributes', () => {
     const customEl = await fixture<typeofBlAlert>(
       html`<bl-alert icon="download">Description</bl-alert>`
     );
-    const infoIconEl = infoEl.shadowRoot?.querySelector('bl-icon');
-    const successIconEl = successEl.shadowRoot?.querySelector('bl-icon');
-    const warningIconEl = warningEl.shadowRoot?.querySelector('bl-icon');
-    const dangerIconEl = dangerEl.shadowRoot?.querySelector('bl-icon');
-    const customIconEl = customEl.shadowRoot?.querySelector('bl-icon');
-    expect(infoIconEl?.getAttribute('name')).to.eq('info');
-    expect(successIconEl?.getAttribute('name')).to.eq('check_fill');
-    expect(warningIconEl?.getAttribute('name')).to.eq('warning');
-    expect(dangerIconEl?.getAttribute('name')).to.eq('close_fill');
-    expect(customIconEl?.getAttribute('name')).to.eq('download');
+    const infoIconEl = infoEl.shadowRoot?.querySelector("bl-icon");
+    const successIconEl = successEl.shadowRoot?.querySelector("bl-icon");
+    const warningIconEl = warningEl.shadowRoot?.querySelector("bl-icon");
+    const dangerIconEl = dangerEl.shadowRoot?.querySelector("bl-icon");
+    const customIconEl = customEl.shadowRoot?.querySelector("bl-icon");
+
+    expect(infoIconEl?.getAttribute("name")).to.eq("info");
+    expect(successIconEl?.getAttribute("name")).to.eq("check_fill");
+    expect(warningIconEl?.getAttribute("name")).to.eq("warning");
+    expect(dangerIconEl?.getAttribute("name")).to.eq("close_fill");
+    expect(customIconEl?.getAttribute("name")).to.eq("download");
   });
-  it('is bound to `caption` attribute', async () => {
+  it("is bound to `caption` attribute", async () => {
     const el = await fixture<typeofBlAlert>(html`<bl-alert caption="test caption"></bl-alert>`);
-    const captionEl = el?.shadowRoot?.querySelector('.caption');
+    const captionEl = el?.shadowRoot?.querySelector(".caption");
+
     expect(captionEl).to.exist;
-    expect(captionEl?.tagName).to.eq('SPAN');
-    expect(captionEl?.innerHTML).to.contain('test caption');
+    expect(captionEl?.tagName).to.eq("SPAN");
+    expect(captionEl?.innerHTML).to.contain("test caption");
   });
-  it('is bound to `description` attribute', async () => {
+  it("is bound to `description` attribute", async () => {
     const el = await fixture<typeofBlAlert>(
       html`<bl-alert description="test description"></bl-alert>`
     );
-    const descriptionEl = el?.shadowRoot?.querySelector('.description');
+    const descriptionEl = el?.shadowRoot?.querySelector(".description");
+
     expect(descriptionEl).to.exist;
-    expect(descriptionEl?.tagName).to.eq('SPAN');
-    expect(descriptionEl?.innerHTML).to.contain('test description');
+    expect(descriptionEl?.tagName).to.eq("SPAN");
+    expect(descriptionEl?.innerHTML).to.contain("test description");
   });
 });
 
-describe('Slot', () => {
-  it('renders `caption` slot with element', async () => {
+describe("Slot", () => {
+  it("renders `caption` slot with element", async () => {
     const el = await fixture<typeofBlAlert>(
       html`<bl-alert>
         <span slot="caption"> Caption Slot </span>
       </bl-alert>`
     );
     const captionSlot = el.shadowRoot?.querySelector('slot[name="caption"]');
+
     expect(captionSlot).to.exist;
   });
-  it('renders `action` slot with bl-button element', async () => {
+  it("renders `action` slot with bl-button element", async () => {
     const el = await fixture<typeofBlAlert>(
       html`<bl-alert>
         <bl-button slot="action"> Action Slot </bl-button>
+        <span slot="action">Should not render this element</span>
         <bl-button slot="action-secondary"> Action Slot </bl-button>
       </bl-alert>`
     );
-    const actionSlot = el.shadowRoot?.querySelector('slot[name="action"]');
-    expect(actionSlot).to.exist;
+
+    const actionSlot = el.shadowRoot!.querySelector('slot[name="action"]') as HTMLSlotElement;
+    const [actionElement, actionSpanElement] = actionSlot.assignedElements();
+
+    expect(actionElement as HTMLElement).to.exist;
+    expect(actionElement.tagName).to.eq("BL-BUTTON");
+    expect(actionSpanElement as HTMLElement).to.not.exist;
+
+    const actionSecondarySlot = el.shadowRoot!.querySelector(
+      'slot[name="action-secondary"]'
+    ) as HTMLSlotElement;
+    const actionSecondaryElement = actionSecondarySlot?.assignedElements()[0] as HTMLElement;
+
+    expect(actionSecondaryElement).to.exist;
+    expect(actionSecondaryElement.tagName).to.eq("BL-BUTTON");
   });
-  it('renders `action` slot empty when bl-button is not used', async () => {
+  it("renders `action` slot empty when bl-button is not used", async () => {
     const el = await fixture<typeofBlAlert>(
       html`<bl-alert><span slot="action"> Action Slot </span></bl-alert>`
     );
+
     expect(el.outerHTML).to.eq('<bl-alert variant="info"></bl-alert>');
   });
 });
 
-describe('Events', () => {
-  it('fires bl-close event on close button click', async () => {
+describe("Events", () => {
+  it("fires bl-close event on close button click", async () => {
     const el = await fixture<typeofBlAlert>(html`<bl-alert closable></bl-alert>`);
-    const button = el.shadowRoot?.querySelector('bl-button');
+    const button = el.shadowRoot?.querySelector("bl-button");
 
     setTimeout(() => button?.click());
-    const ev = await oneEvent(el, 'bl-close');
+    const ev = await oneEvent(el, "bl-close");
+
     expect(el.closed).to.equal(true);
     expect(ev).to.exist;
     expect(ev.detail).to.eq(true);

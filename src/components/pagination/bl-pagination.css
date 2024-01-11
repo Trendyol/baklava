@@ -30,7 +30,7 @@
 }
 
 .dots::before {
-  content: ' \B7 \B7 \B7';
+  content: " \B7 \B7 \B7";
   color: var(--bl-color-neutral-darker);
 }
 
@@ -64,7 +64,7 @@ bl-input {
 }
 
 bl-select {
-  width: 128px;
+  width: auto;
 }
 
 @media only screen and (max-width: 768px) {

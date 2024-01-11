@@ -3,15 +3,15 @@
   display: inline-block;
 }
 
-:host([kind='neutral']) bl-popover {
+:host([kind="neutral"]) bl-popover {
   --bl-popover-border-color: var(--bl-color-neutral-darker);
 }
 
-:host([kind='success']) bl-popover {
+:host([kind="success"]) bl-popover {
   --bl-popover-border-color: var(--bl-color-success);
 }
 
-:host([kind='danger']) bl-popover {
+:host([kind="danger"]) bl-popover {
   --bl-popover-border-color: var(--bl-color-danger);
 }
 

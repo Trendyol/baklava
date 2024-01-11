@@ -1,6 +1,7 @@
 :host {
   display: inline-block;
   cursor: pointer;
+  vertical-align: middle;
 }
 
 span {
@@ -27,7 +28,7 @@ span {
 }
 
 .switch::before {
-  content: '';
+  content: "";
   display: inline-block;
   background-color: white;
   border-radius: var(--bl-border-radius-circle);
@@ -38,6 +39,32 @@ span {
   transition: transform;
   transition-duration: var(--animation-duration);
   width: var(--thumb-width);
+}
+
+label {
+  display: flex;
+  gap: var(--bl-size-2xs);
+  color: var(--bl-color-neutral-darker);
+  font: var(--bl-font-title-3);
+  cursor: pointer;
+  user-select: none;
+  line-height: normal;
+  align-items: center;
+  margin-block: 0;
+}
+
+.label {
+  overflow-wrap: anywhere;
+}
+
+:host([disabled]) .label {
+  color: var(--bl-color-neutral-light);
+  border: 1px solid var(--bl-color-neutral-lighter);
+}
+
+:host([checked]) .label,
+:host(:hover) .label {
+  color: var(--bl-color-primary);
 }
 
 :host([checked]) .switch {
@@ -66,10 +93,7 @@ span {
 .switch:focus-visible::after {
   border: 2px solid var(--switch-color);
   border-radius: var(--bl-border-radius-pill);
-  content: '';
+  content: "";
   position: absolute;
-  top: -3px;
-  right: -3px;
-  bottom: -3px;
-  left: -3px;
+  inset: -3px;
 }

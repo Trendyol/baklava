@@ -21,7 +21,7 @@ import { extraPadding } from '../../utilities/chromatic-decorators';
     type: {
       control: {
         type: 'select',
-        options: ['text', 'password', 'number', 'tel', 'url']
+        options: ['text', 'email', 'date', 'time', 'datetime-local', 'month', 'week', 'password', 'number', 'tel', 'url']
       },
     },
     placeholder: {
@@ -105,7 +105,30 @@ export const SingleInputTemplate = (args) => html`<bl-input
     step='${ifDefined(args.step)}'
     icon='${ifDefined(args.icon)}'
     size='${ifDefined(args.size)}'
-  ></bl-input>`
+  >${args.slot?.()}</bl-input>`
+
+export const SingleInputTemplateWithSpinner = (args) => html`
+<style>
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+${SingleInputTemplate({
+  ...args,
+  slot: () => html`<bl-icon slot="icon" name="loading" class="spinner"></bl-icon>`,
+})}
+`
 
 export const SizeVariantsTemplate = args => html`
 ${SingleInputTemplate({ size: 'large', ...args })}
@@ -201,6 +224,37 @@ Input can have an icon. This icon is showed with `bl-icon` component internally 
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
+
+Input also supports slot icons for more complex use cases. You can use `icon` slot for this.
+
+<Canvas>
+  <Story name="Input With Slot Icon"
+         args={{ placeholder: 'Name', slot: () => html`<bl-icon slot="icon" name="flash"></bl-icon>` }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Input With Spinner"
+         args={{ placeholder: 'Name' }}>
+    {SingleInputTemplateWithSpinner.bind({})}
+  </Story>
+</Canvas>
+
+Inputs with type of date, time, datetime-local, month, week and search have default icons. You can override these icons with `icon` attribute.
+
+<Canvas>
+  <Story name="Date Input With Default Icon" args={{ type: "date" }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Time Input With Default Icon" args={{ type: "time" }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Search Input With Default Icon" args={{ type: "search" }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Date Input With Custom Icon" args={{ type: "date", icon: "star" }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
 
 ## Input Validation
 
