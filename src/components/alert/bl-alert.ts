@@ -116,7 +116,7 @@ export default class BlAlert extends LitElement {
 
       const variant = slotElement.name === "action-secondary" ? "secondary" : "primary";
       const buttonTypes: Record<AlertVariant, string> = {
-        info: "default",
+        info: "neutral",
         warning: "neutral",
         success: "success",
         danger: "danger",
