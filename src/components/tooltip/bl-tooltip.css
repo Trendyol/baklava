@@ -8,7 +8,7 @@
 }
 
 bl-popover {
-  --bl-popover-background-color: var(--bl-color-neutral-darker);
+  --bl-popover-background-color: var(--bl-color-info);
   --bl-popover-arrow-display: block;
   --bl-popover-border-size: 0px;
   --bl-popover-max-width: 424px;

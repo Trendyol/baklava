@@ -8,6 +8,7 @@
   "trailingComma": "es5",
   "useTabs": false,
   "importOrder": [
+    "^react",
     "^lit",
     "<THIRD_PARTY_MODULES>",
     "^[./]",

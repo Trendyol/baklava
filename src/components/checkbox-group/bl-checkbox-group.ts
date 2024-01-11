@@ -41,7 +41,7 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
   required = false;
 
   get options(): BlCheckbox[] {
-    return [].slice.call(this.querySelectorAll(blCheckboxTag));
+    return [...this.querySelectorAll(blCheckboxTag)];
   }
 
   get checkedOptions(): string[] {

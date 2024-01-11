@@ -124,7 +124,7 @@ export default class BlDropdown extends LitElement {
   }
 
   get options(): BlDropdownItem[] {
-    return [].slice.call(this.querySelectorAll(blDropdownItemTag));
+    return [...this.querySelectorAll(blDropdownItemTag)];
   }
 
   open() {

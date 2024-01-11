@@ -1,4 +1,5 @@
 import { assert, expect, fixture, oneEvent, html, elementUpdated } from "@open-wc/testing";
+import { stub } from "sinon";
 import BlInput from "./bl-input";
 
 describe("bl-input", () => {
@@ -44,6 +45,20 @@ describe("bl-input", () => {
     expect(el.shadowRoot?.querySelector("input")?.getAttribute("type")).to.equal("number");
   });
 
+  it('should call showPicker if "showPicker" is in HTMLInputElement.prototype', async () => {
+    const el = await fixture<BlInput>(html`<bl-input type="input"></bl-input>`);
+    const spy = stub(el.validationTarget, "showPicker");
+
+    el.showPicker();
+
+    el.requestUpdate();
+    await el.updateComplete;
+
+    expect(spy).to.have.been.calledOnce;
+    expect(typeof el.showPicker).to.be.equals("function");
+    expect(el.showPicker).to.exist;
+  });
+
   it("should set type password", async () => {
     const el = await fixture<BlInput>(html`<bl-input type="password"></bl-input>`);
 
@@ -70,6 +85,25 @@ describe("bl-input", () => {
   });
 
   describe("input with icon", () => {
+    it("should show default icon", async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="time"></bl-input>`);
+      const defaultIcon = el.shadowRoot?.querySelector('bl-icon[name="clock"]');
+
+      expect(defaultIcon).to.exist;
+      expect(defaultIcon?.getAttribute("name")).to.equal("clock");
+      expect(el.shadowRoot?.querySelector(".has-icon")).to.exist;
+    });
+
+    it("should override default icon when custom icon is set", async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="time" icon="academy"></bl-input>`);
+      const defaultIcon = el.shadowRoot?.querySelector('bl-icon[name="clock"]');
+      const customIcon = el.shadowRoot?.querySelector('bl-icon[name="academy"]');
+
+      expect(defaultIcon).to.not.exist;
+      expect(customIcon).to.exist;
+      expect(el.shadowRoot?.querySelector(".has-icon")).to.exist;
+    });
+
     it("should show custom icon", async () => {
       const el = await fixture<BlInput>(html`<bl-input icon="info"></bl-input>`);
       const customIcon = el.shadowRoot?.querySelector('bl-icon[name="info"]');

@@ -22,6 +22,10 @@
   border-bottom: var(--option-separator);
 }
 
+.no-border-bottom::after {
+  border-bottom: none;
+}
+
 :host(:last-of-type) .option-container::after {
   border-bottom: none;
 }

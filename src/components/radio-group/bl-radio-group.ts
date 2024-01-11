@@ -44,7 +44,7 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
   required = false;
 
   get options(): BlRadio[] {
-    return [].slice.call(this.querySelectorAll(blRadioTag));
+    return [...this.querySelectorAll(blRadioTag)];
   }
 
   get availableOptions(): BlRadio[] {
