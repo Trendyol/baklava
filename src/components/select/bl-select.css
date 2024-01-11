@@ -263,8 +263,8 @@ legend span {
   visibility: visible;
 }
 
-:where(.selected) .label,
-:host(:not([placeholder]).select-open) .label {
+:host([placeholder]) :where(.select-open, .selected) .label,
+:host(:not([placeholder])) .selected .label {
   display: none;
 }
 
