@@ -93,7 +93,29 @@ describe("bl-select", () => {
     expect(el.options.length).to.equal(2);
     expect(el.selectedOptions.length).to.equal(1);
   });
+  it("should render bl-select-option label correctly on bl-select", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select>
+      <bl-select-option selected label="custom-label-1" value="1">Option 1</bl-select-option>
+      <bl-select-option value="2">Option 2</bl-select-option>
+    </bl-select>`);
 
+    const selectedOptions = el.shadowRoot?.querySelector<HTMLUListElement>(".selected-options");
+
+    expect(selectedOptions?.children[0].textContent).to.equal("custom-label-1");
+  });
+  it("should render bl-select-option label(s) correctly on bl-select when select is multiple", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select multiple>
+      <bl-select-option selected label="custom-label-1" value="1">Option 1</bl-select-option>
+      <bl-select-option value="2">Option 2</bl-select-option>
+      <bl-select-option selected value="3">Option 3</bl-select-option>
+      <bl-select-option value="4" label="custom-label-4">Option 4</bl-select-option>
+    </bl-select>`);
+
+    const selectedOptions = el.shadowRoot?.querySelector<HTMLUListElement>(".selected-options");
+
+    expect(selectedOptions?.textContent).contains("custom-label-1");
+    expect(selectedOptions?.textContent).contains("Option 3");
+  });
   it("should open select menu", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
 
