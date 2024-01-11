@@ -1,48 +1,22 @@
-import fs from 'fs-extra';
-import { format } from 'prettier';
-import { pascalCase } from 'pascal-case';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
+import fs from "fs-extra";
+import { pascalCase } from "pascal-case";
+import path from "path";
+import { format } from "prettier";
+import { fileURLToPath } from "url";
+import prettierConfig from "../.prettierrc.json" assert { type: "json" };
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const importStatements = [
   'import React from "react";',
-  'import { type EventName, createComponent, ReactWebComponent } from "@lit-labs/react";',
+  'import { type EventName, createComponent } from "@lit-labs/react";',
 
   // FIXME: These types should be determined automatically
   'import { ISelectOption } from "./components/select/bl-select"',
 ];
 
-function writeBaklavaReactFile(fileContentParts) {
-  let fileContentText =
-    `/* eslint-disable @typescript-eslint/ban-ts-comment */\n` +
-    `// @ts-nocheck\n` +
-    `${importStatements.join('\n')}\n\n` +
-    `${fileContentParts.join('\n\n')}\n`;
-  const codeResult = format(fileContentText, { parser: 'typescript' });
-
-  fs.writeFileSync(`${__dirname}/../src/baklava-react.ts`, codeResult);
-}
-
-function getReactEventName(baklavaEventName) {
-  return `on${pascalCase(baklavaEventName)}`;
-}
-
-function cleanGenericTypes(typeParameters, eventType) {
-  let result = eventType;
-
-  typeParameters?.forEach(param => {
-    // TODO: This is a very naive implementation, it should be improved
-    result = result
-      .replace(`<${param.name}>`, '')
-      .replace(`${param.name} | `, '')
-      .replace(` | ${param.name}`, '');
-  });
-
-  return result;
-}
+const exportStatements = [];
+const eventStatements = [];
 
 const customElements = fs.readJSONSync(`${__dirname}/../dist/custom-elements.json`);
 const customElementsModules = customElements.modules;
@@ -50,52 +24,79 @@ const baklavaReactFileParts = [];
 
 for (const module of customElementsModules) {
   const { declarations, path } = module;
-  const componentDeclaration = declarations.find(declaration => declaration.customElement === true);
+  const component = declarations.find(declaration => declaration.customElement === true);
+  const { name: componentName, tagName: fileName } = component;
 
-  const { events, name: componentName, tagName: fileName } = componentDeclaration;
+  const eventNames = (component.events || []).map(event => {
+    const reactEvent = getReactEventName(event.name);
+      const reactEventName = `${componentName}${reactEvent.split("onBl")[1]}`;
+      return `${reactEvent}: '${event.name}' as EventName<${reactEventName}>`;
+    }).join(',\n');
 
-  const eventNames = events
-    ? events.reduce((acc, curr) => {
-        acc[getReactEventName(curr.name)] = curr.name;
-        return acc;
-      }, {})
-    : {};
+  component.events?.forEach(event => {
+    const eventName = getReactEventName(event.name);
+    const eventType = cleanGenericTypes(component.typeParameters, event.type.text);
+    const predefinedEventName = `${componentName}${eventName.split("onBl")[1]}`;
 
-  const eventTypes = events
-    ? `, {${events
-        .map(
-          event =>
-            `${getReactEventName(event.name)}: EventName<${cleanGenericTypes(
-              componentDeclaration.typeParameters,
-              event.type.text
-            )}>`
-        )
-        .join(', ')}}`
-    : '';
+    eventStatements.push(`export declare type ${predefinedEventName} = ${eventType};`);
+  });
 
-  const importPath = path.replace(/^src\//, '').replace(/\.ts$/, '');
-  const Type = componentName + 'Type';
+  const importPath = path.replace(/^src\//, "").replace(/\.ts$/, "");
 
-  importStatements.push(`import type ${Type} from "./${importPath}";`);
+  importStatements.push(`export type ${componentName} = import("./${importPath}").default;`);
 
-  const componentDefinition =
-    typeParam => `  customElements.whenDefined('${fileName}').then(() => ({
-    default: createComponent${typeParam}(
-      {
+  const jsDoc = component.jsDoc || "";
+
+  const source = `
+  ${jsDoc}
+  export const ${componentName} = React.lazy(() =>
+    customElements.whenDefined('${fileName}').then(() => ({
+      default: createComponent({
         react: React,
-        tagName: '${fileName}',
-        elementClass: customElements.get('${fileName}'),
-        events: ${JSON.stringify(eventNames)}
-      }
-    )
-  }))`;
+        displayName: "${componentName}",
+        tagName: "${fileName}",
+        elementClass: customElements.get("${fileName}") as Constructor<${componentName}>,
+        events: {
+          ${eventNames}
+        },
+      })
+    }))
+  );
+  `;
 
-  const componentType = `<${Type}${eventTypes}>`;
-  const componentPromise = `() => ${componentDefinition(componentType)}`;
-  const componentLazy = `React.lazy<ReactWebComponent${componentType}>(${componentPromise})`;
-  const componentExport = `export const ${componentName} = ${componentLazy};`;
-
-  baklavaReactFileParts.push(componentExport);
+  baklavaReactFileParts.push(source);
 }
 
 writeBaklavaReactFile(baklavaReactFileParts);
+
+function getReactEventName(baklavaEventName) {
+  return `on${pascalCase(baklavaEventName)}`;
+}
+
+function writeBaklavaReactFile(fileContentParts) {
+  const constructorType = `type Constructor<T> = { new (): T };`;
+
+  const content = [
+    `/* eslint-disable @typescript-eslint/ban-ts-comment */`,
+    `// @ts-nocheck`,
+    ...importStatements,
+    ...eventStatements,
+    constructorType,
+    ...exportStatements,
+    ...fileContentParts,
+  ].join("\n\n");
+
+  const formattedContent = format(content, Object.assign(prettierConfig, { parser: "typescript" }));
+  const outputPath = `${__dirname}/../src/baklava-react.ts`;
+  fs.writeFileSync(outputPath, formattedContent);
+}
+
+function cleanGenericTypes(typeParameters, eventType) {
+  if (!typeParameters?.length || typeParameters.length === 0) return eventType;
+
+  const paramNames = typeParameters.map(param => param.name);
+  const paramNamesPattern = paramNames.map(name => `<${name}>|${name} \\| | \\| ${name}`).join("|");
+  const regex = new RegExp(paramNamesPattern, "g");
+
+  return eventType.replace(regex, "");
+}

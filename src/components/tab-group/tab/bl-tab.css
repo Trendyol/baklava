@@ -31,7 +31,7 @@
 
 .container::after {
   position: absolute;
-  content: '';
+  content: "";
   right: 0;
   top: var(--bl-size-m);
   height: calc(100% - var(--bl-size-2xl));
@@ -54,7 +54,7 @@
 }
 
 :host .container::before {
-  content: '';
+  content: "";
   position: absolute;
   opacity: 0;
   bottom: calc(-1 * var(--bl-size-4xs));
@@ -159,7 +159,7 @@ bl-tooltip {
 }
 
 :host([notify]) .title::after {
-  content: '';
+  content: "";
   height: var(--bl-size-2xs);
   width: var(--bl-size-2xs);
   border-radius: var(--bl-size-3xs);

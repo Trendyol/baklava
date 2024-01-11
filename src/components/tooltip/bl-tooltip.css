@@ -1,20 +1,19 @@
+:host {
+  display: contents;
+}
+
 .trigger {
-  display: inline-block;
+  display: var(--bl-tooltip-trigger-display, inline-flex);
   cursor: pointer;
 }
 
-.wrapper{
-  display: inline-block;
-  color: var(--bl-color-neutral-full);;
-}
-
 bl-popover {
-  --bl-popover-background-color: var(--bl-color-neutral-darker);
+  --bl-popover-background-color: var(--bl-color-info);
   --bl-popover-arrow-display: block;
   --bl-popover-border-size: 0px;
   --bl-popover-max-width: 424px;
 }
 
 .content {
-  color: var(--bl-color-neutral-full);;
+  color: var(--bl-color-neutral-full);
 }

@@ -1,18 +1,20 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
-import { event, EventDispatcher } from '../../../utilities/event';
-import type BlRadioGroup from '../bl-radio-group';
-import { blChangeEventName, blRadioGroupTag } from '../bl-radio-group';
-import style from './bl-radio.css';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property, query, state } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
+import { event, EventDispatcher } from "../../../utilities/event";
+import type BlRadioGroup from "../bl-radio-group";
+import { blChangeEventName, blRadioGroupTag } from "../bl-radio-group";
+import style from "./bl-radio.css";
 
-export const blRadioTag = 'bl-radio';
+export const blRadioTag = "bl-radio";
 
-export const blCheckedEventName = 'bl-checked';
+export const blCheckedEventName = "bl-checked";
 
 /**
  * @tag bl-radio
  * @summary Baklava Radio Option component
+ *
+ * @cssprop [--bl-radio-align-items=center] Align items of radio option
  */
 @customElement(blRadioTag)
 export default class BlRadio extends LitElement {
@@ -37,17 +39,17 @@ export default class BlRadio extends LitElement {
   /**
    * Fires when radio is checked
    */
-  @event('bl-checked') private onChecked: EventDispatcher<string>;
+  @event("bl-checked") private onChecked: EventDispatcher<string>;
 
   /**
    * Fires when radio is blurred
    */
-  @event('bl-focus') private onFocus: EventDispatcher<string>;
+  @event("bl-focus") private onFocus: EventDispatcher<string>;
 
   /**
    * Fires when radio is blurred
    */
-  @event('bl-blur') private onBlur: EventDispatcher<string>;
+  @event("bl-blur") private onBlur: EventDispatcher<string>;
 
   /**
    * Sets this option selected
@@ -64,7 +66,7 @@ export default class BlRadio extends LitElement {
     return this.selected;
   }
 
-  @query('[role=radio]') private radioElement: HTMLElement;
+  @query("[role=radio]") private radioElement: HTMLElement;
 
   /**
    * Focuses this option
@@ -85,6 +87,7 @@ export default class BlRadio extends LitElement {
 
   private handleFieldValueChange = (event: CustomEvent<string>) => {
     const newValue = event.detail;
+
     this.selected = newValue === this.value;
   };
 
@@ -96,7 +99,7 @@ export default class BlRadio extends LitElement {
     this.field = this.closest<BlRadioGroup>(blRadioGroupTag);
 
     if (!this.field) {
-      console.warn('bl-radio is designed to be used inside a bl-radio-group', this);
+      console.warn("bl-radio is designed to be used inside a bl-radio-group", this);
     }
 
     this.field?.addEventListener(blChangeEventName, this.handleFieldValueChange);

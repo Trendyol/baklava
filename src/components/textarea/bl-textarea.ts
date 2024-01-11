@@ -1,37 +1,37 @@
-import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
-import { FormControlMixin } from '@open-wc/form-control';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { event, EventDispatcher } from '../../utilities/event';
-import { classMap } from 'lit/directives/class-map.js';
-import { styleMap } from 'lit/directives/style-map.js';
-import { live } from 'lit/directives/live.js';
-import { textAreaValidators } from '../../utilities/form-control';
-import 'element-internals-polyfill';
-import style from './bl-textarea.css';
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
+import { customElement, property, query, state } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { live } from "lit/directives/live.js";
+import { styleMap } from "lit/directives/style-map.js";
+import { FormControlMixin } from "@open-wc/form-control";
+import "element-internals-polyfill";
+import { event, EventDispatcher } from "../../utilities/event";
+import { textAreaValidators } from "../../utilities/form-control";
+import style from "./bl-textarea.css";
 
-export type TextareaSize = 'small' | 'medium' | 'large';
+export type TextareaSize = "small" | "medium" | "large";
 /**
  * @tag bl-textarea
  * @summary Baklava Textarea component
  */
-@customElement('bl-textarea')
+@customElement("bl-textarea")
 export default class BlTextarea extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
   }
-  static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+  static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   static formControlValidators = textAreaValidators;
 
-  @query('textarea')
+  @query("textarea")
   validationTarget: HTMLTextAreaElement;
 
   /**
    * Name of textarea
    */
   @property({ type: String, reflect: true })
-  name = '';
+  name = "";
 
   /**
    * Makes textarea a mandatory field
@@ -54,14 +54,14 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   /**
    * Sets max row when expand is true
    */
-  @property({ type: Number, reflect: true, attribute: 'max-rows' })
+  @property({ type: Number, reflect: true, attribute: "max-rows" })
   maxRows?: number;
 
   /**
    * Sets textarea size.
    */
   @property({ type: String, reflect: true })
-  size?: TextareaSize = 'medium';
+  size?: TextareaSize = "medium";
 
   /**
    * Sets label of the textarea
@@ -72,7 +72,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   /**
    * Makes label as fixed positioned
    */
-  @property({ type: Boolean, attribute: 'label-fixed', reflect: true })
+  @property({ type: Boolean, attribute: "label-fixed", reflect: true })
   labelFixed = false;
 
   /**
@@ -84,19 +84,19 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   /**
    * Enables showing character counter.
    */
-  @property({ type: Boolean, attribute: 'character-counter', reflect: true })
+  @property({ type: Boolean, attribute: "character-counter", reflect: true })
   characterCounter = false;
 
   /**
    * Adds help text
    */
-  @property({ type: String, attribute: 'help-text', reflect: true })
+  @property({ type: String, attribute: "help-text", reflect: true })
   helpText?: string;
 
   /**
    * Set custom error message
    */
-  @property({ type: String, attribute: 'invalid-text', reflect: true })
+  @property({ type: String, attribute: "invalid-text", reflect: true })
   customInvalidText?: string;
 
   /**
@@ -115,7 +115,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
    * Sets initial value of the textarea
    */
   @property({ reflect: true })
-  value = '';
+  value = "";
 
   /**
    * Sets textarea visible row count.
@@ -127,7 +127,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
    * Sets the input mode of the field for asking browser to show the desired keyboard.
    */
   @property({ type: String, reflect: true })
-  inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
+  inputmode: "none" | "text" | "decimal" | "numeric" | "tel" | "search" | "email" | "url";
 
   /**
    * Sets input to get keyboard focus automatically
@@ -144,14 +144,14 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   /**
    * Enables/disables spellcheck feature inside the textarea
    */
-  @property({ type: String, reflect: true, attribute: 'spellcheck' })
-  spellchecker: 'true' | 'false' = 'false';
+  @property({ type: String, reflect: true, attribute: "spellcheck" })
+  spellchecker: "true" | "false" = "false";
 
-  @event('bl-input') private onInput: EventDispatcher<string>;
+  @event("bl-input") private onInput: EventDispatcher<string>;
 
-  @event('bl-change') private onChange: EventDispatcher<string>;
+  @event("bl-change") private onChange: EventDispatcher<string>;
 
-  @event('bl-invalid') private onInvalid: EventDispatcher<ValidityState>;
+  @event("bl-invalid") private onInvalid: EventDispatcher<ValidityState>;
 
   @state()
   private customScrollHeight: string | null = null;
@@ -160,7 +160,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
 
   connectedCallback() {
     super.connectedCallback();
-    this.internals.form?.addEventListener('submit', () => {
+    this.internals.form?.addEventListener("submit", () => {
       this.reportValidity();
     });
   }
@@ -173,6 +173,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     this.autoResize();
 
     const value = (event.target as HTMLTextAreaElement).value;
+
     this.value = value;
     this.onInput(value);
   }
@@ -191,11 +192,11 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   }
 
   protected async updated(changedProperties: PropertyValues) {
-    if (changedProperties.has('rows')) {
+    if (changedProperties.has("rows")) {
       this.autoResize();
     }
 
-    if (changedProperties.has('value')) {
+    if (changedProperties.has("value")) {
       this.setValue(this.value);
 
       await this.validationComplete;
@@ -222,10 +223,11 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
       return;
     }
 
-    this.validationTarget.style.height = 'auto';
+    this.validationTarget.style.height = "auto";
     const scrollHeight = this.validationTarget.scrollHeight;
+
     this.customScrollHeight = `${scrollHeight}px`;
-    this.validationTarget.style.removeProperty('height');
+    this.validationTarget.style.removeProperty("height");
   }
 
   @state() private dirty = false;
@@ -234,32 +236,32 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     const maxLengthInvalid = this.internals.validity.tooLong;
     const invalidMessage = !this.checkValidity()
       ? html`<p class="invalid-text">${this.validationMessage}</p>`
-      : ``;
-    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : ``;
+      : "";
+    const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : "";
 
-    const label = this.label ? html`<label for="${this.inputId}">${this.label}</label>` : '';
+    const label = this.label ? html`<label for="${this.inputId}">${this.label}</label>` : "";
     const characterCounterText =
       this.characterCounter && this.maxlength
         ? `${this.value.length}/${this.maxlength}`
         : this.characterCounter
         ? `${this.value.length}`
-        : '';
+        : "";
     const characterCounter = this.characterCounter
       ? html`<p class="counter-text">${characterCounterText}</p>`
-      : '';
+      : "";
 
     const wrapperClasses = {
-      'wrapper': true,
-      'has-value': this.value !== null && this.value !== '',
-      'dirty': this.dirty,
-      'max-len-invalid': maxLengthInvalid,
-      'invalid': !this.checkValidity(),
+      "wrapper": true,
+      "has-value": this.value !== null && this.value !== "",
+      "dirty": this.dirty,
+      "max-len-invalid": maxLengthInvalid,
+      "invalid": !this.checkValidity(),
     };
 
     const styles = {
-      '--row-count': `${this.rows}`,
-      '--maxrow-count': this.maxRows ? `${this.maxRows}` : null,
-      '--scroll-height': this.customScrollHeight,
+      "--row-count": `${this.rows}`,
+      "--maxrow-count": this.maxRows ? `${this.maxRows}` : null,
+      "--scroll-height": this.customScrollHeight,
     };
 
     return html`
@@ -293,6 +295,6 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
 }
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-textarea': BlTextarea;
+    "bl-textarea": BlTextarea;
   }
 }

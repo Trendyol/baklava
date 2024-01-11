@@ -1,16 +1,17 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property, state, query } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { submit } from '@open-wc/form-helpers';
-import { event, EventDispatcher } from '../../utilities/event';
-import style from './bl-button.css';
-import '../icon/bl-icon';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property, state, query } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { submit } from "@open-wc/form-helpers";
+import { event, EventDispatcher } from "../../utilities/event";
+import "../icon/bl-icon";
+import { BaklavaIcon } from "../icon/icon-list";
+import style from "./bl-button.css";
 
-export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
-export type ButtonKind = 'default' | 'neutral' | 'success' | 'danger';
-export type ButtonSize = 'small' | 'medium' | 'large';
-export type TargetType = '_blank' | '_parent' | '_self' | '_top';
+export type ButtonVariant = "primary" | "secondary" | "tertiary";
+export type ButtonKind = "default" | "neutral" | "success" | "danger";
+export type ButtonSize = "small" | "medium" | "large";
+export type TargetType = "_blank" | "_parent" | "_self" | "_top";
 
 /**
  * @tag bl-button
@@ -20,7 +21,7 @@ export type TargetType = '_blank' | '_parent' | '_self' | '_top';
  * @cssproperty [--bl-button-justify=center] Sets the justify-content property of button
  *
  */
-@customElement('bl-button')
+@customElement("bl-button")
 export default class BlButton extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
@@ -30,19 +31,19 @@ export default class BlButton extends LitElement {
    * Sets the button variant
    */
   @property({ type: String, reflect: true })
-  variant: ButtonVariant = 'primary';
+  variant: ButtonVariant = "primary";
 
   /**
    * Sets the button kind
    */
   @property({ type: String, reflect: true })
-  kind: ButtonKind = 'default';
+  kind: ButtonKind = "default";
 
   /**
    * Sets the button size
    */
   @property({ type: String, reflect: true })
-  size: ButtonSize = 'medium';
+  size: ButtonSize = "medium";
 
   /**
    * Sets the button label. Used for accessibility.
@@ -53,7 +54,7 @@ export default class BlButton extends LitElement {
   /**
    * Sets the button label for loading status.
    */
-  @property({ type: String, attribute: 'loading-label' })
+  @property({ type: String, attribute: "loading-label" })
   loadingLabel: string;
 
   /**
@@ -78,19 +79,19 @@ export default class BlButton extends LitElement {
    * Sets the icon name. Shows icon with bl-icon component
    */
   @property({ type: String })
-  icon?: string;
+  icon?: BaklavaIcon;
 
   /**
    * Sets the anchor target. Used when `href` is set.
    */
   @property({ type: String })
-  target?: TargetType = '_self';
+  target?: TargetType = "_self";
 
   /**
    * Sets the type of the button. Set `submit` to use button as the submitter of parent form.
    */
   @property({ type: String })
-  type: 'submit' | null;
+  type: "submit";
 
   /**
    * Sets button type to dropdown
@@ -105,28 +106,31 @@ export default class BlButton extends LitElement {
   autofocus = false;
 
   /**
+   * Sets the associated form of the button. Use when `type` is set to `submit` and button is not inside the target form.
+   */
+  @property({ type: String })
+  form: HTMLFormElement | string;
+
+  /**
    * Active state
    */
   @state({})
   active = false;
 
-  @query('.button')
+  @query(".button")
   private button: HTMLAnchorElement | HTMLButtonElement;
 
   /**
    * Fires when button clicked
    */
-  @event('bl-click') private onClick: EventDispatcher<string>;
+  @event("bl-click") private onClick: EventDispatcher<string>;
 
   private get _isActive() {
     return this.active;
   }
 
-  private form: HTMLFormElement | null;
-
   connectedCallback() {
     super.connectedCallback();
-    this.form = this.closest('form');
   }
 
   private caretTemplate(): TemplateResult {
@@ -135,11 +139,23 @@ export default class BlButton extends LitElement {
   }
 
   private _handleClick() {
-    if (this.type === 'submit' && this.form) {
-      submit(this.form);
+    if (this.type === "submit") {
+      let targetForm: HTMLFormElement;
+
+      if (this.form instanceof HTMLFormElement) {
+        targetForm = this.form;
+      } else if (typeof this.form === "string") {
+        targetForm = document.getElementById(this.form) as HTMLFormElement;
+      } else {
+        targetForm = this.closest("form") as HTMLFormElement;
+      }
+
+      if (targetForm) {
+        submit(targetForm);
+      }
     }
 
-    this.onClick('Click event fired!');
+    this.onClick("Click event fired!");
   }
 
   focus() {
@@ -152,15 +168,17 @@ export default class BlButton extends LitElement {
 
   get _hasDefaultSlot() {
     const childNodes = [...this.childNodes];
+
     return childNodes.some(node => {
       const nodeType = node.nodeType;
+
       // has only text node.
-      if (nodeType === node.TEXT_NODE && node.textContent?.trim() !== '') {
+      if (nodeType === node.TEXT_NODE && node.textContent?.trim() !== "") {
         return true;
       }
       // has element node, it should not have slot attribute.
       if (nodeType === node.ELEMENT_NODE) {
-        if (!(node as HTMLElement).hasAttribute('slot')) {
+        if (!(node as HTMLElement).hasAttribute("slot")) {
           return true;
         }
       }
@@ -172,17 +190,17 @@ export default class BlButton extends LitElement {
     const isDisabled = this.loading || this.disabled;
     const label = this.loading && this.loadingLabel ? this.loadingLabel : html`<slot></slot>`;
     const isAnchor = !!this.href;
-    const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : '';
+    const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : "";
     const loadingIcon = this.loading
       ? html`<bl-icon class="loading-icon" name="loading"></bl-icon>`
-      : '';
+      : "";
     const slots = html`<slot name="icon">${icon}</slot> <span class="label">${label}</span>`;
-    const caret = this.dropdown ? this.caretTemplate() : '';
+    const caret = this.dropdown ? this.caretTemplate() : "";
     const classes = classMap({
-      'button': true,
-      'has-icon': this.icon || this._hasIconSlot,
-      'has-content': this._hasDefaultSlot,
-      'active': !isAnchor && this._isActive,
+      "button": true,
+      "has-icon": this.icon || this._hasIconSlot,
+      "has-content": this._hasDefaultSlot,
+      "active": !isAnchor && this._isActive,
     });
 
     return isAnchor
@@ -211,6 +229,6 @@ export default class BlButton extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'bl-button': BlButton;
+    "bl-button": BlButton;
   }
 }

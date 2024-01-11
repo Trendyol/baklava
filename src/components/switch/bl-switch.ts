@@ -1,10 +1,10 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { customElement, property } from 'lit/decorators.js';
-import { event, EventDispatcher } from '../../utilities/event';
-import style from './bl-switch.css';
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { event, EventDispatcher } from "../../utilities/event";
+import style from "./bl-switch.css";
 
-export const blSwitchTag = 'bl-switch';
+export const blSwitchTag = "bl-switch";
 
 /**
  * @tag bl-switch
@@ -35,7 +35,7 @@ export default class BlSwitch extends LitElement {
   /**
    * Fires whenever user toggles the switch
    */
-  @event('bl-switch-toggle') private onToggle: EventDispatcher<boolean>;
+  @event("bl-switch-toggle") private onToggle: EventDispatcher<boolean>;
 
   toggle() {
     if (this.disabled) return;
@@ -45,7 +45,7 @@ export default class BlSwitch extends LitElement {
   }
 
   private handleKeyDown(event: KeyboardEvent) {
-    if (event.code === 'Enter' || event.code === 'Space') {
+    if (event.code === "Enter" || event.code === "Space") {
       this.toggle();
       event.preventDefault();
     }
@@ -53,20 +53,22 @@ export default class BlSwitch extends LitElement {
 
   render(): TemplateResult {
     const ariaLabel =
-      this.ariaLabel ?? this.attributes.getNamedItem('aria-label')?.value ?? undefined;
+      this.ariaLabel ?? this.attributes.getNamedItem("aria-label")?.value ?? undefined;
 
     return html`
-      <span
-        class="switch"
-        role="switch"
-        aria-checked=${this.checked}
-        aria-readonly=${!!this.disabled}
-        @click=${this.toggle}
-        @keydown=${this.handleKeyDown}
-        aria-label=${ifDefined(ariaLabel)}
-        tabindex="0"
-      >
-      </span>
+      <label @click=${this.toggle}>
+        <slot class="label"></slot>
+        <span
+          class="switch"
+          role="switch"
+          aria-checked=${this.checked}
+          aria-readonly=${!!this.disabled}
+          @keydown=${this.handleKeyDown}
+          aria-label=${ifDefined(ariaLabel)}
+          tabindex="0"
+        >
+        </span>
+      </label>
     `;
   }
 }

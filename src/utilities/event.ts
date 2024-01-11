@@ -5,20 +5,22 @@ export interface EventOptions {
 }
 
 export interface EventDispatcher<T> {
-  (value: T, options?: EventOptions): void;
+  (value: T, options?: EventOptions): CustomEvent<T>;
 }
 
 function dispatcher<T>(target: HTMLElement, eventName: string): EventDispatcher<T> {
   return function (value: T, options?: EventOptions) {
-    target.dispatchEvent(
-      new CustomEvent<T>(eventName, {
-        detail: value,
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-        ...options,
-      })
-    );
+    const customEvent = new CustomEvent<T>(eventName, {
+      detail: value,
+      bubbles: true,
+      cancelable: false,
+      composed: true,
+      ...options,
+    });
+
+    target.dispatchEvent(customEvent);
+
+    return customEvent;
   };
 }
 
