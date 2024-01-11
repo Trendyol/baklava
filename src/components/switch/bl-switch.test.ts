@@ -15,13 +15,18 @@ describe("bl-switch", () => {
     assert.shadowDom.equal(
       el,
       `
+      <label>
+        <slot class="label">
+        </slot>
         <span
           aria-checked="false"
           aria-readonly="false"
           class="switch"
           role="switch"
           tabindex="0"
-        ></span>
+        >
+        </span>
+      </label>
       `
     );
   });
