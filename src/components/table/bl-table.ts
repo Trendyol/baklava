@@ -24,14 +24,21 @@ export default class BlTable extends LitElement {
   }
 
   /**
-   * Selected table row indexes
+   * Selected table row selection key list
    */
   @property({ type: Array, reflect: true, attribute: "select-value" })
-  get selectValue(): number[] {
+  get selectValue(): string[] {
     return this._selectValue;
   }
-  set selectValue(value: number[]) {
+  set selectValue(value: string[]) {
     this._selectValue = value;
+    this.updateComplete.then(() => {
+      Array.from(this.querySelectorAll("bl-table-header-cell,bl-table-cell,bl-table-row")).map(
+        com => {
+          (com as BlTableHeaderCell | BlTableCell | BlTableRow).requestUpdate();
+        }
+      );
+    });
   }
 
   /**
@@ -92,9 +99,9 @@ export default class BlTable extends LitElement {
   /**
    * Fires when selected table rows changed
    */
-  @event("bl-table-row-select") private onRowSelect: EventDispatcher<number[]>;
+  @event("bl-table-row-select") private onRowSelect: EventDispatcher<string[]>;
 
-  @state() private _selectValue: number[] = [];
+  @state() private _selectValue: string[] = [];
 
   @state() private _sortKey: string = "";
 
@@ -124,14 +131,14 @@ export default class BlTable extends LitElement {
     return isHeaderCell ? this.multiple && this.selectable : this.selectable;
   }
 
-  isRowSelected(index: number) {
-    return this.selectValue.includes(index);
+  isRowSelected(selectionKey: string) {
+    return this.selectValue.includes(selectionKey);
   }
 
   isAllSelected() {
     return Array.from(this.tableRows)
       .filter(tr => !(tr as BlTableRow).disabled)
-      .every(tr => this.selectValue.includes((tr as BlTableRow).index));
+      .every(tr => this.selectValue.includes((tr as BlTableRow).selectionKey));
   }
 
   isAnySelected() {
@@ -139,35 +146,28 @@ export default class BlTable extends LitElement {
       !this.isAllSelected() &&
       Array.from(this.tableRows)
         .filter(tr => !(tr as BlTableRow).disabled)
-        .some(tr => this.selectValue.includes((tr as BlTableRow).index))
+        .some(tr => this.selectValue.includes((tr as BlTableRow).selectionKey))
     );
   }
 
-  onSelectionChange(index: number, selected: boolean, isHeader = false) {
+  onSelectionChange(isHeader = false, selected: boolean, selectionKey: string) {
     if (isHeader) {
       if (selected) {
         this.selectValue = Array.from(this.tableRows)
           .filter(tr => !(tr as BlTableRow).disabled)
-          .map(tr => (tr as BlTableRow).index);
+          .map(tr => (tr as BlTableRow).selectionKey);
       } else {
         this.selectValue = [];
       }
     } else {
-      if (this.selectValue.includes(index) && !selected) {
-        this.selectValue = this.selectValue.filter(v => v !== index);
-      } else if (!this.selectValue.includes(index) && selected) {
-        this.selectValue = [...this.selectValue, index];
+      if (this.selectValue.includes(selectionKey) && !selected) {
+        this.selectValue = this.selectValue.filter(v => v !== selectionKey);
+      } else if (!this.selectValue.includes(selectionKey) && selected) {
+        this.selectValue = [...this.selectValue, selectionKey];
       }
     }
 
     this.onRowSelect(this.selectValue);
-    this.updateComplete.then(() => {
-      Array.from(this.querySelectorAll("bl-table-header-cell,bl-table-cell,bl-table-row")).map(
-        com => {
-          (com as BlTableHeaderCell | BlTableCell | BlTableRow).requestUpdate();
-        }
-      );
-    });
   }
   onSortChange(sortKey: string, sortDirection: string) {
     this._sortKey = sortKey;

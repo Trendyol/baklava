@@ -346,7 +346,7 @@ describe("bl-table", () => {
     //when
     const el = await fixture<BlTable>(
       html`
-        <bl-table selectable select-value="[0]">
+        <bl-table selectable select-value="${JSON.stringify(["row-1"])}">
           <bl-table-header >
             <bl-table-row>
               <bl-table-header-cell>
@@ -370,7 +370,7 @@ describe("bl-table", () => {
             </bl-table-row>
           </bl-table-header>
           <bl-table-body>
-            <bl-table-row>
+            <bl-table-row selection-key="row-1">
               <bl-table-cell>
                 1
               </bl-table-cell>
@@ -881,7 +881,7 @@ describe("bl-table", () => {
                 </bl-table-row>
               </bl-table-header>
               <bl-table-body>
-                <bl-table-row>
+                <bl-table-row selection-key="row-1">
                   <bl-table-cell>
                     1
                   </bl-table-cell>
@@ -901,7 +901,7 @@ describe("bl-table", () => {
                     193.108.174.118
                   </bl-table-cell>
                 </bl-table-row>
-                <bl-table-row>
+                <bl-table-row selection-key="row-2">
                   <bl-table-cell>
                     2
                   </bl-table-cell>
@@ -939,14 +939,17 @@ describe("bl-table", () => {
       const ev = await oneEvent(el, "bl-table-row-select");
 
       expect(ev).to.exist;
-      expect(ev.detail).to.be.deep.equal([0,1]);
+      expect(ev.detail).to.be.deep.equal([
+          "row-1",
+          "row-2",
+      ]);
     });
 
     it("should fire bl-table-row-select event when user unchecked on checkbox in header row", async () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table
-                select-value="[0,1]"
+                select-value="${JSON.stringify(["row-1", "row-2"])}"
                 selectable
                 multiple
             >
@@ -973,7 +976,7 @@ describe("bl-table", () => {
                 </bl-table-row>
               </bl-table-header>
               <bl-table-body>
-                <bl-table-row>
+                <bl-table-row selection-key="row-1">
                   <bl-table-cell>
                     1
                   </bl-table-cell>
@@ -993,7 +996,7 @@ describe("bl-table", () => {
                     193.108.174.118
                   </bl-table-cell>
                 </bl-table-row>
-                <bl-table-row>
+                <bl-table-row selection-key="row-2">
                   <bl-table-cell>
                     2
                   </bl-table-cell>
@@ -1064,7 +1067,7 @@ describe("bl-table", () => {
                 </bl-table-row>
               </bl-table-header>
               <bl-table-body>
-                <bl-table-row>
+                <bl-table-row selection-key="row-1">
                   <bl-table-cell>
                     1
                   </bl-table-cell>
@@ -1084,7 +1087,7 @@ describe("bl-table", () => {
                     193.108.174.118
                   </bl-table-cell>
                 </bl-table-row>
-                <bl-table-row>
+                <bl-table-row selection-key="row-2">
                   <bl-table-cell>
                     2
                   </bl-table-cell>
@@ -1122,14 +1125,14 @@ describe("bl-table", () => {
       const ev = await oneEvent(el, "bl-table-row-select");
 
       expect(ev).to.exist;
-      expect(ev.detail).to.be.deep.equal([0]);
+      expect(ev.detail).to.be.deep.equal(["row-1"]);
     });
 
     it("should fire bl-table-row-select event when user unchecked on checkbox in first table row", async () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table
-                select-value="[0,1]"
+                select-value="${JSON.stringify(["row-1", "row-2"])}"
                 selectable
                 multiple
             >
@@ -1156,7 +1159,7 @@ describe("bl-table", () => {
                 </bl-table-row>
               </bl-table-header>
               <bl-table-body>
-                <bl-table-row>
+                <bl-table-row selection-key="row-1">
                   <bl-table-cell>
                     1
                   </bl-table-cell>
@@ -1176,7 +1179,7 @@ describe("bl-table", () => {
                     193.108.174.118
                   </bl-table-cell>
                 </bl-table-row>
-                <bl-table-row>
+                <bl-table-row selection-key="row-2">
                   <bl-table-cell>
                     2
                   </bl-table-cell>
@@ -1214,7 +1217,7 @@ describe("bl-table", () => {
       const ev = await oneEvent(el, "bl-table-row-select");
 
       expect(ev).to.exist;
-      expect(ev.detail).to.be.deep.equal([1]);
+      expect(ev.detail).to.be.deep.equal(["row-2"]);
     });
   });
 });

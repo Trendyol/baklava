@@ -9,7 +9,7 @@ describe("bl-table-cell", () => {
     //then
     expect(el).instanceOf(BlTableCell);
     expect(el.index).to.equal(-1);
-    expect(el.rowIndex).to.equal(-1);
+    expect(el.selectionKey).to.equal("");
   });
 
   it("should be rendered with default values", async () => {

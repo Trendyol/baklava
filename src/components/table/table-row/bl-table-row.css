@@ -10,6 +10,7 @@
 :host([disabled]),
 :host([disabled]) ::slotted(bl-table-cell) {
   background-color: var(--bl-color-neutral-lightest);
+  color: var(--bl-color-neutral-light);
 }
 
 :host(:not([checked], [disabled]):hover),

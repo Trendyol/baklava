@@ -90,7 +90,7 @@ export default class BlTableHeaderCell extends LitElement {
   }
 
   onChange(event: CustomEvent) {
-    this._table?.onSelectionChange(this.index, event.detail, true);
+    this._table?.onSelectionChange(true, event.detail, "");
   }
 
   onSort() {

@@ -33,7 +33,7 @@ export default class BlTableCell extends LitElement {
     return this.disableSelection;
   }
   get selectable() {
-    return this.index === 0 && !!this._table?.isSelectable(false);
+    return this.index === 0 && !!this._table?.isSelectable(false) && this.selectionKey;
   }
   get index() {
     const parent = this.parentNode;
@@ -43,8 +43,8 @@ export default class BlTableCell extends LitElement {
     }
     return [...parent.children].indexOf(this);
   }
-  get rowIndex(): number {
-    return this._tableRow ? this._tableRow.index : -1;
+  get selectionKey(): string {
+    return this._tableRow ? this._tableRow.selectionKey : "";
   }
   get checked() {
     return !!this._tableRow?.checked;
@@ -68,7 +68,7 @@ export default class BlTableCell extends LitElement {
   }
 
   onChange(event: CustomEvent) {
-    this._table?.onSelectionChange(this.rowIndex, event.detail);
+    this._table?.onSelectionChange(false, event.detail, this.selectionKey);
   }
 
   private _renderCheckbox() {
@@ -85,7 +85,6 @@ export default class BlTableCell extends LitElement {
   render(): TemplateResult {
     const className = this.shadowRight ? "shadow-right" : this.shadowLeft ? "shadow-left" : "";
 
-    // disable text color —bl-color-neutral-light
     return html`<div class="table-cell ${className}">
       ${this._renderCheckbox()}
       <slot></slot>

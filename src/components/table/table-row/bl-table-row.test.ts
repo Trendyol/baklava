@@ -8,7 +8,6 @@ describe("bl-table-row", () => {
 
     //then
     expect(el).instanceOf(BlTableRow);
-    expect(el.index).to.equal(-1);
   });
 
   it("should be rendered with default values", async () => {

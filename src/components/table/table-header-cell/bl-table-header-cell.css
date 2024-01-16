@@ -4,7 +4,7 @@
 
   display: table-cell;
   border: 1px solid var(--bl-color-neutral-lighter);
-  background-color: var(--bl-color-tertiary-background);
+  background-color: var(--bl-color-neutral-lightest);
   padding: var(--bl-size-m);
   font: var(--bl-font-title-3-medium);
   color: var(--bl-color-neutral-darker);
@@ -30,6 +30,18 @@
   z-index: -1;
   border-right: 1px solid var(--bl-color-neutral-lighter);
   box-shadow: 8px 0 16px 0 rgb(39 49 66 / 10%);;
+}
+
+.table-header-cell.shadow-left::before{
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 16px;
+  height: 100%;
+  z-index: -1;
+  border-left: 1px solid var(--bl-color-neutral-lighter);
+  box-shadow: -8px 0 16px 0 rgb(39 49 66 / 10%);
 }
 
 bl-checkbox {

@@ -1,10 +1,12 @@
-import { html, LitElement, TemplateResult } from "lit";
-import { customElement } from "lit/decorators.js";
+import { html, LitElement, PropertyValues, TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
 import { CSSResultGroup } from "lit/development";
 import "element-internals-polyfill";
 import "../../checkbox-group/checkbox/bl-checkbox";
 import { blTableBodyTag } from "../table-body/bl-table-body";
 import type BlTableBody from "../table-body/bl-table-body";
+import BlTableCell from "../table-cell/bl-table-cell";
+import BlTableHeaderCell from "../table-header-cell/bl-table-header-cell";
 import { blTableHeaderTag } from "../table-header/bl-table-header";
 import type BlTableHeader from "../table-header/bl-table-header";
 import style from "../table-row/bl-table-row.css";
@@ -20,6 +22,12 @@ export default class BlTableRow extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
+
+  /**
+   * selection key for table row
+   */
+  @property({ type: String, reflect: true, attribute: "selection-key" })
+  selectionKey: string = "";
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -38,7 +46,8 @@ export default class BlTableRow extends LitElement {
     super.disconnectedCallback();
   }
 
-  updated() {
+  updated(_changedProperties: PropertyValues) {
+    super.updated(_changedProperties);
     this.removeAttribute("checked");
     this.removeAttribute("disabled");
     this.removeAttribute("sticky-first-column");
@@ -55,6 +64,13 @@ export default class BlTableRow extends LitElement {
     } else if (this.disabled) {
       this.setAttribute("disabled", "true");
     }
+    if (_changedProperties.has("selectionKey")) {
+      this.updateComplete.then(() => {
+        Array.from(this.querySelectorAll("bl-table-header-cell,bl-table-cell")).map(com => {
+          (com as BlTableHeaderCell | BlTableCell).requestUpdate();
+        });
+      });
+    }
   }
 
   private get _table() {
@@ -67,17 +83,9 @@ export default class BlTableRow extends LitElement {
   get disabled() {
     return !!this._firstTableCell?.disabled;
   }
-  get index() {
-    const parent = this.parentNode;
-
-    if (!parent) {
-      return -1;
-    }
-    return [...parent.children].indexOf(this);
-  }
 
   get checked() {
-    return !!this._table?.isRowSelected(this.index);
+    return !!this._table?.isRowSelected(this.selectionKey);
   }
 
   get stickyFirstColumn() {
