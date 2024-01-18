@@ -7,6 +7,7 @@ import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
 import { event, EventDispatcher } from "../../utilities/event";
+import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
 import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
 import "../icon/bl-icon";
 import style from "../select/bl-select.css";
@@ -171,7 +172,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Display a loading icon in place of the search icon.
    */
-  @property({ type: Boolean, attribute: "search-bar-loading-state", reflect: true })
+  @property({
+    type: Boolean,
+    attribute: "search-bar-loading-state",
+    converter: stringBooleanConverter(),
+  })
   searchBarLoadingState = false;
 
   /**
