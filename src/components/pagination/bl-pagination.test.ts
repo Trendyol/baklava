@@ -292,7 +292,7 @@ describe("bl-pagination", () => {
       }
 
       const selectOptionEvent = new CustomEvent("bl-select", {
-        detail: [optionTwo],
+        detail: optionTwo,
       });
 
       select?.dispatchEvent(selectOptionEvent);
