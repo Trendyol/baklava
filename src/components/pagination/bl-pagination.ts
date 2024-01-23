@@ -181,7 +181,7 @@ export default class BlPagination extends LitElement {
   }
 
   private _selectHandler(event: CustomEvent) {
-    this.itemsPerPage = +event?.detail[0]?.value || 100;
+    this.itemsPerPage = +event?.detail?.value || 100;
     this._changePage(1);
   }
 
