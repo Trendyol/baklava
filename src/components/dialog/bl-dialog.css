@@ -65,7 +65,7 @@ header h2 {
   font: var(--bl-font-title-1-medium);
   color: var(--bl-color-neutral-darker);
   white-space: nowrap;
-  overflow: hidden;
+  overflow: auto;
   text-overflow: ellipsis;
   margin: 0;
   padding: 0;
