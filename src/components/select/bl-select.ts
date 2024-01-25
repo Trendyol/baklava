@@ -7,6 +7,7 @@ import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
 import { event, EventDispatcher } from "../../utilities/event";
+import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
 import "../button/bl-button";
 import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
 import "../checkbox-group/checkbox/bl-checkbox";
@@ -55,7 +56,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Sets the value of the select
    */
-  @property({ type: Array })
+  @property()
   get value(): ValueType | ValueType[] | null {
     return this._value;
   }
@@ -158,12 +159,49 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   @property({ type: String, attribute: "select-all-text" })
   selectAllText = "Select All";
 
+  /**
+   * Enable search functionality for the options within the list
+   */
+  @property({ type: Boolean, attribute: "search-bar", reflect: true })
+  searchBar = false;
+
+  /**
+   * Search for text variations such as "search," "searching," "search by country," and so on
+   */
+  @property({ type: String, attribute: "search-bar-placeholder", reflect: true })
+  searchBarPlaceholder?: string;
+
+  /**
+   * Display a loading icon in place of the search icon.
+   */
+  @property({
+    type: Boolean,
+    attribute: "search-bar-loading-state",
+    converter: stringBooleanConverter(),
+  })
+  searchBarLoadingState = false;
+
+  /**
+   * Text to display when no search results are found.
+   */
+  @property({ type: String, attribute: "search-not-found-text", reflect: true })
+  searchNotFoundText = "No Data Found";
+
+  /**
+   * Text to display on the clear search button.
+   */
+  @property({ type: String, attribute: "popover-clear-search-text", reflect: true })
+  popoverClearSearchText = "Clear Search";
+
   /* Declare internal reactive properties */
   @state()
   private _isPopoverOpen = false;
 
   @state()
   private _additionalSelectedOptionCount = 0;
+
+  @state()
+  private _searchText = "";
 
   @query(".selected-options")
   private selectedOptionsContainer!: HTMLElement;
@@ -180,7 +218,14 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Fires when selection changes
    */
-  @event("bl-select") private _onBlSelect: EventDispatcher<ISelectOption<ValueType>[]>;
+  @event("bl-select") private _onBlSelect: EventDispatcher<
+    ISelectOption<ValueType>[] | ISelectOption<ValueType>
+  >;
+
+  /**
+   * Fires when search text changes
+   */
+  @event("bl-search") private _onBlSearch: EventDispatcher<string>;
 
   private _connectedOptions: BlSelectOption<ValueType>[] = [];
 
@@ -205,6 +250,10 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     return this._isPopoverOpen;
   }
 
+  get noResultFound() {
+    return this._searchText !== "" && this._connectedOptions.every(option => option.hidden);
+  }
+
   @state()
   private _selectedOptions: BlSelectOption<ValueType>[] = [];
 
@@ -217,10 +266,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   get additionalSelectedOptionCount() {
     return this._additionalSelectedOptionCount;
-  }
-
-  get isAllSelected() {
-    return this._selectedOptions.length === this._connectedOptions.length;
   }
 
   validityCallback(): string | void {
@@ -247,6 +292,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   validationTarget: HTMLElement;
 
   open() {
+    if (this.searchBar) {
+      setTimeout(() => {
+        document.activeElement?.shadowRoot?.querySelector("input")?.focus();
+      }, 100);
+    }
+
     this._isPopoverOpen = true;
     this._setupPopover();
     document.addEventListener("click", this._interactOutsideHandler, true);
@@ -254,6 +305,10 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   close() {
+    this._handleSearchOptions({ target: { value: "" } } as InputEvent & {
+      target: HTMLInputElement;
+    });
+
     this._isPopoverOpen = false;
     this.focusedOptionIndex = -1;
     this._cleanUpPopover && this._cleanUpPopover();
@@ -310,7 +365,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   private inputTemplate() {
     const inputSelectedOptions = html`<ul class="selected-options">
-      ${this._selectedOptions.map(item => html`<li>${item.textContent}</li>`)}
+      ${this._selectedOptions.map(
+        item => html`<li>${item.getAttribute("label") || item.textContent}</li>`
+      )}
     </ul>`;
 
     const isAllSelectedDisabled =
@@ -327,46 +384,110 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         ></bl-button>`
       : "";
 
-    return html`<fieldset
+    const isSearchBarVisible = this.searchBar && this.opened;
+    const isMultipleWithSelection = this.multiple && this._selectedOptions.length > 0;
+
+    const isDividerShown = isSearchBarVisible || isMultipleWithSelection;
+
+    const searchMagIcon = html`<bl-icon
+      class="search-mag-icon"
+      name="search"
+      style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
+    ></bl-icon>`;
+
+    const searchLoadingIcon = html`<bl-icon
+      class="search-loading-icon"
+      name="loading"
+      style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
+    ></bl-icon>`;
+
+    const actionDivider = isDividerShown ? html`<div class="action-divider"></div>` : "";
+
+    const search = html`<fieldset
       class=${classMap({
         "select-input": true,
         "has-overflowed-options": this._additionalSelectedOptionCount > 0,
       })}
       tabindex="${this.disabled ? "-1" : 0}"
       .autofocus=${this.autofocus}
-      @click=${this._togglePopover}
       role="button"
       aria-haspopup="listbox"
       aria-expanded="${this.opened}"
       aria-labelledby="label"
+      @click=${this.open}
     >
       <legend><span>${this.label}</span></legend>
-      <span class="placeholder">${this.placeholder}</span>
-      <span class="label">${this.label}</span>
-      ${inputSelectedOptions}
-      <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
-      <div class="actions">
-        ${removeButton}
+
+      ${this._selectedOptions.length > 0 && !this.opened
+        ? inputSelectedOptions
+        : html`
+            <input
+              class="search-bar-input"
+              placeholder="${ifDefined(this.searchBarPlaceholder || this.label)}"
+              @input=${this._handleSearchOptions}
+              .value=${this._searchText}
+            />
+          `}
+      ${!this.opened
+        ? html`<span class="additional-selection-count"
+            >+${this._additionalSelectedOptionCount}</span
+          >`
+        : ""}
+
+      <div class="actions" @click=${this._togglePopover}>
+        ${this.opened ? (this.searchBarLoadingState ? searchLoadingIcon : searchMagIcon) : ""}
+        ${!this.opened ? removeButton : ""} ${actionDivider}
         <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
         <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
       </div>
     </fieldset>`;
+
+    return this.searchBar
+      ? search
+      : html`<fieldset
+          class=${classMap({
+            "select-input": true,
+            "has-overflowed-options": this._additionalSelectedOptionCount > 0,
+          })}
+          tabindex="${this.disabled ? "-1" : 0}"
+          ?autofocus=${this.autofocus}
+          @click=${this._togglePopover}
+          role="button"
+          aria-haspopup="listbox"
+          aria-expanded="${this.opened}"
+          aria-labelledby="label"
+        >
+          <legend><span>${this.label}</span></legend>
+          <span class="placeholder">${this.placeholder}</span>
+          <span class="label">${this.label}</span>
+          ${inputSelectedOptions}
+          <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
+          <div class="actions">
+            ${removeButton} ${actionDivider}
+            <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
+
+            <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
+          </div>
+        </fieldset>`;
   }
 
   selectAllTemplate() {
-    if (!this.multiple || !this.viewSelectAll) {
+    if (!this.multiple || !this.viewSelectAll || this.noResultFound) {
       return null;
     }
 
-    const isAnySelected = this._selectedOptions.length > 0;
+    const isAllRenderedOptionsSelected = this._connectedOptions
+      .filter(option => !option.hidden)
+      .every(option => option.selected);
+    const isAnySelected = this._selectedOptions.filter(option => !option.hidden).length > 0;
 
     return html`<bl-checkbox
       class="select-all"
-      .checked="${this.isAllSelected}"
-      .indeterminate="${isAnySelected && !this.isAllSelected}"
+      .checked="${isAllRenderedOptionsSelected}"
+      .indeterminate="${isAnySelected && !isAllRenderedOptionsSelected}"
       role="option"
-      aria-selected="${this.isAllSelected}"
+      aria-selected="${isAllRenderedOptionsSelected}"
       @bl-checkbox-change="${this._handleSelectAll}"
     >
       ${this.selectAllText}
@@ -405,6 +526,20 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       >
         ${this.selectAllTemplate()}
         <slot></slot>
+        ${this.searchBar && this.noResultFound
+          ? html`<div name="popover-clear-search-text" class="popover-no-result">
+              <span>${this.searchNotFoundText}</span>
+              <bl-button
+                variant="tertiary"
+                @click=${() => {
+                  this._handleSearchOptions({ target: { value: "" } } as InputEvent & {
+                    target: HTMLInputElement;
+                  });
+                }}
+                >${this.popoverClearSearchText}</bl-button
+              >
+            </div>`
+          : ""}
       </div>
       <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div> `;
@@ -443,16 +578,55 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private _handleSelectEvent() {
-    this._onBlSelect(
-      this._selectedOptions.map(
-        option =>
-          ({
-            value: option.value,
-            selected: option.selected,
-            text: option.textContent,
-          } as ISelectOption<ValueType>)
-      )
+    const options = this._selectedOptions.map(
+      option =>
+        ({
+          value: option.value,
+          selected: option.selected,
+          text: option.textContent,
+        } as ISelectOption<ValueType>)
     );
+
+    if (!this.multiple) this._onBlSelect(options[0]);
+    else this._onBlSelect(options);
+  }
+
+  private _handleSearchEvent() {
+    this._onBlSearch(this._searchText);
+  }
+
+  private _handleSearchOptions(e: InputEvent): void {
+    if (!this.searchBar) return;
+
+    this._searchText = (e.target as HTMLInputElement).value;
+
+    this._handleSearchEvent();
+
+    this._connectedOptions.forEach(option => {
+      const isVisible = option.textContent?.toLowerCase().includes(this._searchText.toLowerCase());
+
+      option.hidden = !isVisible;
+    });
+
+    this._selectedOptions = this.options.filter(option => option.selected);
+
+    this._handleLastVisibleSearchedOption();
+
+    this.requestUpdate();
+  }
+
+  private _handleLastVisibleSearchedOption() {
+    const lastVisibleOption = [...this.options].reverse().find(option => !option.hidden);
+
+    if (lastVisibleOption) {
+      lastVisibleOption?.shadowRoot?.querySelector("div")?.classList.add("no-border-bottom");
+    }
+
+    this.options.map(option => {
+      if (!option.hidden && option !== lastVisibleOption) {
+        option.shadowRoot?.querySelector("div")?.classList.remove("no-border-bottom");
+      }
+    });
   }
 
   private _handleSingleSelect(optionItem: BlSelectOption<ValueType>) {
@@ -486,7 +660,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     const selectAllEl = this.shadowRoot?.querySelector(".select-all") as BlCheckbox;
 
     const checked = e.detail;
-    const unselectedOptions = this._connectedOptions.filter(option => !option.selected);
+    const unselectedOptions = this._connectedOptions.filter(
+      option => !option.selected && !option.hidden
+    );
     const isAllUnselectedDisabled = unselectedOptions.every(option => option.disabled);
 
     // If all available options are selected, instead of checking, uncheck all options
@@ -500,7 +676,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     }
 
     this._connectedOptions.forEach(option => {
-      if (option.disabled) {
+      if (option.disabled || option.hidden) {
         return;
       }
 
@@ -508,12 +684,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     });
 
     this._handleMultipleSelect();
-
-    // Make sure the checkbox state is in sync with selected options
-    setTimeout(() => {
-      selectAllEl.checked = this.isAllSelected;
-      selectAllEl.indeterminate = this._selectedOptions.length > 0 && !this.isAllSelected;
-    });
   }
 
   private _onClickRemove(e: MouseEvent) {
