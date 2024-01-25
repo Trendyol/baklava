@@ -1,0 +1,111 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/addon-docs";
+import * as NotificationStories from "./bl-notification.stories";
+
+<Meta of={NotificationStories} />
+
+# Notification
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/141)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=2790%3A13792)</bl-badge>
+
+Notifications are messages that communicate information to the user.
+
+## Design Rules
+
+- Notification **has fixed width (396px)** by default.
+- Notifications are **temporary** by default but can be set permanent.
+- Temporary notifications are **dismissed automatically** after a certain period of time.
+- Temporary notifications remaning time will stop when hovered.
+- It can be dismissed by swiping up on mobile.
+- Notification takes position on top on small screens, and on top right on large screens.
+- Multiple notifications would be visible with a vertical stack. New notifications will come to top on large screens, and will come to bottom on small screens.
+
+## Basic Usage
+
+The `bl-notification` component is a versatile tool for displaying notifications. It exposes two public methods: `addNotification` and `removeNotification`.
+
+The `addNotification` method accepts a notification object as a parameter and returns a notification object that includes the props, an id, and a remove method. The remove method is a wrapper that calls the `removeNotification` method with the id of the notification.
+
+The `removeNotification` method accepts a notification id as a parameter and returns a Promise that resolves when the notification removal animation is complete.
+
+### Adding a Notification
+
+A notification could be added by calling the `addNotification` method with a [notification object](#notification-object).
+
+<Canvas of={NotificationStories.AddExample} story={{ inline: false, height: "400px" }}></Canvas>
+
+### Removing a Notification
+
+A notification could be removed by calling the `removeNotification` method with the notification's id.
+
+<Canvas of={NotificationStories.RemoveExample} story={{ inline: false, height: "200px" }}></Canvas>
+
+#### Await for Removal
+
+The `removeNotification` method returns a Promise that resolves when the notification removal animation is complete. This could be used to await the removal of a notification.
+
+<Canvas
+  of={NotificationStories.RemoveAwaitExample}
+  story={{ inline: false, height: "300px" }}
+></Canvas>
+
+### Actions
+
+A notification could have a primary and a secondary action. These actions are displayed as buttons on the notification.
+
+<Canvas
+  of={NotificationStories.PrimaryActionExample}
+  story={{ inline: false, height: "200px" }}
+></Canvas>
+<Canvas
+  of={NotificationStories.SecondaryActionExample}
+  story={{ inline: false, height: "200px" }}
+></Canvas>
+
+#### Removing a Notification on Action Click
+
+A notification could be removed by calling notification's remove method.
+
+<Canvas
+  of={NotificationStories.ActionsRemoveExample}
+  story={{ inline: false, height: "300px" }}
+></Canvas>
+
+### Permanent
+
+A notification could be permanent. Permanent notifications are not dismissed automatically. They could be dismissed by clicking the close button.
+
+<Canvas
+  of={NotificationStories.PermanentExample}
+  story={{ inline: false, height: "200px" }}
+></Canvas>
+
+### Variants
+
+A notification could have one of the following variants: info, success, warning, error. The variant changes the color of the notification.
+
+<Canvas
+  of={NotificationStories.VariantsExample}
+  story={{ inline: false, height: "600px" }}
+></Canvas>
+
+## Reference
+
+### bl-notification
+
+<ArgsTable of="bl-notification" />
+
+### Notification Object
+
+| Name                | Description                                       | Default  | Type                                          |
+| ------------------- | ------------------------------------------------- | -------- | --------------------------------------------- |
+| **caption**         | The caption of the notification.                  | -        | string                                        |
+| **description**     | The description of the notification.              | -        | string                                        |
+| **icon**            | The icon of the notification.                     | `true`   | boolean or BaklavaIcon                        |
+| **variant**         | The variant of the notification.                  | `"info"` | `"info" \| "success" \| "warning" \| "error"` |
+| **primaryAction**   | The primary action of the notification.           | -        | `{ label: string, onClick: () => void }`      |
+| **secondaryAction** | The secondary action of the notification.         | -        | `{ label: string, onClick: () => void }`      |
+| **duration**        | The duration of the notification in milliseconds. | `7`      | number                                        |
+| **permanent**       | Whether the notification is permanent.            | `false`  | boolean                                       |
+| **id**              | The id of the notification.                       | -        | string                                        |
+| **remove**          | The remove method of the notification.            | -        | `() => Promise<void>`                         |

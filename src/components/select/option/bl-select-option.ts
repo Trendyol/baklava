@@ -27,6 +27,12 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
   }
 
   /**
+   * Sets the label for bl-select, and bl-select renders this value instead of the option's textContent
+   */
+  @property({ type: String, reflect: true, attribute: "label" })
+  label = "";
+
+  /**
    * Sets option as disabled
    */
   @property({ type: Boolean, reflect: true })

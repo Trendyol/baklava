@@ -147,12 +147,25 @@ describe("Slot", () => {
     const el = await fixture<typeofBlAlert>(
       html`<bl-alert>
         <bl-button slot="action"> Action Slot </bl-button>
+        <span slot="action">Should not render this element</span>
         <bl-button slot="action-secondary"> Action Slot </bl-button>
       </bl-alert>`
     );
-    const actionSlot = el.shadowRoot?.querySelector('slot[name="action"]');
 
-    expect(actionSlot).to.exist;
+    const actionSlot = el.shadowRoot!.querySelector('slot[name="action"]') as HTMLSlotElement;
+    const [actionElement, actionSpanElement] = actionSlot.assignedElements();
+
+    expect(actionElement as HTMLElement).to.exist;
+    expect(actionElement.tagName).to.eq("BL-BUTTON");
+    expect(actionSpanElement as HTMLElement).to.not.exist;
+
+    const actionSecondarySlot = el.shadowRoot!.querySelector(
+      'slot[name="action-secondary"]'
+    ) as HTMLSlotElement;
+    const actionSecondaryElement = actionSecondarySlot?.assignedElements()[0] as HTMLElement;
+
+    expect(actionSecondaryElement).to.exist;
+    expect(actionSecondaryElement.tagName).to.eq("BL-BUTTON");
   });
   it("renders `action` slot empty when bl-button is not used", async () => {
     const el = await fixture<typeofBlAlert>(
