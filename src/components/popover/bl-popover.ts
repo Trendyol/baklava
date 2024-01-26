@@ -49,7 +49,7 @@ export default class BlPopover extends LitElement {
     return [style];
   }
 
-  @query(".popover") private popover: HTMLElement;
+  @query(".popover") private _popover: HTMLElement;
   @query(".arrow") private arrow: HTMLElement;
 
   /**
@@ -140,18 +140,18 @@ export default class BlPopover extends LitElement {
 
   private setPopover() {
     if (this.target) {
-      this.popoverAutoUpdateCleanup = autoUpdate(this.target as Element, this.popover, () => {
-        computePosition(this.target as Element, this.popover, {
+      this.popoverAutoUpdateCleanup = autoUpdate(this.target as Element, this._popover, () => {
+        computePosition(this.target as Element, this._popover, {
           placement: this.placement,
           strategy: "fixed",
           middleware: this.getMiddleware(),
         }).then(({ x, y, placement, middlewareData }) => {
-          Object.assign(this.popover.style, {
+          Object.assign(this._popover.style, {
             left: `${x}px`,
             top: `${y}px`,
           });
 
-          this.popover.dataset.placement = placement;
+          this._popover.dataset.placement = placement;
 
           if (middlewareData.arrow) {
             const { x: arrowX, y: arrowY } = middlewareData.arrow;
