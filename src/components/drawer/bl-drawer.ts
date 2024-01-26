@@ -74,16 +74,14 @@ export default class BlDrawer extends LitElement {
       }
 
       this.domExistence = true;
-      // FIXME: Allow events without payload
-      this.onOpen("");
+      this.onOpen();
     } else {
       // Give some time for exit animation
       this.domExistenceSchedule = window.setTimeout(() => {
         this.domExistence = false;
       }, 1000);
 
-      // FIXME: Allow events without payload
-      this.onClose("");
+      this.onClose();
     }
   }
 
