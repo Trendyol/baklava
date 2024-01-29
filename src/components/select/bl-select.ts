@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, LitElement, PropertyValues } from "lit";
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, queryAll, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -9,7 +9,9 @@ import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
 import { event, EventDispatcher } from "../../utilities/event";
 import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
+import "../button/bl-button";
 import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
+import "../checkbox-group/checkbox/bl-checkbox";
 import "../icon/bl-icon";
 import style from "../select/bl-select.css";
 import "../select/option/bl-select-option";
@@ -412,6 +414,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         "has-overflowed-options": this._additionalSelectedOptionCount > 0,
       })}
       tabindex="${this.disabled ? "-1" : 0}"
+      .autofocus=${this.autofocus}
       role="button"
       aria-haspopup="listbox"
       aria-expanded="${this.opened}"
@@ -436,7 +439,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           >`
         : ""}
 
-      <div class="actions" @click=${this.togglePopover}>
+      <div class="actions" @click=${this._togglePopover}>
         ${this.opened ? (this.searchBarLoadingState ? searchLoadingIcon : searchMagIcon) : ""}
         ${!this.opened ? removeButton : ""} ${actionDivider}
         <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
@@ -454,7 +457,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           })}
           tabindex="${this.disabled ? "-1" : 0}"
           ?autofocus=${this.autofocus}
-          @click=${this.togglePopover}
+          @click=${this._togglePopover}
           role="button"
           aria-haspopup="listbox"
           aria-expanded="${this.opened}"
@@ -499,7 +502,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     </bl-checkbox>`;
   }
 
-  render() {
+  render(): TemplateResult {
     const invalidMessage = !this.checkValidity()
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
           ${this.validationMessage}
@@ -561,7 +564,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   private handleKeydown(event: KeyboardEvent) {
     if (this.focusedOptionIndex === -1 && ["Enter", "Space"].includes(event.code)) {
-      this.togglePopover();
+      this._togglePopover();
       event.preventDefault();
     } else if (this._isPopoverOpen === false && ["ArrowDown", "ArrowUp"].includes(event.code)) {
       this.open();
@@ -585,7 +588,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     }
   }
 
-  private togglePopover() {
+  private _togglePopover() {
     this._isPopoverOpen ? this.close() : this.open();
   }
 
