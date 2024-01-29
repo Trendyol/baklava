@@ -55,7 +55,9 @@
     "test:debug": "web-test-runner --coverage --watch --debug",
     "test:headless": "web-test-runner --coverage --watch --debug --headless",
     "generate-react-exports": "node scripts/generate-react-exports.js",
-    "generate-vue-types": "node scripts/generate-vue-types.js"
+    "generate-vue-types": "node scripts/generate-vue-types.js",
+    "localize:extract": "lit-localize extract",
+    "localize:build": "lit-localize build"
   },
   "keywords": [
     "web-components",
@@ -66,6 +68,7 @@
     "@floating-ui/dom": "^1.2.3",
     "@fontsource-variable/rubik": "^5.0.2",
     "@lit-labs/react": "^2.0.3",
+    "@lit/localize": "^0.12.1",
     "@open-wc/form-control": "^0.7.0",
     "@open-wc/form-helpers": "^0.2.2",
     "element-internals-polyfill": "^1.2.3",
@@ -79,6 +82,7 @@
     "@commitlint/config-conventional": "^16.2.4",
     "@commitlint/prompt-cli": "^16.2.4",
     "@custom-elements-manifest/analyzer": "^0.6.3",
+    "@lit/localize-tools": "^0.7.1",
     "@open-wc/testing": "^3.1.6",
     "@rollup/plugin-replace": "^4.0.0",
     "@storybook/addon-a11y": "7.4.3",

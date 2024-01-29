@@ -1,5 +1,6 @@
 export { default as BlAlert } from "./components/alert/bl-alert";
 export { default as BlBadge } from "./components/badge/bl-badge";
+export { default as BlLocale } from "./components/locale/bl-locale";
 export { default as BlButton } from "./components/button/bl-button";
 export { default as BlCheckboxGroup } from "./components/checkbox-group/bl-checkbox-group";
 export { default as BlCheckbox } from "./components/checkbox-group/checkbox/bl-checkbox";

@@ -1,37 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Baklava Playground</title>
-    <link rel="stylesheet" href="./dist/themes/default.css" />
-    <script type="module" src="./dist/baklava.js"></script>
-    <script>
-      // Live reload
-      new EventSource('/esbuild').addEventListener('change', () => location.reload());
-    </script>
-    <style>
-      *:not(:defined) {
-        display: none;
+<html lang="tr-TR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baklava Playground</title>
+  <link rel="stylesheet" href="./dist/themes/default.css" />
+  <script type="module" src="./dist/baklava.js"></script>
+  <script type="module">
+    // Live reload
+    new EventSource('/esbuild').addEventListener('change', () => location.reload());
+
+    window.addEventListener("lit-localize-status", ({ detail }) => {
+      if (detail.status === 'loading') {
+        console.log(`Loading new locale: ${detail.loadingLocale}`);
+      } else if (detail.status === 'ready') {
+        console.log(`Loaded new locale: ${detail.readyLocale}`);
+      } else if (detail.status === 'error') {
+        console.error(
+          `Error loading locale ${detail.errorLocale}: ` + detail.errorMessage
+        );
       }
+    });
+  </script>
+  <style>
+    *:not(:defined) {
+      display: none;
+    }
 
-      body {
-        font-family: var(--bl-font-family);
-      }
+    body {
+      font-family: var(--bl-font-family);
+    }
 
-      h1 {
-        font: var(--bl-font-display-1);
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Baklava Playground</h1>
+    h1 {
+      font: var(--bl-font-display-1);
+    }
+  </style>
+</head>
 
-    <p>
-      Copy this file as playground/index.html and try your work here by running
-      <code>npm run serve</code>.
-    </p>
+<body>
+  <h1>Baklava Playground</h1>
+  <bl-locale></bl-locale>
 
-    <bl-button>Baklava is ready</bl-button>
-  </body>
+  <bl-select search-bar multiple view-select-all>
+    <bl-select-option value="tr">Turkiye</bl-select-option>
+    <bl-select-option value="nl">The Netherlands</bl-select-option>
+    <bl-select-option value="de">Germany</bl-select-option>
+    <bl-select-option value="uk">United Kingdom</bl-select-option>
+  </bl-select>
+
+  <bl-pagination current-page="1" total-items="1500" has-jumper="true">
+  </bl-pagination>
+
+  <bl-pagination current-page="1" total-items="1500" has-select="true">
+  </bl-pagination>
+</body>
+
 </html>
