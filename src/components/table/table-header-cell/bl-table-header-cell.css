@@ -15,13 +15,13 @@
   min-width: var(--header-cell-min-width);
 }
 
-.table-header-cell{
+.table-header-cell {
   display: flex;
   align-items: center;
 }
 
-.table-header-cell.shadow-right::before{
-  content: '';
+.table-header-cell.shadow-right::before {
+  content: "";
   position: absolute;
   right: -1px;
   top: 0;
@@ -29,11 +29,11 @@
   height: 100%;
   z-index: -1;
   border-right: 1px solid var(--bl-color-neutral-lighter);
-  box-shadow: 8px 0 16px 0 rgb(39 49 66 / 10%);;
+  box-shadow: 8px 0 16px 0 rgb(39 49 66 / 10%);
 }
 
-.table-header-cell.shadow-left::before{
-  content: '';
+.table-header-cell.shadow-left::before {
+  content: "";
   position: absolute;
   left: -1px;
   top: 0;
@@ -48,7 +48,7 @@ bl-checkbox {
   margin-right: var(--bl-size-m);
 }
 
-.sort-icons-wrapper{
+.sort-icons-wrapper {
   width: 100%;
   display: flex;
   align-items: center;
