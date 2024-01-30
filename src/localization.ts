@@ -1,11 +1,24 @@
 import { LocaleModule, configureLocalization } from "@lit/localize";
-import { sourceLocale, targetLocales } from "./generated/locale-codes";
-import * as templates_TR from "./generated/locales/tr-TR";
+import { sourceLocale, targetLocales, allLocales } from "./generated/locale-codes";
+import * as templatesTR from "./generated/locales/tr";
 
-const localizedTemplates = new Map([["tr-TR", templates_TR]]);
+type LangKey = "tr" | "en";
 
-export const { getLocale, setLocale } = configureLocalization({
+const localizedTemplates = new Map<string, LocaleModule>([["tr", templatesTR]]);
+
+const { setLocale } = configureLocalization({
   sourceLocale,
   targetLocales,
   loadLocale: async (locale: string) => localizedTemplates.get(locale) as LocaleModule,
 });
+
+export const init = async () => {
+  const html = document.querySelector("html");
+  const htmlLang = html?.getAttribute("lang") as LangKey | null;
+
+  if (htmlLang && allLocales.includes(htmlLang)) {
+    await setLocale(htmlLang);
+  }
+};
+
+export default init();
