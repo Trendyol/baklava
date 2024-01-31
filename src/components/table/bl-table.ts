@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import "element-internals-polyfill";
 import { event, EventDispatcher } from "../../utilities/event";
@@ -14,7 +14,7 @@ export const blRowSelectChangeEventName = "bl-table-row-select";
 
 /**
  * @tag bl-table
- * @summary Baklava Button component
+ * @summary Baklava Table component
  *
  */
 @customElement(blTableTag)
@@ -33,11 +33,9 @@ export default class BlTable extends LitElement {
   set selectValue(value: string[]) {
     this._selectValue = value;
     this.updateComplete.then(() => {
-      Array.from(this.querySelectorAll("bl-table-header-cell,bl-table-cell,bl-table-row")).map(
-        com => {
-          (com as BlTableHeaderCell | BlTableCell | BlTableRow).requestUpdate();
-        }
-      );
+      this.querySelectorAll("bl-table-header-cell,bl-table-cell,bl-table-row").forEach(com => {
+        (com as BlTableHeaderCell | BlTableCell | BlTableRow).requestUpdate();
+      });
     });
   }
 
@@ -107,6 +105,20 @@ export default class BlTable extends LitElement {
 
   @state() private _sortDirection: string = "";
 
+  protected updated(_changedProperties: PropertyValues) {
+    if (
+      _changedProperties.has("selectable") ||
+      _changedProperties.has("multiple") ||
+      _changedProperties.has("stickyFirstColumn") ||
+      _changedProperties.has("stickyLastColumn") ||
+      _changedProperties.has("sortable")
+    ) {
+      this.querySelectorAll("bl-table-header-cell,bl-table-cell,bl-table-row").forEach(com => {
+        (com as BlTableHeaderCell | BlTableCell | BlTableRow).requestUpdate();
+      });
+    }
+  }
+
   get tableRows() {
     return this.querySelectorAll("bl-table-body bl-table-row");
   }
@@ -150,21 +162,29 @@ export default class BlTable extends LitElement {
     );
   }
 
+  changeHeaderCheckbox(selected: boolean) {
+    if (selected) {
+      this.selectValue = Array.from(this.tableRows)
+        .filter(tr => !(tr as BlTableRow).disabled)
+        .map(tr => (tr as BlTableRow).selectionKey);
+    } else {
+      this.selectValue = [];
+    }
+  }
+
+  changeRowCheckbox(selected: boolean, selectionKey: string) {
+    if (this.isRowSelected(selectionKey) && !selected) {
+      this.selectValue = this.selectValue.filter(v => v !== selectionKey);
+    } else if (!this.isRowSelected(selectionKey) && selected) {
+      this.selectValue = [...this.selectValue, selectionKey];
+    }
+  }
+
   onSelectionChange(isHeader = false, selected: boolean, selectionKey: string) {
     if (isHeader) {
-      if (selected) {
-        this.selectValue = Array.from(this.tableRows)
-          .filter(tr => !(tr as BlTableRow).disabled)
-          .map(tr => (tr as BlTableRow).selectionKey);
-      } else {
-        this.selectValue = [];
-      }
+      this.changeHeaderCheckbox(selected);
     } else {
-      if (this.selectValue.includes(selectionKey) && !selected) {
-        this.selectValue = this.selectValue.filter(v => v !== selectionKey);
-      } else if (!this.selectValue.includes(selectionKey) && selected) {
-        this.selectValue = [...this.selectValue, selectionKey];
-      }
+      this.changeRowCheckbox(selected, selectionKey);
     }
 
     this.onRowSelect(this.selectValue);
@@ -174,7 +194,7 @@ export default class BlTable extends LitElement {
     this._sortDirection = sortDirection;
     this.onSort([this.sortKey, this.sortDirection]);
     this.updateComplete.then(() => {
-      Array.from(this.querySelectorAll("bl-table-header-cell")).map(com => {
+      this.querySelectorAll("bl-table-header-cell").forEach(com => {
         (com as BlTableHeaderCell).requestUpdate();
       });
     });
