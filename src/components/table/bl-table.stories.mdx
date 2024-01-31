@@ -25,18 +25,27 @@ export const TableTemplate = (args, {id}) => {
 		});
 
 	}
-	let {data, headers, selectValue} = args;
+	let {data, headers, selectValue, sortedData} = args;
+  const tableData = sortedData || data;
 	const onSort = (event) => {
 		const [sortKey, sortDirection] = event.detail;
 		console.log("onSort", event.detail);
+    const columnType = sortKey==="id" ? "number" : "string";
 		updateArgs({
 			...args,
-			data: data.sort((a, b) => {
-				return a[sortKey].toString().localeCompare(b[sortKey], 'tr', {sensitivity: 'base'}) * (sortDirection === 'asc' ? -1 : 1);
-			}),
+			sortedData: (sortKey&&sortDirection)? [...data].sort((a, b) => {
+        if (columnType === 'string') {
+          return a[sortKey].localeCompare(b[sortKey], 'tr', { sensitivity: 'base' }) * (sortDirection === 'asc' ? -1 : 1);
+        }
+        if (a[sortKey] < b[sortKey]) {
+          return sortDirection === 'asc' ? -1 : 1;
+        }
+        if (a[sortKey] > b[sortKey]) {
+          return sortDirection === 'asc' ? 1 : -1;
+        }
+        return 0;
+			}) : [...data],
 		});
-
-		console.log(data)
 	}
 	const onRowSelect = (event) => {
 		console.log("onRowSelect", event.detail);
@@ -73,7 +82,7 @@ export const TableTemplate = (args, {id}) => {
                   </bl-table-row>
               </bl-table-header>
               <bl-table-body>
-								${data.map((row) =>
+								${tableData.map((row) =>
 										html`
                         <bl-table-row selection-key="row-${row.id}">
 													${headers.map((header, col_idx) =>
