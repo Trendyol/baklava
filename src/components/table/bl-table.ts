@@ -150,25 +150,78 @@ export default class BlTable extends LitElement {
     );
   }
 
-  onSelectionChange(isHeader = false, selected: boolean, selectionKey: string) {
+  /**
+   * Handles selection changes for both header and row selections.
+   * @param isHeader - Indicates if the selection change is for the header.
+   * @param isSelected - The selection state.
+   * @param selectionKey - The key identifying the selected row. It must be there if it is not the header.
+   */
+  onSelectionChange(isHeader: boolean = false, isSelected: boolean, selectionKey: string) {
     if (isHeader) {
-      if (selected) {
-        this.selectValue = Array.from(this.tableRows)
-          .filter(tr => !(tr as BlTableRow).disabled)
-          .map(tr => (tr as BlTableRow).selectionKey);
-      } else {
-        this.selectValue = [];
-      }
+      this.handleHeaderSelection(isSelected);
     } else {
-      if (this.selectValue.includes(selectionKey) && !selected) {
-        this.selectValue = this.selectValue.filter(v => v !== selectionKey);
-      } else if (!this.selectValue.includes(selectionKey) && selected) {
-        this.selectValue = [...this.selectValue, selectionKey];
-      }
+      this.handleRowSelection(isSelected, selectionKey);
     }
 
+    this.notifyRowSelectionChange();
+  }
+
+  /**
+   * Updates selected values based on header selection.
+   * @param isSelected - The selection state.
+   */
+  private handleHeaderSelection(isSelected: boolean) {
+    this.selectValue = isSelected ? this.getSelectedValuesFromRows() : [];
+  }
+
+  /**
+   * Updates selected values based on row selection.
+   * @param isSelected - The selection state.
+   * @param selectionKey - The key identifying the selected row.
+   */
+  private handleRowSelection(isSelected: boolean, selectionKey: string) {
+    if (isSelected) {
+      this.addSelection(selectionKey);
+    } else {
+      this.removeSelection(selectionKey);
+    }
+  }
+
+  /**
+   * Notifies about the row selection change.
+   */
+  private notifyRowSelectionChange() {
     this.onRowSelect(this.selectValue);
   }
+
+  /**
+   * Adds a selection key to the selected values.
+   * @param selectionKey - The key to add.
+   */
+  private addSelection(selectionKey: string) {
+    if (!this.selectValue.includes(selectionKey)) {
+      this.selectValue.push(selectionKey);
+    }
+  }
+
+  /**
+   * Removes a selection key from the selected values.
+   * @param selectionKey - The key to remove.
+   */
+  private removeSelection(selectionKey: string) {
+    this.selectValue = this.selectValue.filter(value => value !== selectionKey);
+  }
+
+  /**
+   * Gets the selection keys from all selectable table rows.
+   * @returns An array of selection keys.
+   */
+  private getSelectedValuesFromRows(): string[] {
+    return Array.from(this.tableRows)
+      .filter(tableRow => !(tableRow as BlTableRow).disabled)
+      .map(tableRow => (tableRow as BlTableRow).selectionKey);
+  }
+
   onSortChange(sortKey: string, sortDirection: string) {
     this._sortKey = sortKey;
     this._sortDirection = sortDirection;
