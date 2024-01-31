@@ -14,7 +14,7 @@
 }
 
 :host(:not([checked], [disabled]):hover),
-:host(:not([checked], [disabled]):hover) ::slotted(bl-table-cell){
+:host(:not([checked], [disabled]):hover) ::slotted(bl-table-cell) {
   background-color: var(--bl-color-tertiary-background);
 }
 
@@ -54,18 +54,16 @@
   border-bottom-right-radius: var(--bl-size-3xs);
 }
 
-
 :host([sticky-first-column]) ::slotted(bl-table-header-cell:first-child),
 :host([sticky-first-column]) ::slotted(bl-table-cell:first-child) {
   position: sticky;
   z-index: 2;
-  left:0;
+  left: 0;
 }
-
 
 :host([sticky-last-column]) ::slotted(bl-table-header-cell:last-child),
 :host([sticky-last-column]) ::slotted(bl-table-cell:last-child) {
   position: sticky;
   z-index: 2;
-  right:0;
+  right: 0;
 }

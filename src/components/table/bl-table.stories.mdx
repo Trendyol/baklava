@@ -3,7 +3,7 @@ import {Meta, Canvas, ArgsTable, Story} from '@storybook/addon-docs';
 import { UPDATE_STORY_ARGS } from "@storybook/core-events";
 
 <Meta
-		title="Components/Table/bl-table"
+		title="Components/Table/Table"
 		component="bl-table"
 		argTypes={{
 			headers: {
@@ -25,21 +25,28 @@ export const TableTemplate = (args, {id}) => {
 		});
 
 	}
-	let {data, headers, selectValue} = args;
+	let {data, headers, selectValue, sortedData} = args;
+  const tableData = sortedData || data;
 	const onSort = (event) => {
 		const [sortKey, sortDirection] = event.detail;
-		console.log("onSort", event.detail);
+    const columnType = sortKey==="id" ? "number" : "string";
 		updateArgs({
 			...args,
-			data: data.sort((a, b) => {
-				return a[sortKey].toString().localeCompare(b[sortKey], 'tr', {sensitivity: 'base'}) * (sortDirection === 'asc' ? -1 : 1);
-			}),
+			sortedData: (sortKey&&sortDirection)? [...data].sort((a, b) => {
+        if (columnType === 'string') {
+          return a[sortKey].localeCompare(b[sortKey], 'tr', { sensitivity: 'base' }) * (sortDirection === 'asc' ? -1 : 1);
+        }
+        if (a[sortKey] < b[sortKey]) {
+          return sortDirection === 'asc' ? -1 : 1;
+        }
+        if (a[sortKey] > b[sortKey]) {
+          return sortDirection === 'asc' ? 1 : -1;
+        }
+        return 0;
+			}) : [...data],
 		});
-
-		console.log(data)
 	}
 	const onRowSelect = (event) => {
-		console.log("onRowSelect", event.detail);
 		updateArgs({
 			...args,
 			selectValue: event.detail,
@@ -50,11 +57,11 @@ export const TableTemplate = (args, {id}) => {
       <div style="height: 400px;">
           <bl-table
                   select-value=${JSON.stringify(selectValue)}
-                  ?selectable=${true}
-                  ?multiple=${true}
-                  ?sortable=${true}
-                  ?sticky-first-column=${true}
-                  ?sticky-last-column=${true}
+                  ?selectable=${args.selectable}
+                  ?multiple=${args.multiple}
+                  ?sortable=${args.sortable}
+                  ?sticky-first-column=${args.stickyFirstColumn}
+                  ?sticky-last-column=${args.stickyLastColumn}
                   @bl-table-sort=${onSort}
                   @bl-table-row-select=${onRowSelect}
           >
@@ -73,7 +80,7 @@ export const TableTemplate = (args, {id}) => {
                   </bl-table-row>
               </bl-table-header>
               <bl-table-body>
-								${data.map((row) =>
+								${tableData.map((row) =>
 										html`
                         <bl-table-row selection-key="row-${row.id}">
 													${headers.map((header, col_idx) =>
@@ -94,11 +101,15 @@ export const TableTemplate = (args, {id}) => {
 
 # Table Component
 
-Checkbox Group is a component to take multiple selections from user with a list of options. It needs to be used with `bl-checkbox` component.
-If you set a list of `values`, options with those values will be selected.
+Table is a component to visualize a data set in rows and columns. It needs to be used with `bl-table-header`, `bl-table-body`, `bl-table-row`, `bl-table-header-cell`, `bl-table-cell` component.
 
 <Canvas>
   <Story name="Basic Usage" args={{
+    selectable: true,
+    multiple: true,
+    sortable: true,
+    stickyFirstColumn: true,
+    stickyLastColumn: true,
     headers: [
       {key: "id", sortKey: "id", text: "ID", minWidth: '100px', sticky:'left'},
       {key: "first_name", sortKey: "first_name", text: "First Name", minWidth: "100px"},
@@ -138,6 +149,10 @@ If you set a list of `values`, options with those values will be selected.
 	    {id:20,first_name:"Almire",last_name:"Slinn",email:"aslinnj@wiley.com",gender:"Female",ip_address:"195.56.102.224"},
     ],
     stickyHeader:true
+  }} argTypes={{
+    headers: {table: {disable: true}},
+    data: {table: {disable: true}},
+    rows: {table: {disable: true}}
   }}>
     {TableTemplate.bind({})}
   </Story>
