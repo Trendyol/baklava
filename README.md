@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source width="200" media="(prefers-color-scheme: dark)" srcset="https://github.com/Trendyol/baklava/assets/40598819/d631ca2c-ad0c-4e70-8234-b8171d11fd37">
-    <img width="200" alt="Baklava Logo" src="https://user-images.githubusercontent.com/127687/233114483-c5b0a8e7-c072-4ced-a7b5-76bce1be4b21.svg">
+    <img width="200" alt="Baklava Logo" src="https://github.com/Trendyol/baklava/assets/40598819/50b0ef0f-09bf-41d2-ab53-063e913e9868">
   </picture>
 </p>
 
