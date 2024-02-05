@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "element-internals-polyfill";
 import "../../checkbox-group/checkbox/bl-checkbox";
+import BlCheckbox from "../../checkbox-group/checkbox/bl-checkbox";
 import "../../icon/bl-icon";
 import { BaklavaIcon } from "../../icon/icon-list";
 import type BlTableRow from "../table-row/bl-table-row";
@@ -49,10 +50,13 @@ export default class BlTableHeaderCell extends LitElement {
     return [...parent.children].indexOf(this);
   }
   get checked() {
-    return this._table?.isAllSelected();
+    return !!this._table?.isAllSelected();
   }
   get indeterminate() {
-    return this._table?.isAnySelected();
+    return !!this._table?.isAnySelected();
+  }
+  get isAllUnselectedDisabled() {
+    return !!this._table?.isAllUnselectedDisabled();
   }
   get sortDirection(): string {
     if (this._table?.sortKey === this.sortKey) {
@@ -90,7 +94,24 @@ export default class BlTableHeaderCell extends LitElement {
   }
 
   onChange(event: CustomEvent) {
+    const selectAllEl = this.shadowRoot?.querySelector(".select-all") as BlCheckbox;
+
+    const checked = event.detail;
+
+    // If all available rows are selected, instead of checking, uncheck all options
+    if (checked && this.isAllUnselectedDisabled) {
+      setTimeout(() => {
+        const checkbox = selectAllEl?.shadowRoot?.querySelector("input");
+
+        checkbox?.click();
+      }, 0);
+      return;
+    }
     this._table?.onSelectionChange(true, event.detail, "");
+    setTimeout(() => {
+      selectAllEl.checked = this.checked;
+      selectAllEl.indeterminate = this.indeterminate;
+    });
   }
 
   onSort() {
@@ -108,10 +129,13 @@ export default class BlTableHeaderCell extends LitElement {
   private _renderCheckbox() {
     return this.selectable
       ? html`<bl-checkbox
-          ?checked=${this.checked}
+          class="select-all"
           value="all"
-          ?indeterminate=${this.indeterminate}
+          .indeterminate="${this.indeterminate}"
           @bl-checkbox-change=${this.onChange}
+          role="option"
+          .checked="${this.checked}"
+          aria-selected="${this.checked}"
         >
         </bl-checkbox>`
       : null;

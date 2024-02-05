@@ -902,7 +902,7 @@ describe("bl-table", () => {
                   </bl-table-cell>
                 </bl-table-row>
                 <bl-table-row selection-key="row-2">
-                  <bl-table-cell>
+                  <bl-table-cell ?disable-selection=${true}>
                     2
                   </bl-table-cell>
                   <bl-table-cell>
@@ -919,6 +919,26 @@ describe("bl-table", () => {
                   </bl-table-cell>
                   <bl-table-cell>
                     255.169.128.60
+                  </bl-table-cell>
+                </bl-table-row>
+                <bl-table-row selection-key="row-3">
+                  <bl-table-cell>
+                    3
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Name
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Surname
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    name1@test.net
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Male
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    255.169.123.60
                   </bl-table-cell>
                 </bl-table-row>
               </bl-table-body>
@@ -941,8 +961,119 @@ describe("bl-table", () => {
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal([
           "row-1",
-          "row-2",
+          "row-3",
       ]);
+    });
+    it("should fire bl-table-row-select event with unchecked all rows when user checked on checkbox when all available rows are selected", async () => {
+      const el = await fixture<BlTable>(
+          html`
+            <bl-table
+              select-value="${JSON.stringify(["row-1","row-3"])}"
+                selectable
+                multiple
+            >
+              <bl-table-header>
+                <bl-table-row>
+                  <bl-table-header-cell>
+                    ID
+                  </bl-table-header-cell>
+                  <bl-table-header-cell>
+                    First Name
+                  </bl-table-header-cell>
+                  <bl-table-header-cell>
+                    Last Name
+                  </bl-table-header-cell>
+                  <bl-table-header-cell>
+                    Email
+                  </bl-table-header-cell>
+                  <bl-table-header-cell>
+                    Gender
+                  </bl-table-header-cell>
+                  <bl-table-header-cell>
+                    IP Address
+                  </bl-table-header-cell>
+                </bl-table-row>
+              </bl-table-header>
+              <bl-table-body>
+                <bl-table-row selection-key="row-1">
+                  <bl-table-cell>
+                    1
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Antonella
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Bellefonte
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    abellefonte0@nba.com
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Female
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    193.108.174.118
+                  </bl-table-cell>
+                </bl-table-row>
+                <bl-table-row selection-key="row-2">
+                  <bl-table-cell ?disable-selection=${true}>
+                    2
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Wash
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Carnson
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    wcarnson1@jalbum.net
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Male
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    255.169.128.60
+                  </bl-table-cell>
+                </bl-table-row>
+                <bl-table-row selection-key="row-3">
+                  <bl-table-cell>
+                    3
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Name
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Surname
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    name1@test.net
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Male
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    255.169.123.60
+                  </bl-table-cell>
+                </bl-table-row>
+              </bl-table-body>
+            </bl-table>`
+      );
+
+      const tableHeaderCell = el.querySelector("bl-table-header-cell");
+
+      if(tableHeaderCell?.shadowRoot){
+        const checkbox = tableHeaderCell.shadowRoot.querySelector("bl-checkbox") as HTMLElement;
+        const checkboxEvent = new CustomEvent("bl-checkbox-change", {
+          detail: true,
+        });
+
+        setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
+      }
+
+      const ev = await oneEvent(el, "bl-table-row-select");
+
+      expect(ev).to.exist;
+      expect(ev.detail).to.be.deep.equal([ ]);
     });
 
     it("should fire bl-table-row-select event when user unchecked on checkbox in header row", async () => {

@@ -148,9 +148,9 @@ export default class BlTable extends LitElement {
   }
 
   isAllSelected() {
-    return Array.from(this.tableRows)
-      .filter(tr => !(tr as BlTableRow).disabled)
-      .every(tr => this.selectValue.includes((tr as BlTableRow).selectionKey));
+    return Array.from(this.tableRows).every(tr =>
+      this.selectValue.includes((tr as BlTableRow).selectionKey)
+    );
   }
 
   isAnySelected() {
@@ -160,6 +160,12 @@ export default class BlTable extends LitElement {
         .filter(tr => !(tr as BlTableRow).disabled)
         .some(tr => this.selectValue.includes((tr as BlTableRow).selectionKey))
     );
+  }
+
+  isAllUnselectedDisabled() {
+    return Array.from(this.tableRows)
+      .filter(tr => !this.selectValue.includes((tr as BlTableRow).selectionKey))
+      .every(tr => (tr as BlTableRow).disabled);
   }
 
   /**
