@@ -150,7 +150,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Views select all option in multiple select
    */
-  @property({ type: Boolean, attribute: "view-select-all" })
+  @property({ type: Boolean, attribute: "view-select-all", converter: stringBooleanConverter() })
   viewSelectAll = false;
 
   /**
@@ -434,12 +434,15 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           >`
         : ""}
 
-      <div class="actions" @click=${this._togglePopover}>
+      <div class="actions">
         ${this.opened ? (this.searchBarLoadingState ? searchLoadingIcon : searchMagIcon) : ""}
         ${!this.opened ? removeButton : ""} ${actionDivider}
-        <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
-        <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
+        <div @click=${this._togglePopover}>
+          <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
+
+          <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
+        </div>
       </div>
     </fieldset>`;
 
@@ -548,7 +551,15 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private focusedOptionIndex = -1;
 
   private handleKeydown(event: KeyboardEvent) {
-    if (this.focusedOptionIndex === -1 && ["Enter", "Space"].includes(event.code)) {
+    if (
+      this.focusedOptionIndex === -1 &&
+      !this.searchBar &&
+      !this.disabled &&
+      ["Space"].includes(event.code)
+    ) {
+      this._togglePopover();
+      event.preventDefault();
+    } else if (["Enter"].includes(event.code) && !this.disabled) {
       this._togglePopover();
       event.preventDefault();
     } else if (this._isPopoverOpen === false && ["ArrowDown", "ArrowUp"].includes(event.code)) {

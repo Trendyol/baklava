@@ -596,6 +596,25 @@ describe("bl-select", () => {
       expect(document.activeElement).to.not.equal(blSelect);
     });
 
+
+    it("should not open popover if it is disabled", async () => {
+      // if it is disabled, it should not open popover and return from function
+      blSelect.disabled = true;
+
+      // given
+
+      await sendKeys({
+        press: tabKey,
+      });
+
+      await sendKeys({
+        press: "Space",
+      });
+
+      // then
+      expect(blSelect.opened).to.equal(false);
+    });
+
     ["Space", "Enter", "ArrowDown", "ArrowUp"].forEach(keyCode => {
       it(`should open popover with ${keyCode} key`, async () => {
         //given
