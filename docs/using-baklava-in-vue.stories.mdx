@@ -51,19 +51,16 @@ Also, you can add ignore rule as compiler options to your webpack or vite.
   For Vite:
 
   ```js
-  plugins: [
-    vue({
-      template: {
-        compilerOptions: {
-          isCustomElement: tag => tag.startsWith('bl-')
+  {
+    plugins: [
+      vue({
+        template: {
+          compilerOptions: {
+            isCustomElement: tag => tag.startsWith('bl-')
+          }
         }
-      }
-    })
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      })
+    ]
   }
 
   ```
@@ -72,18 +69,18 @@ Also, you can add ignore rule as compiler options to your webpack or vite.
 
   ```js
   {
-  test: /\.vue$/,
-  use: {
-    loader: "vue-loader",
-    options: {
-      compilerOptions: {
-        isCustomElement: tag => {
-          return tag === "custom";
+    test: /\.vue$/,
+    use: {
+      loader: "vue-loader",
+      options: {
+        compilerOptions: {
+          isCustomElement: tag => {
+            return tag === "custom";
+          }
         }
       }
     }
   }
-}
 ```
 
 ### TypeScript
