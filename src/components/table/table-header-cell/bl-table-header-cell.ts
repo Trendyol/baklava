@@ -30,10 +30,10 @@ export default class BlTableHeaderCell extends LitElement {
   sortKey = "";
 
   private get _table() {
-    return this.closest("bl-table") ?? null;
+    return this.closest("bl-table");
   }
   private get _tableRow() {
-    return this.closest("bl-table-row") ?? null;
+    return this.closest("bl-table-row");
   }
   get selectable() {
     return this.index === 0 && !!this._table?.isSelectable(true);

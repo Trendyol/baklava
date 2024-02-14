@@ -74,7 +74,7 @@ export default class BlTableRow extends LitElement {
   }
 
   private get _table() {
-    return this.closest("bl-table") ?? null;
+    return this.closest("bl-table");
   }
 
   private get _firstTableCell() {

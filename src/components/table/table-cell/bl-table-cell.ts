@@ -24,10 +24,10 @@ export default class BlTableCell extends LitElement {
   disableSelection = false;
 
   private get _table() {
-    return this.closest("bl-table") ?? null;
+    return this.closest("bl-table");
   }
   private get _tableRow() {
-    return this.closest("bl-table-row") ?? null;
+    return this.closest("bl-table-row");
   }
   get disabled() {
     return this.disableSelection;
