@@ -566,7 +566,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private focusedOptionIndex = -1;
 
   private handleKeydown(event: KeyboardEvent) {
-    if (this.focusedOptionIndex === -1 && ["Enter", "Space"].includes(event.code)) {
+    if (
+      this.focusedOptionIndex === -1 &&
+      (!this.searchBar || (this.searchBar && !this.opened)) &&
+      ["Enter", "Space"].includes(event.code)
+    ) {
       this._togglePopover();
       event.preventDefault();
     } else if (this._isPopoverOpen === false && ["ArrowDown", "ArrowUp"].includes(event.code)) {
