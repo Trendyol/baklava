@@ -57,3 +57,8 @@ bl-checkbox {
   gap: var(--bl-size-4xs);
   cursor: pointer;
 }
+
+.sort-icons-wrapper bl-icon {
+  font-size: var(--bl-font-size-m);
+  color: var(--bl-color-neutral-darker);
+}

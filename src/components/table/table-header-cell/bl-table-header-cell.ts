@@ -72,7 +72,7 @@ export default class BlTableHeaderCell extends LitElement {
       return "sorting_desc";
     }
 
-    return "sorting_default";
+    return "sorting";
   }
 
   get shadowRight() {

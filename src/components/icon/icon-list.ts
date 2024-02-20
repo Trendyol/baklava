@@ -190,7 +190,6 @@ const icons = [
   "shopping_bag_discount",
   "shopping_bag_return",
   "sorting",
-  "sorting_default",
   "sorting_asc",
   "sorting_desc",
   "sound_off",

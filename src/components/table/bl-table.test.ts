@@ -176,7 +176,7 @@ describe("bl-table", () => {
 
     //then
     expect(sortIcon.getAttribute("name")).to.equal(
-      "sorting_default"
+      "sorting"
     );
   });
 
