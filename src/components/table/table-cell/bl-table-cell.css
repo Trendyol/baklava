@@ -9,6 +9,7 @@
   vertical-align: middle;
   word-break: break-word;
   background-color: var(--bl-color-neutral-full);
+  background-clip: padding-box;
 }
 
 .table-cell {

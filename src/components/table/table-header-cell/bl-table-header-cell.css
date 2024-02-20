@@ -13,6 +13,7 @@
   white-space: normal;
   width: var(--header-cell-width);
   min-width: var(--header-cell-min-width);
+  background-clip: padding-box;
 }
 
 .table-header-cell {
