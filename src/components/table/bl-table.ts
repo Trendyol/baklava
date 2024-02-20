@@ -240,6 +240,17 @@ export default class BlTable extends LitElement {
       .map(tableRow => (tableRow as BlTableRow).selectionKey);
   }
 
+  resetScrollPosition(): void {
+    const tableWrapper = this.shadowRoot?.querySelector(".table-wrapper");
+
+    if (tableWrapper) {
+      tableWrapper.scrollTo({
+        behavior: "smooth",
+        top: 0,
+      });
+    }
+  }
+
   onSortChange(sortKey: string, sortDirection: string) {
     this._sortKey = sortKey;
     this._sortDirection = sortDirection;
@@ -249,6 +260,7 @@ export default class BlTable extends LitElement {
         (com as BlTableHeaderCell).requestUpdate();
       });
     });
+    this.resetScrollPosition();
   }
 
   render(): TemplateResult {
