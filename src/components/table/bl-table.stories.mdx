@@ -34,7 +34,7 @@ export const TableTemplate = (args, {id}) => {
 			...args,
 			sortedData: (sortKey&&sortDirection)? [...data].sort((a, b) => {
         if (columnType === 'string') {
-          return a[sortKey].localeCompare(b[sortKey], 'tr', { sensitivity: 'base' }) * (sortDirection === 'asc' ? -1 : 1);
+          return a[sortKey].localeCompare(b[sortKey], 'tr', { sensitivity: 'base' }) * (sortDirection === 'asc' ? 1 : -1);
         }
         if (a[sortKey] < b[sortKey]) {
           return sortDirection === 'asc' ? -1 : 1;
@@ -77,6 +77,13 @@ export const TableTemplate = (args, {id}) => {
                                     style='${header.width ? '--bl-table-header-cell-width: ' + header.width + ';' : ''} ${header.minWidth ? '--bl-table-header-cell-min-width: ' + header.minWidth + ';' : ''}'
                             >
 															${header.text}
+                              ${header.tooltip &&
+                                html`<div style="margin-left: 12px;">
+                                  <bl-tooltip>
+                                    <bl-icon slot="tooltip-trigger" name="info"></bl-icon>
+                                    ${header.tooltip}
+                                  </bl-tooltip>
+</div>`}
                             </bl-table-header-cell>`
 										)}
                   </bl-table-row>
@@ -110,7 +117,7 @@ Table is a component to visualize a data set in rows and columns. It needs to be
       {key: "last_name", sortKey: "last_name", text: "Last Name", width: "150px", minWidth: "100px"},
       {key: "email", text: "Email", width: "250px", minWidth: "250px"},
       {key: "gender", text: "Gender", width: '85px'},
-      {key: "ip_address", text: "IP Address", width: '90px', sticky: 'right'},
+      {key: "ip_address", text: "IP Address", width: '90px', sticky: 'right', tooltip: 'Ip address of end user'},
     ],
 	  selectValue: ["row-1","row-4"],
     data: [
