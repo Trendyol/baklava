@@ -81,21 +81,13 @@ export const TableTemplate = (args, {id}) => {
 										)}
                   </bl-table-row>
               </bl-table-header>
-              <bl-table-body>
-								${tableData.map((row) =>
-										html`
-                        <bl-table-row selection-key="row-${row.id}">
+              <bl-table-body>${tableData.map((row) =>
+										html`<bl-table-row selection-key="row-${row.id}">
 													${headers.map((header, col_idx) =>
-															html`
-                                  <bl-table-cell ?disable-selection=${col_idx === 0 && row.disabled}>
-																		${row[header.key]}
-                                  </bl-table-cell>
-															`
+															html`<bl-table-cell ?disable-selection=${col_idx === 0 && row.disabled}> ${row[header.key]}</bl-table-cell>`
 													)}
-                        </bl-table-row>
-										`
-								)}
-              </bl-table-body>
+                        </bl-table-row>`
+								)}</bl-table-body>
           </bl-table>
       </div>
 	`;
@@ -122,33 +114,23 @@ Table is a component to visualize a data set in rows and columns. It needs to be
     ],
 	  selectValue: ["row-1","row-4"],
     data: [
-	    {
-		    id: 1,
-		    first_name: "Antonella",
-		    last_name: "Bellefonte",
-		    email: "abellefonte0@nba.com",
-		    gender: "Female",
-		    ip_address: "193.108.174.118"
-	    },
-	    {id:2,first_name:"Wash",last_name:"Carnson",email:"wcarnson1@jalbum.net",gender:"Male",ip_address:"255.169.128.60"},
-	    {id:3,first_name:"Betteanne",last_name:"Cowgill",email:"bcowgill2@timesonline.co.uk",gender:"Female",ip_address:"235.237.3.233", disabled: true},
-	    {id:4,first_name:"Lilith",last_name:"Astbury",email:"lastbury3@shinystat.com",gender:"Female",ip_address:"46.41.60.65"},
-	    {id:5,first_name:"Nikos",last_name:"Vasenkov",email:"nvasenkov4@slate.com",gender:"Male",ip_address:"13.95.130.24"},
-	    {id:6,first_name:"Drucill",last_name:"Runciman",email:"drunciman5@hc360.com",gender:"Female",ip_address:"185.192.50.41"},
-	    {id:7,first_name:"Gaspar",last_name:"Falls",email:"gfalls6@howstuffworks.com",gender:"Male",ip_address:"107.51.243.94"},
-	    {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
-	    {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
-	    {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
-	    {id:11,first_name:"Marjy",last_name:"Makinson",email:"mmakinsona@drupal.org",gender:"Agender",ip_address:"221.18.21.235"},
-	    {id:12,first_name:"Wain",last_name:"Ferrand",email:"wferrandb@mtv.com",gender:"Male",ip_address:"122.1.62.7"},
-	    {id:13,first_name:"Edmund",last_name:"Blasetti",email:"eblasettic@drupal.org",gender:"Male",ip_address:"9.249.190.250"},
-	    {id:14,first_name:"Ketty",last_name:"Faithfull",email:"kfaithfulld@studiopress.com",gender:"Female",ip_address:"173.66.98.165"},
-	    {id:15,first_name:"Giulio",last_name:"Monier",email:"gmoniere@ed.gov",gender:"Male",ip_address:"106.233.94.4"},
-	    {id:16,first_name:"Jeffy",last_name:"Ditt",email:"jdittf@irs.gov",gender:"Agender",ip_address:"213.121.250.127"},
-	    {id:17,first_name:"Ainsley",last_name:"Lowin",email:"alowing@businessinsider.com",gender:"Female",ip_address:"223.185.164.31"},
-	    {id:18,first_name:"Germana",last_name:"Downing",email:"gdowningh@dion.ne.jp",gender:"Female",ip_address:"55.83.134.58"},
-	    {id:19,first_name:"Kizzie",last_name:"Pyzer",email:"kpyzeri@google.com.br",gender:"Female",ip_address:"84.92.93.248"},
-	    {id:20,first_name:"Almire",last_name:"Slinn",email:"aslinnj@wiley.com",gender:"Female",ip_address:"195.56.102.224"},
+      {
+        id: 1,
+        first_name: "Antonella",
+        last_name: "Bellefonte",
+        email: "abellefonte0@nba.com",
+        gender: "Female",
+        ip_address: "193.108.174.118"
+      },
+      {id:2,first_name:"Wash",last_name:"Carnson",email:"wcarnson1@jalbum.net",gender:"Male",ip_address:"255.169.128.60"},
+      {id:3,first_name:"Betteanne",last_name:"Cowgill",email:"bcowgill2@timesonline.co.uk",gender:"Female",ip_address:"235.237.3.233", disabled: true},
+      {id:4,first_name:"Lilith",last_name:"Astbury",email:"lastbury3@shinystat.com",gender:"Female",ip_address:"46.41.60.65"},
+      {id:5,first_name:"Nikos",last_name:"Vasenkov",email:"nvasenkov4@slate.com",gender:"Male",ip_address:"13.95.130.24"},
+      {id:6,first_name:"Drucill",last_name:"Runciman",email:"drunciman5@hc360.com",gender:"Female",ip_address:"185.192.50.41"},
+      {id:7,first_name:"Gaspar",last_name:"Falls",email:"gfalls6@howstuffworks.com",gender:"Male",ip_address:"107.51.243.94"},
+      {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
+      {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
+      {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
     ],
     stickyHeader:true
   }} argTypes={{
@@ -160,9 +142,206 @@ Table is a component to visualize a data set in rows and columns. It needs to be
   </Story>
 </Canvas>
 
+
+# Row Selection
+
+To enable single row selection, set the `selectable` attribute on `<bl-table>`. This allows users to select a single row at a time. Listen for the `@bl-table-row-select` event to handle row selection changes. This event provides details about the selected row, enabling actions or updates based on the user's selection.
+
+<Canvas>
+  <Story name="Row Selection" args={{
+    selectable: true,
+    multiple: false,
+    sortable: false,
+    stickyFirstColumn: false,
+    stickyLastColumn: false,
+    headers: [
+      {key: "id", sortKey: "id", text: "ID", minWidth: '100px', sticky:'left'},
+      {key: "first_name", sortKey: "first_name", text: "First Name", minWidth: "200px"},
+      {key: "last_name", sortKey: "last_name", text: "Last Name", minWidth: "200px"},
+      {key: "email", text: "Email", minWidth: "250px"},
+      {key: "gender", text: "Gender", minWidth: '200px'},
+      {key: "ip_address", text: "IP Address", width: '90px', sticky: 'right'},
+    ],
+    selectValue: [],
+    data: [
+      {
+        id: 1,
+        first_name: "Antonella",
+        last_name: "Bellefonte",
+        email: "abellefonte0@nba.com",
+        gender: "Female",
+        ip_address: "193.108.174.118"
+      },
+      {id:2,first_name:"Wash",last_name:"Carnson",email:"wcarnson1@jalbum.net",gender:"Male",ip_address:"255.169.128.60"},
+      {id:3,first_name:"Betteanne",last_name:"Cowgill",email:"bcowgill2@timesonline.co.uk",gender:"Female",ip_address:"235.237.3.233", disabled: true},
+      {id:4,first_name:"Lilith",last_name:"Astbury",email:"lastbury3@shinystat.com",gender:"Female",ip_address:"46.41.60.65"},
+      {id:5,first_name:"Nikos",last_name:"Vasenkov",email:"nvasenkov4@slate.com",gender:"Male",ip_address:"13.95.130.24"},
+      {id:6,first_name:"Drucill",last_name:"Runciman",email:"drunciman5@hc360.com",gender:"Female",ip_address:"185.192.50.41"},
+      {id:7,first_name:"Gaspar",last_name:"Falls",email:"gfalls6@howstuffworks.com",gender:"Male",ip_address:"107.51.243.94"},
+      {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
+      {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
+      {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
+    ],
+    stickyHeader:false
+  }} argTypes={{
+    headers: {table: {disable: true}},
+    data: {table: {disable: true}},
+    rows: {table: {disable: true}}
+  }}>
+    {TableTemplate.bind({})}
+  </Story>
+</Canvas>
+
+# Multiple Row Selection
+
+To enable multiple row selection, set both `selectable` and `multiple` attributes on `<bl-table>`. This modification allows users to select more than one row simultaneously. The `@bl-table-row-select` event is also used here to handle changes in row selection, providing details about all selected rows.
+
+<Canvas>
+  <Story name="Multiple Row Selection" args={{
+    selectable: true,
+    multiple: true,
+    sortable: false,
+    stickyFirstColumn: false,
+    stickyLastColumn: false,
+    headers: [
+      {key: "id", sortKey: "id", text: "ID", minWidth: '100px', sticky:'left'},
+      {key: "first_name", sortKey: "first_name", text: "First Name", minWidth: "200px"},
+      {key: "last_name", sortKey: "last_name", text: "Last Name", minWidth: "200px"},
+      {key: "email", text: "Email", minWidth: "250px"},
+      {key: "gender", text: "Gender", minWidth: '200px'},
+      {key: "ip_address", text: "IP Address", width: '90px', sticky: 'right'},
+    ],
+    selectValue: [],
+    data: [
+      {
+        id: 1,
+        first_name: "Antonella",
+        last_name: "Bellefonte",
+        email: "abellefonte0@nba.com",
+        gender: "Female",
+        ip_address: "193.108.174.118"
+      },
+      {id:2,first_name:"Wash",last_name:"Carnson",email:"wcarnson1@jalbum.net",gender:"Male",ip_address:"255.169.128.60"},
+      {id:3,first_name:"Betteanne",last_name:"Cowgill",email:"bcowgill2@timesonline.co.uk",gender:"Female",ip_address:"235.237.3.233", disabled: true},
+      {id:4,first_name:"Lilith",last_name:"Astbury",email:"lastbury3@shinystat.com",gender:"Female",ip_address:"46.41.60.65"},
+      {id:5,first_name:"Nikos",last_name:"Vasenkov",email:"nvasenkov4@slate.com",gender:"Male",ip_address:"13.95.130.24"},
+      {id:6,first_name:"Drucill",last_name:"Runciman",email:"drunciman5@hc360.com",gender:"Female",ip_address:"185.192.50.41"},
+      {id:7,first_name:"Gaspar",last_name:"Falls",email:"gfalls6@howstuffworks.com",gender:"Male",ip_address:"107.51.243.94"},
+      {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
+      {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
+      {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
+    ],
+    stickyHeader:false
+  }} argTypes={{
+    headers: {table: {disable: true}},
+    data: {table: {disable: true}},
+    rows: {table: {disable: true}}
+  }}>
+    {TableTemplate.bind({})}
+  </Story>
+</Canvas>
+
+# Default Selected Value
+
+To pre-select a row or rows upon initialization, provide the select-value attribute with the ID(s) of the row(s) to be selected by default. This is useful for situations where certain rows need to be highlighted as selected when the table is first rendered.
+
+<Canvas>
+  <Story name="Default Selected Value" args={{
+    selectable: true,
+    multiple: true,
+    sortable: false,
+    stickyFirstColumn: false,
+    stickyLastColumn: false,
+    selectValue: ["row-1","row-4"],
+    headers: [
+      {key: "id", sortKey: "id", text: "ID", minWidth: '100px', sticky:'left'},
+      {key: "first_name", sortKey: "first_name", text: "First Name", minWidth: "200px"},
+      {key: "last_name", sortKey: "last_name", text: "Last Name", minWidth: "200px"},
+      {key: "email", text: "Email", minWidth: "250px"},
+      {key: "gender", text: "Gender", minWidth: '200px'},
+      {key: "ip_address", text: "IP Address", width: '90px', sticky: 'right'},
+    ],
+    data: [
+      {
+        id: 1,
+        first_name: "Antonella",
+        last_name: "Bellefonte",
+        email: "abellefonte0@nba.com",
+        gender: "Female",
+        ip_address: "193.108.174.118"
+      },
+      {id:2,first_name:"Wash",last_name:"Carnson",email:"wcarnson1@jalbum.net",gender:"Male",ip_address:"255.169.128.60"},
+      {id:3,first_name:"Betteanne",last_name:"Cowgill",email:"bcowgill2@timesonline.co.uk",gender:"Female",ip_address:"235.237.3.233", disabled: true},
+      {id:4,first_name:"Lilith",last_name:"Astbury",email:"lastbury3@shinystat.com",gender:"Female",ip_address:"46.41.60.65"},
+      {id:5,first_name:"Nikos",last_name:"Vasenkov",email:"nvasenkov4@slate.com",gender:"Male",ip_address:"13.95.130.24"},
+      {id:6,first_name:"Drucill",last_name:"Runciman",email:"drunciman5@hc360.com",gender:"Female",ip_address:"185.192.50.41"},
+      {id:7,first_name:"Gaspar",last_name:"Falls",email:"gfalls6@howstuffworks.com",gender:"Male",ip_address:"107.51.243.94"},
+      {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
+      {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
+      {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
+    ],
+    stickyHeader:false
+  }} argTypes={{
+    headers: {table: {disable: true}},
+    data: {table: {disable: true}},
+    rows: {table: {disable: true}}
+  }}>
+    {TableTemplate.bind({})}
+  </Story>
+</Canvas>
+
+# Sortable
+
+To enable sorting functionality on a column, assign `sortable`, `sort-key`, and optionally `sort-direction` attributes to `<bl-table-header-cell>`. The sort-key should correspond to the data field associated with the column, and sort-direction can be set to asc or desc to control the initial sorting direction.
+
+<Canvas>
+  <Story name="Sortable" args={{
+    selectable: false,
+    multiple: false,
+    sortable: true,
+    stickyFirstColumn: false,
+    stickyLastColumn: false,
+    headers: [
+      {key: "id", sortKey: "id", text: "ID", minWidth: '60px', sticky:'left'},
+      {key: "first_name", sortKey: "first_name", text: "First Name", minWidth: "200px"},
+      {key: "last_name", sortKey: "last_name", text: "Last Name", minWidth: "200px"},
+      {key: "email", text: "Email", minWidth: "250px"},
+      {key: "gender", text: "Gender", minWidth: '100px'},
+      {key: "ip_address", text: "IP Address", width: '90px', sticky: 'right'},
+    ],
+    selectValue: [],
+   data: [
+      {
+        id: 1,
+        first_name: "Antonella",
+        last_name: "Bellefonte",
+        email: "abellefonte0@nba.com",
+        gender: "Female",
+        ip_address: "193.108.174.118"
+      },
+      {id:2,first_name:"Wash",last_name:"Carnson",email:"wcarnson1@jalbum.net",gender:"Male",ip_address:"255.169.128.60"},
+      {id:3,first_name:"Betteanne",last_name:"Cowgill",email:"bcowgill2@timesonline.co.uk",gender:"Female",ip_address:"235.237.3.233", disabled: true},
+      {id:4,first_name:"Lilith",last_name:"Astbury",email:"lastbury3@shinystat.com",gender:"Female",ip_address:"46.41.60.65"},
+      {id:5,first_name:"Nikos",last_name:"Vasenkov",email:"nvasenkov4@slate.com",gender:"Male",ip_address:"13.95.130.24"},
+      {id:6,first_name:"Drucill",last_name:"Runciman",email:"drunciman5@hc360.com",gender:"Female",ip_address:"185.192.50.41"},
+      {id:7,first_name:"Gaspar",last_name:"Falls",email:"gfalls6@howstuffworks.com",gender:"Male",ip_address:"107.51.243.94"},
+      {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
+      {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
+      {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
+    ],
+    stickyHeader:true,
+  }} argTypes={{
+    headers: {table: {disable: true}},
+    data: {table: {disable: true}},
+    rows: {table: {disable: true}}
+  }}>
+    {TableTemplate.bind({})}
+  </Story>
+</Canvas>
+
 # Default Sorted Column
 
-To be able to make a column to sorted, you should give `sortable`, `sort-key`, `sort-direction` attributes to `bl-table`.
+To set a column as the default sorted column when the table loads, specify the `sort-key` and `sort-direction` on `<bl-table> `to match the desired column and direction. This sets the initial sort state for the table.
 
 <Canvas>
   <Story name="Default Sorted Column" args={{
@@ -198,19 +377,9 @@ To be able to make a column to sorted, you should give `sortable`, `sort-key`, `
       {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
       {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
       {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
-      {id:11,first_name:"Marjy",last_name:"Makinson",email:"mmakinsona@drupal.org",gender:"Agender",ip_address:"221.18.21.235"},
-      {id:12,first_name:"Wain",last_name:"Ferrand",email:"wferrandb@mtv.com",gender:"Male",ip_address:"122.1.62.7"},
-      {id:13,first_name:"Edmund",last_name:"Blasetti",email:"eblasettic@drupal.org",gender:"Male",ip_address:"9.249.190.250"},
-      {id:14,first_name:"Ketty",last_name:"Faithfull",email:"kfaithfulld@studiopress.com",gender:"Female",ip_address:"173.66.98.165"},
-      {id:15,first_name:"Giulio",last_name:"Monier",email:"gmoniere@ed.gov",gender:"Male",ip_address:"106.233.94.4"},
-      {id:16,first_name:"Jeffy",last_name:"Ditt",email:"jdittf@irs.gov",gender:"Agender",ip_address:"213.121.250.127"},
-      {id:17,first_name:"Ainsley",last_name:"Lowin",email:"alowing@businessinsider.com",gender:"Female",ip_address:"223.185.164.31"},
-      {id:18,first_name:"Germana",last_name:"Downing",email:"gdowningh@dion.ne.jp",gender:"Female",ip_address:"55.83.134.58"},
-      {id:19,first_name:"Kizzie",last_name:"Pyzer",email:"kpyzeri@google.com.br",gender:"Female",ip_address:"84.92.93.248"},
-      {id:20,first_name:"Almire",last_name:"Slinn",email:"aslinnj@wiley.com",gender:"Female",ip_address:"195.56.102.224"},
     ],
     stickyHeader:true,
-    sortKey: 'id',
+    sortKey: 'first_name',
     sortDirection: 'asc'
   }} argTypes={{
     headers: {table: {disable: true}},
@@ -223,7 +392,7 @@ To be able to make a column to sorted, you should give `sortable`, `sort-key`, `
 
 # Sticky Header
 
-To be able to make sticky to header of table, you should give `sticky` attribute to `bl-table-header`.
+To make the table header sticky, meaning it stays at the top of the table viewport as the user scrolls, use the `?sticky` attribute on `<bl-table-header>`.
 
 <Canvas>
   <Story name="Sticky Header" args={{
@@ -259,16 +428,6 @@ To be able to make sticky to header of table, you should give `sticky` attribute
       {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
       {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
       {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
-      {id:11,first_name:"Marjy",last_name:"Makinson",email:"mmakinsona@drupal.org",gender:"Agender",ip_address:"221.18.21.235"},
-      {id:12,first_name:"Wain",last_name:"Ferrand",email:"wferrandb@mtv.com",gender:"Male",ip_address:"122.1.62.7"},
-      {id:13,first_name:"Edmund",last_name:"Blasetti",email:"eblasettic@drupal.org",gender:"Male",ip_address:"9.249.190.250"},
-      {id:14,first_name:"Ketty",last_name:"Faithfull",email:"kfaithfulld@studiopress.com",gender:"Female",ip_address:"173.66.98.165"},
-      {id:15,first_name:"Giulio",last_name:"Monier",email:"gmoniere@ed.gov",gender:"Male",ip_address:"106.233.94.4"},
-      {id:16,first_name:"Jeffy",last_name:"Ditt",email:"jdittf@irs.gov",gender:"Agender",ip_address:"213.121.250.127"},
-      {id:17,first_name:"Ainsley",last_name:"Lowin",email:"alowing@businessinsider.com",gender:"Female",ip_address:"223.185.164.31"},
-      {id:18,first_name:"Germana",last_name:"Downing",email:"gdowningh@dion.ne.jp",gender:"Female",ip_address:"55.83.134.58"},
-      {id:19,first_name:"Kizzie",last_name:"Pyzer",email:"kpyzeri@google.com.br",gender:"Female",ip_address:"84.92.93.248"},
-      {id:20,first_name:"Almire",last_name:"Slinn",email:"aslinnj@wiley.com",gender:"Female",ip_address:"195.56.102.224"},
     ],
     stickyHeader:true
   }} argTypes={{
@@ -282,7 +441,7 @@ To be able to make sticky to header of table, you should give `sticky` attribute
 
 # Sticky First Column
 
-To be able to make sticky to first column of table, you should give `sticky-first-column` attribute to `bl-table`.
+To make the first column of the table sticky, meaning it stays visible at the left side of the table viewport as the user scrolls horizontally, use the `?sticky-first-column` attribute on `<bl-table>`.
 
 <Canvas>
   <Story name="Sticky First Column" args={{
@@ -318,16 +477,6 @@ To be able to make sticky to first column of table, you should give `sticky-firs
       {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
       {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
       {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
-      {id:11,first_name:"Marjy",last_name:"Makinson",email:"mmakinsona@drupal.org",gender:"Agender",ip_address:"221.18.21.235"},
-      {id:12,first_name:"Wain",last_name:"Ferrand",email:"wferrandb@mtv.com",gender:"Male",ip_address:"122.1.62.7"},
-      {id:13,first_name:"Edmund",last_name:"Blasetti",email:"eblasettic@drupal.org",gender:"Male",ip_address:"9.249.190.250"},
-      {id:14,first_name:"Ketty",last_name:"Faithfull",email:"kfaithfulld@studiopress.com",gender:"Female",ip_address:"173.66.98.165"},
-      {id:15,first_name:"Giulio",last_name:"Monier",email:"gmoniere@ed.gov",gender:"Male",ip_address:"106.233.94.4"},
-      {id:16,first_name:"Jeffy",last_name:"Ditt",email:"jdittf@irs.gov",gender:"Agender",ip_address:"213.121.250.127"},
-      {id:17,first_name:"Ainsley",last_name:"Lowin",email:"alowing@businessinsider.com",gender:"Female",ip_address:"223.185.164.31"},
-      {id:18,first_name:"Germana",last_name:"Downing",email:"gdowningh@dion.ne.jp",gender:"Female",ip_address:"55.83.134.58"},
-      {id:19,first_name:"Kizzie",last_name:"Pyzer",email:"kpyzeri@google.com.br",gender:"Female",ip_address:"84.92.93.248"},
-      {id:20,first_name:"Almire",last_name:"Slinn",email:"aslinnj@wiley.com",gender:"Female",ip_address:"195.56.102.224"},
     ],
     stickyHeader:false
   }} argTypes={{
@@ -341,8 +490,7 @@ To be able to make sticky to first column of table, you should give `sticky-firs
 
 # Sticky Last Column
 
-To be able to make sticky to last column of table, you should give `sticky-last-column` attribute to `bl-table`.
-
+Similar to the sticky first column, to make the last column of the table sticky, meaning it stays visible at the right side of the table viewport as the user scrolls horizontally, use the `?sticky-last-column` attribute on `<bl-table>`.
 <Canvas>
   <Story name="Sticky Last Column" args={{
     selectable: false,
@@ -359,7 +507,7 @@ To be able to make sticky to last column of table, you should give `sticky-last-
       {key: "ip_address", text: "IP Address", width: '90px', sticky: 'right'},
     ],
     selectValue: [],
-    data: [
+   data: [
       {
         id: 1,
         first_name: "Antonella",
@@ -377,16 +525,6 @@ To be able to make sticky to last column of table, you should give `sticky-last-
       {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
       {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
       {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
-      {id:11,first_name:"Marjy",last_name:"Makinson",email:"mmakinsona@drupal.org",gender:"Agender",ip_address:"221.18.21.235"},
-      {id:12,first_name:"Wain",last_name:"Ferrand",email:"wferrandb@mtv.com",gender:"Male",ip_address:"122.1.62.7"},
-      {id:13,first_name:"Edmund",last_name:"Blasetti",email:"eblasettic@drupal.org",gender:"Male",ip_address:"9.249.190.250"},
-      {id:14,first_name:"Ketty",last_name:"Faithfull",email:"kfaithfulld@studiopress.com",gender:"Female",ip_address:"173.66.98.165"},
-      {id:15,first_name:"Giulio",last_name:"Monier",email:"gmoniere@ed.gov",gender:"Male",ip_address:"106.233.94.4"},
-      {id:16,first_name:"Jeffy",last_name:"Ditt",email:"jdittf@irs.gov",gender:"Agender",ip_address:"213.121.250.127"},
-      {id:17,first_name:"Ainsley",last_name:"Lowin",email:"alowing@businessinsider.com",gender:"Female",ip_address:"223.185.164.31"},
-      {id:18,first_name:"Germana",last_name:"Downing",email:"gdowningh@dion.ne.jp",gender:"Female",ip_address:"55.83.134.58"},
-      {id:19,first_name:"Kizzie",last_name:"Pyzer",email:"kpyzeri@google.com.br",gender:"Female",ip_address:"84.92.93.248"},
-      {id:20,first_name:"Almire",last_name:"Slinn",email:"aslinnj@wiley.com",gender:"Female",ip_address:"195.56.102.224"},
     ],
     stickyHeader:false
   }} argTypes={{
