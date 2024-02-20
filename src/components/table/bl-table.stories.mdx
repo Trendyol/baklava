@@ -152,7 +152,7 @@ Table is a component to visualize a data set in rows and columns. It needs to be
 
 # Row Selection
 
-To enable single row selection, set the `selectable` attribute on `<bl-table>`. This allows users to select a single row at a time. Listen for the `@bl-table-row-select` event to handle row selection changes. This event provides details about the selected row, enabling actions or updates based on the user's selection.
+To enable row selection, set the `selectable` attribute on `<bl-table>`. This allows users to select rows. Listen for the `@bl-table-row-select` event to handle row selection changes. This event provides details about the selected rows, enabling actions or updates based on the user's selection.
 
 <Canvas>
   <Story name="Row Selection" args={{
@@ -201,7 +201,7 @@ To enable single row selection, set the `selectable` attribute on `<bl-table>`. 
 
 # Multiple Row Selection
 
-To enable multiple row selection, set both `selectable` and `multiple` attributes on `<bl-table>`. This modification allows users to select more than one row simultaneously. The `@bl-table-row-select` event is also used here to handle changes in row selection, providing details about all selected rows.
+To enable multiple row selection, set both `selectable` and `multiple` attributes on `<bl-table>`. This modification allows users to select or unselect all rows by using checkbox in header. The `@bl-table-row-select` event is also used here to handle changes in row selection, providing details about all selected rows.
 
 <Canvas>
   <Story name="Multiple Row Selection" args={{
