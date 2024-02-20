@@ -534,31 +534,33 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       @keydown=${this.handleKeydown}
     >
       ${label} ${this.inputTemplate()}
-      <div
-        class="popover"
-        tabindex="${ifDefined(this._isPopoverOpen ? undefined : "-1")}"
-        @bl-select-option=${this._handleSelectOptionEvent}
-        role="listbox"
-        aria-multiselectable="${this.multiple}"
-        aria-labelledby="label"
-      >
-        ${this.selectAllTemplate()}
-        <slot></slot>
-        ${this.searchBar && this.noResultFound
-          ? html`<div name="popover-clear-search-text" class="popover-no-result">
-              <span>${noDataText}</span>
-              <bl-button
-                variant="tertiary"
-                @click=${() => {
-                  this._handleSearchOptions({ target: { value: "" } } as InputEvent & {
-                    target: HTMLInputElement;
-                  });
-                }}
-                >${clearSearchText}</bl-button
-              >
-            </div>`
-          : ""}
-      </div>
+      ${this.options.length > 0
+        ? html` <div
+            class="popover"
+            tabindex="${ifDefined(this._isPopoverOpen ? undefined : "-1")}"
+            @bl-select-option=${this._handleSelectOptionEvent}
+            role="listbox"
+            aria-multiselectable="${this.multiple}"
+            aria-labelledby="label"
+          >
+            ${this.selectAllTemplate()}
+            <slot></slot>
+            ${this.searchBar && this.noResultFound
+              ? html`<div name="popover-clear-search-text" class="popover-no-result">
+                  <span>${noDataText}</span>
+                  <bl-button
+                    variant="tertiary"
+                    @click=${() => {
+                      this._handleSearchOptions({ target: { value: "" } } as InputEvent & {
+                        target: HTMLInputElement;
+                      });
+                    }}
+                    >${clearSearchText}</bl-button
+                  >
+                </div>`
+              : ""}
+          </div>`
+        : ""}
       <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div> `;
   }
