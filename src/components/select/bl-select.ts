@@ -152,7 +152,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Views select all option in multiple select
    */
-  @property({ type: Boolean, attribute: "view-select-all" })
+  @property({ type: Boolean, attribute: "view-select-all", converter: stringBooleanConverter() })
   viewSelectAll = false;
 
   /**
@@ -439,12 +439,15 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           >`
         : ""}
 
-      <div class="actions" @click=${this._togglePopover}>
+      <div class="actions">
         ${this.opened ? (this.searchBarLoadingState ? searchLoadingIcon : searchMagIcon) : ""}
         ${!this.opened ? removeButton : ""} ${actionDivider}
-        <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
-        <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
+        <div @click=${this._togglePopover}>
+          <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
+
+          <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
+        </div>
       </div>
     </fieldset>`;
 
@@ -455,7 +458,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
             "select-input": true,
             "has-overflowed-options": this._additionalSelectedOptionCount > 0,
           })}
-          tabindex="${this.disabled ? "-1" : 0}"
+          tabindex="${ifDefined(this.disabled ? undefined : 0)}"
           ?autofocus=${this.autofocus}
           @click=${this._togglePopover}
           role="button"

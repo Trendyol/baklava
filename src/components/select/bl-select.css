@@ -162,6 +162,10 @@
   text-overflow: ellipsis;
 }
 
+:host([disabled]) .select-input .selected-options {
+  color: var(--bl-color-neutral-light);
+}
+
 .selected-options li {
   display: inline;
   font-size: var(--font-size);
@@ -174,6 +178,10 @@
 
 .select-input:not(.has-overflowed-options) .additional-selection-count {
   display: none;
+}
+
+:host([disabled]) .additional-selection-count {
+  color: var(--bl-color-neutral-light);
 }
 
 :host([disabled]) .selected-options li {
