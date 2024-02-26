@@ -17,8 +17,8 @@ To make the rule more generic, easiest way is ignoring the elements start with `
 To be able to use Baklava via CDN, you should add our default.css and baklava.js at head tag in your index.html file.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/themes/default.css"/>
-<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/baklava.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.0.0/dist/themes/default.css"/>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.0.0/dist/baklava.js"></script>
 ```
 
 ### Via NPM
@@ -29,7 +29,7 @@ then,
 ```js
 @import "@trendyol/baklava/dist/themes/default.css";
 import { setIconPath } from '@trendyol/baklava'
-setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/assets')
+setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.0.0/dist/assets')
 ```
 
 #### Vue2
@@ -51,19 +51,16 @@ Also, you can add ignore rule as compiler options to your webpack or vite.
   For Vite:
 
   ```js
-  plugins: [
-    vue({
-      template: {
-        compilerOptions: {
-          isCustomElement: tag => tag.startsWith('bl-')
+  {
+    plugins: [
+      vue({
+        template: {
+          compilerOptions: {
+            isCustomElement: tag => tag.startsWith('bl-')
+          }
         }
-      }
-    })
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      })
+    ]
   }
 
   ```
@@ -72,18 +69,18 @@ Also, you can add ignore rule as compiler options to your webpack or vite.
 
   ```js
   {
-  test: /\.vue$/,
-  use: {
-    loader: "vue-loader",
-    options: {
-      compilerOptions: {
-        isCustomElement: tag => {
-          return tag === "custom";
+    test: /\.vue$/,
+    use: {
+      loader: "vue-loader",
+      options: {
+        compilerOptions: {
+          isCustomElement: tag => {
+            return tag === "custom";
+          }
         }
       }
     }
   }
-}
 ```
 
 ### TypeScript

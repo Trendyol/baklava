@@ -93,7 +93,29 @@ describe("bl-select", () => {
     expect(el.options.length).to.equal(2);
     expect(el.selectedOptions.length).to.equal(1);
   });
+  it("should render bl-select-option label correctly on bl-select", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select>
+      <bl-select-option selected label="custom-label-1" value="1">Option 1</bl-select-option>
+      <bl-select-option value="2">Option 2</bl-select-option>
+    </bl-select>`);
 
+    const selectedOptions = el.shadowRoot?.querySelector<HTMLUListElement>(".selected-options");
+
+    expect(selectedOptions?.children[0].textContent).to.equal("custom-label-1");
+  });
+  it("should render bl-select-option label(s) correctly on bl-select when select is multiple", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select multiple>
+      <bl-select-option selected label="custom-label-1" value="1">Option 1</bl-select-option>
+      <bl-select-option value="2">Option 2</bl-select-option>
+      <bl-select-option selected value="3">Option 3</bl-select-option>
+      <bl-select-option value="4" label="custom-label-4">Option 4</bl-select-option>
+    </bl-select>`);
+
+    const selectedOptions = el.shadowRoot?.querySelector<HTMLUListElement>(".selected-options");
+
+    expect(selectedOptions?.textContent).contains("custom-label-1");
+    expect(selectedOptions?.textContent).contains("Option 3");
+  });
   it("should open select menu", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
 
@@ -158,7 +180,7 @@ describe("bl-select", () => {
 
     expect(removeAll).to.exist;
     expect(event).to.exist;
-    expect(event.detail).to.eql([]);
+    expect(event.detail).to.eql(null);
     expect(el.options.length).to.equal(2);
     expect(el.selectedOptions.length).to.equal(0);
     expect(el.value).to.null;
@@ -246,7 +268,7 @@ describe("bl-select", () => {
     const event = await oneEvent(el, "bl-select");
 
     expect(event).to.exist;
-    expect(event.detail.length).to.equal(1);
+    expect(event.detail).to.exist;
     expect(el.selectedOptions.length).to.equal(1);
   });
   it("should remove selected item if it is already selected", async () => {
@@ -278,6 +300,119 @@ describe("bl-select", () => {
     const selectOption = el.querySelector<BlSelectOption>("bl-select-option[selected]");
 
     expect(selectOption).is.not.exist;
+  });
+
+  it("should show search input if search-bar attribute is given", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="tr">Turkey</bl-select-option>
+      <bl-select-option value="en">United States of America</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+    expect(searchInput).to.exist;
+  });
+
+  it("should search 'Turkey' when 'turkey' is typed", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="tr">Turkey</bl-select-option>
+      <bl-select-option value="en">United States of America</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+    searchInput?.focus();
+
+    await sendKeys({
+      type: "turkey",
+    });
+
+    el.options.forEach(option => {
+      if (option.innerText === "Turkey") {
+        expect(option.hidden).to.be.false;
+      } else {
+        expect(option.hidden).to.be.true;
+      }
+    });
+  });
+
+  it("should show loading icon when the search loading state is true", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="tr">Turkey</bl-select-option>
+      <bl-select-option value="en">United States of America</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+    searchInput?.focus();
+
+    const loadingIcon = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset bl-icon");
+
+    await sendKeys({
+      type: "turkey",
+    });
+
+    expect(loadingIcon).to.exist;
+  });
+
+  it("should be displayed a 'no result' message  if the searched term does not match with any option", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="tr">Turkey</bl-select-option>
+      <bl-select-option value="en">United States of America</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+    searchInput?.focus();
+
+    await sendKeys({
+      type: "netherlands",
+    });
+
+    const noResultContainer = el.shadowRoot?.querySelector<HTMLInputElement>(".popover .popover-no-result");
+    const noResultMessage = el.shadowRoot?.querySelector<HTMLInputElement>(".popover .popover-no-result span")?.innerText;
+
+
+    el.options.forEach(option => {
+      expect(option.hidden).to.be.true;
+    });
+
+    expect(noResultContainer).to.exist;
+    expect(noResultMessage).to.equal("No Data Found");
+  });
+
+  it("should be cleared the search input if the user click on the clear search button", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="tr">Turkey</bl-select-option>
+      <bl-select-option value="en">United States of America</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+    searchInput?.focus();
+
+    await sendKeys({
+      type: "netherlands",
+    });
+
+    const clearSearchButton = el.shadowRoot?.querySelector<BlButton>(".popover .popover-no-result bl-button");
+
+    clearSearchButton?.click();
+
+    setTimeout(() => expect(searchInput?.value).to.equal(""));
+  });
+
+  it("should focus if one or more option selected already", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="tr">Turkey</bl-select-option>
+      <bl-select-option value="en">United States of America</bl-select-option>
+    </bl-select>`);
+
+    const dropdownIcon = el.shadowRoot?.querySelector<HTMLDivElement>(".dropdown-icon");
+
+    dropdownIcon?.click();
+
+    await(()=> expect(document.activeElement).to.equal(el));
   });
 
   describe("additional selection counter", () => {
@@ -459,6 +594,25 @@ describe("bl-select", () => {
 
       // then
       expect(document.activeElement).to.not.equal(blSelect);
+    });
+
+
+    it("should not open popover if it is disabled", async () => {
+      // if it is disabled, it should not open popover and return from function
+      blSelect.disabled = true;
+
+      // given
+
+      await sendKeys({
+        press: tabKey,
+      });
+
+      await sendKeys({
+        press: "Space",
+      });
+
+      // then
+      expect(blSelect.opened).to.equal(false);
     });
 
     ["Space", "Enter", "ArrowDown", "ArrowUp"].forEach(keyCode => {
@@ -649,5 +803,29 @@ describe("bl-select", () => {
       expect(selectAll.indeterminate).to.be.false;
       expect(selectAll.checked).to.be.false;
     });
-   });
+  });
+
+  describe("events", () => {
+    it("should fire search event when 'turkey' is typed", async () => {
+        const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="tr">Turkey</bl-select-option>
+      <bl-select-option value="en">United States of America</bl-select-option>
+    </bl-select>`);
+
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+      if (searchInput) {
+        searchInput.focus();
+
+        searchInput.value = "turkey";
+      }
+
+      setTimeout(() => searchInput?.dispatchEvent(new Event("input")));
+
+      const event = await oneEvent(el, "bl-search");
+
+      expect(event).to.exist;
+      expect(event.detail).to.equal("turkey");
+    });
+  });
 });

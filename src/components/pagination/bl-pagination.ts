@@ -1,6 +1,7 @@
 import { CSSResultGroup, html, LitElement, TemplateResult, PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { localized, msg } from "@lit/localize";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import "../input/bl-input";
@@ -13,6 +14,7 @@ import style from "./bl-pagination.css";
  */
 
 @customElement("bl-pagination")
+@localized()
 export default class BlPagination extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
@@ -46,7 +48,7 @@ export default class BlPagination extends LitElement {
    * Sets the jumper label
    */
   @property({ attribute: "jumper-label", type: String })
-  jumperLabel = "Go To";
+  jumperLabel?: string;
 
   /**
    *  Adds select element to choose the items per page
@@ -58,7 +60,7 @@ export default class BlPagination extends LitElement {
    *  Adds select element to choose the items per page
    */
   @property({ attribute: "select-label", type: String })
-  selectLabel = "Show";
+  selectLabel?: string;
 
   /**
    * Sets the items per page options of the select element
@@ -181,7 +183,7 @@ export default class BlPagination extends LitElement {
   }
 
   private _selectHandler(event: CustomEvent) {
-    this.itemsPerPage = +event?.detail[0]?.value || 100;
+    this.itemsPerPage = +event?.detail?.value || 100;
     this._changePage(1);
   }
 
@@ -235,10 +237,13 @@ export default class BlPagination extends LitElement {
   }
 
   render(): TemplateResult {
+    const jumperText = this.jumperLabel ?? msg("Go to", { desc: "bl-pagination: jumper text" });
+    const selectText = this.selectLabel ?? msg("Show", { desc: "bl-pagination: listing text" });
+
     const selectEl = this.hasSelect
       ? html`
           <div class="select">
-            <label>${this.selectLabel}</label>
+            <label>${selectText}</label>
             <bl-select @bl-select="${this._selectHandler}" .value=${this.itemsPerPage} required>
               ${this.itemsPerPageOptions.map(option => {
                 return html`<bl-select-option .value=${option.value}
@@ -252,7 +257,7 @@ export default class BlPagination extends LitElement {
 
     const jumperEl = this.hasJumper
       ? html` <div class="jumper">
-          <label>${this.jumperLabel}</label>
+          <label>${jumperText}</label>
           <bl-input .value="${this.currentPage}" @bl-change="${this._inputHandler}"></bl-input>
         </div>`
       : null;

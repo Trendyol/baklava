@@ -4,8 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { ReferenceElement } from "@floating-ui/core";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../popover/bl-popover";
-import type BlPopover from "../popover/bl-popover";
-import { Placement } from "../popover/bl-popover";
+import BlPopover, { Placement } from "../popover/bl-popover";
 import style from "./bl-tooltip.css";
 
 /**
@@ -22,7 +21,7 @@ export default class BlTooltip extends LitElement {
   }
 
   @query(".trigger") private trigger: ReferenceElement;
-  @query("bl-popover") private popover: BlPopover;
+  @query("bl-popover") private _popover: BlPopover;
 
   /**
    * Sets placement of the tooltip
@@ -44,8 +43,8 @@ export default class BlTooltip extends LitElement {
    * Shows tooltip
    */
   show() {
-    this.popover.target = this.trigger;
-    this.popover.show();
+    this._popover.target = this.trigger;
+    this._popover.show();
     this.onShow("");
   }
 
@@ -53,7 +52,7 @@ export default class BlTooltip extends LitElement {
    * Hides tooltip
    */
   hide() {
-    this.popover.hide();
+    this._popover.hide();
     this.onHide("");
   }
 
@@ -61,7 +60,7 @@ export default class BlTooltip extends LitElement {
    * Gives the visibility status of the tooltip
    */
   get visible(): boolean {
-    return this.popover.visible;
+    return this._popover.visible;
   }
 
   private triggerTemplate() {

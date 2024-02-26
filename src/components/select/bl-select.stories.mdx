@@ -89,6 +89,20 @@ export const selectOpener = async ({ canvasElement }) => {
   }
 }
 
+export const SpecialUseCaseTemplate = () => html`<bl-select style="width: 50%" placeholder="Usage with custom bl-select-options">
+  <bl-select-option value="1" label="Custom Label 1">Option 1</bl-select-option>
+  <bl-select-option value="2" label="Option 2">
+    <div style="display: flex; align-items: center; column-gap: 4px;">
+      Option 2
+      <bl-tooltip placement="bottom">
+        <bl-button slot="tooltip-trigger" icon="check_fill" variant="tertiary" kind="success">Recommended</bl-button>
+        Some tooltip text
+      </bl-tooltip>
+    </div>
+  </bl-select-option>
+  <bl-select-option value="3">Option 3</bl-select-option>
+</bl-select>`;
+
 export const SelectTemplate = (args) => html`<bl-select
     label=${ifDefined(args.label)}
     class=${ifDefined(args.class)}
@@ -100,6 +114,9 @@ export const SelectTemplate = (args) => html`<bl-select
     ?success=${args.success}
     ?view-select-all=${args.viewSelectAll}
     select-all-text=${ifDefined(args.selectAllText)}
+    ?search-bar=${args.searchBar}
+    ?search-bar-loading-state=${args.searchBarLoadingState}
+    search-bar-placeholder=${ifDefined(args.searchBarPlaceholder)}
     size=${ifDefined(args.size)}
     help-text=${ifDefined(args.helpText)}
     invalid-text=${ifDefined(args.customInvalidText)}
@@ -192,6 +209,14 @@ The Select component features a 'Select All' option in the Multiple Select, whic
   </Story>
 </Canvas>
 
+Select all is designed to operate on filtered results as well, selecting only those options that meet the filter.
+
+<Canvas>
+  <Story name="Searchable with Select All" args={{ searchBar: true, searchBarPlaceholder: 'Search your options', multiple: true, viewSelectAll: true }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
 ## Clear Button
 
 The select component includes a clear button. Clear button can be displayed by passing `clearable` attribute to the Select component.
@@ -246,6 +271,40 @@ Select component can be disabled by using `disabled` attribute.
   </Story>
   <Story name="Disabled Select with initial value" args={{ placeholder: "Choose country", value: 'nl', disabled: true }}>
     {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Searchable
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/265#issuecomment-1845414216)</bl-badge>
+
+Select component can be searchable by using `search-bar` attribute.
+
+Display a loading icon in place of the search icon with using `search-bar-loading-state` attribute, seamlessly integrating it with your API endpoint to provide a smooth user experience during data retrieval.
+
+<Canvas>
+  <Story name="Searchable" args={{ searchBar: true, searchBarPlaceholder: 'Search your options' }}>
+    {SelectTemplate.bind({})}
+  </Story>
+
+  <Story name="Searchable with Multiple Option" args={{ searchBar: true,  searchBarPlaceholder: 'Search your options', multiple: true, viewSelectAll: true }}>
+    {SelectTemplate.bind({})}
+  </Story>
+
+  <Story name="Searchable with Loading State" args={{ searchBar: true, searchBarPlaceholder: 'Search your options', multiple: true, searchBarLoadingState: true }}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Special Use Cases
+
+Select component can render a custom option label if `bl-select-option` has a `label` attribute.
+
+This is useful when you want to show a custom label for an option inside a `bl-select`, but you want to show original content inside the option itself.
+
+<Canvas>
+  <Story name="Special Use Cases">
+    {SpecialUseCaseTemplate.bind({})}
   </Story>
 </Canvas>
 
