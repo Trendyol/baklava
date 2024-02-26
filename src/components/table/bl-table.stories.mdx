@@ -56,7 +56,7 @@ export const TableTemplate = (args, {id}) => {
 	return html`
       <div style="height: 400px;">
           <bl-table
-                  selected-values=${JSON.stringify(selectValue)}
+                  selected=${JSON.stringify(selectValue)}
                   ?selectable=${args.selectable}
                   ?multiple=${args.multiple}
                   ?sortable=${args.sortable}
@@ -250,7 +250,7 @@ To enable multiple row selection, set both `selectable` and `multiple` attribute
 
 # Default Selected Value
 
-To pre-select a row or rows upon initialization, provide the selected-values attribute with the ID(s) of the row(s) to be selected by default. This is useful for situations where certain rows need to be highlighted as selected when the table is first rendered.
+To pre-select a row or rows upon initialization, provide the `selected` attribute with the ID(s) of the row(s) to be selected by default. This is useful for situations where certain rows need to be highlighted as selected when the table is first rendered.
 
 <Canvas>
   <Story name="Default Selected Value" args={{

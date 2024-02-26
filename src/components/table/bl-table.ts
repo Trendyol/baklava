@@ -28,11 +28,11 @@ export default class BlTable extends LitElement {
   /**
    * Selected table row selection key list
    */
-  @property({ type: Array, reflect: true, attribute: "selected-values" })
-  get selectedValues(): string[] {
+  @property({ type: Array, reflect: true, attribute: "selected" })
+  get selected(): string[] {
     return this._selectedValues;
   }
-  set selectedValues(value: string[]) {
+  set selected(value: string[]) {
     this._selectedValues = value;
     this.updateComplete.then(() => {
       this.querySelectorAll("bl-table-header-cell,bl-table-cell,bl-table-row").forEach(com => {
@@ -146,12 +146,12 @@ export default class BlTable extends LitElement {
   }
 
   isRowSelected(selectionKey: string) {
-    return this.selectedValues.includes(selectionKey);
+    return this.selected.includes(selectionKey);
   }
 
   isAllSelected() {
     return Array.from(this.tableRows).every(tr =>
-      this.selectedValues.includes((tr as BlTableRow).selectionKey)
+      this.selected.includes((tr as BlTableRow).selectionKey)
     );
   }
 
@@ -160,13 +160,13 @@ export default class BlTable extends LitElement {
       !this.isAllSelected() &&
       Array.from(this.tableRows)
         .filter(tr => !(tr as BlTableRow).disabled)
-        .some(tr => this.selectedValues.includes((tr as BlTableRow).selectionKey))
+        .some(tr => this.selected.includes((tr as BlTableRow).selectionKey))
     );
   }
 
   isAllUnselectedDisabled() {
     return Array.from(this.tableRows)
-      .filter(tr => !this.selectedValues.includes((tr as BlTableRow).selectionKey))
+      .filter(tr => !this.selected.includes((tr as BlTableRow).selectionKey))
       .every(tr => (tr as BlTableRow).disabled);
   }
 
@@ -191,7 +191,7 @@ export default class BlTable extends LitElement {
    * @param isSelected - The selection state.
    */
   private handleHeaderSelection(isSelected: boolean) {
-    this.selectedValues = isSelected ? this.getSelectedValuesFromRows() : [];
+    this.selected = isSelected ? this.getSelectedValuesFromRows() : [];
   }
 
   /**
@@ -211,7 +211,7 @@ export default class BlTable extends LitElement {
    * Notifies about the row selection change.
    */
   private notifyRowSelectionChange() {
-    this.onRowSelect(this.selectedValues);
+    this.onRowSelect(this.selected);
   }
 
   /**
@@ -219,8 +219,8 @@ export default class BlTable extends LitElement {
    * @param selectionKey - The key to add.
    */
   private addSelection(selectionKey: string) {
-    if (!this.selectedValues.includes(selectionKey)) {
-      this.selectedValues.push(selectionKey);
+    if (!this.selected.includes(selectionKey)) {
+      this.selected.push(selectionKey);
     }
   }
 
@@ -229,7 +229,7 @@ export default class BlTable extends LitElement {
    * @param selectionKey - The key to remove.
    */
   private removeSelection(selectionKey: string) {
-    this.selectedValues = this.selectedValues.filter(value => value !== selectionKey);
+    this.selected = this.selected.filter(value => value !== selectionKey);
   }
 
   /**

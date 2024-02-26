@@ -346,7 +346,7 @@ describe("bl-table", () => {
     //when
     const el = await fixture<BlTable>(
       html`
-        <bl-table selectable selected-values="['row-1']">
+        <bl-table selectable .selected=${["row-1"]}>
           <bl-table-header >
             <bl-table-row>
               <bl-table-header-cell>
@@ -968,7 +968,7 @@ describe("bl-table", () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table
-              selected-values="${JSON.stringify(["row-1","row-3"])}"
+              .selected=${["row-1","row-3"]}
                 selectable
                 multiple
             >
@@ -1080,7 +1080,7 @@ describe("bl-table", () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table
-                selected-values="${JSON.stringify(["row-1", "row-2"])}"
+                .selected=${["row-1", "row-2"]}
                 selectable
                 multiple
             >
@@ -1263,7 +1263,7 @@ describe("bl-table", () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table
-                selected-values="${JSON.stringify(["row-1", "row-2"])}"
+                .selected=${["row-1", "row-2"]}
                 selectable
                 multiple
             >
