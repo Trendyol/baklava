@@ -5,6 +5,7 @@ import "../../checkbox-group/checkbox/bl-checkbox";
 import BlCheckbox from "../../checkbox-group/checkbox/bl-checkbox";
 import "../../icon/bl-icon";
 import { BaklavaIcon } from "../../icon/icon-list";
+import { SortDirection } from "../bl-table";
 import type BlTableRow from "../table-row/bl-table-row";
 import { blTableRowTag } from "../table-row/bl-table-row";
 import style from "./bl-table-header-cell.css";
@@ -115,7 +116,7 @@ export default class BlTableHeaderCell extends LitElement {
   }
 
   onSort() {
-    let _sortDirection = "asc";
+    let _sortDirection: SortDirection = "asc";
 
     if (this.sortDirection === "asc") {
       _sortDirection = "desc";

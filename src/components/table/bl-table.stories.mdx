@@ -56,7 +56,7 @@ export const TableTemplate = (args, {id}) => {
 	return html`
       <div style="height: 400px;">
           <bl-table
-                  select-value=${JSON.stringify(selectValue)}
+                  selected-values=${JSON.stringify(selectValue)}
                   ?selectable=${args.selectable}
                   ?multiple=${args.multiple}
                   ?sortable=${args.sortable}
@@ -64,8 +64,8 @@ export const TableTemplate = (args, {id}) => {
                   ?sticky-last-column=${args.stickyLastColumn}
                   sort-key='${args.sortKey}'
                   sort-direction='${args.sortDirection}'
-                  @bl-table-sort=${onSort}
-                  @bl-table-row-select=${onRowSelect}
+                  @bl-sort=${onSort}
+                  @bl-row-select=${onRowSelect}
           >
               <bl-table-header ?sticky=${args.stickyHeader}>
                   <bl-table-row>
@@ -91,7 +91,7 @@ export const TableTemplate = (args, {id}) => {
               <bl-table-body>${tableData.map((row) =>
 										html`<bl-table-row selection-key="row-${row.id}">
 													${headers.map((header, col_idx) =>
-															html`<bl-table-cell ?disable-selection=${col_idx === 0 && row.disabled}> ${row[header.key]}</bl-table-cell>`
+															html`<bl-table-cell ?disabled=${col_idx === 0 && row.disabled}> ${row[header.key]}</bl-table-cell>`
 													)}
                         </bl-table-row>`
 								)}</bl-table-body>
@@ -152,7 +152,7 @@ Table is a component to visualize a data set in rows and columns. It needs to be
 
 # Row Selection
 
-To enable row selection, set the `selectable` attribute on `<bl-table>`. This allows users to select rows. Listen for the `@bl-table-row-select` event to handle row selection changes. This event provides details about the selected rows, enabling actions or updates based on the user's selection.
+To enable row selection, set the `selectable` attribute on `<bl-table>`. This allows users to select rows. Listen for the `@bl-row-select` event to handle row selection changes. This event provides details about the selected rows, enabling actions or updates based on the user's selection.
 
 <Canvas>
   <Story name="Row Selection" args={{
@@ -201,7 +201,7 @@ To enable row selection, set the `selectable` attribute on `<bl-table>`. This al
 
 # Multiple Row Selection
 
-To enable multiple row selection, set both `selectable` and `multiple` attributes on `<bl-table>`. This modification allows users to select or unselect all rows by using checkbox in header. The `@bl-table-row-select` event is also used here to handle changes in row selection, providing details about all selected rows.
+To enable multiple row selection, set both `selectable` and `multiple` attributes on `<bl-table>`. This modification allows users to select or unselect all rows by using checkbox in header. The `@bl-row-select` event is also used here to handle changes in row selection, providing details about all selected rows.
 
 <Canvas>
   <Story name="Multiple Row Selection" args={{
@@ -250,7 +250,7 @@ To enable multiple row selection, set both `selectable` and `multiple` attribute
 
 # Default Selected Value
 
-To pre-select a row or rows upon initialization, provide the select-value attribute with the ID(s) of the row(s) to be selected by default. This is useful for situations where certain rows need to be highlighted as selected when the table is first rendered.
+To pre-select a row or rows upon initialization, provide the selected-values attribute with the ID(s) of the row(s) to be selected by default. This is useful for situations where certain rows need to be highlighted as selected when the table is first rendered.
 
 <Canvas>
   <Story name="Default Selected Value" args={{

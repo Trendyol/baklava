@@ -1,5 +1,5 @@
 import {expect, fixture, html, oneEvent} from "@open-wc/testing";
-import BlTable from "./bl-table";
+import BlTable, { blRowSelectChangeEventName, blSortChangeEventName } from "./bl-table";
 import  "./table-header/bl-table-header";
 import  "./table-cell/bl-table-cell";
 import  "./table-header-cell/bl-table-header-cell";
@@ -346,7 +346,7 @@ describe("bl-table", () => {
     //when
     const el = await fixture<BlTable>(
       html`
-        <bl-table selectable select-value="${JSON.stringify(["row-1"])}">
+        <bl-table selectable selected-values="['row-1']">
           <bl-table-header >
             <bl-table-row>
               <bl-table-header-cell>
@@ -596,7 +596,7 @@ describe("bl-table", () => {
   });
 
   describe("events", () => {
-    it("should fire bl-table-sort event as asc when user click on sortable table header cell that not sorted", async () => {
+    it("should fire bl-sort event as asc when user click on sortable table header cell that not sorted", async () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table sortable>
@@ -644,7 +644,7 @@ describe("bl-table", () => {
                   </bl-table-cell>
                 </bl-table-row>
                 <bl-table-row>
-                  <bl-table-cell disable-selection>
+                  <bl-table-cell disabled>
                     2
                   </bl-table-cell>
                   <bl-table-cell>
@@ -675,13 +675,13 @@ describe("bl-table", () => {
         setTimeout(() => sortIcons?.click());
       }
 
-      const ev = await oneEvent(el, "bl-table-sort");
+      const ev = await oneEvent(el, blSortChangeEventName);
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["id", "asc"]);
     });
 
-    it("should fire bl-table-sort event as desc when user click on sortable table header cell that sorted as asc", async () => {
+    it("should fire bl-sort event as desc when user click on sortable table header cell that sorted as asc", async () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table sortable sort-key="id" sort-direction="asc">
@@ -729,7 +729,7 @@ describe("bl-table", () => {
                   </bl-table-cell>
                 </bl-table-row>
                 <bl-table-row>
-                  <bl-table-cell disable-selection>
+                  <bl-table-cell disabled>
                     2
                   </bl-table-cell>
                   <bl-table-cell>
@@ -760,13 +760,13 @@ describe("bl-table", () => {
         setTimeout(() => sortIcons?.click());
       }
 
-      const ev = await oneEvent(el, "bl-table-sort");
+      const ev = await oneEvent(el, blSortChangeEventName);
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["id", "desc"]);
     });
 
-    it("should fire bl-table-sort event when user click on sortable table header cell that sorted as desc", async () => {
+    it("should fire bl-sort event when user click on sortable table header cell that sorted as desc", async () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table sortable sort-key="id" sort-direction="desc">
@@ -814,7 +814,7 @@ describe("bl-table", () => {
                   </bl-table-cell>
                 </bl-table-row>
                 <bl-table-row>
-                  <bl-table-cell disable-selection>
+                  <bl-table-cell disabled>
                     2
                   </bl-table-cell>
                   <bl-table-cell>
@@ -845,13 +845,13 @@ describe("bl-table", () => {
         setTimeout(() => sortIcons?.click());
       }
 
-      const ev = await oneEvent(el, "bl-table-sort");
+      const ev = await oneEvent(el, blSortChangeEventName);
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["id", ""]);
     });
 
-    it("should fire bl-table-row-select event when user checked on checkbox in header row", async () => {
+    it("should fire bl-row-select event when user checked on checkbox in header row", async () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table
@@ -902,7 +902,7 @@ describe("bl-table", () => {
                   </bl-table-cell>
                 </bl-table-row>
                 <bl-table-row selection-key="row-2">
-                  <bl-table-cell ?disable-selection=${true}>
+                  <bl-table-cell ?disabled=${true}>
                     2
                   </bl-table-cell>
                   <bl-table-cell>
@@ -956,7 +956,7 @@ describe("bl-table", () => {
         setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
       }
 
-      const ev = await oneEvent(el, "bl-table-row-select");
+      const ev = await oneEvent(el, blRowSelectChangeEventName);
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal([
@@ -964,11 +964,11 @@ describe("bl-table", () => {
           "row-3",
       ]);
     });
-    it("should fire bl-table-row-select event with unchecked all rows when user checked on checkbox when all available rows are selected", async () => {
+    it("should fire bl-row-select event with unchecked all rows when user checked on checkbox when all available rows are selected", async () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table
-              select-value="${JSON.stringify(["row-1","row-3"])}"
+              selected-values="${JSON.stringify(["row-1","row-3"])}"
                 selectable
                 multiple
             >
@@ -1016,7 +1016,7 @@ describe("bl-table", () => {
                   </bl-table-cell>
                 </bl-table-row>
                 <bl-table-row selection-key="row-2">
-                  <bl-table-cell ?disable-selection=${true}>
+                  <bl-table-cell ?disabled=${true}>
                     2
                   </bl-table-cell>
                   <bl-table-cell>
@@ -1070,17 +1070,17 @@ describe("bl-table", () => {
         setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
       }
 
-      const ev = await oneEvent(el, "bl-table-row-select");
+      const ev = await oneEvent(el, blRowSelectChangeEventName);
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal([ ]);
     });
 
-    it("should fire bl-table-row-select event when user unchecked on checkbox in header row", async () => {
+    it("should fire bl-row-select event when user unchecked on checkbox in header row", async () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table
-                select-value="${JSON.stringify(["row-1", "row-2"])}"
+                selected-values="${JSON.stringify(["row-1", "row-2"])}"
                 selectable
                 multiple
             >
@@ -1162,13 +1162,13 @@ describe("bl-table", () => {
         setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
       }
 
-      const ev = await oneEvent(el, "bl-table-row-select");
+      const ev = await oneEvent(el, blRowSelectChangeEventName);
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal([]);
     });
 
-    it("should fire bl-table-row-select event when user checked on checkbox in first table row", async () => {
+    it("should fire bl-row-select event when user checked on checkbox in first table row", async () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table
@@ -1253,17 +1253,17 @@ describe("bl-table", () => {
         setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
       }
 
-      const ev = await oneEvent(el, "bl-table-row-select");
+      const ev = await oneEvent(el, blRowSelectChangeEventName);
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["row-1"]);
     });
 
-    it("should fire bl-table-row-select event when user unchecked on checkbox in first table row", async () => {
+    it("should fire bl-row-select event when user unchecked on checkbox in first table row", async () => {
       const el = await fixture<BlTable>(
           html`
             <bl-table
-                select-value="${JSON.stringify(["row-1", "row-2"])}"
+                selected-values="${JSON.stringify(["row-1", "row-2"])}"
                 selectable
                 multiple
             >
@@ -1345,7 +1345,7 @@ describe("bl-table", () => {
         setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
       }
 
-      const ev = await oneEvent(el, "bl-table-row-select");
+      const ev = await oneEvent(el, blRowSelectChangeEventName);
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["row-2"]);

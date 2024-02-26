@@ -9,8 +9,10 @@ import BlTableRow from "./table-row/bl-table-row";
 
 export const blTableTag = "bl-table";
 
-export const blSortChangeEventName = "bl-table-sort";
-export const blRowSelectChangeEventName = "bl-table-row-select";
+export const blSortChangeEventName = "bl-sort";
+export const blRowSelectChangeEventName = "bl-row-select";
+
+export type SortDirection = "asc" | "desc" | "";
 
 /**
  * @tag bl-table
@@ -26,12 +28,12 @@ export default class BlTable extends LitElement {
   /**
    * Selected table row selection key list
    */
-  @property({ type: Array, reflect: true, attribute: "select-value" })
-  get selectValue(): string[] {
-    return this._selectValue;
+  @property({ type: Array, reflect: true, attribute: "selected-values" })
+  get selectedValues(): string[] {
+    return this._selectedValues;
   }
-  set selectValue(value: string[]) {
-    this._selectValue = value;
+  set selectedValues(value: string[]) {
+    this._selectedValues = value;
     this.updateComplete.then(() => {
       this.querySelectorAll("bl-table-header-cell,bl-table-cell,bl-table-row").forEach(com => {
         (com as BlTableHeaderCell | BlTableCell | BlTableRow).requestUpdate();
@@ -82,28 +84,28 @@ export default class BlTable extends LitElement {
    * Sets table sorting direction
    */
   @property({ type: String, reflect: true, attribute: "sort-direction" })
-  get sortDirection(): string {
+  get sortDirection(): SortDirection {
     return this._sortDirection;
   }
-  set sortDirection(value: string) {
+  set sortDirection(value: SortDirection) {
     this._sortDirection = value;
   }
 
   /**
    * Fires when table sort options changed
    */
-  @event("bl-table-sort") private onSort: EventDispatcher<string[]>;
+  @event(blSortChangeEventName) private onSort: EventDispatcher<string[]>;
 
   /**
    * Fires when selected table rows changed
    */
-  @event("bl-table-row-select") private onRowSelect: EventDispatcher<string[]>;
+  @event(blRowSelectChangeEventName) private onRowSelect: EventDispatcher<string[]>;
 
-  @state() private _selectValue: string[] = [];
+  @state() private _selectedValues: string[] = [];
 
   @state() private _sortKey: string = "";
 
-  @state() private _sortDirection: string = "";
+  @state() private _sortDirection: SortDirection = "";
 
   protected updated(_changedProperties: PropertyValues) {
     if (
@@ -144,12 +146,12 @@ export default class BlTable extends LitElement {
   }
 
   isRowSelected(selectionKey: string) {
-    return this.selectValue.includes(selectionKey);
+    return this.selectedValues.includes(selectionKey);
   }
 
   isAllSelected() {
     return Array.from(this.tableRows).every(tr =>
-      this.selectValue.includes((tr as BlTableRow).selectionKey)
+      this.selectedValues.includes((tr as BlTableRow).selectionKey)
     );
   }
 
@@ -158,13 +160,13 @@ export default class BlTable extends LitElement {
       !this.isAllSelected() &&
       Array.from(this.tableRows)
         .filter(tr => !(tr as BlTableRow).disabled)
-        .some(tr => this.selectValue.includes((tr as BlTableRow).selectionKey))
+        .some(tr => this.selectedValues.includes((tr as BlTableRow).selectionKey))
     );
   }
 
   isAllUnselectedDisabled() {
     return Array.from(this.tableRows)
-      .filter(tr => !this.selectValue.includes((tr as BlTableRow).selectionKey))
+      .filter(tr => !this.selectedValues.includes((tr as BlTableRow).selectionKey))
       .every(tr => (tr as BlTableRow).disabled);
   }
 
@@ -189,7 +191,7 @@ export default class BlTable extends LitElement {
    * @param isSelected - The selection state.
    */
   private handleHeaderSelection(isSelected: boolean) {
-    this.selectValue = isSelected ? this.getSelectedValuesFromRows() : [];
+    this.selectedValues = isSelected ? this.getSelectedValuesFromRows() : [];
   }
 
   /**
@@ -209,7 +211,7 @@ export default class BlTable extends LitElement {
    * Notifies about the row selection change.
    */
   private notifyRowSelectionChange() {
-    this.onRowSelect(this.selectValue);
+    this.onRowSelect(this.selectedValues);
   }
 
   /**
@@ -217,8 +219,8 @@ export default class BlTable extends LitElement {
    * @param selectionKey - The key to add.
    */
   private addSelection(selectionKey: string) {
-    if (!this.selectValue.includes(selectionKey)) {
-      this.selectValue.push(selectionKey);
+    if (!this.selectedValues.includes(selectionKey)) {
+      this.selectedValues.push(selectionKey);
     }
   }
 
@@ -227,7 +229,7 @@ export default class BlTable extends LitElement {
    * @param selectionKey - The key to remove.
    */
   private removeSelection(selectionKey: string) {
-    this.selectValue = this.selectValue.filter(value => value !== selectionKey);
+    this.selectedValues = this.selectedValues.filter(value => value !== selectionKey);
   }
 
   /**
@@ -251,7 +253,7 @@ export default class BlTable extends LitElement {
     }
   }
 
-  onSortChange(sortKey: string, sortDirection: string) {
+  onSortChange(sortKey: string, sortDirection: SortDirection) {
     this._sortKey = sortKey;
     this._sortDirection = sortDirection;
     this.onSort([this.sortKey, this.sortDirection]);

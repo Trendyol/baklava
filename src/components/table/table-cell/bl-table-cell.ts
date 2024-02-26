@@ -20,7 +20,7 @@ export default class BlTableCell extends LitElement {
   /**
    * Disable selection
    */
-  @property({ type: Boolean, reflect: true, attribute: "disable-selection" })
+  @property({ type: Boolean, reflect: true, attribute: "disabled" })
   disableSelection = false;
 
   private get _table() {
