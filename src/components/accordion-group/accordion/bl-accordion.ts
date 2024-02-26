@@ -1,7 +1,8 @@
-import { html, LitElement, TemplateResult } from "lit";
+import { html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { CSSResultGroup } from "lit/development";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { event, EventDispatcher } from "../../../utilities/event";
 import { stringBooleanConverter } from "../../../utilities/string-boolean.converter";
 import "../../icon/bl-icon";
 import { BaklavaIcon } from "../../icon/icon-list";
@@ -21,6 +22,11 @@ export default class BlAccordion extends LitElement {
    */
   @property({ converter: stringBooleanConverter() })
   icon?: boolean | BaklavaIcon;
+
+  /**
+   * Fires when accordion open state change.
+   */
+  @event("bl-accordion-toggle") private _onToggle: EventDispatcher<boolean>;
 
   @property({ type: Number })
   animationDuration = 100;
@@ -107,6 +113,12 @@ export default class BlAccordion extends LitElement {
       this.expand();
     } else if (this._isExpanding || this.open) {
       this.shrink();
+    }
+  }
+
+  protected updated(_changedProperties: PropertyValues) {
+    if (_changedProperties.has("open")) {
+      this._onToggle(this.open);
     }
   }
 
