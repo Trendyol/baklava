@@ -100,7 +100,7 @@ export default class BlAccordion extends LitElement {
     window.requestAnimationFrame(() => this._animate(true));
   }
 
-  shrink() {
+  collapse() {
     this._animate(false);
   }
 
@@ -112,7 +112,7 @@ export default class BlAccordion extends LitElement {
     if (this._isShrinking || !this.open) {
       this.expand();
     } else if (this._isExpanding || this.open) {
-      this.shrink();
+      this.collapse();
     }
   }
 

@@ -30,7 +30,7 @@ export default class BlAccordionGroup extends LitElement {
     if (this.autoCollapse && e.detail) {
       this.accordions.forEach(a => {
         if (target !== a) {
-          a.shrink();
+          a.collapse();
         }
       });
     }
