@@ -67,7 +67,7 @@ export const TableTemplate = (args, {id}) => {
                   @bl-sort=${onSort}
                   @bl-row-select=${onRowSelect}
           >
-              <bl-table-header ?sticky-header=${args.stickyHeader}>
+              <bl-table-header ?sticky=${args.stickyHeader}>
                   <bl-table-row>
 										${args.headers.map((header) =>
 												html`
@@ -399,7 +399,7 @@ To set a column as the default sorted column when the table loads, specify the `
 
 # Sticky Header
 
-To make the table header sticky, meaning it stays at the top of the table viewport as the user scrolls, use the `?sticky` attribute on `<bl-table-header>`.
+To make the table header sticky, meaning it stays at the top of the table viewport as the user scrolls, use the `sticky` attribute on `<bl-table-header>`.
 
 <Canvas>
   <Story name="Sticky Header" args={{
@@ -448,7 +448,7 @@ To make the table header sticky, meaning it stays at the top of the table viewpo
 
 # Sticky First Column
 
-To make the first column of the table sticky, meaning it stays visible at the left side of the table viewport as the user scrolls horizontally, use the `?sticky-first-column` attribute on `<bl-table>`.
+To make the first column of the table sticky, meaning it stays visible at the left side of the table viewport as the user scrolls horizontally, use the `sticky-first-column` attribute on `<bl-table>`.
 
 <Canvas>
   <Story name="Sticky First Column" args={{
@@ -497,7 +497,7 @@ To make the first column of the table sticky, meaning it stays visible at the le
 
 # Sticky Last Column
 
-Similar to the sticky first column, to make the last column of the table sticky, meaning it stays visible at the right side of the table viewport as the user scrolls horizontally, use the `?sticky-last-column` attribute on `<bl-table>`.
+Similar to the sticky first column, to make the last column of the table sticky, meaning it stays visible at the right side of the table viewport as the user scrolls horizontally, use the `sticky-last-column` attribute on `<bl-table>`.
 <Canvas>
   <Story name="Sticky Last Column" args={{
     selectable: false,

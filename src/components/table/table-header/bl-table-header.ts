@@ -19,7 +19,7 @@ export default class BlTableHeader extends LitElement {
   /**
    * Set table header as sticky
    */
-  @property({ type: Boolean, reflect: true, attribute: "sticky-header" })
+  @property({ type: Boolean, reflect: true })
   sticky = false;
 
   connectedCallback(): void {
