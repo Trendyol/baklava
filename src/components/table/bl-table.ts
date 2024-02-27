@@ -145,9 +145,7 @@ export default class BlTable extends LitElement {
   }
 
   isAllSelected() {
-    return Array.from(this.tableRows).every(
-      tr => tr.disabled || this.selected.includes(tr.selectionKey)
-    );
+    return Array.from(this.tableRows).every(tr => this.selected.includes(tr.selectionKey));
   }
 
   isAnySelected() {
