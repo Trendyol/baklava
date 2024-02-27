@@ -80,7 +80,7 @@ export default class BlTableHeaderCell extends LitElement {
     return !!this._tableRow?.stickyFirstColumn && this.index === 0;
   }
   get shadowLeft() {
-    return !!this._tableRow?.stickyLastColumn;
+    return !!this._tableRow?.stickyLastColumn && this.nextElementSibling === null;
   }
 
   connectedCallback(): void {
