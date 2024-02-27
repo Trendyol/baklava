@@ -32,6 +32,7 @@ export default class BlTable extends LitElement {
   get selected(): string[] {
     return this._selectedValues;
   }
+
   set selected(value: string[]) {
     this._selectedValues = value;
     this.updateComplete.then(() => {
@@ -76,6 +77,7 @@ export default class BlTable extends LitElement {
   get sortKey(): string {
     return this._sortKey;
   }
+
   set sortKey(value: string) {
     this._sortKey = value;
   }
@@ -87,6 +89,7 @@ export default class BlTable extends LitElement {
   get sortDirection(): SortDirection {
     return this._sortDirection;
   }
+
   set sortDirection(value: SortDirection) {
     this._sortDirection = value;
   }
@@ -122,15 +125,7 @@ export default class BlTable extends LitElement {
   }
 
   get tableRows() {
-    return this.querySelectorAll("bl-table-body bl-table-row");
-  }
-
-  connectedCallback(): void {
-    super.connectedCallback();
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
+    return this.querySelectorAll<BlTableRow>("bl-table-body bl-table-row");
   }
 
   isFirstColumnSticky() {
@@ -150,24 +145,22 @@ export default class BlTable extends LitElement {
   }
 
   isAllSelected() {
-    return Array.from(this.tableRows).every(tr =>
-      this.selected.includes((tr as BlTableRow).selectionKey)
+    return Array.from(this.tableRows).every(
+      tr => tr.disabled || this.selected.includes(tr.selectionKey)
     );
   }
 
   isAnySelected() {
     return (
       !this.isAllSelected() &&
-      Array.from(this.tableRows)
-        .filter(tr => !(tr as BlTableRow).disabled)
-        .some(tr => this.selected.includes((tr as BlTableRow).selectionKey))
+      Array.from(this.tableRows).some(tr => !tr.disabled && this.selected.includes(tr.selectionKey))
     );
   }
 
   isAllUnselectedDisabled() {
     return Array.from(this.tableRows)
-      .filter(tr => !this.selected.includes((tr as BlTableRow).selectionKey))
-      .every(tr => (tr as BlTableRow).disabled);
+      .filter(tr => !this.selected.includes(tr.selectionKey))
+      .every(tr => tr.disabled);
   }
 
   /**
@@ -238,8 +231,8 @@ export default class BlTable extends LitElement {
    */
   private getSelectedValuesFromRows(): string[] {
     return Array.from(this.tableRows)
-      .filter(tableRow => !(tableRow as BlTableRow).disabled)
-      .map(tableRow => (tableRow as BlTableRow).selectionKey);
+      .filter(tableRow => !tableRow.disabled)
+      .map(tableRow => tableRow.selectionKey);
   }
 
   resetScrollPosition(): void {
@@ -266,7 +259,7 @@ export default class BlTable extends LitElement {
   }
 
   render(): TemplateResult {
-    return html`<div class="table-wrapper">
+    return html` <div class="table-wrapper">
       <div class="table">
         <table>
           <slot></slot>
@@ -280,6 +273,7 @@ declare global {
   interface HTMLElementTagNameMap {
     [blTableTag]: BlTable;
   }
+
   interface HTMLElementEventMap {
     [blSortChangeEventName]: CustomEvent<string[]>;
     [blRowSelectChangeEventName]: CustomEvent<string[]>;

@@ -67,7 +67,7 @@ export const TableTemplate = (args, {id}) => {
                   @bl-sort=${onSort}
                   @bl-row-select=${onRowSelect}
           >
-              <bl-table-header ?sticky=${args.stickyHeader}>
+              <bl-table-header ?sticky-header=${args.stickyHeader}>
                   <bl-table-row>
 										${args.headers.map((header) =>
 												html`

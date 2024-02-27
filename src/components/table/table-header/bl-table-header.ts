@@ -29,10 +29,6 @@ export default class BlTableHeader extends LitElement {
     }
   }
 
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-  }
-
   render(): TemplateResult {
     return html`<slot></slot> `;
   }

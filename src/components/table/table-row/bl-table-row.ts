@@ -42,10 +42,6 @@ export default class BlTableRow extends LitElement {
     }
   }
 
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-  }
-
   updated(_changedProperties: PropertyValues) {
     super.updated(_changedProperties);
     this.removeAttribute("checked");

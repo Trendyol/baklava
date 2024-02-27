@@ -63,10 +63,6 @@ export default class BlTableCell extends LitElement {
     }
   }
 
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-  }
-
   onChange(event: CustomEvent) {
     this._table?.onSelectionChange(false, event.detail, this.selectionKey);
   }

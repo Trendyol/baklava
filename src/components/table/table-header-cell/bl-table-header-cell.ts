@@ -90,10 +90,6 @@ export default class BlTableHeaderCell extends LitElement {
     }
   }
 
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-  }
-
   onChange(event: CustomEvent) {
     const selectAllEl = this.shadowRoot?.querySelector(".select-all") as BlCheckbox;
 
