@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import "element-internals-polyfill";
 import "../../checkbox-group/checkbox/bl-checkbox";
 import BlCheckbox from "../../checkbox-group/checkbox/bl-checkbox";
@@ -139,15 +140,19 @@ export default class BlTableHeaderCell extends LitElement {
   }
 
   render(): TemplateResult {
+    const isAscending = this.sortDirection === "asc";
+    const isDescending = this.sortDirection === "desc";
+    const ariaSort = isAscending ? "ascending" : isDescending ? "descending" : undefined;
+
     const className = this.shadowRight ? "shadow-right" : this.shadowLeft ? "shadow-left" : "";
     const template = this.sortable
-      ? html` <div class="sort-icons-wrapper" @click=${this.onSort}>
+      ? html` <button class="sort-icons-wrapper" tabindex="0" @click=${this.onSort}>
           <slot></slot>
           <bl-icon name="${this.sortIconName}"></bl-icon>
-        </div>`
+        </button>`
       : html` <slot></slot>`;
 
-    return html`<div class="table-header-cell ${className}">
+    return html`<div class="table-header-cell ${className}" aria-sort=${ifDefined(ariaSort)}>
       ${this._renderCheckbox()} ${template}
     </div> `;
   }

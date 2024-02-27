@@ -50,12 +50,19 @@ bl-checkbox {
 }
 
 .sort-icons-wrapper {
+  all: unset;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--bl-size-4xs);
   cursor: pointer;
+}
+
+.sort-icons-wrapper:focus-visible {
+  outline: 2px solid var(--bl-color-primary);
+  outline-offset: 2px;
+  border-radius: var(--bl-border-radius-xs);
 }
 
 .sort-icons-wrapper bl-icon {
