@@ -28,6 +28,7 @@
 
 :host(:first-child) ::slotted(bl-table-header-cell) {
   border-top: none;
+  border-right: none;
 }
 
 :host(:first-child) ::slotted(bl-table-header-cell:first-child) {
@@ -36,6 +37,7 @@
 
 :host(:first-child) ::slotted(bl-table-header-cell:last-child) {
   border-top-right-radius: var(--bl-size-3xs);
+  border-right: 1px;
 }
 
 :host(:last-child) ::slotted(bl-table-cell) {

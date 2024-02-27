@@ -4,12 +4,13 @@
   padding: var(--bl-size-m);
   font: var(--bl-font-title-3-regular);
   color: var(--bl-color-neutral-darker);
-  border-radius: 4px;
   box-sizing: border-box;
   vertical-align: middle;
   word-break: break-word;
   background-color: var(--bl-color-neutral-full);
   background-clip: padding-box;
+  border-top: none;
+  border-right: none;
 }
 
 .table-cell {
