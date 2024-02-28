@@ -14,7 +14,9 @@ describe("bl-select", () => {
   });
 
   it("renders with default values", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select></bl-select>`);
+    const el = await fixture<BlSelect>(html`<bl-select>
+      <bl-select-option value="1">Option 1</bl-select-option>
+    </bl-select>`);
 
     assert.shadowDom.equal(
       el,
@@ -68,6 +70,12 @@ describe("bl-select", () => {
     expect(helpMessage).to.exist;
     expect(helpMessage?.innerText).to.equal(helpText);
   });
+  it("should not show popover if there is no option", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select></bl-select>`);
+    const popover = el.shadowRoot?.querySelector(".popover");
+
+    expect(popover).to.not.exist;
+  });
   it("should render bl-select-options", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>
       <bl-select-option value="1">Option 1</bl-select-option>
@@ -117,7 +125,7 @@ describe("bl-select", () => {
     expect(selectedOptions?.textContent).contains("Option 3");
   });
   it("should open select menu", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
+    const el = await fixture<BlSelect>(html`<bl-select><bl-select-option value="1">Option 1</bl-select-option></bl-select>`);
 
     const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
 
@@ -126,7 +134,7 @@ describe("bl-select", () => {
     expect(el.opened).to.true;
   });
   it("should close select menu", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
+    const el = await fixture<BlSelect>(html`<bl-select><bl-select-option value="1">Option 1</bl-select-option></bl-select>`);
 
     const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
 
@@ -137,7 +145,7 @@ describe("bl-select", () => {
   });
   it("should close select menu when click outside & run validations", async () => {
     const el = await fixture<BlSelect>(html`<body>
-      <bl-select required invalid-text="This field is mandatory"></bl-select>
+      <bl-select required invalid-text="This field is mandatory"><bl-select-option value="1">Option 1</bl-select-option></bl-select>
     </body>`);
 
     const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
