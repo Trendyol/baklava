@@ -5,7 +5,7 @@
   top: 0;
   right: -100%;
   bottom: 0;
-  width: 424px;
+  width: var(--bl-drawer-current-width, 424px);
   padding: var(--bl-size-xl);
   padding-top: max(env(safe-area-inset-top), var(--bl-size-xl));
   padding-right: max(env(safe-area-inset-right), var(--bl-size-xl));
@@ -63,10 +63,4 @@ header h2 {
 
 .iframe-content {
   flex: 1;
-}
-
-@media only screen and (max-width: 424px) {
-  :host([open]) .drawer {
-    width: calc(100vw - 24px);
-  }
 }

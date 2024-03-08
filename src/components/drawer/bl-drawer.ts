@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { event, EventDispatcher } from "../../utilities/event";
+import { styleToPixelConverter } from "../../utilities/style-to-px.converter";
 import "../button/bl-button";
 import style from "./bl-drawer.css";
 
@@ -10,6 +11,7 @@ import style from "./bl-drawer.css";
  * @summary Baklava Drawer component
  *
  * @cssproperty [--bl-drawer-animation-duration=250ms] Drawer slide in animation duration
+ * @cssproperty [--bl-drawer-width=424px] Drawer width in open state
  */
 
 @customElement("bl-drawer")
@@ -57,6 +59,16 @@ export default class BlDrawer extends LitElement {
     window?.addEventListener("bl-drawer-open", event => {
       if (event.target !== this) this.closeDrawer();
     });
+    this.resizeDrawerWidth();
+
+    window?.addEventListener("resize", () => this.resizeDrawerWidth());
+    window.addEventListener("load", () => this.resizeDrawerWidth());
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    window?.removeEventListener("resize", () => this.resizeDrawerWidth());
+    window.addEventListener("load", () => this.resizeDrawerWidth());
   }
 
   updated(changedProperties: PropertyValues<this>) {
@@ -66,6 +78,23 @@ export default class BlDrawer extends LitElement {
   }
 
   private domExistenceSchedule: number;
+
+  private resizeDrawerWidth() {
+    const styleValue = getComputedStyle(document.documentElement).getPropertyValue(
+      "--bl-drawer-width"
+    );
+    const drawerWidth = styleToPixelConverter(styleValue) || 424;
+
+    const viewportWidth = window.innerWidth;
+
+    if (drawerWidth) {
+      if (viewportWidth < drawerWidth) {
+        this.style.setProperty("--bl-drawer-current-width", "calc(100vw - 24px);");
+      } else {
+        this.style.setProperty("--bl-drawer-current-width", styleValue);
+      }
+    }
+  }
 
   private toggleDialogHandler() {
     if (this.open) {
