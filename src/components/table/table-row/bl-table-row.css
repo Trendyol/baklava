@@ -15,7 +15,7 @@
 
 :host(:not([checked], [disabled]):hover),
 :host(:not([checked], [disabled]):hover) ::slotted(bl-table-cell) {
-  background-color: var(--bl-color-tertiary-background);
+  background-color: var(--bl-color-neutral-lightest);
 }
 
 :host ::slotted(*:first-child) {
