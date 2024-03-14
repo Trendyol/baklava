@@ -38,7 +38,7 @@ export const globalTypes = {
       icon: 'branch',
       items: [
         { value: 'stable', icon: 'branch', title: 'Stable Version' },
-        { value: 'beta', icon: 'branch', title: 'Beta(next) Version' },
+        { value: 'beta', icon: 'branch', title: 'Beta Version' },
       ],
       dynamicTitle: true,
     },
