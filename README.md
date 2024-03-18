@@ -24,11 +24,6 @@ Baklava is a design system provided by [Trendyol](https://github.com/trendyol) t
 
 Web implementation of the design system is created as native web components so it can be used within every type of web frameworks including Vue, React or Angular. Our target is providing a UI library that has neatly designed and developed for providing best possible user experience for the users of applications that uses Baklava DS.
 
-<p style="display:flex;flex-direction:row;gap:10px;">
-  <bl-button variant="secondary" icon="rocket" size="large" onclick="window.open('https://baklava.design/', '_blank')">Stable Version</bl-button>
-  <bl-button variant="secondary" kind="neutral" icon="external_link" size="large" onclick="window.open('https://next.baklava.design/', '_blank')">Beta Version</bl-button>
-</p>
-
 ## How to use
 
 Preferred way of using Baklava is using it via CDN. Just import library JS and CSS files to your main document like below:
