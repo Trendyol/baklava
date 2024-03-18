@@ -2,7 +2,7 @@
 
 <h1 align="center">Baklava Design System</h1>
 
-<p align="center">
+<p style="display:flex;flex-direction:row;gap:10px;justify-content:center;">
   <a href="https://www.npmjs.com/package/@trendyol/baklava">
     <img src="https://img.shields.io/npm/v/@trendyol/baklava.svg" alt="NPM Package Stable" />
   </a>

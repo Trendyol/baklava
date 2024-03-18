@@ -3,4 +3,9 @@ import ReadMe from '../README.md?raw';
 
 <Meta title="Documentation/Welcome" />
 
-<Markdown>{ReadMe}</Markdown>
+<Markdown>{ReadMe.slice(0,ReadMe.search("Baklava is a design system"))}</Markdown>
+<div align={"center"}>
+  {window.parent.location.hostname.includes('next') && <bl-button variant="secondary" icon="rocket" size="large" onclick="window.open('https://baklava.design/', '_blank')">Stable Version</bl-button>}
+  {!window.parent.location.hostname.includes('next') && <bl-button variant="secondary" kind="neutral" icon="external_link" size="large" onclick="window.open('https://next.baklava.design/', '_blank')">Beta Version</bl-button>}
+</div>
+<Markdown>{ReadMe.slice(ReadMe.search("Baklava is a design system"))}</Markdown>
