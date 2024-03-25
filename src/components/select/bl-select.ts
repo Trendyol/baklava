@@ -389,7 +389,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     const isSearchBarVisible = this.searchBar && this.opened;
     const hasSelectedOptions = this._selectedOptions.length > 0;
 
-    const isDividerShown = isSearchBarVisible || hasSelectedOptions;
+    const isDividerShown = (isSearchBarVisible || hasSelectedOptions) && isRemoveButtonShown;
 
     const searchbarPlaceholderText =
       this.searchBarPlaceholder ?? msg("Search", { desc: "bl-select: search placeholder text" });
