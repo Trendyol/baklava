@@ -4,18 +4,13 @@ import { CSSResultGroup } from "lit/development";
 import { BlAccordion } from "../../baklava";
 import style from "./bl-accordion-group.css";
 
-type AccordionVariant = "standalone" | "list";
-
 @customElement("bl-accordion-group")
 export default class BlAccordionGroup extends LitElement {
   /**
-   * Sets accordion variant
+   * Allow multiple accordions to be open at once
    */
-  @property({ reflect: true })
-  variant: AccordionVariant = "standalone";
-
-  @property({ reflect: true, attribute: "auto-collapse", type: Boolean })
-  autoCollapse = true;
+  @property({ reflect: true, type: Boolean })
+  multiple = false;
 
   @queryAssignedElements({ selector: "bl-accordion" })
   accordions: BlAccordion[];
@@ -27,7 +22,7 @@ export default class BlAccordionGroup extends LitElement {
   handleToggleAccordions(e: CustomEvent<boolean>) {
     const target = e.target as BlAccordion;
 
-    if (this.autoCollapse && e.detail) {
+    if (!this.multiple && e.detail) {
       this.accordions.forEach(a => {
         if (target !== a) {
           a.collapse();
@@ -37,10 +32,7 @@ export default class BlAccordionGroup extends LitElement {
   }
 
   protected render(): TemplateResult {
-    return html`<div
-      class="accordion-group ${this.variant}"
-      @bl-accordion-toggle=${this.handleToggleAccordions}
-    >
+    return html`<div class="accordion-group" @bl-toggle=${this.handleToggleAccordions}>
       <slot></slot>
     </div>`;
   }
