@@ -387,9 +387,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       : "";
 
     const isSearchBarVisible = this.searchBar && this.opened;
-    const isMultipleWithSelection = this.multiple && this._selectedOptions.length > 0;
+    const hasSelectedOptions = this._selectedOptions.length > 0;
 
-    const isDividerShown = isSearchBarVisible || isMultipleWithSelection;
+    const isDividerShown = isSearchBarVisible || (hasSelectedOptions && isRemoveButtonShown);
 
     const searchbarPlaceholderText =
       this.searchBarPlaceholder ?? msg("Search", { desc: "bl-select: search placeholder text" });
@@ -743,7 +743,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   protected firstUpdated(): void {
     if (this.value === undefined) {
-      this.value = "" as ValueType;
+      if (this.multiple) {
+        this.value = [];
+      } else {
+        this.value = null;
+      }
     }
 
     this._initialValue = this._value;
