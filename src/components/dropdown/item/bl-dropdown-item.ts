@@ -5,6 +5,8 @@ import { event, EventDispatcher } from "../../../utilities/event";
 import "../../button/bl-button";
 import BlButton from "../../button/bl-button";
 import { BaklavaIcon } from "../../icon/icon-list";
+import type BlSplitButton from "../../split-button/bl-split-button";
+import { blSplitButtonTag } from "../../split-button/bl-split-button";
 import type BlDropdown from "../bl-dropdown";
 import { blDropdownTag } from "../bl-dropdown";
 import type BlDropdownGroup from "../group/bl-dropdown-group";
@@ -34,6 +36,7 @@ export default class BlDropdownItem extends LitElement {
 
   private _handleClick() {
     this.BlDropdownField?.close();
+    this.BlSplitButtonField?.close();
     this.onClick("Action clicked!");
   }
 
@@ -48,16 +51,18 @@ export default class BlDropdownItem extends LitElement {
 
   private BlDropdownGroupField: BlDropdownGroup | null;
   private BlDropdownField: BlDropdown | null;
+  private BlSplitButtonField: BlSplitButton | null;
 
   connectedCallback(): void {
     super.connectedCallback();
 
     this.BlDropdownGroupField = this.closest<BlDropdownGroup>(blDropdownGroupTag);
     this.BlDropdownField = this.closest<BlDropdown>(blDropdownTag);
+    this.BlSplitButtonField = this.closest<BlSplitButton>(blSplitButtonTag);
 
-    if (!this.BlDropdownField && !this.BlDropdownGroupField) {
+    if (!this.BlDropdownField && !this.BlDropdownGroupField && !this.BlSplitButtonField) {
       console.warn(
-        `bl-dropdown-item is designed to be used inside a ${blDropdownGroupTag} or ${blDropdownTag}`,
+        `bl-dropdown-item is designed to be used inside a ${blDropdownGroupTag}, ${blDropdownTag} or ${blSplitButtonTag}`,
         this
       );
     }

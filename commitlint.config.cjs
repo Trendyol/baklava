@@ -32,6 +32,7 @@ module.exports = {
         "popover",
         "notification",
         "table",
+        "split-button",
       ],
     ],
   },
