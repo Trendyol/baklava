@@ -743,7 +743,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   protected firstUpdated(): void {
     if (this.value === undefined) {
-      this.value = "" as ValueType;
+      if (this.multiple) {
+        this.value = [];
+      } else {
+        this.value = null;
+      }
     }
 
     this._initialValue = this._value;
