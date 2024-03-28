@@ -1,0 +1,24 @@
+.accordion-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.accordion-group ::slotted(bl-accordion:first-child) {
+  --bl-accordion-radius-bottom-right: 0;
+  --bl-accordion-radius-bottom-left: 0;
+  --bl-accordion-border-bottom: 0;
+}
+
+.accordion-group ::slotted(bl-accordion:not(:last-child, :first-child)) {
+  --bl-accordion-radius-bottom-right: 0;
+  --bl-accordion-radius-bottom-left: 0;
+  --bl-accordion-radius-top-left: 0;
+  --bl-accordion-radius-top-right: 0;
+  --bl-accordion-border-bottom: 0;
+}
+
+.accordion-group ::slotted(bl-accordion:last-child) {
+  --bl-accordion-radius-top-right: 0;
+  --bl-accordion-radius-top-left: 0;
+}

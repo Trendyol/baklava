@@ -1,3 +1,5 @@
+export { default as BlAccordionGroup } from "./components/accordion-group/bl-accordion-group";
+export { default as BlAccordion } from "./components/accordion-group/accordion/bl-accordion";
 export { default as BlAlert } from "./components/alert/bl-alert";
 export { default as BlBadge } from "./components/badge/bl-badge";
 export { default as BlButton } from "./components/button/bl-button";

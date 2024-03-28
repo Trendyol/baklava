@@ -1,0 +1,44 @@
+import { ArgsTable, Canvas, Meta, Story } from "@storybook/addon-docs";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { html } from "lit";
+
+<Meta
+  title="Components/Accordion/Accordion Group"
+  component="bl-accordion-group"
+  argTypes={{
+    multiple: { control: "boolean" }
+  }}
+/>
+
+export const AccordionTemplate = (args) => html`
+  <bl-accordion-group multiple="${ifDefined(args.multiple)}">${args.accordions.map((a) => html`
+    <bl-accordion caption="${a.caption}" disabled="${ifDefined(a.disabled)}">${a.content}</bl-accordion>`)}
+  </bl-accordion-group>`;
+
+# Accordion Group
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/739)</bl-badge>
+<bl-badge
+  icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?type=design&node-id=15548%3A20910)</bl-badge>
+
+The Accordion Group component combines accordions and only allows one accordion to be open by default
+
+<Canvas>
+  <Story name="Basic Usage" args={{accordions: [{caption: "Toggle Me", content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consectetur deserunt dolores eaque facere quisquam reprehenderit saepe sequi temporibus veniam!"}, {caption: "Disabled", content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consectetur deserunt dolores eaque facere quisquam reprehenderit saepe sequi temporibus veniam!", disabled: true}, {caption: "Toggle Me 2", content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consectetur deserunt dolores eaque facere quisquam reprehenderit saepe sequi temporibus veniam!"}, {caption: "Toggle Me 3", content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consectetur deserunt dolores eaque facere quisquam reprehenderit saepe sequi temporibus veniam!"}]}}>
+    {AccordionTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Allow Multiple
+
+Allow multiple accordions to be open at once with `multiple` attribute.
+
+<Canvas>
+  <Story name="Allow Multiple" args={{multiple: true, accordions: [{caption: "Toggle Me", content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consectetur deserunt dolores eaque facere quisquam reprehenderit saepe sequi temporibus veniam!"}, {caption: "Disabled", content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consectetur deserunt dolores eaque facere quisquam reprehenderit saepe sequi temporibus veniam!", disabled: true}, {caption: "Toggle Me 2", content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consectetur deserunt dolores eaque facere quisquam reprehenderit saepe sequi temporibus veniam!"}, {caption: "Toggle Me 3", content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consectetur deserunt dolores eaque facere quisquam reprehenderit saepe sequi temporibus veniam!"}]}}>
+    {AccordionTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-accordion-group" />
