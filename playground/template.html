@@ -8,7 +8,7 @@
     <script type="module" src="./dist/baklava.js"></script>
     <script>
       // Live reload
-      new EventSource('/esbuild').addEventListener('change', () => location.reload());
+      new EventSource("/esbuild").addEventListener("change", () => location.reload());
     </script>
     <style>
       *:not(:defined) {
@@ -33,5 +33,6 @@
     </p>
 
     <bl-button>Baklava is ready</bl-button>
+    <bl-calendar></bl-calendar>
   </body>
 </html>

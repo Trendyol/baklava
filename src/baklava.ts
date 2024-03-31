@@ -25,4 +25,5 @@ export { default as BlDropdownGroup } from "./components/dropdown/group/bl-dropd
 export { default as BlSwitch } from "./components/switch/bl-switch";
 export { default as BlNotification } from "./components/notification/bl-notification";
 export { default as BlNotificationCard } from "./components/notification/card/bl-notification-card";
+export { default as BlCalendar } from "./components/calendar/bl-calendar";
 export { getIconPath, setIconPath } from "./utilities/asset-paths";

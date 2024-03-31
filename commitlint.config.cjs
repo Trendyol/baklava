@@ -31,6 +31,7 @@ module.exports = {
         "textarea",
         "popover",
         "notification",
+        "calendar",
       ],
     ],
   },
