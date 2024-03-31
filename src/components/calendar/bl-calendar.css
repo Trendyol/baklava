@@ -1,0 +1,56 @@
+.calendar-content {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  border-radius: 4px;
+  width: fit-content;
+  border: 1px solid var(--bl-color-primary);
+  background: #fff;
+  box-shadow: 0 10px 15px -8px var(--bl-color-neutral-darker);
+}
+
+.selected-month-year-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px;
+  align-items: center;
+}
+
+.selected-month-year {
+  flex: 4;
+  display: flex;
+  justify-content: space-around;
+}
+
+.arrows {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.weekdays {
+  display: flex;
+}
+
+.calendar-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calendar-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 32px;
+  padding: 8px;
+}
+
+.weekday-text {
+  color: var(--bl-color-neutral-light);
+  text-align: center;
+}
