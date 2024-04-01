@@ -40,7 +40,7 @@
   background: var(--bl-color-neutral-lightest);
 }
 
-.summary:focus-visible{
+.summary:focus-visible {
   outline: none;
   border: 2px solid var(--bl-color-primary);
 }
