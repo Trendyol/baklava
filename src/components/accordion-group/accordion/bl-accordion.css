@@ -41,8 +41,7 @@
 }
 
 .summary:focus-visible {
-  outline: none;
-  border: 2px solid var(--bl-color-primary);
+  outline: var(--bl-color-primary) auto 1px;
 }
 
 .indicator {
@@ -54,12 +53,9 @@
 }
 
 .accordion[open] .summary {
+  border-bottom: 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-}
-
-.accordion[open] .summary:not(:focus-visible) {
-  border-bottom: 0;
 }
 
 .caption {
