@@ -497,6 +497,47 @@ describe("bl-select", () => {
         expect(el.value).to.equal("1");
       });
     });
+    describe("no initial value", () => {
+      it("should not set empty option as selected when multiple and no value", async () => {
+        const el = await fixture<BlSelect>(html`<bl-select multiple name="test">
+          <bl-select-option value="1">Option 1</bl-select-option>
+          <bl-select-option value=""></bl-select-option>
+        </bl-select>`);
+
+        await elementUpdated(el);
+
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value=""]')?.selected).to.be
+          .false;
+      
+      });
+
+      it("should not set empty option as selected when multiple, empty string value, selected option", async () => {
+        const el = await fixture<BlSelect>(html`<bl-select multiple name="test" value="">
+          <bl-select-option value="1" selected>Option 1</bl-select-option>
+          <bl-select-option value=""></bl-select-option>
+        </bl-select>`);
+
+        await elementUpdated(el);
+
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value=""]')?.selected).to.be
+          .false;
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value="1"]')?.selected).to.be
+          .true;
+      
+      }); 
+
+      it("should not set empty option as selected when no value", async () => {
+        const el = await fixture<BlSelect>(html`<bl-select name="test">
+          <bl-select-option value="1">Option 1</bl-select-option>
+          <bl-select-option value=""></bl-select-option>
+        </bl-select>`);
+
+        await elementUpdated(el);
+
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value=""]')?.selected).to.be
+          .false;
+      }); 
+    });
   });
 
   describe("form integration", () => {
