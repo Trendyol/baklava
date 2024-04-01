@@ -34,6 +34,10 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
       control: "text",
       default: "",
     },
+    width: {
+      control: "text",
+      default: "",
+    },
   }}
 />
 
@@ -63,7 +67,8 @@ export const DrawerTemplate = (args) => html`
   <bl-drawer id=${ifDefined(args.id)}
              caption=${ifDefined(args.caption)}
              embed-url=${ifDefined(args.embedUrl)}
-             external-link=${ifDefined(args.externalLink)}>
+             external-link=${ifDefined(args.externalLink)}
+             width=${ifDefined(args.width)}>
     <div style="font: var(--bl-font-body-text-2)">
       ${unsafeHTML(args.content)}
     </div>
@@ -121,6 +126,11 @@ A drawer presents context-specific information and/or actions without leaving th
   <Story name="With caption and embedUrl"
          play={(event) => openDialog(event,{id:'drawer-5'})}
          args={{id:"drawer-5", buttonText:"with caption, embedUrl", caption: "Caption", embedUrl:"/assets/demo-iframe.html"}}>
+    {StoryTemplate.bind({})}
+  </Story>
+    <Story name="With custom width"
+         play={(event) => openDialog(event,{id:'drawer-6'})}
+         args={{id:"drawer-6", buttonText:"with caption, embedUrl", caption: "Caption", width: "1500px"}}>
     {StoryTemplate.bind({})}
   </Story>
 </Canvas>

@@ -141,9 +141,8 @@ describe("bl-drawer", () => {
       expect(el?.shadowRoot?.querySelector("bl-button")).to.be.null;
     });
 
-    it("should render the drawer with given specific width in css variable --bl-drawer-width", async () => {
-        document.documentElement.style.setProperty("--bl-drawer-width", "800px");
-        const el = await fixture<typeOfBlDrawer>(html`<bl-drawer open></bl-drawer>`);
+    it("should render the drawer with given specific width with width='800px'", async () => {
+        const el = await fixture<typeOfBlDrawer>(html`<bl-drawer width="800px" open></bl-drawer>`);
         const drawerEl = el.shadowRoot!.querySelector(".drawer")!;
 
         const width = getComputedStyle(drawerEl).width;
@@ -155,28 +154,7 @@ describe("bl-drawer", () => {
 
     it("should render the drawer with width: 'calc(100vw - 24px)' if viewport width is smaller than given drawer width", async () => {
         // default window.innerWidth = 800px
-        document.documentElement.style.setProperty("--bl-drawer-width", "1200px");
-
-        const el = await fixture<typeOfBlDrawer>(html`<bl-drawer open></bl-drawer>`);
-        const drawerEl = el.shadowRoot!.querySelector(".drawer")!;
-
-        const width = getComputedStyle(drawerEl).width;
-
-        expect(
-          width
-        ).to.equal("776px");
-
-      });
-
-      it("should render the drawer with default width 'calc(100vw - 24px)' if --bl-drawer-width value is unsupported & viewport width is smaller than given drawer width", async () => {
-        Object.defineProperty(window, "innerWidth", {
-            writable: true,
-            configurable: true,
-            value: 300,
-        });
-        document.documentElement.style.setProperty("--bl-drawer-width", "500em");
-
-        const el = await fixture<typeOfBlDrawer>(html`<bl-drawer open></bl-drawer>`);
+        const el = await fixture<typeOfBlDrawer>(html`<bl-drawer width="1200px" open></bl-drawer>`);
         const drawerEl = el.shadowRoot!.querySelector(".drawer")!;
 
         const width = getComputedStyle(drawerEl).width;

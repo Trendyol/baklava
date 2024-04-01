@@ -45,6 +45,12 @@ export default class BlDrawer extends LitElement {
   externalLink?: string;
 
   /**
+   *  Sets the drawer width
+   */
+  @property({ type: String, attribute: "width" })
+  width: string = "424px";
+
+  /**
    * Fires when the drawer is opened
    */
   @event("bl-drawer-open") private onOpen: EventDispatcher<string>;
@@ -75,19 +81,23 @@ export default class BlDrawer extends LitElement {
     if (changedProperties.has("open")) {
       this.toggleDialogHandler();
     }
+
+    if (changedProperties.has("width")) {
+      this.resizeDrawerWidth();
+    }
   }
 
   private domExistenceSchedule: number;
 
   private resizeDrawerWidth() {
-    const styleValue =
-      getComputedStyle(document.documentElement).getPropertyValue("--bl-drawer-width") || "424px";
-    const drawerWidth = styleToPixelConverter(styleValue) || 424;
+    const drawerWidth = styleToPixelConverter(this.width);
 
-    if (window?.innerWidth < drawerWidth) {
-      this.style.setProperty("--bl-drawer-current-width", "calc(100vw - 24px)");
-    } else {
-      this.style.setProperty("--bl-drawer-current-width", styleValue);
+    if (drawerWidth) {
+      if (window?.innerWidth < drawerWidth) {
+        this.style.setProperty("--bl-drawer-current-width", "calc(100vw - 24px)");
+      } else {
+        this.style.setProperty("--bl-drawer-current-width", this.width);
+      }
     }
   }
 
