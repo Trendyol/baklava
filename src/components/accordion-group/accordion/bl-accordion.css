@@ -40,6 +40,11 @@
   background: var(--bl-color-neutral-lightest);
 }
 
+.summary:focus-visible{
+  outline: none;
+  border: 2px solid var(--bl-color-primary);
+}
+
 .indicator {
   transition: transform 200ms;
 }
@@ -49,9 +54,12 @@
 }
 
 .accordion[open] .summary {
-  border-bottom: 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.accordion[open] .summary:not(:focus-visible) {
+  border-bottom: 0;
 }
 
 .caption {
