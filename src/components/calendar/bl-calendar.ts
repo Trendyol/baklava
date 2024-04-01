@@ -38,9 +38,6 @@ export default class BlCalendar extends LitElement {
   @state()
   private year: number = new Date().getFullYear();
 
-  @state()
-  private dayCountInSelectedMonth: number;
-
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -92,26 +89,26 @@ export default class BlCalendar extends LitElement {
   }
 
   createCalendarDays() {
-    const weekDayNums: Map<number, (number | string)[]> = new Map();
+    const monthlyCalendar: Map<number, (number | string)[]> = new Map();
     let i = 0;
-    let k = 0;
-    let days = 1;
+    let dayOfTheWeek = 0;
+    let iteratedDay = 1;
 
     for (; i < this.getDayNumInAMonth() + this.getWeekDayOfDate(); i += 1) {
-      const mod = k % 7;
+      const mod = dayOfTheWeek % 7;
 
       if (i < this.getWeekDayOfDate()) {
-        weekDayNums.set(mod, [""]);
-      } else if (weekDayNums.get(mod)) {
-        weekDayNums.get(mod)?.push(days);
-        days += 1;
+        monthlyCalendar.set(mod, [""]);
+      } else if (monthlyCalendar.get(mod)) {
+        monthlyCalendar.get(mod)?.push(iteratedDay);
+        iteratedDay += 1;
       } else {
-        weekDayNums.set(mod, [days]);
-        days += 1;
+        monthlyCalendar.set(mod, [iteratedDay]);
+        iteratedDay += 1;
       }
-      k += 1;
+      dayOfTheWeek += 1;
     }
-    return weekDayNums;
+    return monthlyCalendar;
   }
   getDayNumInAMonth() {
     return new Date(this.month.value + 1, this.year, 0).getDate();
