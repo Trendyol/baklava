@@ -163,6 +163,17 @@ describe("bl-drawer", () => {
           width
         ).to.equal("776px");
       });
+
+      it("should render the drawer with default width: 424px if width prop is smaller than 100px", async () => {
+        const el = await fixture<typeOfBlDrawer>(html`<bl-drawer width="90px" open></bl-drawer>`);
+        const drawerEl = el.shadowRoot!.querySelector(".drawer")!;
+
+        const width = getComputedStyle(drawerEl).width;
+
+        expect(
+          width
+        ).to.equal("424px");
+      });
   });
 
   describe("event tests", () => {

@@ -8,12 +8,12 @@ describe("styleToPixelConverter", () => {
       expect(result).to.equal(100);
     });
 
-    it("converts viewport height value correctly", () => {
-      Object.defineProperty(window, "innerHeight", { value: 600, writable: true });
+    it("converts viewport width value correctly", () => {
+      Object.defineProperty(window, "innerWidth", { value: 600, writable: true });
 
-      const result = styleToPixelConverter("50vh");
+      const result = styleToPixelConverter("50vw");
 
-      expect(result).to.equal(300); // 50% of 600 (viewport height)
+      expect(result).to.equal(300); // 50% of 600 (viewport width)
     });
 
     it("converts percentage value correctly", () => {

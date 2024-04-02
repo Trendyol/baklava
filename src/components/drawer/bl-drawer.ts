@@ -11,7 +11,6 @@ import style from "./bl-drawer.css";
  * @summary Baklava Drawer component
  *
  * @cssproperty [--bl-drawer-animation-duration=250ms] Drawer slide in animation duration
- * @cssproperty [--bl-drawer-width=424px] Drawer width in open state
  */
 
 @customElement("bl-drawer")
@@ -92,11 +91,13 @@ export default class BlDrawer extends LitElement {
   private resizeDrawerWidth() {
     const drawerWidth = styleToPixelConverter(this.width);
 
+    const newWidth = !drawerWidth || drawerWidth < 100 ? "424px" : this.width;
+
     if (drawerWidth) {
       if (window?.innerWidth < drawerWidth) {
         this.style.setProperty("--bl-drawer-current-width", "calc(100vw - 24px)");
       } else {
-        this.style.setProperty("--bl-drawer-current-width", this.width);
+        this.style.setProperty("--bl-drawer-current-width", newWidth);
       }
     }
   }

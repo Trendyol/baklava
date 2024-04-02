@@ -77,7 +77,7 @@ export const DrawerTemplate = (args) => html`
 
 export const StoryTemplate = (args) => html`
   ${DrawerTemplate(args)}
-  <bl-button @click="${(event)=>openDialog(event, args)}">${ifDefined(args.buttonText)}</bl-button>
+  <bl-button style="margin: 16px;" @click="${(event)=>openDialog(event, args)}">${ifDefined(args.buttonText)}</bl-button>
 `;
 
 # Drawer
@@ -130,7 +130,7 @@ A drawer presents context-specific information and/or actions without leaving th
   </Story>
     <Story name="With custom width"
          play={(event) => openDialog(event,{id:'drawer-6'})}
-         args={{id:"drawer-6", buttonText:"with caption, embedUrl", caption: "Caption", width: "1500px"}}>
+         args={{id:"drawer-6", buttonText:"with custom width", caption: "Custom Width Drawer", content: DummyContent(), width: "800px"}}>
     {StoryTemplate.bind({})}
   </Story>
 </Canvas>

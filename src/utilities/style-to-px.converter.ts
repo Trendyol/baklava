@@ -12,8 +12,8 @@ export const styleToPixelConverter = (styleValue: string): number | null => {
     case "px":
       styleInPixel = value;
       break;
-    case "vh":
-      styleInPixel = (value * window.innerHeight) / 100;
+    case "vw":
+      styleInPixel = (value * window.innerWidth) / 100;
       break;
     case "%":
       styleInPixel = (value * window.innerWidth) / 100;
