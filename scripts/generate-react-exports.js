@@ -25,6 +25,7 @@ const baklavaReactFileParts = [];
 for (const module of customElementsModules) {
   const { declarations, path } = module;
   const component = declarations.find(declaration => declaration.customElement === true);
+  if(!component) continue;
   const { name: componentName, tagName: fileName } = component;
 
   const eventNames = (component.events || []).map(event => {
