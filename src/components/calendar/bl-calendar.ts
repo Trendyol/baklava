@@ -222,7 +222,11 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     }
     if (this.disabledDates.length > 0) {
       return this.disabledDates.some(disabledDate => {
-        return calendarDate.getTime() === disabledDate.getTime();
+        return (
+          calendarDate.getDate() === disabledDate.getDate() &&
+          calendarDate.getMonth() === disabledDate.getMonth() &&
+          calendarDate.getFullYear() === disabledDate.getFullYear()
+        );
       });
     }
     return false;

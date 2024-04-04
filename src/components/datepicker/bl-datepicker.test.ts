@@ -258,14 +258,14 @@ describe("BlDatepicker", () => {
   it("should return a single date when value is a single Date", () => {
     const date = new Date("2024-01-01");
 
-    element._value = date;
+    element.value = date;
     expect(element.value).to.equal(date);
   });
 
   it("should return an array of dates when value is an array of Dates", () => {
     const dates = [new Date("2024-01-01"), new Date("2024-02-01")];
 
-    element._value = dates;
+    element.value = dates;
     expect(element.value).to.deep.equal(dates);
   });
 
@@ -276,7 +276,7 @@ describe("BlDatepicker", () => {
   it("should warn when 'value' is not an array for multiple/range selection", async () => {
     element = await fixture<BlDatePicker>(html`
       <bl-datepicker type="multiple" locale="en"></bl-datepicker>`);
-    element._value = new Date();
+    element.value = new Date();
 
     element.firstUpdated();
 
@@ -285,7 +285,7 @@ describe("BlDatepicker", () => {
 
   it("should not warn when value is an array for multiple/range selection", () => {
     element.type = CALENDAR_TYPES.MULTIPLE;
-    element._value = [new Date(), new Date()];
+    element.value = [new Date(), new Date()];
 
     element.firstUpdated();
 
@@ -294,7 +294,7 @@ describe("BlDatepicker", () => {
 
   it("should not warn when 'value' is an array of exactly two Date objects in RANGE mode", () => {
     element.type = CALENDAR_TYPES.RANGE;
-    element._value = [new Date(), new Date()];
+    element.value = [new Date(), new Date()];
 
     element.firstUpdated();
 

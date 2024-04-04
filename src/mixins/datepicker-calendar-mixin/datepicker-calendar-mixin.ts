@@ -26,22 +26,28 @@ export default class DatepickerCalendarMixin extends LitElement {
   /**
    * Defines the unselectable dates for calendar
    */
-  _disabledDates: Date[] = [];
+  protected _disabledDates: Date[] = [];
 
   get disabledDates(): Date[] {
     return this._disabledDates;
   }
 
-  @property({ attribute: "disabled-dates", reflect: true })
+  @property({
+    attribute: "disabled-dates",
+    type: Array,
+    reflect: true,
+  })
   set disabledDates(disabledDates: Date[] | string) {
+    let newVal: Date[] = [];
+
     if (typeof disabledDates === "string") {
-      this._disabledDates = stringToDateArray(disabledDates);
+      newVal = stringToDateArray(disabledDates);
     } else if (Array.isArray(disabledDates)) {
-      disabledDates.forEach(disabledDate => {
-        if (!isNaN(disabledDate.getTime())) this._disabledDates.push(disabledDate);
-      });
+      newVal = disabledDates.filter(d => !isNaN(d.getTime()));
     }
-    this.requestUpdate();
+
+    this.requestUpdate("disabledDates", newVal);
+    this._disabledDates = newVal;
   }
 
   /**
@@ -83,8 +89,8 @@ export default class DatepickerCalendarMixin extends LitElement {
   /**
    * Target elements state
    */
+  protected _value: Date | Date[] | string;
 
-  _value: Date | Date[] | string;
   /**
    * Sets the target element of the popover to align and trigger.
    * It can be a string id of the target element or can be a direct Element reference of it.
@@ -96,6 +102,7 @@ export default class DatepickerCalendarMixin extends LitElement {
   @property({ attribute: "value", reflect: true })
   set value(value: string | Date | Date[]) {
     if (value) {
+      const oldValue = this._value;
       let tempVal: Date[] = [];
 
       if (typeof value === "string") {
@@ -122,7 +129,8 @@ export default class DatepickerCalendarMixin extends LitElement {
           this._selectedDates.splice(0, this._selectedDates.length, ...tempVal);
         }
       }
-      this.requestUpdate();
+
+      this.requestUpdate("value", oldValue);
     }
   }
 }
