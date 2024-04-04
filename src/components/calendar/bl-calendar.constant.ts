@@ -1,6 +1,6 @@
-import { TCalendarMonths } from "./bl-calendar.types";
+import { Day, Month } from "./bl-calendar.types";
 
-export const MONTHS: TCalendarMonths = [
+export const MONTHS: Month[] = [
   { name: "January", value: 0 },
   { name: "February", value: 1 },
   { name: "March", value: 2 },
@@ -15,4 +15,4 @@ export const MONTHS: TCalendarMonths = [
   { name: "December", value: 11 },
 ];
 
-export const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+export const DAYS: Day[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
