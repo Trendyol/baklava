@@ -11,3 +11,4 @@ storybook-static/
 .octane-ci/
 .bin/
 .docksal/
+src/generated/

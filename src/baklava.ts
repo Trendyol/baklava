@@ -25,5 +25,12 @@ export { default as BlDropdownGroup } from "./components/dropdown/group/bl-dropd
 export { default as BlSwitch } from "./components/switch/bl-switch";
 export { default as BlNotification } from "./components/notification/bl-notification";
 export { default as BlNotificationCard } from "./components/notification/card/bl-notification-card";
+export { default as BlTable } from "./components/table/bl-table";
+export { default as BlTableHeader } from "./components/table/table-header/bl-table-header";
+export { default as BlTableBody } from "./components/table/table-body/bl-table-body";
+export { default as BlTableRow } from "./components/table/table-row/bl-table-row";
+export { default as BlTableHeaderCell } from "./components/table/table-header-cell/bl-table-header-cell";
+export { default as BlTableCell } from "./components/table/table-cell/bl-table-cell";
+export { default as BlSplitButton } from "./components/split-button/bl-split-button";
 export { default as BlCalendar } from "./components/calendar/bl-calendar";
 export { getIconPath, setIconPath } from "./utilities/asset-paths";
