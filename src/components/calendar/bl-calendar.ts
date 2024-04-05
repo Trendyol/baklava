@@ -53,9 +53,6 @@ export default class BlCalendar extends LitElement {
   disabledDates?: Date | Date[];
 
   @state()
-  private _day: number;
-
-  @state()
   private _month: Month = MONTHS[new Date().getMonth()];
 
   @state()
