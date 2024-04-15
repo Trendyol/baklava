@@ -118,7 +118,7 @@ export default class BlCalendar extends LitElement {
   }
   setMonthAndCalendarView(index: number) {
     this._calendarMonth = MONTHS[index];
-    this._calendarView = "years";
+    this._calendarView = "days";
   }
   setYearAndCalendarView(year: number) {
     this._calendarYear = year;
