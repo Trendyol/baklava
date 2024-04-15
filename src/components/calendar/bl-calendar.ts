@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import "../icon/bl-icon";
 import { DAYS, MONTHS } from "./bl-calendar.constant";
@@ -53,13 +54,17 @@ export default class BlCalendar extends LitElement {
   disabledDates?: Date | Date[];
 
   @state()
-  private _day: number;
+  private _selectedDate: { day: number; month: Month; year: number } = {
+    day: -1,
+    month: MONTHS[new Date().getMonth()],
+    year: new Date().getFullYear(),
+  };
 
   @state()
-  private _month: Month = MONTHS[new Date().getMonth()];
+  private _calendarMonth: Month = MONTHS[new Date().getMonth()];
 
   @state()
-  private _year: number = new Date().getFullYear();
+  private _calendarYear: number = new Date().getFullYear();
 
   @state()
   private _calendarView: CalendarView = "days";
@@ -67,24 +72,26 @@ export default class BlCalendar extends LitElement {
   @state()
   private _calendarYears: number[] = [];
 
+  /**
+   * Fires when date selection changes
+   */
+  @event("bl-calendar") private _onBlCalendarChange: EventDispatcher<Date | Date[]>;
+
   static get styles(): CSSResultGroup {
     return [style];
   }
-  setMonth(monthIndex: number) {
-    this._month = MONTHS[monthIndex];
-  }
   getDayNumInAMonth() {
-    return new Date(this._month.value + 1, this._year, 0).getDate();
+    return new Date(this._calendarMonth.value + 1, this._calendarYear, 0).getDate();
   }
   getWeekDayOfDate() {
-    return new Date(this._year, this._month.value, 1).getDay();
+    return new Date(this._calendarYear, this._calendarMonth.value, 1).getDay();
   }
   setPreviousCalendarView() {
     if (this._calendarView === "days") {
-      if (this._month.value === MONTHS[0].value) {
-        this.setMonth(MONTHS[11].value);
-        this._year -= 1;
-      } else this.setMonth(this._month.value - 1);
+      if (this._calendarMonth.value === MONTHS[0].value) {
+        this._calendarMonth = MONTHS[11];
+        this._calendarYear -= 1;
+      } else this._calendarMonth = MONTHS[this._calendarMonth.value - 1];
     } else if (this._calendarView === "years") {
       const fromYear = this._calendarYears[0];
 
@@ -96,10 +103,10 @@ export default class BlCalendar extends LitElement {
   }
   setNextCalendarView() {
     if (this._calendarView === "days") {
-      if (this._month.value === MONTHS[11].value) {
-        this.setMonth(MONTHS[0].value);
-        this._year += 1;
-      } else this.setMonth(this._month.value + 1);
+      if (this._calendarMonth.value === MONTHS[11].value) {
+        this._calendarMonth = MONTHS[0];
+        this._calendarYear += 1;
+      } else this._calendarMonth = MONTHS[this._calendarMonth.value + 1];
     } else if (this._calendarView === "years") {
       const fromYear = this._calendarYears[11];
 
@@ -109,14 +116,26 @@ export default class BlCalendar extends LitElement {
       }
     }
   }
-
-  setCalendarView(calendarView: CalendarView) {
-    this._calendarView = calendarView;
+  setMonthAndCalendarView(index: number) {
+    this._calendarMonth = MONTHS[index];
+    this._calendarView = "years";
+  }
+  setYearAndCalendarView(year: number) {
+    this._calendarYear = year;
+    this._calendarView = "days";
   }
 
-  setMonthAndCalendarView(index: number) {
-    this.setMonth(index);
-    this.setCalendarView("years");
+  createCalendarYears() {
+    if (this._calendarYears.length === 0) {
+      for (let i = 4; i >= 0; i--) this._calendarYears.push(this._calendarYear - i);
+      for (let i = 1; i <= 7; i++) this._calendarYears.push(this._calendarYear + i);
+    }
+  }
+  setSelectedDate(day: number) {
+    this._selectedDate = { day, month: this._calendarMonth, year: this._calendarYear };
+    this._onBlCalendarChange(
+      new Date(this._selectedDate.month.value + 1, this._selectedDate.year, this._selectedDate.day)
+    );
   }
   createCalendarDays() {
     const currentMonthCalendar: Map<number, (number | string)[]> = new Map();
@@ -145,11 +164,10 @@ export default class BlCalendar extends LitElement {
     return currentMonthCalendar;
   }
   render() {
-    const setCalendarView = (calendarView: CalendarView) => {
+    const getCalendarView = (calendarView: CalendarView) => {
       if (calendarView === "days") {
         const today = new Date();
-        const showTodayDay =
-          this._month.value === today.getMonth() && this._year === today.getFullYear();
+
         const calendarDays = this.createCalendarDays();
 
         return html`<div class="days-view">
@@ -157,12 +175,18 @@ export default class BlCalendar extends LitElement {
             return html` <div class="day-column">
               <div class="weekday-text day-cell">${DAYS[key]}</div>
               ${value.map(day => {
+                const isSelectedDay =
+                  this._selectedDate.day === Number(day) &&
+                  this._selectedDate.month === this._calendarMonth &&
+                  this._selectedDate.year === this._calendarYear;
+                const isToday =
+                  this._calendarMonth.value === today.getMonth() &&
+                  this._calendarYear === today.getFullYear() &&
+                  day === today.getDate();
+
                 return html` <div
-                  class="day-cell ${showTodayDay && day === today.getDate() && "today-day"} ${this
-                    ._day === day &&
-                  showTodayDay &&
-                  "selected-day"}"
-                  @click="${() => (this._day = Number(day))}"
+                  class="day-cell ${isToday && "today-day"} ${isSelectedDay && "selected-day"}"
+                  @click="${() => this.setSelectedDate(Number(day))}"
                 >
                   ${day}
                 </div>`;
@@ -170,8 +194,6 @@ export default class BlCalendar extends LitElement {
             </div>`;
           })}
         </div>`;
-
-        // selected day'i objec gibi tutabilirim {day,month,year}
       } else if (calendarView === "months") {
         return html`<div class="months-view">
           ${MONTHS.map((month, index) => {
@@ -185,13 +207,14 @@ export default class BlCalendar extends LitElement {
           })}
         </div>`;
       } else {
-        if (this._calendarYears.length === 0) {
-          for (let i = 4; i >= 0; i--) this._calendarYears.push(this._year - i);
-          for (let i = 1; i <= 7; i++) this._calendarYears.push(this._year + i);
-        }
+        this.createCalendarYears();
         return html`<div class="months-view">
           ${this._calendarYears.map(year => {
-            return html`<bl-button variant="tertiary" kind="neutral" class="day-text"
+            return html`<bl-button
+              variant="tertiary"
+              kind="neutral"
+              class="day-text"
+              @click="${() => this.setYearAndCalendarView(year)}"
               >${year}</bl-button
             >`;
           })}
@@ -214,15 +237,15 @@ export default class BlCalendar extends LitElement {
               variant="tertiary"
               kind="neutral"
               class="day-text"
-              @click="${() => this.setCalendarView("months")}"
-              >${this._month.name}</bl-button
+              @click="${() => (this._calendarView = "months")}"
+              >${this._calendarMonth.name}</bl-button
             >
             <bl-button
               variant="tertiary"
               kind="neutral"
               class="day-text"
-              @click="${() => this.setCalendarView("years")}"
-              >${this._year}</bl-button
+              @click="${() => (this._calendarView = "years")}"
+              >${this._calendarYear}</bl-button
             >
           </div>
           <bl-button
@@ -233,7 +256,7 @@ export default class BlCalendar extends LitElement {
             @click="${() => this.setNextCalendarView()}"
           ></bl-button>
         </div>
-        <div>${setCalendarView(this._calendarView)}</div>
+        <div>${getCalendarView(this._calendarView)}</div>
       </div>
     </div> `;
   }
