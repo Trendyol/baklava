@@ -31,10 +31,10 @@ describe("bl-accordion-group", () => {
 
     for (const accordion of accordions) {
       accordion.shadowRoot!.querySelector("summary")!.click();
-      await aTimeout(100);
+      await aTimeout(250);
     }
 
-    await aTimeout(100);
+    await aTimeout(250);
 
     const openAccordions = el.querySelectorAll("bl-accordion[open]");
 

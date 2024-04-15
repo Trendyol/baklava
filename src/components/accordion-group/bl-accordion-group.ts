@@ -31,7 +31,7 @@ export default class BlAccordionGroup extends LitElement {
     }
   }
 
-  protected render(): TemplateResult {
+  render(): TemplateResult {
     return html`<div class="accordion-group" @bl-toggle=${this.handleToggleAccordions}>
       <slot></slot>
     </div>`;

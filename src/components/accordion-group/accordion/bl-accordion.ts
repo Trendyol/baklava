@@ -8,7 +8,11 @@ import "../../icon/bl-icon";
 import { BaklavaIcon } from "../../icon/icon-list";
 import style from "./bl-accordion.css";
 
-// TODO : COMMENTS
+enum AnimationStatus {
+  EXPANDING,
+  COLLAPSING,
+}
+
 @customElement("bl-accordion")
 export default class BlAccordion extends LitElement {
   /**
@@ -41,11 +45,10 @@ export default class BlAccordion extends LitElement {
   @event("bl-toggle") private _onToggle: EventDispatcher<boolean>;
 
   @property({ type: Number })
-  animationDuration = 100;
+  animationDuration = 250;
 
   private _animation: Animation | null;
-  private _isExpanding = false;
-  private _isCollapsing = false;
+  private _animationStatus: AnimationStatus | null = null;
 
   @query("details")
   detailsEl: HTMLDetailsElement;
@@ -60,15 +63,11 @@ export default class BlAccordion extends LitElement {
     return [style];
   }
 
-  _animate(isOpening: boolean) {
-    if (isOpening) {
-      this._isExpanding = true;
-    } else {
-      this._isCollapsing = true;
-    }
+  _animate(isExpanding: boolean) {
+    this._animationStatus = isExpanding ? AnimationStatus.EXPANDING : AnimationStatus.COLLAPSING;
 
     const startHeight = `${this.detailsEl.offsetHeight}px`;
-    const endHeight = isOpening
+    const endHeight = isExpanding
       ? `${this.summaryEl.offsetHeight + this.contentEl.offsetHeight}px`
       : `${this.summaryEl.offsetHeight}px`;
 
@@ -86,30 +85,22 @@ export default class BlAccordion extends LitElement {
       }
     );
 
-    this._animation.onfinish = () => this._onAnimationFinish(isOpening);
-    this._animation.oncancel = () => this._onAnimationCancel(isOpening);
-  }
-
-  private _onAnimationCancel(isOpening: boolean) {
-    if (isOpening) {
-      this._isExpanding = false;
-    } else {
-      this._isCollapsing = false;
-    }
+    this._animation.onfinish = () => this._onAnimationFinish(isExpanding);
+    this._animation.oncancel = () => (this._animationStatus = null);
   }
 
   private _onAnimationFinish(open: boolean) {
     this.open = open;
     this._animation = null;
-    this._isExpanding = false;
-    this._isCollapsing = false;
+    this._animationStatus = null;
     this.detailsEl.style.height = this.detailsEl.style.overflow = "";
   }
 
   expand() {
+    this.detailsEl.style.overflow = "hidden";
     this.detailsEl.style.height = `${this.detailsEl.offsetHeight}px`;
     this.open = true;
-    window.requestAnimationFrame(() => this._animate(true));
+    this._animate(true);
   }
 
   collapse() {
@@ -121,11 +112,9 @@ export default class BlAccordion extends LitElement {
 
     if (this.disabled) return;
 
-    this.detailsEl.style.overflow = "hidden";
-
-    if (this._isCollapsing || !this.open) {
+    if (this._animationStatus === AnimationStatus.COLLAPSING || !this.open) {
       this.expand();
-    } else if (this._isExpanding || this.open) {
+    } else if (this._animationStatus === AnimationStatus.EXPANDING || this.open) {
       this.collapse();
     }
   }
@@ -141,7 +130,7 @@ export default class BlAccordion extends LitElement {
     }
   }
 
-  protected render(): TemplateResult {
+  render(): TemplateResult {
     const icon = this.icon
       ? html`<bl-icon class="icon" name=${this.icon === true ? "info" : this.icon}></bl-icon>`
       : null;
