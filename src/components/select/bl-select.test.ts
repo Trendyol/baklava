@@ -74,7 +74,7 @@ describe("bl-select", () => {
     const el = await fixture<BlSelect>(html`<bl-select></bl-select>`);
     const popover = el.shadowRoot?.querySelector(".popover");
 
-    expect(popover).to.not.exist;
+    expect(popover).to.have.style("display", "none");
   });
   it("should render bl-select-options", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>
@@ -508,7 +508,7 @@ describe("bl-select", () => {
 
         expect(el.querySelector<BlSelectOption>('bl-select-option[value=""]')?.selected).to.be
           .false;
-      
+
       });
 
       it("should not set empty option as selected when multiple, empty string value, selected option", async () => {
@@ -523,8 +523,8 @@ describe("bl-select", () => {
           .false;
         expect(el.querySelector<BlSelectOption>('bl-select-option[value="1"]')?.selected).to.be
           .true;
-      
-      }); 
+
+      });
 
       it("should not set empty option as selected when no value", async () => {
         const el = await fixture<BlSelect>(html`<bl-select name="test">
@@ -536,7 +536,7 @@ describe("bl-select", () => {
 
         expect(el.querySelector<BlSelectOption>('bl-select-option[value=""]')?.selected).to.be
           .false;
-      }); 
+      });
     });
   });
 
