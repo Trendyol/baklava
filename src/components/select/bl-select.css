@@ -218,6 +218,10 @@
   left: var(--left);
 }
 
+:host(:empty) .popover {
+  display: none;
+}
+
 .popover-no-result {
   display: flex;
   flex-direction: column;
