@@ -72,7 +72,6 @@ export default class BlCalendar extends LitElement {
    * Fires when date selection changes
    */
   @event("bl-calendar") private _onBlCalendarChange: EventDispatcher<Date | Date[]>;
-
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -134,8 +133,15 @@ export default class BlCalendar extends LitElement {
       this._selectedDates.splice(0, 1);
       this._selectedDates.push(date);
     } else if (this.type === "multiple") {
-      if (this._selectedDates.includes(date))
-        this._selectedDates.splice(this._selectedDates.indexOf(date), 1);
+      const dateExist = this._selectedDates.find(function (selectedDate) {
+        return (
+          selectedDate.day === date.day &&
+          selectedDate.month === date.month &&
+          selectedDate.year === date.year
+        );
+      });
+
+      if (dateExist) this._selectedDates.splice(this._selectedDates.indexOf(date), 1);
       else this._selectedDates.push(date);
     }
     this._onBlCalendarChange(
@@ -146,15 +152,13 @@ export default class BlCalendar extends LitElement {
     this.requestUpdate();
   }
   checkIfSelectedDate(day: number) {
-    let isSelected = false;
-
-    this._selectedDates.forEach(date => {
-      isSelected =
-        date.day === Number(day) &&
+    return this._selectedDates.find(date => {
+      return (
+        date.day === day &&
         date.month === this._calendarMonth.value &&
-        date.year === this._calendarYear;
+        date.year === this._calendarYear
+      );
     });
-    return isSelected;
   }
   checkIfDateIsToday(day: number) {
     const today = new Date();
