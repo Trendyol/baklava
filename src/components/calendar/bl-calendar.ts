@@ -5,7 +5,7 @@ import "../button/bl-button";
 import "../icon/bl-icon";
 import { DAYS, MONTHS } from "./bl-calendar.constant";
 import style from "./bl-calendar.css";
-import { Calendar, CalendarView, Month } from "./bl-calendar.types";
+import { Calendar, CalendarView, Month, SelectedDate } from "./bl-calendar.types";
 
 /**
  * @tag bl-calendar
@@ -54,11 +54,7 @@ export default class BlCalendar extends LitElement {
   disabledDates?: Date | Date[];
 
   @state()
-  private _selectedDate: { day: number; month: Month; year: number } = {
-    day: -1,
-    month: MONTHS[new Date().getMonth()],
-    year: new Date().getFullYear(),
-  };
+  private _selectedDates: SelectedDate[] = [];
 
   @state()
   private _calendarMonth: Month = MONTHS[new Date().getMonth()];
@@ -131,10 +127,42 @@ export default class BlCalendar extends LitElement {
       for (let i = 1; i <= 7; i++) this._calendarYears.push(this._calendarYear + i);
     }
   }
-  setSelectedDate(day: number) {
-    this._selectedDate = { day, month: this._calendarMonth, year: this._calendarYear };
+  setOrClearDate(day: number) {
+    const date = { day, month: this._calendarMonth.value, year: this._calendarYear };
+
+    if (this.type === "single") {
+      this._selectedDates.splice(0, 1);
+      this._selectedDates.push(date);
+    } else if (this.type === "multiple") {
+      if (this._selectedDates.includes(date))
+        this._selectedDates.splice(this._selectedDates.indexOf(date), 1);
+      else this._selectedDates.push(date);
+    }
     this._onBlCalendarChange(
-      new Date(this._selectedDate.month.value + 1, this._selectedDate.year, this._selectedDate.day)
+      this._selectedDates.map(date => {
+        return new Date(date.month + 1, date.year, date.day);
+      })
+    );
+    this.requestUpdate();
+  }
+  checkIfSelectedDate(day: number) {
+    let isSelected = false;
+
+    this._selectedDates.forEach(date => {
+      isSelected =
+        date.day === Number(day) &&
+        date.month === this._calendarMonth.value &&
+        date.year === this._calendarYear;
+    });
+    return isSelected;
+  }
+  checkIfDateIsToday(day: number) {
+    const today = new Date();
+
+    return (
+      this._calendarMonth.value === today.getMonth() &&
+      this._calendarYear === today.getFullYear() &&
+      day === today.getDate()
     );
   }
   createCalendarDays() {
@@ -166,8 +194,6 @@ export default class BlCalendar extends LitElement {
   render() {
     const getCalendarView = (calendarView: CalendarView) => {
       if (calendarView === "days") {
-        const today = new Date();
-
         const calendarDays = this.createCalendarDays();
 
         return html`<div class="days-view">
@@ -175,18 +201,12 @@ export default class BlCalendar extends LitElement {
             return html` <div class="day-column">
               <div class="weekday-text day-cell">${DAYS[key]}</div>
               ${value.map(day => {
-                const isSelectedDay =
-                  this._selectedDate.day === Number(day) &&
-                  this._selectedDate.month === this._calendarMonth &&
-                  this._selectedDate.year === this._calendarYear;
-                const isToday =
-                  this._calendarMonth.value === today.getMonth() &&
-                  this._calendarYear === today.getFullYear() &&
-                  day === today.getDate();
+                const isSelectedDay = this.checkIfSelectedDate(Number(day));
+                const isToday = this.checkIfDateIsToday(Number(day));
 
                 return html` <div
                   class="day-cell ${isToday && "today-day"} ${isSelectedDay && "selected-day"}"
-                  @click="${() => this.setSelectedDate(Number(day))}"
+                  @click="${() => this.setOrClearDate(Number(day))}"
                 >
                   ${day}
                 </div>`;

@@ -19,3 +19,5 @@ export type CalendarView = "days" | "months" | "years";
 export type Calendar = "single" | "multiple" | "range";
 export type Month = { value: MonthValues; name: MonthNames };
 export type Day = string;
+
+export type SelectedDate = { day: number; month: number; year: number };
