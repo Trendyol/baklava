@@ -48,16 +48,21 @@
   width: 40px;
   height: 32px;
   padding: 4px;
-  cursor:pointer;
+  cursor: pointer;
 
-  &.today-day{
+  &.today-day {
     color: var(--bl-color-primary);
   }
 
-  &.selected-day{
-    color:white;
+  &.selected-day {
+    color: white;
     background: var(--bl-color-primary);
     border-radius: 50%;
+  }
+
+  &.disabled-day {
+    color: var(--bl-color-neutral-dark);
+    cursor: auto;
   }
 }
 
@@ -66,13 +71,13 @@
   text-align: center;
 }
 
-.months-view{
+.months-view {
   display: grid;
   grid-template-columns: auto auto auto;
   column-gap: 50px;
   text-align: center;
 }
 
-.month-item{
+.month-item {
   padding: 5px 10px;
 }

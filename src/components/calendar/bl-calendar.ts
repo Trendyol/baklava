@@ -169,6 +169,17 @@ export default class BlCalendar extends LitElement {
       day === today.getDate()
     );
   }
+  checkIfDateIsDisabled(day: number) {
+    const date = new Date(this._calendarYear, this._calendarMonth.value, day);
+
+    if (Array.isArray(this.disabledDates)) {
+      return this.disabledDates.find(disabledDate => {
+        return date.toDateString() === disabledDate.toDateString();
+      });
+    } else if (this.disabledDates) {
+      return date.toDateString() === this.disabledDates.toDateString();
+    } else return false;
+  }
   createCalendarDays() {
     const currentMonthCalendar: Map<number, (number | string)[]> = new Map();
     let dayOfTheWeek = 0;
@@ -206,11 +217,13 @@ export default class BlCalendar extends LitElement {
               <div class="weekday-text day-cell">${DAYS[key]}</div>
               ${value.map(day => {
                 const isSelectedDay = this.checkIfSelectedDate(Number(day));
-                const isToday = this.checkIfDateIsToday(Number(day));
+                const isDayToday = this.checkIfDateIsToday(Number(day));
+                const isDisabledDay = this.checkIfDateIsDisabled(Number(day));
 
                 return html` <div
-                  class="day-cell ${isToday && "today-day"} ${isSelectedDay && "selected-day"}"
-                  @click="${() => this.setOrClearDate(Number(day))}"
+                  class="day-cell ${isDayToday && "today-day"} ${isSelectedDay &&
+                  "selected-day"} ${isDisabledDay && "disabled-day"}"
+                  @click="${() => !isDisabledDay && this.setOrClearDate(Number(day))}"
                 >
                   ${day}
                 </div>`;
