@@ -428,7 +428,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         : html`
             <input
               class="search-bar-input"
-              placeholder=${searchbarPlaceholderText}
+              placeholder=${this.opened || this.labelFixed
+                ? searchbarPlaceholderText
+                : this.label || searchbarPlaceholderText}
               @input=${this._handleSearchOptions}
               .value=${this._searchText}
             />
