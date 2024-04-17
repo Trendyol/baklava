@@ -24,13 +24,13 @@ export default class BlCalendar extends LitElement {
    *Defines the minimum date value for the calendar
    */
   @property()
-  minDate?: Date | string;
+  minDate?: Date = new Date(2024, 3, 4);
 
   /**
    * Defines the maximum date value for the calendar
    */
   @property()
-  maxDate?: Date | string;
+  maxDate?: Date;
 
   /**
    * Defines the default selected date value for the calendar
@@ -178,7 +178,12 @@ export default class BlCalendar extends LitElement {
       });
     } else if (this.disabledDates) {
       return date.toDateString() === this.disabledDates.toDateString();
-    } else return false;
+    } else if (this.minDate && this.maxDate) {
+      return date < this.minDate || date > this.maxDate;
+    } else if (this.minDate) {
+      return date < this.minDate;
+    } else if (this.maxDate) return date > this.maxDate;
+    else return false;
   }
   createCalendarDays() {
     const currentMonthCalendar: Map<number, (number | string)[]> = new Map();
