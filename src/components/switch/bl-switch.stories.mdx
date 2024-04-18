@@ -26,14 +26,11 @@ export const SwitchTemplate = (args) => html`
 `;
 
 export const SwitchWithLabel = (args) => html`
-<div style="display: flex;align-items: center;gap: var(--bl-size-2xs)">
-  <label style="font: var(--bl-font-title-3);color: var(--bl-color-neutral-dark)">${args.label}</label>
   <bl-switch
     ?disabled=${args.disabled}
     ?checked=${args.checked}
     aria-label="${args.label}"
-  ></bl-switch>
-</div>
+  >${args.label}</bl-switch>
 `;
 
 export const SwitchStyled = args => html`
@@ -74,8 +71,6 @@ Switch is _Off_ by default.
 </Canvas>
 
 Switch with label.
-
-<bl-alert variant="warning" icon>Inline styles in this example are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
 
 <Canvas>
   <Story name="Switch with label" args={{ label: "Label for Switch" }}>

@@ -39,8 +39,6 @@ describe("bl-pagination", () => {
     expect(el.itemsPerPage).to.equal(10);
     expect(el.hasJumper).to.equal(false);
     expect(el.hasSelect).to.equal(false);
-    expect(el.jumperLabel).to.equal("Go To");
-    expect(el.selectLabel).to.equal("Show");
   });
 
   it("should correctly set the attributes", async () => {
@@ -292,7 +290,7 @@ describe("bl-pagination", () => {
       }
 
       const selectOptionEvent = new CustomEvent("bl-select", {
-        detail: [optionTwo],
+        detail: optionTwo,
       });
 
       select?.dispatchEvent(selectOptionEvent);

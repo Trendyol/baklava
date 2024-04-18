@@ -56,17 +56,19 @@ export default class BlSwitch extends LitElement {
       this.ariaLabel ?? this.attributes.getNamedItem("aria-label")?.value ?? undefined;
 
     return html`
-      <span
-        class="switch"
-        role="switch"
-        aria-checked=${this.checked}
-        aria-readonly=${!!this.disabled}
-        @click=${this.toggle}
-        @keydown=${this.handleKeyDown}
-        aria-label=${ifDefined(ariaLabel)}
-        tabindex="0"
-      >
-      </span>
+      <label @click=${this.toggle}>
+        <slot class="label"></slot>
+        <span
+          class="switch"
+          role="switch"
+          aria-checked=${this.checked}
+          aria-readonly=${!!this.disabled}
+          @keydown=${this.handleKeyDown}
+          aria-label=${ifDefined(ariaLabel)}
+          tabindex="0"
+        >
+        </span>
+      </label>
     `;
   }
 }

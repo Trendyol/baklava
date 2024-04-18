@@ -51,7 +51,9 @@ const args = parseArgs(process.argv.slice(2), {
       entryPoints: [
         'src/baklava.ts',
         'src/baklava-react.ts',
+        'src/localization.ts',
         ...(await globby([
+          'src/generated/**/*.ts',
           'src/components/**/!(*.(test|d)).ts',
           'src/themes/*.css',
           'src/components/**/*.svg',

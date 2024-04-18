@@ -1,0 +1,47 @@
+:host {
+  display: table-cell;
+  border: 1px solid var(--bl-color-neutral-lighter);
+  padding: var(--bl-size-m);
+  font: var(--bl-font-title-3-regular);
+  color: var(--bl-color-neutral-darker);
+  box-sizing: border-box;
+  vertical-align: middle;
+  word-break: break-word;
+  background-color: var(--bl-color-neutral-full);
+  background-clip: padding-box;
+  border-top: none;
+  border-right: none;
+}
+
+.table-cell {
+  display: flex;
+  align-items: center;
+}
+
+.table-cell.shadow-right::before {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 0;
+  width: 16px;
+  height: 100%;
+  z-index: -1;
+  border-right: 1px solid var(--bl-color-neutral-lighter);
+  box-shadow: 8px 0 16px 0 rgb(39 49 66 / 10%);
+}
+
+.table-cell.shadow-left::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 16px;
+  height: 100%;
+  z-index: -1;
+  border-left: 1px solid var(--bl-color-neutral-lighter);
+  box-shadow: -8px 0 16px 0 rgb(39 49 66 / 10%);
+}
+
+bl-checkbox {
+  margin-right: var(--bl-size-m);
+}

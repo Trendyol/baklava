@@ -1,6 +1,5 @@
 import { LitElement, html, CSSResultGroup, TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import BlButton, { ButtonSize, ButtonVariant, ButtonKind } from "../button/bl-button";
@@ -32,7 +31,7 @@ export default class BlDropdown extends LitElement {
    * Sets the dropdown button label
    */
   @property({ type: String, reflect: true })
-  label = "Dropdown Button";
+  label: string;
 
   /**
    * Sets the dropdown button variant
@@ -143,18 +142,18 @@ export default class BlDropdown extends LitElement {
     return html`<bl-button
         dropdown
         .active=${this.opened}
-        ?disabled=${ifDefined(this.disabled)}
+        ?disabled=${this.disabled}
         variant="${this.variant}"
         kind="${this.kind}"
         size="${this.size}"
-        aria-label="${ifDefined(this.label)}"
         @bl-click="${this._handleClick}"
       >
         ${this.label}
       </bl-button>
-      <bl-popover fit-size placement="bottom-start" @bl-popover-hide="${this.close}">
-        <slot></slot>
-      </bl-popover> `;
+      <bl-popover fit-size placement="bottom-start" @bl-popover-hide="${this.close}"
+        ><div class="popover-content">
+          <slot></slot></div
+      ></bl-popover> `;
   }
 }
 

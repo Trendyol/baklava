@@ -1,4 +1,5 @@
 :host {
+  display: block;
   position: relative;
   width: 100%;
 }
@@ -17,14 +18,17 @@
   color: var(--bl-color-neutral-dark);
 }
 
-:host(:not(:first-child)) {
+:host(:not(:first-child)) .dropdown-group {
   border-top: 1px solid var(--bl-color-neutral-lighter);
+  padding-top: var(--bl-size-xs);
 }
 
-:host(:not(:last-child)) {
+:host(:not(:last-child)) .dropdown-group {
   border-bottom: 1px solid var(--bl-color-neutral-lighter);
+  padding-bottom: var(--bl-size-xs);
 }
 
+/*
 :host(:not([caption])) ::slotted(:first-child) {
   padding-block: var(--bl-size-xs) 0;
 }
@@ -35,4 +39,4 @@
 
 :host(:not(:first-child)) .caption {
   padding-block: var(--bl-size-xs) 0;
-}
+} */
