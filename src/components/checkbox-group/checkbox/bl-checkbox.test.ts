@@ -14,13 +14,16 @@ describe("bl-checkbox", () => {
     assert.shadowDom.equal(
       el,
       `
-        <label>
-            <input type="checkbox"
-              aria-readonly="false"
-              aria-required="false" />
-            <div class="check-mark"></div>
-            <slot class="label"></slot>
-        </label>
+        <div>
+          <label>
+              <input type="checkbox"
+                aria-readonly="false"
+                aria-required="false" />
+              <div class="check-mark"></div>
+              <slot class="label"></slot>
+          </label>
+          <div class="hint"></div>
+        </div>
       `
     );
   });
