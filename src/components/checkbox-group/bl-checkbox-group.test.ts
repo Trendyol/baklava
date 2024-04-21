@@ -23,13 +23,15 @@ describe("bl-checkbox-group", () => {
 
     //then
     expect(el).shadowDom.equal(
-      `
-      <fieldset role="group" aria-labelledby="label" aria-required="false">
-        <legend id="label">Choose sports you like</legend>
-        <div class="options">
-          <slot></slot>
-        </div>
-      </fieldset>
+      `<div>
+        <fieldset role="group" aria-labelledby="label" aria-required="false" tabindex="0">
+          <legend id="label">Choose sports you like</legend>
+          <div class="options">
+            <slot></slot>
+          </div>
+          <div class="hint"></div>
+        </fieldset>
+      </div>
       `
     );
   });
@@ -243,8 +245,8 @@ describe("bl-checkbox-group", () => {
       });
 
       //then
-      expect(checkboxGroup?.value.length).to.equal(1);
-      expect(checkboxGroup?.value[0]).to.equal("basketball");
+      expect(checkboxGroup?.value?.length).to.equal(1);
+      expect(checkboxGroup?.value?.[0]).to.equal("basketball");
     });
 
     it("should focus the next option with Tab key & previous option with Shift+Tab key", async () => {
