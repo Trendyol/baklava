@@ -20,7 +20,7 @@ label {
   overflow-wrap: anywhere;
 }
 
-.dirty.invalid label{
+.dirty.invalid label {
   margin-bottom: var(--bl-size-3xs);
 }
 
@@ -58,12 +58,12 @@ input[type="checkbox"] {
   background-color: var(--bl-color-neutral-full);
 }
 
-.required-suffix{
+.required-suffix {
   color: var(--bl-color-danger);
   margin-left: calc(var(--bl-size-2xs) * -1);
 }
 
-.dirty.invalid .check-mark{
+.dirty.invalid .check-mark {
   border-color: var(--bl-color-danger);
 }
 

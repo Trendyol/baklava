@@ -20,7 +20,7 @@ legend {
   margin-block: var(--bl-size-xs);
 }
 
-.dirty.invalid .options{
+.dirty.invalid .options {
   margin-bottom: var(--bl-size-3xs);
 }
 
