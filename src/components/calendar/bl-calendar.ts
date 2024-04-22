@@ -3,9 +3,15 @@ import { customElement, property, state } from "lit/decorators.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import "../icon/bl-icon";
-import { DAYS, MONTHS } from "./bl-calendar.constant";
+import { DAYS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX, MONTHS } from "./bl-calendar.constant";
 import style from "./bl-calendar.css";
-import { Calendar, CalendarView, Month, SelectedDate } from "./bl-calendar.types";
+import {
+  Calendar,
+  CalendarDay,
+  CalendarType,
+  CalendarView,
+  SelectedDate,
+} from "./bl-calendar.types";
 
 /**
  * @tag bl-calendar
@@ -18,46 +24,46 @@ export default class BlCalendar extends LitElement {
    *Defines the calendar types, available types are single,multiple and range
    */
   @property()
-  type: Calendar = "single";
+  type: CalendarType = "single";
 
   /**
    *Defines the minimum date value for the calendar
    */
   @property()
-  minDate?: Date = new Date(2024, 3, 4);
+  minDate: Date;
 
   /**
    * Defines the maximum date value for the calendar
    */
   @property()
-  maxDate?: Date;
+  maxDate: Date;
 
   /**
    * Defines the default selected date value for the calendar
    */
   @property({ type: Array, attribute: "default-value", reflect: true })
-  defaultValue?: Date | Date[];
+  defaultValue: Date | Date[];
 
   /**
    * Defines the start day of the calendar (1 defines monday)
    */
   @property({ type: Number, attribute: "start-of-week", reflect: true })
-  startOfWeek?: number = 1;
+  startOfWeek: number = 3;
 
   @property()
-  locale?: string = document.documentElement.lang;
+  locale: string = document.documentElement.lang;
 
   /**
    * Defines the unselectable dates for calendar
    */
   @property({ type: Array })
-  disabledDates?: Date | Date[];
+  disabledDates: Date | Date[];
 
   @state()
   private _selectedDates: SelectedDate[] = [];
 
   @state()
-  private _calendarMonth: Month = MONTHS[new Date().getMonth()];
+  private _calendarMonth: number = new Date().getMonth();
 
   @state()
   private _calendarYear: number = new Date().getFullYear();
@@ -75,18 +81,18 @@ export default class BlCalendar extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
-  getDayNumInAMonth() {
-    return new Date(this._calendarMonth.value + 1, this._calendarYear, 0).getDate();
+  getDayNumInAMonth(year: number, month: number) {
+    return new Date(year, month + 1, 0).getDate();
   }
-  getWeekDayOfDate() {
-    return new Date(this._calendarYear, this._calendarMonth.value, 1).getDay();
+  getWeekDayOfDate(year: number, month: number) {
+    return new Date(year, month, 1).getDay();
   }
   setPreviousCalendarView() {
     if (this._calendarView === "days") {
-      if (this._calendarMonth.value === MONTHS[0].value) {
-        this._calendarMonth = MONTHS[11];
+      if (this._calendarMonth === FIRST_MONTH_INDEX) {
+        this._calendarMonth = LAST_MONTH_INDEX;
         this._calendarYear -= 1;
-      } else this._calendarMonth = MONTHS[this._calendarMonth.value - 1];
+      } else this._calendarMonth -= 1;
     } else if (this._calendarView === "years") {
       const fromYear = this._calendarYears[0];
 
@@ -98,10 +104,10 @@ export default class BlCalendar extends LitElement {
   }
   setNextCalendarView() {
     if (this._calendarView === "days") {
-      if (this._calendarMonth.value === MONTHS[11].value) {
-        this._calendarMonth = MONTHS[0];
+      if (this._calendarMonth === LAST_MONTH_INDEX) {
+        this._calendarMonth = FIRST_MONTH_INDEX;
         this._calendarYear += 1;
-      } else this._calendarMonth = MONTHS[this._calendarMonth.value + 1];
+      } else this._calendarMonth += 1;
     } else if (this._calendarView === "years") {
       const fromYear = this._calendarYears[11];
 
@@ -111,8 +117,8 @@ export default class BlCalendar extends LitElement {
       }
     }
   }
-  setMonthAndCalendarView(index: number) {
-    this._calendarMonth = MONTHS[index];
+  setMonthAndCalendarView(month: number) {
+    this._calendarMonth = month;
     this._calendarView = "days";
   }
   setYearAndCalendarView(year: number) {
@@ -126,8 +132,14 @@ export default class BlCalendar extends LitElement {
       for (let i = 1; i <= 7; i++) this._calendarYears.push(this._calendarYear + i);
     }
   }
-  setOrClearDate(day: number) {
-    const date = { day, month: this._calendarMonth.value, year: this._calendarYear };
+  handleDate(calendarDay: CalendarDay) {
+    const date = { day: calendarDay.day, month: this._calendarMonth, year: this._calendarYear };
+
+    if (calendarDay.belongsToPrevMonth) {
+      this.setPreviousCalendarView();
+    } else if (calendarDay.belongsToNextMonth) {
+      this.setNextCalendarView();
+    }
 
     if (this.type === "single") {
       this._selectedDates.splice(0, 1);
@@ -144,6 +156,7 @@ export default class BlCalendar extends LitElement {
       if (dateExist) this._selectedDates.splice(this._selectedDates.indexOf(date), 1);
       else this._selectedDates.push(date);
     }
+
     this._onBlCalendarChange(
       this._selectedDates.map(date => {
         return new Date(date.month + 1, date.year, date.day);
@@ -151,12 +164,13 @@ export default class BlCalendar extends LitElement {
     );
     this.requestUpdate();
   }
-  checkIfSelectedDate(day: number) {
+  checkIfSelectedDate(day: CalendarDay) {
     return this._selectedDates.find(date => {
       return (
-        date.day === day &&
-        date.month === this._calendarMonth.value &&
-        date.year === this._calendarYear
+        date.day === day.day &&
+        date.month === this._calendarMonth &&
+        date.year === this._calendarYear &&
+        day.belongsToCurrentMonth
       );
     });
   }
@@ -164,13 +178,13 @@ export default class BlCalendar extends LitElement {
     const today = new Date();
 
     return (
-      this._calendarMonth.value === today.getMonth() &&
+      this._calendarMonth === today.getMonth() &&
       this._calendarYear === today.getFullYear() &&
       day === today.getDate()
     );
   }
   checkIfDateIsDisabled(day: number) {
-    const date = new Date(this._calendarYear, this._calendarMonth.value, day);
+    const date = new Date(this._calendarYear, this._calendarMonth, day);
 
     if (Array.isArray(this.disabledDates)) {
       return this.disabledDates.find(disabledDate => {
@@ -186,51 +200,122 @@ export default class BlCalendar extends LitElement {
     else return false;
   }
   createCalendarDays() {
-    const currentMonthCalendar: Map<number, (number | string)[]> = new Map();
-    let dayOfTheWeek = 0;
+    const currentMonthCalendar: Calendar = new Map();
+    let dayOfTheWeek = 0; // from sunday
     let iteratedDay = 1;
-    const currentMonthTotalCalendarCellCount = this.getDayNumInAMonth() + this.getWeekDayOfDate();
+    let currentMonthCalendarCellIterator = 0;
+    const dateAndYear = { month: this._calendarMonth, year: this._calendarYear };
+    const currentMonthStartWeekDay = this.getWeekDayOfDate(this._calendarYear, this._calendarMonth);
+
+    const previousMonthDayCount = this.getDayNumInAMonth(
+      this._calendarYear,
+      this._calendarMonth - 1
+    );
+    const currentMonthTotalCalendarCellCount =
+      this.getDayNumInAMonth(this._calendarYear, this._calendarMonth) + currentMonthStartWeekDay;
 
     for (
-      let currentMonthCalendarCellIterator = 0;
+      currentMonthCalendarCellIterator;
       currentMonthCalendarCellIterator < currentMonthTotalCalendarCellCount;
       currentMonthCalendarCellIterator += 1
     ) {
       const mod = dayOfTheWeek % 7;
 
-      if (currentMonthCalendarCellIterator < this.getWeekDayOfDate()) {
-        currentMonthCalendar.set(mod, [""]);
-      } else if (currentMonthCalendar.get(mod)) {
-        currentMonthCalendar.get(mod)?.push(iteratedDay);
+      if (currentMonthCalendarCellIterator < currentMonthStartWeekDay) {
+        currentMonthCalendar.set(DAYS[mod], [
+          {
+            day:
+              previousMonthDayCount -
+              (currentMonthStartWeekDay - currentMonthCalendarCellIterator - 1),
+            belongsToPrevMonth: true,
+            ...dateAndYear,
+          },
+        ]);
+      } else if (currentMonthCalendar.get(DAYS[mod])) {
+        currentMonthCalendar.get(DAYS[mod])?.push({
+          day: iteratedDay,
+          belongsToCurrentMonth: true,
+          ...dateAndYear,
+        });
         iteratedDay += 1;
       } else {
-        currentMonthCalendar.set(mod, [iteratedDay]);
+        currentMonthCalendar.set(DAYS[mod], [
+          {
+            day: iteratedDay,
+            belongsToCurrentMonth: true,
+            ...dateAndYear,
+          },
+        ]);
         iteratedDay += 1;
       }
       dayOfTheWeek += 1;
     }
+    let nearestMultipleOfSeven = currentMonthCalendarCellIterator;
+
+    if (currentMonthCalendarCellIterator % 7 > 0)
+      nearestMultipleOfSeven =
+        currentMonthCalendarCellIterator + (7 - (currentMonthCalendarCellIterator % 7));
+
+    for (
+      let nextMonthDaysIterator = 1;
+      nextMonthDaysIterator <= nearestMultipleOfSeven - currentMonthCalendarCellIterator;
+      nextMonthDaysIterator++
+    ) {
+      const mod = (currentMonthCalendarCellIterator + nextMonthDaysIterator - 1) % 7;
+
+      currentMonthCalendar.get(DAYS[mod])?.push({
+        day: nextMonthDaysIterator,
+        belongsToNextMonth: true,
+        ...dateAndYear,
+      });
+    }
     return currentMonthCalendar;
+  }
+  reArrangeCalendarForStartOfWeek(map: Calendar) {
+    const newMap: Calendar = new Map();
+    const keys = Array.from(map.keys());
+    const index = keys.indexOf(DAYS[this.startOfWeek]);
+
+    for (let i = 0; i < keys.length; i++) {
+      const newIndex = (index + i) % keys.length;
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const temp = map.get(keys[newIndex]) as CalendarDay[];
+
+      if (!temp[0].belongsToCurrentMonth) {
+        const firstElement = temp.shift();
+
+        if (firstElement) temp.push(firstElement);
+      }
+      newMap.set(DAYS[newIndex], temp);
+    }
+
+    return newMap;
   }
   render() {
     const getCalendarView = (calendarView: CalendarView) => {
       if (calendarView === "days") {
         const calendarDays = this.createCalendarDays();
+        const reArrangeCalendarForStartOfWeek = this.reArrangeCalendarForStartOfWeek(calendarDays);
 
         return html`<div class="days-view">
-          ${[...calendarDays.entries()].map(([key, value]) => {
+          ${[...reArrangeCalendarForStartOfWeek.entries()].map(([key, value]) => {
             return html` <div class="day-column">
-              <div class="weekday-text day-cell">${DAYS[key]}</div>
-              ${value.map(day => {
-                const isSelectedDay = this.checkIfSelectedDate(Number(day));
-                const isDayToday = this.checkIfDateIsToday(Number(day));
-                const isDisabledDay = this.checkIfDateIsDisabled(Number(day));
+              <div class="weekday-text day-cell">${key}</div>
+              ${value.map(date => {
+                const isSelectedDay = this.checkIfSelectedDate(date);
+                const isDayToday = this.checkIfDateIsToday(date.day);
+                const isDisabledDay = this.checkIfDateIsDisabled(date.day);
 
                 return html` <div
                   class="day-cell ${isDayToday && "today-day"} ${isSelectedDay &&
-                  "selected-day"} ${isDisabledDay && "disabled-day"}"
-                  @click="${() => !isDisabledDay && this.setOrClearDate(Number(day))}"
+                  "selected-day"} ${isDisabledDay && "disabled-day"} ${(date.belongsToNextMonth ||
+                    date.belongsToPrevMonth) &&
+                  "other-month-day"}"
+                  @click="${() => !isDisabledDay && this.handleDate(date)}"
                 >
-                  ${day}
+                  ${date.day}
                 </div>`;
               })}
             </div>`;
@@ -280,7 +365,7 @@ export default class BlCalendar extends LitElement {
               kind="neutral"
               class="day-text"
               @click="${() => (this._calendarView = "months")}"
-              >${this._calendarMonth.name}</bl-button
+              >${MONTHS[this._calendarMonth].name}</bl-button
             >
             <bl-button
               variant="tertiary"

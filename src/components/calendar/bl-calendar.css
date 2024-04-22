@@ -61,8 +61,12 @@
   }
 
   &.disabled-day {
-    color: var(--bl-color-neutral-dark);
+    color: var(--bl-color-neutral-light);
     cursor: auto;
+  }
+
+  &.other-month-day{
+    color: var(--bl-color-neutral-dark);
   }
 }
 

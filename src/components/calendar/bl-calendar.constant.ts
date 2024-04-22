@@ -16,3 +16,6 @@ export const MONTHS: Month[] = [
 ];
 
 export const DAYS: Day[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+export const FIRST_MONTH_INDEX = 0;
+export const LAST_MONTH_INDEX = 11;
