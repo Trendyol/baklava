@@ -294,6 +294,14 @@ Display a loading icon in place of the search icon with using `search-bar-loadin
   <Story name="Searchable with Loading State" args={{ searchBar: true, searchBarPlaceholder: 'Search your options', multiple: true, searchBarLoadingState: true }}>
     {SelectTemplate.bind({})}
   </Story>
+
+  <Story name="Searchable with Label" args={{ searchBar: true, searchBarPlaceholder: 'Search your options', label: 'Label' }}>
+    {SelectTemplate.bind({})}
+  </Story>
+
+  <Story name="Searchable with Fixed Label" args={{ searchBar: true, searchBarPlaceholder: 'Search your options', label: 'Label', labelFixed: true }}>
+    {SelectTemplate.bind({})}
+  </Story>
 </Canvas>
 
 ## Special Use Cases
