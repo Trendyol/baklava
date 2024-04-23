@@ -113,4 +113,102 @@ describe("bl-checkbox", () => {
       expect(ev.detail).to.be.equal(false);
     });
   });
+
+  describe("validation", () => {
+    it("should be valid by default ", async () => {
+      const el = await fixture<BlCheckbox>(html`<bl-checkbox></bl-checkbox>`);
+
+      expect(el.validity.valid).to.be.true;
+    });
+
+    it("should be invalid with required attribute", async () => {
+      const el = await fixture<BlCheckbox>(html`<bl-checkbox required></bl-checkbox>`);
+
+      expect(el.validity.valid).to.be.false;
+    });
+
+    it("should set invalid text", async () => {
+      const errorMessage = "This field is mandatory";
+      const el = await fixture<BlCheckbox>(
+        html`<bl-checkbox required invalid-text="${errorMessage}"></bl-checkbox>`
+      );
+
+      el.reportValidity();
+
+      await elementUpdated(el);
+
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector(".invalid-text")
+      );
+
+      expect(el.validity.valid).to.be.false;
+
+      expect(errorMessageElement).to.exist;
+      expect(errorMessageElement?.innerText).to.equal(errorMessage);
+    });
+
+    it("should show error when reportValidity method called", async () => {
+      const el = await fixture<BlCheckbox>(html`<bl-checkbox required></bl-checkbox>`);
+
+      el.reportValidity();
+
+      await elementUpdated(el);
+
+      expect(el.validity.valid).to.be.false;
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector(".invalid-text")
+      );
+
+      expect(errorMessageElement).to.visible;
+    });
+
+    it("should show error when checkbox is unchecked from checked", async () => {
+      const el = await fixture<BlCheckbox>(html`<bl-checkbox required checked></bl-checkbox>`);
+      const checkbox = el.shadowRoot?.querySelector("input");
+
+      await elementUpdated(el);
+
+      expect(el.validity.valid).to.be.true;
+
+
+      setTimeout(() => checkbox?.click());
+      const invalidEvent = await oneEvent(el, "bl-checkbox-invalid");
+
+      await new Promise(resolve => setTimeout(resolve, 100));
+      await elementUpdated(el);
+
+
+      expect(invalidEvent).to.exist;
+      expect(el.validity.valid).to.be.false;
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector(".invalid-text")
+      );
+
+      expect(errorMessageElement).to.visible;
+    });
+  });
+
+  describe("form integration", () => {
+    it("should show errors when parent form is submitted", async () => {
+      const form = await fixture<HTMLFormElement>(html`<form novalidate>
+        <bl-checkbox required></bl-checkbox>
+      </form>`);
+
+      const blCheckbox = form.querySelector<BlCheckbox>("bl-checkbox");
+
+      form.addEventListener("submit", e => e.preventDefault());
+
+      form.dispatchEvent(new SubmitEvent("submit", { cancelable: true }));
+
+      await elementUpdated(form);
+
+      const errorMessageElement = <HTMLParagraphElement>(
+        blCheckbox?.shadowRoot?.querySelector(".invalid-text")
+      );
+
+      expect(blCheckbox?.validity.valid).to.be.false;
+
+      expect(errorMessageElement).to.exist;
+    });
+  });
 });
