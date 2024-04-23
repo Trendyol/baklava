@@ -80,6 +80,11 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
    */
   @event("bl-blur") private onBlur: EventDispatcher<string>;
 
+  /**
+   * Fires when checkbox is invalid
+   */
+  @event("bl-checkbox-invalid") private onInvalid: EventDispatcher<ValidityState>;
+
   @query("[type=checkbox]") checkboxElement: HTMLElement;
 
   @state()
@@ -95,6 +100,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
 
     this.form?.addEventListener("submit", e => {
       if (!this.reportValidity()) {
+        this.onInvalid(this.internals.validity);
         e.preventDefault();
       }
     });
@@ -110,6 +116,13 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
     this.field?.removeEventListener(blChangeEventName, this.handleFieldValueChange);
   }
 
+  protected firstUpdated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has("checked") && this.checked) {
+      this.value = "on";
+      this.setValue(this.value);
+    }
+  }
+
   protected async updated(changedProperties: Map<string, unknown>): Promise<void> {
     if (changedProperties.has("checked") && this.required) {
       if (this.checked) {
@@ -119,7 +132,9 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
       }
 
       await this.validationComplete;
-
+      if (!this.checkValidity()) {
+        this.onInvalid(this.internals.validity);
+      }
       this.requestUpdate();
     }
   }
@@ -154,7 +169,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
     this.checkboxElement.tabIndex = -1;
   }
 
-  private handleChange(event: CustomEvent) {
+  private async handleChange(event: CustomEvent) {
     const target = event.target as HTMLInputElement;
 
     this.dirty = true;

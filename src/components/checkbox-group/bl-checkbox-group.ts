@@ -80,12 +80,9 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
     this.addEventListener("focus", this.handleFocus);
     this.addEventListener("keydown", this.handleKeyDown);
 
-    if (this.required) {
-      this.setValue(null);
-    }
-
     this.form?.addEventListener("submit", (e: SubmitEvent) => {
       if (!this.reportValidity()) {
+        this.onInvalid(this.internals.validity);
         e.preventDefault();
       }
       this.checkOptionsValidity();
@@ -98,13 +95,25 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
     this.removeEventListener("keydown", this.handleKeyDown);
   }
 
+  protected firstUpdated() {
+    if (this.required && !this.value) {
+      this.setValue(null);
+      this.onInvalid(this.internals.validity);
+    }
+  }
+
   protected async updated(changedProperties: Map<string, unknown>): Promise<void> {
-    if (changedProperties.has("value") && this.value !== null) {
+    if (changedProperties.has("value")) {
       this.setFormValue();
       this.checkOptionsValidity();
-      this.onChange(this.value);
+
+      if (this.value !== null) this.onChange(this.value);
 
       await this.validationComplete;
+
+      if (!this.checkValidity()) {
+        this.onInvalid(this.internals.validity);
+      }
 
       this.requestUpdate();
     }
@@ -125,6 +134,11 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
    * Fires when checkbox group value changed
    */
   @event("bl-checkbox-group-change") private onChange: EventDispatcher<string[]>;
+
+  /**
+   * Fires when checkbox group is invalid
+   */
+  @event("bl-checkbox-group-invalid") private onInvalid: EventDispatcher<ValidityState>;
 
   private focusedOptionIndex = 0;
 
