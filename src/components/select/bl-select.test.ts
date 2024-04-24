@@ -344,6 +344,33 @@ describe("bl-select", () => {
     });
   });
 
+  it("should search 'iç' when 'iç' is typed in lang='tr'", async () => {
+    const doc = document.querySelector("html");
+
+    doc?.setAttribute("lang", "tr");
+
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="1">İçecekler</bl-select-option>
+      <bl-select-option value="en">Yiyecekler</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+    searchInput?.focus();
+
+    await sendKeys({
+      type: "iç",
+    });
+
+    el.options.forEach(option => {
+      if (option.innerText === "İçecekler") {
+        expect(option.hidden).to.be.false;
+      } else {
+        expect(option.hidden).to.be.true;
+      }
+    });
+  });
+
   it("should show loading icon when the search loading state is true", async () => {
     const el = await fixture<BlSelect>(html`<bl-select search-bar>
       <bl-select-option value="tr">Turkey</bl-select-option>

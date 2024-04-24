@@ -1,6 +1,7 @@
 import { LocaleModule, configureLocalization } from "@lit/localize";
 import { sourceLocale, targetLocales, allLocales } from "./generated/locale-codes";
 import * as templatesTR from "./generated/locales/tr";
+import { getLocale } from "./utilities/getLocale";
 
 type LangKey = "tr" | "en";
 
@@ -14,11 +15,9 @@ const { setLocale } = configureLocalization({
 
 export const init = async () => {
   const html = document.querySelector("html");
-  const htmlLang = html?.getAttribute("lang") as LangKey | null;
+  const htmlLang = getLocale();
 
-  if (htmlLang && allLocales.includes(htmlLang)) {
-    await setLocale(htmlLang);
-  }
+  await setLocale(htmlLang);
 
   // Add event listener for 'lang' attribute changes
   const langAttributeChangeListener = (mutations: MutationRecord[]) => {

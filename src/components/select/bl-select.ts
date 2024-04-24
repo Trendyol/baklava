@@ -8,6 +8,7 @@ import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
 import { event, EventDispatcher } from "../../utilities/event";
+import { getLocale } from "../../utilities/getLocale";
 import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
 import "../button/bl-button";
 import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
@@ -622,8 +623,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
     this._handleSearchEvent();
 
+    const locale = getLocale();
+
     this._connectedOptions.forEach(option => {
-      const isVisible = option.textContent?.toLowerCase().includes(this._searchText.toLowerCase());
+      const isVisible = option.textContent
+        ?.toLocaleLowerCase(locale)
+        .includes(this._searchText.toLocaleLowerCase(locale));
 
       option.hidden = !isVisible;
     });
