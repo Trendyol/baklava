@@ -11,6 +11,8 @@ module.exports = {
         "deps",
         "deps-dev",
         // Components as scopes listed below
+        "accordion",
+        "accordion-group",
         "button",
         "icon",
         "input",
