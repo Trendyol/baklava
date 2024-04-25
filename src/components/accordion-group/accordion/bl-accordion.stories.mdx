@@ -1,0 +1,92 @@
+import { ArgsTable, Canvas, Meta, Story } from "@storybook/addon-docs";
+import { html } from "lit";
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+
+<Meta
+  title="Components/Accordion/Accordion"
+  component="bl-accordion"
+  argTypes={{
+    icon: { control: "text" },
+    disabled: { control: "boolean" },
+    caption: {
+      control: 'text'
+    },
+  }}
+/>
+
+export const AccordionTemplate = (args) => html`
+  <bl-accordion icon="${ifDefined(args.icon)}" caption="${ifDefined(args.caption)}"
+                disabled="${ifDefined(args.disabled)}">${unsafeHTML(args.content)}
+  </bl-accordion>`;
+
+# Accordion
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/739)</bl-badge>
+<bl-badge
+  icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?type=design&node-id=15548%3A20910)</bl-badge>
+
+Accordion is a component that allows the user to show and hide sections of related content on a page.
+
+### Usage
+
+
+* The accordion component includes a free content area.
+* The caption can be set either via **attribute** or **slot**.
+* An icon can be added to the beginning of the caption.
+* Accordion can be disabled.
+* The accordion group component combines accordions and only allows one accordion to be open by default
+
+<Canvas>
+  <Story name="Basic Usage" args={{
+    caption: "Toggle Me",
+    content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto debitis earum fuga iusto modi molestias necessitatibus provident quam! Nisi!"
+  }}>
+    {AccordionTemplate.bind({})}
+  </Story>
+</Canvas>
+
+
+## With Icon
+
+Add icon to beginning of caption with `icon` attribute.
+
+<Canvas>
+  <Story name="With Icon" args={{
+    caption: "Toggle Me",
+    content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto debitis earum fuga iusto modi molestias necessitatibus provident quam! Nisi!",
+    icon: "info"
+  }}>
+    {AccordionTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled
+
+Use the `disable` attribute to prevent the details from expanding.
+
+<Canvas>
+  <Story name="Disabled" args={{
+    caption: "Toggle Me",
+    content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto debitis earum fuga iusto modi molestias necessitatibus provident quam! Nisi!",
+    disabled: true
+  }}>
+    {AccordionTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-accordion" />
+
+## Public Functions
+
+* `expand()`: Can be used to expand accordion.
+* `collapse()`: Can be used to collapse accordion.
+
+Example usage;
+
+```js
+document.querySelector('bl-accordion').expand();
+document.querySelector('bl-accordion').collapse();
+```
