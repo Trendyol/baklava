@@ -1,4 +1,4 @@
-import { elementUpdated, expect, fixture, html } from "@open-wc/testing";
+import { elementUpdated, expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
 import BlCheckboxGroup from "./bl-checkbox-group";
 import "./checkbox/bl-checkbox";
@@ -23,13 +23,15 @@ describe("bl-checkbox-group", () => {
 
     //then
     expect(el).shadowDom.equal(
-      `
-      <fieldset role="group" aria-labelledby="label" aria-required="false">
-        <legend id="label">Choose sports you like</legend>
-        <div class="options">
-          <slot></slot>
-        </div>
-      </fieldset>
+      `<div>
+        <fieldset role="group" aria-labelledby="label" aria-required="false" tabindex="0">
+          <legend id="label">Choose sports you like</legend>
+          <div class="options">
+            <slot></slot>
+          </div>
+          <div class="hint"></div>
+        </fieldset>
+      </div>
       `
     );
   });
@@ -243,8 +245,8 @@ describe("bl-checkbox-group", () => {
       });
 
       //then
-      expect(checkboxGroup?.value.length).to.equal(1);
-      expect(checkboxGroup?.value[0]).to.equal("basketball");
+      expect(checkboxGroup?.value?.length).to.equal(1);
+      expect(checkboxGroup?.value?.[0]).to.equal("basketball");
     });
 
     it("should focus the next option with Tab key & previous option with Shift+Tab key", async () => {
@@ -347,6 +349,140 @@ describe("bl-checkbox-group", () => {
 
       //then
       expect(document.activeElement).to.equal(checkboxGroup?.options[0]);
+    });
+
+    describe("validation", () => {
+      it("should be valid by default", async () => {
+        const el = await fixture<BlCheckboxGroup>(
+          html`<bl-checkbox-group>
+            <bl-checkbox value="basketball">Basketball</bl-checkbox>
+            <bl-checkbox value="football">Football</bl-checkbox>
+            <bl-checkbox value="tennis">Tennis</bl-checkbox>
+          </bl-checkbox-group>`
+        );
+
+        expect(el.validity.valid).to.be.true;
+      });
+
+      it("should be invalid with required attribute", async () => {
+        const el = await fixture<BlCheckboxGroup>(
+          html`<bl-checkbox-group required>
+            <bl-checkbox value="basketball">Basketball</bl-checkbox>
+            <bl-checkbox value="football">Football</bl-checkbox>
+            <bl-checkbox value="tennis">Tennis</bl-checkbox>
+          </bl-checkbox-group>`
+        );
+
+        expect(el.validity.valid).to.be.false;
+
+      });
+
+      it("should set invalid text", async () => {
+        const errorMessage = "This field is mandatory";
+        const el = await fixture<BlCheckboxGroup>(
+          html`<bl-checkbox-group required invalid-text="${errorMessage}">
+            <bl-checkbox value="basketball">Basketball</bl-checkbox>
+            <bl-checkbox value="football">Football</bl-checkbox>
+            <bl-checkbox value="tennis">Tennis</bl-checkbox>
+          </bl-checkbox-group>`
+        );
+
+
+        el.reportValidity();
+
+        await elementUpdated(el);
+
+        const errorMessageElement = <HTMLParagraphElement>(
+          el.shadowRoot?.querySelector(".invalid-text")
+        );
+
+        expect(el.validity.valid).to.be.false;
+
+        expect(errorMessageElement).to.exist;
+        expect(errorMessageElement?.innerText).to.equal(errorMessage);
+      });
+
+      it("should show error when reportValidity method called", async () => {
+        const el = await fixture<BlCheckboxGroup>(
+          html`<bl-checkbox-group required>
+            <bl-checkbox value="basketball">Basketball</bl-checkbox>
+            <bl-checkbox value="football">Football</bl-checkbox>
+            <bl-checkbox value="tennis">Tennis</bl-checkbox>
+          </bl-checkbox-group>`
+        );
+
+        el.reportValidity();
+
+        await elementUpdated(el);
+
+        expect(el.validity.valid).to.be.false;
+        const errorMessageElement = <HTMLParagraphElement>(
+          el.shadowRoot?.querySelector(".invalid-text")
+        );
+
+        expect(errorMessageElement).to.visible;
+      });
+
+      it("should show error when make some options unchecked", async () => {
+        const checkboxGroup = await fixture<BlCheckboxGroup>(
+          html`<bl-checkbox-group label="Choose sports you like" value="[&quot;basketball&quot;]" required>
+            <bl-checkbox value="basketball">Basketball</bl-checkbox>
+            <bl-checkbox value="football">Football</bl-checkbox>
+            <bl-checkbox value="tennis">Tennis</bl-checkbox>
+          </bl-checkbox-group>`
+        );
+
+        checkboxGroup.reportValidity();
+
+        expect(checkboxGroup.validity.valid).to.be.true;
+
+
+        await elementUpdated(checkboxGroup);
+
+        const firstCheckbox = checkboxGroup.options[0].shadowRoot?.querySelector("input");
+
+        setTimeout(() => firstCheckbox?.click());
+        const invalidEvent = await oneEvent(checkboxGroup, "bl-checkbox-group-invalid");
+
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await elementUpdated(checkboxGroup);
+
+
+        expect(invalidEvent).to.exist;
+        expect(checkboxGroup.validity.valid).to.be.false;
+        const errorMessageElement = <HTMLParagraphElement>(
+          checkboxGroup.shadowRoot?.querySelector(".invalid-text")
+        );
+
+        expect(errorMessageElement).to.visible;
+      });
+    });
+    describe("form integration", () => {
+      it("should show errors when parent form is submitted", async () => {
+        const form = await fixture<HTMLFormElement>(html`<form novalidate>
+          <bl-checkbox-group label="Choose sports you like" required>
+            <bl-checkbox value="basketball">Basketball</bl-checkbox>
+            <bl-checkbox value="football">Football</bl-checkbox>
+            <bl-checkbox value="tennis">Tennis</bl-checkbox>
+          </bl-checkbox-group>
+      </form>`);
+
+        const blCheckboxGroup = form.querySelector<BlCheckboxGroup>("bl-checkbox-group");
+
+        form.addEventListener("submit", e => e.preventDefault());
+
+        form.dispatchEvent(new SubmitEvent("submit", { cancelable: true }));
+
+        await elementUpdated(form);
+
+        const errorMessageElement = <HTMLParagraphElement>(
+          blCheckboxGroup?.shadowRoot?.querySelector(".invalid-text")
+        );
+
+        expect(blCheckboxGroup?.validity.valid).to.be.false;
+
+        expect(errorMessageElement).to.exist;
+      });
     });
   });
 });
