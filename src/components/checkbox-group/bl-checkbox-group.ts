@@ -80,19 +80,14 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
     this.addEventListener("focus", this.handleFocus);
     this.addEventListener("keydown", this.handleKeyDown);
 
-    this.form?.addEventListener("submit", (e: SubmitEvent) => {
-      if (!this.reportValidity()) {
-        this.onInvalid(this.internals.validity);
-        e.preventDefault();
-      }
-      this.checkOptionsValidity();
-    });
+    this.form?.addEventListener("submit", (e: SubmitEvent) => this.handleSubmit(e));
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeEventListener("focus", this.handleFocus);
     this.removeEventListener("keydown", this.handleKeyDown);
+    this.form?.removeEventListener("submit", (e: SubmitEvent) => this.handleSubmit(e));
   }
 
   protected firstUpdated() {
@@ -183,6 +178,14 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
 
   private handleFocus() {
     this.availableOptions[this.focusedOptionIndex].focus();
+  }
+
+  private handleSubmit(e: SubmitEvent) {
+    if (!this.reportValidity()) {
+      this.onInvalid(this.internals.validity);
+      e.preventDefault();
+    }
+    this.checkOptionsValidity();
   }
 
   checkOptionsValidity() {

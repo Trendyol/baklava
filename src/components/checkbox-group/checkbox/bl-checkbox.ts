@@ -98,12 +98,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
     this.field = this.closest<BlCheckboxGroup>(blCheckboxGroupTag);
     this.field?.addEventListener(blChangeEventName, this.handleFieldValueChange);
 
-    this.form?.addEventListener("submit", e => {
-      if (!this.reportValidity()) {
-        this.onInvalid(this.internals.validity);
-        e.preventDefault();
-      }
-    });
+    this.form?.addEventListener("submit", e => this.handleSubmit(e));
   }
 
   reportValidity() {
@@ -114,6 +109,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
   disconnectedCallback(): void {
     super.disconnectedCallback();
     this.field?.removeEventListener(blChangeEventName, this.handleFieldValueChange);
+    this.form?.removeEventListener("submit", e => this.handleSubmit(e));
   }
 
   protected firstUpdated(changedProperties: Map<string, unknown>) {
@@ -167,6 +163,13 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
     this.onBlur(this.value);
     if (!this.field) return;
     this.checkboxElement.tabIndex = -1;
+  }
+
+  private handleSubmit(e: SubmitEvent) {
+    if (!this.reportValidity()) {
+      this.onInvalid(this.internals.validity);
+      e.preventDefault();
+    }
   }
 
   private async handleChange(event: CustomEvent) {
