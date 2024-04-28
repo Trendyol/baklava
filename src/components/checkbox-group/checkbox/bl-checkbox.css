@@ -20,12 +20,27 @@ label {
   overflow-wrap: anywhere;
 }
 
-input {
+.dirty.invalid label {
+  margin-bottom: var(--bl-size-3xs);
+}
+
+input[type="checkbox"] {
   appearance: none;
-  position: absolute;
+  outline: none;
+  margin: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--bl-color-neutral-lighter);
+  border-radius: var(--bl-border-radius-xs);
+  width: var(--bl-size-m);
+  height: var(--bl-size-m);
+  min-width: var(--bl-size-m);
+  min-height: var(--bl-size-m);
+  max-width: var(--bl-size-m);
+  max-height: var(--bl-size-m);
 }
 
 .check-mark {
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,6 +56,38 @@ input {
   color: var(--bl-color-neutral-full);
   font-size: var(--bl-font-size-2xs);
   background-color: var(--bl-color-neutral-full);
+}
+
+.required-suffix {
+  color: var(--bl-color-danger);
+  margin-left: calc(var(--bl-size-2xs) * -1);
+}
+
+.dirty.invalid .check-mark {
+  border-color: var(--bl-color-danger);
+}
+
+.hint {
+  display: none;
+  font: var(--bl-font-body-text-3);
+}
+
+.hint p {
+  padding: 0;
+  margin: 0;
+}
+
+.dirty.invalid .hint {
+  display: block;
+}
+
+.invalid-text {
+  display: none;
+  color: var(--bl-color-danger);
+}
+
+.dirty.invalid .invalid-text {
+  display: block;
 }
 
 :host([checked]) .label,

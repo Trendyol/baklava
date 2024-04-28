@@ -19,3 +19,30 @@ legend {
   gap: var(--bl-size-m);
   margin-block: var(--bl-size-xs);
 }
+
+.dirty.invalid .options {
+  margin-bottom: var(--bl-size-3xs);
+}
+
+.hint {
+  display: none;
+  font: var(--bl-font-body-text-3);
+}
+
+.hint p {
+  padding: 0;
+  margin: 0;
+}
+
+.invalid-text {
+  display: none;
+  color: var(--bl-color-danger);
+}
+
+.dirty.invalid .hint {
+  display: block;
+}
+
+.dirty.invalid .invalid-text {
+  display: block;
+}
