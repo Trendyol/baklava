@@ -10,6 +10,7 @@ import {
   CalendarDay,
   CalendarType,
   CalendarView,
+  Day,
   SelectedDate,
 } from "./bl-calendar.types";
 
@@ -29,14 +30,14 @@ export default class BlCalendar extends LitElement {
   /**
    *Defines the minimum date value for the calendar
    */
-  @property()
-  minDate: Date;
+  @property({ attribute: false, reflect: true })
+  minDate: Date = new Date(2024, 2, 3);
 
   /**
    * Defines the maximum date value for the calendar
    */
-  @property()
-  maxDate: Date;
+  @property({ attribute: false, reflect: true })
+  maxDate: Date = new Date(2024, 5, 3);
 
   /**
    * Defines the default selected date value for the calendar
@@ -73,6 +74,9 @@ export default class BlCalendar extends LitElement {
 
   @state()
   private _calendarYears: number[] = [];
+
+  @state()
+  private _calendarDays: Day[] = [];
 
   /**
    * Fires when date selection changes
@@ -132,12 +136,10 @@ export default class BlCalendar extends LitElement {
       for (let i = 1; i <= 7; i++) this._calendarYears.push(this._calendarYear + i);
     }
   }
-  handleDate(calendarDay: CalendarDay) {
-    const date = { day: calendarDay.day, month: this._calendarMonth, year: this._calendarYear };
-
-    if (calendarDay.belongsToPrevMonth) {
+  handleDate(date: CalendarDay) {
+    if (date.month < this._calendarMonth) {
       this.setPreviousCalendarView();
-    } else if (calendarDay.belongsToNextMonth) {
+    } else if (date.month > this._calendarMonth) {
       this.setNextCalendarView();
     }
 
@@ -164,155 +166,141 @@ export default class BlCalendar extends LitElement {
     );
     this.requestUpdate();
   }
-  checkIfSelectedDate(day: CalendarDay) {
-    return this._selectedDates.find(date => {
+  checkIfSelectedDate(calendarDay: CalendarDay) {
+    return this._selectedDates.find(selectedDate => {
       return (
-        date.day === day.day &&
-        date.month === this._calendarMonth &&
-        date.year === this._calendarYear &&
-        day.belongsToCurrentMonth
+        selectedDate.day === calendarDay.day &&
+        selectedDate.month === this._calendarMonth &&
+        selectedDate.year === this._calendarYear &&
+        calendarDay.month === this._calendarMonth
       );
     });
   }
-  checkIfDateIsToday(day: number) {
+  checkIfDateIsToday(calendarDay: CalendarDay) {
     const today = new Date();
 
     return (
-      this._calendarMonth === today.getMonth() &&
-      this._calendarYear === today.getFullYear() &&
-      day === today.getDate()
+      today.getMonth() === calendarDay.month &&
+      today.getFullYear() === calendarDay.year &&
+      today.getDate() === calendarDay.day
     );
   }
-  checkIfDateIsDisabled(day: number) {
-    const date = new Date(this._calendarYear, this._calendarMonth, day);
+  checkIfDateIsDisabled(calendarDay: CalendarDay) {
+    const date = new Date(calendarDay.year, calendarDay.month, calendarDay.day);
+
+    if (date < this.minDate || date > this.maxDate) {
+      return true;
+    }
 
     if (Array.isArray(this.disabledDates)) {
       return this.disabledDates.find(disabledDate => {
         return date.toDateString() === disabledDate.toDateString();
       });
     } else if (this.disabledDates) {
-      return date.toDateString() === this.disabledDates.toDateString();
-    } else if (this.minDate && this.maxDate) {
-      return date < this.minDate || date > this.maxDate;
-    } else if (this.minDate) {
-      return date < this.minDate;
-    } else if (this.maxDate) return date > this.maxDate;
-    else return false;
+      if (date.toDateString() === this.disabledDates.toString()) return true;
+    }
+    return false;
   }
+
   createCalendarDays() {
-    const currentMonthCalendar: Calendar = new Map();
-    let dayOfTheWeek = 0; // from sunday
-    let iteratedDay = 1;
-    let currentMonthCalendarCellIterator = 0;
-    const dateAndYear = { month: this._calendarMonth, year: this._calendarYear };
-    const currentMonthStartWeekDay = this.getWeekDayOfDate(this._calendarYear, this._calendarMonth);
+    const calendar: Calendar = new Map();
+
+    this._calendarDays = DAYS.slice(this.startOfWeek).concat(DAYS.slice(0, this.startOfWeek));
+
+    const currentMonthStartWeekDay = this.getWeekDayOfDate(this._calendarYear, this._calendarMonth); // 1
+
+    const lastMonthDaysCount =
+      currentMonthStartWeekDay < this.startOfWeek
+        ? 7 - (this.startOfWeek - currentMonthStartWeekDay)
+        : currentMonthStartWeekDay - this.startOfWeek;
 
     const previousMonthDayCount = this.getDayNumInAMonth(
       this._calendarYear,
       this._calendarMonth - 1
     );
-    const currentMonthTotalCalendarCellCount =
-      this.getDayNumInAMonth(this._calendarYear, this._calendarMonth) + currentMonthStartWeekDay;
+
+    const currentMonthDayCount = this.getDayNumInAMonth(this._calendarYear, this._calendarMonth);
+
+    let dayOfTheWeek = this.startOfWeek; // from sunday
 
     for (
-      currentMonthCalendarCellIterator;
-      currentMonthCalendarCellIterator < currentMonthTotalCalendarCellCount;
-      currentMonthCalendarCellIterator += 1
+      let lastMonthDaysIterator = lastMonthDaysCount;
+      lastMonthDaysIterator > 0;
+      lastMonthDaysIterator--
     ) {
       const mod = dayOfTheWeek % 7;
 
-      if (currentMonthCalendarCellIterator < currentMonthStartWeekDay) {
-        currentMonthCalendar.set(DAYS[mod], [
-          {
-            day:
-              previousMonthDayCount -
-              (currentMonthStartWeekDay - currentMonthCalendarCellIterator - 1),
-            belongsToPrevMonth: true,
-            ...dateAndYear,
-          },
-        ]);
-      } else if (currentMonthCalendar.get(DAYS[mod])) {
-        currentMonthCalendar.get(DAYS[mod])?.push({
-          day: iteratedDay,
-          belongsToCurrentMonth: true,
-          ...dateAndYear,
-        });
-        iteratedDay += 1;
+      calendar.set(DAYS[mod].name, [
+        {
+          day: previousMonthDayCount - lastMonthDaysIterator + 1,
+          month: this._calendarMonth - 1,
+          year: this._calendarYear,
+        },
+      ]);
+
+      dayOfTheWeek += 1;
+    }
+    for (
+      let currentMonthDaysIterator = 1;
+      currentMonthDaysIterator <= currentMonthDayCount;
+      currentMonthDaysIterator++
+    ) {
+      const mod = dayOfTheWeek % 7;
+      const day = {
+        day: currentMonthDaysIterator,
+        month: this._calendarMonth,
+        year: this._calendarYear,
+      };
+
+      if (calendar.get(DAYS[mod].name)) {
+        calendar.get(DAYS[mod].name)?.push(day);
       } else {
-        currentMonthCalendar.set(DAYS[mod], [
-          {
-            day: iteratedDay,
-            belongsToCurrentMonth: true,
-            ...dateAndYear,
-          },
-        ]);
-        iteratedDay += 1;
+        calendar.set(DAYS[mod].name, [day]);
       }
       dayOfTheWeek += 1;
     }
-    let nearestMultipleOfSeven = currentMonthCalendarCellIterator;
 
-    if (currentMonthCalendarCellIterator % 7 > 0)
-      nearestMultipleOfSeven =
-        currentMonthCalendarCellIterator + (7 - (currentMonthCalendarCellIterator % 7));
+    const index = this._calendarDays.findIndex(day => day.value === dayOfTheWeek % 7);
 
-    for (
-      let nextMonthDaysIterator = 1;
-      nextMonthDaysIterator <= nearestMultipleOfSeven - currentMonthCalendarCellIterator;
-      nextMonthDaysIterator++
-    ) {
-      const mod = (currentMonthCalendarCellIterator + nextMonthDaysIterator - 1) % 7;
+    if (index !== 0) {
+      for (
+        let nextMonthDaysIterator = 1;
+        nextMonthDaysIterator <= this._calendarDays.length - index;
+        nextMonthDaysIterator++
+      ) {
+        const mod = dayOfTheWeek % 7;
+        const day = {
+          day: nextMonthDaysIterator,
+          month: this._calendarMonth + 1,
+          year: this._calendarYear,
+        };
 
-      currentMonthCalendar.get(DAYS[mod])?.push({
-        day: nextMonthDaysIterator,
-        belongsToNextMonth: true,
-        ...dateAndYear,
-      });
-    }
-    return currentMonthCalendar;
-  }
-  reArrangeCalendarForStartOfWeek(map: Calendar) {
-    const newMap: Calendar = new Map();
-    const keys = Array.from(map.keys());
-    const index = keys.indexOf(DAYS[this.startOfWeek]);
+        calendar.get(DAYS[mod].name)?.push(day);
 
-    for (let i = 0; i < keys.length; i++) {
-      const newIndex = (index + i) % keys.length;
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const temp = map.get(keys[newIndex]) as CalendarDay[];
-
-      if (!temp[0].belongsToCurrentMonth) {
-        const firstElement = temp.shift();
-
-        if (firstElement) temp.push(firstElement);
+        dayOfTheWeek += 1;
       }
-      newMap.set(DAYS[newIndex], temp);
     }
-
-    return newMap;
+    return calendar;
   }
   render() {
     const getCalendarView = (calendarView: CalendarView) => {
       if (calendarView === "days") {
         const calendarDays = this.createCalendarDays();
-        const reArrangeCalendarForStartOfWeek = this.reArrangeCalendarForStartOfWeek(calendarDays);
 
         return html`<div class="days-view">
-          ${[...reArrangeCalendarForStartOfWeek.entries()].map(([key, value]) => {
+          ${[...calendarDays.entries()].map(([key, value]) => {
             return html` <div class="day-column">
               <div class="weekday-text day-cell">${key}</div>
               ${value.map(date => {
                 const isSelectedDay = this.checkIfSelectedDate(date);
-                const isDayToday = this.checkIfDateIsToday(date.day);
-                const isDisabledDay = this.checkIfDateIsDisabled(date.day);
+                const isDayToday = this.checkIfDateIsToday(date);
+                const isDisabledDay = this.checkIfDateIsDisabled(date);
 
+                //console.log(isDisabledDay, date);
                 return html` <div
                   class="day-cell ${isDayToday && "today-day"} ${isSelectedDay &&
-                  "selected-day"} ${isDisabledDay && "disabled-day"} ${(date.belongsToNextMonth ||
-                    date.belongsToPrevMonth) &&
-                  "other-month-day"}"
+                  "selected-day"} ${isDisabledDay && "disabled-day"} ${date.month !==
+                    this._calendarMonth && "other-month-day"}"
                   @click="${() => !isDisabledDay && this.handleDate(date)}"
                 >
                   ${date.day}

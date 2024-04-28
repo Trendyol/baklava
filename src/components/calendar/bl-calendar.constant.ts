@@ -15,7 +15,15 @@ export const MONTHS: Month[] = [
   { name: "December", value: 11 },
 ];
 
-export const DAYS: Day[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+export const DAYS: Day[] = [
+  { value: 0, name: "Sun" },
+  { value: 1, name: "Mon" },
+  { value: 2, name: "Tue" },
+  { value: 3, name: "Wed" },
+  { value: 4, name: "Thu" },
+  { value: 5, name: "Fri" },
+  { value: 6, name: "Sat" },
+];
 
 export const FIRST_MONTH_INDEX = 0;
 export const LAST_MONTH_INDEX = 11;
