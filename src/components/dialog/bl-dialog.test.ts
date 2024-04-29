@@ -208,6 +208,26 @@ describe("bl-dialog", () => {
       await resetMouse();
     });
 
+    it("should prevent parent dialog from closing when the child dialog is closed", async () => {
+      const dialog = await fixture<typeOfBlDialog>(html`<bl-dialog id="parent" open>
+        <bl-dialog id="child" open>
+          Child dialog
+        </bl-dialog>
+      </bl-dialog>`);
+
+      const childDialog =  dialog.querySelector("bl-dialog") as typeOfBlDialog;
+      const childDialogCloseBtn = childDialog?.shadowRoot?.querySelector("bl-button");
+
+      expect(dialog.open).to.equal(true);
+
+      childDialogCloseBtn?.click();
+
+      setTimeout(() => {
+        expect(dialog.open).to.equal(true);
+        expect(childDialog.open).to.equal(false);
+      });
+    });
+
     it("should add shadow to footer when the content is too long", async () => {
       window.innerWidth = 400;
 
