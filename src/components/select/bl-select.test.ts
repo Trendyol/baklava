@@ -423,6 +423,26 @@ describe("bl-select", () => {
     await(()=> expect(document.activeElement).to.equal(el));
   });
 
+  it("should not close popover when search is focused and user presses space key", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="tr">Turkey</bl-select-option>
+      <bl-select-option value="en">United States of America</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+    searchInput?.click();
+    searchInput?.focus();
+
+    await sendKeys({
+      press: "Space",
+    });
+
+    await elementUpdated(el);
+
+    expect(el.opened).to.true;
+  });
+
   describe("additional selection counter", () => {
     let el: BlSelect;
 

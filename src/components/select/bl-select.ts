@@ -432,6 +432,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
                 ? searchbarPlaceholderText
                 : this.label || searchbarPlaceholderText}
               @input=${this._handleSearchOptions}
+              @keydown=${(e: KeyboardEvent) => {
+                if (e.code === "Space") {
+                  e.stopPropagation();
+                }
+              }}
               .value=${this._searchText}
             />
           `}
