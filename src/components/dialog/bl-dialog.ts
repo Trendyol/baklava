@@ -111,7 +111,7 @@ export default class BlDialog extends LitElement {
       this.content?.addEventListener("scroll", this.toggleFooterShadow);
     } else {
       this.dialog?.close?.();
-      this.onClose({ isOpen: false });
+      this.onClose({ isOpen: false }, { bubbles: false });
       document.body.style.overflow = "auto";
       window?.removeEventListener("keydown", this.onKeydown);
       window?.removeEventListener("resize", this.toggleFooterShadow);
