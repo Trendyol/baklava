@@ -107,13 +107,15 @@ export default class BlDialog extends LitElement {
       document.body.style.overflow = "hidden";
       this.toggleFooterShadow();
       window?.addEventListener("keydown", event => this.onKeydown(event));
-      window?.addEventListener("resize", () => this.toggleFooterShadow());
+      window?.addEventListener("resize", this.toggleFooterShadow);
+      this.content?.addEventListener("scroll", this.toggleFooterShadow);
     } else {
       this.dialog?.close?.();
-      this.onClose({ isOpen: false });
+      this.onClose({ isOpen: false }, { bubbles: false });
       document.body.style.overflow = "auto";
       window?.removeEventListener("keydown", this.onKeydown);
       window?.removeEventListener("resize", this.toggleFooterShadow);
+      this.content?.removeEventListener("scroll", this.toggleFooterShadow);
     }
   }
 
@@ -142,13 +144,17 @@ export default class BlDialog extends LitElement {
     }
   };
 
-  private toggleFooterShadow() {
-    if (this.content?.scrollHeight > this.content?.offsetHeight) {
-      this.footer?.classList?.add("shadow");
-    } else {
+  private toggleFooterShadow = () => {
+    const scrollTop = this.content?.scrollTop;
+    const scrollHeight = this.content?.scrollHeight;
+    const clientHeight = this.content?.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
       this.footer?.classList?.remove("shadow");
+    } else {
+      this.footer?.classList?.add("shadow");
     }
-  }
+  };
 
   private renderFooter() {
     return this._hasFooter

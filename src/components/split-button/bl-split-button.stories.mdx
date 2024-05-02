@@ -1,0 +1,184 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
+
+<Meta
+  title="Components/Split Button"
+  component="bl-split-button"
+  argTypes={{
+    label: {
+      control: {
+        type: 'text'
+      }
+    },
+    variant: {
+      options: ['primary', 'secondary'],
+      default: 'primary',
+      control: { type: 'select' }
+    },
+    kind: {
+      options: ['default', 'neutral', 'success', 'danger'],
+      default: 'default',
+      control: { type: 'select' }
+    },
+    disabled: {
+      control: 'boolean'
+    },
+    dropdownDisabled: {
+      control: 'boolean'
+    },
+    size: {
+      options: ['large', 'medium', 'small'],
+      control: { type: 'select' }
+    }
+  }}
+/>
+
+export const dropdownOpener = async ({ canvasElement }) => {
+  const splitButton = canvasElement?.querySelector('bl-split-button')
+  if(splitButton.shadowRoot) {
+    const button = splitButton.shadowRoot.querySelector('#dropdown-button')
+    await userEvent.click(button);
+  }
+}
+
+export const SingleSplitButtonTemplate = (args) => html`<bl-split-button
+    variant=${ifDefined(args.variant)}
+    kind=${ifDefined(args.kind)}
+    size=${ifDefined(args.size)}
+    label="${ifDefined(args.label)}"
+    icon="${ifDefined(args.icon)}"
+    ?disabled=${args.disabled}
+    ?dropdown-disabled=${args.dropdownDisabled}
+    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+    >
+      <bl-dropdown-group caption="Caption">
+        <bl-dropdown-item>${args.content || 'Action 1'}</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+      </bl-dropdown-group>
+      <bl-dropdown-item>Action 3</bl-dropdown-item>
+      <bl-dropdown-item icon="info">Action 4</bl-dropdown-item>
+      <bl-dropdown-item>Action 5</bl-dropdown-item>
+      <bl-dropdown-group caption="Caption">
+        <bl-dropdown-item icon="heart">Action 6</bl-dropdown-item>
+        <bl-dropdown-item>Action 7</bl-dropdown-item>
+      </bl-dropdown-group>
+  </bl-split-button>`
+
+export const Template = (args) => html`
+${SingleSplitButtonTemplate({...args})}
+${SingleSplitButtonTemplate({variant: 'secondary', ...args})}`
+
+export const ButtonTypes = (args) => html`
+${SingleSplitButtonTemplate({...args})}
+${SingleSplitButtonTemplate({kind: 'neutral', ...args})}
+${SingleSplitButtonTemplate({kind: 'success', ...args})}
+${SingleSplitButtonTemplate({kind: 'danger', ...args})}`
+
+export const SizesTemplate = (args) => html`
+${SingleSplitButtonTemplate({size: 'large', ...args})}
+${SingleSplitButtonTemplate({size: 'medium', ...args})}
+${SingleSplitButtonTemplate({size: 'small', ...args})}`
+
+# Split Button
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/264#issuecomment-1927105000)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?type=design&node-id=2161-9122&mode=design)</bl-badge>
+
+Split Button component is very similar to Dropdown Component with a key difference: Split Button is a Dropdown that one action is put forward as the main action.
+
+<bl-alert variant="warning" icon>Inline styles in examples are only for **demo purposes**. Use regular CSS classes or tag selectors to set styles.</bl-alert>
+
+## Split Button Variants
+
+Split Button has the same variants ([Primary](/docs/components-button--primary-buttons), [Secondary](/docs/components-button--secondary-buttons)) with the [Button](/docs/components-button--variants).
+Every variant represents the importance of the actions inside it.
+
+<Canvas>
+  <Story name="Variants" args={{ label: 'Split Button' }} play={dropdownOpener}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Split Button Kinds
+
+Split Button has the same kinds as the button has.
+Every kind indicates a state of the split buttons. It can has 4 different "kind"s. `default`, `neutral`, `success` and `danger`.
+
+<Canvas>
+  <Story name="Kinds" args={{ label: 'Split Button' }} play={dropdownOpener}>
+    {ButtonTypes.bind({})}
+  </Story>
+</Canvas>
+
+## Split Button Sizes
+
+We have 3 sizes of split buttons: **Large**, **Medium**, **Small**. Default size is **Medium**.
+
+<Canvas>
+  <Story name="Split Button Sizes" args={{ label: 'Split Button' }} play={dropdownOpener}>
+    {SizesTemplate.bind({})}
+  </Story>
+</Canvas>
+
+If split button has an action with a long text that can not fit in a single line in dropdown, popover will be automatically widen to the right side of the split button.
+
+<Canvas>
+  <Story name="Automatic Left Align" args={{ label: 'Split Button', content: 'Action with very long text' }} play={dropdownOpener}>
+    {SingleSplitButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
+The split button is designed to automatically adjust its size to fit the space it's given. If there's a enough space, the main button of split button will stretch out to use that space.
+
+<Canvas>
+  <Story name="Block Level Buttons" args={{ label: 'Split Button', icon: 'info', styles: { width: "100%" } }}>
+    {SingleSplitButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Split Button Icons
+
+You might want to add icons to your button.You can add icons to main button of split button.
+
+<Canvas>
+  <Story name="Icons" args={{ label: 'Split Button',icon:"account" }} play={dropdownOpener}>
+    {ButtonTypes.bind({})}
+  </Story>
+</Canvas>
+
+## Disabling Split Buttons
+
+We have 2 types of disabled split buttons: Disable version of Primary and Secondary buttons is the same.
+
+<Canvas columns={1}>
+  <Story name="Disabling Split Buttons" args={{ label: 'Split Button', disabled: true, dropdownDisabled:true }} play={dropdownOpener}>
+     {SingleSplitButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabling Main Button
+
+We have 2 types of disabled split main buttons.
+
+<Canvas columns={1}>
+  <Story name="Disabling Primary Buttons" args={{ label: 'Split Button', disabled: true }} play={dropdownOpener}>
+     {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Disabling Dropdown Button
+
+We have 2 types of disabled split dropdown buttons.
+
+<Canvas columns={1}>
+  <Story name="Disabling Dropdown Buttons" args={{ label: 'Split Button', dropdownDisabled:true }} play={dropdownOpener}>
+     {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-split-button" />

@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { event, EventDispatcher } from "../../utilities/event";
+import { styleToPixelConverter } from "../../utilities/style-to-px.converter";
 import "../button/bl-button";
 import style from "./bl-drawer.css";
 
@@ -43,6 +44,12 @@ export default class BlDrawer extends LitElement {
   externalLink?: string;
 
   /**
+   *  Sets the drawer width
+   */
+  @property({ type: String, attribute: "width" })
+  width: string = "424px";
+
+  /**
    * Fires when the drawer is opened
    */
   @event("bl-drawer-open") private onOpen: EventDispatcher<string>;
@@ -57,15 +64,43 @@ export default class BlDrawer extends LitElement {
     window?.addEventListener("bl-drawer-open", event => {
       if (event.target !== this) this.closeDrawer();
     });
+    this.resizeDrawerWidth();
+
+    window?.addEventListener("resize", () => this.resizeDrawerWidth());
+    window?.addEventListener("load", () => this.resizeDrawerWidth());
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    window?.removeEventListener("resize", () => this.resizeDrawerWidth());
+    window?.addEventListener("load", () => this.resizeDrawerWidth());
   }
 
   updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has("open")) {
       this.toggleDialogHandler();
     }
+
+    if (changedProperties.has("width")) {
+      this.resizeDrawerWidth();
+    }
   }
 
   private domExistenceSchedule: number;
+
+  private resizeDrawerWidth() {
+    const drawerWidth = styleToPixelConverter(this.width);
+
+    const newWidth = !drawerWidth || drawerWidth < 100 ? "424px" : this.width;
+
+    if (drawerWidth) {
+      if (window?.innerWidth < drawerWidth) {
+        this.style.setProperty("--bl-drawer-current-width", "calc(100vw - 24px)");
+      } else {
+        this.style.setProperty("--bl-drawer-current-width", newWidth);
+      }
+    }
+  }
 
   private toggleDialogHandler() {
     if (this.open) {

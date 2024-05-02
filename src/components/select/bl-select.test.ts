@@ -14,7 +14,9 @@ describe("bl-select", () => {
   });
 
   it("renders with default values", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select></bl-select>`);
+    const el = await fixture<BlSelect>(html`<bl-select>
+      <bl-select-option value="1">Option 1</bl-select-option>
+    </bl-select>`);
 
     assert.shadowDom.equal(
       el,
@@ -68,6 +70,12 @@ describe("bl-select", () => {
     expect(helpMessage).to.exist;
     expect(helpMessage?.innerText).to.equal(helpText);
   });
+  it("should not show popover if there is no option", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select></bl-select>`);
+    const popover = el.shadowRoot?.querySelector(".popover");
+
+    expect(popover).to.have.style("display", "none");
+  });
   it("should render bl-select-options", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>
       <bl-select-option value="1">Option 1</bl-select-option>
@@ -117,7 +125,7 @@ describe("bl-select", () => {
     expect(selectedOptions?.textContent).contains("Option 3");
   });
   it("should open select menu", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
+    const el = await fixture<BlSelect>(html`<bl-select><bl-select-option value="1">Option 1</bl-select-option></bl-select>`);
 
     const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
 
@@ -126,7 +134,7 @@ describe("bl-select", () => {
     expect(el.opened).to.true;
   });
   it("should close select menu", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
+    const el = await fixture<BlSelect>(html`<bl-select><bl-select-option value="1">Option 1</bl-select-option></bl-select>`);
 
     const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
 
@@ -137,7 +145,7 @@ describe("bl-select", () => {
   });
   it("should close select menu when click outside & run validations", async () => {
     const el = await fixture<BlSelect>(html`<body>
-      <bl-select required invalid-text="This field is mandatory"></bl-select>
+      <bl-select required invalid-text="This field is mandatory"><bl-select-option value="1">Option 1</bl-select-option></bl-select>
     </body>`);
 
     const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
@@ -415,6 +423,26 @@ describe("bl-select", () => {
     await(()=> expect(document.activeElement).to.equal(el));
   });
 
+  it("should not close popover when search is focused and user presses space key", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="tr">Turkey</bl-select-option>
+      <bl-select-option value="en">United States of America</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+    searchInput?.click();
+    searchInput?.focus();
+
+    await sendKeys({
+      press: "Space",
+    });
+
+    await elementUpdated(el);
+
+    expect(el.opened).to.true;
+  });
+
   describe("additional selection counter", () => {
     let el: BlSelect;
 
@@ -487,6 +515,47 @@ describe("bl-select", () => {
         expect(el.querySelector<BlSelectOption>('bl-select-option[value="2"]')?.selected).to.be
           .false;
         expect(el.value).to.equal("1");
+      });
+    });
+    describe("no initial value", () => {
+      it("should not set empty option as selected when multiple and no value", async () => {
+        const el = await fixture<BlSelect>(html`<bl-select multiple name="test">
+          <bl-select-option value="1">Option 1</bl-select-option>
+          <bl-select-option value=""></bl-select-option>
+        </bl-select>`);
+
+        await elementUpdated(el);
+
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value=""]')?.selected).to.be
+          .false;
+
+      });
+
+      it("should not set empty option as selected when multiple, empty string value, selected option", async () => {
+        const el = await fixture<BlSelect>(html`<bl-select multiple name="test" value="">
+          <bl-select-option value="1" selected>Option 1</bl-select-option>
+          <bl-select-option value=""></bl-select-option>
+        </bl-select>`);
+
+        await elementUpdated(el);
+
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value=""]')?.selected).to.be
+          .false;
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value="1"]')?.selected).to.be
+          .true;
+
+      });
+
+      it("should not set empty option as selected when no value", async () => {
+        const el = await fixture<BlSelect>(html`<bl-select name="test">
+          <bl-select-option value="1">Option 1</bl-select-option>
+          <bl-select-option value=""></bl-select-option>
+        </bl-select>`);
+
+        await elementUpdated(el);
+
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value=""]')?.selected).to.be
+          .false;
       });
     });
   });
@@ -594,6 +663,25 @@ describe("bl-select", () => {
 
       // then
       expect(document.activeElement).to.not.equal(blSelect);
+    });
+
+
+    it("should not open popover if it is disabled", async () => {
+      // if it is disabled, it should not open popover and return from function
+      blSelect.disabled = true;
+
+      // given
+
+      await sendKeys({
+        press: tabKey,
+      });
+
+      await sendKeys({
+        press: "Space",
+      });
+
+      // then
+      expect(blSelect.opened).to.equal(false);
     });
 
     ["Space", "Enter", "ArrowDown", "ArrowUp"].forEach(keyCode => {

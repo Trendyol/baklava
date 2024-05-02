@@ -194,6 +194,8 @@ const icons = [
   "shopping_bag_discount",
   "shopping_bag_return",
   "sorting",
+  "sorting_asc",
+  "sorting_desc",
   "sound_off",
   "sound_on",
   "split_money",
