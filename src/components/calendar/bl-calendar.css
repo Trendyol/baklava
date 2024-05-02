@@ -39,6 +39,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 8px;
 }
 
 .day-cell {
@@ -61,13 +62,43 @@
   }
 
   &.disabled-day {
-    color: var(--bl-color-neutral-light);
+    color: var(--bl-color-neutral-light) !important;
     cursor: auto;
   }
 
-  &.other-month-day{
+  &.other-month-day {
     color: var(--bl-color-neutral-dark);
   }
+
+}
+
+.hover-day {
+  background: var(--bl-color-primary-contrast);
+}
+
+.hover-start-day {
+  background:var(--bl-color-primary-contrast);
+  color: black;
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
+
+.hover-end-day {
+  background: var(--bl-color-primary-contrast);
+  color: black;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+}
+
+.hover-day-light{
+  background: var(--bl-color-neutral-lightest);
+}
+
+.hover-end-day-light {
+  background: var(--bl-color-neutral-lightest);
+  color: black;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
 }
 
 .weekday-text {

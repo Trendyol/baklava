@@ -22,13 +22,11 @@ export type CalendarView = "days" | "months" | "years";
 export type CalendarType = "single" | "multiple" | "range";
 export type Month = { value: MonthValues; name: MonthNames };
 export type Day = { value: DayValues; name: DayNames };
+export type CalendarDate = Date;
 
-export type SelectedDate = { day: number; month: number; year: number };
-
-export type CalendarDay = {
-  day: number;
-  month: number;
-  year: number;
+export type RangePickerDates = {
+  startDate: CalendarDate | undefined;
+  endDate: CalendarDate | undefined;
 };
 
-export type Calendar = Map<string, CalendarDay[]>;
+export type Calendar = Map<string, CalendarDate[]>;

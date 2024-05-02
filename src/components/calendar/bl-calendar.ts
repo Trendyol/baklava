@@ -7,11 +7,12 @@ import { DAYS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX, MONTHS } from "./bl-calendar
 import style from "./bl-calendar.css";
 import {
   Calendar,
-  CalendarDay,
+  CalendarDate,
   CalendarType,
   CalendarView,
   Day,
-  SelectedDate,
+  DayValues,
+  RangePickerDates,
 } from "./bl-calendar.types";
 
 /**
@@ -31,13 +32,13 @@ export default class BlCalendar extends LitElement {
    *Defines the minimum date value for the calendar
    */
   @property({ attribute: false, reflect: true })
-  minDate: Date = new Date(2024, 2, 3);
+  minDate: Date;
 
   /**
    * Defines the maximum date value for the calendar
    */
   @property({ attribute: false, reflect: true })
-  maxDate: Date = new Date(2024, 5, 3);
+  maxDate: Date;
 
   /**
    * Defines the default selected date value for the calendar
@@ -49,7 +50,7 @@ export default class BlCalendar extends LitElement {
    * Defines the start day of the calendar (1 defines monday)
    */
   @property({ type: Number, attribute: "start-of-week", reflect: true })
-  startOfWeek: number = 3;
+  startOfWeek: DayValues = 0;
 
   @property()
   locale: string = document.documentElement.lang;
@@ -61,7 +62,10 @@ export default class BlCalendar extends LitElement {
   disabledDates: Date | Date[];
 
   @state()
-  private _selectedDates: SelectedDate[] = [];
+  private _selectedDates: CalendarDate[] = [];
+
+  @state()
+  private _selectedRangeDates: RangePickerDates = { startDate: undefined, endDate: undefined };
 
   @state()
   private _calendarMonth: number = new Date().getMonth();
@@ -136,70 +140,209 @@ export default class BlCalendar extends LitElement {
       for (let i = 1; i <= 7; i++) this._calendarYears.push(this._calendarYear + i);
     }
   }
-  handleDate(date: CalendarDay) {
-    if (date.month < this._calendarMonth) {
+  clearHoverClassesFromShadowRoot() {
+    this.shadowRoot?.querySelectorAll(".hover-day").forEach(day => {
+      day.classList.remove("hover-day");
+    });
+    this.shadowRoot?.querySelectorAll(".hover-start-day").forEach(day => {
+      day.classList.remove("hover-start-day");
+    });
+    this.shadowRoot?.querySelectorAll(".hover-end-day").forEach(day => {
+      day.classList.remove("hover-end-day");
+    });
+  }
+  handleDate(date: CalendarDate) {
+    if (date.getMonth() < this._calendarMonth) {
       this.setPreviousCalendarView();
-    } else if (date.month > this._calendarMonth) {
+    } else if (date.getMonth() > this._calendarMonth) {
       this.setNextCalendarView();
     }
 
     if (this.type === "single") {
-      this._selectedDates.splice(0, 1);
-      this._selectedDates.push(date);
+      this.handleSingleSelectCalendar(date);
     } else if (this.type === "multiple") {
-      const dateExist = this._selectedDates.find(function (selectedDate) {
-        return (
-          selectedDate.day === date.day &&
-          selectedDate.month === date.month &&
-          selectedDate.year === date.year
-        );
-      });
-
-      if (dateExist) this._selectedDates.splice(this._selectedDates.indexOf(date), 1);
-      else this._selectedDates.push(date);
+      this.handleMultipleSelectCalendar(date);
+    } else if (this.type === "range") {
+      this.handleRangeSelectCalendar(date);
     }
 
-    this._onBlCalendarChange(
-      this._selectedDates.map(date => {
-        return new Date(date.month + 1, date.year, date.day);
-      })
-    );
+    this._onBlCalendarChange(this._selectedDates);
     this.requestUpdate();
   }
-  checkIfSelectedDate(calendarDay: CalendarDay) {
+  handleSingleSelectCalendar(calendarDate: CalendarDate) {
+    this._selectedDates.splice(0, 1);
+    this._selectedDates.push(calendarDate);
+  }
+  handleMultipleSelectCalendar(calendarDate: CalendarDate) {
+    const dateExist = this._selectedDates.find(function (selectedDate) {
+      return selectedDate.getTime() === calendarDate.getTime();
+    });
+
+    if (dateExist) this._selectedDates.splice(this._selectedDates.indexOf(calendarDate), 1);
+    else this._selectedDates.push(calendarDate);
+  }
+  handleRangeSelectCalendar(calendarDate: CalendarDate) {
+    if (!this._selectedRangeDates.startDate) {
+      this._selectedRangeDates.startDate = calendarDate;
+      this._selectedDates.push(calendarDate);
+    } else if (this._selectedRangeDates.startDate && !this._selectedRangeDates.endDate) {
+      if (calendarDate.getTime() > this._selectedRangeDates.startDate.getTime()) {
+        this._selectedRangeDates.endDate = calendarDate;
+        this._selectedDates.push(calendarDate);
+      } else if (calendarDate.getTime() < this._selectedRangeDates.startDate.getTime()) {
+        const temp = this._selectedRangeDates.startDate;
+
+        this._selectedRangeDates.startDate = calendarDate;
+        this._selectedRangeDates.endDate = temp;
+        this._selectedDates.splice(
+          0,
+          this._selectedDates.length,
+          this._selectedRangeDates.startDate,
+          this._selectedRangeDates.endDate
+        );
+      }
+      const endDateParentElement = this.shadowRoot?.getElementById(
+        `${this._selectedRangeDates.endDate?.getTime()}`
+      )?.parentElement;
+
+      endDateParentElement?.classList.remove("hover-day");
+      endDateParentElement?.classList.add("hover-end-day");
+    } else if (this._selectedRangeDates.startDate && this._selectedRangeDates.endDate) {
+      if (calendarDate.getTime() > this._selectedRangeDates.endDate.getTime()) {
+        this._selectedDates.splice(1, this._selectedDates.length, calendarDate);
+        this._selectedRangeDates.endDate = calendarDate;
+        const endDateParentElement = this.shadowRoot?.getElementById(
+          `${this._selectedRangeDates.endDate?.getTime()}`
+        )?.parentElement;
+        endDateParentElement?.classList.add("hover-end-day");
+      } else if (calendarDate.getTime() < this._selectedRangeDates.endDate.getTime()) {
+        this._selectedDates.splice(1, this._selectedDates.length, calendarDate);
+        this._selectedRangeDates.endDate = calendarDate;
+        const endDateParentElement = this.shadowRoot?.getElementById(
+          `${this._selectedRangeDates.endDate?.getTime()}`
+        )?.parentElement;
+        endDateParentElement?.classList.add("hover-end-day");
+        this.shadowRoot?.querySelectorAll(".hover-day-light").forEach(day => {
+          day.classList.remove("hover-day-light");
+        });
+        this.shadowRoot?.querySelectorAll(".hover-end-day-light ").forEach(day => {
+          day.classList.remove("hover-end-day-light");
+        });
+      }
+    } else {
+      this.clearHoverClassesFromShadowRoot();
+      this._selectedRangeDates.startDate = calendarDate;
+      this._selectedRangeDates.endDate = undefined;
+      this._selectedDates.splice(0, this._selectedDates.length, this._selectedRangeDates.startDate);
+    }
+  }
+
+  checkIfSelectedDate(calendarDate: CalendarDate) {
     return this._selectedDates.find(selectedDate => {
-      return (
-        selectedDate.day === calendarDay.day &&
-        selectedDate.month === this._calendarMonth &&
-        selectedDate.year === this._calendarYear &&
-        calendarDay.month === this._calendarMonth
-      );
+      return calendarDate.getTime() === selectedDate.getTime();
     });
   }
-  checkIfDateIsToday(calendarDay: CalendarDay) {
+  checkIfDateIsToday(calendarDate: CalendarDate) {
     const today = new Date();
 
-    return (
-      today.getMonth() === calendarDay.month &&
-      today.getFullYear() === calendarDay.year &&
-      today.getDate() === calendarDay.day
-    );
+    return today.getTime() === calendarDate.getTime();
   }
-  checkIfDateIsDisabled(calendarDay: CalendarDay) {
-    const date = new Date(calendarDay.year, calendarDay.month, calendarDay.day);
-
-    if (date < this.minDate || date > this.maxDate) {
+  checkIfDateIsDisabled(calendarDate: CalendarDate) {
+    if (
+      calendarDate.getTime() < this.minDate?.getTime() ||
+      calendarDate.getTime() > this.maxDate?.getTime()
+    ) {
       return true;
     }
 
     if (Array.isArray(this.disabledDates)) {
       return this.disabledDates.find(disabledDate => {
-        return date.toDateString() === disabledDate.toDateString();
+        return calendarDate.getTime() === disabledDate.getTime();
       });
     } else if (this.disabledDates) {
-      if (date.toDateString() === this.disabledDates.toString()) return true;
+      if (calendarDate.getTime() === this.disabledDates.getTime()) return true;
     }
     return false;
+  }
+
+  setHoverClass(calendarDate: CalendarDate) {
+    if (!this._selectedRangeDates.startDate && !this._selectedRangeDates.endDate)
+      this.clearHoverClassesFromShadowRoot();
+    if (
+      this.type === "range" &&
+      this._selectedRangeDates.startDate &&
+      !this._selectedRangeDates.endDate
+    ) {
+      const startDateParentElement = this.shadowRoot?.getElementById(
+        `${this._selectedRangeDates.startDate?.getTime()}`
+      )?.parentElement;
+
+      startDateParentElement?.classList.add("hover-start-day");
+
+      const min = Math.min(this._selectedRangeDates.startDate?.getTime(), calendarDate.getTime());
+      const max = Math.max(this._selectedRangeDates.startDate?.getTime(), calendarDate.getTime());
+
+      const rangeDays = [...this.createCalendarDays().values()]
+        .flat()
+        .filter(date => date.getTime() > min && date.getTime() <= max);
+
+      for (let i = 0; i < rangeDays.length; i++) {
+        const element = this.shadowRoot?.getElementById(`${rangeDays[i].getTime()}`);
+
+        element?.classList?.add("hover-day");
+      }
+    } else if (
+      this.type === "range" &&
+      this._selectedRangeDates.startDate &&
+      this._selectedRangeDates.endDate
+    ) {
+      if (calendarDate.getTime() > this._selectedRangeDates.endDate.getTime()) {
+        const endDateParentElement = this.shadowRoot?.getElementById(
+          `${this._selectedRangeDates.endDate?.getTime()}`
+        )?.parentElement;
+        endDateParentElement?.classList?.remove("hover-end-day");
+
+        endDateParentElement?.classList?.add("hover-day");
+
+        const rangeDays = [...this.createCalendarDays().values()]
+          .flat()
+          .filter(
+            date =>
+              date.getTime() > this._selectedRangeDates?.endDate?.getTime() &&
+              date.getTime() <= calendarDate.getTime()
+          );
+
+        for (let i = 0; i < rangeDays.length; i++) {
+          const element = this.shadowRoot?.getElementById(`${rangeDays[i].getTime()}`);
+
+          element?.classList?.add("hover-day");
+        }
+      } else if (
+        calendarDate.getTime() < this._selectedRangeDates.endDate.getTime() &&
+        calendarDate.getTime() > this._selectedRangeDates.startDate.getTime()
+      ) {
+        const endDateParentElement = this.shadowRoot?.getElementById(
+          `${this._selectedRangeDates.endDate?.getTime()}`
+        )?.parentElement;
+        endDateParentElement?.classList?.remove("hover-end-day");
+        endDateParentElement?.classList?.add("hover-end-day-light");
+
+        const rangeDays = [...this.createCalendarDays().values()]
+          .flat()
+          .filter(
+            date =>
+              date.getTime() > calendarDate.getTime() &&
+              date.getTime() < this._selectedRangeDates?.endDate?.getTime()
+          );
+
+        for (let i = 0; i < rangeDays.length; i++) {
+          const element = this.shadowRoot?.getElementById(`${rangeDays[i].getTime()}`);
+          element?.classList?.remove("hover-day");
+
+          element?.classList?.add("hover-day-light");
+        }
+      }
+    }
   }
 
   createCalendarDays() {
@@ -229,14 +372,13 @@ export default class BlCalendar extends LitElement {
       lastMonthDaysIterator--
     ) {
       const mod = dayOfTheWeek % 7;
+      const date = new Date(
+        this._calendarYear,
+        this._calendarMonth - 1,
+        previousMonthDayCount - lastMonthDaysIterator + 1
+      );
 
-      calendar.set(DAYS[mod].name, [
-        {
-          day: previousMonthDayCount - lastMonthDaysIterator + 1,
-          month: this._calendarMonth - 1,
-          year: this._calendarYear,
-        },
-      ]);
+      calendar.set(DAYS[mod].name, [date]);
 
       dayOfTheWeek += 1;
     }
@@ -246,11 +388,7 @@ export default class BlCalendar extends LitElement {
       currentMonthDaysIterator++
     ) {
       const mod = dayOfTheWeek % 7;
-      const day = {
-        day: currentMonthDaysIterator,
-        month: this._calendarMonth,
-        year: this._calendarYear,
-      };
+      const day = new Date(this._calendarYear, this._calendarMonth, currentMonthDaysIterator);
 
       if (calendar.get(DAYS[mod].name)) {
         calendar.get(DAYS[mod].name)?.push(day);
@@ -269,13 +407,9 @@ export default class BlCalendar extends LitElement {
         nextMonthDaysIterator++
       ) {
         const mod = dayOfTheWeek % 7;
-        const day = {
-          day: nextMonthDaysIterator,
-          month: this._calendarMonth + 1,
-          year: this._calendarYear,
-        };
+        const date = new Date(this._calendarYear, this._calendarMonth + 1, nextMonthDaysIterator);
 
-        calendar.get(DAYS[mod].name)?.push(day);
+        calendar.get(DAYS[mod].name)?.push(date);
 
         dayOfTheWeek += 1;
       }
@@ -296,17 +430,20 @@ export default class BlCalendar extends LitElement {
                 const isDayToday = this.checkIfDateIsToday(date);
                 const isDisabledDay = this.checkIfDateIsDisabled(date);
 
-                //console.log(isDisabledDay, date);
-                return html` <div
-                  class="day-cell ${isDayToday && "today-day"} ${isSelectedDay &&
-                  "selected-day"} ${isDisabledDay && "disabled-day"} ${date.month !==
-                    this._calendarMonth && "other-month-day"}"
-                  @click="${() => !isDisabledDay && this.handleDate(date)}"
-                >
-                  ${date.day}
+                return html` <div>
+                  <div
+                    id=${date.getTime()}
+                    @mouseover="${() => this.setHoverClass(date)}"
+                    class="day-cell ${isDayToday && "today-day"} ${isSelectedDay &&
+                    "selected-day"} ${date.getMonth() !== this._calendarMonth &&
+                    "other-month-day"}  ${isDisabledDay && "disabled-day"}"
+                    @click="${() => !isDisabledDay && this.handleDate(date)}"
+                  >
+                    ${date.getDate()}
+                  </div>
                 </div>`;
               })}
-            </div>`;
+            </div> </div>`;
           })}
         </div>`;
       } else if (calendarView === "months") {
