@@ -361,6 +361,114 @@ When you run this example and submit the form, you'll see key/value pairs of the
 
 <bl-alert icon>If user presses `Enter` key in an input inside a form, this will trigger submit of the form. This behaviour mimics the native input behaviour.</bl-alert>
 
+## Input Masking
+
+Input masking is essential in user interfaces that require formatted entries such as phone numbers and dates, ensuring consistent and structured user input.
+
+Baklava is designed to provide stable and general low-level building blocks. This approach helps maintain the flexibility and adaptability of our components, allowing developers the freedom to leverage specialized features such as input masking by incorporating external libraries like [IMask](https://imask.js.org) or [Maskito](https://maskito.dev).
+
+Successfully integrating third-party masking libraries with Baklava’s components involves understanding how these libraries interact with web components. Libraries that provide granular control are especially well-suited for this. For example, IMask and Maskito are compatible with web components due to their APIs which allow direct interactions with the input elements, even those nested within shadow DOM. This capability ensures that the masking logic is applied correctly without interfering with the component's internal structure or lifecycle.
+
+### Using with JavaScript/TypeScript
+
+For classic web development, implementing input masking involves selecting the underlying input element and applying the masking logic directly.
+
+```html
+<bl-input
+  id="inputPhoneUSA"
+  size="large"
+  icon="phone"
+  label="Phone Number"
+  placeholder="Enter phone number"
+  name="phone-usa"
+  autofocus
+></bl-input>
+
+<script>
+  const options = {
+    mask: '+1 (000) 000-0000',
+  };
+
+  const element = document.getElementById('inputPhoneUSA');
+  const input = element.shadowRoot.querySelector('input');
+
+  IMask(input, options);
+</script>
+```
+
+### Using with React and Vue
+
+React and Vue pose unique challenges for integrating direct DOM manipulations. These issues stem from their respective rendering mechanisms which can interfere with how external libraries manipulate the DOM. Addressing these requires syncing the DOM updates manually with the component's state or lifecycle. Usage of a [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) per masked component is a controlled and precise way to handle these updates. In this manner masking behavior can be applied when appropriate and also removed when necessary.
+
+#### React example:
+
+```jsx
+import { BlInput } from '@trendyol/baklava/dist/baklava-react';
+import { useIMaskWithObserver } from '../../hooks';
+
+export default function InputPhoneUSA() {
+  const ref = useIMaskWithObserver({
+    mask: '+1 (000) 000-0000',
+  });
+
+  return (
+    <BlInput
+      ref={ref}
+      size="large"
+      icon="phone"
+      label="Phone Number"
+      placeholder="Enter phone number"
+      name="phone-usa"
+      autofocus
+    />
+  );
+}
+```
+
+#### Vue example:
+
+```html
+<template>
+  <bl-input
+    ref="blInputRef"
+    size="large"
+    icon="phone"
+    label="Phone Number"
+    placeholder="Enter phone number"
+    name="phone-usa"
+    autofocus
+  />
+</template>
+
+<script>
+  import { defineComponent } from 'vue';
+  import { useIMaskWithObserver } from '../../hooks/useIMaskWithObserver';
+
+  export default defineComponent({
+    name: 'InputPhoneUSA',
+    setup() {
+      const { el: blInputRef } = useIMaskWithObserver({
+        mask: '+1 (000) 000-0000',
+      });
+
+      return {
+        blInputRef,
+      };
+    },
+  });
+</script>
+```
+
+In both examples, the `useIMaskWithObserver` hook is a custom hook that combines IMask with a MutationObserver to ensure that the masking behavior is applied correctly and consistently. Respective example implementations for such an approach can be found in [here (React)](https://github.com/doganozturk/baklava-input-mask-react-examples/blob/f9f2155d0c7be477fa6e87ae03a8c5c9ac1a27df/src/examples/imask/hooks/useIMaskWithObserver.js) and [here (Vue)](https://github.com/doganozturk/baklava-input-mask-vue-examples/blob/9342e453c6d66525904dfa01c68fa09934c066e5/src/examples/imask/hooks/useIMaskWithObserver.js).
+
+Also we provide usage examples for JS/TS, React and Vue for both IMask and Maskito. You can check the examples from the links below:
+
+- [TS](https://github.com/doganozturk/baklava-input-mask-examples)
+- [React](https://github.com/doganozturk/baklava-input-mask-react-examples)
+- [Vue](https://github.com/doganozturk/baklava-input-mask-vue-examples)
+
+We also want to enrich our examples with more compatible masking libraries. If you have any suggestions or contributions, please feel free to open an issue or PR.
+
 ## Reference
 
 <ArgsTable of="bl-input" />
