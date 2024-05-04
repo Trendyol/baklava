@@ -2,7 +2,7 @@ import { allLocales } from "../generated/locale-codes";
 
 type LangKey = "tr" | "en";
 
-export const getLocale = (): LangKey => {
+export const getLocaleFromHtml = (): LangKey => {
   const html = document.querySelector("html");
   const htmlLang = html?.getAttribute("lang") as LangKey;
 

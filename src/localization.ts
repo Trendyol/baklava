@@ -1,13 +1,11 @@
 import { LocaleModule, configureLocalization } from "@lit/localize";
 import { sourceLocale, targetLocales, allLocales } from "./generated/locale-codes";
 import * as templatesTR from "./generated/locales/tr";
-import { getLocale } from "./utilities/getLocale";
-
-type LangKey = "tr" | "en";
+import { getLocaleFromHtml } from "./utilities/get-locale-from-html";
 
 const localizedTemplates = new Map<string, LocaleModule>([["tr", templatesTR]]);
 
-const { setLocale } = configureLocalization({
+export const { getLocale, setLocale } = configureLocalization({
   sourceLocale,
   targetLocales,
   loadLocale: async (locale: string) => localizedTemplates.get(locale) as LocaleModule,
@@ -15,7 +13,7 @@ const { setLocale } = configureLocalization({
 
 export const init = async () => {
   const html = document.querySelector("html");
-  const htmlLang = getLocale();
+  const htmlLang = getLocaleFromHtml();
 
   await setLocale(htmlLang);
 
@@ -23,7 +21,7 @@ export const init = async () => {
   const langAttributeChangeListener = (mutations: MutationRecord[]) => {
     mutations.forEach(mutation => {
       if (mutation.attributeName === "lang") {
-        const newLangValue = html?.getAttribute("lang") as LangKey | null;
+        const newLangValue = getLocaleFromHtml();
 
         if (newLangValue && allLocales.includes(newLangValue)) {
           setLocale(newLangValue);

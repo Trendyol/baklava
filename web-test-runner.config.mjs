@@ -39,6 +39,7 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   port: 8765,
   coverageConfig: {
     include: ['src/**/*.ts'],
+    exclude: ['src/localization.ts'], // Exclude localization.ts from coverage. Because fallback scenario is not covered.
     threshold: {
       branches: 100,
       statements: 100,

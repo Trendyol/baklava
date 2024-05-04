@@ -369,6 +369,9 @@ describe("bl-select", () => {
         expect(option.hidden).to.be.true;
       }
     });
+
+    // necessary to reset the lang attribute
+    doc?.setAttribute("lang", "en");
   });
 
   it("should show loading icon when the search loading state is true", async () => {
