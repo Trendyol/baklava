@@ -571,6 +571,35 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private focusedOptionIndex = -1;
+  private lastKeyPressedTime = 0;
+  private typedCharacters = "";
+  private keyPressThreshold = 500;
+
+  private handleFocusOptionByKey(key: string) {
+    const currentTime = Date.now();
+    const elapsedTimeSinceLastKeyPress = currentTime - this.lastKeyPressedTime;
+
+    if (elapsedTimeSinceLastKeyPress > this.keyPressThreshold) {
+      this.typedCharacters = "";
+    }
+
+    this.lastKeyPressedTime = currentTime;
+    this.typedCharacters += key.toLowerCase();
+
+    const matchingOptionIndex = this.options.findIndex(option => {
+      if (option.disabled) {
+        return false;
+      }
+      const optionText = option.innerText.trim().toLowerCase();
+
+      return optionText.startsWith(this.typedCharacters);
+    });
+
+    if (matchingOptionIndex !== -1) {
+      this.focusedOptionIndex = matchingOptionIndex;
+      this.options[matchingOptionIndex].focus();
+    }
+  }
 
   private handleKeydown(event: KeyboardEvent) {
     if (this.focusedOptionIndex === -1 && ["Enter", "Space"].includes(event.code)) {
@@ -595,6 +624,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       this.options[this.focusedOptionIndex].focus();
 
       event.preventDefault();
+    } else if (this._isPopoverOpen && !this.searchBar) {
+      this.handleFocusOptionByKey(event.key);
     }
   }
 
