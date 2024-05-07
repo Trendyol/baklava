@@ -53,7 +53,7 @@ const icons = [
   "document",
   "document_search",
   "donation",
-  "door",
+  "door_open",
   "download",
   "drag_and_drop",
   "edit",
