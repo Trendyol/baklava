@@ -43,6 +43,7 @@ const icons = [
   "copy",
   "copy_checked",
   "coupon",
+  "credit_card",
   "delete",
   "desktop",
   "desktop_filled",
