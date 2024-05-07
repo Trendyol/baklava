@@ -7,6 +7,7 @@ import { msg, localized } from "@lit/localize";
 import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
+import { LangKey } from "../../localization";
 import { event, EventDispatcher } from "../../utilities/event";
 import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
 import "../button/bl-button";
@@ -228,6 +229,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
    * Fires when search text changes
    */
   @event("bl-search") private _onBlSearch: EventDispatcher<string>;
+
+  private userLang =
+    (document.querySelector("html")?.getAttribute("lang") as LangKey | null) || navigator.language;
 
   private _connectedOptions: BlSelectOption<ValueType>[] = [];
 
@@ -659,7 +663,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     this._handleSearchEvent();
 
     this._connectedOptions.forEach(option => {
-      const isVisible = option.textContent?.toLowerCase().includes(this._searchText.toLowerCase());
+      const isVisible = option.textContent
+        ?.toLocaleLowerCase(this.userLang)
+        .includes(this._searchText.toLocaleLowerCase(this.userLang));
 
       option.hidden = !isVisible;
     });
