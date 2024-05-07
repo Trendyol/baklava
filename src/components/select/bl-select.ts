@@ -714,6 +714,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _onClickRemove(e: MouseEvent) {
     e.stopPropagation();
 
+    this._searchText = "";
+
     const selectedDisabledOptions = this._selectedOptions.filter(option => option.disabled);
 
     this._connectedOptions
