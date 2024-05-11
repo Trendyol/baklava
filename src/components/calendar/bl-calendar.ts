@@ -3,14 +3,14 @@ import { customElement, property, state } from "lit/decorators.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import "../icon/bl-icon";
-import { DAYS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX, MONTHS } from "./bl-calendar.constant";
+import { FIRST_MONTH_INDEX, LAST_MONTH_INDEX } from "./bl-calendar.constant";
 import style from "./bl-calendar.css";
 import {
   Calendar,
   CalendarDate,
   CalendarType,
   CalendarView,
-  Day,
+  CalendarDay,
   DayValues,
   RangePickerDates,
 } from "./bl-calendar.types";
@@ -31,20 +31,14 @@ export default class BlCalendar extends LitElement {
   /**
    *Defines the minimum date value for the calendar
    */
-  @property({ attribute: false, reflect: true })
+  @property({ type: Date, attribute: "min-date", reflect: true })
   minDate: Date;
 
   /**
    * Defines the maximum date value for the calendar
    */
-  @property({ attribute: false, reflect: true })
+  @property({ type: Date, attribute: "max-date", reflect: true })
   maxDate: Date;
-
-  /**
-   * Defines the default selected date value for the calendar
-   */
-  @property({ type: Array, attribute: "default-value", reflect: true })
-  defaultValue: Date | Date[];
 
   /**
    * Defines the start day of the calendar (1 defines monday)
@@ -52,14 +46,17 @@ export default class BlCalendar extends LitElement {
   @property({ type: Number, attribute: "start-of-week", reflect: true })
   startOfWeek: DayValues = 0;
 
-  @property()
-  locale: string = document.documentElement.lang;
-
   /**
    * Defines the unselectable dates for calendar
    */
-  @property({ type: Array })
+  @property({ type: Array, attribute: "disabled-dates", reflect: true })
   disabledDates: Date | Date[];
+
+  /**
+   * Defines the calendar language
+   */
+  @property()
+  locale: string = document.documentElement.lang;
 
   @state()
   private _selectedDates: CalendarDate[] = [];
@@ -80,8 +77,42 @@ export default class BlCalendar extends LitElement {
   private _calendarYears: number[] = [];
 
   @state()
-  private _calendarDays: Day[] = [];
+  private _calendarDays: CalendarDay[] = [];
 
+  private _defaultValue: Date | Date[];
+
+  /**
+   * Defines the default selected date value for the calendar
+   */
+  @property({ type: Array, attribute: "default-value", reflect: true })
+  get defaultValue(): Date | Date[] {
+    return this._defaultValue;
+  }
+  set defaultValue(defaultValue) {
+    if (this.type === "single" && Array.isArray(defaultValue)) {
+      console.warn("Invalid prop value for defaultValue");
+    } else if (this.defaultValue) {
+      if (Array.isArray(this.defaultValue)) {
+        this._selectedDates = this.defaultValue;
+      } else this._selectedDates = [this.defaultValue];
+    }
+  }
+  get months() {
+    return [...Array(12).keys()].map(month => {
+      return {
+        name: new Date(0, month + 1, 0).toLocaleString(this.locale, { month: "long" }),
+        value: month,
+      };
+    });
+  }
+  get days() {
+    return [...Array(7).keys()].map(day => {
+      return {
+        name: new Date(0, 0, day).toLocaleString(this.locale, { weekday: "short" }),
+        value: day,
+      };
+    });
+  }
   /**
    * Fires when date selection changes
    */
@@ -96,6 +127,7 @@ export default class BlCalendar extends LitElement {
     return new Date(year, month, 1).getDay();
   }
   setPreviousCalendarView() {
+    this.clearHoverClassesFromShadowRoot();
     if (this._calendarView === "days") {
       if (this._calendarMonth === FIRST_MONTH_INDEX) {
         this._calendarMonth = LAST_MONTH_INDEX;
@@ -109,8 +141,15 @@ export default class BlCalendar extends LitElement {
         this._calendarYears.push(fromYear - i);
       }
     }
+    if (
+      this._selectedRangeDates.startDate?.getMonth() === this._calendarMonth ||
+      this._selectedRangeDates.endDate?.getMonth() === this._calendarMonth
+    ) {
+      this.setHoverClass();
+    }
   }
   setNextCalendarView() {
+    this.clearHoverClassesFromShadowRoot();
     if (this._calendarView === "days") {
       if (this._calendarMonth === LAST_MONTH_INDEX) {
         this._calendarMonth = FIRST_MONTH_INDEX;
@@ -123,6 +162,12 @@ export default class BlCalendar extends LitElement {
       for (let i = 1; i <= 12; i++) {
         this._calendarYears.push(fromYear + i);
       }
+    }
+    if (
+      this._selectedRangeDates.startDate?.getMonth() === this._calendarMonth ||
+      this._selectedRangeDates.endDate?.getMonth() === this._calendarMonth
+    ) {
+      this.setHoverClass();
     }
   }
   setMonthAndCalendarView(month: number) {
@@ -141,21 +186,23 @@ export default class BlCalendar extends LitElement {
     }
   }
   clearHoverClassesFromShadowRoot() {
-    this.shadowRoot?.querySelectorAll(".hover-day").forEach(day => {
-      day.classList.remove("hover-day");
+    this.shadowRoot?.querySelectorAll(".range-day").forEach(day => {
+      day.classList.remove("range-day");
     });
-    this.shadowRoot?.querySelectorAll(".hover-start-day").forEach(day => {
-      day.classList.remove("hover-start-day");
+    this.shadowRoot?.querySelectorAll(".range-start-day").forEach(day => {
+      day.classList.remove("range-start-day");
     });
-    this.shadowRoot?.querySelectorAll(".hover-end-day").forEach(day => {
-      day.classList.remove("hover-end-day");
+    this.shadowRoot?.querySelectorAll(".range-end-day").forEach(day => {
+      day.classList.remove("range-end-day");
     });
   }
   handleDate(date: CalendarDate) {
-    if (date.getMonth() < this._calendarMonth) {
-      this.setPreviousCalendarView();
-    } else if (date.getMonth() > this._calendarMonth) {
-      this.setNextCalendarView();
+    if (this.type !== "range") {
+      if (date.getMonth() < this._calendarMonth) {
+        this.setPreviousCalendarView();
+      } else if (date.getMonth() > this._calendarMonth) {
+        this.setNextCalendarView();
+      }
     }
 
     if (this.type === "single") {
@@ -201,40 +248,12 @@ export default class BlCalendar extends LitElement {
           this._selectedRangeDates.endDate
         );
       }
-      const endDateParentElement = this.shadowRoot?.getElementById(
-        `${this._selectedRangeDates.endDate?.getTime()}`
-      )?.parentElement;
-
-      endDateParentElement?.classList.remove("hover-day");
-      endDateParentElement?.classList.add("hover-end-day");
     } else if (this._selectedRangeDates.startDate && this._selectedRangeDates.endDate) {
-      if (calendarDate.getTime() > this._selectedRangeDates.endDate.getTime()) {
-        this._selectedDates.splice(1, this._selectedDates.length, calendarDate);
-        this._selectedRangeDates.endDate = calendarDate;
-        const endDateParentElement = this.shadowRoot?.getElementById(
-          `${this._selectedRangeDates.endDate?.getTime()}`
-        )?.parentElement;
-        endDateParentElement?.classList.add("hover-end-day");
-      } else if (calendarDate.getTime() < this._selectedRangeDates.endDate.getTime()) {
-        this._selectedDates.splice(1, this._selectedDates.length, calendarDate);
-        this._selectedRangeDates.endDate = calendarDate;
-        const endDateParentElement = this.shadowRoot?.getElementById(
-          `${this._selectedRangeDates.endDate?.getTime()}`
-        )?.parentElement;
-        endDateParentElement?.classList.add("hover-end-day");
-        this.shadowRoot?.querySelectorAll(".hover-day-light").forEach(day => {
-          day.classList.remove("hover-day-light");
-        });
-        this.shadowRoot?.querySelectorAll(".hover-end-day-light ").forEach(day => {
-          day.classList.remove("hover-end-day-light");
-        });
-      }
-    } else {
-      this.clearHoverClassesFromShadowRoot();
       this._selectedRangeDates.startDate = calendarDate;
       this._selectedRangeDates.endDate = undefined;
       this._selectedDates.splice(0, this._selectedDates.length, this._selectedRangeDates.startDate);
     }
+    this.setHoverClass();
   }
 
   checkIfSelectedDate(calendarDate: CalendarDate) {
@@ -265,90 +284,47 @@ export default class BlCalendar extends LitElement {
     return false;
   }
 
-  setHoverClass(calendarDate: CalendarDate) {
-    if (!this._selectedRangeDates.startDate && !this._selectedRangeDates.endDate)
-      this.clearHoverClassesFromShadowRoot();
-    if (
-      this.type === "range" &&
-      this._selectedRangeDates.startDate &&
-      !this._selectedRangeDates.endDate
-    ) {
-      const startDateParentElement = this.shadowRoot?.getElementById(
-        `${this._selectedRangeDates.startDate?.getTime()}`
-      )?.parentElement;
+  setHoverClass() {
+    this.clearHoverClassesFromShadowRoot();
 
-      startDateParentElement?.classList.add("hover-start-day");
+    if (this._selectedRangeDates.startDate && this._selectedRangeDates.endDate) {
+      setTimeout(() => {
+        const startDateParentElement = this.shadowRoot?.getElementById(
+          `${this._selectedRangeDates.startDate?.getTime()}`
+        )?.parentElement;
 
-      const min = Math.min(this._selectedRangeDates.startDate?.getTime(), calendarDate.getTime());
-      const max = Math.max(this._selectedRangeDates.startDate?.getTime(), calendarDate.getTime());
+        startDateParentElement?.classList.add("range-start-day");
 
-      const rangeDays = [...this.createCalendarDays().values()]
-        .flat()
-        .filter(date => date.getTime() > min && date.getTime() <= max);
-
-      for (let i = 0; i < rangeDays.length; i++) {
-        const element = this.shadowRoot?.getElementById(`${rangeDays[i].getTime()}`);
-
-        element?.classList?.add("hover-day");
-      }
-    } else if (
-      this.type === "range" &&
-      this._selectedRangeDates.startDate &&
-      this._selectedRangeDates.endDate
-    ) {
-      if (calendarDate.getTime() > this._selectedRangeDates.endDate.getTime()) {
         const endDateParentElement = this.shadowRoot?.getElementById(
           `${this._selectedRangeDates.endDate?.getTime()}`
         )?.parentElement;
-        endDateParentElement?.classList?.remove("hover-end-day");
 
-        endDateParentElement?.classList?.add("hover-day");
-
-        const rangeDays = [...this.createCalendarDays().values()]
-          .flat()
-          .filter(
-            date =>
-              date.getTime() > this._selectedRangeDates?.endDate?.getTime() &&
-              date.getTime() <= calendarDate.getTime()
-          );
+        endDateParentElement?.classList.add("range-end-day");
+        const rangeDays = [...this.createCalendarDays().values()].flat().filter(
+          date =>
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            date.getTime() > this._selectedRangeDates?.startDate?.getTime() &&
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            date.getTime() < this._selectedRangeDates?.endDate?.getTime()
+        );
 
         for (let i = 0; i < rangeDays.length; i++) {
           const element = this.shadowRoot?.getElementById(`${rangeDays[i].getTime()}`);
 
-          element?.classList?.add("hover-day");
+          element?.classList?.add("range-day");
         }
-      } else if (
-        calendarDate.getTime() < this._selectedRangeDates.endDate.getTime() &&
-        calendarDate.getTime() > this._selectedRangeDates.startDate.getTime()
-      ) {
-        const endDateParentElement = this.shadowRoot?.getElementById(
-          `${this._selectedRangeDates.endDate?.getTime()}`
-        )?.parentElement;
-        endDateParentElement?.classList?.remove("hover-end-day");
-        endDateParentElement?.classList?.add("hover-end-day-light");
-
-        const rangeDays = [...this.createCalendarDays().values()]
-          .flat()
-          .filter(
-            date =>
-              date.getTime() > calendarDate.getTime() &&
-              date.getTime() < this._selectedRangeDates?.endDate?.getTime()
-          );
-
-        for (let i = 0; i < rangeDays.length; i++) {
-          const element = this.shadowRoot?.getElementById(`${rangeDays[i].getTime()}`);
-          element?.classList?.remove("hover-day");
-
-          element?.classList?.add("hover-day-light");
-        }
-      }
+      });
     }
   }
 
   createCalendarDays() {
     const calendar: Calendar = new Map();
 
-    this._calendarDays = DAYS.slice(this.startOfWeek).concat(DAYS.slice(0, this.startOfWeek));
+    this._calendarDays = this.days
+      .slice(this.startOfWeek)
+      .concat(this.days.slice(0, this.startOfWeek));
 
     const currentMonthStartWeekDay = this.getWeekDayOfDate(this._calendarYear, this._calendarMonth); // 1
 
@@ -378,7 +354,7 @@ export default class BlCalendar extends LitElement {
         previousMonthDayCount - lastMonthDaysIterator + 1
       );
 
-      calendar.set(DAYS[mod].name, [date]);
+      calendar.set(this.days[mod].name, [date]);
 
       dayOfTheWeek += 1;
     }
@@ -390,10 +366,10 @@ export default class BlCalendar extends LitElement {
       const mod = dayOfTheWeek % 7;
       const day = new Date(this._calendarYear, this._calendarMonth, currentMonthDaysIterator);
 
-      if (calendar.get(DAYS[mod].name)) {
-        calendar.get(DAYS[mod].name)?.push(day);
+      if (calendar.get(this.days[mod].name)) {
+        calendar.get(this.days[mod].name)?.push(day);
       } else {
-        calendar.set(DAYS[mod].name, [day]);
+        calendar.set(this.days[mod].name, [day]);
       }
       dayOfTheWeek += 1;
     }
@@ -409,7 +385,7 @@ export default class BlCalendar extends LitElement {
         const mod = dayOfTheWeek % 7;
         const date = new Date(this._calendarYear, this._calendarMonth + 1, nextMonthDaysIterator);
 
-        calendar.get(DAYS[mod].name)?.push(date);
+        calendar.get(this.days[mod].name)?.push(date);
 
         dayOfTheWeek += 1;
       }
@@ -433,10 +409,11 @@ export default class BlCalendar extends LitElement {
                 return html` <div>
                   <div
                     id=${date.getTime()}
-                    @mouseover="${() => this.setHoverClass(date)}"
-                    class="day-cell ${isDayToday && "today-day"} ${isSelectedDay &&
-                    "selected-day"} ${date.getMonth() !== this._calendarMonth &&
-                    "other-month-day"}  ${isDisabledDay && "disabled-day"}"
+                    class="day-cell ${isDayToday ? "today-day" : ""} ${isSelectedDay
+                      ? "selected-day"
+                      : ""} ${date.getMonth() !== this._calendarMonth
+                      ? "other-month-day"
+                      : ""}  ${isDisabledDay ? "disabled-day" : ""}"
                     @click="${() => !isDisabledDay && this.handleDate(date)}"
                   >
                     ${date.getDate()}
@@ -448,7 +425,7 @@ export default class BlCalendar extends LitElement {
         </div>`;
       } else if (calendarView === "months") {
         return html`<div class="months-view">
-          ${MONTHS.map((month, index) => {
+          ${this.months.map((month, index) => {
             return html`<bl-button
               variant="tertiary"
               kind="neutral"
@@ -490,7 +467,7 @@ export default class BlCalendar extends LitElement {
               kind="neutral"
               class="day-text"
               @click="${() => (this._calendarView = "months")}"
-              >${MONTHS[this._calendarMonth].name}</bl-button
+              >${this.months[this._calendarMonth].name}</bl-button
             >
             <bl-button
               variant="tertiary"

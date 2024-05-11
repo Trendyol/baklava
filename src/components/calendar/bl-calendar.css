@@ -72,30 +72,19 @@
 
 }
 
-.hover-day {
+.range-day {
   background: var(--bl-color-primary-contrast);
 }
 
-.hover-start-day {
+.range-start-day {
   background:var(--bl-color-primary-contrast);
   color: black;
   border-top-left-radius: 50%;
   border-bottom-left-radius: 50%;
 }
 
-.hover-end-day {
+.range-end-day {
   background: var(--bl-color-primary-contrast);
-  color: black;
-  border-top-right-radius: 50%;
-  border-bottom-right-radius: 50%;
-}
-
-.hover-day-light{
-  background: var(--bl-color-neutral-lightest);
-}
-
-.hover-end-day-light {
-  background: var(--bl-color-neutral-lightest);
   color: black;
   border-top-right-radius: 50%;
   border-bottom-right-radius: 50%;

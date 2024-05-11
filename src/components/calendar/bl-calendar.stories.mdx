@@ -1,5 +1,7 @@
 import { html } from 'lit';
 import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 <Meta
   title="Components/Calendar"
@@ -14,8 +16,17 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
   }}
 />
 
-export const Template = (args) => html`<bl-calendar
-  name="${args.type}"></bl-calendar>`;
+export const CalendarTemplate = (args) => html`<bl-calendar
+    type=${ifDefined(args.type)}
+    min-date=${ifDefined(args.minDate)}
+    max-date=${ifDefined(args.maxDate)}
+    start-of-week=${ifDefined(args.startOfWeek)}
+    disabled-dates=${ifDefined(args.disabledDates)}
+    locale=${ifDefined(args.locale)}
+    default-value=${ifDefined(args.defaultValue)}>${unsafeHTML(args.content)}</bl-calendar>`
+
+
+export const Template = (args) => html`${CalendarTemplate({...args})}`;
 
 
 # Calendar
@@ -25,15 +36,47 @@ export const Template = (args) => html`<bl-calendar
 
 Calendar component is an **internal** component for using inside Datepicker component.
 
+### Usage
+
+* Calendar has three types such as **single**,**multiple** and **range**.Default calendar type is `single`.You can set calendar type by using `type` attribute.
+* Calendar has **min-date** and **max-date** attributes.By entering these values,you can disable all dates before min-date property or will disable all dates after max-date property.
+* Another attribute **disabled-dates** is also restrict the dates that can be selected on the calendar.
+* Attribute **start-of-date** defines the days of the week, corresponding to 0 Sundays and 6 Saturdays. By entering this, you can choose from which day the calendar will create the calendar view.
+
+
 ## Calendar Types
 
-You can set calendar type by using `type` attribute.
+### Single Type Calendar
+
+Default calendar type is `single` and you can only select a single day from calendar.
 
 <Canvas>
   <Story name="Single Type Calendar" args={{ type: 'single' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
+
+### Multiple Type Calendar
+
+You can select multiple days from calendar.
+
+<Canvas>
+  <Story name="Multiple Type Calendar" args={{ type: 'multiple' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+
+### Range Type Calendar
+
+You can select date range from calendar.
+
+<Canvas>
+  <Story name="Range Type Calendar" args={{ type: 'range' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
 
 ## Reference
 
