@@ -69,7 +69,6 @@
   &.other-month-day {
     color: var(--bl-color-neutral-dark);
   }
-
 }
 
 .range-day {
@@ -77,7 +76,7 @@
 }
 
 .range-start-day {
-  background:var(--bl-color-primary-contrast);
+  background: var(--bl-color-primary-contrast);
   color: black;
   border-top-left-radius: 50%;
   border-bottom-left-radius: 50%;
