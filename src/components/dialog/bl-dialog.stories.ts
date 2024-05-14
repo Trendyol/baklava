@@ -4,7 +4,6 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { fullscreenLayout } from "../../utilities/chromatic-decorators";
 import type BlDialog from "./bl-dialog";
-import type { BlButtonClick } from "../../baklava-react";
 
 const meta: Meta = {
   title: "Components/Dialog",
@@ -85,7 +84,7 @@ const BasicTemplate = (args: DialogArgs) => html`
   <bl-button slot="tertiary-action" variant="tertiary" ?autofocus=${args.focusTertiary} size="large">${args.tertiaryAction}</bl-button>` : ""}
   ${
     args.closeAction ? html`
-    <bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large" @click=${(e: CustomEvent<BlButtonClick>) => (e.target as HTMLElement).closest("bl-dialog")?.toggleAttribute("open")}>${args.closeAction}</bl-button>` : ""}
+    <bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large" @click=${(e: CustomEvent) => (e.target as HTMLElement).closest("bl-dialog")?.toggleAttribute("open")}>${args.closeAction}</bl-button>` : ""}
 </bl-dialog>
 `;
 
