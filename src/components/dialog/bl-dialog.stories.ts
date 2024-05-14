@@ -4,6 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { fullscreenLayout } from "../../utilities/chromatic-decorators";
 import type BlDialog from "./bl-dialog";
+import type { BlButtonClick } from "../../baklava-react";
 
 const meta: Meta = {
   title: "Components/Dialog",
@@ -50,6 +51,8 @@ interface DialogArgs {
   focusPrimary?: boolean;
   focusSecondary?: boolean;
   focusTertiary?: boolean;
+  critical?: boolean;
+  closeAction?: string;
 }
 
 type Story = StoryObj<DialogArgs>;
@@ -68,7 +71,8 @@ const BasicTemplate = (args: DialogArgs) => html`
   class="${ifDefined(args.className)}"
   caption="${ifDefined(args.caption)}"
   ?open="${args.open}"
-  ?polyfilled="${args.polyfilled}">
+  ?polyfilled="${args.polyfilled}"
+  ?critical="${args.critical}">
     ${
       unsafeHTML(args.content)
     }${
@@ -79,6 +83,9 @@ const BasicTemplate = (args: DialogArgs) => html`
   <bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large">${args.secondaryAction}</bl-button>` : ""}${
       args.tertiaryAction ? html`
   <bl-button slot="tertiary-action" variant="tertiary" ?autofocus=${args.focusTertiary} size="large">${args.tertiaryAction}</bl-button>` : ""}
+  ${
+    args.closeAction ? html`
+    <bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large" @click=${(e: CustomEvent<BlButtonClick>) => (e.target as HTMLElement).closest("bl-dialog")?.toggleAttribute("open")}>${args.closeAction}</bl-button>` : ""}
 </bl-dialog>
 `;
 
@@ -256,4 +263,17 @@ export const DialogWithFullWidthActions: Story = {
   },
   render: FullWidthActionsTemplate,
   play: dialogOpener("dl-full-width-actions")
+};
+
+export const CriticalDialog: Story = {
+  args: {
+    id: "dl-critical",
+    caption: "Critical Action Required",
+    content: "<p>This action is irreversible. Please confirm to proceed.</p>",
+    primaryAction: "Confirm",
+    closeAction: "Manually Triggered Close",
+    critical: true,
+  },
+  render: FullWidthActionsTemplate,
+  play: dialogOpener("dl-critical")
 };
