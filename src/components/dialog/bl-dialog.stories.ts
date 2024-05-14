@@ -84,7 +84,7 @@ const BasicTemplate = (args: DialogArgs) => html`
   <bl-button slot="tertiary-action" variant="tertiary" ?autofocus=${args.focusTertiary} size="large">${args.tertiaryAction}</bl-button>` : ""}
   ${
     args.closeAction ? html`
-    <bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large" @click=${(e: CustomEvent) => (e.target as HTMLElement).closest("bl-dialog")?.toggleAttribute("open")}>${args.closeAction}</bl-button>` : ""}
+    <bl-button slot="primary-action" variant="primary" ?autofocus=${args.focusSecondary} size="large" @click=${(e: CustomEvent) => (e.target as HTMLElement).closest("bl-dialog")?.toggleAttribute("open")}>${args.closeAction}</bl-button>` : ""}
 </bl-dialog>
 `;
 
@@ -269,8 +269,7 @@ export const CriticalDialog: Story = {
     id: "dl-critical",
     caption: "Critical Action Required",
     content: "<p>This action is irreversible. Please confirm to proceed.</p>",
-    primaryAction: "Confirm",
-    closeAction: "Manually Triggered Close",
+    closeAction: "Confirm",
     critical: true,
   },
   render: FullWidthActionsTemplate,
