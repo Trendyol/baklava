@@ -3,7 +3,12 @@ import { customElement, property, state } from "lit/decorators.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import "../icon/bl-icon";
-import { FIRST_MONTH_INDEX, LAST_MONTH_INDEX } from "./bl-calendar.constant";
+import {
+  CALENDAR_TYPES,
+  CALENDAR_VIEWS,
+  FIRST_MONTH_INDEX,
+  LAST_MONTH_INDEX,
+} from "./bl-calendar.constant";
 import style from "./bl-calendar.css";
 import {
   Calendar,
@@ -26,7 +31,7 @@ export default class BlCalendar extends LitElement {
    *Defines the calendar types, available types are single,multiple and range
    */
   @property()
-  type: CalendarType = "single";
+  type: CalendarType = CALENDAR_TYPES.single;
 
   /**
    *Defines the minimum date value for the calendar
@@ -71,7 +76,7 @@ export default class BlCalendar extends LitElement {
   private _calendarYear: number = new Date().getFullYear();
 
   @state()
-  private _calendarView: CalendarView = "days";
+  private _calendarView: CalendarView = CALENDAR_VIEWS.days;
 
   @state()
   private _calendarYears: number[] = [];
@@ -89,7 +94,7 @@ export default class BlCalendar extends LitElement {
     return this._defaultValue;
   }
   set defaultValue(defaultValue) {
-    if (this.type === "single" && Array.isArray(defaultValue)) {
+    if (this.type === CALENDAR_TYPES.single && Array.isArray(defaultValue)) {
       console.warn("Invalid prop value for defaultValue");
     } else if (this.defaultValue) {
       if (Array.isArray(this.defaultValue)) {
@@ -100,7 +105,9 @@ export default class BlCalendar extends LitElement {
   get months() {
     return [...Array(12).keys()].map(month => {
       return {
-        name: new Date(0, month + 1, 0).toLocaleString(this.locale, { month: "long" }),
+        name: new Date(0, month + 1, 0).toLocaleString(this.locale, {
+          month: this.locale === "en" ? "short" : "long",
+        }),
         value: month,
       };
     });
@@ -128,14 +135,14 @@ export default class BlCalendar extends LitElement {
   }
   setPreviousCalendarView() {
     this.clearHoverClassesFromShadowRoot();
-    if (this._calendarView === "days") {
+    if (this._calendarView === CALENDAR_VIEWS.days) {
       if (this._calendarMonth === FIRST_MONTH_INDEX) {
         this._calendarMonth = LAST_MONTH_INDEX;
         this._calendarYear -= 1;
       } else this._calendarMonth -= 1;
-    } else if (this._calendarView === "months") {
+    } else if (this._calendarView === CALENDAR_VIEWS.months) {
       this._calendarYear -= 1;
-    } else if (this._calendarView === "years") {
+    } else if (this._calendarView === CALENDAR_VIEWS.years) {
       const fromYear = this._calendarYears[0];
 
       this._calendarYears = [];
@@ -143,20 +150,20 @@ export default class BlCalendar extends LitElement {
         this._calendarYears.push(fromYear - i);
       }
     }
-    if (this.type === "range") {
+    if (this.type === CALENDAR_TYPES.range) {
       this.setHoverClass();
     }
   }
   setNextCalendarView() {
     this.clearHoverClassesFromShadowRoot();
-    if (this._calendarView === "days") {
+    if (this._calendarView === CALENDAR_VIEWS.days) {
       if (this._calendarMonth === LAST_MONTH_INDEX) {
         this._calendarMonth = FIRST_MONTH_INDEX;
         this._calendarYear += 1;
       } else this._calendarMonth += 1;
-    } else if (this._calendarView === "months") {
+    } else if (this._calendarView === CALENDAR_VIEWS.months) {
       this._calendarYear += 1;
-    } else if (this._calendarView === "years") {
+    } else if (this._calendarView === CALENDAR_VIEWS.years) {
       const fromYear = this._calendarYears[11];
 
       this._calendarYears = [];
@@ -164,7 +171,7 @@ export default class BlCalendar extends LitElement {
         this._calendarYears.push(fromYear + i);
       }
     }
-    if (this.type === "range") {
+    if (this.type === CALENDAR_TYPES.range) {
       this.setHoverClass();
     }
   }
@@ -172,20 +179,20 @@ export default class BlCalendar extends LitElement {
   setCurrentCalendarView(view: CalendarView) {
     if (this._calendarView !== view) {
       this._calendarView = view;
-    } else this._calendarView = "days";
+    } else this._calendarView = CALENDAR_VIEWS.days;
   }
 
   setMonthAndCalendarView(month: number) {
     this._calendarMonth = month;
-    this._calendarView = "days";
-    if (this.type === "range") {
+    this._calendarView = CALENDAR_VIEWS.days;
+    if (this.type === CALENDAR_TYPES.range) {
       this.setHoverClass();
     }
   }
   setYearAndCalendarView(year: number) {
     this._calendarYear = year;
-    this._calendarView = "days";
-    if (this.type === "range") {
+    this._calendarView = CALENDAR_VIEWS.days;
+    if (this.type === CALENDAR_TYPES.range) {
       this.setHoverClass();
     }
   }
@@ -208,7 +215,7 @@ export default class BlCalendar extends LitElement {
     });
   }
   handleDate(date: CalendarDate) {
-    if (this.type !== "range") {
+    if (this.type !== CALENDAR_TYPES.range) {
       if (date.getMonth() < this._calendarMonth) {
         this.setPreviousCalendarView();
       } else if (date.getMonth() > this._calendarMonth) {
@@ -216,11 +223,11 @@ export default class BlCalendar extends LitElement {
       }
     }
 
-    if (this.type === "single") {
+    if (this.type === CALENDAR_TYPES.single) {
       this.handleSingleSelectCalendar(date);
-    } else if (this.type === "multiple") {
+    } else if (this.type === CALENDAR_TYPES.multiple) {
       this.handleMultipleSelectCalendar(date);
-    } else if (this.type === "range") {
+    } else if (this.type === CALENDAR_TYPES.range) {
       this.handleRangeSelectCalendar(date);
     }
 
@@ -409,7 +416,7 @@ export default class BlCalendar extends LitElement {
   }
   render() {
     const getCalendarView = (calendarView: CalendarView) => {
-      if (calendarView === "days") {
+      if (calendarView === CALENDAR_VIEWS.days) {
         const calendarDays = this.createCalendarDays();
 
         return html` ${[...calendarDays.entries()].map(([key, value]) => {
@@ -436,7 +443,7 @@ export default class BlCalendar extends LitElement {
               })}
             </div> </div>`;
         })}`;
-      } else if (calendarView === "months") {
+      } else if (calendarView === CALENDAR_VIEWS.months) {
         return html`<div class="grid-content">
           ${this.months.map((month, index) => {
             const variant = month.value === this._calendarMonth ? "primary" : "tertiary";
@@ -470,8 +477,9 @@ export default class BlCalendar extends LitElement {
         </div>`;
       }
     };
-    const showMonthSelected = this._calendarView === "months" ? "header-text-hover" : "";
-    const showYearSelected = this._calendarView === "years" ? "header-text-hover" : "";
+    const showMonthSelected =
+      this._calendarView === CALENDAR_VIEWS.months ? "header-text-hover" : "";
+    const showYearSelected = this._calendarView === CALENDAR_VIEWS.years ? "header-text-hover" : "";
 
     return html`<div>
       <div class="content">
@@ -487,14 +495,14 @@ export default class BlCalendar extends LitElement {
             variant="tertiary"
             kind="neutral"
             class="header-text ${showMonthSelected}"
-            @click="${() => this.setCurrentCalendarView("months")}"
+            @click="${() => this.setCurrentCalendarView(CALENDAR_VIEWS.months)}"
             >${this.months[this._calendarMonth].name}</bl-button
           >
           <bl-button
             variant="tertiary"
             kind="neutral"
             class="header-text ${showYearSelected}"
-            @click="${() => this.setCurrentCalendarView("years")}"
+            @click="${() => this.setCurrentCalendarView(CALENDAR_VIEWS.years)}"
             >${this._calendarYear}</bl-button
           >
           <bl-button

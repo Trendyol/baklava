@@ -12,7 +12,6 @@
   width: fit-content;
   border: 1px solid var(--bl-color-primary);
   background: #fff;
-  box-shadow: 0 10px 15px -8px var(--bl-color-neutral-darker);
 }
 
 .header {
@@ -110,12 +109,20 @@
   text-align: center;
 }
 
-.grid-content:not(:nth-last-child(-n + 3)) {
-  margin-bottom: 8px !important;
-}
-
 .grid-item {
   width: 93.33px;
+
+  host([size="small"]) .button {
+    --font: var(--bl-font-title-4-medium);
+    --padding-vertical: 50px !important;
+    --padding-horizontal: 50px !important;
+    --icon-size: var(--bl-size-s);
+    --height: var(--bl-size-xl);
+  }
+}
+
+.grid-item:not(:nth-last-child(-n + 3)) {
+  padding-bottom: 8px !important;
 }
 
 .calendar-text {
