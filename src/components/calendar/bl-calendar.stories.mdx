@@ -21,9 +21,9 @@ export const CalendarTemplate = (args) => html`<bl-calendar
     min-date=${ifDefined(args.minDate)}
     max-date=${ifDefined(args.maxDate)}
     start-of-week=${ifDefined(args.startOfWeek)}
-    disabled-dates=${ifDefined(args.disabledDates)}
     locale=${ifDefined(args.locale)}
-    default-value=${ifDefined(args.defaultValue)}>${unsafeHTML(args.content)}</bl-calendar>`
+    default-value=${ifDefined(args.defaultValue)}
+    disabled-dates=${ifDefined(args.disabledDates)}>${unsafeHTML(args.content)}</bl-calendar>`
 
 
 export const Template = (args) => html`${CalendarTemplate({...args})}`;
@@ -73,6 +73,16 @@ You can select date range from calendar.
 
 <Canvas>
   <Story name="Range Type Calendar" args={{ type: 'range' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Disabled Dates
+
+You can set dates which you want to disable from calendar.
+
+<Canvas>
+  <Story name="Disabled Dates" args={{ type: 'single',disabledDates:`["${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}"]` }}>
     {Template.bind({})}
   </Story>
 </Canvas>
