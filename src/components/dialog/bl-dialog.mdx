@@ -79,6 +79,14 @@ In this case action button(s) will fill the row by sharing space equally if ther
   <Story of={DialogStories.DialogWithFullWidthActions} />
 </Canvas>
 
+## TabGroup inside dialog
+
+Normally dialog contents has default padding in `bl-dialog` component. But `bl-tab-group` has full width in bl-dialog component.
+
+<Canvas>
+  <Story of={DialogStories.DialogWithTabGroup} />
+</Canvas>
+
 ## Preventing closing dialog
 
 In some cases you may want to prevent closing dialog when user clicks on backdrop, built-in close button or presses Esc key.

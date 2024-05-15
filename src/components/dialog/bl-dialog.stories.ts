@@ -173,6 +173,28 @@ of the word in classical literature, discovered the undoubtable source. Lorem Ip
 "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>` })}
 `;
 
+const TabGroupTemplate = (args: DialogArgs) => html`
+<style>
+  .my-dialog-content {
+    height:50px;
+    margin:50px;
+    padding:0;
+  }
+</style>
+
+${BasicTemplate({...args, content: `
+<bl-tab-group>
+  <bl-tab name="test-1" slot="tabs" caption="Caption">Tab 1</bl-tab>
+  <bl-tab name="test-2" slot="tabs">Tab 2</bl-tab>
+  <bl-tab name="test-3" slot="tabs" disabled caption="Caption">Tab 3</bl-tab>
+</bl-tab-group>
+<p class="my-dialog-content">
+Normal dialog contents has default padding in bl-dialog component. But bl-tab-group has full width in bl-dialog component.
+</p>
+
+` })}
+`;
+
 export const BasicUsage: Story = {
   args: {
     id: "dl-basic",
@@ -256,4 +278,17 @@ export const DialogWithFullWidthActions: Story = {
   },
   render: FullWidthActionsTemplate,
   play: dialogOpener("dl-full-width-actions")
+};
+
+export const DialogWithTabGroup: Story = {
+  args: {
+    id: "dl-tab-group",
+    caption: "Use location service?",
+    content: "Let us help determine location. This means sending anonymous location data to us.",
+    primaryAction: "Agree",
+    secondaryAction: "Disagree",
+    tertiaryAction: "Cancel",
+  },
+  render: TabGroupTemplate,
+  play: dialogOpener("dl-tab-group")
 };
