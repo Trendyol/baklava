@@ -111,14 +111,7 @@
 
 .grid-item {
   width: 93.33px;
-
-  host([size="small"]) .button {
-    --font: var(--bl-font-title-4-medium);
-    --padding-vertical: 50px !important;
-    --padding-horizontal: 50px !important;
-    --icon-size: var(--bl-size-s);
-    --height: var(--bl-size-xl);
-  }
+  --bl-size-3xs: 15px;
 }
 
 .grid-item:not(:nth-last-child(-n + 3)) {

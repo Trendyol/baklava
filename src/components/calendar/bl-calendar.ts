@@ -106,7 +106,7 @@ export default class BlCalendar extends LitElement {
     return [...Array(12).keys()].map(month => {
       return {
         name: new Date(0, month + 1, 0).toLocaleString(this.locale, {
-          month: this.locale === "en" ? "short" : "long",
+          month: "long",
         }),
         value: month,
       };
@@ -453,7 +453,7 @@ export default class BlCalendar extends LitElement {
               variant=${variant}
               kind=${neutral}
               class="grid-item"
-              size="medium"
+              size="small"
               @click="${() => this.setMonthAndCalendarView(index)}"
               ><span class="calendar-text">${month.name}</span></bl-button
             >`;
