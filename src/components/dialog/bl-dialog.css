@@ -104,3 +104,9 @@ footer.shadow {
     flex-flow: column wrap;
   }
 }
+
+::slotted(bl-tab-group) {
+  display: block;
+  transform: translateX(calc(var(--bl-size-xl) * -1));
+  width: calc(100% + calc(var(--bl-size-xl) * 2));
+}
