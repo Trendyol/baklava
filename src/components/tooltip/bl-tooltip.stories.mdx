@@ -44,6 +44,13 @@ export const PlacementTemplate = (args) => html`
   You can use this section to cancel your order.
 </bl-tooltip>`
 
+export const TargetAttrTemplate = (args) => html`
+<bl-tooltip placement="${ifDefined(args.placement)}" target="trigger-btn">
+  Target Attribute
+</bl-tooltip>
+<bl-button id="trigger-btn">With Target</bl-button>
+`;
+
 # Tooltip
 
 <bl-badge icon="document">ADR</bl-badge>
@@ -151,6 +158,14 @@ For example, if there is not enough room on the top, the tooltip is shown on the
     play={tooltipOpener}>
     {PlacementTemplate.bind({})}
   </Story>
+</Canvas>
+
+## Target Attribute
+
+By using the target attribute, we can add a tooltip to the element.
+
+<Canvas>
+  <Story name="Usage With Target Attribute" play={tooltipOpener}>{TargetAttrTemplate.bind({})}</Story>
 </Canvas>
 
 ## Reference

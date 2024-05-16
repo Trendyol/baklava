@@ -202,4 +202,54 @@ describe("bl-tooltip", () => {
     expect(ev).to.exist;
     expect(el.visible).to.be.false;
   });
+
+  it("should work with target attribute", async () => {
+    // given
+    const el = await fixture(html`
+      <div><bl-tooltip target="btn">Tooltip Text</bl-tooltip><button type="button" id="btn">Test</button></div>`);
+
+    const tooltipEl = el.querySelector("bl-tooltip")!;
+    const trigger = el.querySelector<HTMLButtonElement>("#btn")!;
+
+    // when
+    const { x, y } = getMiddleOfElement(trigger);
+
+    setTimeout(() => sendMouse({ type: "move", position: [x, y] }));
+
+    // then
+    const ev = await oneEvent(tooltipEl, "bl-tooltip-show");
+
+    expect(ev).to.exist;
+    expect(ev.detail).to.be.equal("");
+  });
+
+  it("should remove previous target elements", async () => {
+    // given
+    const el = await fixture(html`
+      <div><bl-tooltip target="btn">Tooltip Text</bl-tooltip><button type="button" id="btn">Test</button><button type="button" id="new-btn">Test</button></div>`);
+
+    const tooltipEl = el.querySelector("bl-tooltip")!;
+    const triggerPrev = el.querySelector<HTMLButtonElement>("#btn")!;
+
+    // when
+    tooltipEl.target = "new-btn";
+    const { x, y } = getMiddleOfElement(triggerPrev);
+
+    setTimeout(() => sendMouse({ type: "move", position: [x, y] }));
+
+    // then
+    const ev = await new Promise(resolve => {
+      function listener(ev: Event) {
+        resolve(ev);
+        tooltipEl.removeEventListener("bl-tooltip-show", listener);
+      }
+      tooltipEl.addEventListener("bl-tooltip-show", listener);
+      setTimeout(() => {
+        resolve(null);
+        tooltipEl.removeEventListener("bl-tooltip-show", listener);
+      }, 200);
+    });
+
+    expect(ev).to.be.eq(null);
+  });
 });
