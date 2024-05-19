@@ -74,6 +74,10 @@
 
   &.other-month-day {
     color: var(--bl-color-neutral-dark);
+
+    &.selected-day {
+      color: white;
+    }
   }
 }
 
