@@ -46,6 +46,7 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  padding-top: 12px;
 }
 
 .day {
@@ -76,6 +77,15 @@
   }
 }
 
+.day:hover{
+  background: var(--bl-color-neutral-lightest);
+  border-radius: 50%;
+
+  &.selected-day {
+    background: var(--bl-color-primary);
+  }
+}
+
 .range-day {
   background: var(--bl-color-primary-contrast);
 }
@@ -101,6 +111,7 @@
 .weekday-text {
   color: var(--bl-color-neutral-light);
   text-align: center;
+  padding-bottom: 8px;
 }
 
 .grid-content {
@@ -111,6 +122,7 @@
 
 .grid-item {
   width: 93.33px;
+
   --bl-size-3xs: 15px;
 }
 

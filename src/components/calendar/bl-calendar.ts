@@ -421,7 +421,7 @@ export default class BlCalendar extends LitElement {
 
         return html` ${[...calendarDays.entries()].map(([key, value]) => {
           return html` <div class="day-column">
-              <div class="day calendar-text weekday-text">${key}</div>
+              <div class="calendar-text weekday-text">${key}</div>
               ${value.map(date => {
                 const isSelectedDay = this.checkIfSelectedDate(date);
                 const isDayToday = this.checkIfDateIsToday(date);
