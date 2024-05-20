@@ -81,7 +81,7 @@
   }
 }
 
-.day:hover{
+.day:hover {
   background: var(--bl-color-neutral-lightest);
   border-radius: 50%;
 
