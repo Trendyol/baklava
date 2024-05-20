@@ -81,13 +81,9 @@
   }
 }
 
-.day:hover {
+.day:not(.disabled-day, .selected-day):hover {
   background: var(--bl-color-neutral-lightest);
   border-radius: 50%;
-
-  &.selected-day {
-    background: var(--bl-color-primary);
-  }
 }
 
 .range-day {
