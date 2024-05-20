@@ -175,10 +175,9 @@ of the word in classical literature, discovered the undoubtable source. Lorem Ip
 
 const TabGroupTemplate = (args: DialogArgs) => html`
 <style>
-  .my-dialog-content {
+  .tab-dialog-content {
     height:50px;
-    margin:50px;
-    padding:0;
+    margin-top: 20px;
   }
 </style>
 
@@ -188,8 +187,10 @@ ${BasicTemplate({...args, content: `
   <bl-tab name="test-2" slot="tabs">Tab 2</bl-tab>
   <bl-tab name="test-3" slot="tabs" disabled caption="Caption">Tab 3</bl-tab>
 </bl-tab-group>
-<p class="my-dialog-content">
+<p class="tab-dialog-content">
 Normal dialog contents has default padding in bl-dialog component. But bl-tab-group has full width in bl-dialog component.
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+when an unknown printer took a galley of type and scrambled it to make a type specimen book.
 </p>
 
 ` })}
