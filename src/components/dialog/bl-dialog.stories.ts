@@ -50,6 +50,8 @@ interface DialogArgs {
   focusPrimary?: boolean;
   focusSecondary?: boolean;
   focusTertiary?: boolean;
+  critical?: boolean;
+  closeAction?: string;
 }
 
 type Story = StoryObj<DialogArgs>;
@@ -68,7 +70,8 @@ const BasicTemplate = (args: DialogArgs) => html`
   class="${ifDefined(args.className)}"
   caption="${ifDefined(args.caption)}"
   ?open="${args.open}"
-  ?polyfilled="${args.polyfilled}">
+  ?polyfilled="${args.polyfilled}"
+  ?critical="${args.critical}">
     ${
       unsafeHTML(args.content)
     }${
@@ -79,6 +82,9 @@ const BasicTemplate = (args: DialogArgs) => html`
   <bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large">${args.secondaryAction}</bl-button>` : ""}${
       args.tertiaryAction ? html`
   <bl-button slot="tertiary-action" variant="tertiary" ?autofocus=${args.focusTertiary} size="large">${args.tertiaryAction}</bl-button>` : ""}
+  ${
+    args.closeAction ? html`
+    <bl-button slot="primary-action" variant="primary" ?autofocus=${args.focusSecondary} size="large" @click=${(e: CustomEvent) => (e.target as HTMLElement).closest("bl-dialog")?.toggleAttribute("open")}>${args.closeAction}</bl-button>` : ""}
 </bl-dialog>
 `;
 
@@ -292,4 +298,16 @@ export const DialogWithTabGroup: Story = {
   },
   render: TabGroupTemplate,
   play: dialogOpener("dl-tab-group")
+};
+
+export const CriticalDialog: Story = {
+  args: {
+    id: "dl-critical",
+    caption: "Critical Action Required",
+    content: "<p>This action is irreversible. Please confirm to proceed.</p>",
+    closeAction: "Confirm",
+    critical: true,
+  },
+  render: FullWidthActionsTemplate,
+  play: dialogOpener("dl-critical")
 };
