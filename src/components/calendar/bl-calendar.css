@@ -69,7 +69,7 @@
 
   &.disabled-day {
     color: var(--bl-color-neutral-light) !important;
-    cursor: auto;
+    cursor: not-allowed;
   }
 
   &.other-month-day {
