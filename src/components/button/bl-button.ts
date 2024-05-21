@@ -6,6 +6,7 @@ import { submit } from "@open-wc/form-helpers";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../icon/bl-icon";
 import { BaklavaIcon } from "../icon/icon-list";
+import "../spinner/bl-spinner";
 import style from "./bl-button.css";
 
 export type ButtonVariant = "primary" | "secondary" | "tertiary";
@@ -186,13 +187,27 @@ export default class BlButton extends LitElement {
     });
   }
 
+  get _spinnerSize(): "small" | "medium" | "large" | "xxsmall" | "xsmall" | "xlarge" | "xxlarge" {
+    const sizeMap: { [key in ButtonSize]: "small" | "xxsmall" | "xsmall" } = {
+      large: "small",
+      medium: "xsmall",
+      small: "xxsmall",
+    };
+
+    return sizeMap[this.size];
+  }
+
   render(): TemplateResult {
     const isDisabled = this.loading || this.disabled;
     const label = this.loading && this.loadingLabel ? this.loadingLabel : html`<slot></slot>`;
     const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : "";
     const loadingIcon = this.loading
-      ? html`<bl-icon class="loading-icon" name="loading"></bl-icon>`
+      ? html`<bl-spinner
+          class="loading-spinner"
+          ?disabled="${isDisabled}"
+          size="${this._spinnerSize}"
+        ></bl-spinner>`
       : "";
     const slots = html`<slot name="icon">${icon}</slot> <span class="label">${label}</span>`;
     const caret = this.dropdown ? this.caretTemplate() : "";

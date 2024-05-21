@@ -333,6 +333,62 @@ Input can be set as disabled by adding `disabled` attribute.
   </Story>
 </Canvas>
 
+## Search Input with Loading Attribute
+
+This example demonstrates how to use the `bl-spinner` component inside a search input field. The spinner is displayed to indicate that a search operation is in progress.
+The `loading` attribute is set to `true` to show the spinner inside the input field.
+
+<Canvas>
+  <Story name="Input with Loading Spinner" args={{ placeholder: 'Search Loading Example', type: 'search', loading: true }}>
+    {args => html`
+      <bl-input
+        id="searchInput"
+        placeholder=${ifDefined(args.placeholder)}
+        type=${ifDefined(args.type)}
+        label=${ifDefined(args.label)}
+        loading=${ifDefined(args.loading)}
+      ></bl-input>
+    `}
+  </Story>
+</Canvas>
+
+## Search Input Simulates Api Call
+
+This example simulates a scenario where an API service responds within 2 seconds.
+
+<Canvas>
+  <Story name="Input with Spinner during API Call" args={{ placeholder: 'Search', type: 'search', loading: true }}>
+    {args => html`
+      <bl-input
+        id="searchInput"
+        placeholder=${ifDefined(args.placeholder)}
+        type=${ifDefined(args.type)}
+        label=${ifDefined(args.label)}
+        loading=${ifDefined(args.loading)}
+      ></bl-input>
+      <script>
+        const searchInput = document.getElementById('searchInput');
+        function simulateApiCall() {
+          console.log('API call started');
+          searchInput.loading = true;
+          setTimeout(() => {
+            searchInput.loading = false;
+            console.log('API call finished');
+          }, 2000);
+        }
+        searchInput.addEventListener('input', () => {
+          if (searchInput.typingTimeout) {
+            clearTimeout(searchInput.typingTimeout);
+          }
+          searchInput.typingTimeout = setTimeout(() => {
+            simulateApiCall();
+          }, 100);
+        });
+      </script>
+    `}
+  </Story>
+</Canvas>
+
 ## Using within a form
 
 Input component uses [ElementInternals](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) to associate with it's parent form automatically. When you use `bl-input` within a form with a `name` attribute, input's value will be automatically set parent form's FormData. Check the example below:

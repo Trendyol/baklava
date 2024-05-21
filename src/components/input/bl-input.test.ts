@@ -352,4 +352,51 @@ describe("bl-input", () => {
       expect(ev).to.exist;
     });
   });
+
+  describe("loading state and custom icons", () => {
+    it("shows spinner when loading and type is search with non-empty value", async () => {
+      const el = await fixture<BlInput>(html`<bl-input loading type="search" value="test"></bl-input>`);
+      const spinner = el.shadowRoot?.querySelector("bl-spinner");
+
+      expect(spinner).to.exist;
+      expect(spinner?.getAttribute("size")).to.equal("xxsmall");
+    });
+
+    it("shows custom icon when loading is false", async () => {
+      const el = await fixture<BlInput>(html`<bl-input icon="info"></bl-input>`);
+      const customIcon = el.shadowRoot?.querySelector('bl-icon[name="info"]');
+
+      expect(customIcon).to.exist;
+      expect(customIcon?.getAttribute("name")).to.equal("info");
+    });
+
+    it("shows error icon when no custom icon is set and loading is false", async () => {
+      const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
+      const errorIcon = el.shadowRoot?.querySelector('bl-icon[name="alert"]');
+
+      expect(errorIcon).to.exist;
+      expect(errorIcon?.getAttribute("name")).to.equal("alert");
+    });
+
+    it("does not show spinner when loading is true but type is not search", async () => {
+      const el = await fixture<BlInput>(html`<bl-input loading type="text" value="test"></bl-input>`);
+      const spinner = el.shadowRoot?.querySelector("bl-spinner");
+
+      expect(spinner).to.not.exist;
+    });
+
+    it("does not show spinner when loading is true but value is empty", async () => {
+      const el = await fixture<BlInput>(html`<bl-input loading type="search" value=""></bl-input>`);
+      const spinner = el.shadowRoot?.querySelector("bl-spinner");
+
+      expect(spinner).to.not.exist;
+    });
+
+    it("does not show spinner when loading is false", async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="search" value="test"></bl-input>`);
+      const spinner = el.shadowRoot?.querySelector("bl-spinner");
+
+      expect(spinner).to.not.exist;
+    });
+  });
 });

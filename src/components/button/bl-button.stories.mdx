@@ -38,12 +38,12 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
       }
     },
     href: {
-       control: {
+        control: {
         type: 'text'
       }
     },
     target: {
-       control: {
+        control: {
         type: 'text'
       }
     },
@@ -254,6 +254,33 @@ ${SingleButtonHoverTemplate({kind: 'danger', content: 'Danger Button', ...args})
   </Story>
     <Story name="Tertiary Buttons Hover" args={{ content: 'Save', variant: 'tertiary', icon: 'info' }}>
     {HoverTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Spinner Example
+
+The `<bl-spinner>` component is used to indicate loading states. Here is an example of using the spinner inside a button.
+
+<Canvas>
+  <Story name="Button with Spinner" args={{ size: 'large', loading: true, icon: "info", content: "Save", anotherContent: "Button", variant: "tertiary"}}>
+    {args => html`
+      <bl-button
+        size=${ifDefined(args.size)}
+        loading=${ifDefined(args.loading)}
+        icon=${ifDefined(args.icon)}
+      >${unsafeHTML(args.content)}</bl-button>
+      <bl-button
+        size=${ifDefined(args.size)}
+        loading=${ifDefined(args.loading)}
+        icon=${ifDefined(args.icon)}
+      ></bl-button>
+      <bl-button
+        variant=${ifDefined(args.variant)}
+        size=${ifDefined(args.size)}
+        loading=${ifDefined(args.loading)}
+        icon=${ifDefined(args.icon)}
+      >${unsafeHTML(args.anotherContent)}</bl-button>
+    `}
   </Story>
 </Canvas>
 

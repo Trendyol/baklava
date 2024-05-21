@@ -1,0 +1,75 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { Meta, Story, Canvas} from '@storybook/addon-docs';
+
+<Meta title="Components/Spinner" component="bl-spinner" argTypes={{
+    size: {
+      options: ['xxlarge', 'xlarge', 'large', 'medium', 'small', 'xsmall', 'xxsmall'],
+      control: { type: 'select' }
+    }
+  }}
+/>
+
+# Spinner
+
+The `<bl-spinner>` component is used to indicate loading states. It can be customized with different sizes.
+
+## Stand-alone
+
+<Canvas>
+  <Story name="Default Spinner" args={{ size: 'medium'}}>
+    {(args) => html`<bl-spinner size=${ifDefined(args.size)}></bl-spinner>`}
+  </Story>
+</Canvas>
+
+## Spinner Sizes
+
+<Canvas>
+  <Story name="Spinner Sizes">
+    {() => html`
+      <div>
+        <bl-spinner size="xxsmall"></bl-spinner>
+        <bl-spinner size="xsmall"></bl-spinner>
+        <bl-spinner size="small"></bl-spinner>
+        <bl-spinner size="medium"></bl-spinner>
+        <bl-spinner size="large"></bl-spinner>
+        <bl-spinner size="xlarge"></bl-spinner>
+        <bl-spinner size="xxlarge"></bl-spinner>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## Disabled Spinner
+
+<Canvas>
+  <Story name="Disabled Spinner"args={{ size: 'medium'}}>
+    {(args) => html`<bl-spinner disabled size=${ifDefined(args.size)}></bl-spinner>`}
+  </Story>
+</Canvas>
+
+## Overlay Spinner
+
+<Canvas>
+  <Story name="Overlay Spinner" args={{ size: 'medium'}}>
+    {(args) => html`
+        <bl-spinner
+        overlay
+        size=${ifDefined(args.size)}
+        ></bl-spinner>
+    `}
+  </Story>
+</Canvas>
+
+## Relative Overlay
+
+<Canvas>
+  <Story name="Overlay">
+    {html`
+      <div style="display: flex; justify-content: center; position: relative; width: 200px; height: 200px; background-color: lightgray;">
+        <bl-spinner size="medium" overlay></bl-spinner>
+        <p style="display:flex; align-items: center ">Content</p>
+      </div>
+    `}
+  </Story>
+</Canvas>

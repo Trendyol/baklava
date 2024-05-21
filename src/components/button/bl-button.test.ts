@@ -95,19 +95,23 @@ describe("bl-button", () => {
       expect(el.getAttribute("target")).to.eq("_self");
     });
 
-    it("is disabled button during loading state", async () => {
+    it("is disabled button during loading state with spinner", async () => {
       const el = await fixture<typeOfBlButton>(html`<bl-button loading>Test</bl-button>`);
 
-      expect(el.shadowRoot?.querySelector(".loading-icon")).to.exist;
       expect(el).to.have.attribute("loading");
       expect(el.shadowRoot?.querySelector("button")).to.have.attribute("disabled");
+      const spinner = el.shadowRoot?.querySelector("bl-spinner");
+
+      expect(spinner).to.exist;
 
       el.removeAttribute("loading");
       await elementUpdated(el);
 
-      expect(el.shadowRoot?.querySelector(".loading-icon")).not.to.exist;
       expect(el).not.have.attribute("loading");
-      expect(el.shadowRoot?.querySelector("button")).not.have.attribute("disabled");
+      expect(el.shadowRoot?.querySelector("button")).not.to.have.attribute("disabled");
+      const spinnerAfterLoading = el.shadowRoot?.querySelector("bl-spinner");
+
+      expect(spinnerAfterLoading).not.to.exist;
     });
   });
   describe("Slot", () => {
@@ -224,5 +228,86 @@ describe("bl-button", () => {
 
       expect(ev).to.exist;
     });
+  });
+
+  describe("Spinner on bl-button", () => {
+
+    it("should render bl-spinner when loading is true", async () => {
+      const el = await fixture<BlButton>(html`
+        <bl-button loading loading-label="Loading...">Submit</bl-button>
+      `);
+
+      const spinner = el.shadowRoot?.querySelector(".loading-spinner");
+
+      expect(spinner).to.exist;
+    });
+
+    it("should not render bl-spinner when loading is false", async () => {
+      const el = await fixture<BlButton>(html`
+        <bl-button>Submit</bl-button>
+      `);
+
+      const spinner = el.shadowRoot?.querySelector(".loading-spinner");
+
+      expect(spinner).to.not.exist;
+    });
+
+    it("function returns correct spinner size based on button size", async () => {
+      const el = await fixture<typeOfBlButton>(html`<bl-button size="large"></bl-button>`);
+
+      expect(el._spinnerSize).to.equal("small");
+
+      el.size = "medium";
+      await elementUpdated(el);
+      expect(el._spinnerSize).to.equal("xsmall");
+
+      el.size = "small";
+      await elementUpdated(el);
+      expect(el._spinnerSize).to.equal("xxsmall");
+    });
+
+    it("should set spinner size based on button size", async () => {
+      const elLarge = await fixture<BlButton>(html`
+        <bl-button loading size="large">Submit</bl-button>
+      `);
+      const spinnerLarge = elLarge.shadowRoot?.querySelector(".loading-spinner");
+
+      expect(spinnerLarge?.getAttribute("size")).to.equal("small");
+
+      const elMedium = await fixture<BlButton>(html`
+        <bl-button loading size="medium">Submit</bl-button>
+      `);
+      const spinnerMedium = elMedium.shadowRoot?.querySelector(".loading-spinner");
+
+      expect(spinnerMedium?.getAttribute("size")).to.equal("xsmall");
+
+      const elSmall = await fixture<BlButton>(html`
+        <bl-button loading size="small">Submit</bl-button>
+      `);
+      const spinnerSmall = elSmall.shadowRoot?.querySelector(".loading-spinner");
+
+      expect(spinnerSmall?.getAttribute("size")).to.equal("xxsmall");
+    });
+
+    it("should render loading label when loading is true and loadingLabel is set", async () => {
+      const el = await fixture<BlButton>(html`
+        <bl-button loading loading-label="Loading...">Submit</bl-button>
+      `);
+
+      const label = el.shadowRoot?.querySelector(".label")?.textContent;
+
+      expect(label).to.equal("Loading...");
+    });
+
+    it("should not render loading label when loading is false", async () => {
+      const el = await fixture<BlButton>(html`
+        <bl-button loading-label="Loading...">Submit</bl-button>
+      `);
+
+      const label = el.shadowRoot?.querySelector(".label")?.textContent;
+
+      expect(label).not.to.equal("Loading...");
+    });
+
   });
 });

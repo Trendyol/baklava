@@ -396,8 +396,8 @@ legend span {
   outline: none;
 }
 
-.search-loading-icon {
-  animation: spin 1s linear infinite;
+.search-spinner {
+  padding-inline-end: var(--bl-font-size-2xs);
 }
 
 .action-divider {
