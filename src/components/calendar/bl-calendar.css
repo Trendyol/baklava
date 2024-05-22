@@ -127,13 +127,9 @@
 }
 
 .grid-item:not(:nth-last-child(-n + 3)) {
-  padding-bottom: 8px !important;
+  padding-bottom: 8px;
 }
 
 .calendar-text {
   font: var(--bl-font-title-3-regular);
-
-  &.neutral-text {
-    color: var(--bl-color-neutral-full) !important;
-  }
 }

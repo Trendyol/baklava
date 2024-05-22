@@ -180,6 +180,7 @@ export default class BlCalendar extends LitElement {
     if (this._calendarView !== view) {
       this._calendarView = view;
     } else this._calendarView = CALENDAR_VIEWS.days;
+    this.setHoverClass();
   }
 
   setMonthAndCalendarView(month: number) {
