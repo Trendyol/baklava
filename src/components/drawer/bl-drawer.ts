@@ -112,10 +112,16 @@ export default class BlDrawer extends LitElement {
       // FIXME: Allow events without payload
       this.onOpen("");
     } else {
+      const documentElement = document.documentElement;
+      const durationString = getComputedStyle(documentElement).getPropertyValue(
+        "--bl-drawer-animation-duration"
+      );
+      const durationInMs = parseFloat(durationString) * 1000;
+
       // Give some time for exit animation
       this.domExistenceSchedule = window.setTimeout(() => {
         this.domExistence = false;
-      }, 1000);
+      }, durationInMs);
 
       // FIXME: Allow events without payload
       this.onClose("");
