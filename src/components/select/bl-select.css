@@ -411,16 +411,6 @@ legend span {
   background-color: var(--bl-color-neutral-lighter);
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .actions bl-icon {
   padding: 4px;
 }

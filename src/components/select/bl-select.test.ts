@@ -366,7 +366,7 @@ describe("bl-select", () => {
     const loadingSpinner = el.shadowRoot?.querySelector("fieldset div.actions bl-spinner");
 
     expect(loadingSpinner).to.exist;
-    expect(loadingSpinner?.getAttribute("size")).to.equal("xxsmall");
+    expect(loadingSpinner?.getAttribute("size")).to.equal("var(--bl-font-size-m)");
   });
 
   it("should be displayed a 'no result' message  if the searched term does not match with any option", async () => {

@@ -1,83 +1,102 @@
-import { fixture, expect } from "@open-wc/testing";
-import { html } from "lit-html";
-import "./bl-spinner";
-import BlSpinner, { SpinnerSize } from "./bl-spinner";
+import { assert, expect, fixture, html, elementUpdated } from "@open-wc/testing";
+import BlSpinner from "./bl-spinner";
+
+import type typeOfBlSpinner from "./bl-spinner";
+import { BlIcon } from "../../baklava-react";
 
 describe("bl-spinner", () => {
-  it("renders correctly with default properties", async () => {
-    const el = await fixture<BlSpinner>(html`<bl-spinner></bl-spinner>`);
+  it("is defined", () => {
+    const el = document.createElement("bl-spinner");
 
-    expect(el.size).to.equal("medium");
-    expect(el.disabled).to.be.false;
-    expect(el.overlay).to.be.false;
+    assert.instanceOf(el, BlSpinner);
   });
 
-  it("applies size property correctly", async () => {
-    const sizes: SpinnerSize[] = ["xxsmall", "xsmall", "small", "medium", "large", "xlarge", "xxlarge"];
+  it("renders with default values", async () => {
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner></bl-spinner>`);
 
-    for (const size of sizes) {
-      const el = await fixture<BlSpinner>(html`<bl-spinner size=${size}></bl-spinner>`);
-
-      expect(el.size).to.equal(size);
-      const spinnerDiv = el.shadowRoot?.querySelector(".spinner");
-      const computedStyle = getComputedStyle(spinnerDiv as Element);
-
-      expect(computedStyle.width).to.not.be.empty;
-      expect(computedStyle.height).to.not.be.empty;
-    }
+    assert.shadowDom.equal(
+      el,
+      "<bl-icon class=\"spinner\" name=\"loading\" style=\"color: var(--bl-color-primary); font-size: var(--bl-font-size-m);\"></bl-icon>"
+    );
   });
 
-  it("applies disabled state", async () => {
-    const el = await fixture<BlSpinner>(html`<bl-spinner disabled></bl-spinner>`);
+  it("check default values", async () => {
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner></bl-spinner>`);
 
-    expect(el.disabled).to.be.true;
-    expect(el.hasAttribute("disabled")).to.be.true;
-
-    const lightPath = el.shadowRoot?.querySelector(".light path");
-    const darkPath = el.shadowRoot?.querySelector(".dark path");
-    const lightPathColor = getComputedStyle(lightPath as Element).fill;
-    const darkPathColor = getComputedStyle(darkPath as Element).fill;
-
-    expect(lightPathColor).to.include("rgb(149, 161, 181)");
-    expect(darkPathColor).to.include("rgb(149, 161, 181)");
+    expect(el.size).to.equal("var(--bl-font-size-m)");
+    expect(el.disabled).to.equal(false);
+    expect(el.overlay).to.equal(false);
+    expect(el.color).to.equal("var(--bl-color-primary)");
   });
 
-  it("applies overlay state", async () => {
-    const el = await fixture<BlSpinner>(html`<bl-spinner overlay></bl-spinner>`);
+  it("sets spinner size", async () => {
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner size="var(--bl-font-size-l)"></bl-spinner>`);
 
-    expect(el.overlay).to.be.true;
-    expect(el.hasAttribute("overlay")).to.be.true;
+    await elementUpdated(el);
 
-    const spinnerDiv = el.shadowRoot?.querySelector(".spinner") as HTMLElement;
-    const hostComputedStyle = getComputedStyle(el);
+    expect(el.size).to.equal("var(--bl-font-size-l)");
+    const spinner = el.shadowRoot?.querySelector("bl-icon");
 
-    expect(hostComputedStyle.position).to.equal("absolute");
-    expect(hostComputedStyle.top).to.equal("0px");
-    expect(hostComputedStyle.left).to.equal("0px");
-    expect(hostComputedStyle.width).to.not.equal("auto");
-    expect(hostComputedStyle.height).to.not.equal("auto");
-
-    expect(spinnerDiv).to.exist;
+    expect(spinner?.style.fontSize).to.equal("var(--bl-font-size-l)");
   });
 
+  it("sets spinner color", async () => {
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner color="var(--bl-color-secondary)"></bl-spinner>`);
 
-  it("renders light and dark SVG elements", async () => {
-    const el = await fixture<BlSpinner>(html`<bl-spinner></bl-spinner>`);
-    const lightSvg = el.shadowRoot?.querySelector(".light");
-    const darkSvg = el.shadowRoot?.querySelector(".dark");
+    await elementUpdated(el);
 
-    expect(lightSvg).to.exist;
-    expect(darkSvg).to.exist;
+    expect(el.color).to.equal("var(--bl-color-secondary)");
+    const spinner = el.shadowRoot?.querySelector("bl-icon");
+
+    expect(spinner?.style.color).to.equal("var(--bl-color-secondary)");
   });
 
-  it("changes spinner color when disabled", async () => {
-    const el = await fixture<BlSpinner>(html`<bl-spinner disabled></bl-spinner>`);
-    const lightPath = el.shadowRoot?.querySelector(".light path");
-    const darkPath = el.shadowRoot?.querySelector(".dark path");
-    const lightPathColor = getComputedStyle(lightPath as Element).fill;
-    const darkPathColor = getComputedStyle(darkPath as Element).fill;
+  it("sets disabled state", async () => {
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner disabled></bl-spinner>`);
 
-    expect(lightPathColor).to.include("rgb(149, 161, 181)");
-    expect(darkPathColor).to.include("rgb(149, 161, 181)");
+    await elementUpdated(el);
+
+    expect(el.disabled).to.equal(true);
+    const spinner = el.shadowRoot?.querySelector("bl-icon");
+
+    expect(spinner?.style.color).to.equal("var(--bl-color-neutral-light)");
+  });
+
+  it("sets overlay state", async () => {
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner overlay></bl-spinner>`);
+
+    await elementUpdated(el);
+
+    expect(el.overlay).to.equal(true);
+    expect(el).to.have.attribute("overlay");
+    expect(el.shadowRoot?.querySelector("bl-icon")).to.exist;
+  });
+
+  it("applies correct styles for overlay state", async () => {
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner overlay></bl-spinner>`);
+
+    await elementUpdated(el);
+
+    expect(el.overlay).to.equal(true);
+    expect(el).to.have.attribute("overlay");
+    const style = getComputedStyle(el);
+
+    expect(style.position).to.equal("absolute");
+    expect(style.top).to.equal("0px");
+    expect(style.left).to.equal("0px");
+    expect(style.backgroundColor).to.equal("rgba(250, 250, 250, 0.5)");
+    expect(style.zIndex).to.equal("10");
+  });
+
+  it("applies spin animation", async () => {
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner></bl-spinner>`);
+    const spinner = el.shadowRoot?.querySelector("bl-icon");
+
+    const style = getComputedStyle(spinner as BlIcon);
+
+    expect(style.animationName).to.equal("spin");
+    expect(style.animationDuration).to.equal("1s");
+    expect(style.animationTimingFunction).to.equal("linear");
+    expect(style.animationIterationCount).to.equal("infinite");
   });
 });

@@ -404,7 +404,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
     ></bl-icon>`;
 
-    const searchSpinner = html`<bl-spinner class="search-spinner" size="xxsmall"></bl-spinner>`;
+    const searchSpinner = html`<bl-spinner class="search-spinner"></bl-spinner>`;
 
     const actionDivider = isDividerShown ? html`<div class="action-divider"></div>` : "";
 

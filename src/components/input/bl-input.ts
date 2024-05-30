@@ -332,7 +332,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
     const icon = html`
       <slot name="icon">
         ${this.loading && this.type === "search" && this.value !== "" && this.value !== null
-          ? html`<bl-spinner size="xxsmall"></bl-spinner>`
+          ? html`<bl-spinner></bl-spinner>`
           : this.icon
           ? html`<bl-icon name="${this.icon}"></bl-icon>`
           : html`<bl-icon class="error-icon" name="alert"></bl-icon>`}

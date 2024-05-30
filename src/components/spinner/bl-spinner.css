@@ -1,62 +1,11 @@
 :host {
-  display: inline-block;
   cursor: wait;
+  display: inline-flex;
+  align-items: center;
 }
 
 .spinner {
-  position: relative;
-  width: var(--bl-size-xl);
-  height: var(--bl-size-xl);
   animation: spin 1s linear infinite;
-}
-
-.spinner .light,
-.spinner .dark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.spinner .light path,
-.spinner .dark path {
-  fill: var(--bl-color-primary);
-}
-
-:host([size="xxsmall"]) .spinner {
-  width: var(--bl-size-xs);
-  height: var(--bl-size-xs);
-}
-
-:host([size="xsmall"]) .spinner {
-  width: var(--bl-size-m);
-  height: var(--bl-size-m);
-}
-
-:host([size="small"]) .spinner {
-  width: var(--bl-size-l);
-  height: var(--bl-size-l);
-}
-
-:host([size="large"]) .spinner {
-  width: var(--bl-size-2xl);
-  height: var(--bl-size-2xl);
-}
-
-:host([size="xlarge"]) .spinner {
-  width: var(--bl-size-3xl);
-  height: var(--bl-size-3xl);
-}
-
-:host([size="xxlarge"]) .spinner {
-  width: var(--bl-size-4xl);
-  height: var(--bl-size-4xl);
-}
-
-:host([disabled]) .spinner .light path,
-:host([disabled]) .spinner .dark path {
-  fill: var(--bl-color-neutral-light);
 }
 
 :host([overlay]) {
@@ -73,10 +22,11 @@
 }
 
 @keyframes spin {
-  0% {
+  from {
     transform: rotate(0deg);
   }
-  100% {
+
+  to {
     transform: rotate(360deg);
   }
 }

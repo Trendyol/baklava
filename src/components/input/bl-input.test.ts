@@ -359,7 +359,7 @@ describe("bl-input", () => {
       const spinner = el.shadowRoot?.querySelector("bl-spinner");
 
       expect(spinner).to.exist;
-      expect(spinner?.getAttribute("size")).to.equal("xxsmall");
+      expect(spinner?.getAttribute("size")).to.equal("var(--bl-font-size-m)");
     });
 
     it("shows custom icon when loading is false", async () => {

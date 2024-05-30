@@ -252,43 +252,6 @@ describe("bl-button", () => {
       expect(spinner).to.not.exist;
     });
 
-    it("function returns correct spinner size based on button size", async () => {
-      const el = await fixture<typeOfBlButton>(html`<bl-button size="large"></bl-button>`);
-
-      expect(el._spinnerSize).to.equal("small");
-
-      el.size = "medium";
-      await elementUpdated(el);
-      expect(el._spinnerSize).to.equal("xsmall");
-
-      el.size = "small";
-      await elementUpdated(el);
-      expect(el._spinnerSize).to.equal("xxsmall");
-    });
-
-    it("should set spinner size based on button size", async () => {
-      const elLarge = await fixture<BlButton>(html`
-        <bl-button loading size="large">Submit</bl-button>
-      `);
-      const spinnerLarge = elLarge.shadowRoot?.querySelector(".loading-spinner");
-
-      expect(spinnerLarge?.getAttribute("size")).to.equal("small");
-
-      const elMedium = await fixture<BlButton>(html`
-        <bl-button loading size="medium">Submit</bl-button>
-      `);
-      const spinnerMedium = elMedium.shadowRoot?.querySelector(".loading-spinner");
-
-      expect(spinnerMedium?.getAttribute("size")).to.equal("xsmall");
-
-      const elSmall = await fixture<BlButton>(html`
-        <bl-button loading size="small">Submit</bl-button>
-      `);
-      const spinnerSmall = elSmall.shadowRoot?.querySelector(".loading-spinner");
-
-      expect(spinnerSmall?.getAttribute("size")).to.equal("xxsmall");
-    });
-
     it("should render loading label when loading is true and loadingLabel is set", async () => {
       const el = await fixture<BlButton>(html`
         <bl-button loading loading-label="Loading...">Submit</bl-button>
