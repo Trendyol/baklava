@@ -112,7 +112,7 @@ export default class BlDrawer extends LitElement {
       }
       this.domExistence = true;
       // When drawer open with embedUrl, iframe should reload because of unmount issues
-      if (this.embedUrl) {
+      if (this.embedUrl && this._drawerIframe) {
         this._drawerIframe.src = this.embedUrl;
       }
       // FIXME: Allow events without payload
