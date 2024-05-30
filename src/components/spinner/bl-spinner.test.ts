@@ -2,7 +2,7 @@ import { assert, expect, fixture, html, elementUpdated } from "@open-wc/testing"
 import BlSpinner from "./bl-spinner";
 
 import type typeOfBlSpinner from "./bl-spinner";
-import { BlIcon } from "../../baklava-react";
+import BlIcon from "../icon/bl-icon";
 
 describe("bl-spinner", () => {
   it("is defined", () => {
