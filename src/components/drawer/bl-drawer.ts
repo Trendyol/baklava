@@ -59,8 +59,8 @@ export default class BlDrawer extends LitElement {
    */
   @event("bl-drawer-close") private onClose: EventDispatcher<string>;
 
-  @query("iframe")
-  private _drawerIframe: HTMLIFrameElement;
+  @query("#drawer-iframe")
+  _drawerIframe: HTMLIFrameElement;
 
   connectedCallback() {
     super.connectedCallback();
@@ -111,10 +111,11 @@ export default class BlDrawer extends LitElement {
         clearTimeout(this.domExistenceSchedule);
       }
       this.domExistence = true;
-      // When drawer open with embedUrl, iframe should reload because of unmount issues
-      if (this.embedUrl && this._drawerIframe) {
-        this._drawerIframe.src = this.embedUrl;
-      }
+      window.setTimeout(() => {
+        if (this.embedUrl && this._drawerIframe) {
+          this._drawerIframe.src = this.embedUrl;
+        }
+      });
       // FIXME: Allow events without payload
       this.onOpen("");
     } else {
@@ -136,7 +137,7 @@ export default class BlDrawer extends LitElement {
 
   private renderContent() {
     const content = this.embedUrl
-      ? html`<iframe src=${this.embedUrl}></iframe>`
+      ? html`<iframe id="drawer-iframe" src=${this.embedUrl}></iframe>`
       : html`<slot></slot>`;
 
     return html`<section class=${this.embedUrl ? "iframe-content" : "content"}>
