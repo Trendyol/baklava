@@ -1,6 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { PropertyValues } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, query, state } from "lit/decorators.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import { styleToPixelConverter } from "../../utilities/style-to-px.converter";
 import "../button/bl-button";
@@ -59,6 +59,9 @@ export default class BlDrawer extends LitElement {
    */
   @event("bl-drawer-close") private onClose: EventDispatcher<string>;
 
+  @query("iframe")
+  private _drawerIframe: HTMLIFrameElement;
+
   connectedCallback() {
     super.connectedCallback();
     window?.addEventListener("bl-drawer-open", event => {
@@ -107,21 +110,18 @@ export default class BlDrawer extends LitElement {
       if (this.domExistenceSchedule) {
         clearTimeout(this.domExistenceSchedule);
       }
-
       this.domExistence = true;
+      // When drawer open with embedUrl, iframe should reload because of unmount issues
+      if (this.embedUrl) {
+        this._drawerIframe.src = this.embedUrl;
+      }
       // FIXME: Allow events without payload
       this.onOpen("");
     } else {
-      const documentElement = document.documentElement;
-      const durationString = getComputedStyle(documentElement).getPropertyValue(
-        "--bl-drawer-animation-duration"
-      );
-      const durationInMs = parseFloat(durationString) * 1000;
-
       // Give some time for exit animation
       this.domExistenceSchedule = window.setTimeout(() => {
         this.domExistence = false;
-      }, durationInMs);
+      }, 1000);
 
       // FIXME: Allow events without payload
       this.onClose("");

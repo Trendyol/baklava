@@ -215,9 +215,6 @@
   --bl-font-caption-size: var(--bl-font-caption-font-size) / var(--bl-font-caption-line-height);
   --bl-font-caption: var(--bl-font-weight-medium) var(--bl-font-caption-size) var(--bl-font-family);
 
-  /* Style: Drawer */
-  --bl-drawer-animation-duration: 250ms;
-
   /*
   @DEPRECATED
 
