@@ -1,6 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { PropertyValues } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, query, state } from "lit/decorators.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import { styleToPixelConverter } from "../../utilities/style-to-px.converter";
 import "../button/bl-button";
@@ -59,6 +59,9 @@ export default class BlDrawer extends LitElement {
    */
   @event("bl-drawer-close") private onClose: EventDispatcher<string>;
 
+  @query("#drawer-iframe")
+  _drawerIframe: HTMLIFrameElement;
+
   connectedCallback() {
     super.connectedCallback();
     window?.addEventListener("bl-drawer-open", event => {
@@ -107,8 +110,12 @@ export default class BlDrawer extends LitElement {
       if (this.domExistenceSchedule) {
         clearTimeout(this.domExistenceSchedule);
       }
-
       this.domExistence = true;
+      window.setTimeout(() => {
+        if (this.embedUrl && this._drawerIframe) {
+          this._drawerIframe.src = this.embedUrl;
+        }
+      });
       // FIXME: Allow events without payload
       this.onOpen("");
     } else {
@@ -130,7 +137,7 @@ export default class BlDrawer extends LitElement {
 
   private renderContent() {
     const content = this.embedUrl
-      ? html`<iframe src=${this.embedUrl}></iframe>`
+      ? html`<iframe id="drawer-iframe" src=${this.embedUrl}></iframe>`
       : html`<slot></slot>`;
 
     return html`<section class=${this.embedUrl ? "iframe-content" : "content"}>
