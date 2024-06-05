@@ -206,7 +206,7 @@ If button has a limited width and a long text that can not fit in a single line,
 
 ## Loading Buttons
 
-Button can be set in loading state. In this state button becomes disabled with a loading indicator. You can set this state by setting `loading` attribute. Additionally, button icons are overridden by the spinner during the loading state.
+Button can be set in loading state. In this state button becomes disabled with a loading indicator. You can set this state by setting `loading` attribute. Additionally, button icons are overridden by the bl-spinner during the loading state.
 
 A custom loading text can be also set with `loading-label` attribute. It's suggested to use `loading-label` to inform the user about the process.
 
@@ -254,33 +254,6 @@ ${SingleButtonHoverTemplate({kind: 'danger', content: 'Danger Button', ...args})
   </Story>
     <Story name="Tertiary Buttons Hover" args={{ content: 'Save', variant: 'tertiary', icon: 'info' }}>
     {HoverTemplate.bind({})}
-  </Story>
-</Canvas>
-
-## Spinner Example
-
-The `<bl-spinner>` component is used to indicate loading states. Here is an example of using the spinner inside a button.
-
-<Canvas>
-  <Story name="Button with Spinner" args={{ size: 'large', loading: true, icon: "info", content: "Save", anotherContent: "Button", variant: "tertiary"}}>
-    {args => html`
-      <bl-button
-        size=${ifDefined(args.size)}
-        loading=${ifDefined(args.loading)}
-        icon=${ifDefined(args.icon)}
-      >${unsafeHTML(args.content)}</bl-button>
-      <bl-button
-        size=${ifDefined(args.size)}
-        loading=${ifDefined(args.loading)}
-        icon=${ifDefined(args.icon)}
-      ></bl-button>
-      <bl-button
-        variant=${ifDefined(args.variant)}
-        size=${ifDefined(args.size)}
-        loading=${ifDefined(args.loading)}
-        icon=${ifDefined(args.icon)}
-      >${unsafeHTML(args.anotherContent)}</bl-button>
-    `}
   </Story>
 </Canvas>
 
