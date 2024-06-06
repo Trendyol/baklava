@@ -6,6 +6,7 @@ import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import { TargetType } from "../button/bl-button";
 import { ButtonSize, ButtonVariant, ButtonKind } from "../button/bl-button";
+import BlButton from "../button/bl-button";
 import BlDropdownItem, { blDropdownItemTag } from "../dropdown/item/bl-dropdown-item";
 import { BaklavaIcon } from "../icon/icon-list";
 import BlPopover from "../popover/bl-popover";
@@ -28,6 +29,12 @@ export default class BlSplitButton extends LitElement {
 
   @query("bl-popover")
   private _popover: BlPopover;
+
+  @query("#split-main-button")
+  private mainButton: BlButton;
+
+  @query("#dropdown-button")
+  private dropdownButton: BlButton;
 
   @state() private _isPopoverOpen = false;
 
@@ -145,6 +152,8 @@ export default class BlSplitButton extends LitElement {
   firstUpdated() {
     // To ensure proper rendering, we set `_popover.target` after the template has been created.
     this._popover.target = this.trigger;
+    this.dropdownButton.addEventListener("bl-click", e => e.stopPropagation());
+    this.mainButton.addEventListener("bl-click", e => e.stopPropagation());
   }
 
   get opened() {
