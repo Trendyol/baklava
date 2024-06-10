@@ -612,16 +612,18 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       this.close();
       event.preventDefault();
     } else if (this._isPopoverOpen && ["ArrowDown", "ArrowUp"].includes(event.code)) {
+      const activeOptions = this.options.filter(option => !option.disabled);
+
       event.code === "ArrowDown" && this.focusedOptionIndex++;
       event.code === "ArrowUp" && this.focusedOptionIndex--;
 
       // Don't exceed array indexes
       this.focusedOptionIndex = Math.max(
         0,
-        Math.min(this.focusedOptionIndex, this.options.length - 1)
+        Math.min(this.focusedOptionIndex, activeOptions.length - 1)
       );
 
-      this.options[this.focusedOptionIndex].focus();
+      activeOptions[this.focusedOptionIndex].focus();
 
       event.preventDefault();
     } else if (this._isPopoverOpen && !this.searchBar) {
