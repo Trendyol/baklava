@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import "../icon/bl-icon";
@@ -98,7 +99,7 @@ export default class BlCalendar extends LitElement {
       console.warn("Invalid prop value for defaultValue");
     } else if (this.defaultValue) {
       if (Array.isArray(this.defaultValue)) {
-        this._selectedDates = this.defaultValue;
+        this._selectedDates = { ...this.defaultValue };
       } else this._selectedDates = [this.defaultValue];
     }
   }
@@ -276,9 +277,11 @@ export default class BlCalendar extends LitElement {
   }
 
   checkIfSelectedDate(calendarDate: CalendarDate) {
-    return this._selectedDates.find(selectedDate => {
+    const day = this._selectedDates.find(selectedDate => {
       return calendarDate.getTime() === selectedDate.getTime();
     });
+
+    return !!day;
   }
   checkIfDateIsToday(calendarDate: CalendarDate) {
     const today = new Date();
@@ -298,9 +301,11 @@ export default class BlCalendar extends LitElement {
     }
 
     if (Array.isArray(this.disabledDates)) {
-      return this.disabledDates.find(disabledDate => {
+      const day = this.disabledDates.find(disabledDate => {
         return calendarDate.getTime() === new Date(disabledDate).getTime();
       });
+
+      return !!day;
     }
     return false;
   }
@@ -427,20 +432,29 @@ export default class BlCalendar extends LitElement {
                 const isSelectedDay = this.checkIfSelectedDate(date);
                 const isDayToday = this.checkIfDateIsToday(date);
                 const isDisabledDay = this.checkIfDateIsDisabled(date);
+                const classes = classMap({
+                  "day": true,
+                  "calendar-text": true,
+                  "today-day": isDayToday,
+                  "selected-day": isSelectedDay,
+                  "other-month-day": date.getMonth() !== this._calendarMonth,
+                  "disabled-day": isDisabledDay,
+                });
 
-                return html` <div class="day-wrapper">
-                  <div
-                    id=${date.getTime()}
-                    class="day calendar-text ${isDayToday ? "today-day" : ""} ${isSelectedDay
-                      ? "selected-day"
-                      : ""} ${date.getMonth() !== this._calendarMonth
-                      ? "other-month-day"
-                      : ""}  ${isDisabledDay ? "disabled-day" : ""}"
-                    @click="${() => !isDisabledDay && this.handleDate(date)}"
-                  >
-                    ${date.getDate()}
+                return html`
+                  <div>
+                    <bl-button
+                      id=${date.getTime()}
+                      variant="tertiary"
+                      kind="neutral"
+                      size="small"
+                      class=${classes}
+                      @click="${() => !isDisabledDay && this.handleDate(date)}"
+                    >
+                      ${date.getDate()}
+                    </bl-button>
                   </div>
-                </div>`;
+                `;
               })}
             </div> </div>`;
         })}`;

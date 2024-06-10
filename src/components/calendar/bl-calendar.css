@@ -50,30 +50,36 @@
 }
 
 .day {
+  width: 40px;
+
+  --bl-size-xl: 32px;
+  --bl-button-inset:-3px;
+
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 32px;
-  width: 32px;
-  cursor: pointer;
+
+  --bl-border-radius-m: 50%;
+  --bl-border-radius-l: 50%;
 
   &.today-day {
-    color: var(--bl-color-primary);
+    --bl-color-neutral-darker: var(--bl-color-primary) !important;
   }
 
   &.selected-day {
-    color: white;
+    --bl-color-neutral-darker: var(--bl-color-neutral-full) !important;
+
     background: var(--bl-color-primary);
     border-radius: 50%;
   }
 
   &.disabled-day {
-    color: var(--bl-color-neutral-light) !important;
+    --bl-color-neutral-darker: var(--bl-color-neutral-light) !important;
+
     cursor: not-allowed;
   }
 
   &.other-month-day {
-    color: var(--bl-color-neutral-dark);
+    --bl-color-neutral-darker: var(--bl-color-neutral-dark) !important;
 
     &.selected-day {
       color: white;
@@ -82,30 +88,38 @@
 }
 
 .day:not(.disabled-day, .selected-day):hover {
-  background: var(--bl-color-neutral-lightest);
+  background: var(--bl-color-neutral-lightest) !important;
   border-radius: 50%;
 }
 
 .range-day {
   background: var(--bl-color-primary-contrast);
+
+  --bl-color-neutral-lightest: var(--bl-color-primary-contrast);
+
+}
+
+.range-end-day,.range-start-day,.selected-day{
+  --bl-color-neutral-lightest: var(--bl-color-primary);
+  --bl-color-neutral-darker: var(--bl-color-neutral-full) !important;
+  --bl-color-neutral-darkest:  var(--bl-color-neutral-full) !important;
 }
 
 .range-start-day {
   background: var(--bl-color-primary-contrast);
-  color: var(--bl-color-neutral-none);
   border-top-left-radius: 50%;
   border-bottom-left-radius: 50%;
-  padding: 0 4px 0 0;
-  margin-left: 4px;
+}
+
+.range-start-day:hover{
+  --content-color:var(--bl-color-neutral-full) !important;
+  --bg-color: var(--bl-color-primary-contrast) !important;
 }
 
 .range-end-day {
   background: var(--bl-color-primary-contrast);
-  color: var(--bl-color-neutral-none);
   border-top-right-radius: 50%;
   border-bottom-right-radius: 50%;
-  padding: 0 0 0 04px;
-  margin-right: 4px;
 }
 
 .weekday-text {
