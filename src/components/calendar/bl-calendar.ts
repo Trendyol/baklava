@@ -442,13 +442,14 @@ export default class BlCalendar extends LitElement {
                 });
 
                 return html`
-                  <div>
+                  <div class="day-wrapper">
                     <bl-button
                       id=${date.getTime()}
                       variant="tertiary"
                       kind="neutral"
                       size="small"
                       class=${classes}
+                      ?disabled=${isDisabledDay}
                       @click="${() => !isDisabledDay && this.handleDate(date)}"
                     >
                       ${date.getDate()}
