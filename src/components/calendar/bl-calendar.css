@@ -54,7 +54,7 @@
   align-items: center;
   width: 40px;
 
-  --bl-font-title-4-medium:var(--bl-font-weight-regular) var(--bl-font-size-m);
+  --bl-font-title-4-medium: var(--bl-font-weight-regular) var(--bl-font-size-m);
   --bl-size-xl: 40px;
   --bl-border-radius-m: 50%;
   --bl-border-radius-l: 50%;
