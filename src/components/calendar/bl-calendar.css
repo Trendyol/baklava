@@ -1,8 +1,9 @@
 .calendar {
   display: flex;
+  flex-direction: column;
 }
 
-.content {
+.calendar-content {
   display: flex;
   padding: 16px;
   flex-direction: column;
@@ -14,7 +15,7 @@
   background: #fff;
 }
 
-.header {
+.calendar-header {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -41,12 +42,11 @@
   justify-content: center;
 }
 
-.day-column {
+.week-row {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding-top: 12px;
+  flex-direction: row;
+  padding-bottom: 8px;
 }
 
 .day {
@@ -54,6 +54,7 @@
   align-items: center;
   width: 40px;
 
+  --bl-button-inset: 0px;
   --bl-font-title-4-medium: var(--bl-font-weight-regular) var(--bl-font-size-m);
   --bl-size-xl: 40px;
   --bl-border-radius-m: 50%;
@@ -66,6 +67,8 @@
   &.selected-day {
     background: var(--bl-color-primary);
     border-radius: 50%;
+
+    --bl-color-neutral-darker: var(--bl-color-neutral-full) !important;
   }
 
   &.other-month-day {
@@ -77,6 +80,11 @@
   background: var(--bl-color-primary-contrast);
 
   --bl-color-neutral-lightest: var(--bl-color-primary-contrast);
+}
+
+.days-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
 .range-end-day,
@@ -100,9 +108,10 @@
 }
 
 .weekday-text {
-  color: var(--bl-color-neutral-light);
+  color: var(--bl-color-neutral-dark);
   text-align: center;
-  padding-bottom: 8px;
+  padding: 8px 0;
+  width: 40px;
 }
 
 .grid-content {

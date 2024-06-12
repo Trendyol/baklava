@@ -285,7 +285,7 @@ export default class BlCalendar extends LitElement {
   }
   checkIfDateIsToday(calendarDate: CalendarDate) {
     const today = new Date();
-
+    console.log("calendarDate", calendarDate);
     return (
       today.getDate() === calendarDate.getDate() &&
       today.getMonth() === calendarDate.getMonth() &&
@@ -424,41 +424,50 @@ export default class BlCalendar extends LitElement {
     const getCalendarView = (calendarView: CalendarView) => {
       if (calendarView === CALENDAR_VIEWS.days) {
         const calendarDays = this.createCalendarDays();
+        const valuesArray = Array.from(calendarDays.values());
 
-        return html` ${[...calendarDays.entries()].map(([key, value]) => {
-          return html` <div class="day-column">
-              <div class="calendar-text weekday-text">${key}</div>
-              ${value.map(date => {
-                const isSelectedDay = this.checkIfSelectedDate(date);
-                const isDayToday = this.checkIfDateIsToday(date);
-                const isDisabledDay = this.checkIfDateIsDisabled(date);
-                const classes = classMap({
-                  "day": true,
-                  "calendar-text": true,
-                  "today-day": isDayToday,
-                  "selected-day": isSelectedDay,
-                  "other-month-day": date.getMonth() !== this._calendarMonth,
-                  "disabled-day": isDisabledDay,
-                });
+        return html`<div class="week-row">
+          ${[...calendarDays.keys()].map(key => {
+            return html` <div class="calendar-text weekday-text">${key}</div> `;
+          })}</div>
+        <div class="days-wrapper">
+        ${[...Array(valuesArray[0].length).keys()].map(key => {
+          return html`<div class="week-row">
+            ${valuesArray.map(values => {
+              const date = values[key];
+              const isSelectedDay = this.checkIfSelectedDate(date);
+              const isDayToday = this.checkIfDateIsToday(date);
+              const isDisabledDay = this.checkIfDateIsDisabled(date);
 
-                return html`
-                  <div class="day-wrapper">
-                    <bl-button
-                      id=${date.getTime()}
-                      variant="tertiary"
-                      kind="neutral"
-                      size="small"
-                      class=${classes}
-                      ?disabled=${isDisabledDay}
-                      @click="${() => !isDisabledDay && this.handleDate(date)}"
-                    >
-                      ${date.getDate()}
-                    </bl-button>
-                  </div>
-                `;
-              })}
-            </div> </div>`;
-        })}`;
+              const classes = classMap({
+                "day": true,
+                "calendar-text": true,
+                "today-day": isDayToday,
+                "selected-day": isSelectedDay,
+                "other-month-day": values[key].getMonth() !== this._calendarMonth,
+                "disabled-day": isDisabledDay,
+              });
+
+              return html`
+                <div class="day-wrapper">
+                  <bl-button
+                    id=${date.getTime()}
+                    variant="tertiary"
+                    kind="neutral"
+                    size="small"
+                    class=${classes}
+                    ?disabled=${isDisabledDay}
+                    @click="${() => !isDisabledDay && this.handleDate(date)}"
+                  >
+                    ${date.getDate()}
+                  </bl-button>
+                </div>
+              `;
+            })}
+          </div>`;
+        })}
+        </div>
+        </div>`;
       } else if (calendarView === CALENDAR_VIEWS.months) {
         return html`<div class="grid-content">
           ${this.months.map((month, index) => {
@@ -498,8 +507,8 @@ export default class BlCalendar extends LitElement {
     const showYearSelected = this._calendarView === CALENDAR_VIEWS.years ? "header-text-hover" : "";
 
     return html`<div>
-      <div class="content">
-        <div class="header">
+      <div class="calendar-content">
+        <div class="calendar-header">
           <bl-button
             class="arrow"
             icon="arrow_left"
