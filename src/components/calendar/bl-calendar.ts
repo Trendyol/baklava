@@ -285,7 +285,7 @@ export default class BlCalendar extends LitElement {
   }
   checkIfDateIsToday(calendarDate: CalendarDate) {
     const today = new Date();
-    console.log("calendarDate", calendarDate);
+
     return (
       today.getDate() === calendarDate.getDate() &&
       today.getMonth() === calendarDate.getMonth() &&
