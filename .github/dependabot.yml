@@ -4,7 +4,68 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "Trendyol/baklava"
+    allow:
+      - dependency-type: "direct"
+    rebase-strategy: "auto"
+    groups:
+      lit:
+        patterns:
+          - "lit"
+          - "@lit/*"
+      pre-commit:
+        patterns:
+          - "@commitlint/*"
+          - "lint-staged"
+          - "husky"
+      build:
+        patterns:
+          - "esbuild"
+          - "esbuild-plugin-lit-css"
+          - "minimist"
+          - "clean-css"
+          - "del"
+          - "del-cli"
+          - "globby"
+          - "pascal-case"
+          - "npm-run-all"
+          - "@custom-elements-manifest/analyzer"
+      test:
+        patterns:
+          - "@open-wc/*"
+          - "@web/*"
+          - "sinon"
+          - "rollup-plugin-lit-css"
+          - "@rollup/plugin-replace"
+      lint-and-format:
+        patterns:
+          - "eslint*"
+          - "@typescript-eslint/*"
+          - "prettier"
+          - "@trivago/prettier-plugin-sort-imports"
+          - "@types/*"
+          - "stylelint*"
+      typescript:
+        patterns:
+          - "typescript"
+          - "ts-lit-plugin"
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook/*"
+          - "chromatic"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@lit-labs/react"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "Trendyol/baklava"
+    rebase-strategy: "auto"
