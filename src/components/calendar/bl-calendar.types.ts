@@ -9,8 +9,8 @@ export type CalendarDay = { value: number; name: string };
 export type CalendarDate = Date;
 
 export type RangePickerDates = {
-  startDate: CalendarDate | undefined;
-  endDate: CalendarDate | undefined;
+  startDate?: CalendarDate;
+  endDate?: CalendarDate;
 };
 
 export type Calendar = Map<string, CalendarDate[]>;

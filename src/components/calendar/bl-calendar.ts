@@ -25,7 +25,6 @@ import {
  * @tag bl-calendar
  * @summary Baklava Calendar component
  **/
-
 @customElement("bl-calendar")
 export default class BlCalendar extends LitElement {
   /**
@@ -70,11 +69,13 @@ export default class BlCalendar extends LitElement {
   @state()
   private _selectedRangeDates: RangePickerDates = { startDate: undefined, endDate: undefined };
 
-  @state()
-  private _calendarMonth: number = new Date().getMonth();
+  today = new Date();
 
   @state()
-  private _calendarYear: number = new Date().getFullYear();
+  private _calendarMonth: number = this.today.getMonth();
+
+  @state()
+  private _calendarYear: number = this.today.getFullYear();
 
   @state()
   private _calendarView: CalendarView = CALENDAR_VIEWS.days;
@@ -199,10 +200,12 @@ export default class BlCalendar extends LitElement {
     }
   }
 
-  createCalendarYears() {
+  generateSurroundingYears() {
     if (this._calendarYears.length === 0) {
-      for (let i = 4; i >= 0; i--) this._calendarYears.push(this._calendarYear - i);
-      for (let i = 1; i <= 7; i++) this._calendarYears.push(this._calendarYear + i);
+      this._calendarYears = Array.from(
+        { length: 12 },
+        (_, index) => this._calendarYear - 4 + index
+      );
     }
   }
   clearRangePickerStyles() {
@@ -326,15 +329,13 @@ export default class BlCalendar extends LitElement {
         )?.parentElement;
 
         endDateParentElement?.classList.add("range-end-day");
-        const rangeDays = [...this.createCalendarDays().values()].flat().filter(
-          date =>
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            date.getTime() > this._selectedRangeDates?.startDate?.getTime() &&
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            date.getTime() < this._selectedRangeDates?.endDate?.getTime()
-        );
+        const rangeDays = [...this.createCalendarDays().values()]
+          .flat()
+          .filter(
+            date =>
+              date.getTime() > (this._selectedRangeDates?.startDate?.getTime() || 0) &&
+              date.getTime() < (this._selectedRangeDates?.endDate?.getTime() || 0)
+          );
 
         for (let i = 0; i < rangeDays.length; i++) {
           const element = this.shadowRoot?.getElementById(
@@ -457,7 +458,7 @@ export default class BlCalendar extends LitElement {
                     size="small"
                     class=${classes}
                     ?disabled=${isDisabledDay}
-                    @click="${() => !isDisabledDay && this.handleDate(date)}"
+                    @click="${() => this.handleDate(date)}"
                   >
                     ${date.getDate()}
                   </bl-button>
@@ -485,7 +486,7 @@ export default class BlCalendar extends LitElement {
           })}
         </div>`;
       } else {
-        this.createCalendarYears();
+        this.generateSurroundingYears();
         return html`<div class="grid-content">
           ${this._calendarYears.map(year => {
             const variant = year === this._calendarYear ? "primary" : "tertiary";

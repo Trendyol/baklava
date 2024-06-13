@@ -93,7 +93,7 @@
 .range-start-day,
 .selected-day {
   --bl-color-neutral-lightest: var(--bl-color-primary);
-  --bl-color-neutral-darker: var(--bl-color-neutral-full) !important;
+  --bl-color-neutral-darker: var(--bl-color-neutral-full);
   --bl-color-neutral-darkest: var(--bl-color-neutral-full) !important;
 }
 
