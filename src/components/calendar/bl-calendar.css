@@ -54,7 +54,7 @@
   align-items: center;
   width: 40px;
 
-  --bl-button-inset: 0px;
+  --bl-button-focus-border-color: #000;
   --bl-font-title-4-medium: var(--bl-font-weight-regular) var(--bl-font-size-m);
   --bl-size-xl: 40px;
   --bl-border-radius-m: 50%;
@@ -68,6 +68,7 @@
     background: var(--bl-color-primary);
     border-radius: 50%;
 
+    --bl-button-focus-border-color: var(--bl-color-primary);
     --bl-color-neutral-darker: var(--bl-color-neutral-full) !important;
   }
 

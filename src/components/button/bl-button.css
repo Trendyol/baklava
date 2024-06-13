@@ -84,11 +84,11 @@
 }
 
 .button:focus-visible::after {
-  border: 2px solid var(--main-color);
+  border: 2px solid var(--bl-button-focus-border-color, var(--main-color));
   border-radius: var(--bl-border-radius-l);
   content: "";
   position: absolute;
-  inset: var(--bl-button-inset, -4px);
+  inset: -4px;
 }
 
 .loading-icon {
