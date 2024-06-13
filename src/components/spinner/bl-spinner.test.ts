@@ -84,7 +84,7 @@ describe("bl-spinner", () => {
     expect(style.position).to.equal("absolute");
     expect(style.top).to.equal("0px");
     expect(style.left).to.equal("0px");
-    expect(style.backgroundColor).to.equal("rgba(250, 250, 250, 0.5)");
+    expect(style.backgroundColor).to.equal("rgba(39, 49, 66, 0.7)");
     expect(style.zIndex).to.equal("10");
   });
 
