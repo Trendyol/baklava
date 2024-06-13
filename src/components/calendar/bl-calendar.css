@@ -12,7 +12,7 @@
   border-radius: var(--bl-border-radius-s);
   width: fit-content;
   border: 1px solid var(--bl-color-primary);
-  background: #fff;
+  background: var(--bl-color-neutral-full);
 }
 
 .calendar-header {
@@ -34,6 +34,11 @@
 .header-text-hover {
   background: var(--bl-color-neutral-lightest);
   border-radius: var(--bl-border-radius-s);
+}
+
+.days-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
 .day-wrapper {
@@ -61,7 +66,8 @@
   --bl-border-radius-l: 50%;
 
   &.today-day {
-    --bl-color-neutral-darker: var(--bl-color-primary) !important;
+    --bl-color-neutral-darker: var(--bl-color-primary);
+    --bl-color-neutral-darkest: var(--bl-color-primary);
   }
 
   &.selected-day {
@@ -69,11 +75,11 @@
     border-radius: 50%;
 
     --bl-button-focus-border-color: var(--bl-color-primary);
-    --bl-color-neutral-darker: var(--bl-color-neutral-full) !important;
+    --bl-color-neutral-darker: var(--bl-color-neutral-full);
   }
 
   &.other-month-day {
-    --bl-color-neutral-darker: var(--bl-color-neutral-dark) !important;
+    --bl-color-neutral-darker: var(--bl-color-neutral-dark);
   }
 }
 
@@ -81,11 +87,6 @@
   background: var(--bl-color-primary-contrast);
 
   --bl-color-neutral-lightest: var(--bl-color-primary-contrast);
-}
-
-.days-wrapper {
-  display: flex;
-  flex-direction: column;
 }
 
 .range-end-day,

@@ -135,7 +135,7 @@ export default class BlCalendar extends LitElement {
     return new Date(year, month, 1).getDay();
   }
   setPreviousCalendarView() {
-    this.clearHoverClassesFromShadowRoot();
+    this.clearRangePickerStyles();
     if (this._calendarView === CALENDAR_VIEWS.days) {
       if (this._calendarMonth === FIRST_MONTH_INDEX) {
         this._calendarMonth = LAST_MONTH_INDEX;
@@ -156,7 +156,7 @@ export default class BlCalendar extends LitElement {
     }
   }
   setNextCalendarView() {
-    this.clearHoverClassesFromShadowRoot();
+    this.clearRangePickerStyles();
     if (this._calendarView === CALENDAR_VIEWS.days) {
       if (this._calendarMonth === LAST_MONTH_INDEX) {
         this._calendarMonth = FIRST_MONTH_INDEX;
@@ -205,7 +205,7 @@ export default class BlCalendar extends LitElement {
       for (let i = 1; i <= 7; i++) this._calendarYears.push(this._calendarYear + i);
     }
   }
-  clearHoverClassesFromShadowRoot() {
+  clearRangePickerStyles() {
     this.shadowRoot?.querySelectorAll(".range-day").forEach(day => {
       day.classList.remove("range-day");
     });
@@ -311,7 +311,7 @@ export default class BlCalendar extends LitElement {
   }
 
   setHoverClass() {
-    this.clearHoverClassesFromShadowRoot();
+    this.clearRangePickerStyles();
 
     if (this._selectedRangeDates.startDate && this._selectedRangeDates.endDate) {
       setTimeout(() => {
