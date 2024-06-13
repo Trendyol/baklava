@@ -110,8 +110,8 @@ This example demonstrates a spinner in overlay mode relative to its parent eleme
 <Canvas>
   <Story name="Relative Overlay">
     {(args) => html`
-      <div style="display: flex; justify-content: center; position: relative; width: 200px; height: 200px; background-color: darksalmon;">
-        ${SingleSpinnerTemplate({ size: 'var(--bl-font-size-m)', color: "#FFF", overlay: true, ...args })}
+      <div style="display: flex; justify-content: center; position: relative; width: 200px; height: 200px; background-color: #FFF;">
+        ${SingleSpinnerTemplate({ size: 'var(--bl-font-size-xl)', color: "#FFF", overlay: true, ...args })}
         <p style="display:flex; align-items: center; position: absolute;">Content</p>
       </div>
     `}
