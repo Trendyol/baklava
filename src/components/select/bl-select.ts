@@ -696,8 +696,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _handleSingleSelect(optionItem: BlSelectOption<ValueType>) {
     this.value = optionItem.value;
 
+    this._searchText = "";
     this._handleSelectEvent();
-    this._isPopoverOpen = false;
+    this.close();
   }
 
   private _handleMultipleSelect() {
