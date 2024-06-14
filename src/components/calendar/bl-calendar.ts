@@ -34,7 +34,7 @@ export default class BlCalendar extends LitElement {
   type: CalendarType = CALENDAR_TYPES.single;
 
   /**
-   *Defines the minimum date value for the calendar
+   * Defines the minimum date value for the calendar
    */
   @property({ type: Date, attribute: "min-date", reflect: true })
   minDate: Date;
