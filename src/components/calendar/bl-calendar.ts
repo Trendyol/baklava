@@ -28,7 +28,7 @@ import {
 @customElement("bl-calendar")
 export default class BlCalendar extends LitElement {
   /**
-   *Defines the calendar types, available types are single,multiple and range
+   * Defines the calendar types, available types are single, multiple and range
    */
   @property()
   type: CalendarType = CALENDAR_TYPES.single;
