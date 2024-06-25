@@ -463,7 +463,7 @@ export default class BlCalendar extends LitElement {
                     size="small"
                     class=${classes}
                     ?disabled=${isDisabledDay}
-                    @click="${() => this.handleDate(date)}"
+                    @click="${() => !isDisabledDay && this.handleDate(date)}"
                   >
                     ${date.getDate()}
                   </bl-button>
