@@ -76,6 +76,10 @@ header h2 {
   overflow: auto;
 }
 
+:host([critical]) .content {
+  padding-top: 0;
+}
+
 .container.has-footer .content {
   padding-bottom: 0;
 }
