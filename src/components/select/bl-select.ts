@@ -7,6 +7,7 @@ import { msg, localized } from "@lit/localize";
 import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
+import { LangKey } from "../../localization";
 import { event, EventDispatcher } from "../../utilities/event";
 import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
 import "../button/bl-button";
@@ -229,6 +230,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
    */
   @event("bl-search") private _onBlSearch: EventDispatcher<string>;
 
+  private userLang =
+    (document.querySelector("html")?.getAttribute("lang") as LangKey | null) || navigator.language;
+
   private _connectedOptions: BlSelectOption<ValueType>[] = [];
 
   private _cleanUpPopover: CleanUpFunction | null = null;
@@ -400,11 +404,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
     ></bl-icon>`;
 
-    const searchLoadingIcon = html`<bl-icon
-      class="search-loading-icon"
-      name="loading"
-      style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
-    ></bl-icon>`;
+    const searchSpinner = html`<bl-spinner class="search-spinner"></bl-spinner>`;
 
     const actionDivider = isDividerShown ? html`<div class="action-divider"></div>` : "";
 
@@ -447,7 +447,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         : ""}
 
       <div class="actions">
-        ${this.opened ? (this.searchBarLoadingState ? searchLoadingIcon : searchMagIcon) : ""}
+        ${this.opened ? (this.searchBarLoadingState ? searchSpinner : searchMagIcon) : ""}
         ${!this.opened ? removeButton : ""} ${actionDivider}
 
         <div @click=${this._togglePopover}>
@@ -571,6 +571,35 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private focusedOptionIndex = -1;
+  private lastKeyPressedTime = 0;
+  private typedCharacters = "";
+  private keyPressThreshold = 500;
+
+  private handleFocusOptionByKey(key: string) {
+    const currentTime = Date.now();
+    const elapsedTimeSinceLastKeyPress = currentTime - this.lastKeyPressedTime;
+
+    if (elapsedTimeSinceLastKeyPress > this.keyPressThreshold) {
+      this.typedCharacters = "";
+    }
+
+    this.lastKeyPressedTime = currentTime;
+    this.typedCharacters += key.toLowerCase();
+
+    const matchingOptionIndex = this.options.findIndex(option => {
+      if (option.disabled) {
+        return false;
+      }
+      const optionText = option.innerText.trim().toLowerCase();
+
+      return optionText.startsWith(this.typedCharacters);
+    });
+
+    if (matchingOptionIndex !== -1) {
+      this.focusedOptionIndex = matchingOptionIndex;
+      this.options[matchingOptionIndex].focus();
+    }
+  }
 
   private handleKeydown(event: KeyboardEvent) {
     if (this.focusedOptionIndex === -1 && ["Enter", "Space"].includes(event.code)) {
@@ -583,18 +612,22 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       this.close();
       event.preventDefault();
     } else if (this._isPopoverOpen && ["ArrowDown", "ArrowUp"].includes(event.code)) {
+      const activeOptions = this.options.filter(option => !option.disabled);
+
       event.code === "ArrowDown" && this.focusedOptionIndex++;
       event.code === "ArrowUp" && this.focusedOptionIndex--;
 
       // Don't exceed array indexes
       this.focusedOptionIndex = Math.max(
         0,
-        Math.min(this.focusedOptionIndex, this.options.length - 1)
+        Math.min(this.focusedOptionIndex, activeOptions.length - 1)
       );
 
-      this.options[this.focusedOptionIndex].focus();
+      activeOptions[this.focusedOptionIndex].focus();
 
       event.preventDefault();
+    } else if (this._isPopoverOpen && !this.searchBar) {
+      this.handleFocusOptionByKey(event.key);
     }
   }
 
@@ -628,7 +661,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     this._handleSearchEvent();
 
     this._connectedOptions.forEach(option => {
-      const isVisible = option.textContent?.toLowerCase().includes(this._searchText.toLowerCase());
+      const isVisible = option.textContent
+        ?.toLocaleLowerCase(this.userLang)
+        .includes(this._searchText.toLocaleLowerCase(this.userLang));
 
       option.hidden = !isVisible;
     });
@@ -657,8 +692,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _handleSingleSelect(optionItem: BlSelectOption<ValueType>) {
     this.value = optionItem.value;
 
+    this._searchText = "";
     this._handleSelectEvent();
-    this._isPopoverOpen = false;
+    this.close();
   }
 
   private _handleMultipleSelect() {
@@ -713,6 +749,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   private _onClickRemove(e: MouseEvent) {
     e.stopPropagation();
+
+    this._searchText = "";
 
     const selectedDisabledOptions = this._selectedOptions.filter(option => option.disabled);
 

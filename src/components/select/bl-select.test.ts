@@ -344,8 +344,8 @@ describe("bl-select", () => {
     });
   });
 
-  it("should show loading icon when the search loading state is true", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+  it("should open the popover and show loading icon when the search loading state is true", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar search-bar-loading-state>
       <bl-select-option value="tr">Turkey</bl-select-option>
       <bl-select-option value="en">United States of America</bl-select-option>
     </bl-select>`);
@@ -354,13 +354,19 @@ describe("bl-select", () => {
 
     searchInput?.focus();
 
-    const loadingIcon = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset bl-icon");
-
     await sendKeys({
-      type: "turkey",
+      type: "turk",
     });
 
-    expect(loadingIcon).to.exist;
+    el.open();
+    await elementUpdated(el);
+
+    expect(el.opened).to.be.true;
+
+    const loadingSpinner = el.shadowRoot?.querySelector("fieldset div.actions bl-spinner");
+
+    expect(loadingSpinner).to.exist;
+    expect(loadingSpinner?.getAttribute("size")).to.equal("var(--bl-font-size-m)");
   });
 
   it("should be displayed a 'no result' message  if the searched term does not match with any option", async () => {
@@ -632,6 +638,8 @@ describe("bl-select", () => {
           <bl-select-option value="basketball">Basketball</bl-select-option>
           <bl-select-option value="football">Football</bl-select-option>
           <bl-select-option value="tennis">Tennis</bl-select-option>
+          <bl-select-option value="boxing">Boxing</bl-select-option>
+          <bl-select-option value="hockey" disabled>Hockey</bl-select-option>
         </bl-select>
         <input id="nextinput" />
       </div>`);
@@ -757,6 +765,105 @@ describe("bl-select", () => {
 
       //then
       expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
+    });
+
+    it("should focus the first matching option when typing a single character", async () => {
+      const firstOption = el.querySelector<BlSelectOption>("bl-select-option");
+
+       //given
+       await sendKeys({
+         press: tabKey,
+       });
+       await sendKeys({
+        press: "Space",
+      });
+       await sendKeys({
+         press: "b",
+       });
+
+       //then
+       expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
+    });
+
+    it("should focus the first matching option when typing a single character with uppercase", async () => {
+      const firstOption = el.querySelector<BlSelectOption>("bl-select-option");
+
+       //given
+       await sendKeys({
+         press: tabKey,
+       });
+       await sendKeys({
+        press: "Space",
+      });
+       await sendKeys({
+         press: "B",
+       });
+
+       //then
+       expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
+    });
+
+    it("should focus the first matching option when typing two characters", async () => {
+      const fourthOption = el.querySelector<BlSelectOption>("bl-select-option:nth-child(4)");
+
+       //given
+       await sendKeys({
+         press: tabKey,
+       });
+       await sendKeys({
+        press: "Space",
+      });
+       await sendKeys({
+         press: "b",
+       });
+       await sendKeys({
+        press: "o",
+      });
+
+       //then
+       expect((document.activeElement as BlSelectOption).value).to.equal(fourthOption?.value);
+    });
+
+    it("should reset typed characters after an interval of inactivity", async () => {
+      const secondOption = el.querySelector<BlSelectOption>("bl-select-option:nth-child(2)");
+
+      // when
+      await sendKeys({
+        press: tabKey,
+      });
+      await sendKeys({
+        press: "Space",
+      });
+      await sendKeys({
+        press: "b",
+      });
+      // Wait for an interval of inactivity
+      await new Promise(resolve => setTimeout(resolve, 600));
+
+      await sendKeys({
+        press: "f",
+      });
+
+      //then
+      expect((document.activeElement as BlSelectOption).value).to.equal(secondOption?.value);
+    });
+
+    it("should not focus on the disabled option even if it matches the typed character", async () => {
+      const focusedOptions = el.querySelectorAll("bl-select-option:focus");
+
+       //given
+       await sendKeys({
+         press: tabKey,
+       });
+       await sendKeys({
+        press: "Space",
+      });
+       await sendKeys({
+         press: "h",
+       });
+
+       //then
+       expect(focusedOptions.length).to.equal(0);
     });
   });
 

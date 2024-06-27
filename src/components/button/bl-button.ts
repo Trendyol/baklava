@@ -6,6 +6,7 @@ import { submit } from "@open-wc/form-helpers";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../icon/bl-icon";
 import { BaklavaIcon } from "../icon/icon-list";
+import "../spinner/bl-spinner";
 import style from "./bl-button.css";
 
 export type ButtonVariant = "primary" | "secondary" | "tertiary";
@@ -191,10 +192,13 @@ export default class BlButton extends LitElement {
     const label = this.loading && this.loadingLabel ? this.loadingLabel : html`<slot></slot>`;
     const isAnchor = !!this.href;
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : "";
-    const loadingIcon = this.loading
-      ? html`<bl-icon class="loading-icon" name="loading"></bl-icon>`
-      : "";
-    const slots = html`<slot name="icon">${icon}</slot> <span class="label">${label}</span>`;
+    const loadingIcon = html`<bl-spinner
+      class="loading-spinner"
+      ?disabled="${isDisabled}"
+      size="${this.size}"
+    ></bl-spinner>`;
+    const slots = html`<slot name="icon">${this.loading ? loadingIcon : icon}</slot>
+      <span class="label">${label}</span>`;
     const caret = this.dropdown ? this.caretTemplate() : "";
     const classes = classMap({
       "button": true,
@@ -212,7 +216,7 @@ export default class BlButton extends LitElement {
           href=${ifDefined(this.href)}
           target=${ifDefined(this.target)}
           role="button"
-          >${loadingIcon} ${slots}
+          >${slots}
         </a>`
       : html`<button
           class=${classes}
@@ -222,7 +226,7 @@ export default class BlButton extends LitElement {
           ?disabled=${isDisabled}
           @click="${this._handleClick}"
         >
-          ${loadingIcon} ${slots} ${caret}
+          ${slots} ${caret}
         </button>`;
   }
 }

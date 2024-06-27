@@ -22,7 +22,7 @@ Include Baklava library from CDN to your project's `<head>` section (in `layout.
   href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.1.0/dist/themes/default.css"
 />
 
-<Script
+<script
   type="module"
   src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.1.0/dist/baklava.js"
 />
@@ -52,7 +52,7 @@ In the page, import the component using `dynamic` with ssr off.
 const Button = dynamic(() => import("@/components/Button"), { ssr: false });
 ```
 
-[Here is the demo repository](https://gitlab.trendyol.com/local-commerce/pricing-promotions/frontend/playground/next-baklava-ssr-poc)
+[Here is the demo repository](https://github.com/trendyol/baklava/tree/next/examples/next-app-router-ssr). You can also preview it live with [StackBlitz](https://stackblitz.com/github/trendyol/baklava/tree/next/examples/next-app-router-ssr).
 
 ## Using with SSR
 

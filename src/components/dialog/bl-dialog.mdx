@@ -43,6 +43,12 @@ For long content that does not fit on the page, the dialog action area remains s
 
 <Canvas of={DialogStories.DialogWithStickyFooter} />
 
+## Critical Dialog
+
+Critical dialogs are used to inform users about critical information or actions. They are unable to be dismissed by clicking the backdrop or pressing Esc.
+
+<Canvas of={DialogStories.CriticalDialog} />
+
 ## Dialog Sizing
 
 The dialog doesn't have any default size, it will be fluidly sized regarding its content. You can give your own width and height style to your content.
@@ -77,6 +83,14 @@ In this case action button(s) will fill the row by sharing space equally if ther
 <Canvas>
   <Story of={DialogStories.DialogWithFullWidthAction} />
   <Story of={DialogStories.DialogWithFullWidthActions} />
+</Canvas>
+
+## TabGroup inside dialog
+
+Normally dialog contents has default padding in `bl-dialog` component. But `bl-tab-group` has full width in bl-dialog component.
+
+<Canvas>
+  <Story of={DialogStories.DialogWithTabGroup} />
 </Canvas>
 
 ## Preventing closing dialog

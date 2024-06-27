@@ -2,7 +2,7 @@ import { LocaleModule, configureLocalization } from "@lit/localize";
 import { sourceLocale, targetLocales, allLocales } from "./generated/locale-codes";
 import * as templatesTR from "./generated/locales/tr";
 
-type LangKey = "tr" | "en";
+export type LangKey = "tr" | "en";
 
 const localizedTemplates = new Map<string, LocaleModule>([["tr", templatesTR]]);
 

@@ -1,0 +1,123 @@
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { Meta, Story, ArgsTable, Canvas } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Spinner"
+  component="bl-spinner"
+  argTypes={{
+    size: {
+      control: { type: 'text' }
+    },
+    color: {
+      control: { type: 'color' }
+    },
+    disabled: {
+      control: { type: 'boolean' }
+    },
+    overlay: {
+      control: { type: 'boolean' }
+    }
+  }}
+/>
+
+export const SingleSpinnerTemplate = (args) => html`
+  <bl-spinner
+    size=${ifDefined(args.size)}
+    color=${ifDefined(args.color)}
+    ?disabled=${args.disabled}
+    ?overlay=${args.overlay}
+  ></bl-spinner>
+`;
+
+# Spinner
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/866)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/design/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=22561-4806&t=ZRWH4f0rmvSOcERj-0)</bl-badge>
+
+The `<bl-spinner>` component is used to indicate loading states. It can be customized in terms of size, color, disabled state, and overlay.
+
+## Stand-alone Spinner
+
+This example shows the default spinner with customizable size and color properties.
+
+<Canvas>
+  <Story name="Default Spinner">
+      {SingleSpinnerTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Spinner Sizes
+
+The spinner can be displayed in various sizes by using custom size values.
+
+<Canvas>
+  <Story name="Spinner Sizes">
+    {(args) => html`
+      <div style="display: flex; gap: 16px;">
+        ${SingleSpinnerTemplate({ size: 'var(--bl-font-size-xs)', ...args })}
+        ${SingleSpinnerTemplate({ size: 'var(--bl-font-size-s)', ...args })}
+        ${SingleSpinnerTemplate({ size: 'var(--bl-font-size-m)', ...args })}
+        ${SingleSpinnerTemplate({ size: 'var(--bl-font-size-l)', ...args })}
+        ${SingleSpinnerTemplate({ size: 'var(--bl-font-size-xl)', ...args })}
+        ${SingleSpinnerTemplate({ size: '32px', ...args })}
+        ${SingleSpinnerTemplate({ size: '3rem', ...args })}
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## Disabled Spinner
+
+You can disable the spinner using the `disabled` property, which will change its color to indicate it is disabled.
+
+<Canvas>
+  <Story name="Disabled Spinner" args={{ size: 'var(--bl-font-size-xl)', disabled: true }}>
+    {SingleSpinnerTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Spinner Colors
+
+This example demonstrates the spinner with different color properties.
+
+<Canvas>
+  <Story name="Spinner Colors">
+    {(args) => html`
+      <div style="display: flex; gap: 16px;">
+        ${SingleSpinnerTemplate({ color: "var(--bl-color-info-highlight)", ...args })}
+        ${SingleSpinnerTemplate({ color: "var(--bl-color-danger)", ...args })}
+        ${SingleSpinnerTemplate({ color: "var(--bl-color-success)", ...args })}
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## Overlay Spinner
+
+The spinner can be displayed in overlay mode to indicate a loading state that covers its parent element.
+
+<Canvas>
+  <Story name="Overlay Spinner" args={{ size: 'var(--bl-font-size-m)', overlay: true }}>
+    {SingleSpinnerTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Relative Overlay
+
+This example demonstrates a spinner in overlay mode relative to its parent element.
+
+<Canvas>
+  <Story name="Relative Overlay">
+    {(args) => html`
+      <div style="display: flex; justify-content: center; position: relative; width: 200px; height: 200px; background-color: #FFF;">
+        ${SingleSpinnerTemplate({ size: 'var(--bl-font-size-xl)', color: "#FFF", overlay: true, ...args })}
+        <p style="display:flex; align-items: center; position: absolute;">Content</p>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-spinner" />

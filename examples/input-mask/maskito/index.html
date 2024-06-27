@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.0.0/dist/themes/default.css" />
+    <link rel="stylesheet" href="../src/styles/global.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.0.0/dist/baklava.js"></script>
+
+    <title>Baklava Design System with Multiple Input Masking Libraries</title>
+</head>
+<body>
+    <main>
+        <h1>Masked Inputs with Baklava & Maskito</h1>
+
+        <h3>Phone - USA:</h3>
+        <br />
+        <bl-input
+            id="inputPhoneUSA"
+            size="large"
+            icon="phone"
+            label="Phone Number"
+            placeholder="Enter phone number"
+            name="phone-usa"
+            autofocus
+        ></bl-input>
+
+        <br />
+
+        <h3>Phone - Kazakhstan:</h3>
+        <br />
+        <bl-input
+            id="inputPhoneKazakhstan"
+            size="large"
+            icon="phone"
+            label="Phone Number"
+            placeholder="Enter phone number"
+            name="phone-kazakhstan"
+            label-fixed
+        ></bl-input>
+
+        <br />
+
+        <h3>Text Area:</h3>
+        <br />
+        <bl-textarea
+            id="textarea"
+            size="large"
+            name="textarea"
+            label="Address"
+            placeholder="Enter your address"
+            spellcheck
+        ></bl-textarea>
+
+        <br />
+
+        <h3>Input with prefix by pattern mask expression:</h3>
+        <br />
+        <bl-input
+            id="inputWithPrefixByPatternMaskExpression"
+            size="large"
+            name="price"
+            label="Price"
+            placeholder="Enter price"
+            icon="money"
+        ></bl-input>
+
+        <br />
+
+        <h3>Input with prefix by postprocessor:</h3>
+        <br />
+        <bl-input
+            id="inputWithPrefixByPostprocessor"
+            size="large"
+            name="price-prefix"
+            label="Price"
+            placeholder="Enter price"
+            icon="money"
+        ></bl-input>
+
+        <br />
+
+        <h3>Input with postfix by pattern mask expression:</h3>
+        <br />
+        <bl-input
+            id="inputWithPostfixByPatternMaskExpression"
+            size="large"
+            name="amount"
+            label="Amount"
+            placeholder="Enter amount"
+            help-text="example: 99%"
+            label-fixed
+        ></bl-input>
+
+        <br />
+
+        <h3>Input with postfix by postprocessor:</h3>
+        <br />
+        <bl-input
+            id="inputWithPostfixByPostprocessor"
+            size="large"
+            name="price-postfix"
+            label="Price"
+            placeholder="Enter price"
+            icon="money"
+            help-text="$199.00"
+        ></bl-input>
+
+        <br />
+
+        <h3>Input CVC:</h3>
+        <br />
+        <bl-input
+            id="inputWithPlaceholderCVC"
+            size="large"
+            icon="wallet"
+            label="CVC"
+            placeholder="xxx"
+        ></bl-input>
+
+        <br />
+
+        <h3>Input Phone:</h3>
+        <br />
+        <bl-input
+            id="inputWithPlaceholderPhone"
+            size="large"
+            icon="phone"
+            label="Phone Number"
+        ></bl-input>
+
+        <br />
+
+        <h3>Input Date:</h3>
+        <br />
+        <bl-input
+            id="inputWithPlaceholderDate"
+            size="large"
+            name="date"
+            label="Date"
+            label-fixed
+        ></bl-input>
+    </main>
+
+    <script type="module" src="../src/examples/maskito/index.ts"></script>
+</body>
+</html>
