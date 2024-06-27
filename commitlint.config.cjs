@@ -33,6 +33,7 @@ module.exports = {
         "textarea",
         "popover",
         "notification",
+        "calendar",
         "table",
         "split-button",
       ],
