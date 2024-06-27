@@ -126,7 +126,7 @@ export default class BlCalendar extends LitElement {
   /**
    * Fires when date selection changes
    */
-  @event("bl-calendar") private _onBlCalendarChange: EventDispatcher<Date | Date[]>;
+  @event("bl-calendar-change") private _onBlCalendarChange: EventDispatcher<Date[]>;
   static get styles(): CSSResultGroup {
     return [style];
   }
