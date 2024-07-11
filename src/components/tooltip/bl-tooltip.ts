@@ -1,11 +1,11 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { ReferenceElement } from "@floating-ui/core";
+import { getTarget } from "../../utilities/elements";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../popover/bl-popover";
-import type BlPopover from "../popover/bl-popover";
-import { Placement } from "../popover/bl-popover";
+import BlPopover, { Placement } from "../popover/bl-popover";
 import style from "./bl-tooltip.css";
 
 /**
@@ -22,7 +22,7 @@ export default class BlTooltip extends LitElement {
   }
 
   @query(".trigger") private trigger: ReferenceElement;
-  @query("bl-popover") private popover: BlPopover;
+  @query("bl-popover") private _popover: BlPopover;
 
   /**
    * Sets placement of the tooltip
@@ -40,28 +40,83 @@ export default class BlTooltip extends LitElement {
    */
   @event("bl-tooltip-hide") private onHide: EventDispatcher<string>;
 
+  @property() target: string | Element;
+
+  protected update(changedProperties: PropertyValues) {
+    if (changedProperties.has("target")) {
+      const prev = changedProperties.get("target");
+
+      if (prev) {
+        this._removeEvents(prev);
+      }
+
+      this._addEvents();
+    }
+
+    super.update(changedProperties);
+  }
+
+  private _addEvents() {
+    const target = getTarget(this.target);
+
+    if (target) {
+      target.addEventListener("focus", this.show, { capture: true });
+      target.addEventListener("mouseover", this.show);
+      target.addEventListener("blur", this.hide, { capture: true });
+      target.addEventListener("mouseleave", this.hide);
+    }
+  }
+
+  private _removeEvents(value: string | Element) {
+    const target = getTarget(value);
+
+    if (target) {
+      target.removeEventListener("focus", this.show, { capture: true });
+      target.removeEventListener("mouseover", this.show);
+      target.removeEventListener("blur", this.hide, { capture: true });
+      target.removeEventListener("mouseleave", this.hide);
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    this.show = this.show.bind(this);
+    this.hide = this.hide.bind(this);
+
+    this._addEvents();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+
+    this._removeEvents(this.target);
+  }
+
   /**
    * Shows tooltip
    */
   show() {
-    this.popover.target = this.trigger;
-    this.popover.show();
-    this.onShow();
+
+  this._popover.target = this.target ?? this.trigger;
+  this._popover.show();
+  this.onShow();
   }
 
   /**
    * Hides tooltip
    */
   hide() {
-    this.popover.hide();
-    this.onHide();
+
+  this._popover.hide();
+  this.onHide();
   }
 
   /**
    * Gives the visibility status of the tooltip
    */
   get visible(): boolean {
-    return this.popover.visible;
+    return this._popover.visible;
   }
 
   private triggerTemplate() {
@@ -79,9 +134,9 @@ export default class BlTooltip extends LitElement {
 
   render(): TemplateResult {
     return html`
-      ${this.triggerTemplate()}
+      ${this.target ? "" : this.triggerTemplate()}
       <bl-popover
-        .target="${this.trigger}"
+        .target="${this.target ?? this.trigger}"
         placement="${ifDefined(this.placement)}"
         @bl-popover-hide="${() => this.onHide()}"
       >

@@ -34,6 +34,7 @@ export const CheckboxGroupTemplate = (args) => html`
     name='${ifDefined(args.name)}'
     value='${ifDefined(args.value)}'
     ?required=${args.required}
+    invalid-text='${ifDefined(args.customInvalidText)}'
     >${args.options.map((option) =>
       html`\n  <bl-checkbox value=${option.value}>${option.label}</bl-checkbox>`
     )}
@@ -46,6 +47,12 @@ export const StyledTemplate = (args) => html`
   }
 </style>
 ${CheckboxGroupTemplate(args)}
+`
+
+export const FormTemplate = (args) => html`<form class="stacked-form" novalidate>
+${CheckboxGroupTemplate(args)}
+<bl-button type="submit">Submit</bl-button>
+</form>
 `
 
 export const focusSecondOption = async ({ }) => {
@@ -77,6 +84,36 @@ By default checkbox options are listed in vertical stack. You can change this by
 <Canvas>
   <Story name="Horizontal Stack" args={{ label: 'Favorite animals', name: 'favoriteAnimals',  options: [{ value: 'cat', label: 'Cat'}, {value: 'dog', label: 'Dog'}],class: 'favorite-animals' }}>
     {StyledTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Checkbox Group Validation
+
+Checkbox Group component has 'required' validation rule. If there is no selected checkbox in checkbox group with 'required' attribute, component will not be validated.
+
+Also custom invalid text can be passed by 'invalid-text' attribute.
+
+<Canvas isColumn>
+  <Story name="Validation"
+         args={{label: 'Checkbox Group', name: 'favoriteAnimals',  options: [{ value: 'cat', label: 'Cat'}, {value: 'dog', label: 'Dog'}],class: 'favorite-animals', required: true}}
+  >
+    {StyledTemplate.bind({})}
+  </Story>
+
+  <Story name="Validation with custom text"
+         args={{label: 'Checkbox Group with Custom Invalid Text', name: 'favoriteAnimals',  options: [{ value: 'cat', label: 'Cat'}, {value: 'dog', label: 'Dog'}],class: 'favorite-animals', required: true, customInvalidText: "Please select at least 1 option"}}
+  >
+    {StyledTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Using within a form
+
+<Canvas>
+  <Story name="Form Usage"
+         args={{label: 'Favorite Animals', name: 'favoriteAnimals',  options: [{ value: 'cat', label: 'Cat'}, {value: 'dog', label: 'Dog'}],class: 'favorite-animals', required: true}}
+  >
+    {FormTemplate.bind({})}
   </Story>
 </Canvas>
 

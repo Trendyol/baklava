@@ -1,13 +1,18 @@
-import { CSSResultGroup, html, LitElement, PropertyValues } from "lit";
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, queryAll, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { autoUpdate, computePosition, flip, MiddlewareState, offset, size } from "@floating-ui/dom";
+import { msg, localized } from "@lit/localize";
 import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
+import { LangKey } from "../../localization";
 import { event, EventDispatcher } from "../../utilities/event";
+import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
+import "../button/bl-button";
 import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
+import "../checkbox-group/checkbox/bl-checkbox";
 import "../icon/bl-icon";
 import style from "../select/bl-select.css";
 import "../select/option/bl-select-option";
@@ -30,6 +35,7 @@ export type CleanUpFunction = () => void;
  * @cssproperty [--bl-popover-position=fixed] Sets the positioning strategy of select popover. You can set it as `absolute` if you need to show popover relative to its trigger element.
  */
 @customElement("bl-select")
+@localized()
 export default class BlSelect<ValueType extends FormValue = string> extends FormControlMixin(
   LitElement
 ) {
@@ -147,14 +153,14 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Views select all option in multiple select
    */
-  @property({ type: Boolean, attribute: "view-select-all" })
+  @property({ type: Boolean, attribute: "view-select-all", converter: stringBooleanConverter() })
   viewSelectAll = false;
 
   /**
    * Sets select all text in multiple select
    */
   @property({ type: String, attribute: "select-all-text" })
-  selectAllText = "Select All";
+  selectAllText?: string;
 
   /**
    * Enable search functionality for the options within the list
@@ -171,20 +177,24 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   /**
    * Display a loading icon in place of the search icon.
    */
-  @property({ type: Boolean, attribute: "search-bar-loading-state", reflect: true })
+  @property({
+    type: Boolean,
+    attribute: "search-bar-loading-state",
+    converter: stringBooleanConverter(),
+  })
   searchBarLoadingState = false;
 
   /**
    * Text to display when no search results are found.
    */
   @property({ type: String, attribute: "search-not-found-text", reflect: true })
-  searchNotFoundText = "No Data Found";
+  searchNotFoundText?: string;
 
   /**
    * Text to display on the clear search button.
    */
   @property({ type: String, attribute: "popover-clear-search-text", reflect: true })
-  popoverClearSearchText = "Clear Search";
+  popoverClearSearchText?: string;
 
   /* Declare internal reactive properties */
   @state()
@@ -219,6 +229,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
    * Fires when search text changes
    */
   @event("bl-search") private _onBlSearch: EventDispatcher<string>;
+
+  private userLang =
+    (document.querySelector("html")?.getAttribute("lang") as LangKey | null) || navigator.language;
 
   private _connectedOptions: BlSelectOption<ValueType>[] = [];
 
@@ -378,9 +391,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       : "";
 
     const isSearchBarVisible = this.searchBar && this.opened;
-    const isMultipleWithSelection = this.multiple && this._selectedOptions.length > 0;
+    const hasSelectedOptions = this._selectedOptions.length > 0;
 
-    const isDividerShown = isSearchBarVisible || isMultipleWithSelection;
+    const isDividerShown = isSearchBarVisible || (hasSelectedOptions && isRemoveButtonShown);
+
+    const searchbarPlaceholderText =
+      this.searchBarPlaceholder ?? msg("Search", { desc: "bl-select: search placeholder text" });
 
     const searchMagIcon = html`<bl-icon
       class="search-mag-icon"
@@ -388,11 +404,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
     ></bl-icon>`;
 
-    const searchLoadingIcon = html`<bl-icon
-      class="search-loading-icon"
-      name="loading"
-      style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
-    ></bl-icon>`;
+    const searchSpinner = html`<bl-spinner class="search-spinner"></bl-spinner>`;
 
     const actionDivider = isDividerShown ? html`<div class="action-divider"></div>` : "";
 
@@ -402,6 +414,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         "has-overflowed-options": this._additionalSelectedOptionCount > 0,
       })}
       tabindex="${this.disabled ? "-1" : 0}"
+      .autofocus=${this.autofocus}
       role="button"
       aria-haspopup="listbox"
       aria-expanded="${this.opened}"
@@ -415,8 +428,15 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         : html`
             <input
               class="search-bar-input"
-              placeholder="${ifDefined(this.searchBarPlaceholder || this.label)}"
+              placeholder=${this.opened || this.labelFixed
+                ? searchbarPlaceholderText
+                : this.label || searchbarPlaceholderText}
               @input=${this._handleSearchOptions}
+              @keydown=${(e: KeyboardEvent) => {
+                if (e.code === "Space") {
+                  e.stopPropagation();
+                }
+              }}
               .value=${this._searchText}
             />
           `}
@@ -426,12 +446,15 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           >`
         : ""}
 
-      <div class="actions" @click=${this.togglePopover}>
-        ${this.opened ? (this.searchBarLoadingState ? searchLoadingIcon : searchMagIcon) : ""}
+      <div class="actions">
+        ${this.opened ? (this.searchBarLoadingState ? searchSpinner : searchMagIcon) : ""}
         ${!this.opened ? removeButton : ""} ${actionDivider}
-        <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
 
-        <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
+        <div @click=${this._togglePopover}>
+          <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
+
+          <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
+        </div>
       </div>
     </fieldset>`;
 
@@ -442,9 +465,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
             "select-input": true,
             "has-overflowed-options": this._additionalSelectedOptionCount > 0,
           })}
-          tabindex="${this.disabled ? "-1" : 0}"
+          tabindex="${ifDefined(this.disabled ? undefined : 0)}"
           ?autofocus=${this.autofocus}
-          @click=${this.togglePopover}
+          @click=${this._togglePopover}
           role="button"
           aria-haspopup="listbox"
           aria-expanded="${this.opened}"
@@ -472,7 +495,10 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     const isAllRenderedOptionsSelected = this._connectedOptions
       .filter(option => !option.hidden)
       .every(option => option.selected);
+
     const isAnySelected = this._selectedOptions.filter(option => !option.hidden).length > 0;
+    const selectAllText =
+      this.selectAllText ?? msg("Select All", { desc: "bl-select: select all text" });
 
     return html`<bl-checkbox
       class="select-all"
@@ -482,11 +508,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       aria-selected="${isAllRenderedOptionsSelected}"
       @bl-checkbox-change="${this._handleSelectAll}"
     >
-      ${this.selectAllText}
+      ${selectAllText}
     </bl-checkbox>`;
   }
 
-  render() {
+  render(): TemplateResult {
     const invalidMessage = !this.checkValidity()
       ? html`<p id="errorMessage" aria-live="polite" class="invalid-text">
           ${this.validationMessage}
@@ -496,6 +522,13 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     const helpMessage = this.helpText ? html`<p class="help-text">${this.helpText}</p>` : "";
 
     const label = this.label ? html`<label id="label">${this.label}</label>` : "";
+
+    const noDataText =
+      this.searchNotFoundText ?? msg("No Data Found", { desc: "bl-select: search no data text" });
+
+    const clearSearchText =
+      this.popoverClearSearchText ??
+      msg("Clear Search", { desc: "bl-select: clear search button text" });
 
     return html`<div
       class=${classMap({
@@ -520,7 +553,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         <slot></slot>
         ${this.searchBar && this.noResultFound
           ? html`<div name="popover-clear-search-text" class="popover-no-result">
-              <span>${this.searchNotFoundText}</span>
+              <span>${noDataText}</span>
               <bl-button
                 variant="tertiary"
                 @click=${() => {
@@ -528,7 +561,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
                     target: HTMLInputElement;
                   });
                 }}
-                >${this.popoverClearSearchText}</bl-button
+                >${clearSearchText}</bl-button
               >
             </div>`
           : ""}
@@ -538,10 +571,39 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   }
 
   private focusedOptionIndex = -1;
+  private lastKeyPressedTime = 0;
+  private typedCharacters = "";
+  private keyPressThreshold = 500;
+
+  private handleFocusOptionByKey(key: string) {
+    const currentTime = Date.now();
+    const elapsedTimeSinceLastKeyPress = currentTime - this.lastKeyPressedTime;
+
+    if (elapsedTimeSinceLastKeyPress > this.keyPressThreshold) {
+      this.typedCharacters = "";
+    }
+
+    this.lastKeyPressedTime = currentTime;
+    this.typedCharacters += key.toLowerCase();
+
+    const matchingOptionIndex = this.options.findIndex(option => {
+      if (option.disabled) {
+        return false;
+      }
+      const optionText = option.innerText.trim().toLowerCase();
+
+      return optionText.startsWith(this.typedCharacters);
+    });
+
+    if (matchingOptionIndex !== -1) {
+      this.focusedOptionIndex = matchingOptionIndex;
+      this.options[matchingOptionIndex].focus();
+    }
+  }
 
   private handleKeydown(event: KeyboardEvent) {
     if (this.focusedOptionIndex === -1 && ["Enter", "Space"].includes(event.code)) {
-      this.togglePopover();
+      this._togglePopover();
       event.preventDefault();
     } else if (this._isPopoverOpen === false && ["ArrowDown", "ArrowUp"].includes(event.code)) {
       this.open();
@@ -550,22 +612,26 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       this.close();
       event.preventDefault();
     } else if (this._isPopoverOpen && ["ArrowDown", "ArrowUp"].includes(event.code)) {
+      const activeOptions = this.options.filter(option => !option.disabled);
+
       event.code === "ArrowDown" && this.focusedOptionIndex++;
       event.code === "ArrowUp" && this.focusedOptionIndex--;
 
       // Don't exceed array indexes
       this.focusedOptionIndex = Math.max(
         0,
-        Math.min(this.focusedOptionIndex, this.options.length - 1)
+        Math.min(this.focusedOptionIndex, activeOptions.length - 1)
       );
 
-      this.options[this.focusedOptionIndex].focus();
+      activeOptions[this.focusedOptionIndex].focus();
 
       event.preventDefault();
+    } else if (this._isPopoverOpen && !this.searchBar) {
+      this.handleFocusOptionByKey(event.key);
     }
   }
 
-  private togglePopover() {
+  private _togglePopover() {
     this._isPopoverOpen ? this.close() : this.open();
   }
 
@@ -595,7 +661,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     this._handleSearchEvent();
 
     this._connectedOptions.forEach(option => {
-      const isVisible = option.textContent?.toLowerCase().includes(this._searchText.toLowerCase());
+      const isVisible = option.textContent
+        ?.toLocaleLowerCase(this.userLang)
+        .includes(this._searchText.toLocaleLowerCase(this.userLang));
 
       option.hidden = !isVisible;
     });
@@ -624,8 +692,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _handleSingleSelect(optionItem: BlSelectOption<ValueType>) {
     this.value = optionItem.value;
 
+    this._searchText = "";
     this._handleSelectEvent();
-    this._isPopoverOpen = false;
+    this.close();
   }
 
   private _handleMultipleSelect() {
@@ -681,6 +750,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _onClickRemove(e: MouseEvent) {
     e.stopPropagation();
 
+    this._searchText = "";
+
     const selectedDisabledOptions = this._selectedOptions.filter(option => option.disabled);
 
     this._connectedOptions
@@ -715,7 +786,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   protected firstUpdated(): void {
     if (this.value === undefined) {
-      this.value = "" as ValueType;
+      if (this.multiple) {
+        this.value = [];
+      } else {
+        this.value = null;
+      }
     }
 
     this._initialValue = this._value;

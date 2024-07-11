@@ -43,6 +43,12 @@ export default class BlDialog extends LitElement {
   caption?: string;
 
   /**
+   * Determines if the dialog is critical, which disables closing through keyboard, backdrop, and close button interactions.
+   */
+  @property({ type: Boolean, reflect: true })
+  critical = false;
+
+  /**
    * Determines if dialog currently uses polyfilled version instead of native HTML Dialog. By
    * default, it uses native Dialog if the browser supports it, otherwise polyfills. You can force
    * using polyfill by setting this to true in some cases like to show some content on top of dialog
@@ -107,13 +113,15 @@ export default class BlDialog extends LitElement {
       document.body.style.overflow = "hidden";
       this.toggleFooterShadow();
       window?.addEventListener("keydown", event => this.onKeydown(event));
-      window?.addEventListener("resize", () => this.toggleFooterShadow());
+      window?.addEventListener("resize", this.toggleFooterShadow);
+      this.content?.addEventListener("scroll", this.toggleFooterShadow);
     } else {
       this.dialog?.close?.();
-      this.onClose({ isOpen: false });
+      this.onClose({ isOpen: false }, { bubbles: false });
       document.body.style.overflow = "auto";
       window?.removeEventListener("keydown", this.onKeydown);
       window?.removeEventListener("resize", this.toggleFooterShadow);
+      this.content?.removeEventListener("scroll", this.toggleFooterShadow);
     }
   }
 
@@ -128,6 +136,8 @@ export default class BlDialog extends LitElement {
   }
 
   private clickOutsideHandler = (event: MouseEvent) => {
+    if (this.critical) return;
+
     const eventPath = event.composedPath() as HTMLElement[];
 
     if (!eventPath.includes(this.container)) {
@@ -136,19 +146,23 @@ export default class BlDialog extends LitElement {
   };
 
   private onKeydown = (event: KeyboardEvent): void => {
-    if (event.code === "Escape" && this.open) {
+    if (event.code === "Escape" && this.open && !this.critical) {
       event.preventDefault();
       this.closeDialog("keyboard");
     }
   };
 
-  private toggleFooterShadow() {
-    if (this.content?.scrollHeight > this.content?.offsetHeight) {
-      this.footer?.classList?.add("shadow");
-    } else {
+  private toggleFooterShadow = () => {
+    const scrollTop = this.content?.scrollTop;
+    const scrollHeight = this.content?.scrollHeight;
+    const clientHeight = this.content?.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
       this.footer?.classList?.remove("shadow");
+    } else {
+      this.footer?.classList?.add("shadow");
     }
-  }
+  };
 
   private renderFooter() {
     return this._hasFooter
@@ -162,6 +176,14 @@ export default class BlDialog extends LitElement {
 
   private renderContainer() {
     const title = this.caption ? html`<h2 id="dialog-caption">${this.caption}</h2>` : "";
+    const closeButton = !this.critical
+      ? html`<bl-button
+          @click="${() => this.closeDialog("close-button")}"
+          icon="close"
+          variant="tertiary"
+          kind="neutral"
+        ></bl-button>`
+      : null;
 
     const classes = {
       "container": true,
@@ -169,15 +191,7 @@ export default class BlDialog extends LitElement {
     };
 
     return html` <div class="${classMap(classes)}">
-      <header>
-        ${title}
-        <bl-button
-          @click="${() => this.closeDialog("close-button")}"
-          icon="close"
-          variant="tertiary"
-          kind="neutral"
-        ></bl-button>
-      </header>
+      <header>${title} ${closeButton}</header>
       <section class="content"><slot></slot></section>
       ${this.renderFooter()}
     </div>`;

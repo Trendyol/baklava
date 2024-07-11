@@ -13,6 +13,7 @@ import {
   Middleware,
   MiddlewareState,
 } from "@floating-ui/dom";
+import { getTarget } from "../../utilities/elements";
 import { event, EventDispatcher } from "../../utilities/event";
 import style from "./bl-popover.css";
 
@@ -49,7 +50,7 @@ export default class BlPopover extends LitElement {
     return [style];
   }
 
-  @query(".popover") private popover: HTMLElement;
+  @query(".popover") private _popover: HTMLElement;
   @query(".arrow") private arrow: HTMLElement;
 
   /**
@@ -140,18 +141,18 @@ export default class BlPopover extends LitElement {
 
   private setPopover() {
     if (this.target) {
-      this.popoverAutoUpdateCleanup = autoUpdate(this.target as Element, this.popover, () => {
-        computePosition(this.target as Element, this.popover, {
+      this.popoverAutoUpdateCleanup = autoUpdate(this.target as Element, this._popover, () => {
+        computePosition(this.target as Element, this._popover, {
           placement: this.placement,
           strategy: "fixed",
           middleware: this.getMiddleware(),
         }).then(({ x, y, placement, middlewareData }) => {
-          Object.assign(this.popover.style, {
+          Object.assign(this._popover.style, {
             left: `${x}px`,
             top: `${y}px`,
           });
 
-          this.popover.dataset.placement = placement;
+          this._popover.dataset.placement = placement;
 
           if (middlewareData.arrow) {
             const { x: arrowX, y: arrowY } = middlewareData.arrow;
@@ -176,15 +177,16 @@ export default class BlPopover extends LitElement {
   }
 
   set target(value: string | Element) {
-    if (typeof value === "string") {
-      this._target = document.getElementById(value) as Element;
-    } else if (value instanceof Element) {
-      this._target = value;
-    } else {
+    const target = getTarget(value);
+
+    if (!target) {
       console.warn(
         "BlPopover target only accepts an Element instance or a string id of a DOM element."
       );
+      return;
     }
+
+    this._target = target;
   }
 
   /**
@@ -222,7 +224,7 @@ export default class BlPopover extends LitElement {
       const { parentElement } = event.target as HTMLElement;
       const isNestedPopover = this.contains(parentElement);
 
-      if (!isNestedPopover) {
+      if (!isNestedPopover && (event.target as HTMLElement).tagName === this.tagName) {
         this.hide();
       }
     }

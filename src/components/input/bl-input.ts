@@ -111,6 +111,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   min?: number | string;
 
   /**
+   * Sets the loading value for the input
+   */
+  @property({ type: Boolean, reflect: true })
+  loading = false;
+
+  /**
    * Sets the maximum acceptable value for the input
    */
   @property({ reflect: true })
@@ -325,7 +331,9 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
     const icon = html`
       <slot name="icon">
-        ${this.icon
+        ${this.loading && this.type === "search" && this.value !== "" && this.value !== null
+          ? html`<bl-spinner></bl-spinner>`
+          : this.icon
           ? html`<bl-icon name="${this.icon}"></bl-icon>`
           : html`<bl-icon class="error-icon" name="alert"></bl-icon>`}
       </slot>

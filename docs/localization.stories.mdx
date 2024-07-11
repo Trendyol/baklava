@@ -1,0 +1,47 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Localization" />
+
+# Localization
+
+Baklava comes equipped with built-in support for localization in both English (`en`) and Turkish (`tr`). It essentially examines the `lang` attribute of the `html` element and configures the locale accordingly. In the absence of a specified `lang` attribute, it defaults to English.
+To initialize localization, insert the following script at the head of your HTML file:
+
+```html
+<html lang="tr">
+  <head>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.1.0/dist/localization.js"></script>
+  </head>
+
+  <body>
+    ...
+  </body>
+</html>
+```
+
+Utilizing a mutation observer, modifications to the lang attribute will automatically trigger updates across all localized components, seamlessly adapting them to the new language setting.
+
+## Submitting New Translations or Improvements
+
+If you wish to contribute new translations or enhancements to existing ones, kindly submit a pull request on GitHub. The translations can be found in the [translations](https://github.com/Trendyol/baklava/tree/next/translations) folder.
+
+To add a new translation, follow these steps:
+
+<ol>
+  <li>Add the language short code to `lit-localize.json`.</li>
+  <li>Execute `npm run localize:extract` to extract the new language file.</li>
+  <li>Update the newly created file in the translations folder.</li>
+  <li>Execute `npm run localize:build` to generate the new language file.</li>
+</ol>
+
+Submit a new pull request with the aforementioned changes.
+
+## Adding New Localized Texts
+
+To include localized texts, adhere to the following guidelines:
+
+* A component should have `@localized()` added to its decorator.
+* The `msg` function should possess a description in the format: *"bl-component: description of the message"*.
+* The `msg` function should feature a default value in English.
+* No property should have a default value in English; instead, it should be defined elsewhere in the code, preferably in the render section.
+

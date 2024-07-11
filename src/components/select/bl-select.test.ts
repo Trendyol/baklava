@@ -14,7 +14,9 @@ describe("bl-select", () => {
   });
 
   it("renders with default values", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select></bl-select>`);
+    const el = await fixture<BlSelect>(html`<bl-select>
+      <bl-select-option value="1">Option 1</bl-select-option>
+    </bl-select>`);
 
     assert.shadowDom.equal(
       el,
@@ -68,6 +70,12 @@ describe("bl-select", () => {
     expect(helpMessage).to.exist;
     expect(helpMessage?.innerText).to.equal(helpText);
   });
+  it("should not show popover if there is no option", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select></bl-select>`);
+    const popover = el.shadowRoot?.querySelector(".popover");
+
+    expect(popover).to.have.style("display", "none");
+  });
   it("should render bl-select-options", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>
       <bl-select-option value="1">Option 1</bl-select-option>
@@ -117,7 +125,7 @@ describe("bl-select", () => {
     expect(selectedOptions?.textContent).contains("Option 3");
   });
   it("should open select menu", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
+    const el = await fixture<BlSelect>(html`<bl-select><bl-select-option value="1">Option 1</bl-select-option></bl-select>`);
 
     const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
 
@@ -126,7 +134,7 @@ describe("bl-select", () => {
     expect(el.opened).to.true;
   });
   it("should close select menu", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select>button</bl-select>`);
+    const el = await fixture<BlSelect>(html`<bl-select><bl-select-option value="1">Option 1</bl-select-option></bl-select>`);
 
     const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
 
@@ -137,7 +145,7 @@ describe("bl-select", () => {
   });
   it("should close select menu when click outside & run validations", async () => {
     const el = await fixture<BlSelect>(html`<body>
-      <bl-select required invalid-text="This field is mandatory"></bl-select>
+      <bl-select required invalid-text="This field is mandatory"><bl-select-option value="1">Option 1</bl-select-option></bl-select>
     </body>`);
 
     const selectInput = el.shadowRoot?.querySelector<HTMLDivElement>(".select-input");
@@ -336,8 +344,8 @@ describe("bl-select", () => {
     });
   });
 
-  it("should show loading icon when the search loading state is true", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+  it("should open the popover and show loading icon when the search loading state is true", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar search-bar-loading-state>
       <bl-select-option value="tr">Turkey</bl-select-option>
       <bl-select-option value="en">United States of America</bl-select-option>
     </bl-select>`);
@@ -346,13 +354,19 @@ describe("bl-select", () => {
 
     searchInput?.focus();
 
-    const loadingIcon = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset bl-icon");
-
     await sendKeys({
-      type: "turkey",
+      type: "turk",
     });
 
-    expect(loadingIcon).to.exist;
+    el.open();
+    await elementUpdated(el);
+
+    expect(el.opened).to.be.true;
+
+    const loadingSpinner = el.shadowRoot?.querySelector("fieldset div.actions bl-spinner");
+
+    expect(loadingSpinner).to.exist;
+    expect(loadingSpinner?.getAttribute("size")).to.equal("var(--bl-font-size-m)");
   });
 
   it("should be displayed a 'no result' message  if the searched term does not match with any option", async () => {
@@ -413,6 +427,26 @@ describe("bl-select", () => {
     dropdownIcon?.click();
 
     await(()=> expect(document.activeElement).to.equal(el));
+  });
+
+  it("should not close popover when search is focused and user presses space key", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="tr">Turkey</bl-select-option>
+      <bl-select-option value="en">United States of America</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+    searchInput?.click();
+    searchInput?.focus();
+
+    await sendKeys({
+      press: "Space",
+    });
+
+    await elementUpdated(el);
+
+    expect(el.opened).to.true;
   });
 
   describe("additional selection counter", () => {
@@ -489,6 +523,47 @@ describe("bl-select", () => {
         expect(el.value).to.equal("1");
       });
     });
+    describe("no initial value", () => {
+      it("should not set empty option as selected when multiple and no value", async () => {
+        const el = await fixture<BlSelect>(html`<bl-select multiple name="test">
+          <bl-select-option value="1">Option 1</bl-select-option>
+          <bl-select-option value=""></bl-select-option>
+        </bl-select>`);
+
+        await elementUpdated(el);
+
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value=""]')?.selected).to.be
+          .false;
+
+      });
+
+      it("should not set empty option as selected when multiple, empty string value, selected option", async () => {
+        const el = await fixture<BlSelect>(html`<bl-select multiple name="test" value="">
+          <bl-select-option value="1" selected>Option 1</bl-select-option>
+          <bl-select-option value=""></bl-select-option>
+        </bl-select>`);
+
+        await elementUpdated(el);
+
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value=""]')?.selected).to.be
+          .false;
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value="1"]')?.selected).to.be
+          .true;
+
+      });
+
+      it("should not set empty option as selected when no value", async () => {
+        const el = await fixture<BlSelect>(html`<bl-select name="test">
+          <bl-select-option value="1">Option 1</bl-select-option>
+          <bl-select-option value=""></bl-select-option>
+        </bl-select>`);
+
+        await elementUpdated(el);
+
+        expect(el.querySelector<BlSelectOption>('bl-select-option[value=""]')?.selected).to.be
+          .false;
+      });
+    });
   });
 
   describe("form integration", () => {
@@ -563,6 +638,8 @@ describe("bl-select", () => {
           <bl-select-option value="basketball">Basketball</bl-select-option>
           <bl-select-option value="football">Football</bl-select-option>
           <bl-select-option value="tennis">Tennis</bl-select-option>
+          <bl-select-option value="boxing">Boxing</bl-select-option>
+          <bl-select-option value="hockey" disabled>Hockey</bl-select-option>
         </bl-select>
         <input id="nextinput" />
       </div>`);
@@ -594,6 +671,25 @@ describe("bl-select", () => {
 
       // then
       expect(document.activeElement).to.not.equal(blSelect);
+    });
+
+
+    it("should not open popover if it is disabled", async () => {
+      // if it is disabled, it should not open popover and return from function
+      blSelect.disabled = true;
+
+      // given
+
+      await sendKeys({
+        press: tabKey,
+      });
+
+      await sendKeys({
+        press: "Space",
+      });
+
+      // then
+      expect(blSelect.opened).to.equal(false);
     });
 
     ["Space", "Enter", "ArrowDown", "ArrowUp"].forEach(keyCode => {
@@ -669,6 +765,105 @@ describe("bl-select", () => {
 
       //then
       expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
+    });
+
+    it("should focus the first matching option when typing a single character", async () => {
+      const firstOption = el.querySelector<BlSelectOption>("bl-select-option");
+
+       //given
+       await sendKeys({
+         press: tabKey,
+       });
+       await sendKeys({
+        press: "Space",
+      });
+       await sendKeys({
+         press: "b",
+       });
+
+       //then
+       expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
+    });
+
+    it("should focus the first matching option when typing a single character with uppercase", async () => {
+      const firstOption = el.querySelector<BlSelectOption>("bl-select-option");
+
+       //given
+       await sendKeys({
+         press: tabKey,
+       });
+       await sendKeys({
+        press: "Space",
+      });
+       await sendKeys({
+         press: "B",
+       });
+
+       //then
+       expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
+    });
+
+    it("should focus the first matching option when typing two characters", async () => {
+      const fourthOption = el.querySelector<BlSelectOption>("bl-select-option:nth-child(4)");
+
+       //given
+       await sendKeys({
+         press: tabKey,
+       });
+       await sendKeys({
+        press: "Space",
+      });
+       await sendKeys({
+         press: "b",
+       });
+       await sendKeys({
+        press: "o",
+      });
+
+       //then
+       expect((document.activeElement as BlSelectOption).value).to.equal(fourthOption?.value);
+    });
+
+    it("should reset typed characters after an interval of inactivity", async () => {
+      const secondOption = el.querySelector<BlSelectOption>("bl-select-option:nth-child(2)");
+
+      // when
+      await sendKeys({
+        press: tabKey,
+      });
+      await sendKeys({
+        press: "Space",
+      });
+      await sendKeys({
+        press: "b",
+      });
+      // Wait for an interval of inactivity
+      await new Promise(resolve => setTimeout(resolve, 600));
+
+      await sendKeys({
+        press: "f",
+      });
+
+      //then
+      expect((document.activeElement as BlSelectOption).value).to.equal(secondOption?.value);
+    });
+
+    it("should not focus on the disabled option even if it matches the typed character", async () => {
+      const focusedOptions = el.querySelectorAll("bl-select-option:focus");
+
+       //given
+       await sendKeys({
+         press: tabKey,
+       });
+       await sendKeys({
+        press: "Space",
+      });
+       await sendKeys({
+         press: "h",
+       });
+
+       //then
+       expect(focusedOptions.length).to.equal(0);
     });
   });
 

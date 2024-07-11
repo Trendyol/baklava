@@ -1,0 +1,92 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Frameworks/Next" />
+
+# Using Baklava With Next
+
+Because Baklava uses static CDN and Next uses SSR, they are not compatible by default. We have 2 options. We can wait for the CDN to load before rendering the page, or we can force baklava to use Client Side Rendering.
+
+## Preparation
+
+Install the NPM package to your project.
+
+```bash
+npm install @trendyol/baklava
+```
+
+Include Baklava library from CDN to your project's `<head>` section (in `layout.tsx` or `app.tsx`).
+
+```html
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.1.0/dist/themes/default.css"
+/>
+
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.1.0/dist/baklava.js"
+/>
+```
+
+
+## Using without SSR
+
+Create a custom component for the baklava component you will use
+
+```jsx
+"use client"; // This is a client-side component
+
+import { BlButton } from "@trendyol/baklava/dist/baklava-react"; // Import the component from the library
+
+// Create a new component that uses the library component
+const Button = (props: React.ComponentProps<typeof BlButton>) => (
+  <BlButton {...props}>Click me!</BlButton>
+);
+
+export default Button;
+```
+
+In the page, import the component using `dynamic` with ssr off.
+
+```jsx
+const Button = dynamic(() => import("@/components/Button"), { ssr: false });
+```
+
+[Here is the demo repository](https://github.com/trendyol/baklava/tree/next/examples/next-app-router-ssr). You can also preview it live with [StackBlitz](https://stackblitz.com/github/trendyol/baklava/tree/next/examples/next-app-router-ssr).
+
+## Using with SSR
+
+We will use a workaround in order to wait for CDN to be loaded. In `_app.tsx`, add a 0ms latency for the `<Component />`.
+
+```jsx
+export default function MyApp({ Component, pageProps }: AppProps) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  setTimeout(() => {
+    setIsLoaded(true);
+  }, 0);
+
+  return isLoaded && <Component {...pageProps} />
+}
+```
+
+Then import components just like regular react.
+
+```jsx
+import { BlButton } from '@trendyol/baklava/dist/baklava-react';
+
+function Button() {
+  return <BlButton>Click Me</BlButton>
+}
+```
+
+### Testing with Jest
+
+If you are using Server Side Rendering, you can mock Baklava components as JSX components in Jest.
+
+```js
+jest.mock('@trendyol/baklava/dist/baklava-react', () => ({
+  ...jest.requireActual('@trendyol/baklava/dist/baklava-react'),
+  BlPagination: (props: any) => <div data-testId="current-page-mock">{props['current-page']}</div>,
+}));
+```

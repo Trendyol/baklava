@@ -11,6 +11,8 @@ module.exports = {
         "deps",
         "deps-dev",
         // Components as scopes listed below
+        "accordion",
+        "accordion-group",
         "button",
         "icon",
         "input",
@@ -31,6 +33,9 @@ module.exports = {
         "textarea",
         "popover",
         "notification",
+        "calendar",
+        "table",
+        "split-button",
       ],
     ],
   },

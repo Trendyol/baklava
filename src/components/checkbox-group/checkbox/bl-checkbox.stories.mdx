@@ -36,7 +36,8 @@ export const CheckboxTemplate = (args) => html`<bl-checkbox
   name='${ifDefined(args.name)}'
   value='${ifDefined(args.value)}'
   ?indeterminate=${args.indeterminate}
-  ?required=${args.required}>${args.label}</bl-checkbox>`;
+  ?required=${args.required}
+  invalid-text='${ifDefined(args.customInvalidText)}'>${args.label}</bl-checkbox>`;
 
 export const CheckboxLimitedWidthTemplate = (args) => html`<div style="max-width: 100px">
   ${CheckboxTemplate(args)}
@@ -45,6 +46,12 @@ export const CheckboxLimitedWidthTemplate = (args) => html`<div style="max-width
 export const CheckboxDifferentBackgroundTemplate = (args) => html`<div style="padding: 20px; background-color: var(--bl-color-primary-contrast);">
   ${CheckboxTemplate(args)}
 </div>`;
+
+export const FormTemplate = (args) => html`<form class="stacked-form" novalidate>
+${CheckboxTemplate(args)}
+<bl-button type="submit">Submit</bl-button>
+</form>
+`
 
 # Checkbox
 
@@ -123,13 +130,26 @@ Disabled state can be set via `disabled` attribute. A checkbox can be `disabled`
   </Story>
 </Canvas>
 
+## Validation
+
+Checkbox component has 'required' validation rule. Also custom invalid text can be passed by 'invalid-text' attribute
+
+<Canvas isColumn>
+  <Story name="Validation" args={{ label: 'Checkbox with default validation message',value:'1',required:true,name:"accept_term" }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+  <Story name="Validation with Custom Text" args={{ label: 'Checkbox with default custom validation message',value:'1',required:true,name:"accept_term",customInvalidText:'This field is mandatory' }}>
+    {CheckboxTemplate.bind({})}
+  </Story>
+</Canvas>
+
 ## Form
 
 Provide the name and the value of the checkbox element, so that its value can be set on the form element
 
 <Canvas>
   <Story name="Form Usage" args={{ label: 'Terms and conditions',value:'1',required:true,name:"accept_term" }}>
-    {CheckboxTemplate.bind({})}
+    {FormTemplate.bind({})}
   </Story>
 </Canvas>
 

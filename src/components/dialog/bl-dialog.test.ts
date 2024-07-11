@@ -208,6 +208,26 @@ describe("bl-dialog", () => {
       await resetMouse();
     });
 
+    it("should prevent parent dialog from closing when the child dialog is closed", async () => {
+      const dialog = await fixture<typeOfBlDialog>(html`<bl-dialog id="parent" open>
+        <bl-dialog id="child" open>
+          Child dialog
+        </bl-dialog>
+      </bl-dialog>`);
+
+      const childDialog =  dialog.querySelector("bl-dialog") as typeOfBlDialog;
+      const childDialogCloseBtn = childDialog?.shadowRoot?.querySelector("bl-button");
+
+      expect(dialog.open).to.equal(true);
+
+      childDialogCloseBtn?.click();
+
+      setTimeout(() => {
+        expect(dialog.open).to.equal(true);
+        expect(childDialog.open).to.equal(false);
+      });
+    });
+
     it("should add shadow to footer when the content is too long", async () => {
       window.innerWidth = 400;
 
@@ -284,6 +304,88 @@ describe("bl-dialog", () => {
       const footer = el?.shadowRoot?.querySelector("footer") as HTMLElement;
 
       expect(footer.className).to.oneOf(["shadow", ""]);
+    });
+
+    it("should remove shadow from footer when hitting bottom", async () => {
+      window.innerWidth = 400;
+
+      const el = await fixture<HTMLElement>(html`<bl-dialog open caption="My title">
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <p>
+          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
+          section 1.10.32.
+        </p>
+        <bl-button slot="primary-action" size="large">Primary</bl-button>
+        <bl-button slot="secondary-action" variant="secondary" size="large">Secondary</bl-button>
+      </bl-dialog>
+    </body>`);
+
+      const content = el.shadowRoot?.querySelector(".content") as HTMLElement;
+      const footer = el?.shadowRoot?.querySelector("footer") as HTMLElement;
+
+      content.scrollTop = content.scrollHeight;
+      await new Promise(resolve => requestAnimationFrame(resolve));
+
+      expect(footer).to.not.have.class("shadow");
     });
 
     describe("Events", () => {
@@ -373,6 +475,59 @@ describe("bl-dialog", () => {
 
         expect(el.open).to.be.true;
       });
+    });
+  });
+
+  describe("critical dialog tests", () => {
+    it("should not close the critical dialog when the close button is clicked", async () => {
+      const el = await fixture<typeOfBlDialog>(html`<bl-dialog critical open caption="Critical Dialog">
+        <div>Content that cannot be dismissed without taking action.</div>
+      </bl-dialog>`);
+
+      const closeBtn = el.shadowRoot?.querySelector("bl-button");
+
+      expect(el.critical).to.be.true;
+
+      closeBtn?.click();
+      await elementUpdated(el);
+
+      expect(el.open).to.be.true;
+    });
+
+    it("should not close the critical dialog when the escape key is pressed", async () => {
+      const el = await fixture<typeOfBlDialog>(html`<bl-dialog critical open caption="Critical Dialog">
+        <div>Content that cannot be dismissed without taking action.</div>
+      </bl-dialog>`);
+
+      expect(el.critical).to.be.true;
+
+      await sendKeys({ press: "Escape" });
+      await elementUpdated(el);
+
+      expect(el.open).to.be.true;
+    });
+
+    it("should not close the critical dialog when clicked outside", async () => {
+      const el = await fixture<typeOfBlDialog>(html`<bl-dialog critical open caption="Critical Dialog">
+        <div>Content that cannot be dismissed without taking action.</div>
+      </bl-dialog>`);
+
+      expect(el.critical).to.be.true;
+
+      await sendMouse({ type: "click", position: [0, 0] });
+      await elementUpdated(el);
+
+      expect(el.open).to.be.true;
+    });
+
+    it("should hide the close button for critical dialog", async () => {
+      const el = await fixture<typeOfBlDialog>(html`<bl-dialog critical open caption="Critical Dialog">
+        <div>Content that cannot be dismissed without taking action.</div>
+      </bl-dialog>`);
+
+      const closeBtn = el.shadowRoot?.querySelector("bl-button");
+
+      expect(closeBtn).to.be.null;
     });
   });
 });

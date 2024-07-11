@@ -4,7 +4,7 @@ import { Meta } from '@storybook/blocks';
 
 # Using Baklava in React
 
-React does not [compatible](https://custom-elements-everywhere.com/#react) with most of the web component features. React passes all props as string to Custom Components so object and array props don't pass in correct way. Also, since React uses its own synthetic event system, it can't listen events that dispatches from Custom Elements. For this reasons, we used [@lit-labs/react](https://www.npmjs.com/package/@lit-labs/react) package to convert Custom Elements to React components.
+React is not [compatible](https://custom-elements-everywhere.com/#react) with most of the web component features. React passes all props as string to Custom Components so object and array props don't pass in correct way. Also, since React uses its own synthetic event system, it can't listen events that dispatches from Custom Elements. For this reasons, we used [@lit-labs/react](https://www.npmjs.com/package/@lit-labs/react) package to convert Custom Elements to React components.
 
 ## Using with CDN
 
@@ -17,8 +17,8 @@ npm install @trendyol/baklava
 Include Baklava library from CDN to your project's `index.html` file's `<head>` section.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/themes/default.css"/>
-<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/baklava.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.1.0/dist/themes/default.css"/>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.1.0/dist/baklava.js"></script>
 ```
 
 Then you can use Baklava React components in your project by importing them from `@trendyol/baklava/dist/baklava-react` in your code.
@@ -62,7 +62,7 @@ import ReactDOM from "react-dom/client";
 import "@trendyol/baklava";
 import { setIconPath } from "@trendyol/baklava";
 import "@trendyol/baklava/dist/themes/default.css";
-setIconPath("https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/assets");
+setIconPath("https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.1.0/dist/assets");
 
 import App from "./App";
 
@@ -193,7 +193,7 @@ import "vitest-dom/extend-expect";
 import "@trendyol/baklava";
 import { setIconPath } from "@trendyol/baklava";
 import "@trendyol/baklava/dist/themes/default.css";
-setIconPath("https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/assets");
+setIconPath("https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.1.0/dist/assets");
 ```
 
 We are ready to write tests.

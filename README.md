@@ -2,7 +2,7 @@
 
 <h1 align="center">Baklava Design System</h1>
 
-<p align="center">
+<p style="display:flex;flex-direction:row;gap:10px;justify-content:center;">
   <a href="https://www.npmjs.com/package/@trendyol/baklava">
     <img src="https://img.shields.io/npm/v/@trendyol/baklava.svg" alt="NPM Package Stable" />
   </a>
@@ -29,8 +29,8 @@ Web implementation of the design system is created as native web components so i
 Preferred way of using Baklava is using it via CDN. Just import library JS and CSS files to your main document like below:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/themes/default.css" />
-<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@2.3.0/dist/baklava.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.1.0/dist/themes/default.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.1.0/dist/baklava.js"></script>
 ```
 
 This way library will be served from a very high performant CDN and all of the Baklava web components will be ready to use inside your web project.
