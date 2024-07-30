@@ -344,8 +344,8 @@ describe("bl-select", () => {
     });
   });
 
-  it("should show loading icon when the search loading state is true", async () => {
-    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+  it("should open the popover and show loading icon when the search loading state is true", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar search-bar-loading-state>
       <bl-select-option value="tr">Turkey</bl-select-option>
       <bl-select-option value="en">United States of America</bl-select-option>
     </bl-select>`);
@@ -354,13 +354,19 @@ describe("bl-select", () => {
 
     searchInput?.focus();
 
-    const loadingIcon = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset bl-icon");
-
     await sendKeys({
-      type: "turkey",
+      type: "turk",
     });
 
-    expect(loadingIcon).to.exist;
+    el.open();
+    await elementUpdated(el);
+
+    expect(el.opened).to.be.true;
+
+    const loadingSpinner = el.shadowRoot?.querySelector("fieldset div.actions bl-spinner");
+
+    expect(loadingSpinner).to.exist;
+    expect(loadingSpinner?.getAttribute("size")).to.equal("var(--bl-font-size-m)");
   });
 
   it("should be displayed a 'no result' message  if the searched term does not match with any option", async () => {
@@ -773,7 +779,7 @@ describe("bl-select", () => {
       });
        await sendKeys({
          press: "b",
-       }); 
+       });
 
        //then
        expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
@@ -791,7 +797,7 @@ describe("bl-select", () => {
       });
        await sendKeys({
          press: "B",
-       }); 
+       });
 
        //then
        expect((document.activeElement as BlSelectOption).value).to.equal(firstOption?.value);
@@ -809,10 +815,10 @@ describe("bl-select", () => {
       });
        await sendKeys({
          press: "b",
-       }); 
+       });
        await sendKeys({
         press: "o",
-      }); 
+      });
 
        //then
        expect((document.activeElement as BlSelectOption).value).to.equal(fourthOption?.value);
@@ -833,11 +839,11 @@ describe("bl-select", () => {
       });
       // Wait for an interval of inactivity
       await new Promise(resolve => setTimeout(resolve, 600));
-    
+
       await sendKeys({
         press: "f",
       });
-    
+
       //then
       expect((document.activeElement as BlSelectOption).value).to.equal(secondOption?.value);
     });
@@ -854,7 +860,7 @@ describe("bl-select", () => {
       });
        await sendKeys({
          press: "h",
-       }); 
+       });
 
        //then
        expect(focusedOptions.length).to.equal(0);
