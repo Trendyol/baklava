@@ -24,6 +24,10 @@ label {
   margin-bottom: var(--bl-size-3xs);
 }
 
+.checkbox-container {
+  position: relative;
+}
+
 input[type="checkbox"] {
   appearance: none;
   outline: none;

@@ -198,6 +198,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
     const requiredSuffix = this.required ? html`<span class="required-suffix">*</span>` : "";
 
     const classes = {
+      "checkbox-container": true,
       "dirty": this.dirty,
       "invalid": !this.checkValidity(),
     };

@@ -76,6 +76,10 @@ header h2 {
   overflow: auto;
 }
 
+:host([critical]) .content {
+  padding-top: 0;
+}
+
 .container.has-footer .content {
   padding-bottom: 0;
 }
@@ -103,4 +107,10 @@ footer.shadow {
   footer {
     flex-flow: column wrap;
   }
+}
+
+::slotted(bl-tab-group) {
+  display: block;
+  transform: translateX(calc(var(--bl-size-xl) * -1));
+  width: calc(100% + calc(var(--bl-size-xl) * 2));
 }
