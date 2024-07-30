@@ -91,6 +91,7 @@ export const SingleInputTemplate = (args) => html`<bl-input
     label='${ifDefined(args.label)}'
     placeholder='${ifDefined(args.placeholder)}'
     value='${ifDefined(args.value)}'
+    ?loading=${ifDefined(args.loading)}
     ?required='${args.required}'
     ?disabled='${args.disabled}'
     ?readonly='${args.readonly}'
@@ -106,29 +107,6 @@ export const SingleInputTemplate = (args) => html`<bl-input
     icon='${ifDefined(args.icon)}'
     size='${ifDefined(args.size)}'
   >${args.slot?.()}</bl-input>`
-
-export const SingleInputTemplateWithSpinner = (args) => html`
-<style>
-  .spinner {
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-</style>
-
-${SingleInputTemplate({
-  ...args,
-  slot: () => html`<bl-icon slot="icon" name="loading" class="spinner"></bl-icon>`,
-})}
-`
 
 export const SizeVariantsTemplate = args => html`
 ${SingleInputTemplate({ size: 'large', ...args })}
@@ -229,12 +207,8 @@ Input also supports slot icons for more complex use cases. You can use `icon` sl
 
 <Canvas>
   <Story name="Input With Slot Icon"
-         args={{ placeholder: 'Name', slot: () => html`<bl-icon slot="icon" name="flash"></bl-icon>` }}>
+        args={{ placeholder: 'Name', slot: () => html`<bl-icon slot="icon" name="flash"></bl-icon>` }}>
     {SingleInputTemplate.bind({})}
-  </Story>
-  <Story name="Input With Spinner"
-         args={{ placeholder: 'Name' }}>
-    {SingleInputTemplateWithSpinner.bind({})}
   </Story>
 </Canvas>
 
@@ -330,6 +304,25 @@ Input can be set as disabled by adding `disabled` attribute.
          args={{ type: 'text', label: 'User Name', icon: 'profile', disabled: true }}
   >
     {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Search Input with Loading Attribute
+
+This example demonstrates how to use the `bl-spinner` component inside a search input field. The spinner is displayed to indicate that a search operation is in progress.
+The `loading` attribute is set to `true` to show the spinner inside the input field.
+
+<Canvas>
+  <Story name="Input with Loading Spinner" args={{ placeholder: 'Search Loading Example', type: 'search', loading: true }}>
+    {args => html`
+      <bl-input
+        id="searchInput"
+        placeholder=${ifDefined(args.placeholder)}
+        type=${ifDefined(args.type)}
+        label=${ifDefined(args.label)}
+        loading=${ifDefined(args.loading)}
+      ></bl-input>
+    `}
   </Story>
 </Canvas>
 

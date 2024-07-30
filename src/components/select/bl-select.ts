@@ -404,11 +404,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
     ></bl-icon>`;
 
-    const searchLoadingIcon = html`<bl-icon
-      class="search-loading-icon"
-      name="loading"
-      style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
-    ></bl-icon>`;
+    const searchSpinner = html`<bl-spinner class="search-spinner"></bl-spinner>`;
 
     const actionDivider = isDividerShown ? html`<div class="action-divider"></div>` : "";
 
@@ -451,7 +447,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
         : ""}
 
       <div class="actions">
-        ${this.opened ? (this.searchBarLoadingState ? searchLoadingIcon : searchMagIcon) : ""}
+        ${this.opened ? (this.searchBarLoadingState ? searchSpinner : searchMagIcon) : ""}
         ${!this.opened ? removeButton : ""} ${actionDivider}
 
         <div @click=${this._togglePopover}>
@@ -696,8 +692,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _handleSingleSelect(optionItem: BlSelectOption<ValueType>) {
     this.value = optionItem.value;
 
+    this._searchText = "";
     this._handleSelectEvent();
-    this._isPopoverOpen = false;
+    this.close();
   }
 
   private _handleMultipleSelect() {
