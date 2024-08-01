@@ -1,4 +1,4 @@
-let iconPath = "./assets";
+let iconPath = "https://cdn.jsdelivr.net/npm/@trendyol/baklava-icons@latest/icons";
 
 export function setIconPath(path: string) {
   iconPath = path;
@@ -6,10 +6,4 @@ export function setIconPath(path: string) {
 
 export function getIconPath() {
   return iconPath;
-}
-
-const modulePath = import.meta.url;
-
-if (modulePath) {
-  setIconPath(new URL(iconPath, modulePath).toString());
 }

@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import '@trendyol/baklava';
 import '@trendyol/baklava/dist/themes/default.css';
 import { setIconPath } from '@trendyol/baklava';
-setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.0.0/dist/assets');
+setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava-icons@latest/icons');
 
 import './styles/global.css';
 

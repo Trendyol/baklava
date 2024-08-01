@@ -51,3 +51,4 @@ suggestions, code improvements, adding new features or fixing problems. For more
 * [Project Board](https://github.com/orgs/Trendyol/projects/4)
 * [Discussion Board](https://github.com/Trendyol/baklava/discussions)
 * [Mobile (React-Native) Implementation](https://github.com/Trendyol/baklava-react-native)
+* [Icons Library](https://github.com/Trendyol/baklava-icons)
