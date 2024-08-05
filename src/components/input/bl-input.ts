@@ -233,8 +233,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   private onKeydown = (event: KeyboardEvent): void => {
-    if (event.code === "Enter" && this.form && event.defaultPrevented === false) {
-      submit(this.form);
+    if (event.code === "Enter" && this.form) {
+      setTimeout(() => {
+        if (!event.defaultPrevented) {
+          submit(this.form);
+        }
+      });
     }
   };
 
