@@ -333,5 +333,5 @@ export const CaptionLineClampDialog: Story = {
     closeAction: "Confirm"
   },
   render: CaptionLineClampTemplate,
-  play: dialogOpener("dl-dl-caption-line-clamp")
+  play: dialogOpener("dl-caption-line-clamp")
 };
