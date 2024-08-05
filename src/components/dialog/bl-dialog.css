@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: column;
   background: var(--background-color);
+  width: var(--bl-dialog-width, auto);
   max-width: calc(100vw - var(--bl-size-4xl));
   max-height: calc(100vh - var(--bl-size-4xl));
   min-width: 424px;
@@ -64,9 +65,10 @@ header bl-button {
 header h2 {
   font: var(--bl-font-title-1-medium);
   color: var(--bl-color-neutral-darker);
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--bl-dialog-caption-line-clamp, 1);
   margin: 0;
   padding: 0;
 }

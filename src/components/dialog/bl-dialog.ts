@@ -13,6 +13,9 @@ type DialogElement = {
 /**
  * @tag bl-dialog
  * @summary Baklava Dialog component
+ *
+ * @cssproperty [--bl-dialog-width=auto] Sets the width of the dialog content
+ * @cssproperty [--bl-dialog-caption-line-clamp=1] Sets the line clamp of the caption
  */
 @customElement("bl-dialog")
 export default class BlDialog extends LitElement {
