@@ -351,6 +351,35 @@ describe("bl-input", () => {
 
       expect(ev).to.exist;
     });
+
+    it("should not submit if keydown event is prevented", async () => {
+      const form = await fixture<HTMLFormElement>(html`<form novalidate>
+        <bl-input name="user" value="name"></bl-input>
+        <button type="submit">Submit</button>
+      </form>`);
+
+      const blInput = form.querySelector<BlInput>("bl-input");
+
+      blInput?.addEventListener("keydown", e => e.preventDefault());
+
+      await elementUpdated(form);
+
+      let eventFired = false;
+
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+        eventFired = true;
+      });
+
+      const enterEvent = new KeyboardEvent("keydown", {
+        code: "Enter",
+        cancelable: true,
+      });
+
+      blInput?.dispatchEvent(enterEvent);
+
+      expect(eventFired).to.be.false;
+    });
   });
 
   describe("loading state and custom icons", () => {
