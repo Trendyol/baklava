@@ -354,6 +354,16 @@ When you run this example and submit the form, you'll see key/value pairs of the
 
 <bl-alert icon>If user presses `Enter` key in an input inside a form, this will trigger submit of the form. This behaviour mimics the native input behaviour.</bl-alert>
 
+If you want to prevent input to submit the form, you can listen `keydown` event and prevent it's default behaviour.
+
+```js
+document.querySelector('bl-input').addEventListener('keydown', (event) => {
+  if (event.code === "Enter") {
+    event.preventDefault();
+  }
+});
+```
+
 ## Input Masking
 
 Input masking is essential in user interfaces that require formatted entries such as phone numbers and dates, ensuring consistent and structured user input.
