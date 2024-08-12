@@ -185,6 +185,7 @@ export default class BlDialog extends LitElement {
           icon="close"
           variant="tertiary"
           kind="neutral"
+          size="small"
         ></bl-button>`
       : null;
 
