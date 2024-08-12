@@ -53,7 +53,7 @@
 header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--bl-size-2xs);
   padding: var(--bl-size-xl) var(--bl-size-xl) 0 var(--bl-size-xl);
 }

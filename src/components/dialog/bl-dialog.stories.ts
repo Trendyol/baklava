@@ -160,7 +160,7 @@ ${BasicTemplate({...args, className: "limited-width", content: `<div class="cont
 
 const SizingTemplate = (args: DialogArgs) => html`
 <style>
-  bl-dialog {
+  #dl-sizing {
     --bl-dialog-width: 31rem;
   }
 
@@ -207,7 +207,7 @@ when an unknown printer took a galley of type and scrambled it to make a type sp
 
 const CaptionLineClampTemplate = (args: DialogArgs) => html`
 <style>
-  bl-dialog {
+  #dl-caption-line-clamp {
     --bl-dialog-width: 31rem;
     --bl-dialog-caption-line-clamp: 2;
   }
