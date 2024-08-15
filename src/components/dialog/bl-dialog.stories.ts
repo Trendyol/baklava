@@ -160,8 +160,11 @@ ${BasicTemplate({...args, className: "limited-width", content: `<div class="cont
 
 const SizingTemplate = (args: DialogArgs) => html`
 <style>
+  #dl-sizing {
+    --bl-dialog-width: 31rem;
+  }
+
   .my-dialog-content {
-    width: 400px;
     height:200px;
     margin:0;
     padding:0;
@@ -202,6 +205,17 @@ when an unknown printer took a galley of type and scrambled it to make a type sp
 ` })}
 `;
 
+const CaptionLineClampTemplate = (args: DialogArgs) => html`
+<style>
+  #dl-caption-line-clamp {
+    --bl-dialog-width: 31rem;
+    --bl-dialog-caption-line-clamp: 2;
+  }
+</style>
+
+${BasicTemplate({...args, caption: "I am a very long text I am a very long text I am a very long text", content: "You can adjust the line clamp" })}
+`;
+
 export const BasicUsage: Story = {
   args: {
     id: "dl-basic",
@@ -231,7 +245,8 @@ export const DialogSizing: Story = {
     id: "dl-sizing",
     primaryAction: "Agree",
     secondaryAction: "Disagree",
-    tertiaryAction: "Cancel"
+    tertiaryAction: "Cancel",
+    caption: "I am a long text but I will not block the width."
   },
   render: SizingTemplate,
   play: dialogOpener("dl-sizing")
@@ -310,4 +325,13 @@ export const CriticalDialog: Story = {
   },
   render: FullWidthActionsTemplate,
   play: dialogOpener("dl-critical")
+};
+
+export const CaptionLineClampDialog: Story = {
+  args: {
+    id: "dl-caption-line-clamp",
+    closeAction: "Confirm"
+  },
+  render: CaptionLineClampTemplate,
+  play: dialogOpener("dl-caption-line-clamp")
 };

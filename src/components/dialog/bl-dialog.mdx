@@ -54,7 +54,15 @@ Critical dialogs are used to inform users about critical information or actions.
 The dialog doesn't have any default size, it will be fluidly sized regarding its content. You can give your own width and height style to your content.
 But dialog keeps itself inside the viewport. So dialog can not be bigger than the viewport.
 
+You can use the `--bl-dialog-width` css property to adjust the width of the dialog.
+
 <Canvas of={DialogStories.DialogSizing} />
+
+### Set the line clamp of the caption
+
+If your title has a width larger than the dialog width, you can specify how much of it you want to show by adjusting the `--bl-dialog-caption-line-clamp` property.
+
+<Canvas of={DialogStories.CaptionLineClampDialog} />
 
 ## Autofocusing elements in Dialog
 
