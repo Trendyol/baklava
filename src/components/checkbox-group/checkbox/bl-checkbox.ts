@@ -112,17 +112,10 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
     this.form?.removeEventListener("submit", e => this.handleSubmit(e));
   }
 
-  protected firstUpdated(changedProperties: Map<string, unknown>) {
-    if (changedProperties.has("checked") && this.checked) {
-      this.value = "on";
-      this.setValue(this.value);
-    }
-  }
-
   protected async updated(changedProperties: Map<string, unknown>): Promise<void> {
     if (changedProperties.has("checked") && this.required) {
       if (this.checked) {
-        this.setValue(this.value);
+        this.setValue("on");
       } else if (!this.checked) {
         this.setValue("");
       }

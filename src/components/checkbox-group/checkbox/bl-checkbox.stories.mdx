@@ -21,9 +21,6 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
       control: 'boolean',
       default: false
     },
-      value: {
-      control: 'text',
-    },
     required: {
       control: 'boolean',
     },
@@ -34,7 +31,6 @@ export const CheckboxTemplate = (args) => html`<bl-checkbox
   ?disabled=${args.disabled}
   ?checked=${args.checked}
   name='${ifDefined(args.name)}'
-  value='${ifDefined(args.value)}'
   ?indeterminate=${args.indeterminate}
   ?required=${args.required}
   invalid-text='${ifDefined(args.customInvalidText)}'>${args.label}</bl-checkbox>`;
@@ -135,10 +131,10 @@ Disabled state can be set via `disabled` attribute. A checkbox can be `disabled`
 Checkbox component has 'required' validation rule. Also custom invalid text can be passed by 'invalid-text' attribute
 
 <Canvas isColumn>
-  <Story name="Validation" args={{ label: 'Checkbox with default validation message',value:'1',required:true,name:"accept_term" }}>
+  <Story name="Validation" args={{ label: 'Checkbox with default validation message',required:true,name:"accept_term" }}>
     {CheckboxTemplate.bind({})}
   </Story>
-  <Story name="Validation with Custom Text" args={{ label: 'Checkbox with default custom validation message',value:'1',required:true,name:"accept_term",customInvalidText:'This field is mandatory' }}>
+  <Story name="Validation with Custom Text" args={{ label: 'Checkbox with default custom validation message',required:true,name:"accept_term",customInvalidText:'This field is mandatory' }}>
     {CheckboxTemplate.bind({})}
   </Story>
 </Canvas>
@@ -148,7 +144,7 @@ Checkbox component has 'required' validation rule. Also custom invalid text can 
 Provide the name and the value of the checkbox element, so that its value can be set on the form element
 
 <Canvas>
-  <Story name="Form Usage" args={{ label: 'Terms and conditions',value:'1',required:true,name:"accept_term" }}>
+  <Story name="Form Usage" args={{ label: 'Terms and conditions',required:true,name:"accept_term" }}>
     {FormTemplate.bind({})}
   </Story>
 </Canvas>
