@@ -1,8 +1,10 @@
-import { CSSResultGroup, html, LitElement } from "lit";
+import { CSSResultGroup, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
+import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
+import { blDatepickerClearSelectedDatesEvent } from "../datepicker/bl-datepicker";
 import "../icon/bl-icon";
 import {
   CALENDAR_TYPES,
@@ -14,54 +16,25 @@ import style from "./bl-calendar.css";
 import {
   Calendar,
   CalendarDate,
-  CalendarType,
-  CalendarView,
   CalendarDay,
-  DayValues,
+  CalendarView,
   RangePickerDates,
 } from "./bl-calendar.types";
+
+export const blCalendarChangedEvent = "bl-calendar-change";
 
 /**
  * @tag bl-calendar
  * @summary Baklava Calendar component
  **/
 @customElement("bl-calendar")
-export default class BlCalendar extends LitElement {
-  /**
-   * Defines the calendar types, available types are single, multiple and range
-   */
-  @property()
-  type: CalendarType = CALENDAR_TYPES.SINGLE;
-
-  /**
-   * Defines the minimum date value for the calendar
-   */
-  @property({ type: Date, attribute: "min-date", reflect: true })
-  minDate: Date;
-
-  /**
-   * Defines the maximum date value for the calendar
-   */
-  @property({ type: Date, attribute: "max-date", reflect: true })
-  maxDate: Date;
-
-  /**
-   * Defines the start day of the calendar (1 defines monday)
-   */
-  @property({ type: Number, attribute: "start-of-week", reflect: true })
-  startOfWeek: DayValues = 0;
-
-  /**
-   * Defines the unselectable dates for calendar
-   */
-  @property({ type: Array, attribute: "disabled-dates", reflect: true })
-  disabledDates: Date[];
-
-  /**
-   * Defines the calendar language
-   */
-  @property()
-  locale: string = document.documentElement.lang;
+export default class BlCalendar extends DatepickerCalendarMixin {
+  constructor() {
+    super();
+    window.addEventListener(blDatepickerClearSelectedDatesEvent, () =>
+      this.handleClearSelectedDates()
+    );
+  }
 
   @state()
   private _selectedDates: CalendarDate[] = [];
@@ -87,24 +60,45 @@ export default class BlCalendar extends LitElement {
   @state()
   private _calendarDays: CalendarDay[] = [];
 
-  private _defaultValue: Date | Date[];
-
-  /**
-   * Defines the default selected date value for the calendar
-   */
-  @property({ type: Array, attribute: "default-value", reflect: true })
-  get defaultValue(): Date | Date[] {
-    return this._defaultValue;
-  }
-  set defaultValue(defaultValue) {
-    if (this.type === CALENDAR_TYPES.SINGLE && Array.isArray(defaultValue)) {
-      console.warn("Invalid prop value for defaultValue");
-    } else if (this.defaultValue) {
-      if (Array.isArray(this.defaultValue)) {
-        this._selectedDates = { ...this.defaultValue };
-      } else this._selectedDates = [this.defaultValue];
+  @property({ attribute: "default-value", reflect: true })
+  set defaultValue(defaultValue: Date | Date[]) {
+    if (!this._defaultValue) {
+      if (this.type === CALENDAR_TYPES.SINGLE && Array.isArray(defaultValue)) {
+        console.warn("Invalid prop value.Default value should be Date");
+      } else if (
+        (this.type === CALENDAR_TYPES.MULTIPLE || this.type === CALENDAR_TYPES.RANGE) &&
+        !Array.isArray(defaultValue)
+      ) {
+        console.warn("Invalid prop value.Default value should be Date array");
+      } else if (
+        this.type === CALENDAR_TYPES.RANGE &&
+        Array.isArray(defaultValue) &&
+        (defaultValue.length < 0 || defaultValue.length > 2)
+      ) {
+        console.warn("Invalid prop value.Default value should be two Date items");
+      } else {
+        this._defaultValue = defaultValue;
+        if (this.type === CALENDAR_TYPES.SINGLE && !Array.isArray(this._defaultValue)) {
+          this._selectedDates = [this._defaultValue];
+        } else if (this.type === CALENDAR_TYPES.MULTIPLE && Array.isArray(this._defaultValue)) {
+          this._selectedDates = this._defaultValue;
+        } else if (this.type === CALENDAR_TYPES.RANGE && Array.isArray(this._defaultValue)) {
+          this._selectedDates = this._defaultValue;
+          this._selectedRangeDates.startDate = this._defaultValue[0];
+          this._selectedRangeDates.endDate = this._defaultValue[1];
+          this.setHoverClass();
+        }
+        this._onBlCalendarChange(this._selectedDates);
+      }
     }
   }
+
+  public handleClearSelectedDates = () => {
+    this._selectedDates = [];
+    this._onBlCalendarChange([]);
+    this.clearRangePickerStyles();
+  };
+
   get months() {
     return [...Array(12).keys()].map(month => {
       return {
@@ -126,7 +120,7 @@ export default class BlCalendar extends LitElement {
   /**
    * Fires when date selection changes
    */
-  @event("bl-calendar-change") private _onBlCalendarChange: EventDispatcher<Date[]>;
+  @event(blCalendarChangedEvent) private _onBlCalendarChange: EventDispatcher<Date[]>;
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -437,41 +431,41 @@ export default class BlCalendar extends LitElement {
             return html` <div class="calendar-text weekday-text">${key}</div> `;
           })}</div>
         <div class="days-wrapper">
-        ${[...Array(valuesArray[0].length).keys()].map(key => {
-          return html`<div class="week-row">
-            ${valuesArray.map(values => {
-              const date = values[key];
-              const isSelectedDay = this.checkIfSelectedDate(date);
-              const isDayToday = this.checkIfDateIsToday(date);
-              const isDisabledDay = this.checkIfDateIsDisabled(date);
+          ${[...Array(valuesArray[0].length).keys()].map(key => {
+            return html`<div class="week-row">
+              ${valuesArray.map(values => {
+                const date = values[key];
+                const isSelectedDay = this.checkIfSelectedDate(date);
+                const isDayToday = this.checkIfDateIsToday(date);
+                const isDisabledDay = this.checkIfDateIsDisabled(date);
 
-              const classes = classMap({
-                "day": true,
-                "calendar-text": true,
-                "today-day": isDayToday,
-                "selected-day": isSelectedDay,
-                "other-month-day": values[key].getMonth() !== this._calendarMonth,
-                "disabled-day": isDisabledDay,
-              });
+                const classes = classMap({
+                  "day": true,
+                  "calendar-text": true,
+                  "today-day": isDayToday,
+                  "selected-day": isSelectedDay,
+                  "other-month-day": values[key].getMonth() !== this._calendarMonth,
+                  "disabled-day": isDisabledDay,
+                });
 
-              return html`
-                <div class="day-wrapper">
-                  <bl-button
-                    id=${date.getTime()}
-                    variant="tertiary"
-                    kind="neutral"
-                    size="small"
-                    class=${classes}
-                    ?disabled=${isDisabledDay}
-                    @click="${() => !isDisabledDay && this.handleDate(date)}"
-                  >
-                    ${date.getDate()}
-                  </bl-button>
-                </div>
-              `;
-            })}
-          </div>`;
-        })}
+                return html`
+                  <div class="day-wrapper">
+                    <bl-button
+                      id=${date.getTime()}
+                      variant="tertiary"
+                      kind="neutral"
+                      size="small"
+                      class=${classes}
+                      ?disabled=${isDisabledDay}
+                      @click="${() => !isDisabledDay && this.handleDate(date)}"
+                    >
+                      ${date.getDate()}
+                    </bl-button>
+                  </div>
+                `;
+              })}
+            </div>`;
+          })}
         </div>
         </div>`;
       } else if (calendarView === CALENDAR_VIEWS.MONTHS) {

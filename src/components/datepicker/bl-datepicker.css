@@ -1,0 +1,118 @@
+
+:host{
+  width: fit-content;
+  display: block;
+
+}
+
+.datepicker-content{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: fit-content;
+
+  --icon-size: var(--line-height);
+  --icon-color: var(--bl-color-neutral-light);
+
+}
+
+.input-container {
+  position: relative;
+  display: inline-block;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 200px; /* Adjust the width as needed */
+  height: 1.5em;
+  overflow: hidden;
+}
+
+.input-wrapper input {
+  width: 100%;
+  height: 100%;
+  padding-right: 1em;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.input-wrapper .input-value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  background: white;
+  pointer-events: none; /* Prevent interaction */
+  z-index: 0;
+}
+
+
+.a{
+  margin: 0;
+  list-style: none;
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.datepicker-input {
+  width: 314px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.icon-container{
+  display:flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  gap: var(--icon-gap);
+  flex-basis: var(--icon-size);
+  align-self: center;
+  margin-right: var(--label-padding);
+  font-size: var(--icon-size);
+  color: var(--icon-color);
+  height: var(--icon-size);
+}
+
+.popover {
+  --left: 0;
+  --top: 0;
+
+  position: var(--popover-position);
+  border: solid 1px var(--border-color);
+  background-color: var(--background-color);
+  font: var(--bl-font-title-3-regular);
+  border-radius: var(--bl-border-radius-s);
+  padding: var(--menu-padding);
+  outline: none;
+  box-sizing: border-box;
+  max-height: var(--menu-height);
+  overflow-y: auto;
+  display: none;
+  flex-direction: column;
+  z-index: var(--bl-index-popover);
+  width: 100%;
+  top: var(--top);
+  left: var(--left);
+}
+
+.show-popover{
+  display: block;
+}
