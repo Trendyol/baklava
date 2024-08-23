@@ -1,11 +1,9 @@
-
-:host{
+:host {
   width: fit-content;
   display: block;
-
 }
 
-.datepicker-content{
+.datepicker-content {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -13,7 +11,6 @@
 
   --icon-size: var(--line-height);
   --icon-color: var(--bl-color-neutral-light);
-
 }
 
 .input-container {
@@ -55,8 +52,7 @@
   z-index: 0;
 }
 
-
-.a{
+.a {
   margin: 0;
   list-style: none;
   flex: 1;
@@ -73,8 +69,8 @@
   flex: 1;
 }
 
-.icon-container{
-  display:flex;
+.icon-container {
+  display: flex;
   gap: 5px;
   align-items: center;
 }
@@ -113,6 +109,6 @@
   left: var(--left);
 }
 
-.show-popover{
+.show-popover {
   display: block;
 }
