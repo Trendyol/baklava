@@ -1,6 +1,7 @@
 :host {
   width: fit-content;
   display: block;
+  --bl-input-cursor: pointer;
 }
 
 .datepicker-content {
@@ -11,54 +12,6 @@
 
   --icon-size: var(--line-height);
   --icon-color: var(--bl-color-neutral-light);
-}
-
-.input-container {
-  position: relative;
-  display: inline-block;
-}
-
-.input-wrapper {
-  position: relative;
-  width: 200px; /* Adjust the width as needed */
-  height: 1.5em;
-  overflow: hidden;
-}
-
-.input-wrapper input {
-  width: 100%;
-  height: 100%;
-  padding-right: 1em;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  background: transparent;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
-.input-wrapper .input-value {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 0.5em;
-  border: 1px solid #ccc;
-  background: white;
-  pointer-events: none; /* Prevent interaction */
-  z-index: 0;
-}
-
-.a {
-  margin: 0;
-  list-style: none;
-  flex: 1;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 .datepicker-input {
@@ -75,7 +28,7 @@
   align-items: center;
 }
 
-.icon {
+.calendarIcon {
   display: flex;
   align-items: center;
   gap: var(--icon-gap);

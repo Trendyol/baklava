@@ -33,6 +33,11 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
    */
   @property()
   label: string;
+  /**
+   * Defines the custom formatter function
+   */
+  @property({ type: Function })
+  valueFormatter: ((dates: CalendarDate[], type: string) => string) | null = null;
 
   @state()
   private _isPopoverOpen = false;
@@ -65,26 +70,37 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
    * Fires when date selection is changed
    */
   @event(blDatepickerChangedEvent) private _onBlDatepickerChanged: EventDispatcher<Date[]>;
+
+  private _defaultValueFormatter(dates: CalendarDate[]) {
+    if (this.type === CALENDAR_TYPES.SINGLE && this._selectedDates.length === 1) {
+      this._value = `${this.formatDate(this._selectedDates[0])}`;
+    } else if (this.type === CALENDAR_TYPES.MULTIPLE) {
+      const values: string[] = [];
+
+      this._selectedDates.slice(0, this._fittingDateCount).forEach(date => {
+        values.push(this.formatDate(date));
+      });
+      this._value = values.join(",") + (this._floatingDateCount >= 0 ? " ,..." : "");
+    } else if (this.type === CALENDAR_TYPES.RANGE && dates.length === 2) {
+      this._value = `${this.formatDate(this._selectedDates[0])} - ${this.formatDate(
+        this._selectedDates[1]
+      )}`;
+    }
+  }
+
   setDatePickerInput(dates: Date[] | []) {
     if (!dates.length) {
       this._value = "";
     } else {
       this._selectedDates = dates;
-      if (this.type === CALENDAR_TYPES.SINGLE && this._selectedDates.length === 1) {
-        this._value = `${this.formatDate(this._selectedDates[0])}`;
-      } else if (this.type === CALENDAR_TYPES.MULTIPLE) {
-        const values: string[] = [];
 
-        this._selectedDates.slice(0, this._fittingDateCount).forEach(date => {
-          values.push(this.formatDate(date));
-        });
-        this._value = values.join(",") + (this._floatingDateCount >= 0 ? " ,..." : "");
-      } else if (this.type === CALENDAR_TYPES.RANGE && dates.length === 2) {
-        this._value = `${this.formatDate(this._selectedDates[0])} - ${this.formatDate(
-          this._selectedDates[1]
-        )}`;
+      if (this.valueFormatter) {
+        this._value = this.valueFormatter(this._selectedDates, this.type);
+      } else {
+        this._defaultValueFormatter(this._selectedDates);
       }
     }
+
     this._onBlDatepickerChanged(this._selectedDates);
     this.requestUpdate();
   }
@@ -100,7 +116,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     this._onBlDatepickerCleared([]);
   }
 
-  open() {
+  openPopover() {
     setTimeout(() => {
       document.activeElement?.shadowRoot?.querySelector("bl-input")?.focus();
     }, 100);
@@ -111,7 +127,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     document.addEventListener("focus", this._interactOutsideHandler, true);
   }
 
-  close() {
+  closePopover() {
     this._isPopoverOpen = false;
     this._cleanUpPopover && this._cleanUpPopover();
 
@@ -122,7 +138,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     const eventPath = event.composedPath() as HTMLElement[];
 
     if (!eventPath?.find(el => el.tagName === "BL-DATEPICKER")?.contains(this)) {
-      this.close();
+      this.closePopover();
     }
   };
 
@@ -149,15 +165,39 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     });
   }
   private _togglePopover() {
-    this._isPopoverOpen ? this.close() : this.open();
+    this._isPopoverOpen ? this.closePopover() : this.openPopover();
   }
 
   firstUpdated() {
     const element = this.shadowRoot?.getElementById("datepicker-input");
 
-    element?.addEventListener("blur", () => {
-      element.focus();
+    element?.addEventListener("mousedown", event => {
+      event.preventDefault(); // Prevent focus from causing text selection
     });
+
+    // If input loses focus and the calendar is clicked, prevent the focus loss
+    document.addEventListener("mousedown", event => {
+      const path = event.composedPath();
+
+      if (path.includes(this._popover) || (element && path.includes(element))) {
+        event.preventDefault();
+
+        element?.focus();
+      }
+    });
+  }
+
+  formatStringWithLineBreaks(str: string) {
+    const parts = str.split(",");
+
+    // Create an array of elements
+    return parts.reduce((acc, part, index) => {
+      if (index > 0 && index % 3 === 0) {
+        acc.push(html`<br />`);
+      }
+      acc.push(html`<span>${part}, </span>`);
+      return acc;
+    }, []);
   }
   render() {
     const datepickerInput = this.shadowRoot?.getElementById("datepicker-input");
@@ -182,6 +222,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           .minDate=${this.minDate}
           .maxDate="${this.maxDate}"
           .startOfWeek="${this.startOfWeek}"
+          .disabledDates="${this.disabledDates}"
           @bl-calendar-change="${(event: CustomEvent) => this.setDatePickerInput(event.detail)}"
         ></bl-calendar>
       </div>
@@ -194,12 +235,14 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
       })
       .join(",");
 
+    const formattedAdditionalDates = this.formatStringWithLineBreaks(additionalDates);
+
     const additionalDatesView =
       this._floatingDateCount > 0
         ? html`<bl-tooltip placement="top">
             <span slot="tooltip-trigger">+${this._floatingDateCount}</span>
-            <span>${additionalDates}</span></bl-tooltip
-          >`
+            <div>${formattedAdditionalDates}</div>
+          </bl-tooltip>`
         : "";
 
     return html`
@@ -215,6 +258,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           aria-expanded="${this._isPopoverOpen}"
           aria-labelledby="label"
           @click=${this._togglePopover}
+          readOnly
         >
           <div slot="icon" class="icon-container" id="icon-container">
             ${additionalDatesView}
@@ -225,7 +269,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
               icon="close"
               @click=${() => this.clearDatepicker()}
             ></bl-button>
-            <bl-icon name="calendar" size="small" class="icon"></bl-icon>
+            <bl-icon name="calendar" size="small" class="calendarIcon"></bl-icon>
           </div>
         </bl-input>
         ${renderCalendar}

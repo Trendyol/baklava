@@ -53,7 +53,7 @@ Datepicker renders the calendar component within itself and provides the functio
 Default datepicker type is `single` and you can only select a single day from datepicker.
 
 <Canvas>
-  <Story name="Single Type Datepicker" args={{ type: 'single' }}>
+  <Story name="Single Type Datepicker" args={{ type: 'single',label:'Single Datepicker',placeholder:'Select a date' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -63,7 +63,7 @@ Default datepicker type is `single` and you can only select a single day from da
 You can select multiple days from Datepicker.
 
 <Canvas>
-  <Story name="Multiple Type Datepicker" args={{ type: 'multiple' }}>
+  <Story name="Multiple Type Datepicker" args={{ type: 'multiple',label:'Multiple Datepicker',placeholder:'Select multiple dates' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -74,7 +74,7 @@ You can select multiple days from Datepicker.
 You can select date range from Datepicker.
 
 <Canvas>
-  <Story name="Range Type Datepicker" args={{ type: 'range' }}>
+  <Story name="Range Type Datepicker" args={{ type: 'range',label:'Range Datepicker',placeholder:'Select date range' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -84,12 +84,10 @@ You can select date range from Datepicker.
 You can set dates which you want to disable from Datepicker.
 
 <Canvas>
-  <Story name="Disabled Dates" args={{ type: 'single',disabledDates:`["${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}"]` }}>
+  <Story name="Disabled Dates" args={{  type: 'multiple',label:'Multiple Datepicker',placeholder:'Select multiple dates',disabledDates:`["${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}"]` }}>
     {Template.bind({})}
   </Story>
 </Canvas>
-
-
 ## Reference
 
 <ArgsTable of="bl-datepicker" />

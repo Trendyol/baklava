@@ -29,11 +29,14 @@ export const blCalendarChangedEvent = "bl-calendar-change";
  **/
 @customElement("bl-calendar")
 export default class BlCalendar extends DatepickerCalendarMixin {
-  constructor() {
-    super();
-    window.addEventListener(blDatepickerClearSelectedDatesEvent, () =>
-      this.handleClearSelectedDates()
-    );
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener(blDatepickerClearSelectedDatesEvent, this.handleClearSelectedDates);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener(blDatepickerClearSelectedDatesEvent, this.handleClearSelectedDates);
   }
 
   @state()
@@ -64,18 +67,24 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   set defaultValue(defaultValue: Date | Date[]) {
     if (!this._defaultValue) {
       if (this.type === CALENDAR_TYPES.SINGLE && Array.isArray(defaultValue)) {
-        console.warn("Invalid prop value.Default value should be Date");
+        console.warn(
+          "'defaultValue' must be of type Date when the date selection mode is set to single."
+        );
       } else if (
         (this.type === CALENDAR_TYPES.MULTIPLE || this.type === CALENDAR_TYPES.RANGE) &&
         !Array.isArray(defaultValue)
       ) {
-        console.warn("Invalid prop value.Default value should be Date array");
+        console.warn(
+          "'defaultValue' must be an array of two Date objects when the date selection mode is set to range."
+        );
       } else if (
         this.type === CALENDAR_TYPES.RANGE &&
         Array.isArray(defaultValue) &&
         (defaultValue.length < 0 || defaultValue.length > 2)
       ) {
-        console.warn("Invalid prop value.Default value should be two Date items");
+        console.warn(
+          "'defaultValue' must be an array of Date objects when the date selection mode is set to multiple."
+        );
       } else {
         this._defaultValue = defaultValue;
         if (this.type === CALENDAR_TYPES.SINGLE && !Array.isArray(this._defaultValue)) {
@@ -109,6 +118,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       };
     });
   }
+
   get days() {
     return [...Array(7).keys()].map(day => {
       return {
@@ -124,12 +134,15 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   static get styles(): CSSResultGroup {
     return [style];
   }
+
   getDayNumInAMonth(year: number, month: number) {
     return new Date(year, month + 1, 0).getDate();
   }
+
   getWeekDayOfDate(year: number, month: number) {
     return new Date(year, month, 1).getDay();
   }
+
   setPreviousCalendarView() {
     this.clearRangePickerStyles();
     if (this._calendarView === CALENDAR_VIEWS.DAYS) {
@@ -151,6 +164,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       this.setHoverClass();
     }
   }
+
   setNextCalendarView() {
     this.clearRangePickerStyles();
     if (this._calendarView === CALENDAR_VIEWS.DAYS) {
@@ -203,6 +217,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       );
     }
   }
+
   clearRangePickerStyles() {
     this.shadowRoot?.querySelectorAll(".range-day").forEach(day => {
       day.classList.remove("range-day");
@@ -214,6 +229,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       day.classList.remove("range-end-day");
     });
   }
+
   handleDate(date: CalendarDate) {
     if (this.type !== CALENDAR_TYPES.RANGE) {
       if (date.getMonth() < this._calendarMonth) {
@@ -230,14 +246,15 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     } else if (this.type === CALENDAR_TYPES.RANGE) {
       this.handleRangeSelectCalendar(date);
     }
-
     this._onBlCalendarChange(this._selectedDates);
     this.requestUpdate();
   }
+
   handleSingleSelectCalendar(calendarDate: CalendarDate) {
     this._selectedDates.splice(0, 1);
     this._selectedDates.push(calendarDate);
   }
+
   handleMultipleSelectCalendar(calendarDate: CalendarDate) {
     const dateExist = this._selectedDates.find(function (selectedDate) {
       return selectedDate.getTime() === calendarDate.getTime();
@@ -250,6 +267,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       );
     else this._selectedDates.push(calendarDate);
   }
+
   handleRangeSelectCalendar(calendarDate: CalendarDate) {
     if (!this._selectedRangeDates.startDate) {
       this._selectedRangeDates.startDate = calendarDate;
@@ -285,6 +303,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
 
     return !!day;
   }
+
   checkIfDateIsToday(calendarDate: CalendarDate) {
     const today = new Date();
 
