@@ -267,7 +267,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
               size="small"
               variant="tertiary"
               kind="neutral"
-              icon="close"
+              icon=${ifDefined(this._selectedDates.length ? "close" : undefined)}
               @click=${() => this.clearDatepicker()}
             ></bl-button>
             <bl-icon name="calendar" size="small" class="calendarIcon"></bl-icon>

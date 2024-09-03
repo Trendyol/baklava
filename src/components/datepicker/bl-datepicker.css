@@ -16,10 +16,8 @@
 
 .datepicker-input {
   width: 314px;
-  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  flex: 1;
 }
 
 .icon-container {
