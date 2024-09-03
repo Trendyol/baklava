@@ -1,4 +1,4 @@
-import { CSSResultGroup, html } from "lit";
+import { CSSResultGroup, html, TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -187,18 +187,19 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     });
   }
 
-  formatStringWithLineBreaks(str: string) {
+  formatStringWithLineBreaks(str: string): TemplateResult[] {
     const parts = str.split(",");
 
-    // Create an array of elements
-    return parts.reduce((acc, part, index) => {
+    // Explicitly type the accumulator as an array of TemplateResults
+    return parts.reduce<TemplateResult[]>((acc, part, index) => {
       if (index > 0 && index % 3 === 0) {
         acc.push(html`<br />`);
       }
-      acc.push(html`<span>${part}, </span>`);
+      acc.push(html`<span>${part.trim()}, </span>`);
       return acc;
     }, []);
   }
+
   render() {
     const datepickerInput = this.shadowRoot?.getElementById("datepicker-input");
     const iconsContainer = this.shadowRoot?.getElementById("icon-container");
