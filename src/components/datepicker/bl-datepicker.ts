@@ -2,7 +2,6 @@ import { CSSResultGroup, html, TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { autoUpdate, computePosition, flip, MiddlewareState, offset, size } from "@floating-ui/dom";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../calendar/bl-calendar";
@@ -57,8 +56,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   @query(".popover")
   private _popover: HTMLElement;
 
-  @query(".datepicker-input")
-  private _selectInput: HTMLElement;
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -133,12 +130,9 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   openPopover() {
-    setTimeout(() => {
-      document.activeElement?.shadowRoot?.querySelector("bl-input")?.focus();
-    }, 100);
+    document.activeElement?.shadowRoot?.querySelector("bl-input")?.focus();
 
     this._isPopoverOpen = true;
-    this._setupPopover();
     document.addEventListener("click", this._interactOutsideHandler, true);
     document.addEventListener("focus", this._interactOutsideHandler, true);
   }
@@ -158,28 +152,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     }
   };
 
-  private _setupPopover() {
-    this._cleanUpPopover = autoUpdate(this._selectInput, this._popover, () => {
-      computePosition(this._selectInput, this._popover, {
-        placement: "bottom",
-        strategy: "fixed",
-        middleware: [
-          flip(),
-          offset(8),
-          size({
-            apply(args: MiddlewareState) {
-              Object.assign(args.elements.floating.style, {
-                width: `${args.elements.reference.getBoundingClientRect().width}px`,
-              });
-            },
-          }),
-        ],
-      }).then(({ x, y }) => {
-        this._popover.style.setProperty("--left", `${x}px`);
-        this._popover.style.setProperty("--top", `${y}px`);
-      });
-    });
-  }
   private _togglePopover() {
     this._isPopoverOpen ? this.closePopover() : this.openPopover();
   }
@@ -202,7 +174,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     });
   }
 
-  formatStringWithLineBreaks(str: string): TemplateResult[] {
+  formatAdditionalDates(str: string): TemplateResult[] {
     const parts = str.split(",");
 
     return parts.reduce<TemplateResult[]>((acc, part, index) => {
@@ -238,7 +210,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
       })
       .join(",");
 
-    const formattedAdditionalDates = this.formatStringWithLineBreaks(additionalDates);
+    const formattedAdditionalDates = this.formatAdditionalDates(additionalDates);
 
     const additionalDatesView =
       this._floatingDateCount > 0

@@ -3,7 +3,7 @@
   --bl-input-cursor: pointer;
   --icon-size: var(--line-height);
   --icon-color: var(--bl-color-neutral-light);
-  position: relative;
+  display: block;
 }
 
 .datepicker-content {
@@ -38,8 +38,6 @@
 }
 
 .popover {
-  --left: 0;
-  --top: 0;
   position: var(--popover-position);
   border: solid 1px var(--border-color);
   background-color: var(--background-color);
@@ -51,11 +49,7 @@
   max-height: var(--menu-height);
   overflow-y: auto;
   display: none;
-  flex-direction: column;
   z-index: var(--bl-index-popover);
-  width: 100%;
-  top: var(--top);
-  left: var(--left);
 }
 
 .show-popover {
