@@ -1,7 +1,9 @@
 :host {
   width: fit-content;
-  display: block;
   --bl-input-cursor: pointer;
+  --icon-size: var(--line-height);
+  --icon-color: var(--bl-color-neutral-light);
+  position: relative;
 }
 
 .datepicker-content {
@@ -9,9 +11,6 @@
   flex-direction: column;
   gap: 8px;
   width: fit-content;
-
-  --icon-size: var(--line-height);
-  --icon-color: var(--bl-color-neutral-light);
 }
 
 .datepicker-input {
@@ -41,7 +40,6 @@
 .popover {
   --left: 0;
   --top: 0;
-
   position: var(--popover-position);
   border: solid 1px var(--border-color);
   background-color: var(--background-color);

@@ -72,6 +72,8 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   @event(blDatepickerChangedEvent) private _onBlDatepickerChanged: EventDispatcher<Date[]>;
 
   private _defaultValueFormatter(dates: CalendarDate[]) {
+    this.setFloatingDates();
+
     if (this.type === CALENDAR_TYPES.SINGLE && this._selectedDates.length === 1) {
       this._value = `${this.formatDate(this._selectedDates[0])}`;
     } else if (this.type === CALENDAR_TYPES.MULTIPLE) {
@@ -80,12 +82,23 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
       this._selectedDates.slice(0, this._fittingDateCount).forEach(date => {
         values.push(this.formatDate(date));
       });
-      this._value = values.join(",") + (this._floatingDateCount >= 0 ? " ,..." : "");
+      this._value = values.join(",") + (this._floatingDateCount > 0 ? " ,..." : "");
     } else if (this.type === CALENDAR_TYPES.RANGE && dates.length === 2) {
       this._value = `${this.formatDate(this._selectedDates[0])} - ${this.formatDate(
         this._selectedDates[1]
       )}`;
     }
+  }
+
+  setFloatingDates() {
+    const datepickerInput = this.shadowRoot?.getElementById("datepicker-input");
+    const iconsContainer = this.shadowRoot?.getElementById("icon-container");
+    const datesTextTotalWidth =
+      (datepickerInput?.offsetWidth as number) - (iconsContainer?.offsetWidth as number);
+
+    this._fittingDateCount = parseInt(String(datesTextTotalWidth / 90));
+
+    this._floatingDateCount = this._selectedDates.length - this._fittingDateCount;
   }
 
   setDatePickerInput(dates: Date[] | []) {
@@ -114,6 +127,9 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
   clearDatepicker() {
     this._onBlDatepickerCleared([]);
+    this._selectedDates = [];
+    this._value = "";
+    this._floatingDateCount = 0;
   }
 
   openPopover() {
@@ -172,10 +188,9 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     const element = this.shadowRoot?.getElementById("datepicker-input");
 
     element?.addEventListener("mousedown", event => {
-      event.preventDefault(); // Prevent focus from causing text selection
+      event.preventDefault();
     });
 
-    // If input loses focus and the calendar is clicked, prevent the focus loss
     document.addEventListener("mousedown", event => {
       const path = event.composedPath();
 
@@ -190,7 +205,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   formatStringWithLineBreaks(str: string): TemplateResult[] {
     const parts = str.split(",");
 
-    // Explicitly type the accumulator as an array of TemplateResults
     return parts.reduce<TemplateResult[]>((acc, part, index) => {
       if (index > 0 && index % 3 === 0) {
         acc.push(html`<br />`);
@@ -201,32 +215,20 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   render() {
-    const datepickerInput = this.shadowRoot?.getElementById("datepicker-input");
-    const iconsContainer = this.shadowRoot?.getElementById("icon-container");
-    const datesTextTotalWidth =
-      (datepickerInput?.offsetWidth as number) - (iconsContainer?.offsetWidth as number);
-
-    this._fittingDateCount = parseInt(String(datesTextTotalWidth / 90));
-
-    this._floatingDateCount = this._selectedDates.length - this._fittingDateCount;
-
     const renderCalendar = html`
-      <div
+      <bl-calendar
+        type="${this.type}"
+        .minDate=${this.minDate}
+        .maxDate="${this.maxDate}"
+        .startOfWeek="${this.startOfWeek}"
+        .disabledDates="${this.disabledDates}"
         class=${classMap({
           "popover": true,
           "show-popover": this._isPopoverOpen,
         })}
         tabindex="${ifDefined(this._isPopoverOpen ? undefined : "-1")}"
-      >
-        <bl-calendar
-          type="${this.type}"
-          .minDate=${this.minDate}
-          .maxDate="${this.maxDate}"
-          .startOfWeek="${this.startOfWeek}"
-          .disabledDates="${this.disabledDates}"
-          @bl-calendar-change="${(event: CustomEvent) => this.setDatePickerInput(event.detail)}"
-        ></bl-calendar>
-      </div>
+        @bl-calendar-change="${(event: CustomEvent) => this.setDatePickerInput(event.detail)}"
+      ></bl-calendar>
     `;
 
     const additionalDates = this._selectedDates
