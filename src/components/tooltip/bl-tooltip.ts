@@ -61,7 +61,7 @@ export default class BlTooltip extends LitElement {
 
     if (target) {
       target.addEventListener("focus", this.show, { capture: true });
-      target.addEventListener("mouseover", this.show);
+      target.addEventListener("mouseenter", this.show);
       target.addEventListener("blur", this.hide, { capture: true });
       target.addEventListener("mouseleave", this.hide);
     }
@@ -72,7 +72,7 @@ export default class BlTooltip extends LitElement {
 
     if (target) {
       target.removeEventListener("focus", this.show, { capture: true });
-      target.removeEventListener("mouseover", this.show);
+      target.removeEventListener("mouseenter", this.show);
       target.removeEventListener("blur", this.hide, { capture: true });
       target.removeEventListener("mouseleave", this.hide);
     }
@@ -124,7 +124,7 @@ export default class BlTooltip extends LitElement {
       aria-describedby="tooltip"
       @focus=${{ handleEvent: () => this.show(), capture: true }}
       @blur=${{ handleEvent: () => this.hide(), capture: true }}
-      @mouseover=${() => this.show()}
+      @mouseenter=${() => this.show()}
       @mouseleave=${() => this.hide()}
     >
     </slot>`;
