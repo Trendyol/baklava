@@ -37,6 +37,14 @@
   height: var(--icon-size);
 }
 
+.action-divider {
+  display: block;
+  height: 1rem;
+  width: 1px;
+  background-color: var(--bl-color-neutral-lighter);
+  margin-right: 5px;
+}
+
 .popover {
   position: var(--popover-position);
   border: solid 1px var(--border-color);
