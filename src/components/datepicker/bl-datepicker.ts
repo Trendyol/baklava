@@ -1,7 +1,7 @@
 import { CSSResultGroup, html, TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { BlCalendar, BlPopover } from "../../baklava";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../calendar/bl-calendar";
@@ -61,16 +61,22 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
 
   @state()
   private _selectedDates: CalendarDate[] = [];
+
   @state()
   private _floatingDateCount: number = 0;
+
   @state()
   private _fittingDateCount: number = 0;
 
-  @query(".popover")
-  private _popover: HTMLElement;
+  @query("bl-calendar")
+  private _calendarEl: BlCalendar;
+
+  @query("bl-popover")
+  private _popoverEl: BlPopover;
 
   // Query the bl-input component
-  @query("bl-input") inputElement!: BlInput;
+  @query("bl-input") inputEl!: BlInput;
+
   static get styles(): CSSResultGroup {
     return [style];
   }
@@ -145,31 +151,16 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   openPopover() {
-    document.activeElement?.shadowRoot?.querySelector("bl-input")?.focus();
-
-    this._isPopoverOpen = true;
-    document.addEventListener("click", this._interactOutsideHandler, true);
-    document.addEventListener("focus", this._interactOutsideHandler, true);
+    this._popoverEl.target = this.inputEl;
+    this._popoverEl.show();
   }
 
   closePopover() {
-    this._isPopoverOpen = false;
-
-    document.removeEventListener("click", this._interactOutsideHandler, true);
-    document.removeEventListener("focus", this._interactOutsideHandler, true);
-    this.shadowRoot?.getElementById("datepicker-input")?.blur();
+    this._popoverEl.hide();
   }
 
-  private _interactOutsideHandler = (event: MouseEvent | FocusEvent) => {
-    const eventPath = event.composedPath() as HTMLElement[];
-
-    if (!eventPath?.find(el => el.tagName === "BL-DATEPICKER")?.contains(this)) {
-      this.closePopover();
-    }
-  };
-
   private _togglePopover() {
-    this._isPopoverOpen ? this.closePopover() : this.openPopover();
+    this._popoverEl.visible ? this.closePopover() : this.openPopover();
   }
 
   firstUpdated() {
@@ -182,7 +173,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     document.addEventListener("mousedown", event => {
       const path = event.composedPath();
 
-      if (path.includes(this._popover) || (element && path.includes(element))) {
+      if (path.includes(this._calendarEl) || (element && path.includes(element))) {
         event.preventDefault();
 
         element?.focus();
@@ -204,20 +195,17 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
 
   render() {
     const renderCalendar = html`
-      <bl-calendar
-        type=${this.type}
-        .minDate=${this.minDate}
-        .maxDate="${this.maxDate}"
-        .startOfWeek="${this.startOfWeek}"
-        .disabledDates="${this.disabledDates}"
-        class=${classMap({
-          "popover": true,
-          "show-popover": this._isPopoverOpen,
-        })}
-        .defaultValue=${[new Date(2024, 8, 12), new Date(2024, 8, 15)]}
-        tabindex="${ifDefined(this._isPopoverOpen ? undefined : "-1")}"
-        @bl-calendar-change="${(event: CustomEvent) => this.setDatePickerInput(event.detail)}"
-      ></bl-calendar>
+      <bl-popover target="datepicker-content">
+        <bl-calendar
+          type=${this.type}
+          .minDate=${this.minDate}
+          .maxDate="${this.maxDate}"
+          .startOfWeek="${this.startOfWeek}"
+          .disabledDates="${this.disabledDates}"
+          .defaultValue=${[new Date(2024, 8, 12), new Date(2024, 8, 15)]}
+          @bl-calendar-change="${(event: CustomEvent) => this.setDatePickerInput(event.detail)}"
+        ></bl-calendar>
+      </bl-popover>
     `;
 
     const additionalDates = this._selectedDates
