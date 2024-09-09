@@ -86,37 +86,33 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   private _defaultValueFormatter() {
     this.setFloatingDates();
     if (this.type === CALENDAR_TYPES.SINGLE) {
-      this._value = `${this.formatDate(this._selectedDates[0])}`;
+      this._value = this.formatDate(this._selectedDates[0]);
       this.closePopoverWithTimeout();
     } else if (this.type === CALENDAR_TYPES.MULTIPLE) {
-      const values: string[] = [];
+      const values = this._selectedDates
+        .slice(0, this._fittingDateCount)
+        .map(date => this.formatDate(date));
 
-      this._selectedDates.slice(0, this._fittingDateCount).forEach(date => {
-        values.push(this.formatDate(date));
-      });
       this._value = values.join(",") + (this._floatingDateCount > 0 ? " ,..." : "");
     } else if (this.type === CALENDAR_TYPES.RANGE) {
-      this._value = `${this._selectedDates[0] && this.formatDate(this._selectedDates[0])}${
-        this._selectedDates[1] ? `-${this.formatDate(this._selectedDates[1])}` : ""
+      this._value = `${this.formatDate(this._selectedDates[0]) || ""}-${
+        this.formatDate(this._selectedDates[1]) || ""
       }`;
-      this._selectedDates.length === 2 && this.closePopoverWithTimeout();
+      if (this._selectedDates.length === 2) this.closePopoverWithTimeout();
     }
   }
 
   closePopoverWithTimeout() {
-    setTimeout(() => {
-      this.closePopover();
-    }, 400);
+    setTimeout(() => this.closePopover(), 400);
   }
 
   setFloatingDates() {
     const datepickerInput = this.shadowRoot?.getElementById("datepicker-input");
     const iconsContainer = this.shadowRoot?.getElementById("icon-container");
     const datesTextTotalWidth =
-      (datepickerInput?.offsetWidth as number) - (iconsContainer?.offsetWidth as number);
+      (datepickerInput?.offsetWidth ?? 0) - (iconsContainer?.offsetWidth ?? 0);
 
-    this._fittingDateCount = parseInt(String(datesTextTotalWidth / 90));
-
+    this._fittingDateCount = Math.floor(datesTextTotalWidth / 90);
     this._floatingDateCount = this._selectedDates.length - this._fittingDateCount;
   }
 
@@ -136,11 +132,10 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   formatDate(date: Date) {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
+    return `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}/${date.getFullYear()}`;
   }
   clearDatepicker() {
     this._onBlDatepickerCleared([]);
@@ -162,10 +157,9 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
 
     document.removeEventListener("click", this._interactOutsideHandler, true);
     document.removeEventListener("focus", this._interactOutsideHandler, true);
-    const element = this.shadowRoot?.getElementById("datepicker-input");
-
-    element?.blur();
+    this.shadowRoot?.getElementById("datepicker-input")?.blur();
   }
+
   private _interactOutsideHandler = (event: MouseEvent | FocusEvent) => {
     const eventPath = event.composedPath() as HTMLElement[];
 
