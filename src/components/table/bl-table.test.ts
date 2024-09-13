@@ -1168,6 +1168,98 @@ describe("bl-table", () => {
       expect(ev.detail).to.be.deep.equal([]);
     });
 
+    it("should keep selected-keys if they are not rendered in the table", async () => {
+      const el = await fixture<BlTable>(
+          html`
+            <bl-table
+                .selected=${["row-1", "row-2", "row-3"]}
+                selectable
+                multiple
+            >
+              <bl-table-header>
+                <bl-table-row>
+                  <bl-table-header-cell>
+                    ID
+                  </bl-table-header-cell>
+                  <bl-table-header-cell>
+                    First Name
+                  </bl-table-header-cell>
+                  <bl-table-header-cell>
+                    Last Name
+                  </bl-table-header-cell>
+                  <bl-table-header-cell>
+                    Email
+                  </bl-table-header-cell>
+                  <bl-table-header-cell>
+                    Gender
+                  </bl-table-header-cell>
+                  <bl-table-header-cell>
+                    IP Address
+                  </bl-table-header-cell>
+                </bl-table-row>
+              </bl-table-header>
+              <bl-table-body>
+                <bl-table-row selection-key="row-1">
+                  <bl-table-cell>
+                    1
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Antonella
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Bellefonte
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    abellefonte0@nba.com
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Female
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    193.108.174.118
+                  </bl-table-cell>
+                </bl-table-row>
+                <bl-table-row selection-key="row-2">
+                  <bl-table-cell>
+                    2
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Wash
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Carnson
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    wcarnson1@jalbum.net
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    Male
+                  </bl-table-cell>
+                  <bl-table-cell>
+                    255.169.128.60
+                  </bl-table-cell>
+                </bl-table-row>
+              </bl-table-body>
+            </bl-table>`
+      );
+
+      const tableHeaderCell = el.querySelector("bl-table-header-cell");
+
+      if(tableHeaderCell?.shadowRoot){
+        const checkbox = tableHeaderCell.shadowRoot.querySelector("bl-checkbox") as HTMLElement;
+        const checkboxEvent = new CustomEvent("bl-checkbox-change", {
+          detail: false,
+        });
+
+        setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
+      }
+
+      const ev = await oneEvent(el, blRowSelectChangeEventName);
+
+      expect(ev).to.exist;
+      expect(ev.detail).to.be.deep.equal(["row-3"]);
+    });
+
     it("should fire bl-row-select event when user checked on checkbox in first table row", async () => {
       const el = await fixture<BlTable>(
           html`

@@ -100,6 +100,35 @@ export const TableTemplate = (args, {id}) => {
 	`;
 }
 
+export const TableWithPaginationTemplate = (args, {id}) => {
+	const updateArgs = (_args)=>{
+		window.__STORYBOOK_ADDONS_CHANNEL__.emit(UPDATE_STORY_ARGS, {
+			storyId: id,
+			updatedArgs: _args,
+		});
+	}
+
+  const { paginationData, page, perPage } = args;
+
+  const paginatedData = paginationData.slice((page - 1) * perPage, page * perPage);
+
+  const handlePaginationChange = (e) => {
+    updateArgs({
+      ...args,
+      page: e.detail.selectedPage,
+      perPage: e.detail.itemsPerPage,
+    });
+  }
+
+  return html`
+    <div style="margin-bottom: 16px" >
+      <bl-pagination current-page="1" total-items="${paginationData.length}" has-jumper has-select @bl-change="${handlePaginationChange}"></bl-pagination>
+    </div>
+
+    ${TableTemplate({...args, data: paginatedData}, {id})}
+  `;
+}
+
 # Table Component
 
 Table is a component to visualize a data set in rows and columns. It needs to be used with `bl-table-header`, `bl-table-body`, `bl-table-row`, `bl-table-header-cell`, `bl-table-cell` component.
@@ -542,6 +571,88 @@ Similar to the sticky first column, to make the last column of the table sticky,
     {TableTemplate.bind({})}
   </Story>
 </Canvas>
+
+# Table with Pagination
+
+To enable pagination on the table, use the `bl-pagination` component. The `@bl-change` event is used to handle page changes, providing details about the current page and the number of items per page.
+
+<Canvas>
+  <Story name="Table with Pagination" args={{
+    page: 1,
+    perPage: 10,
+    selectable: true,
+    multiple: true,
+    sortable: false,
+    stickyFirstColumn: false,
+    stickyLastColumn: false,
+    headers: [
+      {key: "id", sortKey: "id", text: "ID", minWidth: '100px', sticky:'left'},
+      {key: "first_name", sortKey: "first_name", text: "First Name", minWidth: "200px"},
+      {key: "last_name", sortKey: "last_name", text: "Last Name", minWidth: "200px"},
+      {key: "email", text: "Email", minWidth: "250px"},
+      {key: "gender", text: "Gender", minWidth: '200px'},
+      {key: "ip_address", text: "IP Address", width: '90px', sticky: 'right'},
+    ],
+    selectValue: [],
+    paginationData: [
+      {
+        id: 1,
+        first_name: "Antonella",
+        last_name: "Bellefonte",
+        email: "abellefonte0@nba.com",
+        gender: "Female",
+        ip_address: "193.108.174.118"
+      },
+      {id:2,first_name:"Wash",last_name:"Carnson",email:"wcarnson1@jalbum.net",gender:"Male",ip_address:"255.169.128.60"},
+      {id:3,first_name:"Betteanne",last_name:"Cowgill",email:"bcowgill2@timesonline.co.uk",gender:"Female",ip_address:"235.237.3.233", disabled: true},
+      {id:4,first_name:"Lilith",last_name:"Astbury",email:"lastbury3@shinystat.com",gender:"Female",ip_address:"46.41.60.65"},
+      {id:5,first_name:"Nikos",last_name:"Vasenkov",email:"nvasenkov4@slate.com",gender:"Male",ip_address:"13.95.130.24"},
+      {id:6,first_name:"Drucill",last_name:"Runciman",email:"drunciman5@hc360.com",gender:"Female",ip_address:"185.192.50.41"},
+      {id:7,first_name:"Gaspar",last_name:"Falls",email:"gfalls6@howstuffworks.com",gender:"Male",ip_address:"107.51.243.94"},
+      {id:8,first_name:"Hilary",last_name:"Izzatt",email:"hizzatt7@java.com",gender:"Male",ip_address:"136.171.100.29"},
+      {id:9,first_name:"Alonzo",last_name:"Beardwood",email:"abeardwood8@loc.gov",gender:"Male",ip_address:"110.116.212.242"},
+      {id:10,first_name:"Jacky",last_name:"Clyant",email:"jclyant9@earthlink.net",gender:"Male",ip_address:"55.126.158.104"},
+      {id:11,first_name:"Marge",last_name:"Hawthorn",email:"mhawthorn10@google.com",gender:"Female",ip_address:"192.168.1.1"},
+      {id:12,first_name:"John",last_name:"Doe",email:"jdoe11@example.com",gender:"Male",ip_address:"192.168.1.2"},
+      {id:13,first_name:"Jane",last_name:"Smith",email:"jsmith12@example.com",gender:"Female",ip_address:"192.168.1.3"},
+      {id:14,first_name:"Alice",last_name:"Johnson",email:"ajohnson13@example.com",gender:"Female",ip_address:"192.168.1.4"},
+      {id:15,first_name:"Bob",last_name:"Brown",email:"bbrown14@example.com",gender:"Male",ip_address:"192.168.1.5"},
+      {id:16,first_name:"Charlie",last_name:"Davis",email:"cdavis15@example.com",gender:"Male",ip_address:"192.168.1.6"},
+      {id:17,first_name:"David",last_name:"Evans",email:"devans16@example.com",gender:"Male",ip_address:"192.168.1.7"},
+      {id:18,first_name:"Eve",last_name:"Foster",email:"efoster17@example.com",gender:"Female",ip_address:"192.168.1.8"},
+      {id:19,first_name:"Frank",last_name:"Green",email:"fgreen18@example.com",gender:"Male",ip_address:"192.168.1.9"},
+      {id:20,first_name:"Grace",last_name:"Harris",email:"gharris19@example.com",gender:"Female",ip_address:"192.168.1.10"},
+      {id:21,first_name:"Hank",last_name:"Ivy",email:"hivy20@example.com",gender:"Male",ip_address:"192.168.1.11"},
+      {id:22,first_name:"Ivy",last_name:"Jones",email:"ijones21@example.com",gender:"Female",ip_address:"192.168.1.12"},
+      {id:23,first_name:"Jack",last_name:"King",email:"jking22@example.com",gender:"Male",ip_address:"192.168.1.13"},
+      {id:24,first_name:"Karen",last_name:"Lewis",email:"klewis23@example.com",gender:"Female",ip_address:"192.168.1.14"},
+      {id:25,first_name:"Larry",last_name:"Moore",email:"lmoore24@example.com",gender:"Male",ip_address:"192.168.1.15"},
+      {id:26,first_name:"Mona",last_name:"Nelson",email:"mnelson25@example.com",gender:"Female",ip_address:"192.168.1.16"},
+      {id:27,first_name:"Nate",last_name:"Owens",email:"nowens26@example.com",gender:"Male",ip_address:"192.168.1.17"},
+      {id:28,first_name:"Olivia",last_name:"Parker",email:"oparker27@example.com",gender:"Female",ip_address:"192.168.1.18"},
+      {id:29,first_name:"Paul",last_name:"Quinn",email:"pquinn28@example.com",gender:"Male",ip_address:"192.168.1.19"},
+      {id:30,first_name:"Quincy",last_name:"Reed",email:"qreed29@example.com",gender:"Male",ip_address:"192.168.1.20"},
+      {id:31,first_name:"Rachel",last_name:"Smith",email:"rsmith30@example.com",gender:"Female",ip_address:"192.168.1.21"},
+      {id:32,first_name:"Sam",last_name:"Taylor",email:"staylor31@example.com",gender:"Male",ip_address:"192.168.1.22"},
+      {id:33,first_name:"Tina",last_name:"Upton",email:"tupton32@example.com",gender:"Female",ip_address:"192.168.1.23"},
+      {id:34,first_name:"Uma",last_name:"Vance",email:"uvance33@example.com",gender:"Female",ip_address:"192.168.1.24"},
+      {id:35,first_name:"Victor",last_name:"White",email:"vwhite34@example.com",gender:"Male",ip_address:"192.168.1.25"},
+      {id:36,first_name:"Wendy",last_name:"Xavier",email:"wxavier35@example.com",gender:"Female",ip_address:"192.168.1.26"},
+      {id:37,first_name:"Xander",last_name:"Young",email:"xyoung36@example.com",gender:"Male",ip_address:"192.168.1.27"},
+      {id:38,first_name:"Yara",last_name:"Zimmerman",email:"yzimmerman37@example.com",gender:"Female",ip_address:"192.168.1.28"},
+      {id:39,first_name:"Zane",last_name:"Adams",email:"zadams38@example.com",gender:"Male",ip_address:"192.168.1.29"},
+      {id:40,first_name:"Amy",last_name:"Baker",email:"abaker39@example.com",gender:"Female",ip_address:"192.168.1.30"},
+    ],
+    stickyHeader:false
+  }} argTypes={{
+    headers: {table: {disable: true}},
+    data: {table: {disable: true}},
+    rows: {table: {disable: true}}
+  }}>
+    {TableWithPaginationTemplate.bind({})}
+  </Story>
+</Canvas>
+
 
 ## Reference
 ### bl-table
