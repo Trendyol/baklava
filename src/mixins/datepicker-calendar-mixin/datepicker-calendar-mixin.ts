@@ -1,5 +1,6 @@
 import { LitElement } from "lit";
 import { property } from "lit/decorators.js";
+import { CALENDAR_TYPES } from "../../components/calendar/bl-calendar.constant";
 import { CalendarType, DayValues } from "../../components/calendar/bl-calendar.types";
 
 export default class DatepickerCalendarMixin extends LitElement {
@@ -43,5 +44,28 @@ export default class DatepickerCalendarMixin extends LitElement {
 
   get defaultValue() {
     return this._defaultValue;
+  }
+
+  @property({ attribute: "default-value", reflect: true })
+  set defaultValue(defaultValue: Date | Date[]) {
+    if (defaultValue) {
+      if (this.type === CALENDAR_TYPES.SINGLE && Array.isArray(defaultValue)) {
+        console.warn("'defaultValue' must be of type Date for single date selection.");
+      } else if (this.type !== CALENDAR_TYPES.SINGLE && !Array.isArray(defaultValue)) {
+        console.warn(
+          "'defaultValue' must be an array of Date objects for multiple/range selection."
+        );
+      } else if (
+        this.type === CALENDAR_TYPES.RANGE &&
+        Array.isArray(defaultValue) &&
+        defaultValue.length != 2
+      ) {
+        console.warn(
+          "'defaultValue' must be an array of two Date objects when the date selection mode is set to range."
+        );
+      } else {
+        this._defaultValue = defaultValue;
+      }
+    }
   }
 }
