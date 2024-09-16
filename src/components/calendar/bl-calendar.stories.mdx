@@ -82,7 +82,8 @@ You can select date range from calendar.
 You can set dates which you want to disable from calendar.
 
 <Canvas>
-  <Story name="Disabled Dates" args={{ type: 'single',disabledDates:`["${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}"]` }}>
+  <Story name="Disabled Dates" args={{ type: 'single',
+    disabledDates:`["${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}"]` }}>
     {Template.bind({})}
   </Story>
 </Canvas>

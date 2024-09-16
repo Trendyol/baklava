@@ -243,7 +243,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       return true;
     }
 
-    if (Array.isArray(this.disabledDates)) {
+    if (this.disabledDates) {
       const day = this.disabledDates.find(disabledDate => {
         return calendarDate.getTime() === new Date(disabledDate).getTime();
       });

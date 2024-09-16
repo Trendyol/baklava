@@ -53,7 +53,7 @@ Datepicker renders the calendar component within itself and provides the functio
 Default datepicker type is `single` and you can only select a single day from datepicker.
 
 <Canvas>
-  <Story name="Single Type Datepicker" args={{ type: 'single',label:'Single Datepicker',placeholder:'Select a date',defaultValue:new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}}>
+  <Story name="Single Type Datepicker" args={{ type: 'single',label:'Single Datepicker',placeholder:'Select a date'}}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -63,7 +63,7 @@ Default datepicker type is `single` and you can only select a single day from da
 You can select multiple days from Datepicker.
 
 <Canvas>
-  <Story name="Multiple Type Datepicker" args={{ type: 'multiple',label:'Multiple Datepicker',placeholder:'Select multiple dates',defaultValue:`${[new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)]}`}}>
+  <Story name="Multiple Type Datepicker" args={{ type: 'multiple',label:'Multiple Datepicker',placeholder:'Select multiple dates',disabledDates:`["${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}"]`}}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -78,14 +78,22 @@ You can select date range from Datepicker.
   </Story>
 </Canvas>
 
+### Default Value
+
+You can set a default value to datepicker.
+
+<Canvas>
+  <Story name="Default Value" args={{ type: 'single',label:'Single Datepicker',placeholder:'Set default value',defaultValue:new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
 ### Disabled Dates
 
 You can set dates which you want to disable from Datepicker.
 
 <Canvas>
-  <Story name="Disabled Dates" args={{  type: 'multiple',label:'Multiple Datepicker',placeholder:'Select multiple dates',disabledDates:[
-            new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2),
-            ]}}>
+  <Story name="Disabled Dates" args={{type: 'multiple',label:'Multiple Datepicker',placeholder:'Set disabled dates',disabledDates:`["${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}"]`}}>
     {Template.bind({})}
   </Story>
 </Canvas>
