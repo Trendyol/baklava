@@ -121,11 +121,11 @@ export const TableWithPaginationTemplate = (args, {id}) => {
   }
 
   return html`
-    <div style="margin-bottom: 16px" >
+    ${TableTemplate({...args, data: paginatedData}, {id})}
+
+    <div style="margin-top: var(--bl-size-xl); float: right" >
       <bl-pagination current-page="1" total-items="${paginationData.length}" has-jumper has-select @bl-change="${handlePaginationChange}"></bl-pagination>
     </div>
-
-    ${TableTemplate({...args, data: paginatedData}, {id})}
   `;
 }
 
