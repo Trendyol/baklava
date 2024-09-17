@@ -65,6 +65,10 @@ export default class BlTableRow extends LitElement {
         Array.from(this.querySelectorAll("bl-table-header-cell,bl-table-cell")).map(com => {
           (com as BlTableHeaderCell | BlTableCell).requestUpdate();
         });
+
+        if (this._table?.multiple && this._table?.selectable) {
+          this._table?.querySelector("bl-table-header-cell")?.requestUpdate();
+        }
       });
     }
   }
