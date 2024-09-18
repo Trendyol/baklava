@@ -4,7 +4,7 @@ import { BlButton, BlCalendar } from "../../baklava";
 import { blCalendarChangedEvent } from "./bl-calendar";
 import { blDatepickerClearSelectedDatesEvent } from "../datepicker/bl-datepicker";
 
-describe.only("bl-calendar", () => {
+describe("bl-calendar", () => {
   let element: BlCalendar;
 
   beforeEach(async () => {

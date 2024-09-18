@@ -66,7 +66,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   /**
    * Fires when date selection changes
    */
-  @event(blCalendarChangedEvent) private _onBlCalendarChange: EventDispatcher<Date[]>;
+  @event(blCalendarChangedEvent) _onBlCalendarChange: EventDispatcher<Date[]>;
 
   public handleClearSelectedDates = () => {
     this._selectedDates = [];
