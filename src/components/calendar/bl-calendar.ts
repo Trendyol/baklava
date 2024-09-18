@@ -40,7 +40,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   }
 
   @state()
-  private _selectedDates: CalendarDate[] = [];
+  _selectedDates: CalendarDate[] = [];
 
   @state()
   private _selectedRangeDates: RangePickerDates = { startDate: undefined, endDate: undefined };
@@ -49,7 +49,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   private today = new Date();
 
   @state()
-  private _calendarMonth: number = this.today.getMonth();
+  _calendarMonth: number = this.today.getMonth();
 
   @state()
   private _calendarYear: number = this.today.getFullYear();
