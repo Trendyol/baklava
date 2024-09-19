@@ -45,10 +45,9 @@
   margin-right: 5px;
 }
 
-bl-popover{
-  --bl-popover-padding:0;
-  --bl-popover-border-size:0;
-  --bl-popover-border-radius:0;
-  --bl-popover-background-color:transparent;
-
+bl-popover {
+  --bl-popover-padding: 0;
+  --bl-popover-border-size: 0;
+  --bl-popover-border-radius: 0;
+  --bl-popover-background-color: transparent;
 }
