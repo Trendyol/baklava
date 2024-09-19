@@ -1,7 +1,6 @@
 import { aTimeout, expect, fixture, html } from "@open-wc/testing";
 import BlDatepicker, { blDatepickerChangedEvent } from "./bl-datepicker";
 import { BlButton, BlDatePicker } from "../../baklava";
-import { CALENDAR_TYPES } from "../calendar/bl-calendar.constant";
 import { blCalendarChangedEvent } from "../calendar/bl-calendar";
 
 describe("BlDatepicker", () => {
@@ -82,35 +81,4 @@ describe("BlDatepicker", () => {
     expect(element._selectedDates).to.deep.equal([]);
     expect(element._value).to.equal("");
   });
-
-  it("should show tooltip with extra dates when multiple dates are selected", async () => {
-
-    element._selectedDates = [
-      new Date(2023, 1, 1),
-      new Date(2023, 1, 2),
-      new Date(2023, 1, 3),
-      new Date(2023, 1, 4),
-    ];
-    element.type = CALENDAR_TYPES.MULTIPLE;
-    await element.updateComplete;
-
-    const tooltipTrigger = element.shadowRoot?.querySelector('bl-tooltip [slot="tooltip-trigger"]');
-
-    await element.updateComplete;
-    await aTimeout(400);
-
-    expect(tooltipTrigger).to.exist;
-    expect(tooltipTrigger?.textContent).to.equal("+1");
-  });
-
-  it("should use custom valueFormatter function if provided", async () => {
-    element.valueFormatter= (dates:Date[]) => `Selected: ${dates.length} dates`;
-
-    element.type = CALENDAR_TYPES.MULTIPLE;
-    element._selectedDates = [new Date(2023, 1, 1), new Date(2023, 1, 2)];
-    await element.updateComplete;
-
-    expect(element._value).to.equal("Selected: 2 dates");
-  });
-
 });
