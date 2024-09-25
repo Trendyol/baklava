@@ -18,6 +18,11 @@
   z-index: var(--bl-index-notification);
 }
 
+:host([dir="rtl"]) .wrapper {
+  left: 0;
+  right: unset;
+}
+
 @media screen and (max-width: 480px) {
   .wrapper {
     flex-direction: column;
@@ -30,6 +35,10 @@
   animation: slide-in-right var(--bl-notification-animation-duration) ease;
   margin-bottom: var(--bl-notification-gap);
   touch-action: none;
+}
+
+:host([dir="rtl"]) .notification {
+  animation: slide-in-left var(--bl-notification-animation-duration) ease;
 }
 
 .notification[data-slide="top"] {
@@ -69,6 +78,15 @@
 @keyframes slide-in-right {
   from {
     transform: translateX(var(--travel-distance, 10px));
+    height: 0;
+    opacity: 0;
+    margin: 0;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(var(--travel-distance, -10px));
     height: 0;
     opacity: 0;
     margin: 0;

@@ -214,44 +214,12 @@
   --bl-font-caption-line-height: calc(var(--bl-font-caption-font-size) + var(--bl-size-4xs));
   --bl-font-caption-size: var(--bl-font-caption-font-size) / var(--bl-font-caption-line-height);
   --bl-font-caption: var(--bl-font-weight-medium) var(--bl-font-caption-size) var(--bl-font-family);
+}
 
-  /*
-  @DEPRECATED
+:root[dir="rtl"] {
+  /* Direction */
+  direction: rtl;
 
-  Color names below is kept for backward compatibility,
-
-  Will be removed in V3
-  */
-  --bl-color-primary-hover: var(--bl-color-primary-highlight);
-  --bl-color-success-hover: var(--bl-color-success-highlight);
-  --bl-color-danger-hover: var(--bl-color-danger-highlight);
-  --bl-color-warning-hover: var(--bl-color-warning-highlight);
-  --bl-color-accent-primary-background: var(--bl-color-primary-contrast);
-  --bl-color-success-background: var(--bl-color-success-contrast);
-  --bl-color-danger-background: var(--bl-color-danger-contrast);
-  --bl-color-warning-background: var(--bl-color-warning-contrast);
-  --bl-color-primary-background: var(--bl-color-neutral-full);
-
-  /* Content Colors */
-  --bl-color-content-primary: var(--bl-color-neutral-darker);
-  --bl-color-content-secondary: var(--bl-color-neutral-dark);
-  --bl-color-content-tertiary: var(--bl-color-neutral-light);
-  --bl-color-content-passive: var(--bl-color-neutral-lighter);
-  --bl-color-content-primary-contrast: var(--bl-color-neutral-full);
-  --bl-color-content-hover: var(--bl-color-primary-highlight);
-  --bl-color-border: var(--bl-color-neutral-lighter);
-
-  /* Removed Colors */
-  --bl-color-secondary: #273142;
-  --bl-color-secondary-hover: #0f131a;
-  --bl-color-secondary-background: var(--bl-color-neutral-lightest);
-  --bl-color-tertiary: #f1f2f7;
-  --bl-color-tertiary-hover: #d5d9e1;
-  --bl-color-alternative: #5794ff;
-  --bl-color-alternative-hover: #457eff;
-  --bl-color-featured: #8c4eff;
-  --bl-color-featured-hover: #753eff;
-  --bl-color-tertiary-background: #f7f7fa;
-  --bl-color-alternative-background: #eef4ff;
-  --bl-color-featured-background: #f4edff;
+  /* Typography */
+  --bl-font-family: "Noto Sans", sans-serif;
 }

@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { customElement, eventOptions, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { repeat } from "lit/directives/repeat.js";
+import { setDirectionProperty } from "../../utilities/direction";
 import BlAlert from "../alert/bl-alert";
 import { BaklavaIcon } from "../icon/icon-list";
 import style from "./bl-notification.css";
@@ -57,6 +58,12 @@ export default class BlNotification extends LitElement {
 
   @state()
   private notifications: Notification[] = [];
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    setDirectionProperty(this);
+  }
 
   public get notificationList() {
     return this.notifications;

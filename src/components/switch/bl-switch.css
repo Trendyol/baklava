@@ -41,6 +41,11 @@ span {
   width: var(--thumb-width);
 }
 
+:host([dir="rtl"]) .switch::before {
+  left: unset;
+  right: var(--thumb-offset);
+}
+
 label {
   display: flex;
   gap: var(--bl-size-2xs);
@@ -74,6 +79,12 @@ label {
 :host([checked]) .switch::before {
   transform: translateX(
     calc(var(--track-width) - var(--thumb-width) - calc(2 * var(--thumb-offset)))
+  );
+}
+
+:host([checked][dir="rtl"]) .switch::before {
+  transform: translateX(
+    calc(calc(2 * var(--thumb-offset)) - var(--track-width) + var(--thumb-width))
   );
 }
 

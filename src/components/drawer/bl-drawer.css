@@ -3,7 +3,6 @@
   position: fixed;
   display: flex;
   top: 0;
-  right: -100%;
   bottom: 0;
   width: var(--bl-drawer-current-width, 424px);
   padding: var(--bl-size-xl);
@@ -18,6 +17,11 @@
 
 :host([open]) .drawer {
   right: 0;
+}
+
+:host([open][dir="rtl"]) .drawer {
+  left: 0;
+  right: unset;
 }
 
 iframe {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,6 +32,338 @@
       <code>npm run serve</code>.
     </p>
 
-    <bl-button>Baklava is ready</bl-button>
+    <bl-accordion
+      icon="confetti"
+      caption=" خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة."
+    >
+      خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة.
+    </bl-accordion>
+
+    <br />
+
+    <bl-accordion-group multiple="true">
+      <bl-accordion
+        caption="      خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة"
+        >خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة.
+      </bl-accordion>
+      <bl-accordion
+        caption="      خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة."
+        disabled="true"
+        >خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة.
+      </bl-accordion>
+      <bl-accordion
+        caption="      خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديث"
+        >خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة.
+      </bl-accordion>
+      <bl-accordion
+        caption="      خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة"
+        >خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة.
+      </bl-accordion>
+    </bl-accordion-group>
+
+    <br />
+
+    <bl-alert caption="Info Caption" icon>Detailed description.</bl-alert>
+
+    <br />
+
+    <bl-alert variant="warning" caption="Warning Caption"
+      >Detailed description.
+      <bl-button slot="action">Action Link</bl-button>
+      <bl-button slot="action-secondary">Action Link</bl-button>
+    </bl-alert>
+
+    <br />
+
+    <bl-alert variant="success" caption="Success Caption" closable>Detailed description.</bl-alert>
+
+    <br />
+
+    <bl-alert variant="danger" caption="Danger Caption"
+      >Detailed description.
+      <bl-button slot="action">Action Link</bl-button>
+      <bl-button slot="action-secondary">Action Link</bl-button>
+    </bl-alert>
+
+    <br />
+
+    <bl-badge
+      icon="clock"
+      style="
+        --bl-badge-bg-color: var(--bl-color-primary-contrast);
+        --bl-badge-color: var(--bl-color-primary);
+      "
+      >In Progress</bl-badge
+    >
+    <bl-badge
+      icon="check_fill"
+      style="
+        --bl-badge-bg-color: var(--bl-color-success-contrast);
+        --bl-badge-color: var(--bl-color-success);
+      "
+      >Approved</bl-badge
+    >
+    <bl-badge
+      icon="warning"
+      style="
+        --bl-badge-bg-color: var(--bl-color-warning-contrast);
+        --bl-badge-color: var(--bl-color-warning);
+      "
+      >Warning</bl-badge
+    >
+    <bl-badge
+      icon="close_fill"
+      style="
+        --bl-badge-bg-color: var(--bl-color-danger-contrast);
+        --bl-badge-color: var(--bl-color-danger);
+      "
+      >Denied</bl-badge
+    >
+    <bl-badge
+      icon="alert"
+      style="
+        --bl-badge-bg-color: var(--bl-color-neutral-lightest);
+        --bl-badge-color: var(--bl-color-neutral-darker);
+      "
+      >Neutral</bl-badge
+    >
+    <bl-badge icon="offers" style="--bl-badge-bg-color: #eef4ff; --bl-badge-color: #5794ff"
+      >Offer</bl-badge
+    >
+    <bl-badge icon="award" style="--bl-badge-bg-color: #f4edff; --bl-badge-color: #8c4eff"
+      >Winner</bl-badge
+    >
+
+    <bl-badge icon="info" size="small"
+      >خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة.
+    </bl-badge>
+
+    <bl-badge icon="info" size="large"
+      >خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة.
+    </bl-badge>
+
+    <br />
+    <br />
+
+    <bl-button>خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة. </bl-button>
+    <bl-button variant="secondary"
+      >خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة.
+    </bl-button>
+    <bl-button variant="tertiary"
+      >خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة.
+    </bl-button>
+
+    <br />
+    <br />
+
+    <bl-checkbox>خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة. </bl-checkbox>
+
+    <div style="padding: 20px; background-color: var(--bl-color-primary-contrast)">
+      <bl-checkbox
+        >خطوط عملية تلبي حاجة المستخدمين في جميع الأنظمة والتطبيقات الحديثة.
+      </bl-checkbox>
+    </div>
+
+    <br />
+    <br />
+
+    <bl-drawer id="drawer-1" open="true">
+      <div style="font: var(--bl-font-body-text-2)">
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+          a galley of type and scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+          PageMaker including versions of Lorem Ipsum.
+        </p>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+          a galley of type and scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+          PageMaker including versions of Lorem Ipsum.
+        </p>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+          a galley of type and scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+          PageMaker including versions of Lorem Ipsum.
+        </p>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+          a galley of type and scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+          PageMaker including versions of Lorem Ipsum.
+        </p>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+          a galley of type and scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+          PageMaker including versions of Lorem Ipsum.
+        </p>
+      </div>
+    </bl-drawer>
+
+    <br />
+    <br />
+
+    <bl-dropdown label="Dropdown Button"
+      ><bl-dropdown-group caption="Caption">
+        <bl-dropdown-item>Action 1</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+      </bl-dropdown-group>
+      <bl-dropdown-item>Action 3</bl-dropdown-item>
+      <bl-dropdown-item icon="info">Action 4</bl-dropdown-item>
+      <bl-dropdown-item>Action 5</bl-dropdown-item>
+      <bl-dropdown-group caption="Caption">
+        <bl-dropdown-item icon="heart">Action 6</bl-dropdown-item>
+        <bl-dropdown-item>Action 7</bl-dropdown-item>
+      </bl-dropdown-group>
+    </bl-dropdown>
+
+    <br />
+    <br />
+
+    <bl-input type="date"></bl-input>
+    <bl-input type="text" label="User Name" icon="profile" size="medium"></bl-input>
+    <bl-input type="text" label="User Name" icon="profile" size="small"></bl-input>
+
+    <br />
+    <br />
+
+    <div>
+      <p
+        style="
+          color: var(--bl-color-neutral-dark);
+          margin: var(--bl-size-3xs);
+          font: var(--bl-font-title-4-regular);
+        "
+      >
+        Completed Tasks: <b style="color: var(--bl-color-success)"> 5/8 </b>
+      </p>
+      <bl-progress-indicator max="8" value="5"></bl-progress-indicator>
+    </div>
+
+    <br />
+    <br />
+
+    <bl-radio-group label="Payment Type" name="paymentType" value="cc">
+      <bl-radio value="cc">Credit Card</bl-radio>
+      <bl-radio value="ideal">iDeal</bl-radio>
+    </bl-radio-group>
+
+    <br />
+    <br />
+
+    <bl-select label="Label" search-bar search-bar-placeholder="Search your options">
+      <bl-select-option value="tr">Turkiye</bl-select-option>
+      <bl-select-option value="nl">The Netherlands</bl-select-option>
+      <bl-select-option value="de">Germany</bl-select-option>
+      <bl-select-option value="uk">United Kingdom</bl-select-option>
+    </bl-select>
+
+    <br />
+    <br />
+
+    <bl-pagination
+      current-page="1"
+      total-items="1500"
+      items-per-page="100"
+      has-jumper="true"
+      jumper-label="Sayfaya Git"
+      has-select="true"
+      select-label="Sayfa Başına"
+    ></bl-pagination>
+
+    <br />
+    <br />
+
+    <!-- TODO: add bl-icon and transform 180  -->
+    <!-- TODO: add notification and transform 180  -->
+
+    <bl-split-button label="Split Button">
+      <bl-dropdown-group caption="Caption">
+        <bl-dropdown-item>Action 1</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+      </bl-dropdown-group>
+      <bl-dropdown-item>Action 3</bl-dropdown-item>
+      <bl-dropdown-item icon="info">Action 4</bl-dropdown-item>
+      <bl-dropdown-item>Action 5</bl-dropdown-item>
+      <bl-dropdown-group caption="Caption">
+        <bl-dropdown-item icon="heart">Action 6</bl-dropdown-item>
+        <bl-dropdown-item>Action 7</bl-dropdown-item>
+      </bl-dropdown-group>
+    </bl-split-button>
+    <bl-split-button variant="secondary" label="Split Button">
+      <bl-dropdown-group caption="Caption">
+        <bl-dropdown-item>Action 1</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+      </bl-dropdown-group>
+      <bl-dropdown-item>Action 3</bl-dropdown-item>
+      <bl-dropdown-item icon="info">Action 4</bl-dropdown-item>
+      <bl-dropdown-item>Action 5</bl-dropdown-item>
+      <bl-dropdown-group caption="Caption">
+        <bl-dropdown-item icon="heart">Action 6</bl-dropdown-item>
+        <bl-dropdown-item>Action 7</bl-dropdown-item>
+      </bl-dropdown-group>
+    </bl-split-button>
+
+    <bl-split-button label="Split Button" disabled dropdown-disabled>
+      <bl-dropdown-group caption="Caption">
+        <bl-dropdown-item>Action 1</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+      </bl-dropdown-group>
+      <bl-dropdown-item>Action 3</bl-dropdown-item>
+      <bl-dropdown-item icon="info">Action 4</bl-dropdown-item>
+      <bl-dropdown-item>Action 5</bl-dropdown-item>
+      <bl-dropdown-group caption="Caption">
+        <bl-dropdown-item icon="heart">Action 6</bl-dropdown-item>
+        <bl-dropdown-item>Action 7</bl-dropdown-item>
+      </bl-dropdown-group>
+    </bl-split-button>
+
+    <br />
+    <br />
+
+    <bl-switch aria-label="Label for Switch">Label for Switch</bl-switch>
+
+    <br />
+    <br />
+
+    <bl-notification duration="60"></bl-notification>
+
+    <bl-button id="add-notification">Add Notification</bl-button>
+
+    <script>
+      (function () {
+        const notificationElement = document.querySelector("bl-notification");
+        const addButton = document.querySelector("bl-button#add-notification");
+
+        addButton.addEventListener("bl-click", () => {
+          notificationElement.addNotification({
+            "noAnimation": false,
+            "duration": 60,
+            "caption": "Notification Caption",
+            "description": "Notification Description",
+            "icon": "true",
+            "variant": "info",
+            "permanent": false,
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

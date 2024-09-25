@@ -17,6 +17,10 @@
   align-items: center;
 }
 
+:host([dir="rtl"]) .page-container {
+  flex-direction: row-reverse;
+}
+
 .page-list {
   display: flex;
   align-items: center;
