@@ -2,16 +2,16 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import {
+  arrow,
+  autoUpdate,
   computePosition,
   flip,
-  shift,
-  offset,
-  arrow,
   inline,
-  autoUpdate,
-  size,
   Middleware,
   MiddlewareState,
+  offset,
+  shift,
+  size,
 } from "@floating-ui/dom";
 import { getTarget } from "../../utilities/elements";
 import { event, EventDispatcher } from "../../utilities/event";
@@ -148,7 +148,7 @@ export default class BlPopover extends LitElement {
           middleware: this.getMiddleware(),
         }).then(({ x, y, placement, middlewareData }) => {
           Object.assign(this._popover.style, {
-            left: `${x}px`,
+            '"inset-inline-start"': `${x}px`,
             top: `${y}px`,
           });
 
@@ -158,7 +158,7 @@ export default class BlPopover extends LitElement {
             const { x: arrowX, y: arrowY } = middlewareData.arrow;
 
             Object.assign(this.arrow.style, {
-              left: arrowX != null ? `${arrowX}px` : "",
+              '"inset-inline-start"': arrowX != null ? `${arrowX}px` : "",
               top: arrowY != null ? `${arrowY}px` : "",
             });
           }

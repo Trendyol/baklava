@@ -1,6 +1,9 @@
 @import url("@fontsource-variable/rubik");
 
 :root {
+  /* Direction */
+  --bl-text-x-direction: 1;
+
   /* Primary Color */
   --bl-color-primary: #f27a1a;
   --bl-color-primary-highlight: #ef6114;
@@ -220,6 +223,8 @@
   /* Direction */
   direction: rtl;
 
+  --bl-text-x-direction: -1;
+
   /* Typography */
-  --bl-font-family: "Noto Sans", sans-serif;
+  --bl-font-family: "Cairo";
 }

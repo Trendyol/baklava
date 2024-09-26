@@ -45,7 +45,7 @@
   transform: rotate(var(--arrow-rotation));
   border: var(--border-size) solid var(--border-color);
   border-bottom: none;
-  border-right: none;
+  border-inline-end: none;
 }
 
 .popover[data-placement*="bottom"] .arrow {
@@ -61,11 +61,11 @@
 .popover[data-placement*="left"] .arrow {
   --arrow-rotation: 135deg;
 
-  right: var(--arrow-position);
+  inset-inline-end: var(--arrow-position);
 }
 
 .popover[data-placement*="right"] .arrow {
   --arrow-rotation: 315deg;
 
-  left: var(--arrow-position);
+  inset-inline-start: var(--arrow-position);
 }

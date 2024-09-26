@@ -33,17 +33,12 @@ span {
   background-color: white;
   border-radius: var(--bl-border-radius-circle);
   height: var(--thumb-height);
-  left: var(--thumb-offset);
+  inset-inline-start: var(--thumb-offset);
   position: relative;
   top: var(--thumb-offset);
   transition: transform;
   transition-duration: var(--animation-duration);
   width: var(--thumb-width);
-}
-
-:host([dir="rtl"]) .switch::before {
-  left: unset;
-  right: var(--thumb-offset);
 }
 
 label {

@@ -46,19 +46,19 @@
 }
 
 :host([variant="secondary"][dir="rtl"]) .dropdown-button {
-  right: -1px;
+  inset-inline-end: -1px;
 }
 
 :host([variant="secondary"]) .dropdown-button {
-  left: -1px;
+  inset-inline-start: -1px;
 }
 
 :host([dropdown-disabled][variant="secondary"]) .dropdown-button {
-  left: 0;
+  inset-inline-start: 0;
 }
 
 :host([dropdown-disabled][variant="secondary"][dir="rtl"]) .dropdown-button {
-  right: 0;
+  inset-inline-end: 0;
 }
 
 .split-divider {

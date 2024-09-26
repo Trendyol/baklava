@@ -17,8 +17,8 @@
   align-items: center;
 }
 
-:host([dir="rtl"]) .page-container {
-  flex-direction: row-reverse;
+:host([dir="rtl"]) .page-container :is(bl-button.next, bl-button.previous) {
+  transform: rotate(180deg);
 }
 
 .page-list {

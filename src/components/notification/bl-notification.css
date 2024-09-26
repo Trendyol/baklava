@@ -11,16 +11,11 @@
   flex-direction: column-reverse;
   position: fixed;
   top: 0;
-  right: 0;
+  inset-inline-end: 0;
   max-width: var(--bl-notification-width);
   margin: var(--margin);
   width: calc(100% - var(--margin) * 2);
   z-index: var(--bl-index-notification);
-}
-
-:host([dir="rtl"]) .wrapper {
-  left: 0;
-  right: unset;
 }
 
 @media screen and (max-width: 480px) {
