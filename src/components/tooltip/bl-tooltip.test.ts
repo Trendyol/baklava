@@ -2,8 +2,8 @@ import { assert, elementUpdated, expect, fixture, html, oneEvent } from "@open-w
 import { sendKeys, sendMouse } from "@web/test-runner-commands";
 import { getMiddleOfElement } from "../../utilities/elements";
 import type typeOfBlPopover from "../popover/bl-popover";
-import BlTooltip from "./bl-tooltip";
 import type typeOfBlTooltip from "./bl-tooltip";
+import BlTooltip from "./bl-tooltip";
 
 describe("bl-tooltip", () => {
   it("should be defined tooltip instance", () => {
@@ -150,26 +150,22 @@ describe("bl-tooltip", () => {
   it("should fires bl-tooltip-hide on mouse leave", async () => {
     //given
     const el = await fixture<typeOfBlTooltip>(
-      html`<bl-tooltip placement="left-end"
+      html`<bl-tooltip placement="top-end"
         ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
       >`
     );
     const trigger = document.querySelector("button") as HTMLElement;
-    const body = document.querySelector("body") as HTMLElement;
-    const { x: triggerX, y: triggerY } = getMiddleOfElement(trigger);
-    const { x: bodyX, y: bodyY } = getMiddleOfElement(body);
+    const { x, y } = getMiddleOfElement(trigger);
 
     //when
-    await sendMouse({ type: "move", position: [triggerX, triggerY] });
-    setTimeout(() => {
-      sendMouse({ type: "move", position: [bodyX, bodyY] });
-    });
+    setTimeout(() => sendMouse({ type: "move", position: [x, y] }));
+    setTimeout(() => sendMouse({ type: "move", position: [x + 100, y] }));
 
     //then
     const ev = await oneEvent(el, "bl-tooltip-hide");
 
     expect(ev).to.exist;
-    expect(ev.detail).to.be.equal("");
+    expect(el.shadowRoot!.querySelector("bl-popover")).to.not.have.class("show");
   });
 
   it("should show/hide with focus and blur events", async () => {
