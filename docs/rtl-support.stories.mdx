@@ -1,0 +1,85 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Right-to-Left (RTL)" />
+
+# Right-to-Left (RTL)
+
+Baklava components support Right-to-Left (RTL) text direction, which is essential for languages that are written from right to left, such as Arabic, Hebrew, and Persian. To enable RTL support in your application using Baklava components, you need to set the `dir` attribute on the `<html>` tag in your project.
+
+## Enabling Right-to-Left (RTL)
+
+To enable Right-to-Left (RTL), add the `dir="rtl"` attribute to your HTML tag. Here's how you can do it:
+
+1. In your HTML file, locate the opening `<html>` tag.
+2. Add the `dir="rtl"` attribute to the tag.
+
+```html
+    <!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>RTL Example</title>
+        </head>
+        
+        <body>
+        <!-- Your content here -->
+        </body>
+    </html>
+```
+
+
+## Guidelines for Contributors
+
+When developing or modifying Baklava components, it's crucial to ensure proper RTL support. This includes being aware of RTL text and its implications on layout and styling. For a comprehensive guide on building RTL-aware web applications and websites, refer to [this article](https://hacks.mozilla.org/2015/09/building-rtl-aware-web-apps-and-websites-part-1/). Here are some guidelines to follow:
+
+1. Use the `--bl-text-x-direction` CSS custom property:
+   This property helps determine whether the element is in RTL or LTR. You can use it in your CSS like this:
+
+
+   ```css
+   .my-component {
+        transform: scaleX(var(--bl-text-x-direction));
+        box-shadow: calc(8px * var(--bl-text-x-direction)) 0 16px 0 rgb(39 49 66 / 10%);
+   }
+   ```
+###
+
+2. Utilize CSS logical properties:
+   Instead of using directional properties like `left`, `right`, `margin-left`, etc., use their logical counterparts. This ensures that your components adapt correctly to both LTR and RTL layouts. Here are some examples:
+
+   - Use `inline-start` and `inline-end` instead of `left` and `right`
+   - Use `block-start` and `block-end` instead of `top` and `bottom`
+   - Use `margin-inline-start` and `margin-inline-end` instead of `margin-left` and `margin-right`
+   - Use `padding-inline-start` and `padding-inline-end` instead of `padding-left` and `padding-right`
+   - Use `border-inline-start` and `border-inline-end` instead of `border-left` and `border-right`
+
+   ###
+
+   ```css
+   .my-component {
+        margin-inline-start: 1rem;
+        padding-inline-end: 0.5rem;
+        border-inline-start: 1px solid #ccc;
+   }
+   ```
+
+   ###
+
+    For more information on CSS logical properties and values, please refer to the [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values).
+
+###
+
+3. Use `inset` for positioning:
+   When using absolute or relative positioning, use the `inset` property with logical values:
+
+   ```css
+   .positioned-element {
+        position: absolute;
+        inset-inline-start: 0;
+        inset-block-start: 0;
+   }
+   ```
+
+By following these guidelines, you'll ensure that Baklava components work seamlessly in both LTR and RTL layouts, providing a consistent user experience across different language settings.
+
