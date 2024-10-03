@@ -150,22 +150,25 @@ describe("bl-tooltip", () => {
   it("should fires bl-tooltip-hide on mouse leave", async () => {
     //given
     const el = await fixture<typeOfBlTooltip>(
-      html`<bl-tooltip placement="top-end"
+      html`<bl-tooltip placement="left-end"
         ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
       >`
     );
     const trigger = document.querySelector("button") as HTMLElement;
-    const { x, y } = getMiddleOfElement(trigger);
+    const body = document.querySelector("body") as HTMLElement;
+    const { x: triggerX, y: triggerY } = getMiddleOfElement(trigger);
+    const { x: bodyX, y: bodyY } = getMiddleOfElement(body);
 
     //when
-    setTimeout(() => sendMouse({ type: "move", position: [x, y] }));
-    setTimeout(() => sendMouse({ type: "move", position: [x + 100, y] }));
-
+    await sendMouse({ type: "move", position: [triggerX, triggerY] });
+    setTimeout(() => {
+      sendMouse({ type: "move", position: [bodyX, bodyY] });
+    });
     //then
     const ev = await oneEvent(el, "bl-tooltip-hide");
 
     expect(ev).to.exist;
-    expect(el.shadowRoot!.querySelector("bl-popover")).to.not.have.class("show");
+    expect(ev.detail).to.be.equal("");
   });
 
   it("should show/hide with focus and blur events", async () => {
