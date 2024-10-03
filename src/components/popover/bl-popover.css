@@ -61,11 +61,11 @@
 .popover[data-placement*="left"] .arrow {
   --arrow-rotation: 135deg;
 
-  inset-inline-end: var(--arrow-position);
+  right: var(--arrow-position);
 }
 
 .popover[data-placement*="right"] .arrow {
   --arrow-rotation: 315deg;
 
-  inset-inline-start: var(--arrow-position);
+  left: var(--arrow-position);
 }

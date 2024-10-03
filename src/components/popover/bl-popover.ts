@@ -148,7 +148,7 @@ export default class BlPopover extends LitElement {
           middleware: this.getMiddleware(),
         }).then(({ x, y, placement, middlewareData }) => {
           Object.assign(this._popover.style, {
-            '"inset-inline-start"': `${x}px`,
+            left: `${x}px`,
             top: `${y}px`,
           });
 
@@ -158,7 +158,7 @@ export default class BlPopover extends LitElement {
             const { x: arrowX, y: arrowY } = middlewareData.arrow;
 
             Object.assign(this.arrow.style, {
-              '"inset-inline-start"': arrowX != null ? `${arrowX}px` : "",
+              left: arrowX != null ? `${arrowX}px` : "",
               top: arrowY != null ? `${arrowY}px` : "",
             });
           }
