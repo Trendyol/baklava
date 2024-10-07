@@ -43,25 +43,25 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   _selectedDates: CalendarDate[] = [];
 
   @state()
-  private _selectedRangeDates: RangePickerDates = { startDate: undefined, endDate: undefined };
+  _selectedRangeDates: RangePickerDates = { startDate: undefined, endDate: undefined };
 
   @state()
-  private today = new Date();
+  today = new Date();
 
   @state()
   _calendarMonth: number = this.today.getMonth();
 
   @state()
-  private _calendarYear: number = this.today.getFullYear();
+  _calendarYear: number = this.today.getFullYear();
 
   @state()
-  private _calendarView: CalendarView = CALENDAR_VIEWS.DAYS;
+  _calendarView: CalendarView = CALENDAR_VIEWS.DAYS;
 
   @state()
-  private _calendarYears: number[] = [];
+  _calendarYears: number[] = [];
 
   @state()
-  private _calendarDays: CalendarDay[] = [];
+  _calendarDays: CalendarDay[] = [];
 
   /**
    * Fires when date selection changes

@@ -1,8 +1,10 @@
-import { fixture, expect, html } from "@open-wc/testing";
+import { expect, fixture, html } from "@open-wc/testing";
 import "./bl-calendar";
 import { BlButton, BlCalendar } from "../../baklava";
 import { blCalendarChangedEvent } from "./bl-calendar";
 import { blDatepickerClearSelectedDatesEvent } from "../datepicker/bl-datepicker";
+import { CALENDAR_TYPES, CALENDAR_VIEWS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX } from "./bl-calendar.constant";
+import sinon from "sinon";
 
 describe("bl-calendar", () => {
   let element: BlCalendar;
@@ -62,7 +64,7 @@ describe("bl-calendar", () => {
      const multipleTypeCalendar= element = await fixture<BlCalendar>(html`<bl-calendar locale="en" type="multiple"></bl-calendar>`);
 
     await multipleTypeCalendar.updateComplete;
-     const dayButtons = Array.from(element.shadowRoot?.querySelectorAll(".day-wrapper bl-button") || []) as BlButton[];
+    const dayButtons = Array.from(element.shadowRoot?.querySelectorAll(".day-wrapper bl-button") || []) as BlButton[];
 
     dayButtons[0].click();
     dayButtons[1].click();
@@ -117,4 +119,419 @@ describe("bl-calendar", () => {
       }
     });
   });
+
+  it("should not allow selection of dates before minDate", async () => {
+    element.minDate = new Date(2023, 0, 15);
+    element._calendarMonth = 0;
+    element._calendarYear = 2023;
+
+    await element.updateComplete;
+
+    const calendarDay = Array.from(
+      element.shadowRoot?.querySelectorAll("bl-button")|| []
+    ).find(button => button?.textContent?.trim() === "10");
+
+
+    expect(calendarDay?.hasAttribute("disabled")).to.be.true;
+  });
+
+  it("should switch to month view when the month button is clicked", async () => {
+    const monthButton = element.shadowRoot?.querySelector(".header-text") as BlButton;
+
+    monthButton?.click();
+
+    expect(element._calendarView).to.equal(CALENDAR_VIEWS.MONTHS);
+  });
+
+  it("should select a date range correctly", async () => {
+    const startDate = new Date(2023, 1, 10);
+    const endDate = new Date(2023, 1, 20);
+
+    element.handleRangeSelectCalendar(startDate);
+    element.handleRangeSelectCalendar(endDate);
+
+    expect(element._selectedRangeDates.startDate).to.deep.equal(startDate);
+    expect(element._selectedRangeDates.endDate).to.deep.equal(endDate);
+  });
+
+  it("should render month names in the correct locale", async () => {
+    element = await fixture<BlCalendar>(html`<bl-calendar locale="fr"></bl-calendar>`);
+
+    const monthName = new Date().toLocaleString("fr", { month: "long" });
+    const firstMonth = element.shadowRoot?.querySelector(".header-text")?.textContent;
+
+    expect(firstMonth).to.equal(monthName);
+  });
+
+  it("should apply the today-day class to today's date", async () => {
+
+    const todayElement = Array.from(
+      element.shadowRoot?.querySelectorAll("bl-button") || []
+    ).find(button => button?.textContent?.trim() === `${element.today.getDate()}`);
+
+    expect(todayElement?.classList.contains("today-day")).to.be.true;
+  });
+
+  it("should clear selected dates when blDatepickerClearSelectedDatesEvent is triggered", async () => {
+    const testDate = new Date(2023, 1, 10);
+
+    element._selectedDates = [testDate];
+
+    window.dispatchEvent(new CustomEvent(blDatepickerClearSelectedDatesEvent));
+
+    expect(element._selectedDates).to.be.empty;
+    expect(element._selectedRangeDates.startDate).to.be.undefined;
+    expect(element._selectedRangeDates.endDate).to.be.undefined;
+  });
+
+  it("should switch to the year view and render years", async () => {
+    const yearButton = (element.shadowRoot?.querySelectorAll(".header-text")[1]) as BlButton;
+
+    yearButton?.click();
+
+    await element.updateComplete;
+
+    expect(element._calendarView).to.equal(CALENDAR_VIEWS.YEARS);
+    const yearButtons = element.shadowRoot?.querySelectorAll(".grid-item");
+
+    expect(yearButtons?.length).to.equal(12);
+  });
+
+  it("should update the calendar month and view when setMonthAndCalendarView is called", async () => {
+    const setHoverClassSpy = sinon.spy(element, "setHoverClass");
+    const testMonth = 5;
+
+    element.setMonthAndCalendarView(testMonth);
+
+    expect(element._calendarMonth).to.equal(testMonth);
+    expect(element._calendarView).to.equal(CALENDAR_VIEWS.DAYS);
+    expect(setHoverClassSpy.calledOnce).to.be.false;
+
+    element.type = CALENDAR_TYPES.RANGE;
+    element.setMonthAndCalendarView(testMonth);
+
+    expect(setHoverClassSpy.calledOnce).to.be.true;
+  });
+
+  it("should update the calendar year and view when setYearAndCalendarView is called", async () => {
+    const setHoverClassSpy = sinon.spy(element, "setHoverClass");
+    const testYear = 2025;
+
+    element.setYearAndCalendarView(testYear);
+
+
+    expect(element._calendarYear).to.equal(testYear);
+    expect(element._calendarView).to.equal(CALENDAR_VIEWS.DAYS);
+    expect(setHoverClassSpy.calledOnce).to.be.false;
+
+
+    element.type = CALENDAR_TYPES.RANGE;
+    element.setYearAndCalendarView(testYear);
+
+    expect(setHoverClassSpy.calledOnce).to.be.true;
+  });
+
+  it("should return true if calendarDate is in disabledDates", () => {
+    const calendarDate = new Date(2023,9,18);
+
+    element.disabledDates = [new Date(2023,9,18),new Date(2023,9,20)];
+
+    const result = element.checkIfDateIsDisabled(calendarDate);
+
+    expect(result).to.be.true;
+  });
+
+  it("should return false if calendarDate is not in disabledDates", () => {
+    const calendarDate = new Date(2023,9,19);
+
+    element.disabledDates = [new Date(2023,9,18),new Date(2023,9,20)];
+
+    const result = element.checkIfDateIsDisabled(calendarDate);
+
+    expect(result).to.be.false;
+  });
+
+
+  it("should wrap _defaultValue in an array if it is a single date", async () => {
+    const calendar = new BlCalendar();
+
+    calendar._defaultValue = new Date("2023-09-18");
+    calendar.type = CALENDAR_TYPES.SINGLE;
+
+    await calendar.firstUpdated();
+
+    expect(calendar._selectedDates).to.deep.equal([new Date("2023-09-18")],{ });
+  });
+
+  it("should set startDate and endDate in _selectedRangeDates when type is RANGE", async () => {
+    const defaultDate1=new Date(2023,9,18);
+    const defaultDate2=new Date(2023,9,19);
+
+    element._defaultValue = [defaultDate1,defaultDate2];
+    element.type = CALENDAR_TYPES.RANGE;
+
+    const setHoverClassSpy = sinon.spy(element, "setHoverClass");
+
+    await element.firstUpdated();
+
+    expect(element._selectedRangeDates.startDate).to.be.equal(defaultDate1);
+    expect(element._selectedRangeDates.endDate).to.be.equal(defaultDate2);
+    expect(setHoverClassSpy).to.be.calledOnce;
+  });
+
+  it("should not set _selectedDates or _selectedRangeDates if _defaultValue is undefined", async () => {
+
+    await element.firstUpdated();
+
+    expect(element._selectedDates).to.deep.equal([]);
+    expect(element._selectedRangeDates.startDate).to.be.undefined;
+    expect(element._selectedRangeDates.endDate).to.be.undefined;
+  });
+
+  it("should navigate to the previous month in DAYS view", async () => {
+    element._calendarView = CALENDAR_VIEWS.DAYS;
+    element._calendarMonth = 5;
+    element._calendarYear = 2023;
+
+    element.setPreviousCalendarView();
+    await element.updateComplete;
+
+    expect(element._calendarMonth).to.equal(4);
+    expect(element._calendarYear).to.equal(2023);
+  });
+
+  it("should navigate to December of the previous year if on January in DAYS view", async () => {
+    element._calendarView = CALENDAR_VIEWS.DAYS;
+    element._calendarMonth = FIRST_MONTH_INDEX;
+    element._calendarYear = 2023;
+
+    element.setPreviousCalendarView();
+    await element.updateComplete;
+
+    expect(element._calendarMonth).to.equal(LAST_MONTH_INDEX);
+    expect(element._calendarYear).to.equal(2022);
+  });
+
+  it("should navigate to the previous year in MONTHS view", async () => {
+    element._calendarView = CALENDAR_VIEWS.MONTHS;
+    element._calendarYear = 2023;
+
+    element.setPreviousCalendarView();
+    await element.updateComplete;
+
+    expect(element._calendarYear).to.equal(2022);
+  });
+
+  it("should generate the previous 12 years when in YEARS view", async () => {
+    element._calendarView = CALENDAR_VIEWS.YEARS;
+    element._calendarYears = [2023];
+
+    element.setPreviousCalendarView();
+    await element.updateComplete;
+
+    expect(element._calendarYears.length).to.equal(12);
+    expect(element._calendarYears).to.deep.equal([
+      2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011
+    ]);
+  });
+
+  it("should update calendar when in DAYS view and month is December", async () => {
+    element._calendarView = CALENDAR_VIEWS.DAYS;
+    element._calendarMonth = 11;
+    element._calendarYear = 2023;
+
+    element.setNextCalendarView();
+    await element.updateComplete;
+
+
+    expect(element._calendarMonth).to.equal(0);
+    expect(element._calendarYear).to.equal(2024);
+  });
+
+  it("should update calendar when in DAYS view and month is not December", async () => {
+    element._calendarView = CALENDAR_VIEWS.DAYS;
+    element._calendarMonth = 5;
+    element._calendarYear = 2023;
+
+    element.setNextCalendarView();
+    await element.updateComplete;
+
+
+    expect(element._calendarMonth).to.equal(6);
+    expect(element._calendarYear).to.equal(2023);
+  });
+
+  it("should update year when in MONTHS view", async () => {
+    element._calendarView = CALENDAR_VIEWS.MONTHS;
+    element._calendarYear = 2023;
+
+    element.setNextCalendarView();
+    await element.updateComplete;
+
+
+    expect(element._calendarYear).to.equal(2024);
+  });
+
+  it("should update calendar years when in YEARS view", async () => {
+    element._calendarView = CALENDAR_VIEWS.YEARS;
+    element._calendarYears = [2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031];
+
+    element.setNextCalendarView();
+    await element.updateComplete;
+
+
+    expect(element._calendarYears.length).to.equal(12);
+    expect(element._calendarYears).to.deep.equal([
+      2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040, 2041, 2042, 2043
+    ]);
+  });
+
+  it("should set both startDate and endDate when endDate is not set and calendarDate is earlier than startDate", () => {
+    const startDate = new Date(2023, 0, 5);
+    const calendarDate = new Date(2023, 0, 1);
+
+
+    element._selectedRangeDates.startDate = startDate;
+    element._selectedDates.push(startDate);
+
+
+    element.handleRangeSelectCalendar(calendarDate);
+
+    expect(element._selectedRangeDates).to.deep.equal({ startDate: calendarDate, endDate: startDate });
+    expect(element._selectedDates).to.deep.equal([calendarDate, startDate]);
+  });
+
+  it("should reset to only startDate when both startDate and endDate are set", () => {
+    const calendarDate = new Date(2023, 0, 10);
+    const startDate = new Date(2023, 0, 5);
+    const endDate = new Date(2023, 0, 15);
+
+
+    element._selectedRangeDates = { startDate, endDate };
+    element._selectedDates = [startDate, endDate];
+
+
+    element.handleRangeSelectCalendar(calendarDate);
+
+    expect(element._selectedRangeDates).to.deep.equal({ startDate: calendarDate, endDate: undefined });
+    expect(element._selectedDates).to.deep.equal([calendarDate]);
+  });
+
+
+  it("should remove the date if it already exists in _selectedDates", () => {
+    const calendarDate = new Date(2023, 0, 5);
+
+    element._selectedDates.push(calendarDate);
+
+    element.handleMultipleSelectCalendar(calendarDate);
+
+    expect(element._selectedDates).to.not.include(calendarDate);
+    expect(element._selectedDates).to.have.lengthOf(0);
+  });
+
+  it("should add the date if it does not exist in _selectedDates", () => {
+    const calendarDate = new Date(2023, 0, 5);
+
+    element.handleMultipleSelectCalendar(calendarDate);
+
+    expect(element._selectedDates).to.include(calendarDate);
+    expect(element._selectedDates).to.have.lengthOf(1);
+  });
+
+  it("should call handleRangeSelectCalendar when type is RANGE", () => {
+    const calendarDate = new Date(2023, 6, 15);
+
+    element.type = CALENDAR_TYPES.RANGE;
+
+    const handleRangeSelectCalendarStub = sinon.stub(element, "handleRangeSelectCalendar");
+
+    element.handleDate(calendarDate);
+
+    expect(handleRangeSelectCalendarStub).to.have.been.calledWith(calendarDate);
+  });
+
+  it('should apply "range-day" class to elements between startDate and endDate', async () => {
+
+    const startDate = new Date(2024, 9, 5);
+    const endDate = new Date(2024, 9, 10);
+
+
+    element._selectedRangeDates = { startDate, endDate };
+
+
+    const rangeDates = [
+      new Date(2024, 9, 6),
+      new Date(2024, 9, 7),
+      new Date(2024, 9, 8),
+      new Date(2024, 9, 9)
+    ];
+
+    rangeDates.forEach(date => {
+
+      const fakeElement = document.createElement("div");
+
+      fakeElement.id = `${date.getTime()}`;
+      const parentElement = document.createElement("div");
+
+      parentElement.appendChild(fakeElement);
+      element.shadowRoot?.appendChild(fakeElement);
+    });
+
+
+    element.setHoverClass();
+
+
+    await new Promise(resolve => setTimeout(resolve));
+
+
+    rangeDates.forEach(date => {
+      const elementWithId = element.shadowRoot?.getElementById(`${date.getTime()}`)?.parentElement;
+
+      expect(elementWithId?.classList.contains("range-day")).to.be.true;
+    });
+  });
+
+
+  it("should correctly calculate lastMonthDaysCount when currentMonthStartWeekDay < startOfWeek", () => {
+
+
+    element._calendarYear = 2024;
+    element._calendarMonth = 9;
+
+    element.startOfWeek = 1;
+    const currentMonthStartWeekDay = 0;
+
+
+    element.getWeekDayOfDate = () => currentMonthStartWeekDay;
+
+
+    element.getDayNumInAMonth = (_year, month) => (month === 8 ? 30 : 31);
+
+
+    element.createCalendarDays();
+
+
+
+    const expectedLastMonthDaysCount = 7 - (element.startOfWeek - currentMonthStartWeekDay);
+
+    expect(element.getDayNumInAMonth(2024, 8)).to.equal(30);
+    expect(element.getWeekDayOfDate(2024, 9)).to.equal(currentMonthStartWeekDay);
+    expect(expectedLastMonthDaysCount).to.equal(6);
+  });
+
+  it("should correctly calculate lastMonthDaysCount when currentMonthStartWeekDay >= startOfWeek", () => {
+    element.startOfWeek = 1;
+    const currentMonthStartWeekDay = 2;
+
+    element.getWeekDayOfDate = () => currentMonthStartWeekDay;
+
+    element.getDayNumInAMonth = (_year, month) => (month === 8 ? 30 : 31);
+
+    element.createCalendarDays();
+
+    const expectedLastMonthDaysCount = currentMonthStartWeekDay - element.startOfWeek;
+
+    expect(expectedLastMonthDaysCount).to.equal(1);
+  });
+
 });

@@ -60,7 +60,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   _selectedDates: CalendarDate[] = [];
 
   @state()
-  private _floatingDateCount: number = 0;
+  _floatingDateCount: number = 0;
 
   @state()
   private _fittingDateCount: number = 0;
@@ -255,6 +255,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           help-text=${this.helpText}
           .customInvalidText=${this.invalidText}
           ?disabled=${this.disabled}
+          readonly
         >
           <div slot="icon" class="icon-container" id="icon-container">
             ${additionalDatesView} ${clearDatepickerButton}
