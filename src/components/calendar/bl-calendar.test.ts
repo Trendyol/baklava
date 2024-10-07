@@ -511,7 +511,6 @@ describe("bl-calendar", () => {
     element.createCalendarDays();
 
 
-
     const expectedLastMonthDaysCount = 7 - (element.startOfWeek - currentMonthStartWeekDay);
 
     expect(element.getDayNumInAMonth(2024, 8)).to.equal(30);
