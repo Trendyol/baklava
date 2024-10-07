@@ -69,16 +69,16 @@
     --bl-color-neutral-darkest: var(--bl-color-primary);
   }
 
+  &.other-month-day {
+    --bl-color-neutral-darker: var(--bl-color-neutral-dark);
+  }
+
   &.selected-day {
     background: var(--bl-color-primary);
     border-radius: 50%;
 
     --bl-button-focus-border-color: var(--bl-color-primary);
-    --bl-color-neutral-darker: var(--bl-color-neutral-full);
-  }
-
-  &.other-month-day {
-    --bl-color-neutral-darker: var(--bl-color-neutral-dark);
+    --bl-color-neutral-darker: var(--bl-color-neutral-full) !important;
   }
 }
 
