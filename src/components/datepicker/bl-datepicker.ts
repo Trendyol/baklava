@@ -1,6 +1,5 @@
 import { CSSResultGroup, html, TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 import { BlCalendar, BlPopover } from "../../baklava";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
 import { event, EventDispatcher } from "../../utilities/event";
@@ -63,7 +62,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   _floatingDateCount: number = 0;
 
   @state()
-  private _fittingDateCount: number = 0;
+  _fittingDateCount: number = 0;
 
   @query("bl-calendar")
   _calendarEl: BlCalendar;
@@ -86,7 +85,8 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
    */
   @event(blDatepickerChangedEvent) private _onBlDatepickerChanged: EventDispatcher<Date[]>;
 
-  private _defaultValueFormatter() {
+  _defaultValueFormatter() {
+    console.log("this._selectedDates[0]", this._selectedDates[0]);
     if (this.type === CALENDAR_TYPES.SINGLE) {
       this._value = this.formatDate(this._selectedDates[0]);
       this.closePopoverWithTimeout();
@@ -112,8 +112,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   setFloatingDates() {
     const datepickerInput = this.shadowRoot?.getElementById("datepicker-input");
     const iconsContainer = this.shadowRoot?.getElementById("icon-container");
-    const datesTextTotalWidth =
-      (datepickerInput?.offsetWidth ?? 0) - (iconsContainer?.offsetWidth ?? 0);
+    const datesTextTotalWidth = datepickerInput!.offsetWidth! - iconsContainer!.offsetWidth!;
 
     this._fittingDateCount = Math.floor(datesTextTotalWidth / 90);
 
@@ -135,7 +134,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     this._onBlDatepickerChanged(this._selectedDates);
   }
 
-  formatDate(date: Date) {
+  formatDate(date: Date): string {
     return `${String(date?.getDate()).padStart(2, "0")}/${String(date?.getMonth() + 1).padStart(
       2,
       "0"
@@ -158,7 +157,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     this._popoverEl.hide();
   }
 
-  private _togglePopover() {
+  _togglePopover() {
     this._popoverEl.visible ? this.closePopover() : this.openPopover();
   }
 
@@ -234,7 +233,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
               size="small"
               variant="tertiary"
               kind="neutral"
-              icon=${ifDefined(this._selectedDates.length ? "close" : undefined)}
+              icon="close"
               @click=${() => this.clearDatepicker()}
             ></bl-button>
             <div class="action-divider"></div>`

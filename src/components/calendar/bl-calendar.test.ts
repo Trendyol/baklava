@@ -533,4 +533,169 @@ describe("bl-calendar", () => {
     expect(expectedLastMonthDaysCount).to.equal(1);
   });
 
+  it("should call setHoverClass when type is RANGE", () => {
+
+    element.type = CALENDAR_TYPES.RANGE;
+
+
+    const setHoverClassSpy = sinon.spy(element, "setHoverClass");
+
+
+    element._calendarView = CALENDAR_VIEWS.DAYS;
+    element._calendarMonth = FIRST_MONTH_INDEX;
+    element._calendarYear = 2024;
+    element._calendarYears = [2023, 2024, 2025];
+
+
+    element.setPreviousCalendarView();
+
+
+    expect(setHoverClassSpy).to.have.been.called;
+
+
+    setHoverClassSpy.restore();
+  });
+
+  it("should not call setHoverClass when type is not RANGE", () => {
+
+    element.type = CALENDAR_TYPES.SINGLE;
+
+
+    const setHoverClassSpy = sinon.spy(element, "setHoverClass");
+
+
+    element.setPreviousCalendarView();
+
+
+    expect(setHoverClassSpy).to.not.have.been.called;
+
+
+    setHoverClassSpy.restore();
+  });
+
+  it("should set _calendarView to CALENDAR_VIEWS.DAYS when current view is CALENDAR_VIEWS.DAYS", () => {
+
+    element._calendarView = CALENDAR_VIEWS.DAYS;
+
+
+    const setHoverClassSpy = sinon.spy(element, "setHoverClass");
+
+
+    element.setCurrentCalendarView(CALENDAR_VIEWS.DAYS);
+
+
+    expect(element._calendarView).to.equal(CALENDAR_VIEWS.DAYS);
+
+
+    expect(setHoverClassSpy).to.have.been.called;
+
+
+    setHoverClassSpy.restore();
+  });
+
+  it("should set _calendarView to the provided view if it is different from the current view", () => {
+
+    element._calendarView = CALENDAR_VIEWS.MONTHS;
+
+
+    const setHoverClassSpy = sinon.spy(element, "setHoverClass");
+
+
+    element.setCurrentCalendarView(CALENDAR_VIEWS.DAYS);
+
+
+    expect(element._calendarView).to.equal(CALENDAR_VIEWS.DAYS);
+
+
+    expect(setHoverClassSpy).to.have.been.called;
+
+
+    setHoverClassSpy.restore();
+  });
+
+    it("should call setNextCalendarView when date month is greater than _calendarMonth", () => {
+      element._calendarMonth = 0;
+      element.type = CALENDAR_TYPES.SINGLE;
+
+
+      const setNextCalendarViewSpy = sinon.spy(element, "setNextCalendarView");
+
+
+      element.handleDate(new Date(2024, 2, 15));
+
+
+      expect(setNextCalendarViewSpy).to.have.been.called;
+
+
+      setNextCalendarViewSpy.restore();
+    });
+
+    it("should not call setNextCalendarView when calendar type is RANGE", () => {
+      element._calendarMonth = 0;
+      element.type = CALENDAR_TYPES.RANGE;
+
+
+      const setNextCalendarViewSpy = sinon.spy(element, "setNextCalendarView");
+
+
+      element.handleDate(new Date(2024, 2, 15));
+
+
+      expect(setNextCalendarViewSpy).to.not.have.been.called;
+
+
+      setNextCalendarViewSpy.restore();
+    });
+
+    it("should not call setNextCalendarView when date month is less than or equal to _calendarMonth", () => {
+      element._calendarMonth = 0;
+      element._calendarMonth = 3;
+
+
+      const setNextCalendarViewSpy = sinon.spy(element, "setNextCalendarView");
+
+
+      element.handleDate(new Date(2024, 2, 15));
+
+
+      expect(setNextCalendarViewSpy).to.not.have.been.called;
+
+
+      setNextCalendarViewSpy.restore();
+    });
+
+  it("should not call setTimeout or add any class when startDate or endDate is undefined", () => {
+    element.createCalendarDays = () => new Map();
+    element._selectedRangeDates = {
+      startDate: undefined,
+      endDate: new Date(2024, 0, 15)
+    };
+
+
+    const setTimeoutSpy = sinon.spy(window, "setTimeout");
+
+
+    element.setHoverClass();
+
+
+    expect(setTimeoutSpy).to.not.have.been.called;
+
+
+    setTimeoutSpy.restore();
+  });
+
+  it("should add classes when both startDate and endDate are defined", () => {
+
+    element._selectedRangeDates = {
+      startDate: new Date(2024, 0, 10),
+      endDate: new Date(2024, 0, 15)
+    };
+
+    const setTimeoutSpy = sinon.spy(window, "setTimeout");
+
+    element.setHoverClass();
+
+    expect(setTimeoutSpy).to.have.been.calledOnce;
+
+  });
 });

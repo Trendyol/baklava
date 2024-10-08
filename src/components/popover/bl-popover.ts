@@ -79,7 +79,7 @@ export default class BlPopover extends LitElement {
   /**
    * Visibility state
    */
-  @state() private _visible = false;
+  @state() _visible = false;
 
   /**
    * Fires when the popover is shown

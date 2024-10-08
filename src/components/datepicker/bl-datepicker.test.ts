@@ -7,10 +7,28 @@ import sinon from "sinon";
 
 describe("BlDatepicker", () => {
   let element : BlDatepicker;
+  let getElementByIdStub : sinon.SinonStub;
 
   beforeEach(async () => {
     element = await fixture<BlDatePicker>(html`<bl-datepicker type="single" locale="en"></bl-datepicker>`);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    getElementByIdStub = sinon.stub(element.shadowRoot, "getElementById").callsFake((id) => {
+      if (id === "datepicker-input") {
+        return { offsetWidth: 300 };
+      }
+      if (id === "icon-container") {
+        return { offsetWidth: 60 };
+      }
+      return null;
+    });
+
     await element.updateComplete;
+  });
+
+  afterEach(() => {
+    getElementByIdStub.restore();
   });
 
   it("should instantiate the component", () => {
@@ -233,4 +251,73 @@ describe("BlDatepicker", () => {
     expect(trigger).to.not.be.null;
     expect(trigger?.textContent).to.equal("+2");
   });
+
+
+  it('should include " ,..." when _floatingDateCount is greater than 0 for MULTIPLE type', () => {
+
+    element.type = CALENDAR_TYPES.MULTIPLE;
+    element._selectedDates = [new Date("2024-01-01"), new Date("2024-01-02"), new Date("2024-01-03")];
+
+
+    element.setFloatingDates();
+
+
+    element._defaultValueFormatter();
+
+
+    expect(element._value).to.include(" ,...");
+  });
+
+  it('should not include " ,..." when _floatingDateCount is 0 for MULTIPLE type', () => {
+
+    element.type = CALENDAR_TYPES.MULTIPLE;
+    element._selectedDates = [new Date("2024-01-01")];
+
+
+    element.setFloatingDates();
+
+
+    element._defaultValueFormatter();
+
+
+    expect(element._value).to.not.include(" ,...");
+  });
+
+  it("should format a date correctly", () => {
+    const testDate = new Date(2024, 9, 8);
+    const formattedDate = element.formatDate(testDate);
+
+
+    expect(formattedDate).to.equal("08/10/2024");
+  });
+
+  it("should handle single-digit days and months correctly", () => {
+    const testDate = new Date(2024, 0, 5);
+    const formattedDate = element.formatDate(testDate);
+
+
+    expect(formattedDate).to.equal("05/01/2024");
+  });
+
+  it("should call openPopover when _popoverEl is not visible", () => {
+    const openPopoverSpy = sinon.spy(element, "openPopover");
+
+    element._togglePopover();
+
+    expect(openPopoverSpy).to.have.been.calledOnce;
+    expect(element._popoverEl.visible).to.be.true;
+    openPopoverSpy.restore();
+  });
+
+  it("should call closePopover when _popoverEl is visible", () => {
+    element._popoverEl._visible = true;
+    const closePopoverSpy = sinon.spy(element, "closePopover");
+
+    element._togglePopover();
+
+    expect(closePopoverSpy).to.have.been.calledOnce;
+    expect(element._popoverEl.visible).to.be.false;
+    closePopoverSpy.restore();
+  });
+
 });

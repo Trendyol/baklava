@@ -130,7 +130,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
 
       this._calendarYears = Array.from({ length: 12 }, (_, i) => fromYear + (i + 1));
     }
-    this.type === CALENDAR_TYPES.RANGE && this.setHoverClass();
+    this.setHoverClass();
   }
 
   setCurrentCalendarView(view: CalendarView) {
@@ -273,8 +273,8 @@ export default class BlCalendar extends DatepickerCalendarMixin {
           .flat()
           .filter(
             date =>
-              date.getTime() > (this._selectedRangeDates?.startDate?.getTime() || 0) &&
-              date.getTime() < (this._selectedRangeDates?.endDate?.getTime() || 0)
+              date.getTime() > this._selectedRangeDates.startDate!.getTime() &&
+              date.getTime() < this._selectedRangeDates?.endDate!.getTime()
           );
 
         for (let i = 0; i < rangeDays.length; i++) {
