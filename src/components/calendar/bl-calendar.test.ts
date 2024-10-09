@@ -219,11 +219,9 @@ describe("bl-calendar", () => {
 
     element.setYearAndCalendarView(testYear);
 
-
     expect(element._calendarYear).to.equal(testYear);
     expect(element._calendarView).to.equal(CALENDAR_VIEWS.DAYS);
     expect(setHoverClassSpy.calledOnce).to.be.false;
-
 
     element.type = CALENDAR_TYPES.RANGE;
     element.setYearAndCalendarView(testYear);
@@ -251,8 +249,7 @@ describe("bl-calendar", () => {
     expect(result).to.be.false;
   });
 
-
-  it("should wrap _defaultValue in an array if it is a single date", async () => {
+  it("should wrap defaultValue in an array if it is a single date", async () => {
     const calendar = new BlCalendar();
 
     calendar._defaultValue = new Date("2023-09-18");
@@ -263,7 +260,7 @@ describe("bl-calendar", () => {
     expect(calendar._selectedDates).to.deep.equal([new Date("2023-09-18")],{ });
   });
 
-  it("should set startDate and endDate in _selectedRangeDates when type is RANGE", async () => {
+  it("should set startDate and endDate in selectedRangeDates when type is range", async () => {
     const defaultDate1=new Date(2023,9,18);
     const defaultDate2=new Date(2023,9,19);
 
@@ -279,7 +276,7 @@ describe("bl-calendar", () => {
     expect(setHoverClassSpy).to.be.calledOnce;
   });
 
-  it("should not set _selectedDates or _selectedRangeDates if _defaultValue is undefined", async () => {
+  it("should not set selectedDates or selectedRangeDates if defaultValue is undefined", async () => {
 
     await element.firstUpdated();
 
@@ -343,7 +340,6 @@ describe("bl-calendar", () => {
     element.setNextCalendarView();
     await element.updateComplete;
 
-
     expect(element._calendarMonth).to.equal(0);
     expect(element._calendarYear).to.equal(2024);
   });
@@ -356,7 +352,6 @@ describe("bl-calendar", () => {
     element.setNextCalendarView();
     await element.updateComplete;
 
-
     expect(element._calendarMonth).to.equal(6);
     expect(element._calendarYear).to.equal(2023);
   });
@@ -368,7 +363,6 @@ describe("bl-calendar", () => {
     element.setNextCalendarView();
     await element.updateComplete;
 
-
     expect(element._calendarYear).to.equal(2024);
   });
 
@@ -378,7 +372,6 @@ describe("bl-calendar", () => {
 
     element.setNextCalendarView();
     await element.updateComplete;
-
 
     expect(element._calendarYears.length).to.equal(12);
     expect(element._calendarYears).to.deep.equal([
@@ -390,10 +383,8 @@ describe("bl-calendar", () => {
     const startDate = new Date(2023, 0, 5);
     const calendarDate = new Date(2023, 0, 1);
 
-
     element._selectedRangeDates.startDate = startDate;
     element._selectedDates.push(startDate);
-
 
     element.handleRangeSelectCalendar(calendarDate);
 
@@ -406,10 +397,8 @@ describe("bl-calendar", () => {
     const startDate = new Date(2023, 0, 5);
     const endDate = new Date(2023, 0, 15);
 
-
     element._selectedRangeDates = { startDate, endDate };
     element._selectedDates = [startDate, endDate];
-
 
     element.handleRangeSelectCalendar(calendarDate);
 
@@ -429,7 +418,7 @@ describe("bl-calendar", () => {
     expect(element._selectedDates).to.have.lengthOf(0);
   });
 
-  it("should add the date if it does not exist in _selectedDates", () => {
+  it("should add the date if it does not exist in selectedDates", () => {
     const calendarDate = new Date(2023, 0, 5);
 
     element.handleMultipleSelectCalendar(calendarDate);
@@ -455,9 +444,7 @@ describe("bl-calendar", () => {
     const startDate = new Date(2024, 9, 5);
     const endDate = new Date(2024, 9, 10);
 
-
     element._selectedRangeDates = { startDate, endDate };
-
 
     const rangeDates = [
       new Date(2024, 9, 6),
@@ -477,12 +464,9 @@ describe("bl-calendar", () => {
       element.shadowRoot?.appendChild(fakeElement);
     });
 
-
     element.setHoverClass();
 
-
     await new Promise(resolve => setTimeout(resolve));
-
 
     rangeDates.forEach(date => {
       const elementWithId = element.shadowRoot?.getElementById(`${date.getTime()}`)?.parentElement;
@@ -492,8 +476,7 @@ describe("bl-calendar", () => {
   });
 
 
-  it("should correctly calculate lastMonthDaysCount when currentMonthStartWeekDay < startOfWeek", () => {
-
+  it("should correctly calculate lastMonthDaysCount when currentMonthStartWeekDay smaller startOfWeek", () => {
 
     element._calendarYear = 2024;
     element._calendarMonth = 9;
@@ -501,15 +484,11 @@ describe("bl-calendar", () => {
     element.startOfWeek = 1;
     const currentMonthStartWeekDay = 0;
 
-
     element.getWeekDayOfDate = () => currentMonthStartWeekDay;
-
 
     element.getDayNumInAMonth = (_year, month) => (month === 8 ? 30 : 31);
 
-
     element.createCalendarDays();
-
 
     const expectedLastMonthDaysCount = 7 - (element.startOfWeek - currentMonthStartWeekDay);
 
@@ -518,7 +497,7 @@ describe("bl-calendar", () => {
     expect(expectedLastMonthDaysCount).to.equal(6);
   });
 
-  it("should correctly calculate lastMonthDaysCount when currentMonthStartWeekDay >= startOfWeek", () => {
+  it("should correctly calculate lastMonthDaysCount when currentMonthStartWeekDay bigger than startOfWeek", () => {
     element.startOfWeek = 1;
     const currentMonthStartWeekDay = 2;
 
@@ -537,21 +516,16 @@ describe("bl-calendar", () => {
 
     element.type = CALENDAR_TYPES.RANGE;
 
-
     const setHoverClassSpy = sinon.spy(element, "setHoverClass");
-
 
     element._calendarView = CALENDAR_VIEWS.DAYS;
     element._calendarMonth = FIRST_MONTH_INDEX;
     element._calendarYear = 2024;
     element._calendarYears = [2023, 2024, 2025];
 
-
     element.setPreviousCalendarView();
 
-
     expect(setHoverClassSpy).to.have.been.called;
-
 
     setHoverClassSpy.restore();
   });
@@ -560,72 +534,54 @@ describe("bl-calendar", () => {
 
     element.type = CALENDAR_TYPES.SINGLE;
 
-
     const setHoverClassSpy = sinon.spy(element, "setHoverClass");
-
 
     element.setPreviousCalendarView();
 
-
     expect(setHoverClassSpy).to.not.have.been.called;
-
 
     setHoverClassSpy.restore();
   });
 
-  it("should set _calendarView to CALENDAR_VIEWS.DAYS when current view is CALENDAR_VIEWS.DAYS", () => {
+  it("should set calendarView to CALENDAR_VIEWS.DAYS when current view is CALENDAR_VIEWS.DAYS", () => {
 
     element._calendarView = CALENDAR_VIEWS.DAYS;
 
-
     const setHoverClassSpy = sinon.spy(element, "setHoverClass");
-
 
     element.setCurrentCalendarView(CALENDAR_VIEWS.DAYS);
 
-
     expect(element._calendarView).to.equal(CALENDAR_VIEWS.DAYS);
 
-
     expect(setHoverClassSpy).to.have.been.called;
-
 
     setHoverClassSpy.restore();
   });
 
-  it("should set _calendarView to the provided view if it is different from the current view", () => {
+  it("should set calendarView to the provided view if it is different from the current view", () => {
 
     element._calendarView = CALENDAR_VIEWS.MONTHS;
 
-
     const setHoverClassSpy = sinon.spy(element, "setHoverClass");
-
 
     element.setCurrentCalendarView(CALENDAR_VIEWS.DAYS);
 
-
     expect(element._calendarView).to.equal(CALENDAR_VIEWS.DAYS);
 
-
     expect(setHoverClassSpy).to.have.been.called;
-
 
     setHoverClassSpy.restore();
   });
 
-    it("should call setNextCalendarView when date month is greater than _calendarMonth", () => {
+    it("should call setNextCalendarView when date month is greater than calendarMonth", () => {
       element._calendarMonth = 0;
       element.type = CALENDAR_TYPES.SINGLE;
 
-
       const setNextCalendarViewSpy = sinon.spy(element, "setNextCalendarView");
-
 
       element.handleDate(new Date(2024, 2, 15));
 
-
       expect(setNextCalendarViewSpy).to.have.been.called;
-
 
       setNextCalendarViewSpy.restore();
     });
@@ -634,32 +590,24 @@ describe("bl-calendar", () => {
       element._calendarMonth = 0;
       element.type = CALENDAR_TYPES.RANGE;
 
-
       const setNextCalendarViewSpy = sinon.spy(element, "setNextCalendarView");
-
 
       element.handleDate(new Date(2024, 2, 15));
 
-
       expect(setNextCalendarViewSpy).to.not.have.been.called;
-
 
       setNextCalendarViewSpy.restore();
     });
 
-    it("should not call setNextCalendarView when date month is less than or equal to _calendarMonth", () => {
+    it("should not call setNextCalendarView when date month is less than or equal to calendarMonth", () => {
       element._calendarMonth = 0;
       element._calendarMonth = 3;
 
-
       const setNextCalendarViewSpy = sinon.spy(element, "setNextCalendarView");
-
 
       element.handleDate(new Date(2024, 2, 15));
 
-
       expect(setNextCalendarViewSpy).to.not.have.been.called;
-
 
       setNextCalendarViewSpy.restore();
     });
@@ -671,15 +619,11 @@ describe("bl-calendar", () => {
       endDate: new Date(2024, 0, 15)
     };
 
-
     const setTimeoutSpy = sinon.spy(window, "setTimeout");
-
 
     element.setHoverClass();
 
-
     expect(setTimeoutSpy).to.not.have.been.called;
-
 
     setTimeoutSpy.restore();
   });

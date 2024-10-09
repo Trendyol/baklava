@@ -8,6 +8,7 @@ import sinon from "sinon";
 describe("BlDatepicker", () => {
   let element : BlDatepicker;
   let getElementByIdStub : sinon.SinonStub;
+  let consoleWarnSpy: sinon.SinonSpy;
 
   beforeEach(async () => {
     element = await fixture<BlDatePicker>(html`<bl-datepicker type="single" locale="en"></bl-datepicker>`);
@@ -23,12 +24,14 @@ describe("BlDatepicker", () => {
       }
       return null;
     });
+    consoleWarnSpy = sinon.spy(console, "warn");
 
     await element.updateComplete;
   });
 
   afterEach(() => {
     getElementByIdStub.restore();
+    consoleWarnSpy.restore();
   });
 
   it("should instantiate the component", () => {
@@ -227,14 +230,12 @@ describe("BlDatepicker", () => {
     expect(setDatePickerInputSpy).to.have.been.calledWith(element._selectedDates);
   });
 
-
   it("should insert a <br /> after every third item", () => {
     const inputString = "Item1, Item2, Item3, Item4";
     const result = element.formatAdditionalDates(inputString);
 
     expect(result[3].strings).to.include("<br />");
   });
-
 
   it("should render the tooltip when floatingDateCount > 0", async () => {
     element._floatingDateCount = 2;
@@ -252,8 +253,7 @@ describe("BlDatepicker", () => {
     expect(trigger?.textContent).to.equal("+2");
   });
 
-
-  it('should include " ,..." when _floatingDateCount is greater than 0 for MULTIPLE type', () => {
+  it('should include " ,..." when floatingDateCount is greater than 0 for MULTIPLE type', () => {
 
     element.type = CALENDAR_TYPES.MULTIPLE;
     element._selectedDates = [new Date("2024-01-01"), new Date("2024-01-02"), new Date("2024-01-03")];
@@ -268,25 +268,20 @@ describe("BlDatepicker", () => {
     expect(element._value).to.include(" ,...");
   });
 
-  it('should not include " ,..." when _floatingDateCount is 0 for MULTIPLE type', () => {
+  it('should not include " ,..." when floatingDateCount is 0 for MULTIPLE type', () => {
 
     element.type = CALENDAR_TYPES.MULTIPLE;
     element._selectedDates = [new Date("2024-01-01")];
 
-
     element.setFloatingDates();
 
-
     element._defaultValueFormatter();
-
-
     expect(element._value).to.not.include(" ,...");
   });
 
   it("should format a date correctly", () => {
     const testDate = new Date(2024, 9, 8);
     const formattedDate = element.formatDate(testDate);
-
 
     expect(formattedDate).to.equal("08/10/2024");
   });
@@ -295,11 +290,10 @@ describe("BlDatepicker", () => {
     const testDate = new Date(2024, 0, 5);
     const formattedDate = element.formatDate(testDate);
 
-
     expect(formattedDate).to.equal("05/01/2024");
   });
 
-  it("should call openPopover when _popoverEl is not visible", () => {
+  it("should call openPopover when popoverEl is not visible", () => {
     const openPopoverSpy = sinon.spy(element, "openPopover");
 
     element._togglePopover();
@@ -309,7 +303,7 @@ describe("BlDatepicker", () => {
     openPopoverSpy.restore();
   });
 
-  it("should call closePopover when _popoverEl is visible", () => {
+  it("should call closePopover when popoverEl is visible", () => {
     element._popoverEl._visible = true;
     const closePopoverSpy = sinon.spy(element, "closePopover");
 
@@ -320,4 +314,82 @@ describe("BlDatepicker", () => {
     closePopoverSpy.restore();
   });
 
+
+  it("should return a single date when defaultValue is a single Date", () => {
+    const date = new Date("2024-01-01");
+
+    element._defaultValue = date;
+    expect(element.defaultValue).to.equal(date);
+  });
+
+  it("should return an array of dates when defaultValue is an array of Dates", () => {
+    const dates = [new Date("2024-01-01"), new Date("2024-02-01")];
+
+    element._defaultValue = dates;
+    expect(element.defaultValue).to.deep.equal(dates);
+  });
+
+  it("should return undefined if defaultValue is not set", () => {
+    expect(element.defaultValue).to.be.undefined;
+  });
+
+  it("should warn when 'defaultValue' is not an array for multiple/range selection", async () => {
+    element = await fixture<BlDatePicker>(html`
+    <bl-datepicker type="multiple" locale="en"></bl-datepicker>`);
+    element._defaultValue = new Date();
+
+    element.firstUpdated();
+
+    expect(consoleWarnSpy.calledOnce).to.be.true;
+  });
+
+  it("should not warn when defaultValue is an array for multiple/range selection", () => {
+    element.type = CALENDAR_TYPES.MULTIPLE;
+    element._defaultValue = [new Date(), new Date()];
+
+    element.firstUpdated();
+
+    expect(consoleWarnSpy.called).to.be.false;
+  });
+
+  it("should warn when defaultValue is an array but not exactly two Date objects in RANGE mode", async () => {
+    element.type = CALENDAR_TYPES.RANGE;
+    element._defaultValue = [];
+    element.setDatePickerInput([]);
+
+    await element.updateComplete;
+
+    expect(consoleWarnSpy.calledOnce).to.be.true;
+    expect(consoleWarnSpy.calledWith("'defaultValue' must be an array of two Date objects when the date selection mode is set to range.")).to.be.true;
+
+    consoleWarnSpy.resetHistory();
+
+
+    element._defaultValue = [new Date()];
+    element.setDatePickerInput([new Date()]);
+
+    await element.updateComplete;
+
+    expect(consoleWarnSpy.calledOnce).to.be.true;
+    expect(consoleWarnSpy.calledWith("'defaultValue' must be an array of two Date objects when the date selection mode is set to range.")).to.be.true;
+
+    consoleWarnSpy.resetHistory();
+
+    element._defaultValue = [new Date(), new Date(), new Date()];
+    element.setDatePickerInput([new Date(), new Date(), new Date()]);
+
+    await element.updateComplete;
+
+    expect(consoleWarnSpy.calledOnce).to.be.true;
+    expect(consoleWarnSpy.calledWith("'defaultValue' must be an array of two Date objects when the date selection mode is set to range.")).to.be.true;
+  });
+
+  it("should not warn when 'defaultValue' is an array of exactly two Date objects in RANGE mode", () => {
+    element.type = CALENDAR_TYPES.RANGE;
+    element._defaultValue = [new Date(), new Date()];
+
+    element.firstUpdated();
+
+    expect(consoleWarnSpy.called).to.be.false;
+  });
 });
