@@ -26,7 +26,7 @@ export const DatepickerTemplate = (args) => html`
     start-of-week=${ifDefined(args.startOfWeek)}
     locale=${ifDefined(args.locale)}
     default-value=${ifDefined(args.defaultValue)}
-    input-width=${ifDefined(args.inputWidth)}
+    style=${ifDefined(args.style)}
     disabled-dates=${ifDefined(args.disabledDates)}>${unsafeHTML(args.content)}
   </bl-datepicker>`
 
@@ -37,7 +37,7 @@ export const Template = (args) => html`${DatepickerTemplate({ ...args })}`;
 # Datepicker
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/894)</bl-badge>
-<bl-badge
+  <bl-badge
   icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?type=design&node-id=1412-8914&mode=design&t=b0kU7tBfJQFvz2at-0)</bl-badge>
 
 Datepicker renders the calendar component within itself and provides the functionality provided by the calendar component.
@@ -125,7 +125,12 @@ You can set input width of datepicker as you wish.
 
 <Canvas>
   <Story name="İnput Width"
-         args={{ type: 'single', label: 'Change input width', placeholder: 'Set input width', inputWidth: 200 }}>
+         args={{
+           type: 'single',
+           label: 'Change input width',
+           placeholder: 'Set input width',
+           style: '--bl-datepicker-input-width: 200px;'
+         }}>
     {Template.bind({})}
   </Story>
 </Canvas>

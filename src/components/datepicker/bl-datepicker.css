@@ -3,6 +3,7 @@
   --bl-input-cursor: pointer;
   --icon-size: var(--line-height);
   --icon-color: var(--bl-color-neutral-light);
+  --datepicker-width: 314px;
   display: block;
 }
 
@@ -14,7 +15,7 @@
 }
 
 .datepicker-input {
-  width: 314px;
+  width: var(--bl-datepicker-input-width, var(--datepicker-width));
   white-space: nowrap;
   text-overflow: ellipsis;
 }

@@ -18,6 +18,8 @@ export const blDatepickerChangedEvent = "bl-datepicker-change";
 /**
  * @tag bl-datepicker
  * @summary Baklava DatePicker component
+ *
+ * @cssproperty [--bl-datepicker-input-width] - Sets the width of datepicker input
  **/
 @customElement(blDatepickerTag)
 export default class BlDatepicker extends DatepickerCalendarMixin {
@@ -51,11 +53,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
    */
   @property({ type: String, attribute: "help-text", reflect: true })
   helpText: string;
-  /**
-   * Defines input width of datepicker
-   */
-  @property({ type: Number, attribute: "input-width", reflect: true })
-  inputWidth: number;
 
   @state()
   _value = "";
@@ -178,8 +175,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   async firstUpdated() {
-    this._inputEl?.style.setProperty("width", `${this.inputWidth}px`, "important");
-
     this._inputEl?.addEventListener("mousedown", event => {
       event.preventDefault();
     });
@@ -203,7 +198,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
 
   render() {
     const renderCalendar = html`
-      <bl-popover target="datepicker-content">
+      <bl-popover target="datepicker-content" placement="bottom-start">
         <bl-calendar
           type=${this.type}
           .minDate=${this.minDate}
@@ -227,7 +222,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
 
     const additionalDatesView =
       this._floatingDateCount > 0
-        ? html` <bl-tooltip placement="bottom-start">
+        ? html` <bl-tooltip>
             <span slot="tooltip-trigger">+${this._floatingDateCount}</span>
             <div>${formattedAdditionalDates}</div>
           </bl-tooltip>`
