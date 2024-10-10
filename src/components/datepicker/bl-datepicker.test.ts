@@ -6,12 +6,13 @@ import { CALENDAR_TYPES } from "../calendar/bl-calendar.constant";
 import sinon from "sinon";
 
 describe("BlDatepicker", () => {
-  let element : BlDatepicker;
-  let getElementByIdStub : sinon.SinonStub;
+  let element: BlDatepicker;
+  let getElementByIdStub: sinon.SinonStub;
   let consoleWarnSpy: sinon.SinonSpy;
 
   beforeEach(async () => {
-    element = await fixture<BlDatePicker>(html`<bl-datepicker type="single" locale="en"></bl-datepicker>`);
+    element = await fixture<BlDatePicker>(html`
+      <bl-datepicker type="single" locale="en"></bl-datepicker>`);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
@@ -204,27 +205,27 @@ describe("BlDatepicker", () => {
   });
 
   it("should set selected dates and call setDatePickerInput when default value is provided", async () => {
-    element._defaultValue = new Date(2024,10,10);
+    element._defaultValue = new Date(2024, 10, 10);
 
     const setDatePickerInputSpy = sinon.spy(element, "setDatePickerInput");
 
     await element.firstUpdated();
 
-    expect(element._selectedDates).to.deep.equal([new Date(2024,10,10)]);
+    expect(element._selectedDates).to.deep.equal([new Date(2024, 10, 10)]);
 
     expect(setDatePickerInputSpy).to.have.been.calledWith(element._selectedDates);
   });
 
   it("should handle an array of dates for default value", async () => {
-    element._defaultValue = [new Date(2024,10,10), new Date(2024,10,11)];
+    element._defaultValue = [new Date(2024, 10, 10), new Date(2024, 10, 11)];
 
     const setDatePickerInputSpy = sinon.spy(element, "setDatePickerInput");
 
     await element.firstUpdated();
 
     expect(element._selectedDates).to.deep.equal([
-      new Date(2024,10,10),
-      new Date(2024,10,11)
+      new Date(2024, 10, 10),
+      new Date(2024, 10, 11)
     ]);
 
     expect(setDatePickerInputSpy).to.have.been.calledWith(element._selectedDates);
@@ -247,13 +248,13 @@ describe("BlDatepicker", () => {
 
     expect(tooltip).to.not.be.null;
 
-    const trigger = tooltip?.querySelector('[slot="tooltip-trigger"]');
+    const trigger = tooltip?.querySelector("[slot=\"tooltip-trigger\"]");
 
     expect(trigger).to.not.be.null;
     expect(trigger?.textContent).to.equal("+2");
   });
 
-  it('should include " ,..." when floatingDateCount is greater than 0 for MULTIPLE type', () => {
+  it("should include \" ,...\" when floatingDateCount is greater than 0 for MULTIPLE type", () => {
 
     element.type = CALENDAR_TYPES.MULTIPLE;
     element._selectedDates = [new Date("2024-01-01"), new Date("2024-01-02"), new Date("2024-01-03")];
@@ -262,7 +263,7 @@ describe("BlDatepicker", () => {
     expect(element._value).to.include(" ,...");
   });
 
-  it('should not include " ,..." when floatingDateCount is 0 for MULTIPLE type', () => {
+  it("should not include \" ,...\" when floatingDateCount is 0 for MULTIPLE type", () => {
 
     element.type = CALENDAR_TYPES.MULTIPLE;
     element._selectedDates = [new Date("2024-01-01")];
@@ -328,7 +329,7 @@ describe("BlDatepicker", () => {
 
   it("should warn when 'defaultValue' is not an array for multiple/range selection", async () => {
     element = await fixture<BlDatePicker>(html`
-    <bl-datepicker type="multiple" locale="en"></bl-datepicker>`);
+      <bl-datepicker type="multiple" locale="en"></bl-datepicker>`);
     element._defaultValue = new Date();
 
     element.firstUpdated();
@@ -384,4 +385,27 @@ describe("BlDatepicker", () => {
 
     expect(consoleWarnSpy.called).to.be.false;
   });
+
+  it("should warn if minDate is greater than or equal to maxDate", async () => {
+
+    element.maxDate = new Date(2023, 0, 1);
+    await element.updateComplete;
+
+    element.minDate = new Date(2023, 0, 2);
+    await element.updateComplete;
+
+    expect(consoleWarnSpy.calledWith("minDate cannot be greater than maxDate.")).to.be.true;
+  });
+
+  it("should warn if maxDate is less than or equal to minDate", async () => {
+
+    element.minDate = new Date(2023, 0, 2);
+    await element.updateComplete;
+
+    element.maxDate = new Date(2023, 0, 1);
+    await element.updateComplete;
+
+    expect(consoleWarnSpy.calledWith("maxDate cannot be smaller than minDate.")).to.be.true;
+  });
+
 });

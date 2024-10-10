@@ -36,7 +36,7 @@ export default class DatepickerCalendarMixin extends LitElement {
   @property({ type: Date, attribute: "max-date", reflect: true })
   set maxDate(maxDate: Date) {
     if (this._minDate && this._minDate >= maxDate) {
-      console.warn("minDate cannot be greater than maxDate.");
+      console.warn("maxDate cannot be smaller than minDate.");
     } else {
       this._maxDate = maxDate;
     }
@@ -53,7 +53,7 @@ export default class DatepickerCalendarMixin extends LitElement {
 
   @property({ type: Date, attribute: "min-date", reflect: true })
   set minDate(minDate: Date) {
-    if (this._maxDate && this._maxDate >= minDate) {
+    if (this._maxDate && this._maxDate <= minDate) {
       console.warn("minDate cannot be greater than maxDate.");
     } else {
       this._minDate = minDate;
