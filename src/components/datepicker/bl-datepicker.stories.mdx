@@ -1,7 +1,7 @@
-import { html } from 'lit';
-import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { html } from "lit";
+import { ArgsTable, Canvas, Meta, Story } from "@storybook/addon-docs";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
 <Meta
   title="Components/Datepicker"
@@ -16,7 +16,8 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
   }}
 />
 
-export const DatepickerTemplate = (args) => html`<bl-datepicker
+export const DatepickerTemplate = (args) => html`
+  <bl-datepicker
     label=${ifDefined(args.label)}
     placeholder=${ifDefined(args.placeholder)}
     type=${ifDefined(args.type)}
@@ -25,16 +26,19 @@ export const DatepickerTemplate = (args) => html`<bl-datepicker
     start-of-week=${ifDefined(args.startOfWeek)}
     locale=${ifDefined(args.locale)}
     default-value=${ifDefined(args.defaultValue)}
-    disabled-dates=${ifDefined(args.disabledDates)}>${unsafeHTML(args.content)}</bl-datepicker>`
+    input-width=${ifDefined(args.inputWidth)}
+    disabled-dates=${ifDefined(args.disabledDates)}>${unsafeHTML(args.content)}
+  </bl-datepicker>`
 
 
-export const Template = (args) => html`${DatepickerTemplate({...args})}`;
+export const Template = (args) => html`${DatepickerTemplate({ ...args })}`;
 
 
 # Datepicker
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/894)</bl-badge>
-<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?type=design&node-id=1412-8914&mode=design&t=b0kU7tBfJQFvz2at-0)</bl-badge>
+<bl-badge
+  icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?type=design&node-id=1412-8914&mode=design&t=b0kU7tBfJQFvz2at-0)</bl-badge>
 
 Datepicker renders the calendar component within itself and provides the functionality provided by the calendar component.
 
@@ -53,7 +57,8 @@ Datepicker renders the calendar component within itself and provides the functio
 Default datepicker type is `single` and you can only select a single day from datepicker.
 
 <Canvas>
-  <Story name="Single Type Datepicker" args={{ type: 'single',label:'Single Datepicker',placeholder:'Select a date'}}>
+  <Story name="Single Type Datepicker"
+         args={{ type: 'single', label: 'Single Datepicker', placeholder: 'Select a date' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -63,7 +68,12 @@ Default datepicker type is `single` and you can only select a single day from da
 You can select multiple days from Datepicker.
 
 <Canvas>
-  <Story name="Multiple Type Datepicker" args={{ type: 'multiple',label:'Multiple Datepicker',placeholder:'Select multiple dates',disabledDates:`["${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}"]`}}>
+  <Story name="Multiple Type Datepicker" args={{
+    type: 'multiple',
+    label: 'Multiple Datepicker',
+    placeholder: 'Select multiple dates',
+    disabledDates: `["${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)}"]`
+  }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -73,7 +83,8 @@ You can select multiple days from Datepicker.
 You can select date range from Datepicker.
 
 <Canvas>
-  <Story name="Range Type Datepicker" args={{ type: 'range',label:'Range Datepicker',placeholder:'Select date range' }}>
+  <Story name="Range Type Datepicker"
+         args={{ type: 'range', label: 'Range Datepicker', placeholder: 'Select date range' }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -83,7 +94,12 @@ You can select date range from Datepicker.
 You can set a default value to datepicker.
 
 <Canvas>
-  <Story name="Default Value" args={{ type: 'single',label:'Single Datepicker',placeholder:'Set default value',defaultValue:new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}}>
+  <Story name="Default Value" args={{
+    type: 'single',
+    label: 'Single Datepicker',
+    placeholder: 'Set default value',
+    defaultValue: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)
+  }}>
     {Template.bind({})}
   </Story>
 </Canvas>
@@ -93,7 +109,23 @@ You can set a default value to datepicker.
 You can set dates which you want to disable from Datepicker.
 
 <Canvas>
-  <Story name="Disabled Dates" args={{type: 'multiple',label:'Multiple Datepicker',placeholder:'Set disabled dates',disabledDates:`["${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+2)}"]`}}>
+  <Story name="Disabled Dates" args={{
+    type: 'multiple',
+    label: 'Multiple Datepicker',
+    placeholder: 'Set disabled dates',
+    disabledDates: `["${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)}"]`
+  }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### İnput Width
+
+You can set input width of datepicker as you wish.
+
+<Canvas>
+  <Story name="İnput Width"
+         args={{ type: 'single', label: 'Change input width', placeholder: 'Set input width', inputWidth: 200 }}>
     {Template.bind({})}
   </Story>
 </Canvas>

@@ -9,36 +9,56 @@ export default class DatepickerCalendarMixin extends LitElement {
    */
   @property()
   type: CalendarType;
-
-  /**
-   * Defines the minimum date value for the calendar
-   */
-  @property({ type: Date, attribute: "min-date", reflect: true })
-  minDate: Date;
-
-  /**
-   * Defines the maximum date value for the calendar
-   */
-  @property({ type: Date, attribute: "max-date", reflect: true })
-  maxDate: Date;
-
   /**
    * Defines the start day of the calendar (1 defines monday)
    */
   @property({ type: Number, attribute: "start-of-week", reflect: true })
   startOfWeek: DayValues = 0;
-
   /**
    * Defines the unselectable dates for calendar
    */
   @property({ type: Array, attribute: "disabled-dates", reflect: true })
   disabledDates: Date[];
-
   /**
    * Defines the calendar language
    */
   @property()
   locale: string = document.documentElement.lang;
+
+  /**
+   * Defines the maximum date value for the calendar
+   */
+  _maxDate: Date;
+  get maxDate() {
+    return this._maxDate;
+  }
+
+  @property({ type: Date, attribute: "max-date", reflect: true })
+  set maxDate(maxDate: Date) {
+    if (this._minDate && this._minDate >= maxDate) {
+      console.warn("minDate cannot be greater than maxDate.");
+    } else {
+      this._maxDate = maxDate;
+    }
+  }
+
+  /**
+   * Defines the minimum date value for the calendar
+   */
+  _minDate: Date;
+
+  get minDate() {
+    return this._minDate;
+  }
+
+  @property({ type: Date, attribute: "min-date", reflect: true })
+  set minDate(minDate: Date) {
+    if (this._maxDate && this._maxDate >= minDate) {
+      console.warn("minDate cannot be greater than maxDate.");
+    } else {
+      this._minDate = minDate;
+    }
+  }
 
   _defaultValue: Date | Date[];
 

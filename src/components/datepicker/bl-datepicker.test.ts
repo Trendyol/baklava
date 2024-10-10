@@ -257,14 +257,8 @@ describe("BlDatepicker", () => {
 
     element.type = CALENDAR_TYPES.MULTIPLE;
     element._selectedDates = [new Date("2024-01-01"), new Date("2024-01-02"), new Date("2024-01-03")];
-
-
     element.setFloatingDates();
-
-
     element._defaultValueFormatter();
-
-
     expect(element._value).to.include(" ,...");
   });
 
@@ -314,7 +308,6 @@ describe("BlDatepicker", () => {
     closePopoverSpy.restore();
   });
 
-
   it("should return a single date when defaultValue is a single Date", () => {
     const date = new Date("2024-01-01");
 
@@ -363,7 +356,6 @@ describe("BlDatepicker", () => {
     expect(consoleWarnSpy.calledWith("'defaultValue' must be an array of two Date objects when the date selection mode is set to range.")).to.be.true;
 
     consoleWarnSpy.resetHistory();
-
 
     element._defaultValue = [new Date()];
     element.setDatePickerInput([new Date()]);

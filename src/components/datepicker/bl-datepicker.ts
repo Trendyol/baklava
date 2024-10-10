@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, TemplateResult } from "lit";
-import { customElement, property, state, query } from "lit/decorators.js";
+import { customElement, property, query, state } from "lit/decorators.js";
 import { BlCalendar, BlPopover } from "../../baklava";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
 import { event, EventDispatcher } from "../../utilities/event";
@@ -37,7 +37,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   @property({ type: Function, attribute: "value-formatter", reflect: true })
   valueFormatter: ((dates: CalendarDate[]) => string) | null = null;
   /**
-   * Sets calendar to disabled
+   * Sets datepicker to disabled
    */
   @property({ type: Boolean, reflect: true })
   disabled: boolean;
@@ -51,7 +51,9 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
    */
   @property({ type: String, attribute: "help-text", reflect: true })
   helpText: string;
-
+  /**
+   * Defines input width of datepicker
+   */
   @property({ type: Number, attribute: "input-width", reflect: true })
   inputWidth: number;
 
@@ -75,10 +77,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
 
   @query("bl-input")
   _inputEl!: BlInput;
-
-  static get styles(): CSSResultGroup {
-    return [style];
-  }
   /**
    * Fires when date selection is cleared
    */
@@ -87,6 +85,10 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
    * Fires when date selection is changed
    */
   @event(blDatepickerChangedEvent) private _onBlDatepickerChanged: EventDispatcher<Date[]>;
+
+  static get styles(): CSSResultGroup {
+    return [style];
+  }
 
   _defaultValueFormatter() {
     if (this.type === CALENDAR_TYPES.SINGLE) {
@@ -225,7 +227,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
 
     const additionalDatesView =
       this._floatingDateCount > 0
-        ? html`<bl-tooltip placement="top-start">
+        ? html` <bl-tooltip placement="bottom-start">
             <span slot="tooltip-trigger">+${this._floatingDateCount}</span>
             <div>${formattedAdditionalDates}</div>
           </bl-tooltip>`
@@ -233,7 +235,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
 
     const clearDatepickerButton =
       this._selectedDates.length > 0
-        ? html`<bl-button
+        ? html` <bl-button
               size="small"
               variant="tertiary"
               kind="neutral"
