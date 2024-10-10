@@ -52,6 +52,9 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   @property({ type: String, attribute: "help-text", reflect: true })
   helpText: string;
 
+  @property({ type: Number, attribute: "input-width", reflect: true })
+  inputWidth: number;
+
   @state()
   _value = "";
 
@@ -86,7 +89,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   @event(blDatepickerChangedEvent) private _onBlDatepickerChanged: EventDispatcher<Date[]>;
 
   _defaultValueFormatter() {
-    console.log("this._selectedDates[0]", this._selectedDates[0]);
     if (this.type === CALENDAR_TYPES.SINGLE) {
       this._value = this.formatDate(this._selectedDates[0]);
       this.closePopoverWithTimeout();
@@ -161,7 +163,21 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     this._popoverEl.visible ? this.closePopover() : this.openPopover();
   }
 
+  formatAdditionalDates(str: string): TemplateResult[] {
+    const parts = str.split(",");
+
+    return parts.reduce<TemplateResult[]>((acc, part, index) => {
+      if (index > 0 && index % 3 === 0) {
+        acc.push(html`<br />`);
+      }
+      acc.push(html`<span>${part.trim()}${index < parts.length - 1 ? ", " : ""}</span>`);
+      return acc;
+    }, []);
+  }
+
   async firstUpdated() {
+    this._inputEl?.style.setProperty("width", `${this.inputWidth}px`, "important");
+
     this._inputEl?.addEventListener("mousedown", event => {
       event.preventDefault();
     });
@@ -181,18 +197,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
         : (this._selectedDates = [new Date(this._defaultValue)]);
       this.setDatePickerInput(this._selectedDates);
     }
-  }
-
-  formatAdditionalDates(str: string): TemplateResult[] {
-    const parts = str.split(",");
-
-    return parts.reduce<TemplateResult[]>((acc, part, index) => {
-      if (index > 0 && index % 3 === 0) {
-        acc.push(html`<br />`);
-      }
-      acc.push(html`<span>${part.trim()}${index < parts.length - 1 ? ", " : ""}</span>`);
-      return acc;
-    }, []);
   }
 
   render() {
@@ -221,7 +225,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
 
     const additionalDatesView =
       this._floatingDateCount > 0
-        ? html`<bl-tooltip placement="top">
+        ? html`<bl-tooltip placement="top-start">
             <span slot="tooltip-trigger">+${this._floatingDateCount}</span>
             <div>${formattedAdditionalDates}</div>
           </bl-tooltip>`
