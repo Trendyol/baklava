@@ -15,7 +15,6 @@
   bottom: 0;
   height: var(--bl-size-2xs);
   width: 100%;
-  transform: scaleX(var(--bl-text-x-direction));
 }
 
 .duration > .remaining {

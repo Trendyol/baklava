@@ -14,7 +14,7 @@
     "@maskito/core": "^2.2.0",
     "@maskito/kit": "^2.2.0",
     "@maskito/react": "^2.2.0",
-    "@trendyol/baklava": "^3.1.0",
+    "@trendyol/baklava": "^3.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-imask": "^7.6.0",

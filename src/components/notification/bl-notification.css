@@ -32,7 +32,7 @@
   touch-action: none;
 }
 
-:host([dir="rtl"]) .notification {
+:host(:has([dir="rtl"])) .notification {
   animation: slide-in-left var(--bl-notification-animation-duration) ease;
 }
 
