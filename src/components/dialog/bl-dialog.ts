@@ -13,6 +13,9 @@ type DialogElement = {
 /**
  * @tag bl-dialog
  * @summary Baklava Dialog component
+ *
+ * @cssproperty [--bl-dialog-width=auto] Sets the width of the dialog content
+ * @cssproperty [--bl-dialog-caption-line-clamp=1] Sets the line clamp of the caption
  */
 @customElement("bl-dialog")
 export default class BlDialog extends LitElement {
@@ -41,6 +44,12 @@ export default class BlDialog extends LitElement {
    */
   @property({ type: String })
   caption?: string;
+
+  /**
+   * Determines if the dialog is critical, which disables closing through keyboard, backdrop, and close button interactions.
+   */
+  @property({ type: Boolean, reflect: true })
+  critical = false;
 
   /**
    * Determines if dialog currently uses polyfilled version instead of native HTML Dialog. By
@@ -130,6 +139,8 @@ export default class BlDialog extends LitElement {
   }
 
   private clickOutsideHandler = (event: MouseEvent) => {
+    if (this.critical) return;
+
     const eventPath = event.composedPath() as HTMLElement[];
 
     if (!eventPath.includes(this.container)) {
@@ -138,7 +149,7 @@ export default class BlDialog extends LitElement {
   };
 
   private onKeydown = (event: KeyboardEvent): void => {
-    if (event.code === "Escape" && this.open) {
+    if (event.code === "Escape" && this.open && !this.critical) {
       event.preventDefault();
       this.closeDialog("keyboard");
     }
@@ -168,6 +179,15 @@ export default class BlDialog extends LitElement {
 
   private renderContainer() {
     const title = this.caption ? html`<h2 id="dialog-caption">${this.caption}</h2>` : "";
+    const closeButton = !this.critical
+      ? html`<bl-button
+          @click="${() => this.closeDialog("close-button")}"
+          icon="close"
+          variant="tertiary"
+          kind="neutral"
+          size="small"
+        ></bl-button>`
+      : null;
 
     const classes = {
       "container": true,
@@ -175,15 +195,7 @@ export default class BlDialog extends LitElement {
     };
 
     return html` <div class="${classMap(classes)}">
-      <header>
-        ${title}
-        <bl-button
-          @click="${() => this.closeDialog("close-button")}"
-          icon="close"
-          variant="tertiary"
-          kind="neutral"
-        ></bl-button>
-      </header>
+      <header>${title} ${closeButton}</header>
       <section class="content"><slot></slot></section>
       ${this.renderFooter()}
     </div>`;

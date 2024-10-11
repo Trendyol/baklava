@@ -178,11 +178,17 @@ export default class BlTable extends LitElement {
   }
 
   /**
-   * Updates selected values based on header selection.
+   * Updates selected values based on header selection for currently rendered rows.
    * @param isSelected - The selection state.
    */
   private handleHeaderSelection(isSelected: boolean) {
-    this.selected = isSelected ? this.getSelectedValuesFromRows() : [];
+    const rowValues = this.getSelectedValuesFromRows();
+
+    if (isSelected) {
+      this.selected = [...new Set([...this.selected, ...rowValues])];
+    } else {
+      this.selected = this.selected.filter(value => !rowValues.includes(value));
+    }
   }
 
   /**

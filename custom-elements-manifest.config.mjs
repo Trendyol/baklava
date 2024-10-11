@@ -2,7 +2,7 @@ import { parse } from "comment-parser";
 
 export default {
   globs: ["src/components/**/!(*.test|*.stories).ts"],
-  exclude: ["src/**/*.css", "src/components/icon/icon-list.ts"],
+  exclude: ["src/**/*.css", "src/**/*.constant.ts","src/**/*/*.types.ts","src/components/icon/icon-list.ts"],
   outdir: "dist/",
   dev: false,
   watch: false,

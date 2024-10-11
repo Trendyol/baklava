@@ -50,6 +50,8 @@ interface DialogArgs {
   focusPrimary?: boolean;
   focusSecondary?: boolean;
   focusTertiary?: boolean;
+  critical?: boolean;
+  closeAction?: string;
 }
 
 type Story = StoryObj<DialogArgs>;
@@ -68,7 +70,8 @@ const BasicTemplate = (args: DialogArgs) => html`
   class="${ifDefined(args.className)}"
   caption="${ifDefined(args.caption)}"
   ?open="${args.open}"
-  ?polyfilled="${args.polyfilled}">
+  ?polyfilled="${args.polyfilled}"
+  ?critical="${args.critical}">
     ${
       unsafeHTML(args.content)
     }${
@@ -79,6 +82,9 @@ const BasicTemplate = (args: DialogArgs) => html`
   <bl-button slot="secondary-action" variant="secondary" ?autofocus=${args.focusSecondary} size="large">${args.secondaryAction}</bl-button>` : ""}${
       args.tertiaryAction ? html`
   <bl-button slot="tertiary-action" variant="tertiary" ?autofocus=${args.focusTertiary} size="large">${args.tertiaryAction}</bl-button>` : ""}
+  ${
+    args.closeAction ? html`
+    <bl-button slot="primary-action" variant="primary" ?autofocus=${args.focusSecondary} size="large" @click=${(e: CustomEvent) => (e.target as HTMLElement).closest("bl-dialog")?.toggleAttribute("open")}>${args.closeAction}</bl-button>` : ""}
 </bl-dialog>
 `;
 
@@ -154,8 +160,11 @@ ${BasicTemplate({...args, className: "limited-width", content: `<div class="cont
 
 const SizingTemplate = (args: DialogArgs) => html`
 <style>
+  #dl-sizing {
+    --bl-dialog-width: 31rem;
+  }
+
   .my-dialog-content {
-    width: 400px;
     height:200px;
     margin:0;
     padding:0;
@@ -171,6 +180,40 @@ a Latin professor at Hampden-Sydney College in Virginia, looked up one of the mo
 of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"
 (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum,
 "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>` })}
+`;
+
+const TabGroupTemplate = (args: DialogArgs) => html`
+<style>
+  .tab-dialog-content {
+    height:50px;
+    margin-top: 20px;
+  }
+</style>
+
+${BasicTemplate({...args, content: `
+<bl-tab-group>
+  <bl-tab name="test-1" slot="tabs" caption="Caption">Tab 1</bl-tab>
+  <bl-tab name="test-2" slot="tabs">Tab 2</bl-tab>
+  <bl-tab name="test-3" slot="tabs" disabled caption="Caption">Tab 3</bl-tab>
+</bl-tab-group>
+<p class="tab-dialog-content">
+Normal dialog contents has default padding in bl-dialog component. But bl-tab-group has full width in bl-dialog component.
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+</p>
+
+` })}
+`;
+
+const CaptionLineClampTemplate = (args: DialogArgs) => html`
+<style>
+  #dl-caption-line-clamp {
+    --bl-dialog-width: 31rem;
+    --bl-dialog-caption-line-clamp: 2;
+  }
+</style>
+
+${BasicTemplate({...args, caption: "I am a very long text I am a very long text I am a very long text", content: "You can adjust the line clamp" })}
 `;
 
 export const BasicUsage: Story = {
@@ -202,7 +245,8 @@ export const DialogSizing: Story = {
     id: "dl-sizing",
     primaryAction: "Agree",
     secondaryAction: "Disagree",
-    tertiaryAction: "Cancel"
+    tertiaryAction: "Cancel",
+    caption: "I am a long text but I will not block the width."
   },
   render: SizingTemplate,
   play: dialogOpener("dl-sizing")
@@ -256,4 +300,38 @@ export const DialogWithFullWidthActions: Story = {
   },
   render: FullWidthActionsTemplate,
   play: dialogOpener("dl-full-width-actions")
+};
+
+export const DialogWithTabGroup: Story = {
+  args: {
+    id: "dl-tab-group",
+    caption: "Use location service?",
+    content: "Let us help determine location. This means sending anonymous location data to us.",
+    primaryAction: "Agree",
+    secondaryAction: "Disagree",
+    tertiaryAction: "Cancel",
+  },
+  render: TabGroupTemplate,
+  play: dialogOpener("dl-tab-group")
+};
+
+export const CriticalDialog: Story = {
+  args: {
+    id: "dl-critical",
+    caption: "Critical Action Required",
+    content: "<p>This action is irreversible. Please confirm to proceed.</p>",
+    closeAction: "Confirm",
+    critical: true,
+  },
+  render: FullWidthActionsTemplate,
+  play: dialogOpener("dl-critical")
+};
+
+export const CaptionLineClampDialog: Story = {
+  args: {
+    id: "dl-caption-line-clamp",
+    closeAction: "Confirm"
+  },
+  render: CaptionLineClampTemplate,
+  play: dialogOpener("dl-caption-line-clamp")
 };

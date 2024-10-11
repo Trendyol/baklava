@@ -396,8 +396,8 @@ legend span {
   outline: none;
 }
 
-.search-loading-icon {
-  animation: spin 1s linear infinite;
+.search-spinner {
+  padding-inline-end: var(--bl-font-size-2xs);
 }
 
 .action-divider {
@@ -409,16 +409,6 @@ legend span {
   height: 1rem;
   width: 1px;
   background-color: var(--bl-color-neutral-lighter);
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .actions bl-icon {
