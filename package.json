@@ -96,6 +96,7 @@
     "@storybook/testing-library": "^0.2.2",
     "@storybook/web-components": "7.4.3",
     "@storybook/web-components-vite": "^7.4.3",
+    "@trendyol/baklava-icons": "^1.0.0",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/estree": "1.0.0",
     "@types/prettier": "^2.6.4",
@@ -138,6 +139,14 @@
     "ts-lit-plugin": "^2.0.1",
     "typescript": "5.3.3",
     "wait-on": "^5.3.0"
+  },
+  "peerDependencies": {
+    "@trendyol/baklava-icons": ">=1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@trendyol/baklava-icons": {
+      "optional": true
+    }
   },
   "customElements": "dist/custom-elements.json"
 }

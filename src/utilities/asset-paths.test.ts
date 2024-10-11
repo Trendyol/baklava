@@ -2,14 +2,10 @@ import { expect } from "@open-wc/testing";
 
 describe("set-paths utilities", () => {
   describe("getIconPath", () => {
-    it("should return assets path relative to current module path", async () => {
+    it("should return default baklava icon path", async () => {
       const { getIconPath } = await import("./asset-paths");
 
-      const testPath = "src/utilities";
-
-      const testRunnerBasePath = document.baseURI.split("/").slice(0, -1).join("/");
-
-      expect(getIconPath()).to.equal(`${testRunnerBasePath}/${testPath}/assets`);
+      expect(getIconPath()).to.equal("https://cdn.jsdelivr.net/npm/@trendyol/baklava-icons@latest/icons");
     });
   });
 

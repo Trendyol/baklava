@@ -1,27 +1,9 @@
-import { Meta, IconGallery, IconItem } from '@storybook/blocks';
-import icons from '../../src/components/icon/icon-list';
-import { BlIcon } from '../../src/baklava-react';
+import { Meta } from '@storybook/blocks';
 
-<Meta title="Design System/Icons/Iconography" />
+<Meta title="Design System/Icons" />
 
-# Iconography
+# Baklava Icons
 
-* All icons are provided as SVGs
-* All icons are single color (Some have multiple layers with different opacity of same color)
-* All icons has square canvas (By default 24x24)
-* Icon names as in `snake_case`
-* Icons are for decorative purposes. Don't use them as a data in your documents (like an instructive image)
+Baklava Design System uses `@trendyol/baklava-icons` package for custom made icons.
 
-You can check [icon component](/docs/components-icon--single-icon) for usage information and interactive demos.
-
-## List of icons
-
-<IconGallery>
-  {
-    icons.map((iconName) => (
-      <IconItem key={iconName} name={iconName}>
-        <BlIcon name={iconName} />
-      </IconItem>
-    ))
-  }
-</IconGallery>
+For detailed documentation and to explore the available icons, please visit our [icon documentation](https://trendyol.github.io/baklava-icons/?path=/docs/documentation-baklava-icons--icons).

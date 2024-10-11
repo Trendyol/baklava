@@ -12,3 +12,4 @@ storybook-static/
 .bin/
 .docksal/
 src/generated/
+examples/

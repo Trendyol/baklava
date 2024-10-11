@@ -14,7 +14,7 @@ describe("bl-checkbox", () => {
     assert.shadowDom.equal(
       el,
       `
-        <div>
+        <div class="checkbox-container">
           <label>
               <input type="checkbox"
                 aria-readonly="false"
