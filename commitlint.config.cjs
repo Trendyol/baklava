@@ -36,6 +36,7 @@ module.exports = {
         "calendar",
         "table",
         "split-button",
+        "datepicker",
       ],
     ],
   },

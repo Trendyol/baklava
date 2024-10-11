@@ -1,0 +1,52 @@
+:host {
+  width: fit-content;
+  --bl-input-cursor: pointer;
+  --icon-size: var(--line-height);
+  --icon-color: var(--bl-color-neutral-light);
+  --datepicker-width: 314px;
+  display: block;
+}
+
+.datepicker-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: fit-content;
+}
+
+.datepicker-input {
+  width: var(--bl-datepicker-input-width, var(--datepicker-width));
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.icon-container {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.calendarIcon {
+  display: flex;
+  align-items: center;
+  gap: var(--icon-gap);
+  flex-basis: var(--icon-size);
+  align-self: center;
+  margin-right: var(--label-padding);
+  font-size: var(--icon-size);
+  color: var(--icon-color);
+  height: var(--icon-size);
+}
+
+.action-divider {
+  display: block;
+  height: 1rem;
+  width: 1px;
+  background-color: var(--bl-color-neutral-lighter);
+  margin-right: 5px;
+}
+
+bl-popover {
+  --bl-popover-padding: 0;
+  --bl-popover-background-color: transparent;
+}
