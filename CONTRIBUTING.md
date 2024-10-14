@@ -37,6 +37,16 @@ The Baklava library has an automated release flow, and our release versions and 
 
 In every push to a PR, we are running automated visual regression tests to be sure we are not breaking any components visual output accidentally. When you are done with your changes and created a PR, if you have some changes that effects visual output of any components, then our automated flow will notice this and block PR for a design review. Design reviews are done by designers involved in project. If the changes are intentional, they will be approved, and once the PR is merged, the new designs will serve as references for upcoming PRs. If there are no visual changes, this step will pass automatically, and there will be no need for a review from a designer.
 
+### Should be RTL-Aware
+
+Baklava components support Right-to-Left (RTL) text direction, which is crucial for languages written from right to left. When developing or modifying components, ensure proper RTL support by following these guidelines:
+
+1. Use the `--bl-text-x-direction` CSS custom property for transformations and directional styling.
+2. Utilize CSS logical properties (e.g., `inline-start`, `inline-end`, `margin-inline-start`) instead of directional properties.
+3. Use `inset` with logical values for positioning.
+
+For a comprehensive guide on RTL support and detailed examples, please refer to our [Right-to-Left (RTL) documentation](/docs/documentation-right-to-left-rtl--documentation).
+
 ### Enough approvals to merge
 
 Every PR should be reviewed and approved by at least one of the core contributors. Please add needed information to PR description to help making review process quicker and easier.

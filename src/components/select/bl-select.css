@@ -81,7 +81,7 @@
 .label,
 .placeholder {
   color: var(--placeholder-color);
-  padding-left: var(--label-padding);
+  padding-inline-start: var(--label-padding);
   white-space: nowrap;
   max-width: 100%;
   overflow: hidden;
@@ -153,7 +153,7 @@
 
 .select-input .selected-options {
   padding: 0;
-  padding-left: var(--label-padding);
+  padding-inline-start: var(--label-padding);
   margin: 0;
   list-style: none;
   flex: 1;
@@ -193,7 +193,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--bl-size-4xs);
-  margin-left: var(--bl-size-2xs);
+  margin-inline-start: var(--bl-size-2xs);
 }
 
 .popover {
@@ -253,7 +253,7 @@ label {
   display: block;
   top: var(--padding-vertical);
   left: var(--padding-horizontal);
-  right: calc(var(--bl-size-2xs) + var(--bl-size-m) + var(--bl-size-2xs));
+  inset-inline-end: calc(var(--bl-size-2xs) + var(--bl-size-m) + var(--bl-size-2xs));
   transition: all ease-in 0.1s;
   pointer-events: none;
   opacity: 0;
