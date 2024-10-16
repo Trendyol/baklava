@@ -79,6 +79,7 @@ label {
 
 :host([disabled]) .switch {
   opacity: 0.5;
+  cursor: not-allowed;
 }
 
 :host([disabled]) {
