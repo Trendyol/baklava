@@ -36,7 +36,7 @@
 .dialog-polyfill {
   display: none;
   position: fixed;
-  left: 0;
+  inset-inline-start: 0;
   top: 0;
   width: 100vw;
   height: 100vh;
@@ -59,7 +59,7 @@ header {
 }
 
 header bl-button {
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 header h2 {

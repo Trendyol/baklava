@@ -33,7 +33,7 @@ span {
   background-color: white;
   border-radius: var(--bl-border-radius-circle);
   height: var(--thumb-height);
-  left: var(--thumb-offset);
+  inset-inline-start: var(--thumb-offset);
   position: relative;
   top: var(--thumb-offset);
   transition: transform;
@@ -74,6 +74,12 @@ label {
 :host([checked]) .switch::before {
   transform: translateX(
     calc(var(--track-width) - var(--thumb-width) - calc(2 * var(--thumb-offset)))
+  );
+}
+
+:host([checked][dir="rtl"]) .switch::before {
+  transform: translateX(
+    calc(calc(2 * var(--thumb-offset)) - var(--track-width) + var(--thumb-width))
   );
 }
 
