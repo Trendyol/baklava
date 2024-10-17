@@ -24,29 +24,29 @@
 .table-header-cell.shadow-right::before {
   content: "";
   position: absolute;
-  right: -1px;
+  inset-inline-end: -1px;
   top: 0;
   width: 16px;
   height: 100%;
   z-index: -1;
-  border-right: 1px solid var(--bl-color-neutral-lighter);
-  box-shadow: 8px 0 16px 0 rgb(39 49 66 / 10%);
+  border-inline-end: 1px solid var(--bl-color-neutral-lighter);
+  box-shadow: calc(8px * var(--bl-text-x-direction)) 0 16px 0 rgb(39 49 66 / 10%);
 }
 
 .table-header-cell.shadow-left::before {
   content: "";
   position: absolute;
-  left: -1px;
+  inset-inline-start: -1px;
   top: 0;
   width: 16px;
   height: 100%;
   z-index: -1;
-  border-left: 1px solid var(--bl-color-neutral-lighter);
-  box-shadow: -8px 0 16px 0 rgb(39 49 66 / 10%);
+  border-inline-start: 1px solid var(--bl-color-neutral-lighter);
+  box-shadow: calc(-8px * var(--bl-text-x-direction)) 0 16px 0 rgb(39 49 66 / 10%);
 }
 
 bl-checkbox {
-  margin-right: var(--bl-size-m);
+  margin-inline-end: var(--bl-size-m);
 }
 
 .sort-icons-wrapper {

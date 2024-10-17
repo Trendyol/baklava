@@ -26,20 +26,20 @@
   width: max-content;
   height: var(--tab-height);
   padding: 0 var(--tab-right-padding);
-  margin-right: 1px;
+  margin-inline-end: 1px;
 }
 
 .container::after {
   position: absolute;
   content: "";
-  right: 0;
+  inset-inline-end: 0;
   top: var(--bl-size-m);
   height: calc(100% - var(--bl-size-2xl));
-  border-right: 1px solid var(--bl-color-neutral-lighter);
+  border-inline-end: 1px solid var(--bl-color-neutral-lighter);
 }
 
 :host(:last-of-type) .container::after {
-  border-right: none;
+  border-inline-end: none;
 }
 
 :host(:focus-visible) {
@@ -58,7 +58,7 @@
   position: absolute;
   opacity: 0;
   bottom: calc(-1 * var(--bl-size-4xs));
-  left: var(--border-left-space);
+  inset-inline-start: var(--border-left-space);
   width: calc(100% - var(--bl-size-4xl));
   border-bottom: var(--border-bottom-width) solid var(--bl-color-primary);
 }
@@ -94,7 +94,7 @@
 }
 
 :host([help-text]) button {
-  padding-right: 0;
+  padding-inline-end: 0;
 }
 
 .tab-button {
@@ -109,7 +109,7 @@
   height: 100%;
   font-size: var(--bl-font-size-m);
   pointer-events: visible;
-  padding-right: var(--tab-right-padding);
+  padding-inline-end: var(--tab-right-padding);
 }
 
 bl-tooltip {
@@ -137,7 +137,7 @@ bl-tooltip {
 }
 
 .badge-container {
-  padding-left: var(--bl-size-3xs);
+  padding-inline-start: var(--bl-size-3xs);
   display: flex;
   margin-bottom: 1px;
 }
@@ -154,7 +154,7 @@ bl-tooltip {
   display: flex;
   color: var(--icon-color);
   font-size: var(--bl-font-size-l);
-  margin-right: var(--bl-size-3xs);
+  margin-inline-end: var(--bl-size-3xs);
   margin-bottom: 1px;
 }
 
@@ -163,7 +163,7 @@ bl-tooltip {
   height: var(--bl-size-2xs);
   width: var(--bl-size-2xs);
   border-radius: var(--bl-size-3xs);
-  margin-left: var(--bl-size-3xs);
+  margin-inline-start: var(--bl-size-3xs);
   background-color: var(--bl-color-danger);
   margin-bottom: 1px;
 }

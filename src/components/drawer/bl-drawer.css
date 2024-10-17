@@ -3,21 +3,17 @@
   position: fixed;
   display: flex;
   top: 0;
-  right: -100%;
   bottom: 0;
+  inset-inline-end: 0;
   width: var(--bl-drawer-current-width, 424px);
   padding: var(--bl-size-xl);
   padding-top: max(env(safe-area-inset-top), var(--bl-size-xl));
-  padding-right: max(env(safe-area-inset-right), var(--bl-size-xl));
+  padding-inline-end: max(env(safe-area-inset-right), var(--bl-size-xl));
   padding-bottom: max(env(safe-area-inset-bottom), var(--bl-size-xl));
   background: var(--bl-color-neutral-full);
   box-shadow: var(--bl-size-xs) 0 var(--bl-size-2xl) rgba(0 0 0 / 50%);
   transition: right var(--bl-drawer-animation-duration, 0.25s);
   z-index: var(--bl-index-sticky);
-}
-
-:host([open]) .drawer {
-  right: 0;
 }
 
 iframe {
@@ -45,7 +41,7 @@ header {
 header .header-buttons {
   display: flex;
   gap: var(--bl-size-xl);
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 header h2 {

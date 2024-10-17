@@ -2,8 +2,8 @@ import { assert, elementUpdated, expect, fixture, html, oneEvent } from "@open-w
 import { sendKeys, sendMouse } from "@web/test-runner-commands";
 import { getMiddleOfElement } from "../../utilities/elements";
 import type typeOfBlPopover from "../popover/bl-popover";
-import BlTooltip from "./bl-tooltip";
 import type typeOfBlTooltip from "./bl-tooltip";
+import BlTooltip from "./bl-tooltip";
 
 describe("bl-tooltip", () => {
   it("should be defined tooltip instance", () => {
@@ -164,7 +164,6 @@ describe("bl-tooltip", () => {
     setTimeout(() => {
       sendMouse({ type: "move", position: [bodyX, bodyY] });
     });
-
     //then
     const ev = await oneEvent(el, "bl-tooltip-hide");
 
