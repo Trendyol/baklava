@@ -517,12 +517,12 @@ export default class BlCalendar extends LitElement {
         <div class="calendar-header">
           <bl-button
             class="arrow"
+            label="Previous Calendar View"
             icon="arrow_left"
             variant="tertiary"
             kind="neutral"
             @click="${() => this.setPreviousCalendarView()}"
           >
-            <span class="visually-hidden">Previous Calendar View</span>
           </bl-button>
           <bl-button
             variant="tertiary"
@@ -541,11 +541,11 @@ export default class BlCalendar extends LitElement {
           <bl-button
             class="arrow"
             icon="arrow_right"
+            label="Next Calendar View"
             variant="tertiary"
             kind="neutral"
             @click="${() => this.setNextCalendarView()}"
           >
-            <span class="visually-hidden">Previous Calendar View</span>
           </bl-button>
         </div>
         <div class="calendar">${getCalendarView(this._calendarView)}</div>
