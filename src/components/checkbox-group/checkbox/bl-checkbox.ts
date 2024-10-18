@@ -177,6 +177,13 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
   private handleFieldValueChange = (event: CustomEvent<Array<string>>) => {
     this.checked = event.detail.includes(this.value);
   };
+  private handleKeyDown(event: KeyboardEvent) {
+    if (event.code === "Enter" || event.code === "Space") {
+      this.checked = !this.checked;
+      this.onChange(this.checked);
+      event.preventDefault();
+    }
+  }
 
   render(): TemplateResult {
     let icon = "";
@@ -206,6 +213,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
           aria-readonly=${this.disabled}
           .indeterminate=${this.indeterminate}
           @change=${this.handleChange}
+          @keydown=${this.handleKeyDown}
           value=${ifDefined(this.value)}
           @blur=${this.blur}
         />
