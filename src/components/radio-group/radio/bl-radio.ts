@@ -91,6 +91,13 @@ export default class BlRadio extends LitElement {
     this.selected = newValue === this.value;
   };
 
+  private handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      this.select();
+    }
+  };
+
   private field: BlRadioGroup | null;
 
   connectedCallback(): void {
@@ -119,11 +126,14 @@ export default class BlRadio extends LitElement {
     return html`<div
       class=${classes}
       role="radio"
+      tabindex="1"
       aria-labelledby="label"
       aria-disabled=${this.disabled}
       aria-readonly=${this.disabled}
+      aria-checked=${this.selected}
       @blur=${this.blur}
       @click=${this.select}
+      @keydown=${this.handleKeyDown}
     >
       <p id="label"><slot></slot></p>
     </div>`;
