@@ -181,6 +181,24 @@ export default class BlPagination extends LitElement {
 
     this._changePage(newPage);
   }
+  _validateInput(event: KeyboardEvent) {
+    const allowedKeys = ["Backspace", "ArrowLeft", "ArrowRight", "Delete", "Tab", "Enter"];
+    const isNumberKey = !isNaN(Number(event.key));
+    const isAllowedKey = allowedKeys.includes(event.key);
+
+    // Prevent non-numeric and non-allowed keys
+    if (!isNumberKey && !isAllowedKey) {
+      event.preventDefault();
+    }
+
+    // Prevent input that results in a number less than 1 or greater than the last page
+    const target = event.target as HTMLInputElement | null;
+    const newValue = target ? target.value + event.key : event.key;
+
+    if ((isNumberKey && parseInt(newValue) < 1) || parseInt(newValue) > this._getLastPage()) {
+      event.preventDefault();
+    }
+  }
 
   private _selectHandler(event: CustomEvent) {
     this.itemsPerPage = +event?.detail?.value || 100;
@@ -258,7 +276,11 @@ export default class BlPagination extends LitElement {
     const jumperEl = this.hasJumper
       ? html` <div class="jumper">
           <label>${jumperText}</label>
-          <bl-input .value="${this.currentPage}" @bl-change="${this._inputHandler}"></bl-input>
+          <bl-input
+            placeholder="Page"
+            @bl-change="${this._inputHandler}"
+            @keydown="${this._validateInput}"
+          ></bl-input>
         </div>`
       : null;
 
