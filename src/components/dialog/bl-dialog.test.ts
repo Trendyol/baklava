@@ -100,6 +100,7 @@ describe("bl-dialog", () => {
             <header>
               <bl-button
                 icon="close"
+                label="close"
                 kind="neutral"
                 size="small"
                 variant="tertiary"

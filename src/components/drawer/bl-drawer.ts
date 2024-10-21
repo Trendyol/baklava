@@ -166,6 +166,7 @@ export default class BlDrawer extends LitElement {
           <bl-button
             @click="${this.closeDrawer}"
             icon="close"
+            label="close"
             size="small"
             variant="tertiary"
             kind="neutral"
