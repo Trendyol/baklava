@@ -23,7 +23,7 @@ export default class DatepickerCalendarMixin extends LitElement {
    * Defines the calendar language
    */
   @property()
-  locale: string = document.documentElement.lang;
+  locale: string = document.documentElement.lang || "en-EN";
 
   /**
    * Defines the maximum date value for the calendar
