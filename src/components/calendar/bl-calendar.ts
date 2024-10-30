@@ -511,17 +511,20 @@ export default class BlCalendar extends LitElement {
     const showMonthSelected =
       this._calendarView === CALENDAR_VIEWS.MONTHS ? "header-text-hover" : "";
     const showYearSelected = this._calendarView === CALENDAR_VIEWS.YEARS ? "header-text-hover" : "";
+    const buttonLabel = this._calendarView === CALENDAR_VIEWS.DAYS ? "Month" : "Year";
 
     return html`<div>
       <div class="calendar-content">
         <div class="calendar-header">
           <bl-button
             class="arrow"
+            label="Previous ${buttonLabel}"
             icon="arrow_left"
             variant="tertiary"
             kind="neutral"
             @click="${() => this.setPreviousCalendarView()}"
-          ></bl-button>
+          >
+          </bl-button>
           <bl-button
             variant="tertiary"
             kind="neutral"
@@ -539,10 +542,12 @@ export default class BlCalendar extends LitElement {
           <bl-button
             class="arrow"
             icon="arrow_right"
+            label="Next ${buttonLabel}"
             variant="tertiary"
             kind="neutral"
             @click="${() => this.setNextCalendarView()}"
-          ></bl-button>
+          >
+          </bl-button>
         </div>
         <div class="calendar">${getCalendarView(this._calendarView)}</div>
       </div>

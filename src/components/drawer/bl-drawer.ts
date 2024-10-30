@@ -1,5 +1,4 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { PropertyValues } from "lit";
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import { styleToPixelConverter } from "../../utilities/style-to-px.converter";
