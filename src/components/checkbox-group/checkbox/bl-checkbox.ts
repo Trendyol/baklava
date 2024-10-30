@@ -178,7 +178,7 @@ export default class BlCheckbox extends FormControlMixin(LitElement) {
     this.checked = event.detail.includes(this.value);
   };
   private handleKeyDown(event: KeyboardEvent) {
-    if (event.code === "Enter" || event.code === "Space") {
+    if (event.code === "Space") {
       this.checked = !this.checked;
       this.onChange(this.checked);
       event.preventDefault();
