@@ -2,16 +2,16 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import {
+  arrow,
+  autoUpdate,
   computePosition,
   flip,
-  shift,
-  offset,
-  arrow,
   inline,
-  autoUpdate,
-  size,
   Middleware,
   MiddlewareState,
+  offset,
+  shift,
+  size,
 } from "@floating-ui/dom";
 import { getTarget } from "../../utilities/elements";
 import { event, EventDispatcher } from "../../utilities/event";

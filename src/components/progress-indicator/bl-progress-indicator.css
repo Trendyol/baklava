@@ -10,6 +10,7 @@
   height: var(--height);
   border-radius: var(--radius);
   width: 100%;
+  transform: scaleX(var(--bl-text-x-direction));
 }
 
 .progress-indicator::before {

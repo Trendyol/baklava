@@ -12,7 +12,7 @@
     "@maskito/core": "^2.3.1",
     "@maskito/kit": "^2.3.1",
     "@maskito/vue": "^2.3.1",
-    "@trendyol/baklava": "^3.1.0",
+    "@trendyol/baklava": "^3.2.0",
     "vue": "^3.4.21",
     "vue-imask": "^7.6.0",
     "vue-router": "^4.3.2"

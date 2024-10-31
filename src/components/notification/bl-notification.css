@@ -11,7 +11,7 @@
   flex-direction: column-reverse;
   position: fixed;
   top: 0;
-  right: 0;
+  inset-inline-end: 0;
   max-width: var(--bl-notification-width);
   margin: var(--margin);
   width: calc(100% - var(--margin) * 2);
@@ -30,6 +30,10 @@
   animation: slide-in-right var(--bl-notification-animation-duration) ease;
   margin-bottom: var(--bl-notification-gap);
   touch-action: none;
+}
+
+:host(:has([dir="rtl"])) .notification {
+  animation: slide-in-left var(--bl-notification-animation-duration) ease;
 }
 
 .notification[data-slide="top"] {
@@ -69,6 +73,15 @@
 @keyframes slide-in-right {
   from {
     transform: translateX(var(--travel-distance, 10px));
+    height: 0;
+    opacity: 0;
+    margin: 0;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(var(--travel-distance, -10px));
     height: 0;
     opacity: 0;
     margin: 0;

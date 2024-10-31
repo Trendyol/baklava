@@ -15,7 +15,7 @@
   "dependencies": {
     "@maskito/core": "^2.3.1",
     "@maskito/kit": "^2.3.1",
-    "@trendyol/baklava": "^3.1.0",
+    "@trendyol/baklava": "^3.2.0",
     "imask": "^7.6.0"
   }
 }
