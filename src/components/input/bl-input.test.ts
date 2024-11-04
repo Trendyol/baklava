@@ -19,6 +19,7 @@ describe("bl-input", () => {
           <legend><span></span></legend>
           <input
             aria-invalid="false"
+            autocomplete="on"
             id="input"
             type="text"
           >
@@ -46,7 +47,7 @@ describe("bl-input", () => {
   });
 
   it('should call showPicker if "showPicker" is in HTMLInputElement.prototype', async () => {
-    const el = await fixture<BlInput>(html`<bl-input type="input"></bl-input>`);
+    const el = await fixture<BlInput>(html`<bl-input type="text"></bl-input>`);
     const spy = stub(el.validationTarget, "showPicker");
 
     el.showPicker();
