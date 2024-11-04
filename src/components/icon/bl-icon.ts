@@ -12,6 +12,7 @@ const requestMap = new Map<string, Promise<Response>>();
  * @tag bl-icon
  * @summary Baklava Icon component
  *
+ * @attr [name] Name of the icon to show
  * @cssproperty [font-size] Setting size of icon. Default is current font size in DOM place
  * @cssproperty [color=currentColor] Setting color of icon
  */
