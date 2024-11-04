@@ -26,7 +26,7 @@ export default class BlIcon extends LitElement {
   /**
    * Name of the icon to show
    */
-  @property()
+  @property({ type: String, reflect: true })
   get name(): BaklavaIcon {
     return this._iconName;
   }
