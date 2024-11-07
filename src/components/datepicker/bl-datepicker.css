@@ -1,9 +1,11 @@
 :host {
   width: fit-content;
+
   --bl-input-cursor: pointer;
   --icon-size: var(--line-height);
   --icon-color: var(--bl-color-neutral-light);
   --datepicker-width: 314px;
+
   display: block;
 }
 

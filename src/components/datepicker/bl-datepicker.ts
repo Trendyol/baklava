@@ -44,11 +44,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   @property({ type: Boolean, reflect: true })
   disabled: boolean;
   /**
-   * Defines invalid text to datepicker input
-   */
-  @property({ type: String, attribute: "invalid-text", reflect: true })
-  invalidText: string;
-  /**
    * Defines help text to datepicker input for users
    */
   @property({ type: String, attribute: "help-text", reflect: true })
@@ -253,7 +248,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           aria-labelledby="label"
           @click=${this._togglePopover}
           help-text=${this.helpText}
-          .customInvalidText=${this.invalidText}
           ?disabled=${this.disabled}
           readonly
         >
