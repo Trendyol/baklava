@@ -138,13 +138,13 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Hints browser to autocomplete this field.
    */
   @property({ type: String, reflect: true })
-  autocomplete: string;
+  autocomplete: HTMLInputElement["autocomplete"] = "on";
 
   /**
    * Sets the input mode of the field for asking browser to show the desired keyboard.
    */
   @property({ type: String, reflect: true })
-  inputmode: "none" | "text" | "decimal" | "numeric" | "tel" | "search" | "email" | "url";
+  inputmode: HTMLInputElement["inputMode"];
 
   /**
    * Sets input to get keyboard focus automatically
@@ -385,7 +385,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           .value=${live(this.value)}
           inputmode="${ifDefined(this.inputmode)}"
           ?autofocus=${this.autofocus}
-          autocomplete="${ifDefined(this.autocomplete)}"
+          .autocomplete="${this.autocomplete}"
           placeholder="${ifDefined(this.placeholder)}"
           minlength="${ifDefined(this.minlength)}"
           maxlength="${ifDefined(this.maxlength)}"
