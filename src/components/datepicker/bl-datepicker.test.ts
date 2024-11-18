@@ -299,7 +299,7 @@ describe("BlDatepicker", () => {
   });
 
   it("should call closePopover when popoverEl is visible", () => {
-    element._popoverEl._visible = true;
+    element._popoverEl.show();
     const closePopoverSpy = sinon.spy(element, "closePopover");
 
     element._togglePopover();

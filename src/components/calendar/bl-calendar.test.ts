@@ -434,7 +434,7 @@ describe("bl-calendar", () => {
     expect(handleRangeSelectCalendarStub).to.have.been.calledWith(calendarDate);
   });
 
-  it("should apply \"range-day\" class to elements between startDate and endDate", async () => {
+  it("should apply range-day class to elements between startDate and endDate", async () => {
 
     const startDate = new Date(2024, 9, 5);
     const endDate = new Date(2024, 9, 10);

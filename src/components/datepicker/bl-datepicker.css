@@ -28,7 +28,7 @@
   align-items: center;
 }
 
-.calendarIcon {
+.calendar-icon {
   display: flex;
   align-items: center;
   gap: var(--icon-gap);

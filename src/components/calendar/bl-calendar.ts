@@ -4,7 +4,6 @@ import { classMap } from "lit/directives/class-map.js";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
-import { blDatepickerClearSelectedDatesEvent } from "../datepicker/bl-datepicker";
 import "../icon/bl-icon";
 import {
   CALENDAR_TYPES,
@@ -29,51 +28,30 @@ export const blCalendarChangedEvent = "bl-calendar-change";
  **/
 @customElement("bl-calendar")
 export default class BlCalendar extends DatepickerCalendarMixin {
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener(blDatepickerClearSelectedDatesEvent, this.handleClearSelectedDates);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window.removeEventListener(blDatepickerClearSelectedDatesEvent, this.handleClearSelectedDates);
-  }
-
   @state()
   _selectedDates: CalendarDate[] = [];
-
   @state()
   _selectedRangeDates: RangePickerDates = { startDate: undefined, endDate: undefined };
-
   @state()
   today = new Date();
-
   @state()
   _calendarMonth: number = this.today.getMonth();
-
   @state()
   _calendarYear: number = this.today.getFullYear();
-
   @state()
   _calendarView: CalendarView = CALENDAR_VIEWS.DAYS;
-
   @state()
   _calendarYears: number[] = [];
-
   @state()
   _calendarDays: CalendarDay[] = [];
-
   /**
    * Fires when date selection changes
    */
   @event(blCalendarChangedEvent) _onBlCalendarChange: EventDispatcher<Date[]>;
 
-  public handleClearSelectedDates = () => {
-    this._selectedDates = [];
-    this._selectedRangeDates = { startDate: undefined, endDate: undefined };
-    this._onBlCalendarChange([]);
-    this.clearRangePickerStyles();
-  };
+  static get styles(): CSSResultGroup {
+    return [style];
+  }
 
   get months() {
     return [...Array(12).keys()].map(month => ({
@@ -89,9 +67,12 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     }));
   }
 
-  static get styles(): CSSResultGroup {
-    return [style];
-  }
+  public handleClearSelectedDates = () => {
+    this._selectedDates = [];
+    this._selectedRangeDates = { startDate: undefined, endDate: undefined };
+    this._onBlCalendarChange([]);
+    this.clearRangePickerStyles();
+  };
 
   getDayNumInAMonth(year: number, month: number) {
     return new Date(year, month + 1, 0).getDate();
@@ -114,7 +95,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
 
       this._calendarYears = Array.from({ length: 12 }, (_, i) => fromYear - (i + 1));
     }
-    this.type === CALENDAR_TYPES.RANGE && this.setHoverClass();
+    if (this.type === CALENDAR_TYPES.RANGE) this.setHoverClass();
   }
 
   setNextCalendarView() {
@@ -141,13 +122,13 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   setMonthAndCalendarView(month: number) {
     this._calendarMonth = month;
     this._calendarView = CALENDAR_VIEWS.DAYS;
-    this.type === CALENDAR_TYPES.RANGE && this.setHoverClass();
+    if (this.type === CALENDAR_TYPES.RANGE) this.setHoverClass();
   }
 
   setYearAndCalendarView(year: number) {
     this._calendarYear = year;
     this._calendarView = CALENDAR_VIEWS.DAYS;
-    this.type === CALENDAR_TYPES.RANGE && this.setHoverClass();
+    if (this.type === CALENDAR_TYPES.RANGE) this.setHoverClass();
   }
 
   generateSurroundingYears() {
@@ -164,9 +145,8 @@ export default class BlCalendar extends DatepickerCalendarMixin {
 
   handleDate(date: CalendarDate) {
     if (this.type !== CALENDAR_TYPES.RANGE) {
-      date.getMonth() < this._calendarMonth
-        ? this.setPreviousCalendarView()
-        : date.getMonth() > this._calendarMonth && this.setNextCalendarView();
+      if (date.getMonth() < this._calendarMonth) this.setPreviousCalendarView();
+      else if (date.getMonth() > this._calendarMonth) this.setNextCalendarView();
     }
 
     switch (this.type) {
@@ -190,7 +170,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   }
 
   handleMultipleSelectCalendar(calendarDate: CalendarDate) {
-    const dateExist = this._selectedDates.find(d => d.getTime() === calendarDate.getTime());
+    const dateExist = this._selectedDates.some(d => d.getTime() === calendarDate.getTime());
 
     dateExist
       ? this._selectedDates.splice(
@@ -222,7 +202,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   }
 
   checkIfSelectedDate(calendarDate: CalendarDate) {
-    return !!this._selectedDates.find(date => date?.getTime() === calendarDate.getTime());
+    return this._selectedDates.some(date => date?.getTime() === calendarDate.getTime());
   }
 
   checkIfDateIsToday(calendarDate: CalendarDate) {
@@ -244,11 +224,9 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     }
 
     if (this.disabledDates) {
-      const day = this.disabledDates.find(disabledDate => {
+      return this.disabledDates.some(disabledDate => {
         return calendarDate.getTime() === new Date(disabledDate).getTime();
       });
-
-      return !!day;
     }
     return false;
   }
@@ -395,15 +373,15 @@ export default class BlCalendar extends DatepickerCalendarMixin {
           kind="neutral"
           class="header-text ${showMonthSelected}"
           @click="${() => this.setCurrentCalendarView(CALENDAR_VIEWS.MONTHS)}"
-          >${this.months[this._calendarMonth].name}</bl-button
-        >
+          >${this.months[this._calendarMonth].name}
+        </bl-button>
         <bl-button
           variant="tertiary"
           kind="neutral"
           class="header-text ${showYearSelected}"
           @click="${() => this.setCurrentCalendarView(CALENDAR_VIEWS.YEARS)}"
-          >${this._calendarYear}</bl-button
-        >
+          >${this._calendarYear}
+        </bl-button>
         <bl-button
           class="arrow"
           icon="arrow_right"
@@ -419,49 +397,52 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     const calendarDays = this.createCalendarDays();
     const valuesArray = Array.from(calendarDays.values());
 
-    return html`<div class="week-row">
-          ${[...calendarDays.keys()].map(key => {
-            return html` <div class="calendar-text weekday-text">${key}</div> `;
-          })}</div>
-        <div class="days-wrapper">
-          ${[...Array(valuesArray[0].length).keys()].map(key => {
-            return html`<div class="week-row">
-              ${valuesArray.map(values => {
-                const date = values[key];
-                const isSelectedDay = this.checkIfSelectedDate(date);
-                const isDayToday = this.checkIfDateIsToday(date);
-                const isDisabledDay = this.checkIfDateIsDisabled(date);
+    return html`
+      <div class="week-row">
+        ${[...calendarDays.keys()].map(key => {
+          return html` <div class="calendar-text weekday-text">${key}</div> `;
+        })}
+      </div>
+      <div class="days-wrapper">
+        ${[...Array(valuesArray[0].length).keys()].map(key => {
+          return html` <div class="week-row">
+            ${valuesArray.map(values => {
+              const date = values[key];
+              const isSelectedDay = this.checkIfSelectedDate(date);
+              const isDayToday = this.checkIfDateIsToday(date);
+              const isDisabledDay = this.checkIfDateIsDisabled(date);
 
-                const classes = classMap({
-                  "day": true,
-                  "calendar-text": true,
-                  "today-day": isDayToday,
-                  "selected-day": isSelectedDay,
-                  "other-month-day": values[key].getMonth() !== this._calendarMonth,
-                  "disabled-day": isDisabledDay,
-                });
+              const classes = classMap({
+                "day": true,
+                "calendar-text": true,
+                "today-day": isDayToday,
+                "selected-day": isSelectedDay,
+                "other-month-day": values[key].getMonth() !== this._calendarMonth,
+                "disabled-day": isDisabledDay,
+              });
 
-                return html`
-                  <div class="day-wrapper">
-                    <bl-button
-                      id=${date.getTime()}
-                      variant="tertiary"
-                      kind="neutral"
-                      size="small"
-                      class=${classes}
-                      ?disabled=${isDisabledDay}
-                      @click="${() => !isDisabledDay && this.handleDate(date)}"
-                    >
-                      ${date.getDate()}
-                    </bl-button>
-                  </div>
-                `;
-              })}
-            </div>`;
-          })}
-        </div>
-        </div>`;
+              return html`
+                <div class="day-wrapper">
+                  <bl-button
+                    id=${date.getTime()}
+                    variant="tertiary"
+                    kind="neutral"
+                    size="small"
+                    class=${classes}
+                    ?disabled=${isDisabledDay}
+                    @click="${() => !isDisabledDay && this.handleDate(date)}"
+                  >
+                    ${date.getDate()}
+                  </bl-button>
+                </div>
+              `;
+            })}
+          </div>`;
+        })}
+      </div>
+      </div>`;
   }
+
   renderCalendarMonths() {
     return html` <div class="grid-content">
       ${this.months.map((month, index) => {
@@ -479,14 +460,15 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       })}
     </div>`;
   }
+
   renderCalendarYears() {
     this.generateSurroundingYears();
-    return html`<div class="grid-content">
+    return html` <div class="grid-content">
       ${this._calendarYears.map(year => {
         const variant = year === this._calendarYear ? "primary" : "tertiary";
         const neutral = year === this._calendarYear ? "default" : "neutral";
 
-        return html`<bl-button
+        return html` <bl-button
           variant=${variant}
           kind=${neutral}
           class="grid-item"
@@ -498,15 +480,17 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   }
 
   render() {
-    return html`<div>
-      <div class="calendar-content">
-        <div class="calendar">
-          ${this.renderCalendarHeader()}
-          ${this._calendarView === CALENDAR_VIEWS.DAYS ? this.renderCalendarDays() : ""}
-          ${this._calendarView === CALENDAR_VIEWS.MONTHS ? this.renderCalendarMonths() : ""}
-          ${this._calendarView === CALENDAR_VIEWS.YEARS ? this.renderCalendarYears() : ""}
+    return html`
+      <div>
+        <div class="calendar-content">
+          <div class="calendar">
+            ${this.renderCalendarHeader()}
+            ${this._calendarView === CALENDAR_VIEWS.DAYS ? this.renderCalendarDays() : ""}
+            ${this._calendarView === CALENDAR_VIEWS.MONTHS ? this.renderCalendarMonths() : ""}
+            ${this._calendarView === CALENDAR_VIEWS.YEARS ? this.renderCalendarYears() : ""}
+          </div>
         </div>
       </div>
-    </div> `;
+    `;
   }
 }
