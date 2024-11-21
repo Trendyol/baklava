@@ -12,13 +12,7 @@ import {
   LAST_MONTH_INDEX,
 } from "./bl-calendar.constant";
 import style from "./bl-calendar.css";
-import {
-  Calendar,
-  CalendarDate,
-  CalendarDay,
-  CalendarView,
-  RangePickerDates,
-} from "./bl-calendar.types";
+import { Calendar, CalendarDay, CalendarView, RangePickerDates } from "./bl-calendar.types";
 
 export const blCalendarChangedEvent = "bl-calendar-change";
 
@@ -29,7 +23,7 @@ export const blCalendarChangedEvent = "bl-calendar-change";
 @customElement("bl-calendar")
 export default class BlCalendar extends DatepickerCalendarMixin {
   @state()
-  _selectedDates: CalendarDate[] = [];
+  _selectedDates: Date[] = [];
   @state()
   _selectedRangeDates: RangePickerDates = { startDate: undefined, endDate: undefined };
   @state()
@@ -143,7 +137,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       .forEach(day => day.classList.remove("range-day", "range-start-day", "range-end-day"));
   }
 
-  handleDate(date: CalendarDate) {
+  handleDate(date: Date) {
     if (this.type !== CALENDAR_TYPES.RANGE) {
       if (date.getMonth() < this._calendarMonth) this.setPreviousCalendarView();
       else if (date.getMonth() > this._calendarMonth) this.setNextCalendarView();
@@ -165,11 +159,11 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     this.requestUpdate();
   }
 
-  handleSingleSelectCalendar(calendarDate: CalendarDate) {
+  handleSingleSelectCalendar(calendarDate: Date) {
     this._selectedDates = [calendarDate];
   }
 
-  handleMultipleSelectCalendar(calendarDate: CalendarDate) {
+  handleMultipleSelectCalendar(calendarDate: Date) {
     const dateExist = this._selectedDates.some(d => d.getTime() === calendarDate.getTime());
 
     dateExist
@@ -180,7 +174,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       : this._selectedDates.push(calendarDate);
   }
 
-  handleRangeSelectCalendar(calendarDate: CalendarDate) {
+  handleRangeSelectCalendar(calendarDate: Date) {
     const { startDate, endDate } = this._selectedRangeDates;
 
     if (!startDate) {
@@ -201,11 +195,11 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     this.setHoverClass();
   }
 
-  checkIfSelectedDate(calendarDate: CalendarDate) {
+  checkIfSelectedDate(calendarDate: Date) {
     return this._selectedDates.some(date => date?.getTime() === calendarDate.getTime());
   }
 
-  checkIfDateIsToday(calendarDate: CalendarDate) {
+  checkIfDateIsToday(calendarDate: Date) {
     const today = this.today;
 
     return (
@@ -215,17 +209,16 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     );
   }
 
-  checkIfDateIsDisabled(calendarDate: CalendarDate) {
+  checkIfDateIsDisabled(calendarDate: Date) {
     if (
       calendarDate.getTime() < this.minDate?.getTime() ||
       calendarDate.getTime() > this.maxDate?.getTime()
     ) {
       return true;
     }
-
     if (this.disabledDates) {
       return this.disabledDates.some(disabledDate => {
-        return calendarDate.getTime() === new Date(disabledDate).getTime();
+        return calendarDate.getTime() === disabledDate.getTime();
       });
     }
     return false;

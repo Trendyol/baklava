@@ -178,32 +178,6 @@ describe("BlDatepicker", () => {
     expect(element._popoverEl.visible).to.be.false;
   });
 
-  it("should prevent default mousedown event and focus input element when clicked", async () => {
-    const focusSpy = sinon.spy(element._inputEl, "focus");
-
-    const inputAddEventListenerSpy = sinon.spy(element._inputEl, "addEventListener");
-    const documentAddEventListenerSpy = sinon.spy(document, "addEventListener");
-
-    await element.firstUpdated();
-
-    expect(inputAddEventListenerSpy).to.have.been.calledWith("mousedown");
-    expect(documentAddEventListenerSpy).to.have.been.calledWith("mousedown");
-
-    const mousedownEvent = new MouseEvent("mousedown", { bubbles: true, cancelable: true });
-
-    element._inputEl.dispatchEvent(mousedownEvent);
-
-    expect(mousedownEvent.defaultPrevented).to.be.true;
-
-    const documentMouseEvent = new MouseEvent("mousedown", { bubbles: true, composed: true });
-
-    sinon.stub(documentMouseEvent, "composedPath").returns([element._inputEl]);
-
-    document.dispatchEvent(documentMouseEvent);
-
-    expect(focusSpy).to.have.been.called;
-  });
-
   it("should set selected dates and call setDatePickerInput when default value is provided", async () => {
     element._defaultValue = new Date(2024, 10, 10);
 

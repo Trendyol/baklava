@@ -15,15 +15,37 @@ export default class DatepickerCalendarMixin extends LitElement {
   @property({ type: Number, attribute: "start-of-week", reflect: true })
   startOfWeek: DayValues = 0;
   /**
-   * Defines the unselectable dates for calendar
-   */
-  @property({ type: Array, attribute: "disabled-dates", reflect: true })
-  disabledDates: Date[];
-  /**
    * Defines the calendar language
    */
   @property()
   locale: string = document.documentElement.lang || "en-EN";
+
+  /**
+   * Defines the unselectable dates for calendar
+   */
+  _disabledDates: Date[] = [];
+  get disabledDates(): Date[] {
+    return this._disabledDates;
+  }
+
+  @property({ attribute: "disabled-dates", reflect: true })
+  set disabledDates(disabledDates: Date[] | string) {
+    if (typeof disabledDates === "string") {
+      const splitDisabledDates = disabledDates.split(",");
+
+      splitDisabledDates?.forEach(disabledDate => {
+        const date = new Date(`${disabledDate}T00:00:00`);
+
+        if (!isNaN(date.getTime())) this._disabledDates.push(date);
+      });
+    } else if (Array.isArray(disabledDates)) {
+      disabledDates.forEach(disabledDate => {
+        this._disabledDates.push(disabledDate);
+      });
+    } else {
+      console.warn("invalid disabledDate format.DisabledDates should be string or Date array.");
+    }
+  }
 
   /**
    * Defines the maximum date value for the calendar
@@ -68,6 +90,7 @@ export default class DatepickerCalendarMixin extends LitElement {
 
   @property({ attribute: "default-value", reflect: true })
   set defaultValue(defaultValue: Date | Date[]) {
+    //başta bir type controlü yapalım string 23.04.2021,24.04.2021 2024-11-06 gelirse date array paslayalım ,date[] gelirse dümdüz kullanalım
     if (defaultValue) {
       if (this.type === CALENDAR_TYPES.SINGLE && Array.isArray(defaultValue)) {
         console.warn("'defaultValue' must be of type Date for single date selection.");

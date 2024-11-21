@@ -5,14 +5,12 @@ import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/date
 import { event, EventDispatcher } from "../../utilities/event";
 import "../calendar/bl-calendar";
 import { CALENDAR_TYPES } from "../calendar/bl-calendar.constant";
-import { CalendarDate } from "../calendar/bl-calendar.types";
 import "../input/bl-input";
 import BlInput from "../input/bl-input";
 import "../tooltip/bl-tooltip";
 import style from "./bl-datepicker.css";
 
 export const blDatepickerTag = "bl-datepicker";
-export const blDatepickerClearSelectedDatesEvent = "clear-datepicker-event";
 export const blDatepickerChangedEvent = "bl-datepicker-change";
 
 /**
@@ -37,7 +35,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
    * Defines the custom formatter function
    */
   @property({ type: Function, attribute: "value-formatter" })
-  valueFormatter: ((dates: CalendarDate[]) => string) | null = null;
+  valueFormatter: ((dates: Date[]) => string) | null = null;
   /**
    * Sets datepicker to disabled
    */
@@ -53,7 +51,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   _value = "";
 
   @state()
-  _selectedDates: CalendarDate[] = [];
+  _selectedDates: Date[] = [];
 
   @state()
   _floatingDateCount: number = 0;

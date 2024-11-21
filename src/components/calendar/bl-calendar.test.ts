@@ -2,7 +2,6 @@ import { expect, fixture, html } from "@open-wc/testing";
 import "./bl-calendar";
 import { BlButton, BlCalendar } from "../../baklava";
 import { blCalendarChangedEvent } from "./bl-calendar";
-import { blDatepickerClearSelectedDatesEvent } from "../datepicker/bl-datepicker";
 import { CALENDAR_TYPES, CALENDAR_VIEWS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX } from "./bl-calendar.constant";
 import sinon from "sinon";
 
@@ -96,12 +95,6 @@ describe("bl-calendar", () => {
 
   });
 
-  it("should clear selected dates on receiving blDatepickerClearSelectedDatesEvent", async () => {
-    element._selectedDates = [new Date()];
-    window.dispatchEvent(new CustomEvent(blDatepickerClearSelectedDatesEvent));
-    expect(element._selectedDates.length).to.equal(0);
-  });
-
   it("should not allow selection of dates before minDate", async () => {
     element.minDate = new Date(2023, 0, 15);
     element._calendarMonth = 0;
@@ -154,7 +147,7 @@ describe("bl-calendar", () => {
       <bl-calendar locale="fr"></bl-calendar>`);
 
     const monthName = new Date().toLocaleString("fr", { month: "long" });
-    const firstMonth = element.shadowRoot?.querySelector(".header-text")?.textContent;
+    const firstMonth = element.shadowRoot?.querySelector(".header-text")?.textContent?.trim();
 
     expect(firstMonth).to.equal(monthName);
   });
@@ -166,18 +159,6 @@ describe("bl-calendar", () => {
     ).find(button => button?.textContent?.trim() === `${element.today.getDate()}`);
 
     expect(todayElement?.classList.contains("today-day")).to.be.true;
-  });
-
-  it("should clear selected dates when blDatepickerClearSelectedDatesEvent is triggered", async () => {
-    const testDate = new Date(2023, 1, 10);
-
-    element._selectedDates = [testDate];
-
-    window.dispatchEvent(new CustomEvent(blDatepickerClearSelectedDatesEvent));
-
-    expect(element._selectedDates).to.be.empty;
-    expect(element._selectedRangeDates.startDate).to.be.undefined;
-    expect(element._selectedRangeDates.endDate).to.be.undefined;
   });
 
   it("should switch to the year view and render years", async () => {
@@ -434,40 +415,37 @@ describe("bl-calendar", () => {
     expect(handleRangeSelectCalendarStub).to.have.been.calledWith(calendarDate);
   });
 
-  it("should apply range-day class to elements between startDate and endDate", async () => {
 
-    const startDate = new Date(2024, 9, 5);
-    const endDate = new Date(2024, 9, 10);
-
-    element._selectedRangeDates = { startDate, endDate };
-
-    const rangeDates = [
-      new Date(2024, 9, 6),
-      new Date(2024, 9, 7),
-      new Date(2024, 9, 8),
-      new Date(2024, 9, 9)
-    ];
-
-    rangeDates.forEach(date => {
-
-      const fakeElement = document.createElement("div");
-
-      fakeElement.id = `${date.getTime()}`;
-      const parentElement = document.createElement("div");
-
-      parentElement.appendChild(fakeElement);
-      element.shadowRoot?.appendChild(fakeElement);
-    });
+  it("should add range-start-day class to the start date element", async () => {
+    element._selectedRangeDates = {
+      startDate: new Date(2024, 10, 1),
+      endDate: new Date(2024, 10, 5)
+    };
 
     element.setHoverClass();
 
-    await new Promise(resolve => setTimeout(resolve));
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    const startDateElement = element.shadowRoot?.getElementById(
+      `${element._selectedRangeDates.startDate?.getTime()}`
+    )?.parentElement;
 
-    rangeDates.forEach(date => {
-      const elementWithId = element.shadowRoot?.getElementById(`${date.getTime()}`)?.parentElement;
+    expect(startDateElement?.classList.contains("range-start-day")).to.be.true;
+  });
 
-      expect(elementWithId?.classList.contains("range-day")).to.be.true;
-    });
+  it("should add range-end-day class to the end date element", async () => {
+    element._selectedRangeDates = {
+      startDate: new Date(2024, 10, 1),
+      endDate: new Date(2024, 10, 5)
+    };
+
+    element.setHoverClass();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const endDateElement = element.shadowRoot?.getElementById(
+      `${element._selectedRangeDates.endDate?.getTime()}`
+    )?.parentElement;
+
+    expect(endDateElement?.classList.contains("range-end-day")).to.be.true;
   });
 
   it("should correctly calculate lastMonthDaysCount when currentMonthStartWeekDay smaller startOfWeek", () => {
