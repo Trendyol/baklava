@@ -184,6 +184,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   /**
    * Overrides error message. This message will override default error messages
+   * @deprecated use setCustomValidity instead
    */
   @property({ type: String, attribute: "invalid-text", reflect: true })
   set customInvalidText(value: string) {
@@ -191,9 +192,15 @@ export default class BlInput extends FormControlMixin(LitElement) {
     this.setValue(this.value);
   }
 
+  /**
+   * @deprecated
+   */
   get customInvalidText(): string {
     return this._customInvalidText;
   }
+
+  @property({ reflect: true, type: String })
+  error: string = "";
 
   private _customInvalidText: string;
 
@@ -262,7 +269,16 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   /**
+   * Sets a custom validity on the form element.
+   * @param message
+   */
+  setCustomValidity(message: string) {
+    this.validationTarget.setCustomValidity(message);
+  }
+
+  /**
    * Force to set input as in invalid state.
+   * @deprecated use error attribute instead
    */
   async forceCustomError() {
     await this.updateComplete;
@@ -273,6 +289,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   /**
    * Clear forced invalid state
+   * @deprecated use error attribute instead
    */
   async clearCustomError() {
     await this.updateComplete;
@@ -291,6 +308,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
     const value = (event.target as HTMLInputElement).value;
 
     this.value = value;
+    this.setValue(this.value);
     this.onInput(value);
   }
 
@@ -299,6 +317,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
     this.dirty = true;
     this.value = value;
+    this.setValue(this.value);
     this.onChange(value);
   }
 
@@ -314,6 +333,10 @@ export default class BlInput extends FormControlMixin(LitElement) {
       await this.validationComplete;
 
       this.requestUpdate();
+    }
+
+    if (changedProperties.has("error")) {
+      this.reportValidity();
     }
   }
 

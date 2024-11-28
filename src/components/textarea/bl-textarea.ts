@@ -27,6 +27,9 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   @query("textarea")
   validationTarget: HTMLTextAreaElement;
 
+  @property({ reflect: true, type: String })
+  error: string = "";
+
   /**
    * Name of textarea
    */
@@ -175,6 +178,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
     const value = (event.target as HTMLTextAreaElement).value;
 
     this.value = value;
+    this.setValue(this.value);
     this.onInput(value);
   }
 
@@ -183,6 +187,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
 
     this.dirty = true;
     this.value = value;
+    this.setValue(this.value);
     this.onChange(value);
   }
 
@@ -203,6 +208,18 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
 
       this.requestUpdate();
     }
+
+    if (changedProperties.has("error")) {
+      this.reportValidity();
+    }
+  }
+
+  /**
+   * Sets a custom validity on the form element.
+   * @param message
+   */
+  setCustomValidity(message: string) {
+    this.validationTarget.setCustomValidity(message);
   }
 
   reportValidity() {

@@ -25,7 +25,7 @@ describe("Form Control Validators", () => {
     it("should return true if validationTarget is not present", async () => {
       const el = await fixture<MyValidInput>(html`<my-valid-input></my-valid-input>`);
 
-      expect(innerInputValidators.every(validator => validator.isValid(el))).to.be.true;
+      expect(innerInputValidators.every(validator => validator.isValid(el, el.validationTarget.value))).to.be.true;
     });
 
     it("should return correct value if validationTarget present", async () => {
@@ -33,8 +33,8 @@ describe("Form Control Validators", () => {
 
       await elementUpdated(el);
 
-      expect(innerInputValidators.every(validator => validator.isValid(el))).to.be.false;
-      expect(innerInputValidators.find(validator => !validator.isValid(el))?.key).to.eq(
+      expect(innerInputValidators.every(validator => validator.isValid(el, el.validationTarget.value))).to.be.false;
+      expect(innerInputValidators.find(validator => !validator.isValid(el, el.validationTarget.value))?.key).to.eq(
         "valueMissing"
       );
     });
