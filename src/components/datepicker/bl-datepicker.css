@@ -12,7 +12,7 @@
 .datepicker-content {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--bl-size-2xs);
   width: fit-content;
 }
 
@@ -24,7 +24,7 @@
 
 .icon-container {
   display: flex;
-  gap: 5px;
+  gap: var(--bl-size-3xs);
   align-items: center;
 }
 
@@ -42,10 +42,10 @@
 
 .action-divider {
   display: block;
-  height: 1rem;
-  width: 1px;
+  height: var(--bl-size-m);
+  width: var(--bl-size-4xs);
   background-color: var(--bl-color-neutral-lighter);
-  margin-right: 5px;
+  margin-right: var(--bl-size-3xs);
 }
 
 bl-popover {

@@ -35,7 +35,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
    * Defines the custom formatter function
    */
   @property({ type: Function, attribute: "value-formatter" })
-  valueFormatter: ((dates: Date[]) => string) | null = null;
+  inputValueFormatter: ((dates: Date[]) => string) | null = null;
   /**
    * Sets datepicker to disabled
    */
@@ -48,7 +48,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   helpText: string;
 
   @state()
-  _value = "";
+  _inputValue = "";
 
   @state()
   _selectedDates: Date[] = [];
@@ -80,9 +80,9 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     return [style];
   }
 
-  _defaultValueFormatter() {
+  defaultInputValueFormatter() {
     if (this.type === CALENDAR_TYPES.SINGLE) {
-      this._value = this.formatDate(this._selectedDates[0]);
+      this._inputValue = this.formatDate(this._selectedDates[0]);
       this.closePopoverWithTimeout();
     } else if (this.type === CALENDAR_TYPES.MULTIPLE) {
       this.setFloatingDates();
@@ -90,11 +90,11 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
         .slice(0, this._fittingDateCount)
         .map(date => this.formatDate(date));
 
-      this._value = values.join(",") + (this._floatingDateCount > 0 ? " ,..." : "");
+      this._inputValue = values.join(",") + (this._floatingDateCount > 0 ? " ,..." : "");
     } else if (this.type === CALENDAR_TYPES.RANGE) {
-      if (this._selectedDates[0]) this._value = this.formatDate(this._selectedDates[0]);
+      if (this._selectedDates[0]) this._inputValue = this.formatDate(this._selectedDates[0]);
       if (this._selectedDates[1])
-        this._value = `${this._value}-${this.formatDate(this._selectedDates[1])}`;
+        this._inputValue = `${this._inputValue}-${this.formatDate(this._selectedDates[1])}`;
       if (this._selectedDates[0] && this._selectedDates[1]) this.closePopoverWithTimeout();
     }
   }
@@ -115,13 +115,13 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
 
   setDatePickerInput(dates: Date[] | []) {
     if (!dates.length) {
-      this._value = "";
+      this._inputValue = "";
     } else {
       this._selectedDates = dates;
-      if (this.valueFormatter) {
-        this._value = this.valueFormatter(this._selectedDates);
+      if (this.inputValueFormatter) {
+        this._inputValue = this.inputValueFormatter(this._selectedDates);
       } else {
-        this._defaultValueFormatter();
+        this.defaultInputValueFormatter();
       }
     }
 
@@ -138,7 +138,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   clearDatepicker() {
     this._calendarEl.handleClearSelectedDates();
     this._selectedDates = [];
-    this._value = "";
+    this._inputValue = "";
     this._floatingDateCount = 0;
     this._inputEl?.blur();
   }
@@ -182,10 +182,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     this._calendarEl?.addEventListener("mousedown", this._onCalendarMouseDown);
     this._inputEl?.addEventListener("mousedown", this._onInputMouseDown);
 
-    if (this._defaultValue) {
-      Array.isArray(this._defaultValue)
-        ? (this._selectedDates = this._defaultValue)
-        : (this._selectedDates = [new Date(this._defaultValue)]);
+    if (this._selectedDates) {
       this.setDatePickerInput(this._selectedDates);
     }
   }
@@ -205,7 +202,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           .maxDate=${this.maxDate}
           .startOfWeek=${this.startOfWeek}
           .disabledDates=${this.disabledDates}
-          .defaultValue=${this._defaultValue}
+          .value=${this._value}
           .locale=${this.locale}
           @bl-calendar-change="${(event: CustomEvent) => this.setDatePickerInput(event.detail)}"
         ></bl-calendar>
@@ -243,7 +240,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     return html`
       <div class="datepicker-content" id="datepicker-content" tabindex="-1">
         <bl-input
-          value="${this._value}"
+          .value="${this._inputValue}"
           label="${this.label}"
           placeholder="${this.placeholder}"
           class="datepicker-input"

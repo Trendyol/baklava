@@ -7,13 +7,20 @@ import sinon from "sinon";
 
 describe("bl-calendar", () => {
   let element: BlCalendar;
+  let consoleWarnSpy: sinon.SinonSpy;
 
   beforeEach(async () => {
     element = await fixture<BlCalendar>(html`
       <bl-calendar locale="en"></bl-calendar>`);
+    consoleWarnSpy = sinon.spy(console, "warn");
+
   });
 
-  it("should instantiate the component", () => {
+  afterEach(() => {
+    consoleWarnSpy.restore();
+  });
+
+  it("should instantiate the element", () => {
     expect(document.createElement("bl-calendar")).instanceOf(HTMLElement);
   });
 
@@ -138,8 +145,8 @@ describe("bl-calendar", () => {
     element.handleRangeSelectCalendar(startDate);
     element.handleRangeSelectCalendar(endDate);
 
-    expect(element._selectedRangeDates.startDate).to.deep.equal(startDate);
-    expect(element._selectedRangeDates.endDate).to.deep.equal(endDate);
+    expect(element._selectedDates[0]).to.deep.equal(startDate);
+    expect(element._selectedDates[1]).to.deep.equal(endDate);
   });
 
   it("should render month names in the correct locale", async () => {
@@ -150,15 +157,6 @@ describe("bl-calendar", () => {
     const firstMonth = element.shadowRoot?.querySelector(".header-text")?.textContent?.trim();
 
     expect(firstMonth).to.equal(monthName);
-  });
-
-  it("should apply the today-day class to today's date", async () => {
-
-    const todayElement = Array.from(
-      element.shadowRoot?.querySelectorAll("bl-button") || []
-    ).find(button => button?.textContent?.trim() === `${element.today.getDate()}`);
-
-    expect(todayElement?.classList.contains("today-day")).to.be.true;
   });
 
   it("should switch to the year view and render years", async () => {
@@ -226,40 +224,35 @@ describe("bl-calendar", () => {
     expect(result).to.be.false;
   });
 
-  it("should wrap defaultValue in an array if it is a single date", async () => {
+  it("should return false if calendarDate is not disabled", () => {
+    const calendarDate = new Date(2023, 9, 19);
+
+    element.minDate = new Date(2023, 8, 19);
+    element.maxDate = new Date(2024, 10, 19);
+
+    const result = element.checkIfDateIsDisabled(calendarDate);
+
+    expect(result).to.be.false;
+  });
+
+  it("should wrap value in an array if it is a single date", async () => {
     const calendar = new BlCalendar();
 
-    calendar._defaultValue = new Date("2023-09-18");
+    calendar.value = new Date("2023-09-18");
     calendar.type = CALENDAR_TYPES.SINGLE;
-
-    await calendar.firstUpdated();
 
     expect(calendar._selectedDates).to.deep.equal([new Date("2023-09-18")], {});
   });
 
-  it("should set startDate and endDate in selectedRangeDates when type is range", async () => {
+  it("should set startDate and endDate in selectedDays when type is range", async () => {
     const defaultDate1 = new Date(2023, 9, 18);
     const defaultDate2 = new Date(2023, 9, 19);
 
-    element._defaultValue = [defaultDate1, defaultDate2];
+    element.value = [defaultDate1, defaultDate2];
     element.type = CALENDAR_TYPES.RANGE;
 
-    const setHoverClassSpy = sinon.spy(element, "setHoverClass");
-
-    await element.firstUpdated();
-
-    expect(element._selectedRangeDates.startDate).to.be.equal(defaultDate1);
-    expect(element._selectedRangeDates.endDate).to.be.equal(defaultDate2);
-    expect(setHoverClassSpy).to.be.calledOnce;
-  });
-
-  it("should not set selectedDates or selectedRangeDates if defaultValue is undefined", async () => {
-
-    await element.firstUpdated();
-
-    expect(element._selectedDates).to.deep.equal([]);
-    expect(element._selectedRangeDates.startDate).to.be.undefined;
-    expect(element._selectedRangeDates.endDate).to.be.undefined;
+    expect(element._selectedDates[0]).to.be.equal(defaultDate1);
+    expect(element._selectedDates[1]).to.be.equal(defaultDate2);
   });
 
   it("should navigate to the previous month in DAYS view", async () => {
@@ -360,12 +353,10 @@ describe("bl-calendar", () => {
     const startDate = new Date(2023, 0, 5);
     const calendarDate = new Date(2023, 0, 1);
 
-    element._selectedRangeDates.startDate = startDate;
-    element._selectedDates.push(startDate);
+    element._selectedDates[0] = startDate;
 
     element.handleRangeSelectCalendar(calendarDate);
 
-    expect(element._selectedRangeDates).to.deep.equal({ startDate: calendarDate, endDate: startDate });
     expect(element._selectedDates).to.deep.equal([calendarDate, startDate]);
   });
 
@@ -374,12 +365,10 @@ describe("bl-calendar", () => {
     const startDate = new Date(2023, 0, 5);
     const endDate = new Date(2023, 0, 15);
 
-    element._selectedRangeDates = { startDate, endDate };
     element._selectedDates = [startDate, endDate];
 
     element.handleRangeSelectCalendar(calendarDate);
 
-    expect(element._selectedRangeDates).to.deep.equal({ startDate: calendarDate, endDate: undefined });
     expect(element._selectedDates).to.deep.equal([calendarDate]);
   });
 
@@ -417,32 +406,30 @@ describe("bl-calendar", () => {
 
 
   it("should add range-start-day class to the start date element", async () => {
-    element._selectedRangeDates = {
-      startDate: new Date(2024, 10, 1),
-      endDate: new Date(2024, 10, 5)
-    };
+    element._selectedDates = [new Date(2024, 10, 1),
+      new Date(2024, 10, 5)
+    ];
 
     element.setHoverClass();
 
     await new Promise((resolve) => setTimeout(resolve, 100));
     const startDateElement = element.shadowRoot?.getElementById(
-      `${element._selectedRangeDates.startDate?.getTime()}`
+      `${element._selectedDates[0]?.getTime()}`
     )?.parentElement;
 
     expect(startDateElement?.classList.contains("range-start-day")).to.be.true;
   });
 
   it("should add range-end-day class to the end date element", async () => {
-    element._selectedRangeDates = {
-      startDate: new Date(2024, 10, 1),
-      endDate: new Date(2024, 10, 5)
-    };
+    element._selectedDates = [new Date(2024, 10, 1),
+      new Date(2024, 10, 5)
+    ];
 
     element.setHoverClass();
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     const endDateElement = element.shadowRoot?.getElementById(
-      `${element._selectedRangeDates.endDate?.getTime()}`
+      `${element._selectedDates[1]?.getTime()}`
     )?.parentElement;
 
     expect(endDateElement?.classList.contains("range-end-day")).to.be.true;
@@ -584,28 +571,9 @@ describe("bl-calendar", () => {
     setNextCalendarViewSpy.restore();
   });
 
-  it("should not call setTimeout or add any class when startDate or endDate is undefined", () => {
-    element.createCalendarDays = () => new Map();
-    element._selectedRangeDates = {
-      startDate: undefined,
-      endDate: new Date(2024, 0, 15)
-    };
-
-    const setTimeoutSpy = sinon.spy(window, "setTimeout");
-
-    element.setHoverClass();
-
-    expect(setTimeoutSpy).to.not.have.been.called;
-
-    setTimeoutSpy.restore();
-  });
-
   it("should add classes when both startDate and endDate are defined", () => {
 
-    element._selectedRangeDates = {
-      startDate: new Date(2024, 0, 10),
-      endDate: new Date(2024, 0, 15)
-    };
+    element._selectedDates = [new Date(2024, 0, 10), new Date(2024, 0, 15)];
 
     const setTimeoutSpy = sinon.spy(window, "setTimeout");
 

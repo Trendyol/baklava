@@ -45,7 +45,7 @@ describe("BlDatepicker", () => {
   });
 
   it("should have default empty value", () => {
-    expect(element._value).to.equal("");
+    expect(element._inputValue).to.equal("");
   });
 
   it("should set placeholder correctly", async () => {
@@ -102,7 +102,7 @@ describe("BlDatepicker", () => {
     await element.updateComplete;
 
     expect(element._selectedDates).to.deep.equal([]);
-    expect(element._value).to.equal("");
+    expect(element._inputValue).to.equal("");
   });
 
   it("should disable the input when 'disabled' is set", async () => {
@@ -117,11 +117,11 @@ describe("BlDatepicker", () => {
   it("should use custom value formatter when provided", async () => {
     const testDate = new Date(2023, 1, 1);
 
-    element.valueFormatter = (dates: Date[]) => `Custom format: ${dates[0].toDateString()}`;
+    element.inputValueFormatter = (dates: Date[]) => `Custom format: ${dates[0].toDateString()}`;
     element.setDatePickerInput([testDate]);
     await element.updateComplete;
 
-    expect(element._value).to.equal(`Custom format: ${testDate.toDateString()}`);
+    expect(element._inputValue).to.equal(`Custom format: ${testDate.toDateString()}`);
   });
 
   it("should handle multiple date selections", async () => {
@@ -142,7 +142,7 @@ describe("BlDatepicker", () => {
     await element.updateComplete;
 
     expect(element._selectedDates).to.deep.equal([]);
-    expect(element._value).to.equal("");
+    expect(element._inputValue).to.equal("");
   });
 
   it("should handle selecting a range of dates", async () => {
@@ -178,33 +178,6 @@ describe("BlDatepicker", () => {
     expect(element._popoverEl.visible).to.be.false;
   });
 
-  it("should set selected dates and call setDatePickerInput when default value is provided", async () => {
-    element._defaultValue = new Date(2024, 10, 10);
-
-    const setDatePickerInputSpy = sinon.spy(element, "setDatePickerInput");
-
-    await element.firstUpdated();
-
-    expect(element._selectedDates).to.deep.equal([new Date(2024, 10, 10)]);
-
-    expect(setDatePickerInputSpy).to.have.been.calledWith(element._selectedDates);
-  });
-
-  it("should handle an array of dates for default value", async () => {
-    element._defaultValue = [new Date(2024, 10, 10), new Date(2024, 10, 11)];
-
-    const setDatePickerInputSpy = sinon.spy(element, "setDatePickerInput");
-
-    await element.firstUpdated();
-
-    expect(element._selectedDates).to.deep.equal([
-      new Date(2024, 10, 10),
-      new Date(2024, 10, 11)
-    ]);
-
-    expect(setDatePickerInputSpy).to.have.been.calledWith(element._selectedDates);
-  });
-
   it("should insert a <br /> after every third item", () => {
     const inputString = "Item1, Item2, Item3, Item4";
     const result = element.formatAdditionalDates(inputString);
@@ -228,13 +201,13 @@ describe("BlDatepicker", () => {
     expect(trigger?.textContent).to.equal("+2");
   });
 
-  it("should include \" ,...\" when floatingDateCount is greater than 0 for MULTIPLE type", () => {
+  it("should include ',...' when floatingDateCount is greater than 0 for MULTIPLE type", () => {
 
     element.type = CALENDAR_TYPES.MULTIPLE;
     element._selectedDates = [new Date("2024-01-01"), new Date("2024-01-02"), new Date("2024-01-03")];
     element.setFloatingDates();
-    element._defaultValueFormatter();
-    expect(element._value).to.include(" ,...");
+    element.defaultInputValueFormatter();
+    expect(element._inputValue).to.include(" ,...");
   });
 
   it("should not include \" ,...\" when floatingDateCount is 0 for MULTIPLE type", () => {
@@ -244,8 +217,8 @@ describe("BlDatepicker", () => {
 
     element.setFloatingDates();
 
-    element._defaultValueFormatter();
-    expect(element._value).to.not.include(" ,...");
+    element.defaultInputValueFormatter();
+    expect(element._inputValue).to.not.include(" ,...");
   });
 
   it("should format a date correctly", () => {
@@ -283,77 +256,46 @@ describe("BlDatepicker", () => {
     closePopoverSpy.restore();
   });
 
-  it("should return a single date when defaultValue is a single Date", () => {
+  it("should return a single date when value is a single Date", () => {
     const date = new Date("2024-01-01");
 
-    element._defaultValue = date;
-    expect(element.defaultValue).to.equal(date);
+    element._value = date;
+    expect(element.value).to.equal(date);
   });
 
-  it("should return an array of dates when defaultValue is an array of Dates", () => {
+  it("should return an array of dates when value is an array of Dates", () => {
     const dates = [new Date("2024-01-01"), new Date("2024-02-01")];
 
-    element._defaultValue = dates;
-    expect(element.defaultValue).to.deep.equal(dates);
+    element._value = dates;
+    expect(element.value).to.deep.equal(dates);
   });
 
-  it("should return undefined if defaultValue is not set", () => {
-    expect(element.defaultValue).to.be.undefined;
+  it("should return undefined if value is not set", () => {
+    expect(element.value).to.be.undefined;
   });
 
-  it("should warn when 'defaultValue' is not an array for multiple/range selection", async () => {
+  it("should warn when 'value' is not an array for multiple/range selection", async () => {
     element = await fixture<BlDatePicker>(html`
       <bl-datepicker type="multiple" locale="en"></bl-datepicker>`);
-    element._defaultValue = new Date();
+    element._value = new Date();
 
     element.firstUpdated();
 
     expect(consoleWarnSpy.calledOnce).to.be.true;
   });
 
-  it("should not warn when defaultValue is an array for multiple/range selection", () => {
+  it("should not warn when value is an array for multiple/range selection", () => {
     element.type = CALENDAR_TYPES.MULTIPLE;
-    element._defaultValue = [new Date(), new Date()];
+    element._value = [new Date(), new Date()];
 
     element.firstUpdated();
 
     expect(consoleWarnSpy.called).to.be.false;
   });
 
-  it("should warn when defaultValue is an array but not exactly two Date objects in RANGE mode", async () => {
+  it("should not warn when 'value' is an array of exactly two Date objects in RANGE mode", () => {
     element.type = CALENDAR_TYPES.RANGE;
-    element._defaultValue = [];
-    element.setDatePickerInput([]);
-
-    await element.updateComplete;
-
-    expect(consoleWarnSpy.calledOnce).to.be.true;
-    expect(consoleWarnSpy.calledWith("'defaultValue' must be an array of two Date objects when the date selection mode is set to range.")).to.be.true;
-
-    consoleWarnSpy.resetHistory();
-
-    element._defaultValue = [new Date()];
-    element.setDatePickerInput([new Date()]);
-
-    await element.updateComplete;
-
-    expect(consoleWarnSpy.calledOnce).to.be.true;
-    expect(consoleWarnSpy.calledWith("'defaultValue' must be an array of two Date objects when the date selection mode is set to range.")).to.be.true;
-
-    consoleWarnSpy.resetHistory();
-
-    element._defaultValue = [new Date(), new Date(), new Date()];
-    element.setDatePickerInput([new Date(), new Date(), new Date()]);
-
-    await element.updateComplete;
-
-    expect(consoleWarnSpy.calledOnce).to.be.true;
-    expect(consoleWarnSpy.calledWith("'defaultValue' must be an array of two Date objects when the date selection mode is set to range.")).to.be.true;
-  });
-
-  it("should not warn when 'defaultValue' is an array of exactly two Date objects in RANGE mode", () => {
-    element.type = CALENDAR_TYPES.RANGE;
-    element._defaultValue = [new Date(), new Date()];
+    element._value = [new Date(), new Date()];
 
     element.firstUpdated();
 
@@ -380,6 +322,57 @@ describe("BlDatepicker", () => {
     await element.updateComplete;
 
     expect(consoleWarnSpy.calledWith("maxDate cannot be smaller than minDate.")).to.be.true;
+  });
+
+
+  it("should focus the input element on calendar mouse down", async () => {
+    const focusSpy = sinon.spy(element._inputEl, "focus");
+    const preventDefaultSpy = sinon.spy();
+
+    element._inputEl.focus = focusSpy;
+
+    const mouseDownEvent = new MouseEvent("mousedown", { bubbles: true, composed: true });
+
+    mouseDownEvent.preventDefault = preventDefaultSpy;
+
+    element._inputEl.dispatchEvent(mouseDownEvent);
+
+    expect(preventDefaultSpy).to.have.been.calledOnce;
+
+    expect(focusSpy).to.have.been.calledOnce;
+  });
+
+  it("should focus the input element on input mouse down", async () => {
+    // Create spies for the methods we want to check
+    const focusSpy = sinon.spy(element._inputEl, "focus");
+    const preventDefaultSpy = sinon.spy();
+
+    element._inputEl.focus = focusSpy;
+
+    const mouseDownEvent = new MouseEvent("mousedown", { bubbles: true, composed: true });
+
+    mouseDownEvent.preventDefault = preventDefaultSpy;
+
+    element._inputEl.dispatchEvent(mouseDownEvent);
+
+    expect(preventDefaultSpy).to.have.been.calledOnce;
+
+    expect(focusSpy).to.have.been.calledOnce;
+  });
+
+  it("should focus the input element on calendar mouse down", async () => {
+    const focusSpy = sinon.spy(element._inputEl, "focus");
+    const preventDefaultSpy = sinon.spy();
+
+    const mouseDownEvent = new MouseEvent("mousedown", { bubbles: true, composed: true });
+
+    mouseDownEvent.preventDefault = preventDefaultSpy;
+
+    element._calendarEl.dispatchEvent(mouseDownEvent);
+
+    expect(preventDefaultSpy.called).to.be.true;
+
+    expect(focusSpy.called).to.be.true;
   });
 
 });
