@@ -227,9 +227,6 @@ describe("bl-calendar", () => {
   it("should return false if calendarDate is not disabled", () => {
     const calendarDate = new Date(2023, 9, 19);
 
-    element.minDate = new Date(2023, 8, 19);
-    element.maxDate = new Date(2024, 10, 19);
-
     const result = element.checkIfDateIsDisabled(calendarDate);
 
     expect(result).to.be.false;

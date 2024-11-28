@@ -25,7 +25,7 @@ export const DatepickerTemplate = (args) => html`
     max-date=${ifDefined(args.maxDate)}
     start-of-week=${ifDefined(args.startOfWeek)}
     locale=${ifDefined(args.locale)}
-    default-value=${ifDefined(args.defaultValue)}
+    value=${ifDefined(args.value)}
     style=${ifDefined(args.style)}
     disabled-dates=${ifDefined(args.disabledDates)}>${unsafeHTML(args.content)}
   </bl-datepicker>`
@@ -93,11 +93,11 @@ You can select date range from Datepicker.
 You can set a default value to datepicker.
 
 <Canvas>
-  <Story name="Default Value" args={{
+  <Story name="Set Value" args={{
     type: 'single',
     label: 'Single Datepicker',
     placeholder: 'Set default value',
-    defaultValue: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)
+    value: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)
   }}>
     {Template.bind({})}
   </Story>
@@ -112,7 +112,7 @@ You can set dates which you want to disable from Datepicker.
     type: 'multiple',
     label: 'Multiple Datepicker',
     placeholder: 'Set disabled dates',
-    disabledDates: `["${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)}"]`
+    disabledDates: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)
   }}>
     {Template.bind({})}
   </Story>

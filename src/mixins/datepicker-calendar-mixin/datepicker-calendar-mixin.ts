@@ -2,6 +2,7 @@ import { LitElement } from "lit";
 import { property, state } from "lit/decorators.js";
 import { CALENDAR_TYPES } from "../../components/calendar/bl-calendar.constant";
 import { CalendarType, DayValues } from "../../components/calendar/bl-calendar.types";
+import { stringToDateArray } from "../../utilities/string-to-date-converter";
 
 export default class DatepickerCalendarMixin extends LitElement {
   /**
@@ -34,13 +35,7 @@ export default class DatepickerCalendarMixin extends LitElement {
   @property({ attribute: "disabled-dates", reflect: true })
   set disabledDates(disabledDates: Date[] | string) {
     if (typeof disabledDates === "string") {
-      const splitDisabledDates = disabledDates.split(",");
-
-      splitDisabledDates?.forEach(disabledDate => {
-        const date = new Date(`${disabledDate}T00:00:00`);
-
-        if (!isNaN(date.getTime())) this._disabledDates.push(date);
-      });
+      this._disabledDates = stringToDateArray(disabledDates);
     } else if (Array.isArray(disabledDates)) {
       disabledDates.forEach(disabledDate => {
         if (!isNaN(disabledDate.getTime())) this._disabledDates.push(disabledDate);
@@ -98,36 +93,32 @@ export default class DatepickerCalendarMixin extends LitElement {
     return this._value;
   }
 
-  set value(val: string | Date | Date[]) {
-    if (val) {
+  set value(value: string | Date | Date[]) {
+    if (value) {
       let tempVal: Date[] = [];
 
-      if (typeof val === "string") {
-        const splitDates = val.split(",");
-
-        splitDates?.forEach(date => {
-          const isDate = new Date(`${date}T00:00:00`);
-
-          if (!isNaN(isDate.getTime())) {
-            tempVal.push(isDate);
-          }
-        });
-      } else if (val instanceof Date) {
-        tempVal.push(val);
-      } else if (Array.isArray(val)) {
-        if (this.type === CALENDAR_TYPES.SINGLE && Array.isArray(val)) {
-          console.warn("'value' must be of type Date for single date selection.");
-        } else if (this.type === CALENDAR_TYPES.RANGE && Array.isArray(val) && val.length != 2) {
+      if (typeof value === "string") {
+        tempVal = stringToDateArray(value);
+      } else if (value instanceof Date) {
+        tempVal.push(value);
+      } else if (Array.isArray(value)) {
+        tempVal = value;
+      }
+      if (tempVal.length > 0) {
+        if (this.type === CALENDAR_TYPES.SINGLE && tempVal.length > 1) {
+          console.warn("'value' must be a single Date for single type selection.");
+        } else if (
+          this.type === CALENDAR_TYPES.RANGE &&
+          Array.isArray(tempVal) &&
+          tempVal.length != 2
+        ) {
           console.warn(
-            "'value' must be an array of two Date objects when the date selection mode is set to range."
+            "'value' must be an array of two Date objects when the type selection mode is set to range."
           );
         } else {
-          tempVal = val;
+          this._value = value;
+          this._selectedDates.splice(0, this._selectedDates.length, ...tempVal);
         }
-      }
-      if (tempVal.length) {
-        this._value = val;
-        this._selectedDates.splice(0, this._selectedDates.length, ...tempVal);
       }
     }
   }

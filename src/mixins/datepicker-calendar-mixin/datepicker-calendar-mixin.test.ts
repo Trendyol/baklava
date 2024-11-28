@@ -22,8 +22,8 @@ describe("DatepickerCalendarMixin", () => {
   it("should correctly set and get disabledDates from a string", () => {
     element.disabledDates = "2024-01-01,2024-01-15";
     expect(element.disabledDates).to.have.length(2);
-    expect(element.disabledDates[0].toISOString()).to.include("2023-12-31T21:00:00.000Z");
-    expect(element.disabledDates[1].toISOString()).to.include("2024-01-14T21:00:00.000Z");
+    expect(element.disabledDates[0].getTime()).to.equal(new Date("2024-01-01").getTime());
+    expect(element.disabledDates[1].getTime()).to.equal(new Date("2024-01-15").getTime());
   });
 
   it("should correctly set and get disabledDates from an array of dates", () => {
@@ -36,7 +36,7 @@ describe("DatepickerCalendarMixin", () => {
   it("should not add invalid dates to disabledDates", () => {
     element.disabledDates = "invalid-date,2024-01-15";
     expect(element.disabledDates).to.have.length(1);
-    expect(element.disabledDates[0].toISOString()).to.include("2024-01-14T21:00:00.000Z");
+    expect(element.disabledDates[0].getTime()).to.equal(new Date("2024-01-15").getTime());
   });
 
   it("should set and get minDate correctly", () => {
@@ -78,7 +78,8 @@ describe("DatepickerCalendarMixin", () => {
     element.value = valueString;
     expect(element._selectedDates).to.be.an("array");
     expect(element._selectedDates).to.have.length(2);
-    expect((element._selectedDates)[0].toISOString()).to.include("2023-12-31T21:00:00.000Z");
+    expect((element._selectedDates)[0].getTime()).to.equal(new Date("2024-01-01").getTime());
+    expect((element._selectedDates)[1].getTime()).to.equal(new Date("2024-01-15").getTime());
   });
 
   it("should correctly parse value from a Date object", () => {
@@ -94,7 +95,7 @@ describe("DatepickerCalendarMixin", () => {
 
     element.type = CALENDAR_TYPES.SINGLE;
     element.value = [new Date("2024-01-01"), new Date("2024-01-15")];
-    expect(consoleSpy.calledWith("'value' must be of type Date for single date selection.")).to.be
+    expect(consoleSpy.calledWith("'value' must be a single Date for single type selection.")).to.be
       .true;
     consoleSpy.restore();
   });
@@ -106,7 +107,7 @@ describe("DatepickerCalendarMixin", () => {
     element.value = [new Date("2024-01-01")];
     expect(
       consoleSpy.calledWith(
-        "'value' must be an array of two Date objects when the date selection mode is set to range."
+        "'value' must be an array of two Date objects when the type selection mode is set to range."
       )
     ).to.be.true;
     consoleSpy.restore();

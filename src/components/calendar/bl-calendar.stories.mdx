@@ -23,7 +23,7 @@ export const CalendarTemplate = (args) => html`
     max-date=${ifDefined(args.maxDate)}
     start-of-week=${ifDefined(args.startOfWeek)}
     locale=${ifDefined(args.locale)}
-    default-value=${ifDefined(args.defaultValue)}
+    value=${ifDefined(args.value)}
     disabled-dates=${ifDefined(args.disabledDates)}>${unsafeHTML(args.content)}
   </bl-calendar>`
 
@@ -80,6 +80,19 @@ You can select date range from calendar.
   </Story>
 </Canvas>
 
+### Set Value
+
+You can set default value to calendar.
+
+<Canvas>
+  <Story name="Default Value" args={{
+    type: 'single',
+    value: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)
+  }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
 ### Disabled Dates
 
 You can set dates which you want to disable from calendar.
@@ -87,7 +100,7 @@ You can set dates which you want to disable from calendar.
 <Canvas>
   <Story name="Disabled Dates" args={{
     type: 'single',
-    disabledDates: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate() + 2}`
+    disabledDates: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)
   }}>
     {Template.bind({})}
   </Story>

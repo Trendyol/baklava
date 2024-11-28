@@ -160,11 +160,11 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   }
 
   handleMultipleSelectCalendar(calendarDate: Date) {
-    const dateExist = this._selectedDates.some(d => d.getTime() === calendarDate.getTime());
+    const dateExist = this._selectedDates?.some(d => d.getTime() === calendarDate.getTime());
 
     dateExist
-      ? this._selectedDates.splice(
-          this._selectedDates.findIndex(d => d.getTime() === calendarDate.getTime()),
+      ? this._selectedDates?.splice(
+          this._selectedDates?.findIndex(d => d.getTime() === calendarDate.getTime()),
           1
         )
       : this._selectedDates.push(calendarDate);
@@ -190,7 +190,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   }
 
   checkIfSelectedDate(calendarDate: Date) {
-    return this._selectedDates.some(date => date?.getTime() === calendarDate.getTime());
+    return this._selectedDates?.some(date => date?.getTime() === calendarDate.getTime());
   }
 
   checkIfDateIsToday(calendarDate: Date) {
@@ -210,7 +210,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     ) {
       return true;
     }
-    if (this.disabledDates) {
+    if (this.disabledDates.length > 0) {
       return this.disabledDates.some(disabledDate => {
         return calendarDate.getTime() === disabledDate.getTime();
       });
