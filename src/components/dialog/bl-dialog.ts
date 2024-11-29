@@ -183,6 +183,7 @@ export default class BlDialog extends LitElement {
       ? html`<bl-button
           @click="${() => this.closeDialog("close-button")}"
           icon="close"
+          label="close"
           variant="tertiary"
           kind="neutral"
           size="small"

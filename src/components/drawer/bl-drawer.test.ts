@@ -30,6 +30,7 @@ describe("bl-drawer", () => {
             <div class="header-buttons">
               <bl-button
                 icon="close"
+                label="close"
                 variant="tertiary"
                 size="small"
                 kind="neutral"
@@ -73,6 +74,7 @@ describe("bl-drawer", () => {
               ></bl-button>
               <bl-button
                 icon="close"
+                label="close"
                 variant="tertiary"
                 size="small"
                 kind="neutral"
