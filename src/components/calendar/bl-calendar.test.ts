@@ -403,13 +403,13 @@ describe("bl-calendar", () => {
 
 
   it("should add range-start-day class to the start date element", async () => {
-    element._selectedDates = [new Date(2024, 10, 1),
-      new Date(2024, 10, 5)
+    element._selectedDates = [new Date(element.today.getFullYear(), element.today.getMonth(), 1),
+      new Date(element.today.getFullYear(), element.today.getMonth(), 5)
     ];
 
     element.setHoverClass();
 
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 200));
     const startDateElement = element.shadowRoot?.getElementById(
       `${element._selectedDates[0]?.getTime()}`
     )?.parentElement;
@@ -418,12 +418,12 @@ describe("bl-calendar", () => {
   });
 
   it("should add range-end-day class to the end date element", async () => {
-    element._selectedDates = [new Date(2024, 10, 1),
-      new Date(2024, 10, 5)
+    element._selectedDates = [new Date(element.today.getFullYear(), element.today.getMonth(), 1),
+      new Date(element.today.getFullYear(), element.today.getMonth(), 5)
     ];
 
     element.setHoverClass();
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     const endDateElement = element.shadowRoot?.getElementById(
       `${element._selectedDates[1]?.getTime()}`

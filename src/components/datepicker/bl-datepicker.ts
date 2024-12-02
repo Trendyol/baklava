@@ -100,7 +100,10 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   closePopoverWithTimeout() {
-    setTimeout(() => this.closePopover(), 200);
+    setTimeout(() => {
+      this.closePopover();
+      this._inputEl.blur();
+    }, 200);
   }
 
   setFloatingDates() {
@@ -140,7 +143,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     this._selectedDates = [];
     this._inputValue = "";
     this._floatingDateCount = 0;
-    this._inputEl?.blur();
   }
 
   openPopover() {

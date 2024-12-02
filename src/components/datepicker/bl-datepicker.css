@@ -1,15 +1,14 @@
 :host {
   width: fit-content;
+  display: block;
+}
 
+.datepicker-content {
   --bl-input-cursor: pointer;
   --icon-size: var(--line-height);
   --icon-color: var(--bl-color-neutral-light);
   --datepicker-width: 314px;
 
-  display: block;
-}
-
-.datepicker-content {
   display: flex;
   flex-direction: column;
   gap: var(--bl-size-2xs);

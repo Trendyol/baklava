@@ -5,10 +5,10 @@
 
 .calendar-content {
   display: flex;
-  padding: var(--bl-size-s);
+  padding: var(--bl-size-m);
   flex-direction: column;
   align-items: center;
-  gap: var(--bl-size-s);
+  gap: var(--bl-size-m);
   border-radius: var(--bl-border-radius-s);
   width: fit-content;
   background: var(--bl-color-neutral-full);
