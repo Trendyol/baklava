@@ -6,7 +6,7 @@ import { event, EventDispatcher } from "../../utilities/event";
 import "../calendar/bl-calendar";
 import { CALENDAR_TYPES } from "../calendar/bl-calendar.constant";
 import "../input/bl-input";
-import BlInput from "../input/bl-input";
+import BlInput, { InputSize } from "../input/bl-input";
 import "../tooltip/bl-tooltip";
 import style from "./bl-datepicker.css";
 
@@ -27,6 +27,17 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   @property({ type: String, attribute: "placeholder", reflect: true })
   placeholder: string;
   /**
+   * Sets input size.
+   */
+  @property({ type: String, reflect: true })
+  inputSize?: InputSize = "medium";
+
+  /**
+   * Makes datepicker input label as fixed positioned
+   */
+  @property({ type: Boolean, attribute: "input-label-fixed", reflect: true })
+  inputLabelFixed = false;
+  /**
    * Defines the datepicker input label
    */
   @property({ type: String, attribute: "label", reflect: true })
@@ -34,7 +45,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   /**
    * Defines the custom formatter function
    */
-  @property({ type: Function, attribute: "value-formatter" })
+  @property({ type: Function, attribute: "input-value-formatter" })
   inputValueFormatter: ((dates: Date[]) => string) | null = null;
   /**
    * Sets datepicker to disabled
@@ -253,6 +264,8 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           @click=${this._togglePopover}
           help-text=${this.helpText}
           ?disabled=${this.disabled}
+          .size=${this.inputSize}
+          .labelFixed=${this.inputLabelFixed}
           readonly
         >
           <div slot="icon" class="icon-container" id="icon-container">
