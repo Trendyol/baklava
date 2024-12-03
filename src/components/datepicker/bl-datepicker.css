@@ -42,7 +42,7 @@
 .action-divider {
   display: block;
   height: var(--bl-size-m);
-  width: var(--bl-size-4xs);
+  width: 1px;
   background-color: var(--bl-color-neutral-lighter);
   margin-right: var(--bl-size-3xs);
 }
