@@ -91,9 +91,10 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   setNextCalendarView() {
     this.clearRangePickerStyles();
     if (this._calendarView === CALENDAR_VIEWS.DAYS) {
-      this._calendarMonth === LAST_MONTH_INDEX
-        ? ((this._calendarMonth = FIRST_MONTH_INDEX), (this._calendarYear += 1))
-        : (this._calendarMonth += 1);
+      if (this._calendarMonth === LAST_MONTH_INDEX) {
+        this._calendarMonth = FIRST_MONTH_INDEX;
+        this._calendarYear += 1;
+      } else this._calendarMonth += 1;
     } else if (this._calendarView === CALENDAR_VIEWS.MONTHS) {
       this._calendarYear += 1;
     } else if (this._calendarView === CALENDAR_VIEWS.YEARS) {
@@ -135,8 +136,19 @@ export default class BlCalendar extends DatepickerCalendarMixin {
 
   handleDate(date: Date) {
     if (this.type !== CALENDAR_TYPES.RANGE) {
-      if (date.getMonth() < this._calendarMonth) this.setPreviousCalendarView();
-      else if (date.getMonth() > this._calendarMonth) this.setNextCalendarView();
+      const isDateBeforeThanCalendar =
+        date.getFullYear() < this._calendarYear ||
+        (date.getFullYear() === this._calendarYear && date.getMonth() < this._calendarMonth);
+
+      const isDateAfterThanCalendar =
+        date.getFullYear() > this._calendarYear ||
+        (date.getFullYear() === this._calendarYear && date.getMonth() > this._calendarMonth);
+
+      if (isDateBeforeThanCalendar) {
+        this.setPreviousCalendarView();
+      } else if (isDateAfterThanCalendar) {
+        this.setNextCalendarView();
+      }
     }
 
     switch (this.type) {
