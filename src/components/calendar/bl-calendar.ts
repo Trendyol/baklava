@@ -138,10 +138,10 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     if (this.type !== CALENDAR_TYPES.RANGE) {
       const isDateBiggerThanCalendar =
         (date.getMonth() < this._calendarMonth && date.getFullYear() > this._calendarYear) ||
-        (date.getMonth() >= this._calendarMonth && date.getFullYear() >= this._calendarYear);
+        (date.getMonth() > this._calendarMonth && date.getFullYear() == this._calendarYear);
 
       const isDateSmallerThanCalendar =
-        (date.getMonth() <= this._calendarMonth && date.getFullYear() <= this._calendarYear) ||
+        (date.getMonth() < this._calendarMonth && date.getFullYear() == this._calendarYear) ||
         (date.getMonth() > this._calendarMonth && date.getFullYear() < this._calendarYear);
 
       if (isDateSmallerThanCalendar) {
