@@ -136,14 +136,19 @@ export default class BlCalendar extends DatepickerCalendarMixin {
 
   handleDate(date: Date) {
     if (this.type !== CALENDAR_TYPES.RANGE) {
-      if (date.getMonth() <= this._calendarMonth && date.getFullYear() <= this._calendarYear) {
+      const isDateBiggerThanCalendar =
+        (date.getMonth() < this._calendarMonth && date.getFullYear() > this._calendarYear) ||
+        (date.getMonth() >= this._calendarMonth && date.getFullYear() >= this._calendarYear);
+
+      const isDateSmallerThanCalendar =
+        (date.getMonth() <= this._calendarMonth && date.getFullYear() <= this._calendarYear) ||
+        (date.getMonth() > this._calendarMonth && date.getFullYear() < this._calendarYear);
+
+      if (isDateSmallerThanCalendar) {
         this.setPreviousCalendarView();
-      } else if (date.getMonth() < this._calendarMonth && date.getFullYear() > this._calendarYear) {
+      } else if (isDateBiggerThanCalendar) {
         this.setNextCalendarView();
-      } else if (date.getMonth() > this._calendarMonth && date.getFullYear() < this._calendarYear)
-        this.setPreviousCalendarView();
-      else if (date.getMonth() >= this._calendarMonth && date.getFullYear() >= this._calendarYear)
-        this.setNextCalendarView();
+      }
     }
 
     switch (this.type) {
