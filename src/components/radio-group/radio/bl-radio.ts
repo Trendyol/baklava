@@ -121,7 +121,7 @@ export default class BlRadio extends LitElement {
       role="radio"
       aria-labelledby="label"
       aria-disabled=${this.disabled}
-      aria-readonly=${this.disabled}
+      aria-checked=${this.selected}
       @blur=${this.blur}
       @click=${this.select}
     >

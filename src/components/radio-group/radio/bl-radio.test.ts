@@ -19,7 +19,7 @@ describe("bl-radio", () => {
       `<div
         aria-disabled="false"
         aria-labelledby="label"
-        aria-readonly="false"
+        aria-checked="false"
         class="wrapper"
         role="radio"
        >
