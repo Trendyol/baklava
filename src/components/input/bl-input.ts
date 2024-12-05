@@ -335,7 +335,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
       this.requestUpdate();
     }
 
-    if (changedProperties.has("error")) {
+    if (changedProperties.has("error") && this.error && !this.dirty) {
       this.reportValidity();
     }
   }

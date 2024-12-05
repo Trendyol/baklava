@@ -209,7 +209,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
       this.requestUpdate();
     }
 
-    if (changedProperties.has("error")) {
+    if (changedProperties.has("error") && this.error && !this.dirty) {
       this.reportValidity();
     }
   }
