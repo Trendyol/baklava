@@ -10,7 +10,6 @@ const validityStates: Array<keyof ValidityState> = [
   "stepMismatch",
   "badInput",
   "patternMismatch",
-  "customError",
 ];
 
 export const innerInputValidators: SyncValidator[] = validityStates.map(key => ({
