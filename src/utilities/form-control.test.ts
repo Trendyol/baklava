@@ -1,6 +1,6 @@
 import { elementUpdated, expect, fixture, fixtureCleanup } from "@open-wc/testing";
 import { html, LitElement } from "lit";
-import { customElement, query } from "lit/decorators.js";
+import { customElement, query, property } from "lit/decorators.js";
 import { innerInputValidators, textareaLengthValidator } from "./form-control";
 
 @customElement("my-valid-input")
@@ -13,8 +13,24 @@ class MyInvalidInput extends LitElement {
   @query("input")
   validationTarget: HTMLInputElement;
 
+  @property({ reflect: true, type: String })
+  error: string = "";
+
   render() {
     return html`<input required />`;
+  }
+}
+
+@customElement("my-custom-error-input")
+class MyCustomErrorInput extends LitElement {
+  @query("input")
+  validationTarget: HTMLInputElement;
+
+  @property({ reflect: true, type: String })
+  error: string = "";
+
+  render() {
+    return html`<input />`;
   }
 }
 
@@ -25,7 +41,7 @@ describe("Form Control Validators", () => {
     it("should return true if validationTarget is not present", async () => {
       const el = await fixture<MyValidInput>(html`<my-valid-input></my-valid-input>`);
 
-      expect(innerInputValidators.every(validator => validator.isValid(el, el.validationTarget.value))).to.be.true;
+      expect(innerInputValidators.every(validator => validator.isValid(el, ""))).to.be.true;
     });
 
     it("should return correct value if validationTarget present", async () => {
@@ -36,6 +52,17 @@ describe("Form Control Validators", () => {
       expect(innerInputValidators.every(validator => validator.isValid(el, el.validationTarget.value))).to.be.false;
       expect(innerInputValidators.find(validator => !validator.isValid(el, el.validationTarget.value))?.key).to.eq(
         "valueMissing"
+      );
+    });
+
+    it("should return false when has custom error", async () => {
+      const el = await fixture<MyCustomErrorInput>(html`<my-custom-error-input error="sa"></my-custom-error-input>`);
+
+      await elementUpdated(el);
+
+      expect(innerInputValidators.every(validator => validator.isValid(el, el.validationTarget.value))).to.be.false;
+      expect(innerInputValidators.find(validator => !validator.isValid(el, el.validationTarget.value))?.key).to.eq(
+        "customError"
       );
     });
   });

@@ -1,4 +1,4 @@
-import { maxLengthValidator, programmaticValidator, SyncValidator } from "@open-wc/form-control";
+import { maxLengthValidator, SyncValidator } from "@open-wc/form-control";
 
 const validityStates: Array<keyof ValidityState> = [
   "valueMissing",
@@ -23,7 +23,24 @@ export const innerInputValidators: SyncValidator[] = validityStates.map(key => (
   message: "",
 }));
 
-innerInputValidators.push(programmaticValidator as SyncValidator);
+innerInputValidators.push({
+  key: "customError",
+  attribute: "error",
+  message(instance) {
+    return instance.error;
+  },
+  isValid(instance: HTMLElement & { error: string; validationTarget: HTMLInputElement }) {
+    if (instance.error) {
+      return false;
+    }
+
+    if (instance.validationTarget) {
+      return !instance.validationTarget.validity["customError"];
+    }
+
+    return true;
+  },
+});
 
 export const textareaLengthValidator = {
   ...maxLengthValidator,
