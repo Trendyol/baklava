@@ -5,10 +5,10 @@
 
 .calendar-content {
   display: flex;
-  padding: 16px;
+  padding: var(--bl-size-m);
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: var(--bl-size-m);
   border-radius: var(--bl-border-radius-s);
   width: fit-content;
   background: var(--bl-color-neutral-full);
@@ -19,7 +19,7 @@
   justify-content: space-between;
   width: 100%;
   align-items: center;
-  gap: 2px;
+  padding-bottom: var(--bl-size-s);
 }
 
 .arrow {
@@ -50,7 +50,7 @@
   display: flex;
   align-items: center;
   flex-direction: row;
-  padding-bottom: 8px;
+  padding-bottom: var(--bl-size-2xs);
 }
 
 .day {
@@ -115,7 +115,7 @@
 .weekday-text {
   color: var(--bl-color-neutral-dark);
   text-align: center;
-  padding: 8px 0;
+  padding: var(--bl-size-2xs) 0;
   width: 40px;
 }
 
@@ -132,7 +132,7 @@
 }
 
 .grid-item:not(:nth-last-child(-n + 3)) {
-  padding-bottom: 8px;
+  padding-bottom: var(--bl-size-2xs);
 }
 
 .calendar-text {
