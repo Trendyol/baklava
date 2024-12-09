@@ -50,6 +50,9 @@ import { extraPadding } from '../../utilities/chromatic-decorators';
     },
     customInvalidText: {
       control: 'text'
+    },
+    error: {
+      control: 'text'
     }
   }}
 />
@@ -70,6 +73,7 @@ export const TextareaTemplate = (args) => html`
   max-rows='${ifDefined(args.maxRows)}'
   expand='${ifDefined(args.expand)}'
   size='${ifDefined(args.size)}'
+  error='${ifDefined(args.error)}'
   character-counter='${ifDefined(args.characterCounter)}'></bl-textarea>`
 
 # Textarea
@@ -223,6 +227,39 @@ Containing form submit also triggers validation. By default it uses browsers nat
   </Story>
   <Story name="Textarea with custom invalid text"
          args={{ placeholder: 'Textarea with custom invalid text with length 5 ', minlength: 5, customInvalidText: 'Your custom invalid text' }}>
+    {TextareaTemplate.bind({})}
+  </Story>
+</Canvas>
+
+### Custom Error Text
+
+Validation error messages are used from default browser error messages by default. If you want to override, you can do it in a native-like structure as below.
+
+```html
+<bl-textarea id="textarea" required />
+
+<script>
+  const blTextarea = document.getElementById("textarea");
+  blTextarea.addEventListener("bl-input", (e) => {
+    if(e.target.validity.valueMissing){
+      e.target.setCustomValidity("Custom Error Text");
+    }else{
+      e.target.setCustomValidity("");
+    }
+  });
+</script>
+```
+
+### Custom Validation
+
+If you want to use a different validation than all validations, you can do this with the `error` attribute. *Native validators will always be superior to custom errors.*
+
+<bl-alert icon variant="warning">When you use this attribute, the `dirty` prop will instantly become true.</bl-alert>
+
+<Canvas>
+  <Story name="Custom Validation"
+         args={{ type: 'text', label: 'User Name', error: 'I am custom validation' }}
+  >
     {TextareaTemplate.bind({})}
   </Story>
 </Canvas>
