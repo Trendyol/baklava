@@ -282,7 +282,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    */
   async forceCustomError() {
     await this.updateComplete;
-    this.validationTarget.setCustomValidity(this.customInvalidText || "An error occurred");
+    this.setCustomValidity(this.customInvalidText || "An error occurred");
     this.setValue(this.value);
     this.reportValidity();
   }
@@ -293,7 +293,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
    */
   async clearCustomError() {
     await this.updateComplete;
-    this.validationTarget.setCustomValidity("");
+    this.setCustomValidity("");
     this.setValue(this.value);
     this.reportValidity();
   }

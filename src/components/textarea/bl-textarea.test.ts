@@ -163,6 +163,43 @@ describe("bl-textarea", () => {
       expect(errorMsgElement).to.exist;
       expect(errorMsgElement.innerText).to.equal(customErrorMsg);
     });
+
+    it("should show custom error", async () => {
+      const errorMessage = "This field is mandatory";
+      const el = await fixture<BlTextarea>(
+        html`<bl-textarea error="${errorMessage}"></bl-textarea>`
+      );
+
+      await elementUpdated(el);
+
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector(".invalid-text")
+      );
+
+      expect(el.validity.valid).to.be.false;
+
+      expect(errorMessageElement).to.exist;
+      expect(errorMessageElement?.innerText).to.equal(errorMessage);
+    });
+
+    it("should show custom invalid text", async () => {
+      const invalidText = "This field is mandatory";
+      const el = await fixture<BlTextarea>(html`<bl-textarea required></bl-textarea>`);
+
+      el.setCustomValidity(invalidText);
+      el.setValue(el.value);
+      el.reportValidity();
+
+      await elementUpdated(el);
+
+      expect(el.validity.valid).to.be.false;
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector(".invalid-text")
+      );
+
+      expect(errorMessageElement).to.visible;
+      expect(errorMessageElement?.innerText).to.equal(invalidText);
+    });
   });
 
   describe("events", () => {
