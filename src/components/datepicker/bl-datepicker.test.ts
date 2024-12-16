@@ -117,7 +117,7 @@ describe("BlDatepicker", () => {
   it("should use custom value formatter when provided", async () => {
     const testDate = new Date(2023, 1, 1);
 
-    element.inputValueFormatter = (dates: Date[]) => `Custom format: ${dates[0].toDateString()}`;
+    element.valueFormatter = (dates: Date[]) => `Custom format: ${dates[0].toDateString()}`;
     element.setDatePickerInput([testDate]);
     await element.updateComplete;
 
