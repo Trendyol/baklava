@@ -10,16 +10,13 @@ import BlInput, { InputSize } from "../input/bl-input";
 import "../tooltip/bl-tooltip";
 import style from "./bl-datepicker.css";
 
-export const blDatepickerTag = "bl-datepicker";
-export const blDatepickerChangedEvent = "bl-datepicker-change";
-
 /**
  * @tag bl-datepicker
  * @summary Baklava DatePicker component
  *
  * @cssproperty [--bl-datepicker-input-width] - Sets the width of datepicker input
  **/
-@customElement(blDatepickerTag)
+@customElement("bl-datepicker")
 export default class BlDatepicker extends DatepickerCalendarMixin {
   /**
    * Defines the datepicker input placeholder
@@ -85,7 +82,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   /**
    * Fires when date selection is changed
    */
-  @event(blDatepickerChangedEvent) private _onBlDatepickerChanged: EventDispatcher<Date[]>;
+  @event("bl-datepicker-change") private _onBlDatepickerChange: EventDispatcher<Date[]>;
 
   static get styles(): CSSResultGroup {
     return [style];
@@ -139,7 +136,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
       }
     }
 
-    this._onBlDatepickerChanged(this._selectedDates);
+    this._onBlDatepickerChange(this._selectedDates);
   }
 
   formatDate(date: Date): string {
