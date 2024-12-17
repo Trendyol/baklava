@@ -1,0 +1,93 @@
+:host {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.tag {
+  --bg-color: var(--bl-color-neutral-full);
+  --color: var(--bl-color-neutral-darker);
+  --font: var(--bl-font-title-4-medium);
+  --padding-vertical: var(--bl-size-2xs);
+  --padding-horizontal: var(--bl-size-m);
+  --margin-icon: var(--bl-size-2xs);
+  --icon-size: var(--bl-size-m);
+  --height: var(--bl-size-2xl);
+  --border-radius: var(--bl-size-m);
+
+  display: flex;
+  gap: var(--margin-icon);
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid var(--bl-color-neutral-lighter);
+  border-radius: var(--border-radius);
+  padding: var(--padding-vertical) var(--padding-horizontal);
+  background-color: var(--bg-color);
+  color: var(--color, white);
+  font: var(--font);
+  font-kerning: none;
+  height: var(--height);
+}
+
+:host([variant="selectable"]) .tag {
+  cursor: pointer;
+}
+
+:host([variant="selectable"]) .tag:hover {
+  background-color: var(--bl-color-neutral-lightest);
+}
+
+:host([variant="selectable"][selected]) .tag {
+  border-color: var(--bl-color-neutral-darker);
+  background-color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-neutral-full);
+}
+
+:host([disabled]) {
+  pointer-events: none;
+}
+
+:host([disabled]) .tag {
+  background-color: var(--bl-color-neutral-lightest);
+  border-color: var(--bl-color-neutral-lightest);
+  color: var(--bl-color-neutral-light);
+}
+
+.remove-button {
+  all: unset;
+  font-size: var(--bl-size-s);
+  padding: var(--bl-size-3xs);
+  border-radius: var(--bl-border-radius-circle);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background-color: var(--bl-color-neutral-lightest);
+}
+
+:host([size="small"]) .tag {
+  --font: var(--bl-font-title-4-medium);
+  --height: var(--bl-size-xl);
+  --icon-size: var(--bl-size-s);
+  --border-radius: var(--bl-size-xs);
+  --padding-vertical: var(--bl-size-3xs);
+  --padding-horizontal: var(--bl-size-2xs);
+}
+
+:host([size="large"]) .tag {
+  --font: var(--bl-font-title-3-medium);
+  --padding-vertical: var(--bl-size-2xs);
+  --padding-horizontal: var(--bl-size-l);
+  --height: var(--bl-size-3xl);
+  --icon-size: var(--bl-size-m);
+  --border-radius: var(--bl-size-l);
+}
+
+/* TODO: çalışmıyor */
+:host ::slotted(bl-icon) {
+  font-size: var(--icon-size);
+}
