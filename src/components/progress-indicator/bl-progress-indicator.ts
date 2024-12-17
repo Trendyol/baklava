@@ -70,6 +70,7 @@ export default class BlProgressIndicator extends LitElement {
     return html`<div
       class="progress-indicator"
       role="progressbar"
+      aria-label="progress indicator"
       aria-valuemax="${this._max}"
       aria-valuenow="${this._value}"
     ></div>`;

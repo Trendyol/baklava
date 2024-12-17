@@ -24,6 +24,7 @@ describe("bl-progress-indicator", () => {
       <div
       class="progress-indicator"
       role="progressbar"
+      aria-label="progress indicator"
       aria-valuemax="100"
       aria-valuenow="0"
     ></div>
