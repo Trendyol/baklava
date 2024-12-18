@@ -58,16 +58,13 @@
   gap: var(--padding-vertical);
   height: var(--height);
   border: solid var(--border-size) var(--border-color);
-  padding: 0
-    calc(
-      var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding) -
-        var(--border-size)
-    )
-    0
-    calc(
-      var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding) -
-        var(--border-size)
-    );
+  padding: 0 calc(
+    var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding) -
+    var(--border-size)
+  ) 0 calc(
+    var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding) -
+    var(--border-size)
+  );
   background-color: var(--background-color);
   border-radius: var(--bl-size-3xs);
   margin: 0;
@@ -113,7 +110,7 @@ label {
 .has-icon label {
   inset-inline-end: calc(
     var(--bl-input-padding-end, var(--padding-horizontal)) + var(--icon-size) +
-      var(--padding-vertical)
+    var(--padding-vertical)
   );
 }
 
@@ -140,7 +137,6 @@ input {
   color: var(--text-color);
   -webkit-text-fill-color: var(--text-color);
   background-color: transparent;
-  cursor: var(--bl-input-cursor, not-allowed);
 }
 
 input::-webkit-credentials-auto-fill-button {
