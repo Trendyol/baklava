@@ -1,11 +1,11 @@
 import { aTimeout, expect, fixture, html } from "@open-wc/testing";
-import BlDatepicker from "./bl-datepicker";
 import { BlButton, BlDatePicker } from "../../baklava";
 import { CALENDAR_TYPES } from "../calendar/bl-calendar.constant";
 import sinon from "sinon";
+import "./bl-datepicker";
 
 describe("BlDatepicker", () => {
-  let element: BlDatepicker;
+  let element: BlDatePicker;
   let getElementByIdStub: sinon.SinonStub;
   let consoleWarnSpy: sinon.SinonSpy;
 
