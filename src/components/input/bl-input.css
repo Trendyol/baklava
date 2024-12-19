@@ -140,7 +140,7 @@ input {
   color: var(--text-color);
   -webkit-text-fill-color: var(--text-color);
   background-color: transparent;
-  cursor: var(--bl-input-cursor, not-allowed);
+  cursor: var(--bl-input-cursor, unset);
 }
 
 input::-webkit-credentials-auto-fill-button {

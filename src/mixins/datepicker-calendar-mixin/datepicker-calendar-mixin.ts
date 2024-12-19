@@ -41,6 +41,7 @@ export default class DatepickerCalendarMixin extends LitElement {
         if (!isNaN(disabledDate.getTime())) this._disabledDates.push(disabledDate);
       });
     }
+    this.requestUpdate();
   }
 
   /**
@@ -83,16 +84,16 @@ export default class DatepickerCalendarMixin extends LitElement {
    * Target elements state
    */
 
-  @state() _value: Date | Date[] | string;
+  _value: Date | Date[] | string;
   /**
    * Sets the target element of the popover to align and trigger.
    * It can be a string id of the target element or can be a direct Element reference of it.
    */
-  @property()
-  get value(): string | Date | Date[] {
+  get value() {
     return this._value;
   }
 
+  @property({ type: Object, attribute: false, reflect: true })
   set value(value: string | Date | Date[]) {
     if (value) {
       let tempVal: Date[] = [];
@@ -104,6 +105,7 @@ export default class DatepickerCalendarMixin extends LitElement {
       } else if (Array.isArray(value)) {
         tempVal = value;
       }
+
       if (tempVal.length > 0) {
         if (this.type === CALENDAR_TYPES.SINGLE && tempVal.length > 1) {
           console.warn("'value' must be a single Date for single type selection.");
@@ -120,6 +122,7 @@ export default class DatepickerCalendarMixin extends LitElement {
           this._selectedDates.splice(0, this._selectedDates.length, ...tempVal);
         }
       }
+      this.requestUpdate();
     }
   }
 }
