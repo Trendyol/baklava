@@ -63,23 +63,22 @@
   --bl-size-xl: 40px;
   --bl-border-radius-m: 50%;
   --bl-border-radius-l: 50%;
-
 }
 
-.day.today-day{
-    --bl-color-neutral-darker: var(--bl-color-primary);
-    --bl-color-neutral-darkest: var(--bl-color-primary);
+.day.today-day {
+  --bl-color-neutral-darker: var(--bl-color-primary);
+  --bl-color-neutral-darkest: var(--bl-color-primary);
 }
 
-.day.other-month-day{
+.day.other-month-day {
   --bl-color-neutral-darker: var(--bl-color-neutral-dark);
 }
 
-.day.other-month-day.selected-day{
+.day.other-month-day.selected-day {
   --bl-color-neutral-darker: var(--bl-color-neutral-full);
 }
 
-.day.selected-day{
+.day.selected-day {
   background: var(--bl-color-primary);
   border-radius: 50%;
 
