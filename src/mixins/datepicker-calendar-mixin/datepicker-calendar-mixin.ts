@@ -93,7 +93,7 @@ export default class DatepickerCalendarMixin extends LitElement {
     return this._value;
   }
 
-  @property({ type: Object, attribute: false, reflect: true })
+  @property({ attribute: "value", reflect: true })
   set value(value: string | Date | Date[]) {
     if (value) {
       let tempVal: Date[] = [];

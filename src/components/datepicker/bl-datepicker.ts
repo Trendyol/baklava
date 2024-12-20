@@ -212,7 +212,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           .maxDate=${this.maxDate}
           .startOfWeek=${this.startOfWeek}
           .disabledDates=${this.disabledDates}
-          .value=${this._value}
+          .value=${this.value}
           .locale=${this.locale}
           @bl-calendar-change="${(event: CustomEvent) => this.setDatePickerInput(event.detail)}"
         ></bl-calendar>
