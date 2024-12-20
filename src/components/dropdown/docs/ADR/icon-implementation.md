@@ -35,7 +35,7 @@ interface DropdownButtonProps {
 - Additional documentation and maintenance required
 
 ## Examples
-```typescript
+```vue
 <bl-dropdown icon="info">Dropdown with Info Icon</bl-dropdown>
 <bl-dropdown icon="heart">Dropdown with Heart Icon</bl-dropdown>
 <bl-dropdown icon="user">Dropdown with User Icon</bl-dropdown>
