@@ -15,7 +15,7 @@ jobs:
           node-version: 18
           cache: 'npm'
       - name: Install Playwright dependencies
-        run: npx playwright install-deps
+        run: npx playwright install
       - name: Install dependencies
         run: npm ci
       - name: Run linter check
