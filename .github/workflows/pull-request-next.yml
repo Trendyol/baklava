@@ -4,7 +4,6 @@ on:
   pull_request:
     branches:
       - next
-  workflow_dispatch: # Enables manual trigger for chromatic
 
 permissions:
   pull-requests: read
@@ -13,8 +12,6 @@ jobs:
   verify:
     uses: trendyol/baklava/.github/workflows/verify.yml@next
     secrets: inherit
-
   chromatic:
     uses: trendyol/baklava/.github/workflows/publish-chromatic.yml@next
-    if: ${{ github.event_name == 'workflow_dispatch' || success() }}
     secrets: inherit
