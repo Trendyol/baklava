@@ -15,13 +15,13 @@ jobs:
           node-version: 18
           cache: 'npm'
       - name: Install Playwright dependencies
-        run: npx playwright install-deps
+        run: npx playwright install
       - name: Install dependencies
         run: npm ci
       - name: Run linter check
         run: npm run lint
       - name: Run tests
-        run: npx playwright install && npm run test
+        run: npm run test
       - name: Create coverage artifact
         uses: actions/upload-artifact@v3
         if: always()
