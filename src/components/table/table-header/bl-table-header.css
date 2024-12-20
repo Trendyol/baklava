@@ -5,8 +5,8 @@
 :host([sticky]) {
   position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   z-index: 3;
   transition: top 0.05s ease;
   box-shadow: 0 8px 16px 0 rgb(39 49 66 / 10%);
@@ -17,8 +17,8 @@
   display: block;
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   height: 1px;
   background: var(--bl-color-neutral-lighter);
 }

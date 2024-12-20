@@ -1,12 +1,11 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, state, query } from "lit/decorators.js";
+import { customElement, property, query, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { ReferenceElement } from "@floating-ui/core";
+import { setDirectionProperty } from "../../utilities/direction";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
-import { TargetType } from "../button/bl-button";
-import { ButtonSize, ButtonVariant, ButtonKind } from "../button/bl-button";
-import BlButton from "../button/bl-button";
+import BlButton, { ButtonKind, ButtonSize, ButtonVariant, TargetType } from "../button/bl-button";
 import BlDropdownItem, { blDropdownItemTag } from "../dropdown/item/bl-dropdown-item";
 import { BaklavaIcon } from "../icon/icon-list";
 import BlPopover from "../popover/bl-popover";
@@ -141,6 +140,8 @@ export default class BlSplitButton extends LitElement {
     super.connectedCallback();
 
     this.addEventListener("keydown", this.handleKeyDown);
+
+    setDirectionProperty(this);
   }
 
   disconnectedCallback() {

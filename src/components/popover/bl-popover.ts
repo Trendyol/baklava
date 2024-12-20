@@ -2,16 +2,16 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import {
+  arrow,
+  autoUpdate,
   computePosition,
   flip,
-  shift,
-  offset,
-  arrow,
   inline,
-  autoUpdate,
-  size,
   Middleware,
   MiddlewareState,
+  offset,
+  shift,
+  size,
 } from "@floating-ui/dom";
 import { getTarget } from "../../utilities/elements";
 import { event, EventDispatcher } from "../../utilities/event";
@@ -40,24 +40,42 @@ export type Placement =
  * @cssproperty [--bl-popover-border-color=--bl-color-primary-highlight] - Sets the border color of popover.
  * @cssproperty [--bl-popover-border-size=1px] - Sets the border size of popover. You can set it to `0px` to not have a border (if you use a custom background color). Always use with a length unit.
  * @cssproperty [--bl-popover-padding=--bl-size-m] - Sets the padding of popover.
- * @cssproperty [--bl-popover-border-radius=--bl-size-3xs] - Sets the border radius of popover.
+ * @cssproperty [--bl-popbover-border-radius=--bl-size-3xs] - Sets the border radius of popover.
  * @cssproperty [--bl-popover-max-width=100vw] - Sets the maximum width of the popover (including border and padding).
  * @cssproperty [--bl-popover-position=fixed] - Sets the position of popover. You can set it to `absolute` if parent element is a fixed positioned element like drawer or dialog.
  */
 @customElement("bl-popover")
 export default class BlPopover extends LitElement {
-  static get styles(): CSSResultGroup {
-    return [style];
-  }
-
-  @query(".popover") private _popover: HTMLElement;
-  @query(".arrow") private arrow: HTMLElement;
-
   /**
    * Sets placement of the popover
    */
   @property({ type: String })
   placement: Placement = "bottom";
+  /**
+   * Sets size of popover same as trigger element
+   */
+  @property({ type: Boolean, attribute: "fit-size" })
+  fitSize = false;
+  /**
+   * Sets the distance between popover and target/trigger element
+   */
+  @property({ type: Number })
+  offset = 8;
+  @query(".popover") private _popover: HTMLElement;
+  @query(".arrow") private arrow: HTMLElement;
+  /**
+   * Fires when the popover is shown
+   */
+  @event("bl-popover-show") private onBlPopoverShow: EventDispatcher<string>;
+  /**
+   * Fires when popover becomes hidden
+   */
+  @event("bl-popover-hide") private onBlPopoverHide: EventDispatcher<string>;
+  private popoverAutoUpdateCleanup: () => void;
+
+  static get styles(): CSSResultGroup {
+    return [style];
+  }
 
   /**
    * Target elements state
@@ -65,16 +83,26 @@ export default class BlPopover extends LitElement {
   @state() _target: string | Element;
 
   /**
-   * Sets size of popover same as trigger element
+   * Sets the target element of the popover to align and trigger.
+   * It can be a string id of the target element or can be a direct Element reference of it.
    */
-  @property({ type: Boolean, attribute: "fit-size" })
-  fitSize = false;
+  @property()
+  get target(): string | Element {
+    return this._target;
+  }
 
-  /**
-   * Sets the distance between popover and target/trigger element
-   */
-  @property({ type: Number })
-  offset = 8;
+  set target(value: string | Element) {
+    const target = getTarget(value);
+
+    if (!target) {
+      console.warn(
+        "BlPopover target only accepts an Element instance or a string id of a DOM element."
+      );
+      return;
+    }
+
+    this._target = target;
+  }
 
   /**
    * Visibility state
@@ -82,14 +110,11 @@ export default class BlPopover extends LitElement {
   @state() private _visible = false;
 
   /**
-   * Fires when the popover is shown
+   * Gives the visibility status of the popover
    */
-  @event("bl-popover-show") private onBlPopoverShow: EventDispatcher<string>;
-
-  /**
-   * Fires when popover becomes hidden
-   */
-  @event("bl-popover-hide") private onBlPopoverHide: EventDispatcher<string>;
+  get visible(): boolean {
+    return this._visible;
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -103,6 +128,41 @@ export default class BlPopover extends LitElement {
     super.disconnectedCallback();
 
     this.popoverAutoUpdateCleanup && this.popoverAutoUpdateCleanup();
+  }
+
+  /**
+   * Shows popover
+   */
+  show() {
+    this._visible = true;
+    this.setPopover();
+    this.onBlPopoverShow("");
+    document.addEventListener("click", this._handleClickOutside);
+    document.addEventListener("keydown", this._handleKeydownEvent);
+    document.addEventListener("bl-popover-show", this._handlePopoverShowEvent);
+  }
+
+  /**
+   * Hides popover
+   */
+  hide() {
+    this._visible = false;
+    document.removeEventListener("click", this._handleClickOutside);
+    document.removeEventListener("keydown", this._handleKeydownEvent);
+    document.removeEventListener("bl-popover-show", this._handlePopoverShowEvent);
+    this.onBlPopoverHide("");
+  }
+
+  render(): TemplateResult {
+    const classes = classMap({
+      popover: true,
+      visible: this._visible,
+    });
+
+    return html` <div class=${classes}>
+      <slot id="popover" aria-live=${this._visible ? "polite" : "off"}></slot>
+      <div class="arrow" aria-hidden="true"></div>
+    </div>`;
   }
 
   private getMiddleware(): Middleware[] {
@@ -137,8 +197,6 @@ export default class BlPopover extends LitElement {
     }
   };
 
-  private popoverAutoUpdateCleanup: () => void;
-
   private setPopover() {
     if (this.target) {
       this.popoverAutoUpdateCleanup = autoUpdate(this.target as Element, this._popover, () => {
@@ -167,58 +225,6 @@ export default class BlPopover extends LitElement {
     }
   }
 
-  /**
-   * Sets the target element of the popover to align and trigger.
-   * It can be a string id of the target element or can be a direct Element reference of it.
-   */
-  @property()
-  get target(): string | Element {
-    return this._target;
-  }
-
-  set target(value: string | Element) {
-    const target = getTarget(value);
-
-    if (!target) {
-      console.warn(
-        "BlPopover target only accepts an Element instance or a string id of a DOM element."
-      );
-      return;
-    }
-
-    this._target = target;
-  }
-
-  /**
-   * Shows popover
-   */
-  show() {
-    this._visible = true;
-    this.setPopover();
-    this.onBlPopoverShow("");
-    document.addEventListener("click", this._handleClickOutside);
-    document.addEventListener("keydown", this._handleKeydownEvent);
-    document.addEventListener("bl-popover-show", this._handlePopoverShowEvent);
-  }
-
-  /**
-   * Hides popover
-   */
-  hide() {
-    this._visible = false;
-    document.removeEventListener("click", this._handleClickOutside);
-    document.removeEventListener("keydown", this._handleKeydownEvent);
-    document.removeEventListener("bl-popover-show", this._handlePopoverShowEvent);
-    this.onBlPopoverHide("");
-  }
-
-  /**
-   * Gives the visibility status of the popover
-   */
-  get visible(): boolean {
-    return this._visible;
-  }
-
   private _handlePopoverShowEvent(event: Event) {
     if (event.target !== this) {
       const { parentElement } = event.target as HTMLElement;
@@ -235,18 +241,6 @@ export default class BlPopover extends LitElement {
       event.preventDefault();
       this.hide();
     }
-  }
-
-  render(): TemplateResult {
-    const classes = classMap({
-      popover: true,
-      visible: this._visible,
-    });
-
-    return html`<div class=${classes}>
-      <slot id="popover" aria-live=${this._visible ? "polite" : "off"}></slot>
-      <div class="arrow" aria-hidden="true"></div>
-    </div>`;
   }
 }
 
