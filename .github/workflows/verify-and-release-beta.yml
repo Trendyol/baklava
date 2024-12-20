@@ -7,12 +7,12 @@ on:
 
 jobs:
   verify:
-    uses: trendyol/baklava/.github/workflows/verify.yml@next
+    uses: ./.github/workflows/verify.yml
     secrets: inherit
   release:
-    uses: trendyol/baklava/.github/workflows/release.yml@next
+    uses: ./.github/workflows/release.yml
     needs: verify
     secrets: inherit
   chromatic:
-    uses: trendyol/baklava/.github/workflows/publish-chromatic.yml@next
+    uses: ./.github/workflows/publish-chromatic.yml
     needs: verify
