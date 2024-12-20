@@ -15,7 +15,6 @@ jobs:
     secrets: inherit
 
   chromatic:
-    needs: verify
     uses: trendyol/baklava/.github/workflows/publish-chromatic.yml@next
-    if: needs.verify.result == 'success' || github.event_name == 'workflow_dispatch' 
-    # Runs automatically if verify succeeds, or manually when triggered
+    if: ${{ github.event_name == 'workflow_dispatch' || success() }}
+    secrets: inherit
