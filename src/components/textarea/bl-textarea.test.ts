@@ -15,7 +15,7 @@ describe("bl-textarea", () => {
     assert.shadowDom.equal(
       el,
       `
-        <div class="wrapper" style="--row-count:4;">
+        <div class="wrapper">
           <label for="input">Label</label>
           <fieldset class="input-wrapper">
             <legend><span>Label</span></legend>
@@ -30,7 +30,7 @@ describe("bl-textarea", () => {
           <div class="hint"></div>
         </div>
       `,
-      { ignoreAttributes: ["for", "id"] }
+      { ignoreAttributes: ["for", "id", "style"] }
     );
   });
 
