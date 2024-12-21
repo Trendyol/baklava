@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright dependencies
-        run: npx playwright install
+        run: npx playwright install && npx playwright install-deps
       - name: Run linter check
         run: npm run lint
       - name: Run tests
