@@ -1242,4 +1242,66 @@ describe("bl-select", () => {
       expect(anotherOption.hidden).to.be.false;
     });
   });
+
+  describe("search localization", () => {
+    it("should search text with user locale", async () => {
+      // Set up with Turkish locale where 'i'.toLocaleLowerCase() => 'i' (not 'ı')
+      document.documentElement.setAttribute("lang", "tr");
+
+      const el = await fixture<BlSelect>(html`
+        <bl-select search-bar>
+          <bl-select-option value="1">İstanbul</bl-select-option>
+          <bl-select-option value="2">Izmir</bl-select-option>
+        </bl-select>
+      `);
+
+      await elementUpdated(el);
+
+      // Simulate search input
+      const searchInput = el.shadowRoot?.querySelector(".search-bar-input") as HTMLInputElement;
+
+      searchInput.value = "i";
+      searchInput.dispatchEvent(new InputEvent("input"));
+
+      await elementUpdated(el);
+
+      // Both options should be visible since 'i' matches both 'İstanbul' and 'Izmir' in Turkish
+      const hiddenOptions = el.options.filter(option => option.hidden);
+
+      expect(hiddenOptions.length).to.equal(0);
+    });
+
+    it("should fallback to basic toLowerCase when locale is not supported", async () => {
+      // Set an invalid locale
+      document.documentElement.setAttribute("lang", "xx");
+
+      const el = await fixture<BlSelect>(html`
+        <bl-select search-bar>
+          <bl-select-option value="1">Test Option</bl-select-option>
+          <bl-select-option value="2">Another Option</bl-select-option>
+        </bl-select>
+      `);
+
+      await elementUpdated(el);
+
+      // Simulate search input
+      const searchInput = el.shadowRoot?.querySelector(".search-bar-input") as HTMLInputElement;
+
+      searchInput.value = "test";
+      searchInput.dispatchEvent(new InputEvent("input"));
+
+      await elementUpdated(el);
+
+      // Only "Test Option" should be visible
+      const visibleOptions = el.options.filter(option => !option.hidden);
+
+      expect(visibleOptions.length).to.equal(1);
+      expect(visibleOptions[0].textContent?.trim()).to.equal("Test Option");
+    });
+
+    // Clean up after tests
+    afterEach(() => {
+      document.documentElement.removeAttribute("lang");
+    });
+  });
 });
