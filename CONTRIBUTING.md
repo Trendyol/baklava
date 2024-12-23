@@ -1,52 +1,113 @@
-# How to contribute Baklava Design System
+# Contributing to Baklava Design System 🎨
 
-You are very welcome if you want to contribute to the Baklava Design System. You can make several types of contributions, such as:
+Welcome to Baklava! We're excited that you're interested in contributing. This guide will help you get started with making contributions to our design system.
 
-* Fixing bugs in code
-* Implementing new features
-* Improving documentation
-* Suggesting design ideas
+![Baklava Design System](./docs/images/contributing-header.png)
 
-## Making a contribution using an Issue
+## Ways to Contribute 🚀
 
-Did you notice a bug? Or a missing/wrong part in documentation? Or do you have a suggestion about implementation or design? Please feel free to [create an issue](https://github.com/Trendyol/baklava/issues/new) for that. Please provide clear and detailed information about your request or report as much as possible. Anyone can join to share their ideas/experiences about the issue you created.
+There are several ways you can contribute to Baklava:
 
-If you have a question about how to use our design system or a specific component, please use our [discussion board](https://github.com/Trendyol/baklava/discussions).
+- 🐛 **Fix Bugs**: Help us squash bugs in the codebase
+- ✨ **Add Features**: Implement new components or enhance existing ones
+- 📝 **Improve Docs**: Make our documentation clearer and more helpful
+- 💡 **Share Ideas**: Suggest improvements to our design system
 
-## Making a contribution using a PR
+## Getting Started 🌟
 
-If you notice a problem in our repository (whether it's in the code or docs) and are able to fix it, just fork the project, make your changes, and create a PR for it. You can refer to [GitHub documentation](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) if you are not sure how to propose a change to a repository.
+### 1. Creating an Issue 📋
 
-## Baklava contribution rules
+Found a bug or have a suggestion? [Create an issue](https://github.com/Trendyol/baklava/issues/new)!
 
-We have some rules to make contribution process smooth and as automated as possible.
+![Creating an Issue](./docs/images/create-issue.gif)
 
-### Coding conventions
+**Tips for a great issue:**
+- Clearly describe what you observed
+- Include steps to reproduce (for bugs)
+- Add screenshots if relevant
+- Use our issue templates
+- Share any relevant context or examples
 
-We implemented several linters and static code checkers to be sure if every new code is synced with the style of current codebase. Please run the `npm run lint` to check if your changes conflict with our rules.
+> 💬 For questions about using Baklava, please use our [discussion board](https://github.com/Trendyol/baklava/discussions).
 
-### 100% Code coverage with unit tests
+### 2. Making a Pull Request 🔄
 
-We expect to cover every line of code we wrote in our unit tests. If you make changes in the code, please ensure that you cover those changes inside the related test file. To do that, you can run the `npm test` command and check the `coverage` folder for a detailed report. This command is automatically executed in every commit, and if coverage is under 100%, your PR checks will fail.
+If you notice a problem in our repository (whether it's in the code or docs) and are able to fix it, follow these steps:
 
-### Commit rules
+1. Fork the repository
+2. Create your feature branch
+3. Make your changes
+4. Submit a pull request
 
-The Baklava library has an automated release flow, and our release versions and release notes are automatically generated from git commit messages. So commit messages are very important to release changes properly. We have a specific guideline about committing rules, please refer it.
+![PR Process](./docs/images/pr-process.gif)
+Need help? Check out the [GitHub documentation](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) on creating PRs.
 
-### Design review
+## Contribution Guidelines ✅
 
-In every push to a PR, we are running automated visual regression tests to be sure we are not breaking any components visual output accidentally. When you are done with your changes and created a PR, if you have some changes that effects visual output of any components, then our automated flow will notice this and block PR for a design review. Design reviews are done by designers involved in project. If the changes are intentional, they will be approved, and once the PR is merged, the new designs will serve as references for upcoming PRs. If there are no visual changes, this step will pass automatically, and there will be no need for a review from a designer.
+### 1. Coding Conventions 💻
 
-### Should be RTL-Aware
+We maintain strict code quality standards:
+- Run `npm run lint` before submitting your changes
+- Follow our code style guidelines
+- Ensure your code syncs with our current codebase style
+- Fix any linting errors before submitting
 
-Baklava components support Right-to-Left (RTL) text direction, which is crucial for languages written from right to left. When developing or modifying components, ensure proper RTL support by following these guidelines:
+### 2. Test Coverage Requirements 🧪
 
-1. Use the `--bl-text-x-direction` CSS custom property for transformations and directional styling.
-2. Utilize CSS logical properties (e.g., `inline-start`, `inline-end`, `margin-inline-start`) instead of directional properties.
-3. Use `inset` with logical values for positioning.
+We maintain 100% code coverage:
+- Write unit tests for all new code
+- Run `npm test` to check coverage
+- Review the `coverage` folder for detailed reports
+- Tests run automatically on commit
+- PRs will fail if coverage drops below 100%
 
-For a comprehensive guide on RTL support and detailed examples, please refer to our [Right-to-Left (RTL) documentation](/docs/documentation-right-to-left-rtl--documentation).
+### 3. Commit Message Guidelines 📝
 
-### Enough approvals to merge
+Our release process is automated:
+- Release versions are generated from commit messages
+- Release notes are automatically created
+- Follow our specific commit message format
+- Each commit should be meaningful and descriptive
 
-Every PR should be reviewed and approved by at least one of the core contributors. Please add needed information to PR description to help making review process quicker and easier.
+### 4. Design Review Process 🎨
+
+We protect our visual consistency:
+- Automated visual regression tests run on each PR
+- Changes affecting component visuals require design review
+- Design team must approve visual changes
+- Approved changes become reference for future work
+- Non-visual changes skip design review automatically
+
+### 5. RTL Support Requirements 🌐
+
+All components must support Right-to-Left (RTL) languages:
+
+1. Use `--bl-text-x-direction` CSS property for transformations
+2. Implement CSS logical properties:
+```css
+/* ✅ Do this */
+margin-inline-start: 1rem;
+padding-inline-end: 1rem;
+
+/* ❌ Not this */
+margin-left: 1rem;
+padding-right: 1rem;
+```
+3. Use `inset` with logical values for positioning
+
+### 6. PR Review Requirements 👥
+
+Every PR must meet these criteria:
+- At least one core contributor approval
+- Detailed PR description
+- All automated checks passing
+- Documentation updates if needed
+- Test coverage requirements met
+
+## Need Help? 💬
+
+- Check our [documentation](https://baklava.design/)
+- Join our [discussion board](https://github.com/Trendyol/baklava/discussions)
+- Reach out to core team members
+
+Thank you for contributing to Baklava! 🙏
