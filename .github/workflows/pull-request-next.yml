@@ -10,8 +10,8 @@ permissions:
 
 jobs:
   verify:
-    uses: trendyol/baklava/.github/workflows/verify.yml@next
+    uses: ./.github/workflows/verify.yml
     secrets: inherit
   chromatic:
-    uses: trendyol/baklava/.github/workflows/publish-chromatic.yml@next
+    uses: ./.github/workflows/publish-chromatic.yml
     needs: verify
