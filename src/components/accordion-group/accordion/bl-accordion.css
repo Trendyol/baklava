@@ -79,3 +79,7 @@
   background: var(--bl-color-neutral-lightest);
   color: var(--bl-color-neutral-light);
 }
+
+.accordion:not([open]) .accordion-content {
+  display: none;
+}
