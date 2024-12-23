@@ -661,26 +661,26 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     this._handleSearchEvent();
 
     this._connectedOptions.forEach(option => {
-      try {
-        const optionText = option.textContent?.toLocaleLowerCase(this.userLang) || "";
-        const searchText = this._searchText.toLocaleLowerCase(this.userLang);
-        const isVisible = optionText.includes(searchText);
+      const searchText = this._searchText.toLowerCase();
+      let optionText = "";
 
-        option.hidden = !isVisible;
-      } catch {
-        // Fallback to basic toLowerCase if locale is not supported
-        const optionText = option.textContent?.toLowerCase() || "";
-        const searchText = this._searchText.toLowerCase();
-        const isVisible = optionText.includes(searchText);
-
-        option.hidden = !isVisible;
+      if (option.textContent) {
+        try {
+          // Try locale-specific comparison first
+          optionText = option.textContent.toLocaleLowerCase(this.userLang);
+        } catch {
+          // Fallback to basic toLowerCase if locale is not supported
+          optionText = option.textContent.toLowerCase();
+        }
       }
+
+      const isVisible = optionText.includes(searchText);
+
+      option.hidden = !isVisible;
     });
 
     this._selectedOptions = this.options.filter(option => option.selected);
-
     this._handleLastVisibleSearchedOption();
-
     this.requestUpdate();
   }
 
