@@ -38,6 +38,10 @@ export default class DatepickerCalendarMixin extends LitElement {
     reflect: true,
   })
   set disabledDates(disabledDates: Date[] | string) {
+    // Litin bu sürümünde property decorator olmasına ragmen request update çalıştırmıyor.
+    // Bir değişiklik oduğunda update etmesi için kendi implementasyonlarına benzer şekilde ekledik.
+    // Liti update ettiğimizde burdaki requestUpdate'i kaldırabiliriz
+
     let newVal: Date[] = [];
 
     if (typeof disabledDates === "string") {
