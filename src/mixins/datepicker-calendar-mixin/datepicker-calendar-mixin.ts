@@ -130,7 +130,7 @@ export default class DatepickerCalendarMixin extends LitElement {
           );
         } else {
           this._value = value;
-          this._selectedDates.splice(0, this._selectedDates.length, ...tempVal);
+          this._selectedDates = tempVal;
         }
       }
 

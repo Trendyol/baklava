@@ -265,8 +265,10 @@ describe("BlDatepicker", () => {
   it("should return an array of dates when value is an array of Dates", () => {
     const dates = [new Date("2024-01-01"), new Date("2024-02-01")];
 
+    element.type=CALENDAR_TYPES.MULTIPLE;
     element.value = dates;
-    expect(element.value).to.deep.equal(dates);
+
+    expect(element.value).to.equal(dates);
   });
 
   it("should return undefined if value is not set", () => {
