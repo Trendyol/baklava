@@ -1,7 +1,6 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import "./bl-calendar";
 import { BlButton, BlCalendar } from "../../baklava";
-import { blCalendarChangedEvent } from "./bl-calendar";
 import { CALENDAR_TYPES, CALENDAR_VIEWS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX } from "./bl-calendar.constant";
 import sinon from "sinon";
 
@@ -93,7 +92,7 @@ describe("bl-calendar", () => {
       selectedDates = customEvent.detail;
     };
 
-    singleTypeCalendar.addEventListener(blCalendarChangedEvent, onBlCalendarChanged);
+    singleTypeCalendar.addEventListener("bl-calendar-change", onBlCalendarChanged);
     const daysButtons = Array.from(singleTypeCalendar.shadowRoot?.querySelectorAll(".day-wrapper bl-button") || []) as BlButton[];
 
     daysButtons[0].click();

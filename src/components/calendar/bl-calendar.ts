@@ -14,8 +14,6 @@ import {
 import style from "./bl-calendar.css";
 import { Calendar, CalendarDay, CalendarView } from "./bl-calendar.types";
 
-export const blCalendarChangedEvent = "bl-calendar-change";
-
 /**
  * @tag bl-calendar
  * @summary Baklava Calendar component
@@ -37,7 +35,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   /**
    * Fires when date selection changes
    */
-  @event(blCalendarChangedEvent) _onBlCalendarChange: EventDispatcher<Date[]>;
+  @event("bl-calendar-change") _onBlCalendarChange: EventDispatcher<Date[]>;
 
   static get styles(): CSSResultGroup {
     return [style];
@@ -224,7 +222,11 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     }
     if (this.disabledDates.length > 0) {
       return this.disabledDates.some(disabledDate => {
-        return calendarDate.getTime() === disabledDate.getTime();
+        return (
+          calendarDate.getDate() === disabledDate.getDate() &&
+          calendarDate.getMonth() === disabledDate.getMonth() &&
+          calendarDate.getFullYear() === disabledDate.getFullYear()
+        );
       });
     }
     return false;

@@ -26,21 +26,32 @@ export default class DatepickerCalendarMixin extends LitElement {
   /**
    * Defines the unselectable dates for calendar
    */
-  _disabledDates: Date[] = [];
+  protected _disabledDates: Date[] = [];
 
   get disabledDates(): Date[] {
     return this._disabledDates;
   }
 
-  @property({ attribute: "disabled-dates", reflect: true })
+  @property({
+    attribute: "disabled-dates",
+    type: Array,
+    reflect: true,
+  })
   set disabledDates(disabledDates: Date[] | string) {
+    // Now we are using 1.6.0 version of @lit/reactive-elements and in this version even if our property has property decorator it doesn't run request update inside.
+    // We added similar implementations to update when there is a change.
+    // When we update the lit to 2.0 or upper versions we can remove the requestUpdate here
+
+    let newVal: Date[] = [];
+
     if (typeof disabledDates === "string") {
-      this._disabledDates = stringToDateArray(disabledDates);
+      newVal = stringToDateArray(disabledDates);
     } else if (Array.isArray(disabledDates)) {
-      disabledDates.forEach(disabledDate => {
-        if (!isNaN(disabledDate.getTime())) this._disabledDates.push(disabledDate);
-      });
+      newVal = disabledDates.filter(d => !isNaN(d.getTime()));
     }
+
+    this.requestUpdate("disabledDates", newVal);
+    this._disabledDates = newVal;
   }
 
   /**
@@ -82,19 +93,20 @@ export default class DatepickerCalendarMixin extends LitElement {
   /**
    * Target elements state
    */
+  protected _value: Date | Date[] | string;
 
-  @state() _value: Date | Date[] | string;
   /**
    * Sets the target element of the popover to align and trigger.
    * It can be a string id of the target element or can be a direct Element reference of it.
    */
-  @property()
-  get value(): string | Date | Date[] {
+  get value() {
     return this._value;
   }
 
+  @property({ attribute: "value", reflect: true })
   set value(value: string | Date | Date[]) {
     if (value) {
+      const oldValue = this._value;
       let tempVal: Date[] = [];
 
       if (typeof value === "string") {
@@ -104,6 +116,7 @@ export default class DatepickerCalendarMixin extends LitElement {
       } else if (Array.isArray(value)) {
         tempVal = value;
       }
+
       if (tempVal.length > 0) {
         if (this.type === CALENDAR_TYPES.SINGLE && tempVal.length > 1) {
           console.warn("'value' must be a single Date for single type selection.");
@@ -117,9 +130,11 @@ export default class DatepickerCalendarMixin extends LitElement {
           );
         } else {
           this._value = value;
-          this._selectedDates.splice(0, this._selectedDates.length, ...tempVal);
+          this._selectedDates = tempVal;
         }
       }
+
+      this.requestUpdate("value", oldValue);
     }
   }
 }

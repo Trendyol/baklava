@@ -63,27 +63,27 @@
   --bl-size-xl: 40px;
   --bl-border-radius-m: 50%;
   --bl-border-radius-l: 50%;
+}
 
-  &.today-day {
-    --bl-color-neutral-darker: var(--bl-color-primary);
-    --bl-color-neutral-darkest: var(--bl-color-primary);
-  }
+.day.today-day {
+  --bl-color-neutral-darker: var(--bl-color-primary);
+  --bl-color-neutral-darkest: var(--bl-color-primary);
+}
 
-  &.other-month-day {
-    --bl-color-neutral-darker: var(--bl-color-neutral-dark);
+.day.other-month-day {
+  --bl-color-neutral-darker: var(--bl-color-neutral-dark);
+}
 
-    &.selected-day {
-      --bl-color-neutral-darker: var(--bl-color-neutral-full);
-    }
-  }
+.day.other-month-day.selected-day {
+  --bl-color-neutral-darker: var(--bl-color-neutral-full);
+}
 
-  &.selected-day {
-    background: var(--bl-color-primary);
-    border-radius: 50%;
+.day.selected-day {
+  background: var(--bl-color-primary);
+  border-radius: 50%;
 
-    --bl-button-focus-border-color: var(--bl-color-primary);
-    --bl-color-neutral-darker: var(--bl-color-neutral-full);
-  }
+  --bl-button-focus-border-color: var(--bl-color-primary);
+  --bl-color-neutral-darker: var(--bl-color-neutral-full);
 }
 
 .range-day {
@@ -127,7 +127,6 @@
 
 .grid-item {
   width: 93.33px;
-
   --bl-size-3xs: 15px;
 }
 
