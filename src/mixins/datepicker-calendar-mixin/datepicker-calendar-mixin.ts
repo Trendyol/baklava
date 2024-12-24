@@ -38,9 +38,9 @@ export default class DatepickerCalendarMixin extends LitElement {
     reflect: true,
   })
   set disabledDates(disabledDates: Date[] | string) {
-    // Litin bu sürümünde property decorator olmasına ragmen request update çalıştırmıyor.
-    // Bir değişiklik oduğunda update etmesi için kendi implementasyonlarına benzer şekilde ekledik.
-    // Liti update ettiğimizde burdaki requestUpdate'i kaldırabiliriz
+    // Now we are using 1.6.0 version of @lit/reactive-elements and in this version even if our property has property decorator it doesn't run request update inside.
+    // We added similar implementations to update when there is a change.
+    // When we update the lit to 2.0 or upper versions we can remove the requestUpdate here
 
     let newVal: Date[] = [];
 
