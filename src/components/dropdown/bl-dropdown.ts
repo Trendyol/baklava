@@ -1,8 +1,9 @@
-import { LitElement, html, CSSResultGroup, TemplateResult } from "lit";
-import { customElement, property, state, query } from "lit/decorators.js";
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { customElement, property, query, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
-import BlButton, { ButtonSize, ButtonVariant, ButtonKind } from "../button/bl-button";
+import BlButton, { ButtonKind, ButtonSize, ButtonVariant } from "../button/bl-button";
 import BlPopover from "../popover/bl-popover";
 import style from "./bl-dropdown.css";
 import BlDropdownItem, { blDropdownItemTag } from "./item/bl-dropdown-item";
@@ -56,6 +57,12 @@ export default class BlDropdown extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
+
+  /**
+   * Sets the icon name to be displayed on the left side of the button label
+   */
+  @property({ type: String, reflect: true })
+  icon?: string;
 
   /**
    * Fires when dropdown opened
@@ -146,6 +153,7 @@ export default class BlDropdown extends LitElement {
         variant="${this.variant}"
         kind="${this.kind}"
         size="${this.size}"
+        icon="${ifDefined(this.icon)}"
         @bl-click="${this._handleClick}"
       >
         ${this.label}

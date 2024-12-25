@@ -1,6 +1,7 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { setDirectionProperty } from "../../utilities/direction";
 import { event, EventDispatcher } from "../../utilities/event";
 import style from "./bl-switch.css";
 
@@ -42,6 +43,12 @@ export default class BlSwitch extends LitElement {
 
     this.checked = !this.checked;
     this.onToggle(this.checked);
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    setDirectionProperty(this);
   }
 
   private handleKeyDown(event: KeyboardEvent) {

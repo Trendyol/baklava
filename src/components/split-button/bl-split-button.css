@@ -25,6 +25,10 @@
   --bl-border-radius-m: calc(var(--bl-size-xs) / 2) 0 0 calc(var(--bl-size-xs) / 2);
 }
 
+:host([dir="rtl"]) .split-main-button {
+  --bl-border-radius-m: 0 calc(var(--bl-size-xs) / 2) calc(var(--bl-size-xs) / 2) 0;
+}
+
 .split-main-button:focus {
   --bl-border-radius-l: calc(var(--bl-size-m) / 2) 0 0 calc(var(--bl-size-m) / 2);
 }
@@ -33,16 +37,28 @@
   --bl-border-radius-m: 0 calc(var(--bl-size-xs) / 2) calc(var(--bl-size-xs) / 2) 0;
 }
 
+:host([dir="rtl"]) .dropdown-button {
+  --bl-border-radius-m: calc(var(--bl-size-xs) / 2) 0 0 calc(var(--bl-size-xs) / 2);
+}
+
 .dropdown-button:focus {
   --bl-border-radius-l: 0 calc(var(--bl-size-m) / 2) calc(var(--bl-size-m) / 2) 0;
 }
 
+:host([variant="secondary"][dir="rtl"]) .dropdown-button {
+  inset-inline-end: -1px;
+}
+
 :host([variant="secondary"]) .dropdown-button {
-  left: -1px;
+  inset-inline-start: -1px;
 }
 
 :host([dropdown-disabled][variant="secondary"]) .dropdown-button {
-  left: 0;
+  inset-inline-start: 0;
+}
+
+:host([dropdown-disabled][variant="secondary"][dir="rtl"]) .dropdown-button {
+  inset-inline-end: 0;
 }
 
 .split-divider {
