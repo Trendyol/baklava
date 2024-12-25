@@ -135,7 +135,7 @@ const LinkTemplate = (args: LinkArgs) => html`
 export const Default: Story = {
   args: {
     target: "/",
-    content: "About Page",
+    content: "Link",
   },
   render: LinkTemplate,
 };
@@ -144,7 +144,7 @@ export const InlineLink: Story = {
   args: {
     target: "/",
     variant: "inline",
-    content: "About Page",
+    content: "Link",
   },
   render: (args) => html`
     <div>
@@ -160,15 +160,15 @@ export const InlineLink: Story = {
       </bl-alert>
 
       <p style="font-size: 16px; line-height: 1.5;">
-        This is a paragraph with an ${LinkTemplate(args)} in the text.
+        This is a paragraph with a ${LinkTemplate(args)} in the text.
       </p>
 
       <p style="font-size: 14px; line-height: 1.5;">
-        This is a paragraph with an ${LinkTemplate(args)} in the text.
+        This is a paragraph with a ${LinkTemplate(args)} in the text.
       </p>
 
       <p style="font-size: 12px; line-height: 1.5;">
-        This is a paragraph with an ${LinkTemplate(args)} in the text.
+        This is a paragraph with a ${LinkTemplate(args)} in the text.
       </p>
     </div>
   `,
@@ -178,7 +178,7 @@ export const StandaloneLink: Story = {
   args: {
     target: "/",
     variant: "standalone",
-    content: "About Page",
+    content: "Link",
   },
   render: LinkTemplate,
 };
@@ -215,12 +215,6 @@ export const ExternalLinks: Story = {
   render: () => html`
     <div style="display: flex; gap: 16px; align-items: center;">
       ${LinkTemplate({ target: "https://example.com", external: true, content: "External Link" })}
-      ${LinkTemplate({
-        target: "https://example.com",
-        variant: "standalone",
-        external: true,
-        content: "External Standalone",
-      })}
     </div>
   `,
 };
@@ -232,12 +226,6 @@ export const DisabledLinks: Story = {
   render: () => html`
     <div style="display: flex; gap: 16px; align-items: center;">
       ${LinkTemplate({ target: "/", disabled: true, content: "Disabled Link" })}
-      ${LinkTemplate({
-        target: "/",
-        variant: "standalone",
-        disabled: true,
-        content: "Disabled Standalone",
-      })}
     </div>
   `,
 };
