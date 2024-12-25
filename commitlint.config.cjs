@@ -39,6 +39,7 @@ module.exports = {
         "split-button",
         "tag",
         "datepicker",
+        "link",
       ],
     ],
   },
