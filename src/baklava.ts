@@ -9,6 +9,7 @@ export { default as BlDialog } from "./components/dialog/bl-dialog";
 export { default as BlDrawer } from "./components/drawer/bl-drawer";
 export { default as BlIcon } from "./components/icon/bl-icon";
 export { default as BlInput } from "./components/input/bl-input";
+export { default as BlLink } from "./components/link/bl-link";
 export { default as BlPagination } from "./components/pagination/bl-pagination";
 export { default as BlProgressIndicator } from "./components/progress-indicator/bl-progress-indicator";
 export { default as BlRadioGroup } from "./components/radio-group/bl-radio-group";
