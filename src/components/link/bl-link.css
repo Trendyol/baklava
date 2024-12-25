@@ -8,7 +8,6 @@
   --color: var(--bl-link-color, var(--bl-color-primary));
   --hover-color: var(--bl-link-hover-color, var(--bl-color-primary-highlight));
   --active-color: var(--bl-link-active-color, var(--bl-color-primary-highlight));
-  --font: var(--bl-font-title-3-regular);
 
   /* Base styles */
   display: inline-flex;
@@ -17,7 +16,7 @@
   cursor: pointer;
   outline: none;
   position: relative;
-  font: var(--font);
+  font-family: var(--bl-font-family);
 }
 
 /* States */
