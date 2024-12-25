@@ -79,35 +79,6 @@ export default class BlLink extends LitElement {
     return null;
   }
 
-  private handleKeyDown(event: KeyboardEvent) {
-    if (this.disabled) return;
-
-    if (event.key === "Enter") {
-      event.preventDefault();
-      this.navigate();
-    }
-  }
-
-  private handleClick(event: Event) {
-    if (this.disabled || !this.target) {
-      event.preventDefault();
-      return;
-    }
-
-    event.preventDefault();
-    this.navigate();
-  }
-
-  private navigate() {
-    if (this.disabled || !this.target) return;
-
-    window.open(
-      this.target,
-      this.external ? "_blank" : "_self",
-      this.external ? "noopener,noreferrer" : ""
-    );
-  }
-
   connectedCallback() {
     super.connectedCallback();
 
@@ -149,8 +120,6 @@ export default class BlLink extends LitElement {
         aria-label="${ifDefined(this.ariaLabel || undefined)}"
         aria-disabled="${this.disabled}"
         tabindex="${this.disabled ? "-1" : "0"}"
-        @click="${this.handleClick}"
-        @keydown="${this.handleKeyDown}"
       >
         ${content}
         ${this.external ? html`<span class="visually-hidden">(opens in new tab)</span>` : null}
