@@ -67,37 +67,37 @@ export default class BlLink extends LitElement {
    * Example: "noopener noreferrer"
    */
   @property({ type: String, reflect: true })
-  rel: HTMLAnchorElement["rel"] = "";
+  rel?: HTMLAnchorElement["rel"];
 
   /**
    * Language of the linked document
    */
   @property({ type: String, reflect: true })
-  hreflang: HTMLAnchorElement["hreflang"] = "";
+  hreflang?: HTMLAnchorElement["hreflang"];
 
   /**
    * MIME type of the linked document
    */
   @property({ type: String, reflect: true })
-  type: HTMLAnchorElement["type"] = "";
+  type?: HTMLAnchorElement["type"];
 
   /**
    * Referrer policy for the link
    */
   @property({ type: String, reflect: true, attribute: "referrerpolicy" })
-  referrerPolicy: HTMLAnchorElement["referrerPolicy"] = "";
+  referrerPolicy?: HTMLAnchorElement["referrerPolicy"];
 
   /**
    * Whether to download the resource instead of navigating to it
    */
   @property({ type: String, reflect: true })
-  download: HTMLAnchorElement["download"] = "";
+  download?: HTMLAnchorElement["download"];
 
   /**
    * Ping URLs to be notified when following the link
    */
   @property({ type: String, reflect: true })
-  ping: HTMLAnchorElement["ping"] = "";
+  ping?: HTMLAnchorElement["ping"];
 
   private get isStandalone(): boolean {
     return this.variant === "standalone";
