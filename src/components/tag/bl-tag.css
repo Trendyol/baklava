@@ -58,7 +58,7 @@
   color: var(--bl-color-neutral-light);
 }
 
-:host([variant="removeable"]) .remove-button {
+:host([variant="removable"]) .remove-button {
   --bl-border-radius-m: var(--bl-border-radius-circle);
 }
 
@@ -81,15 +81,15 @@
   --border-radius: var(--bl-size-l);
 }
 
-:host([variant="removeable"][size="small"]) .tag {
+:host([variant="removable"][size="small"]) .tag {
   --padding-horizontal: var(--bl-size-2xs) 0px;
 }
 
-:host([variant="removeable"]) .tag {
+:host([variant="removable"]) .tag {
   --padding-horizontal: var(--bl-size-m) var(--bl-size-3xs);
 }
 
-:host([variant="removeable"][size="large"]) .tag {
+:host([variant="removable"][size="large"]) .tag {
   --padding-horizontal: var(--bl-size-l) var(--bl-size-2xs);
 }
 

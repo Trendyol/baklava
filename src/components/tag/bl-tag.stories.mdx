@@ -7,7 +7,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
   component="bl-tag"
   argTypes={{
     variant: {
-      options: ['selectable', 'removeable'],
+      options: ['selectable', 'removable'],
       control: { type: 'select' }
     },
     size: {
@@ -61,13 +61,13 @@ Tags can be used to label, categorize, or organize items using keywords.
 
 ## Variants
 
-Tags come in two variants: selectable and removeable.
+Tags come in two variants: selectable and removable.
 
 <Canvas>
   <Story name="Variants">
     {html`
       <bl-tag variant="selectable">Selectable Tag</bl-tag>
-      <bl-tag variant="removeable">Removeable Tag</bl-tag>
+      <bl-tag variant="removable">Removable Tag</bl-tag>
     `}
   </Story>
 </Canvas>
@@ -82,9 +82,9 @@ Tags are available in three sizes: small, medium (default), and large.
       <bl-tag size="small">Small</bl-tag>
       <bl-tag size="medium">Medium</bl-tag>
       <bl-tag size="large">Large</bl-tag>
-      <bl-tag size="small" variant="removeable">Small Removeable</bl-tag>
-      <bl-tag size="medium" variant="removeable">Medium Removeable</bl-tag>
-      <bl-tag size="large" variant="removeable">Large Removeable</bl-tag>
+      <bl-tag size="small" variant="removable">Small Removable</bl-tag>
+      <bl-tag size="medium" variant="removable">Medium Removable</bl-tag>
+      <bl-tag size="large" variant="removable">Large Removable</bl-tag>
     `}
   </Story>
 </Canvas>
@@ -97,7 +97,7 @@ Tags can include icons to provide additional visual context.
   <Story name="With Icons">
     {html`
       <bl-tag icon="info">Info Tag</bl-tag>
-      <bl-tag variant="removeable" icon="heart_fill">Removeable Tag Icon</bl-tag>
+      <bl-tag variant="removable" icon="heart_fill">Removable Tag Icon</bl-tag>
     `}
   </Story>
 </Canvas>
@@ -112,7 +112,7 @@ Tags can be selected or disabled.
       <bl-tag variant="selectable" selected>Selected Tag</bl-tag>
       <bl-tag disabled>Disabled Tag</bl-tag>
       <bl-tag variant="selectable" selected disabled>Selected Disabled Tag</bl-tag>
-      <bl-tag variant="removeable" disabled>Disabled Removeable Tag</bl-tag>
+      <bl-tag variant="removable" disabled>Disabled Removable Tag</bl-tag>
     `}
   </Story>
 </Canvas>

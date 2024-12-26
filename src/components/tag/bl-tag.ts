@@ -8,7 +8,7 @@ import { BaklavaIcon } from "../icon/icon-list";
 import style from "./bl-tag.css";
 
 export type TagSize = "small" | "medium" | "large";
-type TagVariant = "selectable" | "removeable";
+type TagVariant = "selectable" | "removable";
 
 /**
  * @tag bl-tag
@@ -61,7 +61,7 @@ export default class BlTag extends LitElement {
     const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : "";
 
     const removeButton =
-      this.variant === "removeable"
+      this.variant === "removable"
         ? html`
             <bl-button
               icon="close"
