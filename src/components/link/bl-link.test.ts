@@ -15,11 +15,12 @@ describe("bl-link", () => {
     expect(el.kind).to.equal("primary");
     expect(el.href).to.equal("javascript:void(0)");
     expect(el.target).to.equal("_self");
-    expect(el.rel).to.equal("");
-    expect(el.hreflang).to.equal("");
-    expect(el.type).to.equal("");
-    expect(el.download).to.equal("");
-    expect(el.ping).to.equal("");
+    expect(el.rel).to.be.undefined;
+    expect(el.hreflang).to.be.undefined;
+    expect(el.type).to.be.undefined;
+    expect(el.referrerPolicy).to.be.undefined;
+    expect(el.download).to.be.undefined;
+    expect(el.ping).to.be.undefined;
     expect(el.ariaLabel).to.equal("");
   });
 
@@ -166,5 +167,18 @@ describe("bl-link", () => {
       await el.updateComplete;
       expect(link?.getAttribute("target")).to.equal(target);
     }
+  });
+
+  it("renders custom icon slot", async () => {
+    const el = await fixture<BlLink>(html`
+      <bl-link href="/">
+        Link Text
+        <bl-icon name="settings" slot="icon"></bl-icon>
+      </bl-link>
+    `);
+
+    const slot = el.shadowRoot!.querySelector('slot[name="icon"]');
+
+    expect(slot).to.exist;
   });
 });
