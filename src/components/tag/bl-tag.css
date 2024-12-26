@@ -48,14 +48,12 @@
   --color: var(--bl-color-neutral-full);
 }
 
-:host([variant="selectable"][disabled]) {
-  pointer-events: none;
-}
 
 :host([variant="selectable"][disabled]) .tag {
   background-color: var(--bl-color-neutral-lightest);
   border-color: var(--bl-color-neutral-lightest);
   color: var(--bl-color-neutral-light);
+  cursor: not-allowed;
 }
 
 :host([variant="removable"]) .remove-button {

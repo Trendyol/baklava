@@ -1,6 +1,5 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { CSSResultGroup, html, LitElement, nothing, TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import "../icon/bl-icon";
@@ -58,14 +57,17 @@ export default class BlTag extends LitElement {
   icon?: BaklavaIcon;
 
   render(): TemplateResult {
-    const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : "";
+    const removeIconSize = this.size === "large" ? "medium" : "small";
+    const icon = this.icon
+      ? html`<slot name="icon"><bl-icon name=${this.icon}></bl-icon></slot>`
+      : nothing;
 
     const removeButton =
       this.variant === "removable"
         ? html`
             <bl-button
               icon="close"
-              size=${this.size === "large" ? "medium" : "small"}
+              size=${removeIconSize}
               label="Remove"
               variant="tertiary"
               kind="neutral"
@@ -74,17 +76,26 @@ export default class BlTag extends LitElement {
               @bl-click=${this.handleClick}
             ></bl-button>
           `
-        : "";
+        : nothing;
 
-    return html`<div
+    const selectableVariant = html`<button
       class="tag"
-      @click=${this.variant === "selectable" ? this.handleClick : undefined}
-      role=${ifDefined(this.variant === "selectable" ? "checkbox" : undefined)}
+      role="checkbox"
+      @click=${this.handleClick}
+      ?disabled=${this.disabled}
     >
-      <slot name="icon">${icon}</slot>
+      ${icon}
+      <slot></slot>
+      ${removeButton}
+    </button>`;
+
+    const removableVariant = html`<div class="tag">
+      ${icon}
       <slot></slot>
       ${removeButton}
     </div>`;
+
+    return this.variant === "selectable" ? selectableVariant : removableVariant;
   }
 }
 
