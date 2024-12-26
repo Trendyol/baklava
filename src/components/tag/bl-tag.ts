@@ -1,6 +1,8 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { event, EventDispatcher } from "../../utilities/event";
+import "../button/bl-button";
 import "../icon/bl-icon";
 import { BaklavaIcon } from "../icon/icon-list";
 import style from "./bl-tag.css";
@@ -19,7 +21,6 @@ export default class BlTag extends LitElement {
     return [style];
   }
 
-  @state() private _actionElement: HTMLElement | null = null;
   @query(".remove-button") removeButton!: HTMLButtonElement;
 
   /**
@@ -40,29 +41,15 @@ export default class BlTag extends LitElement {
   @property({ type: String, reflect: true })
   value: string | null = null;
 
-  @event("bl-tag-click") _onBlTagClick: EventDispatcher<{
+  @event("bl-tag-click") private _onBlTagClick: EventDispatcher<{
     value: string | null;
     selected: boolean;
   }>;
 
-  connectedCallback(): void {
-    super.connectedCallback();
-
-    this._actionElement?.addEventListener("click", this.handleClick);
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-
-    this._actionElement?.removeEventListener("click", this.handleClick);
-  }
-
-  private handleClick() {
-    console.log(this._actionElement);
-
+  private handleClick = () => {
     if (this.variant === "selectable") this.selected = !this.selected;
     this._onBlTagClick({ selected: this.selected, value: this.value });
-  }
+  };
 
   /**
    * Sets the name of the icon
@@ -71,28 +58,31 @@ export default class BlTag extends LitElement {
   icon?: BaklavaIcon;
 
   render(): TemplateResult {
-    const icon = this.icon
-      ? html`
-          <slot name="icon">
-            <bl-icon name=${this.icon}></bl-icon>
-          </slot>
-        `
-      : "";
+    const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : "";
 
     const removeButton =
       this.variant === "removeable"
         ? html`
-            <div role="button" type="button" class="remove-button">
-              <bl-icon name="close"></bl-icon>
-            </div>
+            <bl-button
+              icon="close"
+              variant="tertiary"
+              kind="neutral"
+              class="remove-button"
+              ?disabled=${this.disabled}
+              @bl-click=${this.handleClick}
+            ></bl-button>
           `
         : "";
 
-    return html`<button type="button" class="tag">
-      ${icon}
+    return html`<div
+      class="tag"
+      @click=${this.variant === "selectable" ? this.handleClick : undefined}
+      role=${ifDefined(this.variant === "selectable" ? "checkbox" : undefined)}
+    >
+      <slot name="icon">${icon}</slot>
       <slot></slot>
       ${removeButton}
-    </button>`;
+    </div>`;
   }
 }
 

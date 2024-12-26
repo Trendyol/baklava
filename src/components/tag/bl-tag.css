@@ -13,6 +13,7 @@
   --icon-size: var(--bl-size-m);
   --height: var(--bl-size-2xl);
   --border-radius: var(--bl-size-m);
+  --remove-icon-size: var(--bl-size-s);
 
   display: flex;
   gap: var(--margin-icon);
@@ -22,7 +23,8 @@
   width: 100%;
   border: 1px solid var(--bl-color-neutral-lighter);
   border-radius: var(--border-radius);
-  padding: var(--padding-vertical) var(--padding-horizontal);
+  padding-block: var(--padding-vertical);
+  padding-inline: var(--padding-horizontal);
   background-color: var(--bg-color);
   color: var(--color, white);
   font: var(--font);
@@ -32,6 +34,7 @@
 
 :host([variant="selectable"]) .tag {
   cursor: pointer;
+  user-select: none;
 }
 
 :host([variant="selectable"]) .tag:hover {
@@ -41,32 +44,22 @@
 :host([variant="selectable"][selected]) .tag {
   border-color: var(--bl-color-neutral-darker);
   background-color: var(--bl-color-neutral-darker);
-  color: var(--bl-color-neutral-full);
+
+  --color: var(--bl-color-neutral-full);
 }
 
-:host([disabled]) {
+:host([variant="selectable"][disabled]) {
   pointer-events: none;
 }
 
-:host([disabled]) .tag {
+:host([variant="selectable"][disabled]) .tag {
   background-color: var(--bl-color-neutral-lightest);
   border-color: var(--bl-color-neutral-lightest);
   color: var(--bl-color-neutral-light);
 }
 
-.remove-button {
-  all: unset;
-  font-size: var(--bl-size-s);
-  padding: var(--bl-size-3xs);
-  border-radius: var(--bl-border-radius-circle);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.remove-button:hover {
-  background-color: var(--bl-color-neutral-lightest);
+:host([variant="removeable"]) .remove-button {
+  --bl-border-radius-m: var(--bl-size-m);
 }
 
 :host([size="small"]) .tag {
@@ -74,8 +67,9 @@
   --height: var(--bl-size-xl);
   --icon-size: var(--bl-size-s);
   --border-radius: var(--bl-size-xs);
-  --padding-vertical: var(--bl-size-3xs);
+  --padding-vertical: 0px;
   --padding-horizontal: var(--bl-size-2xs);
+  --remove-icon-size: var(--bl-size-xs);
 }
 
 :host([size="large"]) .tag {
@@ -87,7 +81,19 @@
   --border-radius: var(--bl-size-l);
 }
 
-/* TODO: çalışmıyor */
-:host ::slotted(bl-icon) {
+:host([variant="removeable"][size="small"]) .tag {
+  --padding-horizontal: var(--bl-size-2xs) 0px;
+}
+
+:host([variant="removeable"]) .tag {
+  --padding-horizontal: var(--bl-size-m) var(--bl-size-3xs);
+}
+
+:host([variant="removeable"][size="large"]) .tag {
+  --padding-horizontal: var(--bl-size-l) var(--bl-size-2xs);
+}
+
+slot[name="icon"] bl-icon {
   font-size: var(--icon-size);
+  color: var(--color);
 }
