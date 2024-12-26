@@ -12,6 +12,8 @@ export type LinkKind = "primary" | "neutral";
  * @tag bl-link
  * @summary Baklava Link component for navigation
  *
+ * @slot icon - Custom icon slot for non-standalone variants
+ *
  * @cssproperty [--bl-link-color=--bl-color-primary] Sets the color of link
  * @cssproperty [--bl-link-hover-color=--bl-color-primary-hover] Sets the hover color of link
  * @cssproperty [--bl-link-active-color=--bl-color-primary-active] Sets the active color of link
@@ -24,10 +26,10 @@ export default class BlLink extends LitElement {
   }
 
   /**
-   * Target URL for the link
+   * URL that the hyperlink points to
    */
   @property({ type: String, reflect: true })
-  target = "";
+  href: HTMLAnchorElement["href"] = "";
 
   /**
    * Link variant - inline or standalone
@@ -48,35 +50,64 @@ export default class BlLink extends LitElement {
   kind: LinkKind = "primary";
 
   /**
-   * Whether the link is external
-   */
-  @property({ type: Boolean, reflect: true })
-  external = false;
-
-  /**
    * Aria label for the link
    */
   @property({ type: String, attribute: "aria-label" })
   ariaLabel = "";
 
   /**
-   * Whether the link is disabled
+   * Where to display the linked URL
    */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
+  @property({ type: String, reflect: true })
+  target: HTMLAnchorElement["target"] = "_self";
+
+  /**
+   * Relationship between the current document and the linked document.
+   * Multiple rel values can be specified by separating them with spaces.
+   * Example: "noopener noreferrer"
+   */
+  @property({ type: String, reflect: true })
+  rel: HTMLAnchorElement["rel"] = "";
+
+  /**
+   * Language of the linked document
+   */
+  @property({ type: String, reflect: true })
+  hreflang: HTMLAnchorElement["hreflang"] = "";
+
+  /**
+   * MIME type of the linked document
+   */
+  @property({ type: String, reflect: true })
+  type: HTMLAnchorElement["type"] = "";
+
+  /**
+   * Referrer policy for the link
+   */
+  @property({ type: String, reflect: true, attribute: "referrerpolicy" })
+  referrerPolicy: HTMLAnchorElement["referrerPolicy"] = "";
+
+  /**
+   * Whether to download the resource instead of navigating to it
+   */
+  @property({ type: String, reflect: true })
+  download: HTMLAnchorElement["download"] = "";
+
+  /**
+   * Ping URLs to be notified when following the link
+   */
+  @property({ type: String, reflect: true })
+  ping: HTMLAnchorElement["ping"] = "";
 
   private get isStandalone(): boolean {
     return this.variant === "standalone";
   }
 
   private renderIcon(): TemplateResult | null {
-    if (this.external) {
-      return html`<bl-icon name="external_link" class="icon" aria-hidden="true"></bl-icon>`;
-    }
-    if (this.isStandalone && !this.external) {
+    if (this.isStandalone) {
       return html`<bl-icon name="arrow_right" class="icon" aria-hidden="true"></bl-icon>`;
     }
-    return null;
+    return html`<slot name="icon"></slot>`;
   }
 
   connectedCallback() {
@@ -102,7 +133,6 @@ export default class BlLink extends LitElement {
       standalone: this.isStandalone,
       [`size-${this.size}`]: this.isStandalone,
       [`kind-${this.kind}`]: this.isStandalone,
-      disabled: this.disabled,
     };
 
     const content = html`
@@ -112,17 +142,20 @@ export default class BlLink extends LitElement {
 
     return html`
       <a
-        href="${ifDefined(this.disabled ? undefined : this.target)}"
+        href="${this.href}"
         class="${classMap(classes)}"
-        target="${this.external ? "_blank" : "_self"}"
-        rel="${ifDefined(this.external ? "noopener noreferrer" : undefined)}"
+        target="${ifDefined(this.target)}"
+        rel="${ifDefined(this.rel)}"
+        hreflang="${ifDefined(this.hreflang)}"
+        type="${ifDefined(this.type)}"
+        referrerpolicy="${ifDefined(this.referrerPolicy)}"
+        download="${ifDefined(this.download)}"
+        ping="${ifDefined(this.ping)}"
         role="link"
         aria-label="${ifDefined(this.ariaLabel || undefined)}"
-        aria-disabled="${this.disabled}"
-        tabindex="${this.disabled ? "-1" : "0"}"
+        tabindex="0"
       >
         ${content}
-        ${this.external ? html`<span class="visually-hidden">(opens in new tab)</span>` : null}
       </a>
     `;
   }

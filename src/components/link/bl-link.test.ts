@@ -8,57 +8,61 @@ describe("bl-link", () => {
   });
 
   it("renders with default properties", async () => {
-    const el = await fixture<BlLink>(html`<bl-link target="javascript:void(0)">Home</bl-link>`);
+    const el = await fixture<BlLink>(html`<bl-link href="javascript:void(0)">Home</bl-link>`);
 
     expect(el.variant).to.equal("inline");
     expect(el.size).to.equal("medium");
     expect(el.kind).to.equal("primary");
-    expect(el.external).to.be.false;
-    expect(el.disabled).to.be.false;
-    expect(el.target).to.equal("javascript:void(0)");
+    expect(el.href).to.equal("javascript:void(0)");
+    expect(el.target).to.equal("_self");
+    expect(el.rel).to.equal("");
+    expect(el.hreflang).to.equal("");
+    expect(el.type).to.equal("");
+    expect(el.download).to.equal("");
+    expect(el.ping).to.equal("");
     expect(el.ariaLabel).to.equal("");
   });
 
   it("renders link attributes correctly", async () => {
-    const el = await fixture<BlLink>(html`<bl-link target="javascript:void(0)">Home</bl-link>`);
+    const el = await fixture<BlLink>(html`
+      <bl-link
+        href="https://example.com"
+        target="_blank"
+        rel="noopener"
+        hreflang="en"
+        type="text/html"
+        referrerpolicy="no-referrer"
+        download="file.pdf"
+        ping="https://analytics.example.com"
+      >External Link</bl-link>
+    `);
     const link = el.shadowRoot!.querySelector("a");
 
     expect(link).to.exist;
-    expect(link?.getAttribute("href")).to.equal("javascript:void(0)");
-    expect(link?.getAttribute("target")).to.equal("_self");
-    expect(link?.getAttribute("rel")).to.be.null;
+    expect(link?.getAttribute("href")).to.equal("https://example.com");
+    expect(link?.getAttribute("target")).to.equal("_blank");
+    expect(link?.getAttribute("rel")).to.equal("noopener");
+    expect(link?.getAttribute("hreflang")).to.equal("en");
+    expect(link?.getAttribute("type")).to.equal("text/html");
+    expect(link?.getAttribute("referrerpolicy")).to.equal("no-referrer");
+    expect(link?.getAttribute("download")).to.equal("file.pdf");
+    expect(link?.getAttribute("ping")).to.equal("https://analytics.example.com");
     expect(link?.getAttribute("role")).to.equal("link");
-    expect(link?.getAttribute("aria-disabled")).to.equal("false");
     expect(link?.getAttribute("tabindex")).to.equal("0");
-    expect(link?.getAttribute("aria-label")).to.be.null;
   });
 
   it("renders icons correctly", async () => {
-    const el = await fixture<BlLink>(html`<bl-link target="javascript:void(0)" variant="standalone">Home</bl-link>`);
+    const el = await fixture<BlLink>(html`<bl-link href="javascript:void(0)" variant="standalone">Home</bl-link>`);
 
     expect(el.shadowRoot!.querySelector("bl-icon")?.getAttribute("name")).to.equal("arrow_right");
 
-    el.external = true;
-    await el.updateComplete;
-    expect(el.shadowRoot!.querySelector("bl-icon")?.getAttribute("name")).to.equal("external_link");
-    expect(el.shadowRoot!.querySelector(".visually-hidden")?.textContent).to.equal("(opens in new tab)");
-
     el.variant = "inline";
-    el.external = false;
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector("bl-icon")).to.be.null;
 
-    // Test standalone without external
     el.variant = "standalone";
-    el.external = false;
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector("bl-icon")?.getAttribute("name")).to.equal("arrow_right");
-
-    // Test inline with external
-    el.variant = "inline";
-    el.external = true;
-    await el.updateComplete;
-    expect(el.shadowRoot!.querySelector("bl-icon")?.getAttribute("name")).to.equal("external_link");
   });
 
   it("handles inline variant warning", async () => {
@@ -109,13 +113,16 @@ describe("bl-link", () => {
   it("handles all property combinations", async () => {
     const el = await fixture<BlLink>(html`
       <bl-link
-        target="javascript:void(0)"
+        href="javascript:void(0)"
         variant="standalone"
         size="large"
         kind="neutral"
         aria-label="Home page"
-        external
-        disabled
+        target="_blank"
+        rel="noopener"
+        hreflang="en"
+        type="text/html"
+        referrerpolicy="no-referrer"
       >Home</bl-link>
     `);
 
@@ -125,13 +132,13 @@ describe("bl-link", () => {
     expect(link?.classList.contains("standalone")).to.be.true;
     expect(link?.classList.contains("size-large")).to.be.true;
     expect(link?.classList.contains("kind-neutral")).to.be.true;
-    expect(link?.classList.contains("disabled")).to.be.true;
     expect(link?.getAttribute("aria-label")).to.equal("Home page");
+    expect(link?.getAttribute("href")).to.equal("javascript:void(0)");
     expect(link?.getAttribute("target")).to.equal("_blank");
-    expect(link?.getAttribute("rel")).to.equal("noopener noreferrer");
-    expect(link?.getAttribute("href")).to.be.null;
-    expect(link?.getAttribute("tabindex")).to.equal("-1");
-    expect(link?.getAttribute("aria-disabled")).to.equal("true");
+    expect(link?.getAttribute("rel")).to.equal("noopener");
+    expect(link?.getAttribute("hreflang")).to.equal("en");
+    expect(link?.getAttribute("type")).to.equal("text/html");
+    expect(link?.getAttribute("referrerpolicy")).to.equal("no-referrer");
 
     // Test all size variants
     const sizes = ["small", "medium", "large"] as const;
@@ -149,6 +156,15 @@ describe("bl-link", () => {
       el.kind = kind;
       await el.updateComplete;
       expect(link?.classList.contains(`kind-${kind}`)).to.be.true;
+    }
+
+    // Test all target variants
+    const targets: ["_self", "_blank", "_parent", "_top"] = ["_self", "_blank", "_parent", "_top"];
+
+    for (const target of targets) {
+      el.target = target;
+      await el.updateComplete;
+      expect(link?.getAttribute("target")).to.equal(target);
     }
   });
 });

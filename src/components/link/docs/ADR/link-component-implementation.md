@@ -11,7 +11,6 @@ We need a consistent way to handle navigation and links throughout the applicati
 - Within text content (inline)
 - As standalone elements
 - For internal navigation
-- For external links
 
 ## Decision
 
@@ -19,11 +18,12 @@ We will implement a Link component with the following key characteristics:
 
 1. Two main variants:
    - Inline Links: For use within text content (with validation)
-   - Standalone Links: For use as independent elements
+   - Standalone Links: For use as independent elements with arrow icon
 
 2. Design Constraints:
    - Default color will be primary color from the color palette
-   - Standalone links will include an icon on the right
+   - Standalone links will include an arrow icon on the right
+   - Non-standalone links can have custom icons via slot
    - Three sizes for standalone links: Large, Medium, and Small
    - Links will support hover and focus states
    - Links will support custom colors through CSS properties
@@ -36,7 +36,6 @@ We will implement a Link component with the following key characteristics:
    - Inline variant must be used within text content
    - Links can target:
      - Internal routes within the application
-     - External websites (with external icon)
      - Elements on the same page (anchor links)
 
 4. Technical Implementation:
@@ -44,14 +43,25 @@ We will implement a Link component with the following key characteristics:
    - Props include:
      ```typescript
      interface LinkProps {
-       target: string;                              // Target URL for the link
-       variant?: "inline" | "standalone";           // Link variant (default: "inline")
-       size?: "large" | "medium" | "small";         // Link size for standalone variant (default: "medium")
-       kind?: "primary" | "neutral";                // Link kind for standalone variant (default: "primary")
-       external?: boolean;                          // Whether the link is external (default: false)
-       disabled?: boolean;                          // Whether the link appears disabled (default: false)
-       "aria-label"?: string;                       // Aria label for accessibility
+       href: HTMLAnchorElement["href"];                // URL that the hyperlink points to
+       variant?: "inline" | "standalone";              // Link variant (default: "inline")
+       size?: "large" | "medium" | "small";            // Link size for standalone variant (default: "medium")
+       kind?: "primary" | "neutral";                   // Link kind for standalone variant (default: "primary")
+       target?: HTMLAnchorElement["target"];          // Where to display the linked URL (default: "_self")
+       rel?: HTMLAnchorElement["rel"];                // Relationship between documents
+       hreflang?: HTMLAnchorElement["hreflang"];      // Language of the linked document
+       type?: HTMLAnchorElement["type"];              // MIME type of the linked document
+       referrerPolicy?: HTMLAnchorElement["referrerPolicy"]; // Referrer policy for the link
+       download?: HTMLAnchorElement["download"];       // Whether to download the resource
+       ping?: HTMLAnchorElement["ping"];              // URLs to be notified when following the link
+       "aria-label"?: string;                         // Aria label for accessibility
      }
+     ```
+   - Slots:
+     ```typescript
+     /**
+      * @slot icon - Custom icon slot for non-standalone variants
+      */
      ```
    - CSS Custom Properties:
      ```css
@@ -85,14 +95,14 @@ We will implement a Link component with the following key characteristics:
 
    1. Basic Link:
       ```html
-      <bl-link target="/about">About Page</bl-link>
+      <bl-link href="/about">About Page</bl-link>
       ```
 
    2. Inline Link in Text (✅ Correct Usage):
       ```html
       <p>
         This is a paragraph with an
-        <bl-link target="/about" variant="inline">About Page</bl-link>
+        <bl-link href="/about" variant="inline">About Page</bl-link>
         link in the text.
       </p>
       ```
@@ -101,14 +111,14 @@ We will implement a Link component with the following key characteristics:
       ```html
       <!-- Will show warning in console -->
       <div>
-        <bl-link target="/about" variant="inline">About Page</bl-link>
+        <bl-link href="/about" variant="inline">About Page</bl-link>
       </div>
       ```
 
    4. Standalone Link:
       ```html
       <bl-link
-        target="/about"
+        href="/about"
         variant="standalone"
         size="large"
       >
@@ -116,20 +126,35 @@ We will implement a Link component with the following key characteristics:
       </bl-link>
       ```
 
-   5. External Link:
+   5. Link with Custom Icon:
       ```html
-      <bl-link
-        target="https://example.com"
-        external
-      >
-        External Link
+      <bl-link href="/settings">
+        Settings
+        <bl-icon name="settings" slot="icon"></bl-icon>
       </bl-link>
       ```
 
-   6. Custom Colored Link:
+   6. Link with Native Anchor Attributes:
       ```html
       <bl-link
-        target="/success"
+        href="https://example.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        hreflang="en"
+        type="text/html"
+        referrerpolicy="no-referrer"
+        download="file.pdf"
+        ping="https://analytics.example.com"
+      >
+        External Link
+        <bl-icon name="external_link" slot="icon"></bl-icon>
+      </bl-link>
+      ```
+
+   7. Custom Colored Link:
+      ```html
+      <bl-link
+        href="/success"
         style="
           --bl-link-color: var(--bl-color-success);
           --bl-link-hover-color: var(--bl-color-success-hover);
@@ -137,6 +162,7 @@ We will implement a Link component with the following key characteristics:
         "
       >
         Success Link
+        <bl-icon name="check" slot="icon"></bl-icon>
       </bl-link>
       ```
 
@@ -144,35 +170,47 @@ We will implement a Link component with the following key characteristics:
 
 1. Variants:
    - Inline: For use within text content (with validation)
-   - Standalone: For use as independent elements with icons
+   - Standalone: For use as independent elements with arrow icon
 
-2. Sizes (for standalone variant):
+2. Icons:
+   - Standalone: Fixed arrow icon on the right
+   - Non-standalone: Customizable icon via slot
+
+3. Sizes (for standalone variant):
    - Small
    - Medium (default)
    - Large
 
-3. Kinds (for standalone variant):
+4. Kinds (for standalone variant):
    - Primary (default)
    - Neutral
 
-4. States:
+5. States:
    - Default
    - Hover
    - Active
    - Focus
-   - Disabled
 
-5. Accessibility:
+6. Native Anchor Attributes:
+   - href: URL destination
+   - target: Link target (_self, _blank, etc.)
+   - rel: Document relationships
+   - hreflang: Language of linked document
+   - type: MIME type
+   - referrerPolicy: Referrer policy
+   - download: Download behavior
+   - ping: Ping notifications
+
+7. Accessibility:
    - Proper ARIA attributes
    - Keyboard navigation support
    - Focus management
-   - Screen reader support for external links
 
-6. RTL Support:
+8. RTL Support:
    - Uses CSS logical properties
    - Icons properly positioned in RTL layouts
 
-7. Validation:
+9. Validation:
    - Inline variant usage validation
    - Warning for incorrect usage
    - Runtime checks for proper context
@@ -182,7 +220,9 @@ We will implement a Link component with the following key characteristics:
 ### Positive
 - Consistent navigation pattern across the application
 - Clear separation between navigation (links) and actions (buttons)
-- Type-safe implementation with TypeScript and Lit
+- Type-safe implementation with TypeScript and native HTML types
+- Full support for all native anchor tag attributes
+- Flexible icon customization for non-standalone variants
 - Maintainable and scalable component structure
 - Proper accessibility support
 - RTL language support
@@ -199,4 +239,5 @@ We will implement a Link component with the following key characteristics:
 
 - [Storybook Documentation](https://baklava.design/components/link)
 - [Figma Design](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=23617-1414)
+- [MDN Anchor Element Reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a)
 
