@@ -10,16 +10,13 @@ import BlInput, { InputSize } from "../input/bl-input";
 import "../tooltip/bl-tooltip";
 import style from "./bl-datepicker.css";
 
-export const blDatepickerTag = "bl-datepicker";
-export const blDatepickerChangedEvent = "bl-datepicker-change";
-
 /**
  * @tag bl-datepicker
  * @summary Baklava DatePicker component
  *
  * @cssproperty [--bl-datepicker-input-width] - Sets the width of datepicker input
  **/
-@customElement(blDatepickerTag)
+@customElement("bl-datepicker")
 export default class BlDatepicker extends DatepickerCalendarMixin {
   /**
    * Defines the datepicker input placeholder
@@ -30,13 +27,13 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
    * Sets input size.
    */
   @property({ type: String, reflect: true })
-  inputSize?: InputSize = "medium";
+  size?: InputSize = "medium";
 
   /**
    * Makes datepicker input label as fixed positioned
    */
-  @property({ type: Boolean, attribute: "input-label-fixed", reflect: true })
-  inputLabelFixed = false;
+  @property({ type: Boolean, attribute: "label-fixed", reflect: true })
+  labelFixed = false;
   /**
    * Defines the datepicker input label
    */
@@ -45,8 +42,8 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   /**
    * Defines the custom formatter function
    */
-  @property({ type: Function, attribute: "input-value-formatter" })
-  inputValueFormatter: ((dates: Date[]) => string) | null = null;
+  @property({ type: Function, attribute: "value-formatter" })
+  valueFormatter: ((dates: Date[]) => string) | null = null;
   /**
    * Sets datepicker to disabled
    */
@@ -85,7 +82,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   /**
    * Fires when date selection is changed
    */
-  @event(blDatepickerChangedEvent) private _onBlDatepickerChanged: EventDispatcher<Date[]>;
+  @event("bl-datepicker-change") private _onBlDatepickerChange: EventDispatcher<Date[]>;
 
   static get styles(): CSSResultGroup {
     return [style];
@@ -132,14 +129,14 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
       this._inputValue = "";
     } else {
       this._selectedDates = dates;
-      if (this.inputValueFormatter) {
-        this._inputValue = this.inputValueFormatter(this._selectedDates);
+      if (this.valueFormatter) {
+        this._inputValue = this.valueFormatter(this._selectedDates);
       } else {
         this.defaultInputValueFormatter();
       }
     }
 
-    this._onBlDatepickerChanged(this._selectedDates);
+    this._onBlDatepickerChange(this._selectedDates);
   }
 
   formatDate(date: Date): string {
@@ -215,7 +212,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           .maxDate=${this.maxDate}
           .startOfWeek=${this.startOfWeek}
           .disabledDates=${this.disabledDates}
-          .value=${this._value}
+          .value=${this.value}
           .locale=${this.locale}
           @bl-calendar-change="${(event: CustomEvent) => this.setDatePickerInput(event.detail)}"
         ></bl-calendar>
@@ -264,8 +261,8 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           @click=${this._togglePopover}
           help-text=${this.helpText}
           ?disabled=${this.disabled}
-          .size=${this.inputSize}
-          .labelFixed=${this.inputLabelFixed}
+          .size=${this.size}
+          .labelFixed=${this.labelFixed}
           readonly
         >
           <div slot="icon" class="icon-container" id="icon-container">

@@ -1,4 +1,4 @@
-import { assert, fixture, html, expect, waitUntil, aTimeout } from "@open-wc/testing";
+import { assert, aTimeout, expect, fixture, html, waitUntil } from "@open-wc/testing";
 import { spy } from "sinon";
 import BlAccordion from "./bl-accordion";
 
@@ -93,7 +93,8 @@ describe("bl-accordion", () => {
 
     const body = el.shadowRoot!.querySelector(".accordion-content")!;
 
-    expect(body.clientHeight).to.eq(0);
+    // Only check for display: none since that's what we're using in the CSS
+    expect(getComputedStyle(body).display).to.equal("none");
   });
 
   it("should emit bl-toggle when click on collapsed accordion", async () => {

@@ -1,9 +1,9 @@
 import { assert, elementUpdated, expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
-import BlSelect from "./bl-select";
 import BlButton from "../button/bl-button";
-import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
 import "../checkbox-group/checkbox/bl-checkbox";
+import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
+import BlSelect from "./bl-select";
 import type BlSelectOption from "./option/bl-select-option";
 
 describe("bl-select", () => {
@@ -1002,6 +1002,306 @@ describe("bl-select", () => {
 
       expect(event).to.exist;
       expect(event.detail).to.equal("turkey");
+    });
+  });
+
+  describe("search functionality", () => {
+    it("should handle search with different locales", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select search-bar>
+        <bl-select-option value="tr">İstanbul</bl-select-option>
+        <bl-select-option value="en">Istanbul</bl-select-option>
+      </bl-select>`);
+
+      document.querySelector("html")?.setAttribute("lang", "tr-TR");
+
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+      searchInput?.focus();
+
+      await sendKeys({
+        type: "istanbul",
+      });
+
+      await elementUpdated(el);
+
+      el.options.forEach(option => {
+        if (option.innerText.toLowerCase().includes("istanbul")) {
+          expect(option.hidden).to.be.false;
+        }
+      });
+    });
+
+    it("should fallback to basic toLowerCase when locale is not supported", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select search-bar>
+        <bl-select-option value="tr">Turkey</bl-select-option>
+        <bl-select-option value="en">United States of America</bl-select-option>
+      </bl-select>`);
+
+      // Set an invalid locale
+      document.querySelector("html")?.setAttribute("lang", "invalid-LOCALE");
+
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+      searchInput?.focus();
+
+      await sendKeys({
+        type: "turk",
+      });
+
+      await elementUpdated(el);
+
+      el.options.forEach(option => {
+        if (option.innerText === "Turkey") {
+          expect(option.hidden).to.be.false;
+        } else {
+          expect(option.hidden).to.be.true;
+        }
+      });
+    });
+
+    it("should handle search when no HTML lang attribute is set", async () => {
+      document.querySelector("html")?.removeAttribute("lang");
+
+      const el = await fixture<BlSelect>(html`<bl-select search-bar>
+        <bl-select-option value="tr">Test</bl-select-option>
+        <bl-select-option value="en">Testing</bl-select-option>
+      </bl-select>`);
+
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+      searchInput?.focus();
+
+      await sendKeys({
+        type: "test",
+      });
+
+      await elementUpdated(el);
+
+      el.options.forEach(option => {
+        expect(option.hidden).to.be.false;
+      });
+    });
+
+    it("should handle empty or null textContent in options during search", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select search-bar>
+        <bl-select-option value="empty"></bl-select-option>
+        <bl-select-option value="normal">Test</bl-select-option>
+      </bl-select>`);
+
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+      searchInput?.focus();
+
+      await sendKeys({
+        type: "test",
+      });
+
+      await elementUpdated(el);
+
+      el.options.forEach(option => {
+        if (option.innerText === "") {
+          expect(option.hidden).to.be.true;
+        } else {
+          expect(option.hidden).to.be.false;
+        }
+      });
+    });
+  });
+
+  describe("search functionality fallback", () => {
+    let originalToLocaleLowerCase: (locale?: string | string[]) => string;
+
+    beforeEach(() => {
+      // Store original method before each test
+      originalToLocaleLowerCase = String.prototype.toLocaleLowerCase;
+    });
+
+    afterEach(() => {
+      // Restore original method after each test
+      String.prototype.toLocaleLowerCase = originalToLocaleLowerCase;
+    });
+
+    it("should handle multiple options with fallback search", async () => {
+      const el = await fixture<BlSelect>(html`
+        <bl-select search-bar>
+          <bl-select-option value="option1">Test Option</bl-select-option>
+          <bl-select-option value="option2">Another Test</bl-select-option>
+          <bl-select-option value="option3">No Match</bl-select-option>
+        </bl-select>
+      `);
+
+      // Mock toLocaleLowerCase to throw an error
+      String.prototype.toLocaleLowerCase = () => {
+        throw new Error("Locale not supported");
+      };
+
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+      searchInput?.focus();
+      searchInput!.value = "test";
+      searchInput?.dispatchEvent(new Event("input"));
+
+      await el.updateComplete;
+
+      // Check that options with "test" are visible and others are hidden
+      el.options.forEach(option => {
+        if (option.textContent?.toLowerCase().includes("test")) {
+          expect(option.hidden).to.be.false;
+        } else {
+          expect(option.hidden).to.be.true;
+        }
+      });
+    });
+
+    it("should handle empty search text with fallback", async () => {
+      const el = await fixture<BlSelect>(html`
+        <bl-select search-bar>
+          <bl-select-option value="option1">Test Option</bl-select-option>
+          <bl-select-option value="option2">Another Option</bl-select-option>
+        </bl-select>
+      `);
+
+      // Mock toLocaleLowerCase to throw an error
+      String.prototype.toLocaleLowerCase = () => {
+        throw new Error("Locale not supported");
+      };
+
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+      searchInput?.focus();
+      searchInput!.value = "";
+      searchInput?.dispatchEvent(new Event("input"));
+
+      await el.updateComplete;
+
+      // All options should be visible with empty search
+      el.options.forEach(option => {
+        expect(option.hidden).to.be.false;
+      });
+    });
+
+    it("should handle null textContent with fallback search", async () => {
+      const el = await fixture<BlSelect>(html`
+        <bl-select search-bar>
+          <bl-select-option value="option1"></bl-select-option>
+          <bl-select-option value="option2">Test Option</bl-select-option>
+        </bl-select>
+      `);
+
+      // Mock toLocaleLowerCase to throw an error
+      String.prototype.toLocaleLowerCase = () => {
+        throw new Error("Locale not supported");
+      };
+
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+      searchInput?.focus();
+      searchInput!.value = "test";
+      searchInput?.dispatchEvent(new Event("input"));
+
+      await el.updateComplete;
+
+      // Empty option should be hidden, test option should be visible
+      const [emptyOption, testOption] = el.options;
+
+      expect(emptyOption.hidden).to.be.true;
+      expect(testOption.hidden).to.be.false;
+    });
+
+    it("should maintain search state after multiple searches with fallback", async () => {
+      const el = await fixture<BlSelect>(html`
+        <bl-select search-bar>
+          <bl-select-option value="option1">Test Option</bl-select-option>
+          <bl-select-option value="option2">Another Option</bl-select-option>
+        </bl-select>
+      `);
+
+      // Mock toLocaleLowerCase to throw an error
+      String.prototype.toLocaleLowerCase = () => {
+        throw new Error("Locale not supported");
+      };
+
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+      searchInput?.focus();
+
+      // First search
+      searchInput!.value = "test";
+      searchInput?.dispatchEvent(new Event("input"));
+      await el.updateComplete;
+
+      // Second search
+      searchInput!.value = "another";
+      searchInput?.dispatchEvent(new Event("input"));
+      await el.updateComplete;
+
+      // Check final state
+      const [testOption, anotherOption] = el.options;
+
+      expect(testOption.hidden).to.be.true;
+      expect(anotherOption.hidden).to.be.false;
+    });
+  });
+
+  describe("search localization", () => {
+    it("should search text with user locale", async () => {
+      // Set up with Turkish locale where 'i'.toLocaleLowerCase() => 'i' (not 'ı')
+      document.documentElement.setAttribute("lang", "tr");
+
+      const el = await fixture<BlSelect>(html`
+        <bl-select search-bar>
+          <bl-select-option value="1">İstanbul</bl-select-option>
+          <bl-select-option value="2">Izmir</bl-select-option>
+        </bl-select>
+      `);
+
+      await elementUpdated(el);
+
+      // Simulate search input
+      const searchInput = el.shadowRoot?.querySelector(".search-bar-input") as HTMLInputElement;
+
+      searchInput.value = "i";
+      searchInput.dispatchEvent(new InputEvent("input"));
+
+      await elementUpdated(el);
+
+      // Both options should be visible since 'i' matches both 'İstanbul' and 'Izmir' in Turkish
+      const hiddenOptions = el.options.filter(option => option.hidden);
+
+      expect(hiddenOptions.length).to.equal(0);
+    });
+
+    it("should fallback to basic toLowerCase when locale is not supported", async () => {
+      // Set an invalid locale
+      document.documentElement.setAttribute("lang", "xx");
+
+      const el = await fixture<BlSelect>(html`
+        <bl-select search-bar>
+          <bl-select-option value="1">Test Option</bl-select-option>
+          <bl-select-option value="2">Another Option</bl-select-option>
+        </bl-select>
+      `);
+
+      await elementUpdated(el);
+
+      // Simulate search input
+      const searchInput = el.shadowRoot?.querySelector(".search-bar-input") as HTMLInputElement;
+
+      searchInput.value = "test";
+      searchInput.dispatchEvent(new InputEvent("input"));
+
+      await elementUpdated(el);
+
+      // Only "Test Option" should be visible
+      const visibleOptions = el.options.filter(option => !option.hidden);
+
+      expect(visibleOptions.length).to.equal(1);
+      expect(visibleOptions[0].textContent?.trim()).to.equal("Test Option");
+    });
+
+    // Clean up after tests
+    afterEach(() => {
+      document.documentElement.removeAttribute("lang");
     });
   });
 });

@@ -1,12 +1,11 @@
 import { aTimeout, expect, fixture, html } from "@open-wc/testing";
-import BlDatepicker, { blDatepickerChangedEvent } from "./bl-datepicker";
 import { BlButton, BlDatePicker } from "../../baklava";
-import { blCalendarChangedEvent } from "../calendar/bl-calendar";
 import { CALENDAR_TYPES } from "../calendar/bl-calendar.constant";
 import sinon from "sinon";
+import "./bl-datepicker";
 
 describe("BlDatepicker", () => {
-  let element: BlDatepicker;
+  let element: BlDatePicker;
   let getElementByIdStub: sinon.SinonStub;
   let consoleWarnSpy: sinon.SinonSpy;
 
@@ -69,7 +68,7 @@ describe("BlDatepicker", () => {
     element._inputEl?.click();
     await element.updateComplete;
 
-    element._calendarEl?.dispatchEvent(new CustomEvent(blCalendarChangedEvent, { detail: [new Date()] }));
+    element._calendarEl?.dispatchEvent(new CustomEvent("bl-calendar-change", { detail: [new Date()] }));
     await element.updateComplete;
     await aTimeout(400);
     expect(element._selectedDates.length).to.equal(1);
@@ -79,7 +78,7 @@ describe("BlDatepicker", () => {
   it("should trigger datepicker change event on date selection", async () => {
     const testDate = new Date(2023, 1, 1);
 
-    element.addEventListener(blDatepickerChangedEvent, (event) => {
+    element.addEventListener("bl-datepicker-change", (event) => {
       const customEvent = event as CustomEvent;
 
       expect(customEvent).to.exist;
@@ -87,7 +86,7 @@ describe("BlDatepicker", () => {
 
     });
 
-    element._calendarEl.dispatchEvent(new CustomEvent(blCalendarChangedEvent, { detail: [testDate] }));
+    element._calendarEl.dispatchEvent(new CustomEvent("bl-calendar-change", { detail: [testDate] }));
 
     await element.updateComplete;
   });
@@ -117,7 +116,7 @@ describe("BlDatepicker", () => {
   it("should use custom value formatter when provided", async () => {
     const testDate = new Date(2023, 1, 1);
 
-    element.inputValueFormatter = (dates: Date[]) => `Custom format: ${dates[0].toDateString()}`;
+    element.valueFormatter = (dates: Date[]) => `Custom format: ${dates[0].toDateString()}`;
     element.setDatePickerInput([testDate]);
     await element.updateComplete;
 
@@ -130,7 +129,7 @@ describe("BlDatepicker", () => {
     element.type = CALENDAR_TYPES.MULTIPLE;
     await element.updateComplete;
 
-    element._calendarEl?.dispatchEvent(new CustomEvent(blCalendarChangedEvent, { detail: dates }));
+    element._calendarEl?.dispatchEvent(new CustomEvent("bl-calendar-change", { detail: dates }));
     await element.updateComplete;
 
     expect(element._selectedDates.length).to.equal(2);
@@ -152,7 +151,7 @@ describe("BlDatepicker", () => {
     element.type = CALENDAR_TYPES.RANGE;
     await element.updateComplete;
 
-    element._calendarEl?.dispatchEvent(new CustomEvent(blCalendarChangedEvent, { detail: [startDate, endDate] }));
+    element._calendarEl?.dispatchEvent(new CustomEvent("bl-calendar-change", { detail: [startDate, endDate] }));
     await element.updateComplete;
 
     expect(element._selectedDates.length).to.equal(2);
@@ -259,15 +258,17 @@ describe("BlDatepicker", () => {
   it("should return a single date when value is a single Date", () => {
     const date = new Date("2024-01-01");
 
-    element._value = date;
+    element.value = date;
     expect(element.value).to.equal(date);
   });
 
   it("should return an array of dates when value is an array of Dates", () => {
     const dates = [new Date("2024-01-01"), new Date("2024-02-01")];
 
-    element._value = dates;
-    expect(element.value).to.deep.equal(dates);
+    element.type=CALENDAR_TYPES.MULTIPLE;
+    element.value = dates;
+
+    expect(element.value).to.equal(dates);
   });
 
   it("should return undefined if value is not set", () => {
@@ -277,7 +278,7 @@ describe("BlDatepicker", () => {
   it("should warn when 'value' is not an array for multiple/range selection", async () => {
     element = await fixture<BlDatePicker>(html`
       <bl-datepicker type="multiple" locale="en"></bl-datepicker>`);
-    element._value = new Date();
+    element.value = new Date();
 
     element.firstUpdated();
 
@@ -286,7 +287,7 @@ describe("BlDatepicker", () => {
 
   it("should not warn when value is an array for multiple/range selection", () => {
     element.type = CALENDAR_TYPES.MULTIPLE;
-    element._value = [new Date(), new Date()];
+    element.value = [new Date(), new Date()];
 
     element.firstUpdated();
 
@@ -295,7 +296,7 @@ describe("BlDatepicker", () => {
 
   it("should not warn when 'value' is an array of exactly two Date objects in RANGE mode", () => {
     element.type = CALENDAR_TYPES.RANGE;
-    element._value = [new Date(), new Date()];
+    element.value = [new Date(), new Date()];
 
     element.firstUpdated();
 

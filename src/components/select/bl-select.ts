@@ -3,7 +3,7 @@ import { customElement, property, query, queryAll, state } from "lit/decorators.
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { autoUpdate, computePosition, flip, MiddlewareState, offset, size } from "@floating-ui/dom";
-import { msg, localized } from "@lit/localize";
+import { localized, msg } from "@lit/localize";
 import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
@@ -11,8 +11,8 @@ import { LangKey } from "../../localization";
 import { event, EventDispatcher } from "../../utilities/event";
 import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
 import "../button/bl-button";
-import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
 import "../checkbox-group/checkbox/bl-checkbox";
+import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
 import "../icon/bl-icon";
 import style from "../select/bl-select.css";
 import "../select/option/bl-select-option";
@@ -661,17 +661,26 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     this._handleSearchEvent();
 
     this._connectedOptions.forEach(option => {
-      const isVisible = option.textContent
-        ?.toLocaleLowerCase(this.userLang)
-        .includes(this._searchText.toLocaleLowerCase(this.userLang));
+      const searchText = this._searchText.toLowerCase();
+      let optionText = "";
+
+      if (option.textContent) {
+        try {
+          // Try locale-specific comparison first
+          optionText = option.textContent.toLocaleLowerCase(this.userLang);
+        } catch {
+          // Fallback to basic toLowerCase if locale is not supported
+          optionText = option.textContent.toLowerCase();
+        }
+      }
+
+      const isVisible = optionText.includes(searchText);
 
       option.hidden = !isVisible;
     });
 
     this._selectedOptions = this.options.filter(option => option.selected);
-
     this._handleLastVisibleSearchedOption();
-
     this.requestUpdate();
   }
 

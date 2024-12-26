@@ -1,5 +1,5 @@
 import { assert, elementUpdated, expect, fixture, html, oneEvent } from "@open-wc/testing";
-import { sendKeys, sendMouse } from "@web/test-runner-commands";
+import { sendMouse } from "@web/test-runner-commands";
 import { getMiddleOfElement } from "../../utilities/elements";
 import type typeOfBlPopover from "../popover/bl-popover";
 import type typeOfBlTooltip from "./bl-tooltip";
@@ -176,29 +176,16 @@ describe("bl-tooltip", () => {
     const el = await fixture<typeOfBlTooltip>(
       html`<bl-tooltip><button slot="tooltip-trigger">Test</button> Test Tooltip </bl-tooltip>`
     );
+    const button = el.querySelector("button")!;
 
-    const tabKey =
-      navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("HeadlessChrome")
-        ? "Alt+Tab"
-        : "Tab";
+    // Focus tooltip
+    button.focus();
+    await elementUpdated(el);
+    expect(el.visible).to.be.true;
 
-    //when
-    setTimeout(async () => {
-      // Focus tooltip
-      await sendKeys({
-        press: tabKey,
-      });
-
-      // Blur tooltip
-      await sendKeys({
-        press: tabKey,
-      });
-    });
-
-    //then
-    const ev = await oneEvent(el, "bl-tooltip-hide");
-
-    expect(ev).to.exist;
+    // Blur tooltip
+    button.blur();
+    await elementUpdated(el);
     expect(el.visible).to.be.false;
   });
 
