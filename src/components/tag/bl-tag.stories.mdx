@@ -44,6 +44,7 @@ export const Template = (args) => html`
 
 # Tag
 
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/pull/955)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpuIy4vwuTlDeKN/Baklava-Design-Guide)</bl-badge>
 
 Tags are compact elements that represent an input, attribute, or action.
@@ -93,7 +94,7 @@ Tags can include icons to provide additional visual context.
   <Story name="With Icons">
     {html`
       <bl-tag icon="info">Info Tag</bl-tag>
-      <bl-tag variant="removeable" icon="heart_fill" disabled>Removeable Tag Icon</bl-tag>
+      <bl-tag variant="removeable" icon="heart_fill">Removeable Tag Icon</bl-tag>
     `}
   </Story>
 </Canvas>
