@@ -59,7 +59,7 @@
 }
 
 :host([variant="removeable"]) .remove-button {
-  --bl-border-radius-m: var(--bl-size-m);
+  --bl-border-radius-m: var(--bl-border-radius-circle);
 }
 
 :host([size="small"]) .tag {

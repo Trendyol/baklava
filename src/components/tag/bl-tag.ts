@@ -65,6 +65,8 @@ export default class BlTag extends LitElement {
         ? html`
             <bl-button
               icon="close"
+              size=${this.size === "large" ? "medium" : "small"}
+              label="Remove"
               variant="tertiary"
               kind="neutral"
               class="remove-button"
