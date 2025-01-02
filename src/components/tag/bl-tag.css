@@ -48,7 +48,6 @@
   --color: var(--bl-color-neutral-full);
 }
 
-
 :host([variant="selectable"][disabled]) .tag {
   background-color: var(--bl-color-neutral-lightest);
   border-color: var(--bl-color-neutral-lightest);
