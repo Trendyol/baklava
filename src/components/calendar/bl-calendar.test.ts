@@ -534,7 +534,7 @@ describe("bl-calendar", () => {
 
     const setNextCalendarViewSpy = sinon.spy(element, "setNextCalendarView");
 
-    element.handleDate(new Date(2024, 2, 15));
+    element.handleDate(new Date(element.today.getFullYear()+1,2,15));
 
     expect(setNextCalendarViewSpy).to.have.been.called;
 
