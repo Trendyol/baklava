@@ -34,7 +34,6 @@ export default class DatepickerCalendarMixin extends LitElement {
 
   @property({
     attribute: "disabled-dates",
-    type: Array,
     reflect: true,
   })
   set disabledDates(disabledDates: Date[] | string) {
