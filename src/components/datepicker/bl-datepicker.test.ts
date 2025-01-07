@@ -95,10 +95,19 @@ describe("BlDatepicker", () => {
     element._selectedDates = [new Date(2023, 1, 1)];
     await element.updateComplete;
 
+    element.addEventListener("bl-datepicker-change", (event) => {
+      const customEvent = event as CustomEvent;
+
+      expect(customEvent).to.exist;
+      expect(customEvent.detail).to.deep.equal([]);
+
+    });
+
     const clearButton = element.shadowRoot?.querySelector("bl-button") as BlButton;
 
     clearButton?.click();
     await element.updateComplete;
+
 
     expect(element._selectedDates).to.deep.equal([]);
     expect(element._inputValue).to.equal("");
