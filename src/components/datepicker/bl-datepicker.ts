@@ -147,10 +147,10 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   clearDatepicker() {
-    this._calendarEl.handleClearSelectedDates();
     this._selectedDates = [];
     this._inputValue = "";
     this._floatingDateCount = 0;
+    this._calendarEl.handleClearSelectedDates();
   }
 
   openPopover() {
@@ -242,7 +242,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
               variant="tertiary"
               kind="neutral"
               icon="close"
-              @click=${() => this.clearDatepicker()}
+              @click=${this.clearDatepicker}
             ></bl-button>
             <div class="action-divider"></div>`
         : "";
