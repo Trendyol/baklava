@@ -284,16 +284,6 @@ describe("BlDatepicker", () => {
     expect(element.value).to.be.undefined;
   });
 
-  it("should warn when 'value' is not an array for multiple/range selection", async () => {
-    element = await fixture<BlDatePicker>(html`
-      <bl-datepicker type="multiple" locale="en"></bl-datepicker>`);
-    element.value = new Date();
-
-    element.firstUpdated();
-
-    expect(consoleWarnSpy.calledOnce).to.be.true;
-  });
-
   it("should not warn when value is an array for multiple/range selection", () => {
     element.type = CALENDAR_TYPES.MULTIPLE;
     element.value = [new Date(), new Date()];

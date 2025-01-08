@@ -40,10 +40,10 @@ describe("DatepickerCalendarMixin", () => {
   });
 
   it("should set and get minDate correctly", () => {
-    const minDate = new Date("2024-01-01");
+    const minDate = new Date(2024,1,1);
 
     element.minDate = minDate;
-    expect(element.minDate).to.equal(minDate);
+    expect(element.minDate.getTime()).to.equal(minDate.getTime());
   });
 
   it("should log a warning if minDate is greater than maxDate", () => {
@@ -56,10 +56,10 @@ describe("DatepickerCalendarMixin", () => {
   });
 
   it("should set and get maxDate correctly", () => {
-    const maxDate = new Date("2024-12-31");
+    const maxDate = new Date(2024,12,31);
 
     element.maxDate = maxDate;
-    expect(element.maxDate).to.equal(maxDate);
+    expect(element.maxDate.getTime()).to.equal(maxDate.getTime());
   });
 
   it("should log a warning if maxDate is smaller than minDate", () => {
