@@ -1,4 +1,4 @@
-import { aTimeout, expect, fixture, html } from "@open-wc/testing";
+import { aTimeout, elementUpdated, expect, fixture, html } from "@open-wc/testing";
 import { BlButton, BlDatePicker } from "../../baklava";
 import { CALENDAR_TYPES } from "../calendar/bl-calendar.constant";
 import sinon from "sinon";
@@ -383,6 +383,15 @@ describe("BlDatepicker", () => {
     expect(preventDefaultSpy.called).to.be.true;
 
     expect(focusSpy.called).to.be.true;
+  });
+
+  it("should call setDatePickerInput when _selectedDates changes", async () => {
+    const setDatePickerInputSpy = sinon.spy(element, "setDatePickerInput");
+
+    element.value = [new Date(2025,0,10)];
+    await elementUpdated(element);
+
+    expect(setDatePickerInputSpy).to.have.been.calledOnceWith(element._selectedDates);
   });
 
 });
