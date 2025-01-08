@@ -6,11 +6,10 @@ export type CalendarView = CALENDAR_VIEWS;
 
 export type CalendarType = CALENDAR_TYPES;
 export type CalendarDay = { value: number; name: string };
-export type CalendarDate = Date;
 
 export type RangePickerDates = {
-  startDate?: CalendarDate;
-  endDate?: CalendarDate;
+  startDate?: Date;
+  endDate?: Date;
 };
 
-export type Calendar = Map<string, CalendarDate[]>;
+export type Calendar = Map<string, Date[]>;

@@ -53,6 +53,7 @@ export const SingleSplitButtonTemplate = (args) => html`<bl-split-button
     ?disabled=${args.disabled}
     ?dropdown-disabled=${args.dropdownDisabled}
     style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+    dir=${ifDefined(args.direction)}
     >
       <bl-dropdown-group caption="Caption">
         <bl-dropdown-item>${args.content || 'Action 1'}</bl-dropdown-item>

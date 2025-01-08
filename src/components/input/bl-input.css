@@ -104,14 +104,14 @@ label {
   transition: all ease-in 0.1s;
   font: var(--input-font);
   top: var(--padding-vertical);
-  left: var(--bl-input-padding-start, var(--padding-horizontal));
-  right: var(--bl-input-padding-end, var(--padding-horizontal));
+  inset-inline-start: var(--bl-input-padding-start, var(--padding-horizontal));
+  inset-inline-end: var(--bl-input-padding-end, var(--padding-horizontal));
   pointer-events: none;
   color: var(--bl-color-neutral-light);
 }
 
 .has-icon label {
-  right: calc(
+  inset-inline-end: calc(
     var(--bl-input-padding-end, var(--padding-horizontal)) + var(--icon-size) +
       var(--padding-vertical)
   );
@@ -140,6 +140,7 @@ input {
   color: var(--text-color);
   -webkit-text-fill-color: var(--text-color);
   background-color: transparent;
+  cursor: var(--bl-input-cursor, unset);
 }
 
 input::-webkit-credentials-auto-fill-button {
@@ -147,7 +148,7 @@ input::-webkit-credentials-auto-fill-button {
 }
 
 :where(.wrapper:focus-within, .wrapper.has-value) input {
-  padding-left: var(--label-padding);
+  padding-inline-start: var(--label-padding);
 }
 
 input:disabled {
@@ -189,7 +190,7 @@ input:-webkit-autofill {
   flex-basis: var(--icon-size);
   align-self: center;
   height: var(--icon-size);
-  margin-right: var(--label-padding);
+  margin-inline-end: var(--label-padding);
 }
 
 bl-icon:not(.reveal-icon),
@@ -263,8 +264,12 @@ bl-icon[name="eye_on"] {
 :host(:not([label-fixed])) :focus-within label,
 :host(:not([label-fixed])) .has-value label {
   top: 0;
-  left: calc(var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding));
-  right: calc(var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding));
+  inset-inline-start: calc(
+    var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding)
+  );
+  inset-inline-end: calc(
+    var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding)
+  );
   transform: translateY(-50%);
   font: var(--bl-font-caption);
   color: var(--bl-color-neutral-dark);

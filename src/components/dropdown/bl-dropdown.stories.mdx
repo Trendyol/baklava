@@ -61,6 +61,23 @@ export const SingleDropdownButtonTemplate = (args) => html`<bl-dropdown
       </bl-dropdown-group>
       </bl-dropdown>`
 
+export const IconDropdownTemplate = (args) => html`<bl-dropdown
+    variant=${ifDefined(args.variant)}
+    kind=${ifDefined(args.kind)}
+    size=${ifDefined(args.size)}
+    label="${ifDefined(args.label)}"
+    icon="${ifDefined(args.icon)}"
+    ?disabled=${args.disabled}
+    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+      ><bl-dropdown-group caption="Caption">
+        <bl-dropdown-item>${args.content || 'Action 1'}</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+      </bl-dropdown-group>
+      <bl-dropdown-item>Action 3</bl-dropdown-item>
+      <bl-dropdown-item icon="info">Action 4</bl-dropdown-item>
+      <bl-dropdown-item>Action 5</bl-dropdown-item>
+      </bl-dropdown>`
+
 export const Template = (args) => html`
 ${SingleDropdownButtonTemplate({...args})}
 ${SingleDropdownButtonTemplate({variant: 'secondary', ...args})}
@@ -123,6 +140,20 @@ If dropdown button has an action with a long text that can not fit in a single l
 <Canvas>
   <Story name="Automatic Left Align" args={{ label: 'Dropdown Button', content: 'Action with very long text' }} play={dropdownOpener}>
     {SingleDropdownButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Dropdown Button Icons
+
+You can add icons to your dropdown buttons using the `icon` attribute. The icon will be displayed on the left side of the button label.
+
+<Canvas>
+  <Story name="With Icons" args={{ label: 'Dropdown Button' }}>
+    {html`
+      ${IconDropdownTemplate({label: 'Settings', icon: 'settings', variant: 'primary'})}
+      ${IconDropdownTemplate({label: 'Settings', icon: 'settings', variant: 'secondary'})}
+      ${IconDropdownTemplate({label: 'Add Item', icon: 'plus_fill', variant: 'tertiary'})}
+    `}
   </Story>
 </Canvas>
 
