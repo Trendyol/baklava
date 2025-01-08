@@ -134,6 +134,24 @@ You can set input width of datepicker as you wish.
   </Story>
 </Canvas>
 
+
+### Min - Max Date
+
+You can set min date or max date for the datepicker.
+
+<Canvas>
+  <Story name="Set min and max date"
+         args={{
+           type: 'single',
+           label: 'Set min and max date',
+           placeholder: 'Set min and max date',
+           minDate: `${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 2)}`,
+           maxDate: `${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)}`
+         }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
 ## Reference
 
 <ArgsTable of="bl-datepicker" />
