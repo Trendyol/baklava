@@ -200,7 +200,12 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   }
 
   checkIfSelectedDate(calendarDate: Date) {
-    return this._selectedDates?.some(date => date?.getTime() === calendarDate.getTime());
+    return this._selectedDates?.some(
+      date =>
+        date.getFullYear() === calendarDate.getFullYear() &&
+        date.getMonth() === calendarDate.getMonth() &&
+        date.getDate() === calendarDate.getDate()
+    );
   }
 
   checkIfDateIsToday(calendarDate: Date) {
