@@ -14,7 +14,7 @@ class MyInvalidInput extends LitElement {
   validationTarget: HTMLInputElement;
 
   @property({ reflect: true, type: String })
-  error: string = "";
+  error: string;
 
   render() {
     return html`<input required />`;
@@ -27,7 +27,7 @@ class MyCustomErrorInput extends LitElement {
   validationTarget: HTMLInputElement;
 
   @property({ reflect: true, type: String })
-  error: string = "";
+  error: string;
 
   render() {
     return html`<input />`;

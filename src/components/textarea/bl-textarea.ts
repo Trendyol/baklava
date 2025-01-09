@@ -28,7 +28,7 @@ export default class BlTextarea extends FormControlMixin(LitElement) {
   validationTarget: HTMLTextAreaElement;
 
   @property({ reflect: true, type: String })
-  error: string = "";
+  error: string;
 
   /**
    * Name of textarea

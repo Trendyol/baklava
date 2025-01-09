@@ -3,6 +3,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { live } from "lit/directives/live.js";
+import { localized, msg } from "@lit/localize";
 import { FormControlMixin } from "@open-wc/form-control";
 import { submit } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
@@ -45,6 +46,7 @@ export type InputSize = "small" | "medium" | "large";
  * @cssproperty [--bl-input-padding-end] Sets the padding end
  */
 @customElement("bl-input")
+@localized()
 export default class BlInput extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
@@ -200,7 +202,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   @property({ reflect: true, type: String })
-  error: string = "";
+  error: string;
 
   private _customInvalidText: string;
 
@@ -282,7 +284,10 @@ export default class BlInput extends FormControlMixin(LitElement) {
    */
   async forceCustomError() {
     await this.updateComplete;
-    this.setCustomValidity(this.customInvalidText || "An error occurred");
+    this.setCustomValidity(
+      this.customInvalidText ||
+        msg("An error occurred", { desc: "bl-input: default custom error message" })
+    );
     this.setValue(this.value);
     this.reportValidity();
   }
