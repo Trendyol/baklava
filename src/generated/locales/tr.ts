@@ -10,6 +10,7 @@
 
     export const templates = {
       's144508ac0e146c46': `Hiçbir Sonuç Bulunamadı`,
+'s3f9c368cd44f682b': `Bir hata oluştu`,
 's5d929ff1619ac0c9': `Arama`,
 's716a6024e3fe999c': `Göster`,
 's76ddb3a843ed8e06': `Aramayı Temizle`,

@@ -79,7 +79,10 @@ import { extraPadding } from '../../utilities/chromatic-decorators';
     },
     helpText: {
       control: 'text'
-    }
+    },
+    error: {
+      control: 'text',
+    },
   }}
 />
 
@@ -106,6 +109,7 @@ export const SingleInputTemplate = (args) => html`<bl-input
     step='${ifDefined(args.step)}'
     icon='${ifDefined(args.icon)}'
     size='${ifDefined(args.size)}'
+    error='${ifDefined(args.error)}'
   >${args.slot?.()}</bl-input>`
 
 export const SizeVariantsTemplate = args => html`
@@ -249,19 +253,38 @@ Input validation will run after user enters a value and go out from the input. I
   </Story>
 </Canvas>
 
-Validation error messages are used from default browser error messages by default. If you want you can override error message by setting `invalid-text` attribute.
+### Custom Error Text
+
+Validation error messages are used from default browser error messages by default. If you want to override, you can do it in a native-like structure as below.
+
+```html
+<bl-input id="input" required />
+
+<script>
+  const blInput = document.getElementById("input");
+  blInput.addEventListener("bl-input", (e) => {
+    if(e.target.validity.valueMissing){
+      e.target.setCustomValidity("Custom Error Text");
+    }else{
+      e.target.setCustomValidity("");
+    }
+  });
+</script>
+```
+
+### Custom Validation
+
+If you want to use a different validation than all validations, you can do this with the `error` attribute. *Native validators will always be superior to custom errors.*
+
+<bl-alert icon variant="warning">When you use this attribute, the `dirty` prop will instantly become true.</bl-alert>
 
 <Canvas>
-  <Story name="Custom Error Message"
-         args={{ type: 'text', label: 'User Name', required: true, customInvalidText: 'This field is mandatory' }}
+  <Story name="Custom Validation"
+         args={{ type: 'text', label: 'User Name', error: 'I am custom validation' }}
   >
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
-
-You can also set input validation as invalid by calling `forceCustomError()` method of the input. In this case input will be in invalid state and will report
-its validity. Error message can be set with `invalid-text`. To clear this error state you would call `clearCustomError()` method. With the help of these 2 methods
-you can run your custom validation logic outside of the basic validation rules we provide with validation attributes.
 
 ## Input Sizes
 

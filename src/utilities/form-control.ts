@@ -1,4 +1,4 @@
-import { maxLengthValidator } from "@open-wc/form-control";
+import { maxLengthValidator, SyncValidator } from "@open-wc/form-control";
 
 const validityStates: Array<keyof ValidityState> = [
   "valueMissing",
@@ -10,10 +10,9 @@ const validityStates: Array<keyof ValidityState> = [
   "stepMismatch",
   "badInput",
   "patternMismatch",
-  "customError",
 ];
 
-export const innerInputValidators = validityStates.map(key => ({
+export const innerInputValidators: SyncValidator[] = validityStates.map(key => ({
   key,
   isValid(instance: HTMLElement & { validationTarget: HTMLInputElement }) {
     if (instance.validationTarget) {
@@ -21,7 +20,27 @@ export const innerInputValidators = validityStates.map(key => ({
     }
     return true;
   },
+  message: "",
 }));
+
+innerInputValidators.push({
+  key: "customError",
+  attribute: "error",
+  message(instance) {
+    return instance.error;
+  },
+  isValid(instance: HTMLElement & { error: string; validationTarget: HTMLInputElement }) {
+    if (instance.error) {
+      return false;
+    }
+
+    if (instance.validationTarget) {
+      return !instance.validationTarget.validity["customError"];
+    }
+
+    return true;
+  },
+});
 
 export const textareaLengthValidator = {
   ...maxLengthValidator,

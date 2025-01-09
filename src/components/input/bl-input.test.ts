@@ -204,6 +204,43 @@ describe("bl-input", () => {
       expect(errorMessageElement).to.visible;
     });
 
+    it("should show custom error", async () => {
+      const errorMessage = "This field is mandatory";
+      const el = await fixture<BlInput>(
+        html`<bl-input error="${errorMessage}"></bl-input>`
+      );
+
+      await elementUpdated(el);
+
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector(".invalid-text")
+      );
+
+      expect(el.validity.valid).to.be.false;
+
+      expect(errorMessageElement).to.exist;
+      expect(errorMessageElement?.innerText).to.equal(errorMessage);
+    });
+
+    it("should show custom invalid text", async () => {
+      const invalidText = "This field is mandatory";
+      const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
+
+      el.setCustomValidity(invalidText);
+      el.setValue(el.value);
+      el.reportValidity();
+
+      await elementUpdated(el);
+
+      expect(el.validity.valid).to.be.false;
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector(".invalid-text")
+      );
+
+      expect(errorMessageElement).to.visible;
+      expect(errorMessageElement?.innerText).to.equal(invalidText);
+    });
+
     it("should set custom error state with forceCustomError method", async () => {
       const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
 
