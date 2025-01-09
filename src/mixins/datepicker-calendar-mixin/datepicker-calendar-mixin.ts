@@ -34,7 +34,6 @@ export default class DatepickerCalendarMixin extends LitElement {
 
   @property({
     attribute: "disabled-dates",
-    type: Array,
     reflect: true,
   })
   set disabledDates(disabledDates: Date[] | string) {
@@ -65,10 +64,15 @@ export default class DatepickerCalendarMixin extends LitElement {
 
   @property({ type: Date, attribute: "max-date", reflect: true })
   set maxDate(maxDate: Date) {
+    if (isNaN(new Date(maxDate).getTime())) {
+      console.warn("Invalid maxDate value.");
+      return;
+    }
     if (this._minDate && this._minDate >= maxDate) {
       console.warn("maxDate cannot be smaller than minDate.");
     } else {
-      this._maxDate = maxDate;
+      this._maxDate = new Date(maxDate);
+      this.requestUpdate("maxDate", maxDate);
     }
   }
 
@@ -83,10 +87,15 @@ export default class DatepickerCalendarMixin extends LitElement {
 
   @property({ type: Date, attribute: "min-date", reflect: true })
   set minDate(minDate: Date) {
+    if (isNaN(new Date(minDate).getTime())) {
+      console.warn("Invalid minDate value.");
+      return;
+    }
     if (this._maxDate && this._maxDate <= minDate) {
       console.warn("minDate cannot be greater than maxDate.");
     } else {
-      this._minDate = minDate;
+      this._minDate = new Date(minDate);
+      this.requestUpdate("minDate", minDate);
     }
   }
 

@@ -52,6 +52,29 @@ In the page, import the component using `dynamic` with ssr off.
 const Button = dynamic(() => import("@/components/Button"), { ssr: false });
 ```
 
+Or you can export the component as dynamic to avoid type errors.
+
+```jsx
+
+"use client";
+
+import dynamic from 'next/dynamic';
+import type { ComponentProps } from 'react';
+import { BlButton } from "@trendyol/baklava/dist/baklava-react";
+
+type ButtonProps = ComponentProps<typeof BlButton>;
+
+const Button = (props: ButtonProps) => (
+  <BlButton {...props}>Click me!</BlButton>
+);
+
+const DynamicButton = dynamic<ButtonProps>(() =>
+  Promise.resolve(Button)
+);
+
+export default DynamicButton;
+```
+
 [Here is the demo repository](https://github.com/trendyol/baklava/tree/next/examples/next-app-router-ssr). You can also preview it live with [StackBlitz](https://stackblitz.com/github/trendyol/baklava/tree/next/examples/next-app-router-ssr).
 
 ## Using with SSR

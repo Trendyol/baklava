@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, TemplateResult } from "lit";
+import { CSSResultGroup, html, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { BlCalendar, BlPopover } from "../../baklava";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
@@ -147,10 +147,10 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   clearDatepicker() {
-    this._calendarEl.handleClearSelectedDates();
     this._selectedDates = [];
     this._inputValue = "";
     this._floatingDateCount = 0;
+    this._calendarEl.handleClearSelectedDates();
   }
 
   openPopover() {
@@ -193,6 +193,12 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
     this._inputEl?.addEventListener("mousedown", this._onInputMouseDown);
 
     if (this._selectedDates) {
+      this.setDatePickerInput(this._selectedDates);
+    }
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has("_selectedDates")) {
       this.setDatePickerInput(this._selectedDates);
     }
   }
@@ -242,7 +248,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
               variant="tertiary"
               kind="neutral"
               icon="close"
-              @click=${() => this.clearDatepicker()}
+              @click=${this.clearDatepicker}
             ></bl-button>
             <div class="action-divider"></div>`
         : "";

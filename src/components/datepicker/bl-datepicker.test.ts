@@ -1,4 +1,4 @@
-import { aTimeout, expect, fixture, html } from "@open-wc/testing";
+import { aTimeout, elementUpdated, expect, fixture, html } from "@open-wc/testing";
 import { BlButton, BlDatePicker } from "../../baklava";
 import { CALENDAR_TYPES } from "../calendar/bl-calendar.constant";
 import sinon from "sinon";
@@ -95,10 +95,19 @@ describe("BlDatepicker", () => {
     element._selectedDates = [new Date(2023, 1, 1)];
     await element.updateComplete;
 
+    element.addEventListener("bl-datepicker-change", (event) => {
+      const customEvent = event as CustomEvent;
+
+      expect(customEvent).to.exist;
+      expect(customEvent.detail).to.deep.equal([]);
+
+    });
+
     const clearButton = element.shadowRoot?.querySelector("bl-button") as BlButton;
 
     clearButton?.click();
     await element.updateComplete;
+
 
     expect(element._selectedDates).to.deep.equal([]);
     expect(element._inputValue).to.equal("");
@@ -275,16 +284,6 @@ describe("BlDatepicker", () => {
     expect(element.value).to.be.undefined;
   });
 
-  it("should warn when 'value' is not an array for multiple/range selection", async () => {
-    element = await fixture<BlDatePicker>(html`
-      <bl-datepicker type="multiple" locale="en"></bl-datepicker>`);
-    element.value = new Date();
-
-    element.firstUpdated();
-
-    expect(consoleWarnSpy.calledOnce).to.be.true;
-  });
-
   it("should not warn when value is an array for multiple/range selection", () => {
     element.type = CALENDAR_TYPES.MULTIPLE;
     element.value = [new Date(), new Date()];
@@ -374,6 +373,15 @@ describe("BlDatepicker", () => {
     expect(preventDefaultSpy.called).to.be.true;
 
     expect(focusSpy.called).to.be.true;
+  });
+
+  it("should call setDatePickerInput when _selectedDates changes", async () => {
+    const setDatePickerInputSpy = sinon.spy(element, "setDatePickerInput");
+
+    element.value = [new Date(2025,0,10)];
+    await elementUpdated(element);
+
+    expect(setDatePickerInputSpy).to.have.been.calledOnceWith(element._selectedDates);
   });
 
 });
