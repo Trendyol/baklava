@@ -257,7 +257,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
       <div class="datepicker-content" id="datepicker-content" tabindex="-1">
         <bl-input
           .value="${this._inputValue}"
-          label="${this.label}"
+          .label="${this.label}"
           placeholder="${this.placeholder}"
           class="datepicker-input"
           role="button"
