@@ -1,5 +1,5 @@
 :host {
-  width: fit-content;
+  width: 314px;
   display: block;
 }
 
@@ -7,16 +7,14 @@
   --bl-input-cursor: pointer;
   --icon-size: var(--line-height);
   --icon-color: var(--bl-color-neutral-light);
-  --datepicker-width: 314px;
 
-  display: flex;
-  flex-direction: column;
-  gap: var(--bl-size-2xs);
-  width: fit-content;
+  width: 100%;
+  position: relative;
+  display: grid;
 }
 
 .datepicker-input {
-  width: var(--bl-datepicker-input-width, var(--datepicker-width));
+  width: var(--bl-datepicker-input-width, auto);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
