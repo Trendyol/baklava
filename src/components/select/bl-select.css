@@ -167,7 +167,9 @@
 }
 
 .selected-options li {
-  display: inline;
+  display: flex;
+  align-items: center;
+  gap: var(--bl-size-2xs);
   font-size: var(--font-size);
   color: var(--text-color);
 }
