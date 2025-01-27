@@ -371,9 +371,13 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   private inputTemplate() {
     const inputSelectedOptions = html`<ul class="selected-options">
-      ${this._selectedOptions.map(
-        item => html`<li>${item.getAttribute("label") || item.textContent}</li>`
-      )}
+      ${this._selectedOptions.map(item => {
+        const icon = item.icon
+          ? html`<bl-icon name=${item.icon}></bl-icon>`
+          : item.querySelectorAll("[slot=icon]");
+
+        return html`<li>${icon}${item.getAttribute("label") || item.textContent}</li>`;
+      })}
     </ul>`;
 
     const isAllSelectedDisabled =

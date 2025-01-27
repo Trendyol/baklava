@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { FormValue } from "@open-wc/form-helpers";
 import { event, EventDispatcher } from "../../../utilities/event";
+import { BaklavaIcon } from "../../icon/icon-list";
 import BlSelect from "../bl-select";
 import style from "./bl-select-option.css";
 
@@ -43,6 +44,12 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
    */
   @property({ type: Boolean, reflect: true })
   selected = false;
+
+  /**
+   * Sets the name of the icon
+   */
+  @property({ type: String })
+  icon?: BaklavaIcon;
 
   @state()
   multiple = false;
@@ -86,6 +93,8 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
   private blSelect: BlSelect<ValueType> | null;
 
   private singleOptionTemplate() {
+    const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : "";
+
     return html`<div
       class="single-option focus-target"
       @blur=${this.blur}
@@ -94,6 +103,7 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
       role="option"
       aria-selected="${this.selected}"
     >
+      <slot name="icon">${icon}</slot>
       <slot></slot>
     </div>`;
   }

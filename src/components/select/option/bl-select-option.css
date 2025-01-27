@@ -32,7 +32,8 @@
 
 .single-option {
   width: 100%;
-  display: block;
+  display: flex;
+  align-items: center;
   cursor: pointer;
   color: var(--option-color);
   margin: var(--option-spacing);
