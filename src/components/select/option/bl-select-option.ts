@@ -93,7 +93,7 @@ export default class BlSelectOption<ValueType extends FormValue = string> extend
   private blSelect: BlSelect<ValueType> | null;
 
   private singleOptionTemplate() {
-    const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : "";
+    const icon = this.icon ? html`<bl-icon name=${this.icon}></bl-icon>` : null;
 
     return html`<div
       class="single-option focus-target"

@@ -44,6 +44,10 @@
   outline: none;
 }
 
+:host ::slotted([slot="icon"]), :host bl-icon{
+  margin-right: var(--bl-size-2xs);
+}
+
 .single-option:focus-visible::after {
   content: "";
   position: absolute;
