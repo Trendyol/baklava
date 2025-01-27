@@ -374,7 +374,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       ${this._selectedOptions.map(item => {
         const icon = item.icon
           ? html`<bl-icon name=${item.icon}></bl-icon>`
-          : item.querySelectorAll("[slot=icon]");
+          : Array.from(item.querySelectorAll("[slot=icon]")).map(el => el.cloneNode(true));
 
         return html`<li>${icon}${item.getAttribute("label") || item.textContent}</li>`;
       })}
