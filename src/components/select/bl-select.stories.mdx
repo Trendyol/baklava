@@ -132,13 +132,6 @@ export const SpecialUseCaseTemplate = () => html`<bl-select style="width: 50%" p
   <bl-select-option value="3">Option 3</bl-select-option>
 </bl-select>`;
 
-export const IconTemplate = () => html`<bl-select label="Choose country" size="small">
-  <bl-select-option icon="info" value="tr">Turkiye</bl-select-option>
-  <bl-select-option icon="star" value="nl">The Netherlands</bl-select-option>
-  <bl-select-option icon="book" value="de">Germany</bl-select-option>
-  <bl-select-option icon="code" value="uk">United Kingdom</bl-select-option>
-</bl-select>`;
-
 export const SelectTemplate = (args) => html`<bl-select
     label=${ifDefined(args.label)}
     class=${ifDefined(args.class)}
@@ -160,7 +153,7 @@ export const SelectTemplate = (args) => html`<bl-select
     .value=${ifDefined(args.value)}>${
   (args.options || defaultOptions).map((option) => html`
   <bl-select-option value=${ifDefined(option.value)} ?selected=${
-    ( args.selected || []).includes(option.value) } ?disabled=${option.disabled} ?icon=${ifDefined(option.icon)}>${option.label}</bl-select-option>`
+    ( args.selected || []).includes(option.value) } ?disabled=${option.disabled} icon=${ifDefined(option.icon)}>${option.label}</bl-select-option>`
   )}
 </bl-select>`
 
@@ -358,7 +351,7 @@ If `bl-select-option` has icon by `icon` attribute, `bl-select` would render the
 
 <Canvas>
   <Story name="Select With Icons" args={{ options: optionsWithIcon, placeholder: "Choose Payment Method"  }} play={selectOpener}>
-    {IconTemplate.bind({})}
+    {SelectTemplate.bind({})}
   </Story>
 </Canvas>
 
