@@ -23,6 +23,24 @@ describe("bl-select", () => {
     );
   });
 
+  it("should rendered with icon", async () => {
+    const el = await fixture<BlSelectOption>(html`<bl-select-option icon="info"></bl-select-option>`);
+
+    expect(el).shadowDom.equal(
+      `<div class="option-container">
+       <div class="focus-target single-option" role="option" aria-selected="false">
+        <slot name="icon">
+            <bl-icon name="info">
+            </bl-icon>
+        </slot>
+        <slot>
+        </slot>
+       </div>
+      </div>
+      `
+    );
+  });
+
   it("should have aria-selected attribute set to true if the option is selected", async function () {
     const el = await fixture<BlSelectOption>(
       html`<bl-select-option value="basketball" selected>Basketball</bl-select-option>`
