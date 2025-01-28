@@ -44,7 +44,7 @@
   outline: none;
 }
 
-:host ::slotted([slot="icon"]), :host bl-icon{
+:host ::slotted([slot="icon"]), :host bl-icon {
   margin-right: var(--bl-size-2xs);
 }
 
