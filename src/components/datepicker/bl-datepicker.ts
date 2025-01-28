@@ -218,12 +218,13 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
         ></bl-calendar>
       </bl-popover>
     `;
-    const additionalDates = this._calendarEl?._dates
-      ?.slice(this._fittingDateCount)
-      .map(date => {
-        return this.formatDate(date);
-      })
-      .join(",");
+    const additionalDates =
+      this._calendarEl?._dates
+        ?.slice(this._fittingDateCount)
+        .map(date => {
+          return this.formatDate(date);
+        })
+        .join(",") ?? "";
 
     const formattedAdditionalDates = this.formatAdditionalDates(additionalDates);
 
