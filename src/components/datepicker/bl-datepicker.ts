@@ -162,7 +162,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   formatAdditionalDates(str: string): TemplateResult[] {
-    const parts = str?.split(",");
+    const parts = str.split(",");
 
     return parts?.reduce<TemplateResult[]>((acc, part, index) => {
       if (index > 0 && index % 3 === 0) {

@@ -3,7 +3,7 @@ import { customElement, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
 import { event, EventDispatcher } from "../../utilities/event";
-import { normalizeValue } from "../../utilities/normalize-calendar-value";
+import { formatToDateArray } from "../../utilities/format-to-date-array";
 import "../button/bl-button";
 import "../icon/bl-icon";
 import {
@@ -351,7 +351,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
 
   updated(changedProperties: PropertyValues) {
     if (changedProperties.has("value")) {
-      const dates = normalizeValue(this._value);
+      const dates = formatToDateArray(this._value);
 
       if (!dates.length) {
         this._dates = [];
