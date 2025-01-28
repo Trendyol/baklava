@@ -1,4 +1,4 @@
-import { assert, elementUpdated, fixture, expect, html, oneEvent } from "@open-wc/testing";
+import { assert, elementUpdated, expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
 import BlSelectOption from "./bl-select-option";
 
@@ -15,6 +15,8 @@ describe("bl-select", () => {
     expect(el).shadowDom.equal(
       `<div class="option-container">
        <div class="focus-target single-option" role="option" aria-selected="false">
+        <slot name="icon">
+        </slot>
         <slot>
         </slot>
        </div>
@@ -39,6 +41,14 @@ describe("bl-select", () => {
       </div>
       `
     );
+  });
+
+  it("should rendered with custom icon", async () => {
+    const el = await fixture<BlSelectOption>(html`<bl-select-option><bl-icon slot="icon" name="info"></bl-icon></bl-select-option>`);
+
+    const iconSlot = el.shadowRoot!.querySelector<HTMLSlotElement>("slot[name=icon]")!;
+
+    expect(iconSlot.assignedElements()).deep.equal([el.querySelector("bl-icon")]);
   });
 
   it("should have aria-selected attribute set to true if the option is selected", async function () {

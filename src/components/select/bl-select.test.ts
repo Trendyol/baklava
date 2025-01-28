@@ -132,7 +132,7 @@ describe("bl-select", () => {
 
     const selectedOptions = el.shadowRoot?.querySelector<HTMLUListElement>(".selected-options");
 
-    expect(selectedOptions?.children[0].children[0]).to.equal("<bl-icon name=\"info\"></bl-icon>");
+    expect(selectedOptions?.children[0].children[0].outerHTML).to.equal("<bl-icon name=\"info\"></bl-icon>");
   });
   it("should open select menu", async () => {
     const el = await fixture<BlSelect>(html`<bl-select><bl-select-option value="1">Option 1</bl-select-option></bl-select>`);
