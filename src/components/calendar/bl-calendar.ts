@@ -1,8 +1,9 @@
-import { CSSResultGroup, html } from "lit";
+import { CSSResultGroup, html, PropertyValues } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
 import { event, EventDispatcher } from "../../utilities/event";
+import { formatToDateArray } from "../../utilities/format-to-date-array";
 import "../button/bl-button";
 import "../icon/bl-icon";
 import {
@@ -32,6 +33,8 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   _calendarYears: number[] = [];
   @state()
   _calendarDays: CalendarDay[] = [];
+  @state()
+  _dates: Date[] = [];
   /**
    * Fires when date selection changes
    */
@@ -56,7 +59,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   }
 
   public handleClearSelectedDates = () => {
-    this._selectedDates = [];
+    this._dates = [];
     this._onBlCalendarChange([]);
     this.clearRangePickerStyles();
   };
@@ -161,46 +164,46 @@ export default class BlCalendar extends DatepickerCalendarMixin {
         break;
     }
 
-    this._onBlCalendarChange(this._selectedDates);
+    this._onBlCalendarChange(this._dates);
     this.requestUpdate();
   }
 
   handleSingleSelectCalendar(calendarDate: Date) {
-    this._selectedDates = [calendarDate];
+    this._dates = [calendarDate];
   }
 
   handleMultipleSelectCalendar(calendarDate: Date) {
-    const dateExist = this._selectedDates?.some(d => d.getTime() === calendarDate.getTime());
+    const dateExist = this._dates?.some(d => d.getTime() === calendarDate.getTime());
 
     dateExist
-      ? this._selectedDates?.splice(
-          this._selectedDates?.findIndex(d => d.getTime() === calendarDate.getTime()),
+      ? this._dates?.splice(
+          this._dates?.findIndex(d => d.getTime() === calendarDate.getTime()),
           1
         )
-      : this._selectedDates.push(calendarDate);
+      : this._dates.push(calendarDate);
   }
 
   handleRangeSelectCalendar(calendarDate: Date) {
-    if (!this._selectedDates[0]) {
-      this._selectedDates[0] = calendarDate;
-    } else if (!this._selectedDates[1]) {
-      if (calendarDate.getTime() > this._selectedDates[0].getTime()) {
-        this._selectedDates[1] = calendarDate;
+    if (!this._dates[0]) {
+      this._dates[0] = calendarDate;
+    } else if (!this._dates[1]) {
+      if (calendarDate.getTime() > this._dates[0].getTime()) {
+        this._dates[1] = calendarDate;
       } else {
-        const tempEndDate = this._selectedDates[0];
+        const tempEndDate = this._dates[0];
 
-        this._selectedDates[0] = calendarDate;
-        this._selectedDates[1] = tempEndDate;
+        this._dates[0] = calendarDate;
+        this._dates[1] = tempEndDate;
       }
     } else {
-      this._selectedDates = [];
-      this._selectedDates[0] = calendarDate;
+      this._dates = [];
+      this._dates[0] = calendarDate;
     }
     this.setHoverClass();
   }
 
   checkIfSelectedDate(calendarDate: Date) {
-    return this._selectedDates?.some(
+    return this._dates?.some(
       date =>
         date.getFullYear() === calendarDate.getFullYear() &&
         date.getMonth() === calendarDate.getMonth() &&
@@ -226,7 +229,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       return true;
     }
     if (this.disabledDates.length > 0) {
-      return this.disabledDates.some(disabledDate => {
+      return this.disabledDates?.some(disabledDate => {
         return (
           calendarDate.getDate() === disabledDate.getDate() &&
           calendarDate.getMonth() === disabledDate.getMonth() &&
@@ -240,16 +243,16 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   setHoverClass() {
     this.clearRangePickerStyles();
 
-    if (this._selectedDates[0] && this._selectedDates[1]) {
+    if (this._dates[0] && this._dates[1]) {
       setTimeout(() => {
         const startDateParentElement = this.shadowRoot?.getElementById(
-          `${this._selectedDates[0]?.getTime()}`
+          `${this._dates[0]?.getTime()}`
         )?.parentElement;
 
         startDateParentElement?.classList.add("range-start-day");
 
         const endDateParentElement = this.shadowRoot?.getElementById(
-          `${this._selectedDates[1]?.getTime()}`
+          `${this._dates[1]?.getTime()}`
         )?.parentElement;
 
         endDateParentElement?.classList.add("range-end-day");
@@ -257,8 +260,8 @@ export default class BlCalendar extends DatepickerCalendarMixin {
           .flat()
           .filter(
             date =>
-              date.getTime() > this._selectedDates[0]!.getTime() &&
-              date.getTime() < this._selectedDates[1]!.getTime()
+              date.getTime() > this._dates[0]!.getTime() &&
+              date.getTime() < this._dates[1]!.getTime()
           );
 
         for (let i = 0; i < rangeDays.length; i++) {
@@ -344,6 +347,21 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       }
     }
     return calendar;
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has("value")) {
+      const dates = formatToDateArray(this._value);
+
+      if (!dates.length) {
+        this._dates = [];
+        this._onBlCalendarChange([]);
+      } else {
+        dates?.forEach(date => {
+          this.handleDate(date);
+        });
+      }
+    }
   }
 
   renderCalendarHeader() {
