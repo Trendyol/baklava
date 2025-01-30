@@ -24,7 +24,10 @@
 
 .arrow {
   flex: 1;
-  direction: ltr;
+}
+
+:host([dir="rtl"]) .arrow {
+  transform: scale(-1);
 }
 
 .header-text {
@@ -128,6 +131,7 @@
 
 .grid-item {
   width: 93.33px;
+  
   --bl-size-3xs: 15px;
 }
 

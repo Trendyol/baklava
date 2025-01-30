@@ -1,7 +1,9 @@
 import { CSSResultGroup, html, PropertyValues } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
+import { localized } from "@lit/localize";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
+import { setDirectionProperty } from "../../utilities/direction";
 import { event, EventDispatcher } from "../../utilities/event";
 import { formatToDateArray } from "../../utilities/format-to-date-array";
 import "../button/bl-button";
@@ -20,6 +22,7 @@ import { Calendar, CalendarDay, CalendarView } from "./bl-calendar.types";
  * @summary Baklava Calendar component
  **/
 @customElement("bl-calendar")
+@localized()
 export default class BlCalendar extends DatepickerCalendarMixin {
   @state()
   today = new Date();
@@ -42,6 +45,11 @@ export default class BlCalendar extends DatepickerCalendarMixin {
 
   static get styles(): CSSResultGroup {
     return [style];
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    setDirectionProperty(this);
   }
 
   get months() {
