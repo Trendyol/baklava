@@ -26,6 +26,10 @@
   flex: 1;
 }
 
+:host([dir="rtl"]) .arrow {
+  transform: scale(-1);
+}
+
 .header-text {
   flex: 3;
 }
@@ -127,6 +131,7 @@
 
 .grid-item {
   width: 93.33px;
+
   --bl-size-3xs: 15px;
 }
 
