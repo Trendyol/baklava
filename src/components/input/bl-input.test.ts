@@ -154,6 +154,18 @@ describe("bl-input", () => {
 
       expect(revealButton).to.have.style("display", "none");
     });
+
+    it("should hide clear button for empty or non-search inputs", async () => {
+      const emptySearchEl = await fixture<BlInput>(html`<bl-input type="search" value=""></bl-input>`);
+      const emptySearchCloseIcon = emptySearchEl?.shadowRoot?.querySelector('bl-icon[name="close"]');
+
+      expect(emptySearchCloseIcon).to.not.exist;
+
+      const textInputEl = await fixture<BlInput>(html`<bl-input type="text" value="test"></bl-input>`);
+      const textInputCloseIcon = textInputEl?.shadowRoot?.querySelector('bl-icon[name="close"]');
+
+      expect(textInputCloseIcon).to.not.exist;
+    });
   });
 
   describe("validation", () => {
@@ -318,6 +330,22 @@ describe("bl-input", () => {
 
       expect(input).to.attr("type", "text");
     });
+
+    it("should show clear button and clear value on clear button click", async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="search" value="test"></bl-input>`);
+      const closeIcon = el?.shadowRoot?.querySelector('bl-icon[name="close"]') as HTMLElement | null;
+      const input = el?.shadowRoot?.querySelector("input");
+
+      expect(input).to.attr("type", "search");
+      expect(closeIcon).to.exist;
+      expect(el.value).to.equal("test");
+
+      closeIcon?.click();
+      await elementUpdated(el);
+
+      expect(el.value).to.equal("");
+    });
+
 
     it("should fire bl-input event when input value changes", async () => {
       const el = await fixture<BlInput>(html`<bl-input></bl-input>`);

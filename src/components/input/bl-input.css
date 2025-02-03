@@ -159,6 +159,10 @@ input::-webkit-calendar-picker-indicator {
   display: none;
 }
 
+input::-webkit-search-cancel-button {
+  display: none;
+}
+
 input::-moz-calendar-picker-indicator {
   display: none;
 }
@@ -193,7 +197,7 @@ input:-webkit-autofill {
   margin-inline-end: var(--label-padding);
 }
 
-bl-icon:not(.reveal-icon),
+bl-icon:not(.reveal-icon, .clear-icon),
 ::slotted(bl-icon) {
   font-size: var(--icon-size);
   color: var(--icon-color);

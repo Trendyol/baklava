@@ -259,6 +259,13 @@ export default class BlInput extends FormControlMixin(LitElement) {
     this.passwordVisible = !this.passwordVisible;
   }
 
+  private async clearSearch() {
+    this.value = "";
+
+    await this.clearCustomError();
+    this.validationTarget.focus();
+  }
+
   showPicker() {
     if ("showPicker" in HTMLInputElement.prototype) {
       this.validationTarget.showPicker();
@@ -391,6 +398,19 @@ export default class BlInput extends FormControlMixin(LitElement) {
         </bl-button>`
       : "";
 
+    const clearButton =
+      this.type === "search" && this.value !== "" && this.value !== null
+        ? html`<bl-button
+            size="small"
+            kind="neutral"
+            variant="tertiary"
+            aria-label="Clear search"
+            @bl-click="${this.clearSearch}"
+          >
+            <bl-icon class="clear-icon" slot="icon" name="close"></bl-icon>
+          </bl-button>`
+        : "";
+
     const hasCustomIcon = this.icon || this._hasIconSlot;
     const classes = {
       "wrapper": true,
@@ -430,7 +450,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           aria-describedby=${ifDefined(this.helpText ? "helpText" : undefined)}
           aria-errormessage=${ifDefined(this.checkValidity() ? undefined : "errorMessage")}
         />
-        <div class="icon">${revealButton} ${icon}</div>
+        <div class="icon">${revealButton} ${clearButton} ${icon}</div>
       </fieldset>
       <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div>`;
