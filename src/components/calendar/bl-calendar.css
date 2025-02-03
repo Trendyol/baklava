@@ -26,6 +26,10 @@
   flex: 1;
 }
 
+:host([dir="rtl"]) .arrow {
+  transform: scale(-1);
+}
+
 .header-text {
   flex: 3;
 }
