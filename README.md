@@ -1,3 +1,5 @@
+
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Trendyol/baklava/badge)](https://scorecard.dev/viewer/?uri=github.com/Trendyol/baklava)
 <p align="center"><img src="https://user-images.githubusercontent.com/127687/233114483-c5b0a8e7-c072-4ced-a7b5-76bce1be4b21.svg" width="200" alt="Baklava Design System Logo" /></p>
 
 <h1 align="center">Baklava Design System</h1>
