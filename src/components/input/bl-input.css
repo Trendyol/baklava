@@ -197,6 +197,10 @@ input:-webkit-autofill {
   margin-inline-end: var(--label-padding);
 }
 
+.icon:has(.clear-icon) {
+  gap: var(--bl-size-3xs);
+}
+
 bl-icon:not(.reveal-icon, .clear-icon),
 ::slotted(bl-icon) {
   font-size: var(--icon-size);
@@ -318,4 +322,11 @@ bl-icon[name="eye_on"] {
 
 .dirty.invalid .error-icon {
   display: inline-block;
+}
+
+.split-divider {
+  display: block;
+  height: 1rem;
+  width: 1px;
+  background-color: var(--bl-color-neutral-lighter);
 }

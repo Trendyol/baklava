@@ -400,15 +400,18 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
     const clearSearchButton =
       this.type === "search" && this.value !== "" && this.value !== null
-        ? html`<bl-button
-            size="small"
-            kind="neutral"
-            variant="tertiary"
-            aria-label="Clear search"
-            @bl-click="${this.handleSearchClear}"
-          >
-            <bl-icon class="clear-icon" slot="icon" name="close"></bl-icon>
-          </bl-button>`
+        ? html`
+            <bl-button
+              size="small"
+              kind="neutral"
+              variant="tertiary"
+              aria-label="Clear search"
+              @bl-click=${this.handleSearchClear}
+            >
+              <bl-icon class="clear-icon" slot="icon" name="close"></bl-icon>
+            </bl-button>
+            <div class="split-divider"></div>
+          `
         : "";
 
     const hasCustomIcon = this.icon || this._hasIconSlot;
