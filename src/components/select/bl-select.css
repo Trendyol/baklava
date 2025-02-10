@@ -167,11 +167,15 @@
 }
 
 .selected-options li {
-  display: flex;
-  align-items: center;
-  gap: var(--bl-size-2xs);
+  display: inline;
   font-size: var(--font-size);
   color: var(--text-color);
+}
+
+:host(:not([multiple])) .selected-options li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bl-size-2xs);
 }
 
 .selected-options li:not(:last-child)::after {
