@@ -87,6 +87,10 @@ header h2 {
 }
 
 footer {
+  display: none;
+}
+
+.container.has-footer footer{
   padding: var(--bl-size-xl);
   display: flex;
   flex-flow: row-reverse wrap;
