@@ -1,11 +1,11 @@
-import { html } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import {
-  Meta,
-  Canvas,
   ArgsTable,
+  Canvas,
+  Meta,
   Story,
 } from '@storybook/addon-docs';
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 <Meta
   title="Components/Dropdown Button/Dropdown Item"
@@ -25,6 +25,7 @@ Dropdown Item component is a component should be used inside a bl-dropdown or bl
 export const Template = (args) => html`
   <bl-dropdown-item
     icon='${ifDefined(args.icon)}'
+    ?disabled=${args.disabled}
   >Dropdown Item</bl-dropdown-item>
 `
 
@@ -39,6 +40,14 @@ export const Template = (args) => html`
 If you want to have an icon for your actions, you can use the `icon` attribute.
 <Canvas>
   <Story name="With Icon" args={{ icon: "info" }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled
+You can disable the item by setting the `disabled` attribute.
+<Canvas>
+  <Story name="Disabled" args={{ disabled: true }}>
     {Template.bind({})}
   </Story>
 </Canvas>
