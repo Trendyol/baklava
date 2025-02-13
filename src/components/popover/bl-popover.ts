@@ -135,6 +135,7 @@ export default class BlPopover extends LitElement {
    */
   show() {
     this._visible = true;
+
     this.setPopover();
     this.onBlPopoverShow("");
     document.addEventListener("click", this._handleClickOutside);
