@@ -35,8 +35,8 @@ import { styleMap } from 'lit/directives/style-map.js';
 
 export const dropdownOpener = async ({ canvasElement }) => {
   const dropdown = canvasElement?.querySelector('bl-dropdown')
-  if(dropdown.shadowRoot) {
-    const button = dropdown.shadowRoot.querySelector('bl-button')
+  if (dropdown.shadowRoot) {
+    const button = dropdown.shadowRoot.querySelector("bl-button")?.shadowRoot?.querySelector("button");
     await userEvent.click(button);
   }
 }
@@ -164,7 +164,7 @@ If dropdown button has an action with a long text that can not fit in a single l
 You can add icons to your dropdown buttons using the `icon` attribute. The icon will be displayed on the left side of the button label.
 
 <Canvas>
-  <Story name="With Icons" args={{ label: 'Dropdown Button' }}>
+  <Story name="With Icons" args={{ label: 'Dropdown Button' }} play={dropdownOpener}>
     {html`
       ${IconDropdownTemplate({label: 'Settings', icon: 'settings', variant: 'primary'})}
       ${IconDropdownTemplate({label: 'Settings', icon: 'settings', variant: 'secondary'})}
