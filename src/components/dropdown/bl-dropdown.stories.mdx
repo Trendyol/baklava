@@ -178,7 +178,7 @@ You can add icons to your dropdown buttons using the `icon` attribute. The icon 
 We have 2 types of disabled dropdown buttons: Disable version of Primary and Secondary buttons is the same.
 
 <Canvas columns={1}>
-  <Story name="Disabling Dropdown Buttons" args={{ label: 'Dropdown Button', disabled: true }} play={dropdownOpener}>
+  <Story name="Disabling Dropdown Buttons" args={{ label: 'Dropdown Button', disabled: true }}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
@@ -186,7 +186,7 @@ We have 2 types of disabled dropdown buttons: Disable version of Primary and Sec
 Whereas Tertiary buttons keep their transparent backgrounds.
 
 <Canvas columns={1}>
-  <Story name="Disabling Tertiary Dropdown Buttons" args={{ label: 'Dropdown Button', disabled: true, variant:"tertiary" }} play={dropdownOpener}>
+  <Story name="Disabling Tertiary Dropdown Buttons" args={{ label: 'Dropdown Button', disabled: true, variant:"tertiary" }}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
