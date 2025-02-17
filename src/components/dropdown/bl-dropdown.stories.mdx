@@ -114,6 +114,7 @@ ${SingleDropdownButtonTemplate({size: 'small', ...args})}`
 
 <bl-badge icon="document">ADR</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=2158%3A8508)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Dropdown Button is used to display a list of actions.
 
@@ -201,6 +202,141 @@ You can disable dropdown items by setting the `disabled` attribute on the `bl-dr
   </Story>
 </Canvas>
 
+## RTL Support
+
+The dropdown component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag. When in RTL mode, the dropdown menu will align from the right side.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 32px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-dropdown label="Settings">
+            <bl-dropdown-group caption="Account">
+              <bl-dropdown-item icon="account">Profile</bl-dropdown-item>
+              <bl-dropdown-item icon="settings">Preferences</bl-dropdown-item>
+            </bl-dropdown-group>
+            <bl-dropdown-item>Logout</bl-dropdown-item>
+          </bl-dropdown>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-dropdown label="الإعدادات">
+            <bl-dropdown-group caption="الحساب">
+              <bl-dropdown-item icon="account">الملف الشخصي</bl-dropdown-item>
+              <bl-dropdown-item icon="settings">التفضيلات</bl-dropdown-item>
+            </bl-dropdown-group>
+            <bl-dropdown-item>تسجيل الخروج</bl-dropdown-item>
+          </bl-dropdown>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Dropdown RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .dropdown-container {
+      display: flex;
+      gap: 32px;
+      margin-top: 20px;
+    }
+    .dropdown-group {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="dropdown-container">
+      <!-- LTR Example -->
+      <div class="dropdown-group">
+        <h3>LTR Dropdown</h3>
+        <bl-dropdown label="Settings">
+          <bl-dropdown-group caption="Account">
+            <bl-dropdown-item icon="account">Profile</bl-dropdown-item>
+            <bl-dropdown-item icon="settings">Preferences</bl-dropdown-item>
+          </bl-dropdown-group>
+          <bl-dropdown-item>Logout</bl-dropdown-item>
+        </bl-dropdown>
+      </div>
+
+      <!-- RTL Example -->
+      <div class="dropdown-group" dir="rtl">
+        <h3>RTL Dropdown</h3>
+        <bl-dropdown label="الإعدادات">
+          <bl-dropdown-group caption="الحساب">
+            <bl-dropdown-item icon="account">الملف الشخصي</bl-dropdown-item>
+            <bl-dropdown-item icon="settings">التفضيلات</bl-dropdown-item>
+          </bl-dropdown-group>
+          <bl-dropdown-item>تسجيل الخروج</bl-dropdown-item>
+        </bl-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating a dropdown programmatically
+    const createDropdown = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const dropdown = document.createElement('bl-dropdown');
+      dropdown.label = isRTL ? 'الإعدادات' : 'Settings';
+
+      const group = document.createElement('bl-dropdown-group');
+      group.caption = isRTL ? 'الحساب' : 'Account';
+
+      const items = isRTL ? [
+        { icon: 'account', text: 'الملف الشخصي' },
+        { icon: 'settings', text: 'التفضيلات' },
+        { icon: 'logout', text: 'تسجيل الخروج' }
+      ] : [
+        { icon: 'account', text: 'Profile' },
+        { icon: 'settings', text: 'Preferences' },
+        { icon: 'logout', text: 'Logout' }
+      ];
+
+      items.forEach(item => {
+        const dropdownItem = document.createElement('bl-dropdown-item');
+        dropdownItem.icon = item.icon;
+        dropdownItem.textContent = item.text;
+        if (item.icon === 'logout') {
+          dropdown.appendChild(dropdownItem);
+        } else {
+          group.appendChild(dropdownItem);
+        }
+      });
+
+      dropdown.appendChild(group);
+      container.appendChild(dropdown);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
 
 ## Reference
 

@@ -87,6 +87,7 @@ export const PaginationTemplate = (args) => html`
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/139)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=118%3A4074)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 The Pagination component enables the user to select a specific page from a range of pages. Number of content per page can also be selected by the user
 
@@ -179,6 +180,119 @@ To set a custom options list for `bl-pagination`, use the **itemsPerPageOptions*
     }
   ]
 </script>
+```
+
+## RTL Support
+
+The pagination component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div>
+        <iframe
+          srcdoc="
+            <html dir='rtl'>
+              <head>
+                <script type='module' src='https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.1/dist/baklava.js'></script>
+                <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.1/dist/themes/default.css'>
+                <style>
+                  body {
+                    margin: 0;
+                    padding: 24px;
+                  }
+                  .container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                  }
+                  bl-pagination {
+                    width: 100%;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class='container'>
+                  <bl-pagination
+                    current-page='1'
+                    total-items='1500'
+                    items-per-page='10'
+                    has-jumper='true'
+                    jumper-label='انتقل إلى'
+                    has-select='true'
+                    select-label='عرض'
+                  ></bl-pagination>
+                </div>
+                <script>
+                  document.querySelectorAll('bl-pagination').forEach(pagination => {
+                    pagination.itemsPerPageOptions = [
+                      { text: '10 نتيجة', value: 10 },
+                      { text: '25 نتيجة', value: 25 },
+                      { text: '50 نتيجة', value: 50 },
+                      { text: '100 نتيجة', value: 100 }
+                    ];
+                  });
+                </script>
+              </body>
+            </html>
+          "
+          style="border: none; width: 100%; height: 100px;"
+        ></iframe>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Pagination RTL Example</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.1/dist/baklava.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.1/dist/themes/default.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    bl-pagination {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>RTL Pagination</h3>
+    <bl-pagination
+      current-page="1"
+      total-items="1500"
+      items-per-page="10"
+      has-jumper="true"
+      jumper-label="انتقل إلى"
+      has-select="true"
+      select-label="عرض">
+    </bl-pagination>
+  </div>
+
+  <script>
+    const pagination = document.querySelector('bl-pagination');
+    pagination.itemsPerPageOptions = [
+      { text: '10 نتيجة', value: 10 },
+      { text: '25 نتيجة', value: 25 },
+      { text: '50 نتيجة', value: 50 },
+      { text: '100 نتيجة', value: 100 }
+    ];
+  </script>
+</body>
+</html>
 ```
 
 ## Reference

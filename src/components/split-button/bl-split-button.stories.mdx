@@ -87,6 +87,7 @@ ${SingleSplitButtonTemplate({size: 'small', ...args})}`
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/264#issuecomment-1927105000)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?type=design&node-id=2161-9122&mode=design)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Split Button component is very similar to Dropdown Component with a key difference: Split Button is a Dropdown that one action is put forward as the main action.
 
@@ -179,6 +180,142 @@ We have 2 types of disabled split dropdown buttons.
      {Template.bind({})}
   </Story>
 </Canvas>
+
+## RTL Support
+
+The split button component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div>
+        <iframe
+          srcdoc="
+            <html dir='rtl'>
+              <head>
+                <script type='module' src='https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.1/dist/baklava.js'></script>
+                <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.1/dist/themes/default.css'>
+                <style>
+                  body {
+                    margin: 0;
+                    padding: 24px;
+                    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                  }
+                  .container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                    width: 300px;
+                  }
+                  .button-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                  }
+                  bl-split-button {
+                    width: 300px;
+                  }
+                  p {
+                    margin: 0;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class='container'>
+                  <div class='button-group'>
+                    <bl-split-button label='مشاركة'>
+                      <bl-dropdown-group caption='خيارات المشاركة'>
+                        <bl-dropdown-item icon='share'>مشاركة عبر البريد</bl-dropdown-item>
+                        <bl-dropdown-item icon='link'>نسخ الرابط</bl-dropdown-item>
+                      </bl-dropdown-group>
+                      <bl-dropdown-item icon='download'>تحميل</bl-dropdown-item>
+                    </bl-split-button>
+                  </div>
+                  <div class='button-group'>
+                    <bl-split-button variant='secondary' label='تحميل' icon='download'>
+                      <bl-dropdown-group caption='خيارات التحميل'>
+                        <bl-dropdown-item icon='download'>تحميل كملف PDF</bl-dropdown-item>
+                        <bl-dropdown-item icon='download'>تحميل كملف Excel</bl-dropdown-item>
+                      </bl-dropdown-group>
+                    </bl-split-button>
+                  </div>
+                  <div class='button-group'>
+                    <bl-split-button kind='success' label='حفظ' icon='check'>
+                      <bl-dropdown-group caption='خيارات الحفظ'>
+                        <bl-dropdown-item icon='save'>حفظ كمسودة</bl-dropdown-item>
+                        <bl-dropdown-item icon='publish'>نشر</bl-dropdown-item>
+                      </bl-dropdown-group>
+                    </bl-split-button>
+                  </div>
+                </div>
+              </body>
+            </html>
+          "
+          style="border: none; width: 350px; height: 300px;"
+        ></iframe>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Split Button RTL Example</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.1/dist/baklava.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.1/dist/themes/default.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 300px;
+    }
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    bl-split-button {
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="button-group">
+      <h3>Split Button RTL</h3>
+      <bl-split-button label="مشاركة">
+        <bl-dropdown-group caption="خيارات المشاركة">
+          <bl-dropdown-item icon="share">مشاركة عبر البريد</bl-dropdown-item>
+          <bl-dropdown-item icon="link">نسخ الرابط</bl-dropdown-item>
+        </bl-dropdown-group>
+        <bl-dropdown-item icon="download">تحميل</bl-dropdown-item>
+      </bl-split-button>
+    </div>
+
+    <div class="button-group">
+      <bl-split-button variant="secondary" label="تحميل" icon="download">
+        <bl-dropdown-group caption="خيارات التحميل">
+          <bl-dropdown-item icon="download">تحميل كملف PDF</bl-dropdown-item>
+          <bl-dropdown-item icon="download">تحميل كملف Excel</bl-dropdown-item>
+        </bl-dropdown-group>
+      </bl-split-button>
+    </div>
+  </div>
+</body>
+</html>
+```
 
 ## Reference
 

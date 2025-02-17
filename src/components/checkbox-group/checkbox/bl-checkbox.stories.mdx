@@ -53,6 +53,7 @@ ${CheckboxTemplate(args)}
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/136)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=118%3A4068)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Checkbox component can be used to control checked / unchecked statuses.
 
@@ -167,6 +168,98 @@ Also if a single word doesn't fit the line, it also being forced to multiline (w
   </Story>
 </Canvas>
 
+## RTL Support
+
+The checkbox component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 32px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-checkbox>Accept terms and conditions</bl-checkbox>
+          <bl-checkbox checked>Remember me</bl-checkbox>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-checkbox>قبول الشروط والأحكام</bl-checkbox>
+          <bl-checkbox checked>تذكرني</bl-checkbox>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Checkbox RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .checkbox-container {
+      display: flex;
+      gap: 32px;
+      margin-top: 20px;
+    }
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="checkbox-container">
+      <!-- LTR Example -->
+      <div class="checkbox-group">
+        <h3>LTR Checkboxes</h3>
+        <bl-checkbox>Accept terms and conditions</bl-checkbox>
+        <bl-checkbox checked>Remember me</bl-checkbox>
+      </div>
+
+      <!-- RTL Example -->
+      <div class="checkbox-group" dir="rtl">
+        <h3>RTL Checkboxes</h3>
+        <bl-checkbox>قبول الشروط والأحكام</bl-checkbox>
+        <bl-checkbox checked>تذكرني</bl-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating a checkbox programmatically
+    const createCheckbox = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const checkbox = document.createElement('bl-checkbox');
+      checkbox.textContent = isRTL ? 'قبول الشروط والأحكام' : 'Accept terms and conditions';
+
+      container.appendChild(checkbox);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
 
 ## Reference
 

@@ -8,6 +8,7 @@ import * as DialogStories from "./bl-dialog.stories";
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/137)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=1992%3A8280)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Dialogs inform users about a task and can contain critical information, require decisions, or involve multiple tasks.
 
@@ -123,6 +124,22 @@ This change was prompted by issues encountered during the development of the `bl
 
 If you wish to use the native HTML Dialog element, you can do so by setting the `polyfilled` attribute to `false`.
 Please note that this will cause notifications to render under the dialog backdrop. Prior to version 2.4.0, this was the default behavior.
+
+## RTL Support
+
+The dialog component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir="rtl"` attribute on the parent element.
+
+```html
+<div dir="rtl">
+  <bl-dialog caption="تأكيد الحذف">
+    <p>هل أنت متأكد أنك تريد حذف هذا الملف؟</p>
+    <bl-button slot="primary-action" variant="primary" size="large">حذف</bl-button>
+    <bl-button slot="secondary-action" variant="secondary" size="large">إلغاء</bl-button>
+  </bl-dialog>
+</div>
+```
+
+<Canvas of={DialogStories.RTLSupport} />
 
 ## Reference
 
