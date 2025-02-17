@@ -84,6 +84,7 @@ export const StoryTemplate = (args) => html`
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/192)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=2963%3A14146)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 A drawer presents context-specific information and/or actions without leaving the current page
 
@@ -134,5 +135,140 @@ A drawer presents context-specific information and/or actions without leaving th
     {StoryTemplate.bind({})}
   </Story>
 </Canvas>
+
+## RTL Support
+
+The drawer component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag. When in RTL mode, the drawer will slide in from the left side instead of the right.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 32px; padding: 32px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-button @click=${() => document.getElementById('drawer-ltr').open = true}>Open LTR Drawer</bl-button>
+          <bl-drawer id="drawer-ltr" caption="Settings">
+            <div style="padding: 16px;">
+              <h3>Settings Panel</h3>
+              <p>This is a sample drawer content in LTR mode.</p>
+            </div>
+          </bl-drawer>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-button @click=${() => document.getElementById('drawer-rtl').open = true}>Open RTL Drawer</bl-button>
+          <bl-drawer id="drawer-rtl" caption="الإعدادات">
+            <div style="padding: 16px;">
+              <h3>لوحة الإعدادات</h3>
+              <p>هذا مثال لمحتوى القائمة في وضع RTL.</p>
+            </div>
+          </bl-drawer>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Drawer RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .drawer-container {
+      display: flex;
+      gap: 32px;
+      margin-top: 20px;
+    }
+    .drawer-group {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="drawer-container">
+      <!-- LTR Example -->
+      <div class="drawer-group">
+        <h3>LTR Drawer</h3>
+        <bl-button onclick="openDrawer('drawer-ltr')">Open LTR Drawer</bl-button>
+        <bl-drawer id="drawer-ltr" caption="Settings">
+          <div style="padding: 16px;">
+            <h3>Settings Panel</h3>
+            <p>This is a sample drawer content in LTR mode.</p>
+          </div>
+        </bl-drawer>
+      </div>
+
+      <!-- RTL Example -->
+      <div class="drawer-group" dir="rtl">
+        <h3>RTL Drawer</h3>
+        <bl-button onclick="openDrawer('drawer-rtl')">فتح القائمة</bl-button>
+        <bl-drawer id="drawer-rtl" caption="الإعدادات">
+          <div style="padding: 16px;">
+            <h3>لوحة الإعدادات</h3>
+            <p>هذا مثال لمحتوى القائمة في وضع RTL.</p>
+          </div>
+        </bl-drawer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Function to open drawer
+    const openDrawer = (drawerId) => {
+      document.getElementById(drawerId).open = true;
+    };
+
+    // Example of creating a drawer programmatically
+    const createDrawer = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const drawer = document.createElement('bl-drawer');
+      drawer.id = isRTL ? 'rtl-drawer' : 'ltr-drawer';
+      drawer.caption = isRTL ? 'الإعدادات' : 'Settings';
+
+      const content = document.createElement('div');
+      content.style.padding = '16px';
+
+      const heading = document.createElement('h3');
+      heading.textContent = isRTL ? 'لوحة الإعدادات' : 'Settings Panel';
+      content.appendChild(heading);
+
+      const paragraph = document.createElement('p');
+      paragraph.textContent = isRTL
+        ? 'هذا مثال لمحتوى القائمة في وضع RTL.'
+        : 'This is a sample drawer content in LTR mode.';
+      content.appendChild(paragraph);
+
+      drawer.appendChild(content);
+      container.appendChild(drawer);
+      document.body.appendChild(container);
+
+      return drawer;
+    };
+  </script>
+</body>
+</html>
+```
+
+## Reference
 
 <ArgsTable of="bl-drawer" />

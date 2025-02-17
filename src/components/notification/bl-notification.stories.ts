@@ -1,8 +1,8 @@
+import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { Meta, StoryObj } from "@storybook/web-components";
 import { fullscreenLayout } from "../../utilities/chromatic-decorators";
-import type { NotificationProps, Notification } from "./bl-notification";
+import type { Notification, NotificationProps } from "./bl-notification";
 
 const meta: Meta = {
   title: "Components/Notification",
@@ -414,5 +414,197 @@ export const VariantsExample: Story = {
         },
       });
     }
+  },
+};
+
+export const RTLExample: Story = {
+  render(args: NotificationArgs) {
+    return html`
+      <div style="display: flex; flex-direction: column; gap: 32px;">
+        <!-- Interactive Controls -->
+        <div style="display: flex; gap: 16px; align-items: center;">
+          <bl-button id="add-notifications" variant="primary">Add Sample Notifications</bl-button>
+          <bl-button id="clear-notifications" variant="danger">Clear All</bl-button>
+        </div>
+
+        <!-- Demo Container -->
+        <div style="display: flex; gap: 32px;">
+          <!-- LTR Example -->
+          <div style="flex: 1; min-width: 400px;">
+            <bl-notification
+                id="ltr-notification"
+                ?no-animation=${args.noAnimation}
+                duration=${ifDefined(args.duration)}
+              ></bl-notification>
+          </div>
+
+          <!-- RTL Example -->
+          <div style="flex: 1; min-width: 400px;" dir="rtl">
+            <bl-notification
+                id="rtl-notification"
+                ?no-animation=${args.noAnimation}
+                duration=${ifDefined(args.duration)}
+              ></bl-notification>
+          </div>
+        </div>
+
+        <script>
+          (function() {
+            // Store active notifications for proper cleanup
+            let activeNotifications = {
+              ltr: [],
+              rtl: []
+            };
+
+            const ltrNotification = document.getElementById('ltr-notification');
+            const rtlNotification = document.getElementById('rtl-notification');
+            const addButton = document.getElementById('add-notifications');
+            const clearButton = document.getElementById('clear-notifications');
+
+            // Sample notifications data with different variants and configurations
+            const notificationExamples = [
+              {
+                variant: 'info',
+                caption: { en: 'Welcome Message', ar: 'رسالة ترحيب' },
+                description: {
+                  en: 'Welcome to our application! We hope you enjoy your experience.',
+                  ar: 'مرحباً بك في تطبيقنا! نتمنى لك تجربة ممتعة.'
+                },
+                icon: 'info',
+                primaryAction: {
+                  label: { en: 'Get Started', ar: 'ابدأ الآن' },
+                  onClick: () => {}
+                }
+              },
+              {
+                variant: 'success',
+                caption: { en: 'Task Completed', ar: 'تم إكمال المهمة' },
+                description: {
+                  en: 'Your task has been successfully completed.',
+                  ar: 'تم إكمال مهمتك بنجاح.'
+                },
+                icon: 'check_fill'
+              },
+              {
+                variant: 'warning',
+                caption: { en: 'Storage Alert', ar: 'تنبيه التخزين' },
+                description: {
+                  en: 'You are running low on storage space.',
+                  ar: 'مساحة التخزين الخاصة بك منخفضة.'
+                },
+                icon: 'warning',
+                primaryAction: {
+                  label: { en: 'Upgrade', ar: 'ترقية' },
+                  onClick: () => {}
+                },
+                secondaryAction: {
+                  label: { en: 'Learn More', ar: 'اعرف المزيد' },
+                  onClick: () => {}
+                }
+              },
+              {
+                variant: 'error',
+                caption: { en: 'Connection Error', ar: 'خطأ في الاتصال' },
+                description: {
+                  en: 'Unable to connect to the server. Please try again.',
+                  ar: 'تعذر الاتصال بالخادم. يرجى المحاولة مرة أخرى.'
+                },
+                icon: 'close_fill',
+                primaryAction: {
+                  label: { en: 'Retry', ar: 'إعادة المحاولة' },
+                  onClick: () => {}
+                }
+              }
+            ];
+
+            // Function to clear all notifications
+            const clearAllNotifications = async () => {
+              // Clear LTR notifications
+              if (activeNotifications.ltr.length > 0) {
+                for (const notification of activeNotifications.ltr) {
+                  await notification.remove();
+                }
+                activeNotifications.ltr = [];
+              }
+
+              // Clear RTL notifications
+              if (activeNotifications.rtl.length > 0) {
+                for (const notification of activeNotifications.rtl) {
+                  await notification.remove();
+                }
+                activeNotifications.rtl = [];
+              }
+            };
+
+            // Function to create notifications
+            const createNotifications = (isRTL) => {
+              const targetElement = isRTL ? rtlNotification : ltrNotification;
+              const lang = isRTL ? 'ar' : 'en';
+              const notificationList = isRTL ? activeNotifications.rtl : activeNotifications.ltr;
+
+              notificationExamples.forEach((example, index) => {
+                setTimeout(() => {
+                  const notification = targetElement.addNotification({
+                    variant: example.variant,
+                    caption: example.caption[lang],
+                    description: example.description[lang],
+                    icon: example.icon,
+                    permanent: true,
+                    ...(example.primaryAction && {
+                      primaryAction: {
+                        label: example.primaryAction.label[lang],
+                        onClick: () => {
+                          example.primaryAction.onClick();
+                          notification.remove();
+                          const index = notificationList.indexOf(notification);
+                          if (index > -1) {
+                            notificationList.splice(index, 1);
+                          }
+                        }
+                      }
+                    }),
+                    ...(example.secondaryAction && {
+                      secondaryAction: {
+                        label: example.secondaryAction.label[lang],
+                        onClick: () => {
+                          example.secondaryAction.onClick();
+                          notification.remove();
+                          const index = notificationList.indexOf(notification);
+                          if (index > -1) {
+                            notificationList.splice(index, 1);
+                          }
+                        }
+                      }
+                    })
+                  });
+
+                  // Store the notification reference
+                  notificationList.push(notification);
+                }, index * 300); // Stagger the notifications
+              });
+            };
+
+            // Add button click handler
+            addButton.addEventListener('bl-click', () => {
+              clearAllNotifications().then(() => {
+                createNotifications(false); // LTR
+                createNotifications(true);  // RTL
+              });
+            });
+
+            // Clear button click handler
+            clearButton.addEventListener('bl-click', clearAllNotifications);
+
+            // Initial notifications
+            createNotifications(false);
+            createNotifications(true);
+          })();
+        </script>
+      </div>
+    `;
+  },
+  args: {
+    noAnimation: true,
+    duration: 0,
   },
 };

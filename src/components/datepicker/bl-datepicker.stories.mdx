@@ -39,6 +39,7 @@ export const Template = (args) => html`${DatepickerTemplate({ ...args })}`;
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/894)</bl-badge>
   <bl-badge
   icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?type=design&node-id=1412-8914&mode=design&t=b0kU7tBfJQFvz2at-0)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Datepicker renders the calendar component within itself and provides the functionality provided by the calendar component.
 
@@ -151,6 +152,186 @@ You can set min date or max date for the datepicker.
     {Template.bind({})}
   </Story>
 </Canvas>
+
+## RTL Support
+
+The datepicker component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute and `lang` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div>
+        <iframe
+          srcdoc="
+            <html dir='rtl' lang='ar'>
+              <head>
+                <script type='module' src='https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.22/dist/baklava.js'></script>
+                <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.22/dist/themes/default.css'>
+                <style>
+                  body {
+                    margin: 0;
+                    padding: 24px;
+                    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                  }
+                  .container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 32px;
+                  }
+                  .datepicker-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                  }
+                  bl-datepicker {
+                    --bl-datepicker-input-width: 300px;
+                  }
+                  p {
+                    margin: 0;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class='container'>
+                  <div class='datepicker-group'>
+                    <p>منتقي التاريخ الأحادي (Single Datepicker)</p>
+                    <bl-datepicker
+                      type='single'
+                      label='اختر تاريخ'
+                      placeholder='حدد تاريخًا'
+                      locale='ar'
+                      start-of-week='6'
+                    ></bl-datepicker>
+                  </div>
+
+                  <div class='datepicker-group'>
+                    <p>منتقي التواريخ المتعددة (Multiple Datepicker)</p>
+                    <bl-datepicker
+                      type='multiple'
+                      label='اختر عدة تواريخ'
+                      placeholder='حدد عدة تواريخ'
+                      locale='ar'
+                      start-of-week='6'
+                    ></bl-datepicker>
+                  </div>
+
+                  <div class='datepicker-group'>
+                    <p>منتقي نطاق التاريخ (Range Datepicker)</p>
+                    <bl-datepicker
+                      type='range'
+                      label='اختر نطاق التاريخ'
+                      placeholder='حدد نطاق التاريخ'
+                      locale='ar'
+                      start-of-week='6'
+                    ></bl-datepicker>
+                  </div>
+                </div>
+                <script>
+                  // Set Arabic locale for all datepickers
+                  const datepickers = document.querySelectorAll('bl-datepicker');
+                  datepickers.forEach(datepicker => {
+                    datepicker.addEventListener('bl-datepicker-open', () => {
+                      const calendar = datepicker.shadowRoot.querySelector('bl-calendar');
+                      if (calendar) {
+                        calendar.locale = 'ar';
+                        calendar.startOfWeek = '6';
+                      }
+                    });
+                  });
+                </script>
+              </body>
+            </html>
+          "
+          style="border: none; width: 550px; height: 650px;"
+        ></iframe>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Datepicker RTL Example</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.1/dist/baklava.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.1/dist/themes/default.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .datepicker-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    bl-datepicker {
+      --bl-datepicker-input-width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="datepicker-group">
+      <h3>منتقي التاريخ الأحادي</h3>
+      <bl-datepicker
+        type="single"
+        label="اختر تاريخ"
+        placeholder="حدد تاريخًا"
+        locale="ar"
+        start-of-week="6"
+      ></bl-datepicker>
+    </div>
+
+    <div class="datepicker-group">
+      <h3>منتقي التواريخ المتعددة</h3>
+      <bl-datepicker
+        type="multiple"
+        label="اختر عدة تواريخ"
+        placeholder="حدد عدة تواريخ"
+        locale="ar"
+        start-of-week="6"
+      ></bl-datepicker>
+    </div>
+
+    <div class="datepicker-group">
+      <h3>منتقي نطاق التاريخ</h3>
+      <bl-datepicker
+        type="range"
+        label="اختر نطاق التاريخ"
+        placeholder="حدد نطاق التاريخ"
+        locale="ar"
+        start-of-week="6"
+      ></bl-datepicker>
+    </div>
+  </div>
+
+  <script>
+    // Set Arabic locale for all datepickers
+    const datepickers = document.querySelectorAll('bl-datepicker');
+    datepickers.forEach(datepicker => {
+      datepicker.addEventListener('bl-datepicker-open', () => {
+        const calendar = datepicker.shadowRoot.querySelector('bl-calendar');
+        if (calendar) {
+          calendar.locale = 'ar';
+          calendar.startOfWeek = '6';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+```
 
 ## Reference
 

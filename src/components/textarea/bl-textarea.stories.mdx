@@ -80,6 +80,7 @@ export const TextareaTemplate = (args) => html`
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/145)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=163%3A2243)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Textarea component is the component to take multi-line text input from user.
 
@@ -286,6 +287,111 @@ When you use `bl-textarea` within a form with a `name` attribute, textarea's val
     }
   });
 </script>
+```
+
+## RTL Support
+
+The textarea component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 16px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-textarea
+            label="Message"
+            placeholder="Enter your message"
+            help-text="Please provide detailed information"
+          ></bl-textarea>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-textarea
+            label="الرسالة"
+            placeholder="أدخل رسالتك"
+            help-text="يرجى تقديم معلومات مفصلة"
+          ></bl-textarea>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Textarea RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .flex-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .textarea-group {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="flex-container">
+      <!-- LTR Example -->
+      <div class="textarea-group">
+        <h3>LTR Textarea</h3>
+        <bl-textarea
+          label="Message"
+          placeholder="Enter your message"
+          help-text="Please provide detailed information"
+        ></bl-textarea>
+      </div>
+
+      <!-- RTL Example -->
+      <div class="textarea-group" dir="rtl">
+        <h3>RTL Textarea</h3>
+        <bl-textarea
+          label="الرسالة"
+          placeholder="أدخل رسالتك"
+          help-text="يرجى تقديم معلومات مفصلة"
+        ></bl-textarea>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating a textarea programmatically
+    const createTextarea = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const textarea = document.createElement('bl-textarea');
+      textarea.label = isRTL ? 'الرسالة' : 'Message';
+      textarea.placeholder = isRTL ? 'أدخل رسالتك' : 'Enter your message';
+      textarea.helpText = isRTL ? 'يرجى تقديم معلومات مفصلة' : 'Please provide detailed information';
+
+      container.appendChild(textarea);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
 ```
 
 ## Reference

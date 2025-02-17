@@ -163,6 +163,7 @@ ${SelectTemplate(args)}
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/88)</bl-badge>
 <bl-badge icon="document">[Accessibility](https://github.com/Trendyol/baklava/issues/686#issuecomment-2079522703)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=25%3A3606)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Select component is a component for selecting a value from a list of options.
 Each option should be wrapped with `bl-select-option` component.
@@ -500,6 +501,115 @@ Select can be used with auto width. If you want to use select with auto width, y
     {SelectWithStyleTemplate.bind({})}
   </Story>
 </Canvas>
+
+## RTL Support
+
+The select component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 16px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-select label="Country" placeholder="Select a country">
+            <bl-select-option value="us">United States</bl-select-option>
+            <bl-select-option value="uk">United Kingdom</bl-select-option>
+            <bl-select-option value="fr">France</bl-select-option>
+          </bl-select>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-select label="الدولة" placeholder="اختر دولة">
+            <bl-select-option value="us">الولايات المتحدة</bl-select-option>
+            <bl-select-option value="uk">المملكة المتحدة</bl-select-option>
+            <bl-select-option value="fr">فرنسا</bl-select-option>
+          </bl-select>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Select RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .flex-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .select-group {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="flex-container">
+      <!-- LTR Example -->
+      <div class="select-group">
+        <h3>LTR Select</h3>
+        <bl-select label="Country" placeholder="Select a country">
+          <bl-select-option value="us">United States</bl-select-option>
+          <bl-select-option value="uk">United Kingdom</bl-select-option>
+          <bl-select-option value="fr">France</bl-select-option>
+        </bl-select>
+      </div>
+
+      <!-- RTL Example -->
+      <div class="select-group" dir="rtl">
+        <h3>RTL Select</h3>
+        <bl-select label="الدولة" placeholder="اختر دولة">
+          <bl-select-option value="us">الولايات المتحدة</bl-select-option>
+          <bl-select-option value="uk">المملكة المتحدة</bl-select-option>
+          <bl-select-option value="fr">فرنسا</bl-select-option>
+        </bl-select>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating a select programmatically
+    const createSelect = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const select = document.createElement('bl-select');
+      select.label = isRTL ? 'الدولة' : 'Country';
+      select.placeholder = isRTL ? 'اختر دولة' : 'Select a country';
+
+      const option = document.createElement('bl-select-option');
+      option.value = 'us';
+      option.textContent = isRTL ? 'الولايات المتحدة' : 'United States';
+      select.appendChild(option);
+
+      container.appendChild(select);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
 
 ## Reference
 

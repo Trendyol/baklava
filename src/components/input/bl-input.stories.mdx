@@ -122,6 +122,7 @@ ${SingleInputTemplate({ size: 'small', ...args })}
 
 <bl-badge icon="document">ADR</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=4%3A5586)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Input component is the component for taking text input from user.
 
@@ -349,6 +350,108 @@ The `loading` attribute is set to `true` to show the spinner inside the input fi
   </Story>
 </Canvas>
 
+## RTL Support
+
+The input component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 16px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-input
+            label="Username"
+            placeholder="Enter username"
+            icon="profile"
+          ></bl-input>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-input
+            label="اسم المستخدم"
+            placeholder="أدخل اسم المستخدم"
+            icon="profile"
+          ></bl-input>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Input RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .flex-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="flex-container">
+      <!-- LTR Example -->
+      <div>
+        <h3>LTR Input</h3>
+        <bl-input
+          label="Username"
+          placeholder="Enter username"
+          icon="profile"
+        ></bl-input>
+      </div>
+
+      <!-- RTL Example -->
+      <div dir="rtl">
+        <h3>RTL Input</h3>
+        <bl-input
+          label="اسم المستخدم"
+          placeholder="أدخل اسم المستخدم"
+          icon="profile"
+        ></bl-input>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating an input programmatically
+    const createInput = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const input = document.createElement('bl-input');
+      input.label = isRTL ? 'اسم المستخدم' : 'Username';
+      input.placeholder = isRTL ? 'أدخل اسم المستخدم' : 'Enter username';
+      input.icon = 'profile';
+
+      container.appendChild(input);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
+
 ## Using within a form
 
 Input component uses [ElementInternals](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) to associate with it's parent form automatically. When you use `bl-input` within a form with a `name` attribute, input's value will be automatically set parent form's FormData. Check the example below:
@@ -393,7 +496,7 @@ Input masking is essential in user interfaces that require formatted entries suc
 
 Baklava is designed to provide stable and general low-level building blocks. This approach helps maintain the flexibility and adaptability of our components, allowing developers the freedom to leverage specialized features such as input masking by incorporating external libraries like [IMask](https://imask.js.org) or [Maskito](https://maskito.dev).
 
-Successfully integrating third-party masking libraries with Baklava’s components involves understanding how these libraries interact with web components. Libraries that provide granular control are especially well-suited for this. For example, IMask and Maskito are compatible with web components due to their APIs which allow direct interactions with the input elements, even those nested within shadow DOM. This capability ensures that the masking logic is applied correctly without interfering with the component's internal structure or lifecycle.
+Successfully integrating third-party masking libraries with Baklava's components involves understanding how these libraries interact with web components. Libraries that provide granular control are especially well-suited for this. For example, IMask and Maskito are compatible with web components due to their APIs which allow direct interactions with the input elements, even those nested within shadow DOM. This capability ensures that the masking logic is applied correctly without interfering with the component's internal structure or lifecycle.
 
 ### Using with JavaScript/TypeScript
 
