@@ -106,22 +106,14 @@
 
 .range-start-day {
   background: var(--bl-color-primary-contrast);
-  border-top-left-radius: 50%;
-  border-bottom-left-radius: 50%;
+  border-start-start-radius: 50%;
+  border-end-start-radius: 50%;
 }
 
 .range-end-day {
   background: var(--bl-color-primary-contrast);
-  border-top-right-radius: 50%;
-  border-bottom-right-radius: 50%;
-}
-
-:host([dir="rtl"]) .range-start-day {
-  border-radius: 0 50% 50% 0;
-}
-
-:host([dir="rtl"]) .range-end-day {
-  border-radius: 50% 0 0 50%;
+  border-start-end-radius: 50%;
+  border-end-end-radius: 50%;
 }
 
 .weekday-text {
