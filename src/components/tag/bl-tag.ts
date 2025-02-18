@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, nothing, TemplateResult } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import "../icon/bl-icon";
@@ -13,14 +13,11 @@ type TagVariant = "selectable" | "removable";
  * @tag bl-tag
  * @summary Baklava Tag component
  */
-
 @customElement("bl-tag")
 export default class BlTag extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
-
-  @query(".remove-button") removeButton!: HTMLButtonElement;
 
   /**
    * Sets the tag size
@@ -28,27 +25,11 @@ export default class BlTag extends LitElement {
   @property({ type: String, reflect: true })
   size: TagSize = "medium";
 
+  /**
+   * Sets the tag variant
+   */
   @property({ type: String, reflect: true })
   variant: TagVariant = "selectable";
-
-  @property({ type: Boolean, reflect: true })
-  selected = false;
-
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  @property({ type: String, reflect: true })
-  value: string | null = null;
-
-  @event("bl-tag-click") private _onBlTagClick: EventDispatcher<{
-    value: string | null;
-    selected: boolean;
-  }>;
-
-  private handleClick = () => {
-    if (this.variant === "selectable") this.selected = !this.selected;
-    this._onBlTagClick({ selected: this.selected, value: this.value });
-  };
 
   /**
    * Sets the name of the icon
@@ -56,46 +37,81 @@ export default class BlTag extends LitElement {
   @property({ type: String })
   icon?: BaklavaIcon;
 
-  render(): TemplateResult {
+  /**
+   * Sets the selected state of the tag
+   */
+  @property({ type: Boolean, reflect: true })
+  selected = false;
+
+  /**
+   *  Disables the tag
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  /**
+   * Sets the value of the tag
+   */
+  @property({ type: String, reflect: true })
+  value: string | null = null;
+
+  /**
+   * Dispatches when the tag is clicked
+   */
+  @event("bl-tag-click") private _onBlTagClick: EventDispatcher<{
+    value: string | null;
+    selected: boolean;
+  }>;
+
+  private _handleClick = () => {
+    if (this.variant === "selectable") this.selected = !this.selected;
+    this._onBlTagClick({ selected: this.selected, value: this.value });
+  };
+
+  private _removeButtonTemplate() {
     const removeIconSize = this.size === "large" ? "medium" : "small";
-    const icon = this.icon
-      ? html`<slot name="icon"><bl-icon name=${this.icon}></bl-icon></slot>`
-      : nothing;
 
-    const removeButton =
-      this.variant === "removable"
-        ? html`
-            <bl-button
-              icon="close"
-              size=${removeIconSize}
-              label="Remove"
-              variant="tertiary"
-              kind="neutral"
-              class="remove-button"
-              ?disabled=${this.disabled}
-              @bl-click=${this.handleClick}
-            ></bl-button>
-          `
-        : nothing;
+    if (this.variant !== "removable") return nothing;
 
+    return html`
+      <bl-button
+        icon="close"
+        size=${removeIconSize}
+        label="Remove"
+        variant="tertiary"
+        kind="neutral"
+        class="remove-button"
+        ?disabled=${this.disabled}
+        @bl-click=${this._handleClick}
+      ></bl-button>
+    `;
+  }
+
+  private _iconTemplate() {
+    if (!this.icon) return nothing;
+    return html`<bl-icon name=${this.icon}></bl-icon>`;
+  }
+
+  render(): TemplateResult {
     const selectableVariant = html`<button
       class="tag"
       role="checkbox"
-      @click=${this.handleClick}
+      @click=${this._handleClick}
       ?disabled=${this.disabled}
     >
-      ${icon}
+      ${this._iconTemplate()}
       <slot></slot>
-      ${removeButton}
+      ${this._removeButtonTemplate()}
     </button>`;
 
     const removableVariant = html`<div class="tag">
-      ${icon}
+      ${this._iconTemplate()}
       <slot></slot>
-      ${removeButton}
+      ${this._removeButtonTemplate()}
     </div>`;
 
-    return this.variant === "selectable" ? selectableVariant : removableVariant;
+    if (this.variant === "selectable") return selectableVariant;
+    return removableVariant;
   }
 }
 
