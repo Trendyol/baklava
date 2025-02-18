@@ -8,8 +8,8 @@
   --color: var(--bl-color-neutral-darker);
   --font: var(--bl-font-title-4-medium);
   --padding-vertical: var(--bl-size-2xs);
-  --padding-horizontal: var(--bl-size-m);
-  --margin-icon: var(--bl-size-2xs);
+  --padding-horizontal: var(--bl-size-xs);
+  --margin-icon: var(--bl-size-3xs);
   --icon-size: var(--bl-size-m);
   --height: var(--bl-size-2xl);
   --border-radius: var(--bl-size-m);
@@ -73,7 +73,7 @@
 :host([size="large"]) .tag {
   --font: var(--bl-font-title-3-medium);
   --padding-vertical: var(--bl-size-2xs);
-  --padding-horizontal: var(--bl-size-l);
+  --padding-horizontal: var(--bl-size-m);
   --height: var(--bl-size-3xl);
   --icon-size: var(--bl-size-m);
   --border-radius: var(--bl-size-l);
@@ -88,7 +88,7 @@
 }
 
 :host([variant="removable"][size="large"]) .tag {
-  --padding-horizontal: var(--bl-size-l) var(--bl-size-2xs);
+  --padding-horizontal: var(--bl-size-m) var(--bl-size-2xs);
 }
 
 slot[name="icon"] bl-icon {
