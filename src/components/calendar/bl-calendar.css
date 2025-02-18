@@ -116,6 +116,14 @@
   border-bottom-right-radius: 50%;
 }
 
+:host([dir="rtl"]) .range-start-day {
+  border-radius: 0 50% 50% 0;
+}
+
+:host([dir="rtl"]) .range-end-day {
+  border-radius: 50% 0 0 50%;
+}
+
 .weekday-text {
   color: var(--bl-color-neutral-dark);
   text-align: center;
