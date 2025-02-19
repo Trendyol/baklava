@@ -1,0 +1,122 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+
+<Meta
+  title="Components/Tag"
+  component="bl-tag"
+  argTypes={{
+    variant: {
+      options: ['selectable', 'removable'],
+      control: { type: 'select' }
+    },
+    size: {
+      options: ['small', 'medium', 'large'],
+      control: { type: 'select' }
+    },
+    icon: {
+      control: 'text'
+    },
+    selected: {
+      control: 'boolean'
+    },
+    disabled: {
+      control: 'boolean'
+    },
+    value: {
+      control: 'text'
+    }
+  }}
+/>
+
+export const Template = (args) => html`
+  <bl-tag
+    variant=${ifDefined(args.variant)}
+    size=${ifDefined(args.size)}
+    icon=${ifDefined(args.icon)}
+    value=${ifDefined(args.value)}
+    ?selected=${args.selected}
+    ?disabled=${args.disabled}
+  >
+    ${args.content}
+  </bl-tag>
+`;
+
+# Tag
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/pull/955)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpuIy4vwuTlDeKN/Baklava-Design-Guide)</bl-badge>
+
+Tags are compact elements that represent an input, attribute, or action.
+
+## Basic Usage
+
+Tags can be used to label, categorize, or organize items using keywords.
+
+<Canvas>
+  <Story name="Default" args={{ content: 'Default Tag' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Variants
+
+Tags come in two variants: selectable and removable.
+
+<Canvas>
+  <Story name="Variants">
+    {html`
+      <bl-tag variant="selectable">Selectable Tag</bl-tag>
+      <bl-tag variant="removable">Removable Tag</bl-tag>
+    `}
+  </Story>
+</Canvas>
+
+## Sizes
+
+Tags are available in three sizes: small, medium (default), and large.
+
+<Canvas>
+  <Story name="Sizes">
+    {html`
+      <bl-tag size="small">Small</bl-tag>
+      <bl-tag size="medium">Medium</bl-tag>
+      <bl-tag size="large">Large</bl-tag>
+      <bl-tag size="small" variant="removable">Small Removable</bl-tag>
+      <bl-tag size="medium" variant="removable">Medium Removable</bl-tag>
+      <bl-tag size="large" variant="removable">Large Removable</bl-tag>
+    `}
+  </Story>
+</Canvas>
+
+## With Icons
+
+Tags can include icons to provide additional visual context.
+
+<Canvas>
+  <Story name="With Icons">
+    {html`
+      <bl-tag icon="info">Info Tag</bl-tag>
+      <bl-tag variant="removable" icon="heart_fill">Removable Tag Icon</bl-tag>
+    `}
+  </Story>
+</Canvas>
+
+## States
+
+Tags can be selected or disabled.
+
+<Canvas>
+  <Story name="States">
+    {html`
+      <bl-tag variant="selectable" selected>Selected Tag</bl-tag>
+      <bl-tag disabled>Disabled Tag</bl-tag>
+      <bl-tag variant="selectable" selected disabled>Selected Disabled Tag</bl-tag>
+      <bl-tag variant="removable" disabled>Disabled Removable Tag</bl-tag>
+    `}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-tag" />
