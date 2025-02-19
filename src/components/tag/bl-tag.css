@@ -84,7 +84,7 @@
 }
 
 :host([variant="removable"]) .tag {
-  --padding-horizontal: var(--bl-size-m) var(--bl-size-3xs);
+  --padding-horizontal: var(--bl-size-xs) var(--bl-size-3xs);
 }
 
 :host([variant="removable"][size="large"]) .tag {
