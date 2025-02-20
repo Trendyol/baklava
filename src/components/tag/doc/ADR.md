@@ -39,12 +39,6 @@ The size and disabled attributes can be set like this:
 
 ## API Reference:
 
-#### Slots
-
-| Name        | Description     | Default Content |
-|-------------|-----------------| --------------- |
-| `icon` slot | Icon of the tag | - |
-
 #### Attributes
 
 | Attribute            | Description                                   | Default Value |
