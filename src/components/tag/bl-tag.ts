@@ -69,12 +69,10 @@ export default class BlTag extends LitElement {
   };
 
   private _removeButtonTemplate() {
-    const removeIconSize = this.size === "large" ? "medium" : "small";
-
     return html`
       <bl-button
         icon="close"
-        size=${removeIconSize}
+        size="small"
         label="Remove"
         variant="tertiary"
         kind="neutral"
