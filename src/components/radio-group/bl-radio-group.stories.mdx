@@ -87,6 +87,7 @@ export const focusSecondOption = async ({ }) => {
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/135)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=1510%3A6857)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Radio Group component is a form field component to take a selection from user with a list of options. It needs to be used with `bl-radio` component.
 
@@ -127,6 +128,119 @@ By default radio options acts as default flex layout. You can change this by set
     {AlignmentsTemplate.bind({})}
   </Story>
 </Canvas>
+
+## RTL Support
+
+The radio group component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 16px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-radio-group label="Select Payment Method" name="payment">
+            <bl-radio value="credit">Credit Card</bl-radio>
+            <bl-radio value="debit">Debit Card</bl-radio>
+            <bl-radio value="cash">Cash</bl-radio>
+          </bl-radio-group>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-radio-group label="اختر طريقة الدفع" name="payment">
+            <bl-radio value="credit">بطاقة ائتمان</bl-radio>
+            <bl-radio value="debit">بطاقة خصم</bl-radio>
+            <bl-radio value="cash">نقدي</bl-radio>
+          </bl-radio-group>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Radio Group RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .flex-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="flex-container">
+      <!-- LTR Example -->
+      <div>
+        <h3>LTR Radio Group</h3>
+        <bl-radio-group label="Select Payment Method" name="payment">
+          <bl-radio value="credit">Credit Card</bl-radio>
+          <bl-radio value="debit">Debit Card</bl-radio>
+          <bl-radio value="cash">Cash</bl-radio>
+        </bl-radio-group>
+      </div>
+
+      <!-- RTL Example -->
+      <div dir="rtl">
+        <h3>RTL Radio Group</h3>
+        <bl-radio-group label="اختر طريقة الدفع" name="payment">
+          <bl-radio value="credit">بطاقة ائتمان</bl-radio>
+          <bl-radio value="debit">بطاقة خصم</bl-radio>
+          <bl-radio value="cash">نقدي</bl-radio>
+        </bl-radio-group>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating a radio group programmatically
+    const createRadioGroup = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const radioGroup = document.createElement('bl-radio-group');
+      radioGroup.label = isRTL ? 'اختر طريقة الدفع' : 'Select Payment Method';
+      radioGroup.name = 'payment';
+
+      const options = isRTL
+        ? [['credit', 'بطاقة ائتمان'], ['debit', 'بطاقة خصم'], ['cash', 'نقدي']]
+        : [['credit', 'Credit Card'], ['debit', 'Debit Card'], ['cash', 'Cash']];
+
+      options.forEach(([value, label]) => {
+        const radio = document.createElement('bl-radio');
+        radio.value = value;
+        radio.textContent = label;
+        radioGroup.appendChild(radio);
+      });
+
+      container.appendChild(radioGroup);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
+
 
 ## Reference
 

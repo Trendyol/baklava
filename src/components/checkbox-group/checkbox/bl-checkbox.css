@@ -64,7 +64,7 @@ input[type="checkbox"] {
 
 .required-suffix {
   color: var(--bl-color-danger);
-  margin-left: calc(var(--bl-size-2xs) * -1);
+  margin-inline-start: calc(var(--bl-size-2xs) * -1);
 }
 
 .dirty.invalid .check-mark {

@@ -78,7 +78,7 @@ export const TableTemplate = (args, {id}) => {
                             >
 															${header.text}
                               ${header.tooltip &&
-                                html`<div style="margin-left: 12px;">
+                                html`<div style="margin-inline-start: 12px;">
                                   <bl-tooltip>
                                     <bl-icon slot="tooltip-trigger" name="info"></bl-icon>
                                     ${header.tooltip}
@@ -130,6 +130,8 @@ export const TableWithPaginationTemplate = (args, {id}) => {
 }
 
 # Table Component
+
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Table is a component to visualize a data set in rows and columns. It needs to be used with `bl-table-header`, `bl-table-body`, `bl-table-row`, `bl-table-header-cell`, `bl-table-cell` component.
 
@@ -653,6 +655,154 @@ To enable pagination on the table, use the `bl-pagination` component. The `@bl-c
   </Story>
 </Canvas>
 
+# RTL Support
+
+The table component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 32px;">
+        <div style="flex: 1;">
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <div style="height: 400px;">
+            <bl-table>
+              <bl-table-header sticky>
+                <bl-table-row>
+                  <bl-table-header-cell>ID</bl-table-header-cell>
+                  <bl-table-header-cell>Name</bl-table-header-cell>
+                  <bl-table-header-cell>Email</bl-table-header-cell>
+                </bl-table-row>
+              </bl-table-header>
+              <bl-table-body>
+                <bl-table-row>
+                  <bl-table-cell>1</bl-table-cell>
+                  <bl-table-cell>John Doe</bl-table-cell>
+                  <bl-table-cell>john@example.com</bl-table-cell>
+                </bl-table-row>
+                <bl-table-row>
+                  <bl-table-cell>2</bl-table-cell>
+                  <bl-table-cell>Jane Smith</bl-table-cell>
+                  <bl-table-cell>jane@example.com</bl-table-cell>
+                </bl-table-row>
+              </bl-table-body>
+            </bl-table>
+          </div>
+        </div>
+        <div style="flex: 1;" dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <div style="height: 400px;">
+            <bl-table>
+              <bl-table-header sticky>
+                <bl-table-row>
+                  <bl-table-header-cell>رقم الهوية</bl-table-header-cell>
+                  <bl-table-header-cell>الاسم</bl-table-header-cell>
+                  <bl-table-header-cell>البريد الإلكتروني</bl-table-header-cell>
+                </bl-table-row>
+              </bl-table-header>
+              <bl-table-body>
+                <bl-table-row>
+                  <bl-table-cell>١</bl-table-cell>
+                  <bl-table-cell>جون دو</bl-table-cell>
+                  <bl-table-cell>john@example.com</bl-table-cell>
+                </bl-table-row>
+                <bl-table-row>
+                  <bl-table-cell>٢</bl-table-cell>
+                  <bl-table-cell>جين سميث</bl-table-cell>
+                  <bl-table-cell>jane@example.com</bl-table-cell>
+                </bl-table-row>
+              </bl-table-body>
+            </bl-table>
+          </div>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Table RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .flex-container {
+      display: flex;
+      gap: 32px;
+    }
+    .table-container {
+      flex: 1;
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="flex-container">
+      <!-- LTR Example -->
+      <div class="table-container">
+        <h3>LTR Table</h3>
+        <bl-table>
+          <bl-table-header sticky>
+            <bl-table-row>
+              <bl-table-header-cell>ID</bl-table-header-cell>
+              <bl-table-header-cell>Name</bl-table-header-cell>
+              <bl-table-header-cell>Email</bl-table-header-cell>
+            </bl-table-row>
+          </bl-table-header>
+          <bl-table-body>
+            <bl-table-row>
+              <bl-table-cell>1</bl-table-cell>
+              <bl-table-cell>John Doe</bl-table-cell>
+              <bl-table-cell>john@example.com</bl-table-cell>
+            </bl-table-row>
+          </bl-table-body>
+        </bl-table>
+      </div>
+
+      <!-- RTL Example -->
+      <div class="table-container" dir="rtl">
+        <h3>RTL Table</h3>
+        <bl-table>
+          <bl-table-header sticky>
+            <bl-table-row>
+              <bl-table-header-cell>رقم الهوية</bl-table-header-cell>
+              <bl-table-header-cell>الاسم</bl-table-header-cell>
+              <bl-table-header-cell>البريد الإلكتروني</bl-table-header-cell>
+            </bl-table-row>
+          </bl-table-header>
+          <bl-table-body>
+            <bl-table-row>
+              <bl-table-cell>١</bl-table-cell>
+              <bl-table-cell>جون دو</bl-table-cell>
+              <bl-table-cell>john@example.com</bl-table-cell>
+            </bl-table-row>
+          </bl-table-body>
+        </bl-table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+  </script>
+</body>
+</html>
+```
 
 ## Reference
 ### bl-table

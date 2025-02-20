@@ -10,8 +10,8 @@
 
 .duration {
   position: absolute;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   bottom: 0;
   height: var(--bl-size-2xs);
   width: 100%;
@@ -22,7 +22,7 @@
   height: 100%;
   width: 100%;
   border-radius: var(--bl-border-radius-s);
-  border-top-left-radius: 0;
+  border-start-start-radius: 0;
   animation-name: to-zero;
   animation-duration: var(--duration, 7s);
   animation-timing-function: linear;

@@ -5,10 +5,10 @@
 
 .calendar-content {
   display: flex;
-  padding: 16px;
+  padding: var(--bl-size-m);
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: var(--bl-size-m);
   border-radius: var(--bl-border-radius-s);
   width: fit-content;
   background: var(--bl-color-neutral-full);
@@ -19,11 +19,15 @@
   justify-content: space-between;
   width: 100%;
   align-items: center;
-  gap: 2px;
+  padding-bottom: var(--bl-size-s);
 }
 
 .arrow {
   flex: 1;
+}
+
+:host([dir="rtl"]) .arrow {
+  transform: scale(-1);
 }
 
 .header-text {
@@ -50,7 +54,7 @@
   display: flex;
   align-items: center;
   flex-direction: row;
-  padding-bottom: 8px;
+  padding-bottom: var(--bl-size-2xs);
 }
 
 .day {
@@ -63,27 +67,27 @@
   --bl-size-xl: 40px;
   --bl-border-radius-m: 50%;
   --bl-border-radius-l: 50%;
+}
 
-  &.today-day {
-    --bl-color-neutral-darker: var(--bl-color-primary);
-    --bl-color-neutral-darkest: var(--bl-color-primary);
-  }
+.day.today-day {
+  --bl-color-neutral-darker: var(--bl-color-primary);
+  --bl-color-neutral-darkest: var(--bl-color-primary);
+}
 
-  &.other-month-day {
-    --bl-color-neutral-darker: var(--bl-color-neutral-dark);
+.day.other-month-day {
+  --bl-color-neutral-darker: var(--bl-color-neutral-dark);
+}
 
-    &.selected-day {
-      --bl-color-neutral-darker: var(--bl-color-neutral-full);
-    }
-  }
+.day.other-month-day.selected-day {
+  --bl-color-neutral-darker: var(--bl-color-neutral-full);
+}
 
-  &.selected-day {
-    background: var(--bl-color-primary);
-    border-radius: 50%;
+.day.selected-day {
+  background: var(--bl-color-primary);
+  border-radius: 50%;
 
-    --bl-button-focus-border-color: var(--bl-color-primary);
-    --bl-color-neutral-darker: var(--bl-color-neutral-full);
-  }
+  --bl-button-focus-border-color: var(--bl-color-primary);
+  --bl-color-neutral-darker: var(--bl-color-neutral-full);
 }
 
 .range-day {
@@ -102,20 +106,20 @@
 
 .range-start-day {
   background: var(--bl-color-primary-contrast);
-  border-top-left-radius: 50%;
-  border-bottom-left-radius: 50%;
+  border-start-start-radius: 50%;
+  border-end-start-radius: 50%;
 }
 
 .range-end-day {
   background: var(--bl-color-primary-contrast);
-  border-top-right-radius: 50%;
-  border-bottom-right-radius: 50%;
+  border-start-end-radius: 50%;
+  border-end-end-radius: 50%;
 }
 
 .weekday-text {
   color: var(--bl-color-neutral-dark);
   text-align: center;
-  padding: 8px 0;
+  padding: var(--bl-size-2xs) 0;
   width: 40px;
 }
 
@@ -132,7 +136,7 @@
 }
 
 .grid-item:not(:nth-last-child(-n + 3)) {
-  padding-bottom: 8px;
+  padding-bottom: var(--bl-size-2xs);
 }
 
 .calendar-text {

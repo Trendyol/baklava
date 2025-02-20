@@ -3,6 +3,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { live } from "lit/directives/live.js";
+import { localized, msg } from "@lit/localize";
 import { FormControlMixin } from "@open-wc/form-control";
 import { submit } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
@@ -45,6 +46,7 @@ export type InputSize = "small" | "medium" | "large";
  * @cssproperty [--bl-input-padding-end] Sets the padding end
  */
 @customElement("bl-input")
+@localized()
 export default class BlInput extends FormControlMixin(LitElement) {
   static get styles(): CSSResultGroup {
     return [style];
@@ -138,13 +140,13 @@ export default class BlInput extends FormControlMixin(LitElement) {
    * Hints browser to autocomplete this field.
    */
   @property({ type: String, reflect: true })
-  autocomplete: string;
+  autocomplete: HTMLInputElement["autocomplete"] = "on";
 
   /**
    * Sets the input mode of the field for asking browser to show the desired keyboard.
    */
   @property({ type: String, reflect: true })
-  inputmode: "none" | "text" | "decimal" | "numeric" | "tel" | "search" | "email" | "url";
+  inputmode: HTMLInputElement["inputMode"];
 
   /**
    * Sets input to get keyboard focus automatically
@@ -184,6 +186,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   /**
    * Overrides error message. This message will override default error messages
+   * @deprecated use setCustomValidity instead
    */
   @property({ type: String, attribute: "invalid-text", reflect: true })
   set customInvalidText(value: string) {
@@ -191,9 +194,15 @@ export default class BlInput extends FormControlMixin(LitElement) {
     this.setValue(this.value);
   }
 
+  /**
+   * @deprecated
+   */
   get customInvalidText(): string {
     return this._customInvalidText;
   }
+
+  @property({ reflect: true, type: String })
+  error: string;
 
   private _customInvalidText: string;
 
@@ -250,6 +259,13 @@ export default class BlInput extends FormControlMixin(LitElement) {
     this.passwordVisible = !this.passwordVisible;
   }
 
+  private async handleSearchClear() {
+    this.value = "";
+
+    await this.clearCustomError();
+    this.validationTarget.focus();
+  }
+
   showPicker() {
     if ("showPicker" in HTMLInputElement.prototype) {
       this.validationTarget.showPicker();
@@ -262,21 +278,34 @@ export default class BlInput extends FormControlMixin(LitElement) {
   }
 
   /**
+   * Sets a custom validity on the form element.
+   * @param message
+   */
+  setCustomValidity(message: string) {
+    this.validationTarget.setCustomValidity(message);
+  }
+
+  /**
    * Force to set input as in invalid state.
+   * @deprecated use error attribute instead
    */
   async forceCustomError() {
     await this.updateComplete;
-    this.validationTarget.setCustomValidity(this.customInvalidText || "An error occurred");
+    this.setCustomValidity(
+      this.customInvalidText ||
+        msg("An error occurred", { desc: "bl-input: default custom error message" })
+    );
     this.setValue(this.value);
     this.reportValidity();
   }
 
   /**
    * Clear forced invalid state
+   * @deprecated use error attribute instead
    */
   async clearCustomError() {
     await this.updateComplete;
-    this.validationTarget.setCustomValidity("");
+    this.setCustomValidity("");
     this.setValue(this.value);
     this.reportValidity();
   }
@@ -291,6 +320,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
     const value = (event.target as HTMLInputElement).value;
 
     this.value = value;
+    this.setValue(this.value);
     this.onInput(value);
   }
 
@@ -299,6 +329,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
     this.dirty = true;
     this.value = value;
+    this.setValue(this.value);
     this.onChange(value);
   }
 
@@ -314,6 +345,10 @@ export default class BlInput extends FormControlMixin(LitElement) {
       await this.validationComplete;
 
       this.requestUpdate();
+    }
+
+    if (changedProperties.has("error") && this.error && !this.dirty) {
+      this.reportValidity();
     }
   }
 
@@ -363,6 +398,22 @@ export default class BlInput extends FormControlMixin(LitElement) {
         </bl-button>`
       : "";
 
+    const clearSearchButton =
+      this.type === "search" && this.value !== "" && this.value !== null
+        ? html`
+            <bl-button
+              size="small"
+              kind="neutral"
+              variant="tertiary"
+              aria-label="Clear search"
+              @bl-click=${this.handleSearchClear}
+            >
+              <bl-icon class="clear-icon" slot="icon" name="close"></bl-icon>
+            </bl-button>
+            <div class="split-divider"></div>
+          `
+        : "";
+
     const hasCustomIcon = this.icon || this._hasIconSlot;
     const classes = {
       "wrapper": true,
@@ -385,7 +436,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           .value=${live(this.value)}
           inputmode="${ifDefined(this.inputmode)}"
           ?autofocus=${this.autofocus}
-          autocomplete="${ifDefined(this.autocomplete)}"
+          .autocomplete="${this.autocomplete}"
           placeholder="${ifDefined(this.placeholder)}"
           minlength="${ifDefined(this.minlength)}"
           maxlength="${ifDefined(this.maxlength)}"
@@ -402,7 +453,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           aria-describedby=${ifDefined(this.helpText ? "helpText" : undefined)}
           aria-errormessage=${ifDefined(this.checkValidity() ? undefined : "errorMessage")}
         />
-        <div class="icon">${revealButton} ${icon}</div>
+        <div class="icon">${revealButton} ${clearSearchButton} ${icon}</div>
       </fieldset>
       <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div>`;

@@ -50,6 +50,7 @@ export const WithMaxTemplate = (args) => html`
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/151)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=151%3A2960)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 A progress indicator provides feedback about the duration and progression of a process to indicate how long a user will be waiting.
 
@@ -101,4 +102,131 @@ We have 3 sizes of progress indicator: `large`, `medium`, `small`. Default size 
    </Story>
 </Canvas>
 
+## RTL Support
+
+The progress indicator component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 32px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <div>
+            <p style="color: var(--bl-color-neutral-dark); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)">
+              Completed Tasks: <b style="color: var(--bl-color-success)">5/8</b>
+            </p>
+            <bl-progress-indicator max="8" value="5"></bl-progress-indicator>
+          </div>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <div>
+            <p style="color: var(--bl-color-neutral-dark); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)">
+              المهام المكتملة: <b style="color: var(--bl-color-success)">5/8</b>
+            </p>
+            <bl-progress-indicator max="8" value="5"></bl-progress-indicator>
+          </div>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Progress Indicator RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .flex-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .progress-container {
+      margin-bottom: 16px;
+    }
+    .progress-text {
+      color: var(--bl-color-neutral-dark);
+      margin: var(--bl-size-3xs);
+      font: var(--bl-font-title-4-regular);
+    }
+    .progress-value {
+      color: var(--bl-color-success);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="flex-container">
+      <!-- LTR Example -->
+      <div>
+        <h3>LTR Progress Indicator</h3>
+        <div class="progress-container">
+          <p class="progress-text">
+            Completed Tasks: <span class="progress-value">5/8</span>
+          </p>
+          <bl-progress-indicator max="8" value="5"></bl-progress-indicator>
+        </div>
+      </div>
+
+      <!-- RTL Example -->
+      <div dir="rtl">
+        <h3>RTL Progress Indicator</h3>
+        <div class="progress-container">
+          <p class="progress-text">
+            المهام المكتملة: <span class="progress-value">5/8</span>
+          </p>
+          <bl-progress-indicator max="8" value="5"></bl-progress-indicator>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating a progress indicator programmatically
+    const createProgressIndicator = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const textContainer = document.createElement('p');
+      textContainer.className = 'progress-text';
+      textContainer.textContent = isRTL ? 'المهام المكتملة: ' : 'Completed Tasks: ';
+
+      const valueSpan = document.createElement('span');
+      valueSpan.className = 'progress-value';
+      valueSpan.textContent = '5/8';
+      textContainer.appendChild(valueSpan);
+
+      const progressIndicator = document.createElement('bl-progress-indicator');
+      progressIndicator.max = 8;
+      progressIndicator.value = 5;
+
+      container.appendChild(textContainer);
+      container.appendChild(progressIndicator);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
+## Reference
 <ArgsTable of="bl-progress-indicator" />

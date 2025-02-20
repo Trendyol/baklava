@@ -1,4 +1,4 @@
-import { LitElement, html, CSSResultGroup, TemplateResult } from "lit";
+import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { event, EventDispatcher } from "../../../utilities/event";
@@ -31,6 +31,12 @@ export default class BlDropdownItem extends LitElement {
 
   @property({ type: String })
   icon?: BaklavaIcon;
+
+  /**
+   * Sets item as disabled
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
 
   @event("bl-dropdown-item-click") private onClick: EventDispatcher<string>;
 
@@ -78,7 +84,8 @@ export default class BlDropdownItem extends LitElement {
       kind="neutral"
       icon="${ifDefined(this.icon)}"
       role="menuitem"
-      @click="${this._handleClick}"
+      ?disabled="${this.disabled}"
+      @bl-click="${this._handleClick}"
       ><slot></slot>
     </bl-button>`;
   }

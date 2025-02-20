@@ -32,6 +32,11 @@
   <target>Tümünü Seç</target>
   <note from="lit-localize">bl-select: select all text</note>
 </trans-unit>
+<trans-unit id="s3f9c368cd44f682b">
+  <source>An error occurred</source>
+  <target>Bir hata oluştu</target>
+  <note from="lit-localize">bl-input: default custom error message</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

@@ -19,6 +19,7 @@ describe("bl-input", () => {
           <legend><span></span></legend>
           <input
             aria-invalid="false"
+            autocomplete="on"
             id="input"
             type="text"
           >
@@ -46,7 +47,7 @@ describe("bl-input", () => {
   });
 
   it('should call showPicker if "showPicker" is in HTMLInputElement.prototype', async () => {
-    const el = await fixture<BlInput>(html`<bl-input type="input"></bl-input>`);
+    const el = await fixture<BlInput>(html`<bl-input type="text"></bl-input>`);
     const spy = stub(el.validationTarget, "showPicker");
 
     el.showPicker();
@@ -153,6 +154,18 @@ describe("bl-input", () => {
 
       expect(revealButton).to.have.style("display", "none");
     });
+
+    it("should hide clear button for empty or non-search inputs", async () => {
+      const emptySearchEl = await fixture<BlInput>(html`<bl-input type="search" value=""></bl-input>`);
+      const emptySearchCloseIcon = emptySearchEl?.shadowRoot?.querySelector('bl-icon[name="close"]');
+
+      expect(emptySearchCloseIcon).to.not.exist;
+
+      const textInputEl = await fixture<BlInput>(html`<bl-input type="text" value="test"></bl-input>`);
+      const textInputCloseIcon = textInputEl?.shadowRoot?.querySelector('bl-icon[name="close"]');
+
+      expect(textInputCloseIcon).to.not.exist;
+    });
   });
 
   describe("validation", () => {
@@ -201,6 +214,43 @@ describe("bl-input", () => {
       );
 
       expect(errorMessageElement).to.visible;
+    });
+
+    it("should show custom error", async () => {
+      const errorMessage = "This field is mandatory";
+      const el = await fixture<BlInput>(
+        html`<bl-input error="${errorMessage}"></bl-input>`
+      );
+
+      await elementUpdated(el);
+
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector(".invalid-text")
+      );
+
+      expect(el.validity.valid).to.be.false;
+
+      expect(errorMessageElement).to.exist;
+      expect(errorMessageElement?.innerText).to.equal(errorMessage);
+    });
+
+    it("should show custom invalid text", async () => {
+      const invalidText = "This field is mandatory";
+      const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
+
+      el.setCustomValidity(invalidText);
+      el.setValue(el.value);
+      el.reportValidity();
+
+      await elementUpdated(el);
+
+      expect(el.validity.valid).to.be.false;
+      const errorMessageElement = <HTMLParagraphElement>(
+        el.shadowRoot?.querySelector(".invalid-text")
+      );
+
+      expect(errorMessageElement).to.visible;
+      expect(errorMessageElement?.innerText).to.equal(invalidText);
     });
 
     it("should set custom error state with forceCustomError method", async () => {
@@ -280,6 +330,22 @@ describe("bl-input", () => {
 
       expect(input).to.attr("type", "text");
     });
+
+    it("should show clear button and clear value on clear button click", async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="search" value="test"></bl-input>`);
+      const closeIcon = el?.shadowRoot?.querySelector('bl-icon[name="close"]') as HTMLElement | null;
+      const input = el?.shadowRoot?.querySelector("input");
+
+      expect(input).to.attr("type", "search");
+      expect(closeIcon).to.exist;
+      expect(el.value).to.equal("test");
+
+      closeIcon?.click();
+      await elementUpdated(el);
+
+      expect(el.value).to.equal("");
+    });
+
 
     it("should fire bl-input event when input value changes", async () => {
       const el = await fixture<BlInput>(html`<bl-input></bl-input>`);

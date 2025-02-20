@@ -1,3 +1,4 @@
+
 <p align="center"><img src="https://user-images.githubusercontent.com/127687/233114483-c5b0a8e7-c072-4ced-a7b5-76bce1be4b21.svg" width="200" alt="Baklava Design System Logo" /></p>
 
 <h1 align="center">Baklava Design System</h1>
@@ -18,6 +19,9 @@
   <a href="https://github.com/semantic-release/semantic-release">
     <img src="https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release" alt="semantic-release: angular" />
   </a>
+  <a href="https://scorecard.dev/viewer/?uri=github.com/Trendyol/baklava">
+    <img src="https://api.scorecard.dev/projects/github.com/Trendyol/baklava/badge" alt="OpenSSF Scorecard" />
+  </a>
 </p>
 
 Baklava is a design system provided by [Trendyol](https://github.com/trendyol) to create a consistent UI/UX for app users.
@@ -29,9 +33,16 @@ Web implementation of the design system is created as native web components so i
 Preferred way of using Baklava is using it via CDN. Just import library JS and CSS files to your main document like below:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.2.0/dist/themes/default.css" />
-<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.2.0/dist/baklava.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/themes/default.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.js"></script>
+
+<!-- We highly recommend using the manuel version of the Baklava library -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@x.x.x/dist/themes/default.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@x.x.x/dist/baklava.js"></script>
+
 ```
+
 
 This way library will be served from a very high performant CDN and all of the Baklava web components will be ready to use inside your web project.
 
