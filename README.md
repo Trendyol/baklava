@@ -43,7 +43,6 @@ Preferred way of using Baklava is using it via CDN. Just import library JS and C
 
 ```
 
-
 This way library will be served from a very high performant CDN and all of the Baklava web components will be ready to use inside your web project.
 
 ```html
