@@ -362,8 +362,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
       const dates = formatToDateArray(this._value);
 
       if (!dates.length) {
-        this._dates = [];
-        this._onBlCalendarChange([]);
+        this.handleClearSelectedDates();
       } else {
         dates?.forEach(date => {
           this.handleDate(date);
