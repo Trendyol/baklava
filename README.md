@@ -33,9 +33,16 @@ Web implementation of the design system is created as native web components so i
 Preferred way of using Baklava is using it via CDN. Just import library JS and CSS files to your main document like below:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.2.0/dist/themes/default.css" />
-<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.2.0/dist/baklava.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/themes/default.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.js"></script>
+
+<!-- We highly recommend using the manuel version of the Baklava library -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@x.x.x/dist/themes/default.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@x.x.x/dist/baklava.js"></script>
+
 ```
+
 
 This way library will be served from a very high performant CDN and all of the Baklava web components will be ready to use inside your web project.
 
