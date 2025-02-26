@@ -259,4 +259,65 @@ describe("bl-radio-group", () => {
     //then
     expect(document.activeElement).to.equal(radioGroup?.options[0]);
   });
+
+  it("should wrap to first option when navigating past last option with arrow right", async () => {
+    //when
+    const el = await fixture(
+      html`<div>
+        <input id="previnput" /><bl-radio-group label="Payment Type" name="pt" value="cc">
+          <bl-radio value="cc">Credit Card</bl-radio>
+          <bl-radio value="ch">Cash</bl-radio> </bl-radio-group
+        ><input id="nextinput" />
+      </div>`
+    );
+
+    await elementUpdated(el);
+
+    el.querySelector<HTMLInputElement>("#previnput")?.focus();
+
+    const radioGroup = el.querySelector("bl-radio-group");
+
+    //given
+    await sendKeys({
+      press: "Tab",
+    });
+    await sendKeys({
+      press: "ArrowRight",
+    });
+    await sendKeys({
+      press: "ArrowRight",
+    });
+
+    //then
+    expect(document.activeElement).to.equal(radioGroup?.options[0]);
+  });
+
+  it("should wrap to last option when navigating before first option with arrow left", async () => {
+    //when
+    const el = await fixture(
+      html`<div>
+        <input id="previnput" /><bl-radio-group label="Payment Type" name="pt" value="cc">
+          <bl-radio value="cc">Credit Card</bl-radio>
+          <bl-radio value="ch">Cash</bl-radio> </bl-radio-group
+        ><input id="nextinput" />
+      </div>`
+    );
+
+    await elementUpdated(el);
+
+    el.querySelector<HTMLInputElement>("#previnput")?.focus();
+
+    const radioGroup = el.querySelector("bl-radio-group");
+
+    //given
+    await sendKeys({
+      press: "Tab",
+    });
+    await sendKeys({
+      press: "ArrowLeft",
+    });
+
+    //then
+    expect(document.activeElement).to.equal(radioGroup?.options[1]);
+  });
 });
