@@ -172,6 +172,12 @@
   color: var(--text-color);
 }
 
+:host(:not([multiple])) .selected-options li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bl-size-2xs);
+}
+
 .selected-options li:not(:last-child)::after {
   content: ", ";
 }

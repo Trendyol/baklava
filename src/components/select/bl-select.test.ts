@@ -124,6 +124,16 @@ describe("bl-select", () => {
     expect(selectedOptions?.textContent).contains("custom-label-1");
     expect(selectedOptions?.textContent).contains("Option 3");
   });
+  it("should render icon correctly on bl-select if an option selected that has icon", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select>
+      <bl-select-option selected icon="info" value="1">Option 1</bl-select-option>
+      <bl-select-option value="2">Option 2</bl-select-option>
+    </bl-select>`);
+
+    const selectedOptions = el.shadowRoot?.querySelector<HTMLUListElement>(".selected-options");
+
+    expect(selectedOptions?.children[0].children[0].outerHTML).to.equal("<bl-icon name=\"info\"></bl-icon>");
+  });
   it("should open select menu", async () => {
     const el = await fixture<BlSelect>(html`<bl-select><bl-select-option value="1">Option 1</bl-select-option></bl-select>`);
 

@@ -85,6 +85,20 @@ export const defaultOptionsWithDisabled = [{
   value: 'uk'
 }]
 
+export const optionsWithIcon = [{
+  label: 'Credit Card',
+  value: 'credit_card',
+  icon: 'info'
+},{
+  label: 'Cash',
+  value: 'cash',
+  icon: 'money'
+},{
+  label: 'Coin',
+  value: 'coin',
+  icon: 'coin'
+}]
+
 export const formSubmitter = async ({ canvasElement }) => {
   const form = canvasElement?.querySelector('form');
   form.addEventListener('submit', (e) => e.preventDefault());
@@ -118,6 +132,32 @@ export const SpecialUseCaseTemplate = () => html`<bl-select style="width: 50%" p
   <bl-select-option value="3">Option 3</bl-select-option>
 </bl-select>`;
 
+export const IconWithSlotTemplate = () => html`<bl-select placeholder="bl-select" label="aa">
+ <bl-select-option value="tr" label="Türkiye">
+      <div slot="icon" >
+        <img style="width: 1em;" src="https://www.worldometers.info//img/flags/small/tn_tu-flag.gif">
+      </div>
+   Turkiye
+ </bl-select-option>
+ <bl-select-option value="nl" label="Netherlands">
+   <div slot="icon">
+     <img style="width: 1em;" src="https://www.worldometers.info//img/flags/small/tn_nl-flag.gif">
+   </div>
+   Netherlands
+ </bl-select-option>
+ <bl-select-option value="gr" label="Germany">
+   <div slot="icon">
+     <img style="width: 1em;" src="https://www.worldometers.info//img/flags/small/tn_gm-flag.gif">
+   </div>
+   Germany
+ </bl-select-option>
+ <bl-select-option value="uk" label="United Kingdom">
+   <div slot="icon">
+     <img style="width: 1em;" src="https://www.worldometers.info//img/flags/small/tn_uk-flag.gif">
+   </div>
+   United Kingdom
+ </bl-select-option></bl-select>`;
+
 export const SelectTemplate = (args) => html`<bl-select
     label=${ifDefined(args.label)}
     class=${ifDefined(args.class)}
@@ -139,7 +179,7 @@ export const SelectTemplate = (args) => html`<bl-select
     .value=${ifDefined(args.value)}>${
   (args.options || defaultOptions).map((option) => html`
   <bl-select-option value=${ifDefined(option.value)} ?selected=${
-    ( args.selected || []).includes(option.value) } ?disabled=${option.disabled}>${option.label}</bl-select-option>`
+    ( args.selected || []).includes(option.value) } ?disabled=${option.disabled} icon=${ifDefined(option.icon)}>${option.label}</bl-select-option>`
   )}
 </bl-select>`
 
@@ -330,6 +370,22 @@ This is useful when you want to show a custom label for an option inside a `bl-s
 <Canvas>
   <Story name="Special Use Cases">
     {SpecialUseCaseTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Icon
+If `bl-select-option` has icon by `icon` attribute, `bl-select` would render the icon of selected option.
+
+<Canvas>
+  <Story name="Select With Icons" args={{ options: optionsWithIcon, placeholder: "Choose Payment Method"  }} play={selectOpener}>
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+You can use slot icon in `bl-select-option` instead of `icon` attribute to display icon on `bl-select`.
+<Canvas>
+  <Story name="Select With Icon Slots" args={{ options: optionsWithIcon, placeholder: "Choose Payment Method"  }} play={selectOpener}>
+    {IconWithSlotTemplate.bind({})}
   </Story>
 </Canvas>
 
