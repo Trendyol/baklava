@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, LitElement, TemplateResult, PropertyValues } from "lit";
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -261,6 +261,8 @@ export default class BlInput extends FormControlMixin(LitElement) {
 
   private async handleSearchClear() {
     this.value = "";
+    this.setValue(this.value);
+    this.onInput(this.value);
 
     await this.clearCustomError();
     this.validationTarget.focus();

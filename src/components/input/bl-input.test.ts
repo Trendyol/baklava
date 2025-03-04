@@ -1,4 +1,4 @@
-import { assert, expect, fixture, oneEvent, html, elementUpdated } from "@open-wc/testing";
+import { assert, elementUpdated, expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { stub } from "sinon";
 import BlInput from "./bl-input";
 
@@ -340,10 +340,19 @@ describe("bl-input", () => {
       expect(closeIcon).to.exist;
       expect(el.value).to.equal("test");
 
+      let inputEventFired = false;
+
+      el.addEventListener("bl-input", (e) => {
+        inputEventFired = true;
+        expect((e as CustomEvent).detail).to.be.equal("");
+      });
+
+
       closeIcon?.click();
       await elementUpdated(el);
 
       expect(el.value).to.equal("");
+      expect(inputEventFired).to.be.true;
     });
 
 
