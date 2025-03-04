@@ -1,11 +1,11 @@
-import { html } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import {
-  Meta,
-  Canvas,
   ArgsTable,
+  Canvas,
+  Meta,
   Story,
 } from '@storybook/addon-docs';
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { extraPadding } from '../../utilities/chromatic-decorators';
 
 <Meta
@@ -327,6 +327,17 @@ Input can be set as disabled by adding `disabled` attribute.
   <Story name="Disabled Input with icon"
          args={{ type: 'text', label: 'User Name', icon: 'profile', disabled: true }}
   >
+    {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Search Input with Clear Button
+
+Input with type `search` has a clear button by default. This button will be shown when input has a value. You can clear the input by clicking this button.
+This is going trigger `input` event with empty string.
+
+<Canvas>
+  <Story name="Search Input with Clear Button" args={{ type: 'search', placeholder: 'Search', value: 'some input' }}>
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
