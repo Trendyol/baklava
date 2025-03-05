@@ -76,10 +76,18 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
     // Next option
     if (["ArrowDown", "ArrowRight"].includes(event.key)) {
       this.focusedOptionIndex++;
+      if (this.focusedOptionIndex >= this.availableOptions.length) {
+        this.focusedOptionIndex = 0; // Wrap around to the first option
+      }
+      this.availableOptions[this.focusedOptionIndex].select();
 
       // Previous option
     } else if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
       this.focusedOptionIndex--;
+      if (this.focusedOptionIndex < 0) {
+        this.focusedOptionIndex = this.availableOptions.length - 1; // Wrap around to the last option
+      }
+      this.availableOptions[this.focusedOptionIndex].select();
 
       // Select option
     } else if ([" "].includes(event.key)) {
@@ -90,17 +98,10 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
       return;
     }
 
-    // Don't exceed array indexes
-    this.focusedOptionIndex = Math.max(
-      0,
-      Math.min(this.focusedOptionIndex, this.availableOptions.length - 1)
-    );
-
     this.availableOptions[this.focusedOptionIndex].focus();
 
     event.preventDefault();
   }
-
   connectedCallback(): void {
     super.connectedCallback();
 
