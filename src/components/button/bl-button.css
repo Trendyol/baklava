@@ -25,6 +25,7 @@
   box-sizing: border-box;
   width: 100%;
   height: var(--height);
+  min-width: var(--height);
   border: solid 1px var(--border-color);
   border-radius: var(--bl-border-radius-m);
   text-decoration: none;

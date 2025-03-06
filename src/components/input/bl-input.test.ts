@@ -1,4 +1,4 @@
-import { assert, expect, fixture, oneEvent, html, elementUpdated } from "@open-wc/testing";
+import { assert, elementUpdated, expect, fixture, html, oneEvent } from "@open-wc/testing";
 import { stub } from "sinon";
 import BlInput from "./bl-input";
 
@@ -153,6 +153,18 @@ describe("bl-input", () => {
       await elementUpdated(el);
 
       expect(revealButton).to.have.style("display", "none");
+    });
+
+    it("should hide clear button for empty or non-search inputs", async () => {
+      const emptySearchEl = await fixture<BlInput>(html`<bl-input type="search" value=""></bl-input>`);
+      const emptySearchCloseIcon = emptySearchEl?.shadowRoot?.querySelector('bl-icon[name="close"]');
+
+      expect(emptySearchCloseIcon).to.not.exist;
+
+      const textInputEl = await fixture<BlInput>(html`<bl-input type="text" value="test"></bl-input>`);
+      const textInputCloseIcon = textInputEl?.shadowRoot?.querySelector('bl-icon[name="close"]');
+
+      expect(textInputCloseIcon).to.not.exist;
     });
   });
 
@@ -318,6 +330,31 @@ describe("bl-input", () => {
 
       expect(input).to.attr("type", "text");
     });
+
+    it("should show clear button and clear value on clear button click", async () => {
+      const el = await fixture<BlInput>(html`<bl-input type="search" value="test"></bl-input>`);
+      const closeIcon = el?.shadowRoot?.querySelector('bl-icon[name="close"]') as HTMLElement | null;
+      const input = el?.shadowRoot?.querySelector("input");
+
+      expect(input).to.attr("type", "search");
+      expect(closeIcon).to.exist;
+      expect(el.value).to.equal("test");
+
+      let inputEventFired = false;
+
+      el.addEventListener("bl-input", (e) => {
+        inputEventFired = true;
+        expect((e as CustomEvent).detail).to.be.equal("");
+      });
+
+
+      closeIcon?.click();
+      await elementUpdated(el);
+
+      expect(el.value).to.equal("");
+      expect(inputEventFired).to.be.true;
+    });
+
 
     it("should fire bl-input event when input value changes", async () => {
       const el = await fixture<BlInput>(html`<bl-input></bl-input>`);

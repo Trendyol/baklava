@@ -20,6 +20,7 @@ export const AccordionTemplate = (args) => html`
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/739)</bl-badge>
 <bl-badge
   icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?type=design&node-id=15548%3A20910)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 The Accordion Group component combines accordions and only allows one accordion to be open by default
 
@@ -38,6 +39,153 @@ Allow multiple accordions to be open at once with `multiple` attribute.
     {AccordionTemplate.bind({})}
   </Story>
 </Canvas>
+
+## RTL Support
+
+The accordion group component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 32px;">
+        <div style="flex: 1;">
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-accordion-group>
+            <bl-accordion caption="Section 1" icon="info">
+              First section content. Lorem ipsum dolor sit amet.
+            </bl-accordion>
+            <bl-accordion caption="Section 2" icon="star">
+              Second section content. Consectetur adipisicing elit.
+            </bl-accordion>
+            <bl-accordion caption="Section 3" icon="check">
+              Third section content. Adipisci architecto debitis.
+            </bl-accordion>
+          </bl-accordion-group>
+        </div>
+        <div style="flex: 1;" dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-accordion-group>
+            <bl-accordion caption="القسم الأول" icon="info">
+              محتوى القسم الأول. هذا مثال للنص العربي.
+            </bl-accordion>
+            <bl-accordion caption="القسم الثاني" icon="star">
+              محتوى القسم الثاني. يمكن إضافة أي محتوى هنا.
+            </bl-accordion>
+            <bl-accordion caption="القسم الثالث" icon="check">
+              محتوى القسم الثالث. مثال على النص العربي.
+            </bl-accordion>
+          </bl-accordion-group>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Accordion Group RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .flex-container {
+      display: flex;
+      gap: 32px;
+      margin-top: 20px;
+    }
+    .flex-item {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="flex-container">
+      <!-- LTR Example -->
+      <div class="flex-item">
+        <h3>LTR Accordion Group</h3>
+        <bl-accordion-group>
+          <bl-accordion caption="Section 1" icon="info">
+            First section content. Lorem ipsum dolor sit amet.
+          </bl-accordion>
+          <bl-accordion caption="Section 2" icon="star">
+            Second section content. Consectetur adipisicing elit.
+          </bl-accordion>
+          <bl-accordion caption="Section 3" icon="check">
+            Third section content. Adipisci architecto debitis.
+          </bl-accordion>
+        </bl-accordion-group>
+      </div>
+
+      <!-- RTL Example -->
+      <div class="flex-item" dir="rtl">
+        <h3>RTL Accordion Group</h3>
+        <bl-accordion-group>
+          <bl-accordion caption="القسم الأول" icon="info">
+            محتوى القسم الأول. هذا مثال للنص العربي.
+          </bl-accordion>
+          <bl-accordion caption="القسم الثاني" icon="star">
+            محتوى القسم الثاني. يمكن إضافة أي محتوى هنا.
+          </bl-accordion>
+          <bl-accordion caption="القسم الثالث" icon="check">
+            محتوى القسم الثالث. مثال على النص العربي.
+          </bl-accordion>
+        </bl-accordion-group>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating an accordion group programmatically
+    const createAccordionGroup = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const accordionGroup = document.createElement('bl-accordion-group');
+
+      // Create and add three accordions
+      const sections = isRTL
+        ? [
+            { caption: 'القسم الأول', content: 'محتوى القسم الأول', icon: 'info' },
+            { caption: 'القسم الثاني', content: 'محتوى القسم الثاني', icon: 'star' },
+            { caption: 'القسم الثالث', content: 'محتوى القسم الثالث', icon: 'check' }
+          ]
+        : [
+            { caption: 'Section 1', content: 'First section content', icon: 'info' },
+            { caption: 'Section 2', content: 'Second section content', icon: 'star' },
+            { caption: 'Section 3', content: 'Third section content', icon: 'check' }
+          ];
+
+      sections.forEach(section => {
+        const accordion = document.createElement('bl-accordion');
+        accordion.caption = section.caption;
+        accordion.icon = section.icon;
+        accordion.textContent = section.content;
+        accordionGroup.appendChild(accordion);
+      });
+
+      container.appendChild(accordionGroup);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
 
 ## Reference
 

@@ -96,6 +96,7 @@ ${SingleButtonTemplate({ size: 'small', loading: true, content: 'Create' })}
 
 <bl-badge icon="document">ADR</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=4%3A5584)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Buttons allow users to take actions, and make choices with a single tap.
 
@@ -293,6 +294,93 @@ You can also set `form` **property** with a reference to an HTMLFormElement with
   const button = document.querySelector('bl-button');
   button.form = contactForm;
 </script>
+```
+
+## RTL Support
+
+The button component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 16px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-button icon="arrow_right">Next</bl-button>
+          <bl-button icon="settings">Settings</bl-button>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-button icon="arrow_left">التالي</bl-button>
+          <bl-button icon="settings">الإعدادات</bl-button>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Button RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .button-container {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="button-container">
+      <!-- LTR Example -->
+      <div>
+        <h3>LTR Buttons</h3>
+        <bl-button icon="arrow_right">Next</bl-button>
+        <bl-button icon="settings">Settings</bl-button>
+      </div>
+
+      <!-- RTL Example -->
+      <div dir="rtl">
+        <h3>RTL Buttons</h3>
+        <bl-button icon="arrow_left">التالي</bl-button>
+        <bl-button icon="settings">الإعدادات</bl-button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    const createButton = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const button = document.createElement('bl-button');
+      button.icon = isRTL ? 'arrow_left' : 'arrow_right';
+      button.textContent = isRTL ? 'التالي' : 'Next';
+
+      container.appendChild(button);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
 ```
 
 ## Reference

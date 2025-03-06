@@ -8,6 +8,7 @@ describe("bl-calendar", () => {
   let element: BlCalendar;
   let consoleWarnSpy: sinon.SinonSpy;
 
+
   beforeEach(async () => {
     element = await fixture<BlCalendar>(html`
       <bl-calendar locale="en"></bl-calendar>`);
@@ -63,8 +64,8 @@ describe("bl-calendar", () => {
     const dayButton = element.shadowRoot?.querySelector(".day-wrapper bl-button") as BlButton;
 
     dayButton?.click();
-    expect(element._selectedDates.length).to.equal(1);
-    expect(element.checkIfSelectedDate(element._selectedDates[0])).to.be.true;
+    expect(element._dates.length).to.equal(1);
+    expect(element.checkIfSelectedDate(element._dates[0])).to.be.true;
   });
 
   it("should correctly handle multiple date selection", async () => {
@@ -76,7 +77,7 @@ describe("bl-calendar", () => {
 
     dayButtons[0].click();
     dayButtons[1].click();
-    expect(element._selectedDates.length).to.equal(2);
+    expect(element._dates.length).to.equal(2);
   });
 
   it("should fire bl-calendar-change event when dates are selected", async () => {
@@ -97,7 +98,7 @@ describe("bl-calendar", () => {
 
     daysButtons[0].click();
     expect(selectedDates.length).to.equal(1);
-    expect(selectedDates[0]).to.equal(singleTypeCalendar._selectedDates[0]);
+    expect(selectedDates[0]).to.equal(singleTypeCalendar._dates[0]);
 
   });
 
@@ -144,8 +145,8 @@ describe("bl-calendar", () => {
     element.handleRangeSelectCalendar(startDate);
     element.handleRangeSelectCalendar(endDate);
 
-    expect(element._selectedDates[0]).to.deep.equal(startDate);
-    expect(element._selectedDates[1]).to.deep.equal(endDate);
+    expect(element._dates[0]).to.deep.equal(startDate);
+    expect(element._dates[1]).to.deep.equal(endDate);
   });
 
   it("should render month names in the correct locale", async () => {
@@ -232,23 +233,25 @@ describe("bl-calendar", () => {
   });
 
   it("should wrap value in an array if it is a single date", async () => {
-    const calendar = new BlCalendar();
+    const date=new Date("2023-09-18");
 
-    calendar.value = new Date("2023-09-18");
-    calendar.type = CALENDAR_TYPES.SINGLE;
+    element.type = CALENDAR_TYPES.SINGLE;
+    element.value = date;
+    await element.updateComplete;
 
-    expect(calendar._selectedDates).to.deep.equal([new Date("2023-09-18")], {});
+    expect(element._dates[0]).to.be.equal(date);
   });
 
   it("should set startDate and endDate in selectedDays when type is range", async () => {
     const defaultDate1 = new Date(2023, 9, 18);
     const defaultDate2 = new Date(2023, 9, 19);
 
-    element.value = [defaultDate1, defaultDate2];
     element.type = CALENDAR_TYPES.RANGE;
+    element.value = [defaultDate1, defaultDate2];
+    await element.updateComplete;
 
-    expect(element._selectedDates[0]).to.be.equal(defaultDate1);
-    expect(element._selectedDates[1]).to.be.equal(defaultDate2);
+    expect(element._dates[0]).to.be.equal(defaultDate1);
+    expect(element._dates[1]).to.be.equal(defaultDate2);
   });
 
   it("should navigate to the previous month in DAYS view", async () => {
@@ -349,11 +352,11 @@ describe("bl-calendar", () => {
     const startDate = new Date(2023, 0, 5);
     const calendarDate = new Date(2023, 0, 1);
 
-    element._selectedDates[0] = startDate;
+    element._dates[0] = startDate;
 
     element.handleRangeSelectCalendar(calendarDate);
 
-    expect(element._selectedDates).to.deep.equal([calendarDate, startDate]);
+    expect(element._dates).to.deep.equal([calendarDate, startDate]);
   });
 
   it("should reset to only startDate when both startDate and endDate are set", () => {
@@ -361,22 +364,22 @@ describe("bl-calendar", () => {
     const startDate = new Date(2023, 0, 5);
     const endDate = new Date(2023, 0, 15);
 
-    element._selectedDates = [startDate, endDate];
+    element._dates = [startDate, endDate];
 
     element.handleRangeSelectCalendar(calendarDate);
 
-    expect(element._selectedDates).to.deep.equal([calendarDate]);
+    expect(element._dates).to.deep.equal([calendarDate]);
   });
 
-  it("should remove the date if it already exists in _selectedDates", () => {
+  it("should remove the date if it already exists in _dates", () => {
     const calendarDate = new Date(2023, 0, 5);
 
-    element._selectedDates.push(calendarDate);
+    element._dates.push(calendarDate);
 
     element.handleMultipleSelectCalendar(calendarDate);
 
-    expect(element._selectedDates).to.not.include(calendarDate);
-    expect(element._selectedDates).to.have.lengthOf(0);
+    expect(element._dates).to.not.include(calendarDate);
+    expect(element._dates).to.have.lengthOf(0);
   });
 
   it("should add the date if it does not exist in selectedDates", () => {
@@ -384,8 +387,8 @@ describe("bl-calendar", () => {
 
     element.handleMultipleSelectCalendar(calendarDate);
 
-    expect(element._selectedDates).to.include(calendarDate);
-    expect(element._selectedDates).to.have.lengthOf(1);
+    expect(element._dates).to.include(calendarDate);
+    expect(element._dates).to.have.lengthOf(1);
   });
 
   it("should call handleRangeSelectCalendar when type is RANGE", () => {
@@ -402,7 +405,7 @@ describe("bl-calendar", () => {
 
 
   it("should add range-start-day class to the start date element", async () => {
-    element._selectedDates = [new Date(element.today.getFullYear(), element.today.getMonth(), 1),
+    element._dates = [new Date(element.today.getFullYear(), element.today.getMonth(), 1),
       new Date(element.today.getFullYear(), element.today.getMonth(), 5)
     ];
 
@@ -410,14 +413,14 @@ describe("bl-calendar", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 200));
     const startDateElement = element.shadowRoot?.getElementById(
-      `${element._selectedDates[0]?.getTime()}`
+      `${element._dates[0]?.getTime()}`
     )?.parentElement;
 
     expect(startDateElement?.classList.contains("range-start-day")).to.be.true;
   });
 
   it("should add range-end-day class to the end date element", async () => {
-    element._selectedDates = [new Date(element.today.getFullYear(), element.today.getMonth(), 1),
+    element._dates = [new Date(element.today.getFullYear(), element.today.getMonth(), 1),
       new Date(element.today.getFullYear(), element.today.getMonth(), 5)
     ];
 
@@ -425,7 +428,7 @@ describe("bl-calendar", () => {
     await new Promise((resolve) => setTimeout(resolve, 200));
 
     const endDateElement = element.shadowRoot?.getElementById(
-      `${element._selectedDates[1]?.getTime()}`
+      `${element._dates[1]?.getTime()}`
     )?.parentElement;
 
     expect(endDateElement?.classList.contains("range-end-day")).to.be.true;
@@ -569,12 +572,34 @@ describe("bl-calendar", () => {
 
   it("should add classes when both startDate and endDate are defined", () => {
 
-    element._selectedDates = [new Date(2024, 0, 10), new Date(2024, 0, 15)];
+    element._dates = [new Date(2024, 0, 10), new Date(2024, 0, 15)];
 
     const setTimeoutSpy = sinon.spy(window, "setTimeout");
 
     element.setHoverClass();
 
     expect(setTimeoutSpy).to.have.been.calledOnce;
+  });
+  it("should clear selected dates, dispatch event and clear range picker styles", async () => {
+    const clearRangePickerStylesSpy = sinon.spy(element, "clearRangePickerStyles");
+
+    element._dates = [new Date(2023, 0, 1), new Date(2023, 0, 5)];
+    element.handleClearSelectedDates();
+
+    expect(element._dates).to.be.empty;
+    expect(clearRangePickerStylesSpy).to.have.been.calledOnce;
+  });
+
+
+  it("should clear _dates and dispatch event with empty array when value is empty", async () => {
+    const changedProperties = new Map();
+
+    changedProperties.set("value", true);
+    element._value = [];
+    element.requestUpdate();
+    await element.updateComplete;
+    element.updated(changedProperties);
+
+    expect(element._dates).to.be.empty;
   });
 });

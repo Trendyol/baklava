@@ -25,6 +25,7 @@ export const AccordionTemplate = (args) => html`
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/739)</bl-badge>
 <bl-badge
   icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?type=design&node-id=15548%3A20910)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Accordion is a component that allows the user to show and hide sections of related content on a page.
 
@@ -75,6 +76,104 @@ Use the `disable` attribute to prevent the details from expanding.
   </Story>
 </Canvas>
 
+## RTL Support
+
+The accordion component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div>
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-accordion caption="Toggle Me" icon="info">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto debitis earum fuga iusto modi molestias necessitatibus provident quam! Nisi!
+          </bl-accordion>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-accordion caption="اضغط هنا" icon="info">
+            النص العربي هنا. هذا مثال على محتوى يظهر عند النقر على الزر. يمكن أن يحتوي على أي نوع من المحتوى.
+          </bl-accordion>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Accordion RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .flex-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="flex-container">
+      <!-- LTR Example -->
+      <div>
+        <h3>LTR Accordion</h3>
+        <bl-accordion caption="Toggle Me" icon="info">
+          This is an example of left-to-right accordion content.
+          You can put any content here.
+        </bl-accordion>
+      </div>
+
+      <!-- RTL Example -->
+      <div dir="rtl">
+        <h3>RTL Accordion</h3>
+        <bl-accordion caption="اضغط هنا" icon="info">
+          النص العربي هنا. هذا مثال على محتوى يظهر عند النقر على الزر.
+          يمكن أن يحتوي على أي نوع من المحتوى.
+        </bl-accordion>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+
+    const createAccordion = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const accordion = document.createElement('bl-accordion');
+      accordion.caption = isRTL ? 'اضغط هنا' : 'Toggle Me';
+      accordion.icon = 'info';
+      accordion.textContent = isRTL
+        ? 'النص العربي هنا. هذا مثال على محتوى.'
+        : 'This is an example content.';
+
+      container.appendChild(accordion);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
+
+
 ## Reference
 
 <ArgsTable of="bl-accordion" />
@@ -90,3 +189,4 @@ Example usage;
 document.querySelector('bl-accordion').expand();
 document.querySelector('bl-accordion').collapse();
 ```
+

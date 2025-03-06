@@ -48,6 +48,7 @@ ${SwitchTemplate(args)}
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/266)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=118%3A4070)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Switch component can be used to toggle On or Off states of any single item.
 
@@ -136,6 +137,82 @@ We strongly advise against customizing switch with any colors other than success
     {SwitchStyled.bind({})}
   </Story>
 </Canvas>
+
+## RTL Support
+
+The switch component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div>
+        <iframe
+          srcdoc="
+            <html dir='rtl'>
+              <head>
+                <script type='module' src='https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.22/dist/baklava.js'></script>
+                <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@trendyol/baklava@3.3.0-beta.22/dist/themes/default.css'>
+                <style>
+                  body { margin: 0; display: flex; flex-direction: column; align-items: flex-end; }
+                  bl-switch { display: block; margin-bottom: 8px; }
+                </style>
+              </head>
+              <body>
+                <bl-switch>تفعيل الإشعارات</bl-switch>
+                <bl-switch checked>الوضع الداكن</bl-switch>
+                <bl-switch disabled>خيار معطل</bl-switch>
+              </body>
+            </html>
+          "
+          style="border: none;"
+        ></iframe>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Switch RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="https://unpkg.com/@trendyol/baklava@2.6.0/dist/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .switch-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="switch-group">
+      <h3>RTL Switches</h3>
+      <bl-switch>تفعيل الإشعارات</bl-switch>
+      <bl-switch checked>الوضع الداكن</bl-switch>
+      <bl-switch disabled>خيار معطل</bl-switch>
+    </div>
+  </div>
+
+  <script>
+    // Example of creating a switch programmatically
+    const createSwitch = () => {
+      const switchEl = document.createElement('bl-switch');
+      switchEl.textContent = 'تفعيل الإشعارات';
+      document.querySelector('.switch-group').appendChild(switchEl);
+    };
+  </script>
+</body>
+</html>
+```
 
 ## Reference
 

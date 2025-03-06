@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, LitElement, TemplateResult, PropertyValues } from "lit";
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -259,6 +259,15 @@ export default class BlInput extends FormControlMixin(LitElement) {
     this.passwordVisible = !this.passwordVisible;
   }
 
+  private async handleSearchClear() {
+    this.value = "";
+    this.setValue(this.value);
+    this.onInput(this.value);
+
+    await this.clearCustomError();
+    this.validationTarget.focus();
+  }
+
   showPicker() {
     if ("showPicker" in HTMLInputElement.prototype) {
       this.validationTarget.showPicker();
@@ -391,6 +400,22 @@ export default class BlInput extends FormControlMixin(LitElement) {
         </bl-button>`
       : "";
 
+    const clearSearchButton =
+      this.type === "search" && this.value !== "" && this.value !== null
+        ? html`
+            <bl-button
+              size="small"
+              kind="neutral"
+              variant="tertiary"
+              aria-label="Clear search"
+              @bl-click=${this.handleSearchClear}
+            >
+              <bl-icon class="clear-icon" slot="icon" name="close"></bl-icon>
+            </bl-button>
+            <div class="split-divider"></div>
+          `
+        : "";
+
     const hasCustomIcon = this.icon || this._hasIconSlot;
     const classes = {
       "wrapper": true,
@@ -430,7 +455,7 @@ export default class BlInput extends FormControlMixin(LitElement) {
           aria-describedby=${ifDefined(this.helpText ? "helpText" : undefined)}
           aria-errormessage=${ifDefined(this.checkValidity() ? undefined : "errorMessage")}
         />
-        <div class="icon">${revealButton} ${icon}</div>
+        <div class="icon">${revealButton} ${clearSearchButton} ${icon}</div>
       </fieldset>
       <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div>`;

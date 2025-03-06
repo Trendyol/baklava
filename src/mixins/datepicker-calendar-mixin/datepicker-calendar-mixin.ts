@@ -1,6 +1,5 @@
 import { LitElement } from "lit";
-import { property, state } from "lit/decorators.js";
-import { CALENDAR_TYPES } from "../../components/calendar/bl-calendar.constant";
+import { property } from "lit/decorators.js";
 import { CalendarType, DayValues } from "../../components/calendar/bl-calendar.types";
 import { stringToDateArray } from "../../utilities/string-to-date-converter";
 
@@ -20,8 +19,6 @@ export default class DatepickerCalendarMixin extends LitElement {
    */
   @property()
   locale: string = document.documentElement.lang || "en-EN";
-  @state()
-  _selectedDates: Date[] = [];
 
   /**
    * Defines the unselectable dates for calendar
@@ -64,7 +61,7 @@ export default class DatepickerCalendarMixin extends LitElement {
 
   @property({ type: Date, attribute: "max-date", reflect: true })
   set maxDate(maxDate: Date) {
-    if (isNaN(new Date(maxDate).getTime())) {
+    if (maxDate && isNaN(new Date(maxDate).getTime())) {
       console.warn("Invalid maxDate value.");
       return;
     }
@@ -87,7 +84,7 @@ export default class DatepickerCalendarMixin extends LitElement {
 
   @property({ type: Date, attribute: "min-date", reflect: true })
   set minDate(minDate: Date) {
-    if (isNaN(new Date(minDate).getTime())) {
+    if (minDate && isNaN(new Date(minDate).getTime())) {
       console.warn("Invalid minDate value.");
       return;
     }
@@ -99,51 +96,17 @@ export default class DatepickerCalendarMixin extends LitElement {
     }
   }
 
-  /**
-   * Target elements state
-   */
-  protected _value: Date | Date[] | string;
+  @property({ attribute: "value", reflect: true })
+  set value(value: string | Date | Date[]) {
+    const oldValue = this._value;
 
-  /**
-   * Sets the target element of the popover to align and trigger.
-   * It can be a string id of the target element or can be a direct Element reference of it.
-   */
-  get value() {
+    this._value = value;
+    this.requestUpdate("value", oldValue);
+  }
+
+  get value(): string | Date | Date[] {
     return this._value;
   }
 
-  @property({ attribute: "value", reflect: true })
-  set value(value: string | Date | Date[]) {
-    if (value) {
-      const oldValue = this._value;
-      let tempVal: Date[] = [];
-
-      if (typeof value === "string") {
-        tempVal = stringToDateArray(value);
-      } else if (value instanceof Date) {
-        tempVal.push(value);
-      } else if (Array.isArray(value)) {
-        tempVal = value;
-      }
-
-      if (tempVal.length > 0) {
-        if (this.type === CALENDAR_TYPES.SINGLE && tempVal.length > 1) {
-          console.warn("'value' must be a single Date for single type selection.");
-        } else if (
-          this.type === CALENDAR_TYPES.RANGE &&
-          Array.isArray(tempVal) &&
-          tempVal.length != 2
-        ) {
-          console.warn(
-            "'value' must be an array of two Date objects when the type selection mode is set to range."
-          );
-        } else {
-          this._value = value;
-          this._selectedDates = tempVal;
-        }
-      }
-
-      this.requestUpdate("value", oldValue);
-    }
-  }
+  _value: string | Date | Date[] = [];
 }

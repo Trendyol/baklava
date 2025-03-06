@@ -9,9 +9,6 @@ import BlTableRow from "./table-row/bl-table-row";
 
 export const blTableTag = "bl-table";
 
-export const blSortChangeEventName = "bl-sort";
-export const blRowSelectChangeEventName = "bl-row-select";
-
 export type SortDirection = "asc" | "desc" | "";
 
 /**
@@ -97,12 +94,12 @@ export default class BlTable extends LitElement {
   /**
    * Fires when table sort options changed
    */
-  @event(blSortChangeEventName) private onSort: EventDispatcher<string[]>;
+  @event("bl-sort") private onSort: EventDispatcher<string[]>;
 
   /**
    * Fires when selected table rows changed
    */
-  @event(blRowSelectChangeEventName) private onRowSelect: EventDispatcher<string[]>;
+  @event("bl-row-select") private onRowSelect: EventDispatcher<string[]>;
 
   @state() private _selectedValues: string[] = [];
 
@@ -279,7 +276,7 @@ declare global {
   }
 
   interface HTMLElementEventMap {
-    [blSortChangeEventName]: CustomEvent<string[]>;
-    [blRowSelectChangeEventName]: CustomEvent<string[]>;
+    "bl-sort": CustomEvent<string[]>;
+    "bl-row-select": CustomEvent<string[]>;
   }
 }

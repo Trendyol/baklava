@@ -1,8 +1,8 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+import { userEvent } from '@storybook/testing-library';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
-import { userEvent } from '@storybook/testing-library';
 
 <Meta
   title="Components/Dropdown Button/Dropdown"
@@ -35,8 +35,8 @@ import { userEvent } from '@storybook/testing-library';
 
 export const dropdownOpener = async ({ canvasElement }) => {
   const dropdown = canvasElement?.querySelector('bl-dropdown')
-  if(dropdown.shadowRoot) {
-    const button = dropdown.shadowRoot.querySelector('bl-button')
+  if (dropdown.shadowRoot) {
+    const button = dropdown.shadowRoot.querySelector("bl-button")?.shadowRoot?.querySelector("button");
     await userEvent.click(button);
   }
 }
@@ -78,6 +78,22 @@ export const IconDropdownTemplate = (args) => html`<bl-dropdown
       <bl-dropdown-item>Action 5</bl-dropdown-item>
       </bl-dropdown>`
 
+export const DisabledItemDropdownTemplate = (args) => html`<bl-dropdown
+    variant=${ifDefined(args.variant)}
+    kind=${ifDefined(args.kind)}
+    size=${ifDefined(args.size)}
+    label="${ifDefined(args.label)}"
+    ?disabled=${args.disabled}
+    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+      ><bl-dropdown-group caption="Caption">
+        <bl-dropdown-item disabled>${args.content || 'Action 1'}</bl-dropdown-item>
+        <bl-dropdown-item>Action 2</bl-dropdown-item>
+      </bl-dropdown-group>
+      <bl-dropdown-item>Action 3</bl-dropdown-item>
+      <bl-dropdown-item icon="info" disabled>Action 4</bl-dropdown-item>
+      <bl-dropdown-item>Action 5</bl-dropdown-item>
+      </bl-dropdown>`
+
 export const Template = (args) => html`
 ${SingleDropdownButtonTemplate({...args})}
 ${SingleDropdownButtonTemplate({variant: 'secondary', ...args})}
@@ -98,6 +114,7 @@ ${SingleDropdownButtonTemplate({size: 'small', ...args})}`
 
 <bl-badge icon="document">ADR</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=2158%3A8508)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Dropdown Button is used to display a list of actions.
 
@@ -148,7 +165,7 @@ If dropdown button has an action with a long text that can not fit in a single l
 You can add icons to your dropdown buttons using the `icon` attribute. The icon will be displayed on the left side of the button label.
 
 <Canvas>
-  <Story name="With Icons" args={{ label: 'Dropdown Button' }}>
+  <Story name="With Icons" args={{ label: 'Dropdown Button' }} play={dropdownOpener}>
     {html`
       ${IconDropdownTemplate({label: 'Settings', icon: 'settings', variant: 'primary'})}
       ${IconDropdownTemplate({label: 'Settings', icon: 'settings', variant: 'secondary'})}
@@ -162,7 +179,7 @@ You can add icons to your dropdown buttons using the `icon` attribute. The icon 
 We have 2 types of disabled dropdown buttons: Disable version of Primary and Secondary buttons is the same.
 
 <Canvas columns={1}>
-  <Story name="Disabling Dropdown Buttons" args={{ label: 'Dropdown Button', disabled: true }} play={dropdownOpener}>
+  <Story name="Disabling Dropdown Buttons" args={{ label: 'Dropdown Button', disabled: true }}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
@@ -170,11 +187,156 @@ We have 2 types of disabled dropdown buttons: Disable version of Primary and Sec
 Whereas Tertiary buttons keep their transparent backgrounds.
 
 <Canvas columns={1}>
-  <Story name="Disabling Tertiary Dropdown Buttons" args={{ label: 'Dropdown Button', disabled: true, variant:"tertiary" }} play={dropdownOpener}>
+  <Story name="Disabling Tertiary Dropdown Buttons" args={{ label: 'Dropdown Button', disabled: true, variant:"tertiary" }}>
     {SizesTemplate.bind({})}
   </Story>
 </Canvas>
 
+## Disabling Dropdown Items
+
+You can disable dropdown items by setting the `disabled` attribute on the `bl-dropdown-item` element.
+
+<Canvas>
+  <Story name="Disabling Dropdown Items" args={{ label: 'Dropdown Button' }} play={dropdownOpener}>
+    {DisabledItemDropdownTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## RTL Support
+
+The dropdown component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag. When in RTL mode, the dropdown menu will align from the right side.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 32px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-dropdown label="Settings">
+            <bl-dropdown-group caption="Account">
+              <bl-dropdown-item icon="account">Profile</bl-dropdown-item>
+              <bl-dropdown-item icon="settings">Preferences</bl-dropdown-item>
+            </bl-dropdown-group>
+            <bl-dropdown-item>Logout</bl-dropdown-item>
+          </bl-dropdown>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-dropdown label="الإعدادات">
+            <bl-dropdown-group caption="الحساب">
+              <bl-dropdown-item icon="account">الملف الشخصي</bl-dropdown-item>
+              <bl-dropdown-item icon="settings">التفضيلات</bl-dropdown-item>
+            </bl-dropdown-group>
+            <bl-dropdown-item>تسجيل الخروج</bl-dropdown-item>
+          </bl-dropdown>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Dropdown RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .dropdown-container {
+      display: flex;
+      gap: 32px;
+      margin-top: 20px;
+    }
+    .dropdown-group {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="dropdown-container">
+      <!-- LTR Example -->
+      <div class="dropdown-group">
+        <h3>LTR Dropdown</h3>
+        <bl-dropdown label="Settings">
+          <bl-dropdown-group caption="Account">
+            <bl-dropdown-item icon="account">Profile</bl-dropdown-item>
+            <bl-dropdown-item icon="settings">Preferences</bl-dropdown-item>
+          </bl-dropdown-group>
+          <bl-dropdown-item>Logout</bl-dropdown-item>
+        </bl-dropdown>
+      </div>
+
+      <!-- RTL Example -->
+      <div class="dropdown-group" dir="rtl">
+        <h3>RTL Dropdown</h3>
+        <bl-dropdown label="الإعدادات">
+          <bl-dropdown-group caption="الحساب">
+            <bl-dropdown-item icon="account">الملف الشخصي</bl-dropdown-item>
+            <bl-dropdown-item icon="settings">التفضيلات</bl-dropdown-item>
+          </bl-dropdown-group>
+          <bl-dropdown-item>تسجيل الخروج</bl-dropdown-item>
+        </bl-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating a dropdown programmatically
+    const createDropdown = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const dropdown = document.createElement('bl-dropdown');
+      dropdown.label = isRTL ? 'الإعدادات' : 'Settings';
+
+      const group = document.createElement('bl-dropdown-group');
+      group.caption = isRTL ? 'الحساب' : 'Account';
+
+      const items = isRTL ? [
+        { icon: 'account', text: 'الملف الشخصي' },
+        { icon: 'settings', text: 'التفضيلات' },
+        { icon: 'logout', text: 'تسجيل الخروج' }
+      ] : [
+        { icon: 'account', text: 'Profile' },
+        { icon: 'settings', text: 'Preferences' },
+        { icon: 'logout', text: 'Logout' }
+      ];
+
+      items.forEach(item => {
+        const dropdownItem = document.createElement('bl-dropdown-item');
+        dropdownItem.icon = item.icon;
+        dropdownItem.textContent = item.text;
+        if (item.icon === 'logout') {
+          dropdown.appendChild(dropdownItem);
+        } else {
+          group.appendChild(dropdownItem);
+        }
+      });
+
+      dropdown.appendChild(group);
+      container.appendChild(dropdown);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
 
 ## Reference
 

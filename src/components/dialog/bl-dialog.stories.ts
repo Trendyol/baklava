@@ -216,6 +216,38 @@ const CaptionLineClampTemplate = (args: DialogArgs) => html`
 ${BasicTemplate({...args, caption: "I am a very long text I am a very long text I am a very long text", content: "You can adjust the line clamp" })}
 `;
 
+const RTLTemplate = (args: DialogArgs) => html`
+  <div style="display: flex; gap: 32px;">
+    <!-- LTR Example -->
+    <div>
+      <bl-button @bl-click="${dialogOpener(`${args.id}-ltr`)}" variant="secondary">Open LTR Dialog</bl-button>
+      <bl-dialog
+        id="${args.id}-ltr"
+        caption="Delete Confirmation"
+        ?critical="${args.critical}">
+        <p>Are you sure you want to delete this file? This action cannot be undone.</p>
+        <bl-alert icon variant="warning">All associated data will be permanently deleted.</bl-alert>
+        <bl-button slot="primary-action" variant="primary" size="large">Delete</bl-button>
+        <bl-button slot="secondary-action" variant="secondary" size="large">Cancel</bl-button>
+      </bl-dialog>
+    </div>
+
+    <!-- RTL Example -->
+    <div dir="rtl">
+      <bl-button @bl-click="${dialogOpener(`${args.id}-rtl`)}" variant="secondary">Open RTL Dialog</bl-button>
+      <bl-dialog
+        id="${args.id}-rtl"
+        caption="تأكيد الحذف"
+        ?critical="${args.critical}">
+        <p>هل أنت متأكد أنك تريد حذف هذا الملف؟ لا يمكن التراجع عن هذا الإجراء.</p>
+        <bl-alert icon variant="warning">سيتم حذف جميع البيانات المرتبطة بشكل دائم.</bl-alert>
+        <bl-button slot="primary-action" variant="primary" size="large">حذف</bl-button>
+        <bl-button slot="secondary-action" variant="secondary" size="large">إلغاء</bl-button>
+      </bl-dialog>
+    </div>
+  </div>
+`;
+
 export const BasicUsage: Story = {
   args: {
     id: "dl-basic",
@@ -334,4 +366,18 @@ export const CaptionLineClampDialog: Story = {
   },
   render: CaptionLineClampTemplate,
   play: dialogOpener("dl-caption-line-clamp")
+};
+
+export const RTLSupport: Story = {
+  args: {
+    id: "dl-rtl",
+  },
+  render: RTLTemplate,
+  parameters: {
+    docs: {
+      description: {
+        story: 'The dialog component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir="rtl"` attribute on the parent element.'
+      }
+    }
+  }
 };

@@ -27,7 +27,7 @@ jobs:
       - name: Run build
         run: npm run build
       - name: Create build artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@main
         with:
           name: build-output
           path: dist/

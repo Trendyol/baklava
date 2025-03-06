@@ -1,5 +1,5 @@
+import { assert, expect, fixture, html, oneEvent } from "@open-wc/testing";
 import BlDropdownItem from "./bl-dropdown-item";
-import { assert, fixture, html, oneEvent, expect } from "@open-wc/testing";
 
 import type typeOfBlDropdownItem from "./bl-dropdown-item";
 
@@ -55,7 +55,12 @@ describe("bl-dropdown-item", () => {
     );
     const button = el.shadowRoot?.querySelector("bl-button");
 
-    setTimeout(() => button?.click());
+    setTimeout(() => button?.dispatchEvent(
+      new CustomEvent("bl-click", {
+        bubbles: true,
+        composed: true,
+      })
+    ));
     const event = await oneEvent(el, "bl-dropdown-item-click");
 
     expect(el).to.exist;

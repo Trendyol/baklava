@@ -36,5 +36,6 @@ export { default as BlTableHeaderCell } from "./components/table/table-header-ce
 export { default as BlTableCell } from "./components/table/table-cell/bl-table-cell";
 export { default as BlSplitButton } from "./components/split-button/bl-split-button";
 export { default as BlCalendar } from "./components/calendar/bl-calendar";
+export { default as BlTag } from "./components/tag/bl-tag";
 export { default as BlDatePicker } from "./components/datepicker/bl-datepicker";
 export { getIconPath, setIconPath } from "./utilities/asset-paths";

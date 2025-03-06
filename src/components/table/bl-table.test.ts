@@ -1,10 +1,10 @@
-import {expect, fixture, html, oneEvent} from "@open-wc/testing";
-import BlTable, { blRowSelectChangeEventName, blSortChangeEventName } from "./bl-table";
-import  "./table-header/bl-table-header";
-import  "./table-cell/bl-table-cell";
-import  "./table-header-cell/bl-table-header-cell";
-import  "./table-body/bl-table-body";
-import  "./table-row/bl-table-row";
+import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import BlTable from "./bl-table";
+import "./table-body/bl-table-body";
+import "./table-cell/bl-table-cell";
+import "./table-header-cell/bl-table-header-cell";
+import "./table-header/bl-table-header";
+import "./table-row/bl-table-row";
 
 describe("bl-table", () => {
   it("should be defined table instance", () => {
@@ -675,7 +675,7 @@ describe("bl-table", () => {
         setTimeout(() => sortIcons?.click());
       }
 
-      const ev = await oneEvent(el, blSortChangeEventName);
+      const ev = await oneEvent(el, "bl-sort");
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["id", "asc"]);
@@ -760,7 +760,7 @@ describe("bl-table", () => {
         setTimeout(() => sortIcons?.click());
       }
 
-      const ev = await oneEvent(el, blSortChangeEventName);
+      const ev = await oneEvent(el, "bl-sort");
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["id", "desc"]);
@@ -845,7 +845,7 @@ describe("bl-table", () => {
         setTimeout(() => sortIcons?.click());
       }
 
-      const ev = await oneEvent(el, blSortChangeEventName);
+      const ev = await oneEvent(el, "bl-sort");
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["id", ""]);
@@ -956,7 +956,7 @@ describe("bl-table", () => {
         setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
       }
 
-      const ev = await oneEvent(el, blRowSelectChangeEventName);
+      const ev = await oneEvent(el, "bl-row-select");
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal([
@@ -1070,7 +1070,7 @@ describe("bl-table", () => {
         setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
       }
 
-      const ev = await oneEvent(el, blRowSelectChangeEventName);
+      const ev = await oneEvent(el, "bl-row-select");
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal([ ]);
@@ -1162,7 +1162,7 @@ describe("bl-table", () => {
         setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
       }
 
-      const ev = await oneEvent(el, blRowSelectChangeEventName);
+      const ev = await oneEvent(el, "bl-row-select");
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal([]);
@@ -1254,7 +1254,7 @@ describe("bl-table", () => {
         setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
       }
 
-      const ev = await oneEvent(el, blRowSelectChangeEventName);
+      const ev = await oneEvent(el, "bl-row-select");
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["row-3"]);
@@ -1345,7 +1345,7 @@ describe("bl-table", () => {
         setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
       }
 
-      const ev = await oneEvent(el, blRowSelectChangeEventName);
+      const ev = await oneEvent(el, "bl-row-select");
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["row-1"]);
@@ -1437,7 +1437,7 @@ describe("bl-table", () => {
         setTimeout(() => checkbox?.dispatchEvent(checkboxEvent));
       }
 
-      const ev = await oneEvent(el, blRowSelectChangeEventName);
+      const ev = await oneEvent(el, "bl-row-select");
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["row-2"]);

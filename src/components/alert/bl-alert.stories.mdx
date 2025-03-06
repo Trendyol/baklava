@@ -52,6 +52,7 @@ export const SingleAlertTemplate = (args) => html`<bl-alert
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/138)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=25%3A3607)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Alert component displays an informational message to users with additional features if desired.
 
@@ -157,6 +158,143 @@ Don't show actionable link as a button. Instead, give action link to all alert c
       {SingleAlertTemplate.bind({})}
   </Story>
 </Canvas>
+
+## RTL Support
+
+The alert component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 32px; flex-direction: column;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-alert variant="info" caption="Information Alert" icon>
+            This is an example of a left-to-right alert with an action button.
+            <bl-button slot="action">Action</bl-button>
+          </bl-alert>
+          <bl-alert variant="warning" caption="Warning Alert" icon style="margin-top: 16px;">
+            This is another example with a warning variant.
+            <bl-button slot="action">Action</bl-button>
+          </bl-alert>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-alert variant="info" caption="تنبيه معلومات" icon>
+            هذا مثال على تنبيه من اليمين إلى اليسار مع زر إجراء.
+            <bl-button slot="action">إجراء</bl-button>
+          </bl-alert>
+          <bl-alert variant="warning" caption="تنبيه تحذير" icon style="margin-top: 16px;">
+            هذا مثال آخر مع تنبيه تحذيري.
+            <bl-button slot="action">إجراء</bl-button>
+          </bl-alert>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Alert RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .alert-container {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin-top: 20px;
+    }
+    .alert-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="alert-container">
+      <!-- LTR Example -->
+      <div class="alert-group">
+        <h3>LTR Alerts</h3>
+        <bl-alert variant="info" caption="Information Alert" icon>
+          This is an example of a left-to-right alert with an action button.
+          <bl-button slot="action">Action</bl-button>
+        </bl-alert>
+        <bl-alert variant="warning" caption="Warning Alert" icon>
+          This is another example with a warning variant.
+          <bl-button slot="action">Action</bl-button>
+        </bl-alert>
+      </div>
+
+      <!-- RTL Example -->
+      <div class="alert-group" dir="rtl">
+        <h3>RTL Alerts</h3>
+        <bl-alert variant="info" caption="تنبيه معلومات" icon>
+          هذا مثال على تنبيه من اليمين إلى اليسار مع زر إجراء.
+          <bl-button slot="action">إجراء</bl-button>
+        </bl-alert>
+        <bl-alert variant="warning" caption="تنبيه تحذير" icon>
+          هذا مثال آخر مع تنبيه تحذيري.
+          <bl-button slot="action">إجراء</bl-button>
+        </bl-alert>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating an alert programmatically
+    const createAlert = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const alert = document.createElement('bl-alert');
+      alert.variant = 'info';
+      alert.icon = true;
+
+      if (isRTL) {
+        alert.caption = 'تنبيه معلومات';
+        alert.textContent = 'هذا مثال على تنبيه من اليمين إلى اليسار.';
+
+        const actionButton = document.createElement('bl-button');
+        actionButton.slot = 'action';
+        actionButton.textContent = 'إجراء';
+        alert.appendChild(actionButton);
+      } else {
+        alert.caption = 'Information Alert';
+        alert.textContent = 'This is an example of a left-to-right alert.';
+
+        const actionButton = document.createElement('bl-button');
+        actionButton.slot = 'action';
+        actionButton.textContent = 'Action';
+        alert.appendChild(actionButton);
+      }
+
+      container.appendChild(alert);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
 
 ## Reference
 

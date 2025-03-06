@@ -1,18 +1,18 @@
-import BlSplitButton from "./bl-split-button";
 import {
-    assert,
-    fixture,
-    html,
-    oneEvent,
-   expect,
-   elementUpdated,
-   waitUntil,
-  } from "@open-wc/testing";
-import type typeOfBlSplitButton from "./bl-split-button";
+  assert,
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+  oneEvent,
+  waitUntil,
+} from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
-import BlPopover from "../popover/bl-popover";
 import BlButton from "../button/bl-button";
 import "../popover/bl-popover";
+import BlPopover from "../popover/bl-popover";
+import type typeOfBlSplitButton from "./bl-split-button";
+import BlSplitButton from "./bl-split-button";
 
 describe("bl-split-button", () => {
     it("is defined", () => {
@@ -143,7 +143,12 @@ describe("bl-split-button", () => {
           .querySelector("bl-dropdown-item")
           ?.shadowRoot?.querySelector("bl-button") as HTMLElement | null;
 
-        item?.click();
+        item?.dispatchEvent(
+          new CustomEvent("bl-click", {
+            bubbles: true,
+            composed: true,
+          })
+        );
 
         setTimeout(() => {
           expect(el.opened).to.false;

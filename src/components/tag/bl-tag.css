@@ -1,0 +1,97 @@
+:host {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.tag {
+  --bg-color: var(--bl-color-neutral-full);
+  --color: var(--bl-color-neutral-darker);
+  --font: var(--bl-font-title-4-medium);
+  --padding-vertical: var(--bl-size-2xs);
+  --padding-horizontal: var(--bl-size-xs);
+  --margin-icon: var(--bl-size-3xs);
+  --icon-size: var(--bl-size-m);
+  --height: var(--bl-size-2xl);
+  --border-radius: var(--bl-size-m);
+  --remove-icon-size: var(--bl-size-s);
+
+  display: flex;
+  gap: var(--margin-icon);
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+  border: 1px solid var(--bl-color-neutral-lighter);
+  border-radius: var(--border-radius);
+  padding-block: var(--padding-vertical);
+  padding-inline: var(--padding-horizontal);
+  background-color: var(--bg-color);
+  color: var(--color, white);
+  font: var(--font);
+  font-kerning: none;
+  height: var(--height);
+}
+
+:host([variant="selectable"]) .tag {
+  cursor: pointer;
+  user-select: none;
+}
+
+:host([variant="selectable"]) .tag:hover {
+  background-color: var(--bl-color-neutral-lightest);
+}
+
+:host([variant="selectable"][selected]) .tag {
+  border-color: var(--bl-color-neutral-darker);
+  background-color: var(--bl-color-neutral-darker);
+
+  --color: var(--bl-color-neutral-full);
+}
+
+:host([variant="selectable"][disabled]) .tag {
+  background-color: var(--bl-color-neutral-lightest);
+  border-color: var(--bl-color-neutral-lightest);
+  color: var(--bl-color-neutral-light);
+  cursor: not-allowed;
+}
+
+:host([variant="removable"]) .remove-button {
+  --bl-border-radius-m: var(--bl-border-radius-circle);
+}
+
+:host([size="small"]) .tag {
+  --font: var(--bl-font-title-4-medium);
+  --height: var(--bl-size-xl);
+  --icon-size: var(--bl-size-s);
+  --border-radius: var(--bl-size-xs);
+  --padding-vertical: 0px;
+  --padding-horizontal: var(--bl-size-2xs);
+  --remove-icon-size: var(--bl-size-xs);
+}
+
+:host([size="large"]) .tag {
+  --font: var(--bl-font-title-3-medium);
+  --padding-vertical: var(--bl-size-2xs);
+  --padding-horizontal: var(--bl-size-m);
+  --height: var(--bl-size-3xl);
+  --icon-size: var(--bl-size-m);
+  --border-radius: var(--bl-size-l);
+}
+
+:host([variant="removable"][size="small"]) .tag {
+  --padding-horizontal: var(--bl-size-2xs) 0px;
+}
+
+:host([variant="removable"]) .tag {
+  --padding-horizontal: var(--bl-size-xs) var(--bl-size-3xs);
+}
+
+:host([variant="removable"][size="large"]) .tag {
+  --padding-horizontal: var(--bl-size-m) var(--bl-size-2xs);
+}
+
+slot[name="icon"] bl-icon {
+  font-size: var(--icon-size);
+  color: var(--color);
+}
