@@ -501,6 +501,24 @@ describe("bl-dialog", () => {
         expect(el.open).to.be.true;
       });
     });
+
+    it("should hide footer when actions are removed", async ()=>{
+      const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
+        <bl-button slot="primary-action" size="large">Primary</bl-button>
+      </bl-dialog>`);
+
+      const footer = el.shadowRoot?.querySelector("footer");
+
+      expect(footer).not.have.style("display", "none");
+
+      const action = el.querySelector("[slot=primary-action]")!;
+
+      action.remove();
+
+      await elementUpdated(el);
+
+      expect(footer).have.style("display", "none");
+    });
   });
 
   describe("critical dialog tests", () => {
