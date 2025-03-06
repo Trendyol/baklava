@@ -32,7 +32,8 @@
 
 .single-option {
   width: 100%;
-  display: block;
+  display: flex;
+  align-items: center;
   cursor: pointer;
   color: var(--option-color);
   margin: var(--option-spacing);
@@ -41,6 +42,11 @@
   user-select: none;
   position: relative;
   outline: none;
+}
+
+:host ::slotted([slot="icon"]),
+:host bl-icon {
+  margin-right: var(--bl-size-2xs);
 }
 
 .single-option:focus-visible::after {
