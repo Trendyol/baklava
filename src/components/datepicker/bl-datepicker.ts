@@ -244,6 +244,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
               kind="neutral"
               icon="close"
               @click=${this.clearDatepicker}
+              ?disabled=${this.disabled}
             ></bl-button>
             <div class="action-divider"></div>`
         : "";
