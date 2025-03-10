@@ -1,19 +1,19 @@
-import BlDropdown from "./bl-dropdown";
 import {
   assert,
+  elementUpdated,
+  expect,
   fixture,
   html,
   oneEvent,
-  expect,
-  elementUpdated,
   waitUntil,
 } from "@open-wc/testing";
 import { sendKeys } from "@web/test-runner-commands";
+import BlDropdown from "./bl-dropdown";
 
-import type typeOfBlDropdown from "./bl-dropdown";
 import BlButton from "../button/bl-button";
 import "../popover/bl-popover";
 import BlPopover from "../popover/bl-popover";
+import type typeOfBlDropdown from "./bl-dropdown";
 
 describe("bl-dropdown", () => {
   it("is defined", () => {
@@ -112,7 +112,12 @@ describe("bl-dropdown", () => {
       .querySelector("bl-dropdown-item")
       ?.shadowRoot?.querySelector("bl-button") as HTMLElement | null;
 
-    item?.click();
+    item?.dispatchEvent(
+      new CustomEvent("bl-click", {
+        bubbles: true,
+        composed: true,
+      })
+    );
 
     setTimeout(() => {
       expect(el.opened).to.false;
@@ -165,6 +170,33 @@ describe("bl-dropdown", () => {
 
     expect(el.opened).to.false;
     expect(popover.visible).to.false;
+  });
+
+  it("should not close dropdown when disabled item is clicked", async () => {
+    const el = await fixture<typeOfBlDropdown>(html`
+      <bl-dropdown label="Dropdown Button">
+        <bl-dropdown-item disabled>dropdown-item</bl-dropdown-item>
+      </bl-dropdown>
+    `);
+
+    const buttonHost = <BlButton>el.shadowRoot?.querySelector("bl-button");
+    const button = buttonHost.shadowRoot?.querySelector(".button") as HTMLElement | null;
+    const popover = <BlPopover>el.shadowRoot?.querySelector("bl-popover");
+
+    button?.click();
+    expect(el.opened).to.true;
+    expect(popover.visible).to.true;
+
+    const item = el
+      .querySelector("bl-dropdown-item")
+      ?.shadowRoot?.querySelector("bl-button") as HTMLElement | null;
+
+    item?.click();
+
+    setTimeout(() => {
+      expect(el.opened).to.true;
+      expect(popover.visible).to.true;
+    });
   });
 
   describe("keyboard navigation", () => {

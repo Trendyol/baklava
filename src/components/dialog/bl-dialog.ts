@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
@@ -69,6 +69,9 @@ export default class BlDialog extends LitElement {
   @property({ type: Boolean, reflect: true })
   polyfilled = true;
 
+  @state()
+  private _footerAssignedSlots = new Set<string>();
+
   @query(".dialog")
   private dialog: HTMLDialogElement & DialogElement;
 
@@ -106,7 +109,7 @@ export default class BlDialog extends LitElement {
   }
 
   private get _hasFooter() {
-    return [...this.childNodes].some(node => node.nodeName === "BL-BUTTON");
+    return this._footerAssignedSlots.size > 0;
   }
 
   private toggleDialogHandler() {
@@ -167,14 +170,15 @@ export default class BlDialog extends LitElement {
     }
   };
 
-  private renderFooter() {
-    return this._hasFooter
-      ? html`<footer>
-          <slot name="primary-action"></slot>
-          <slot name="secondary-action"></slot>
-          <slot name="tertiary-action"></slot>
-        </footer>`
-      : "";
+  private toggleFooterVisibility(e: Event) {
+    const slot = e.currentTarget as HTMLSlotElement;
+
+    if (slot.assignedNodes().length > 0) {
+      this._footerAssignedSlots.add(slot.name);
+    } else {
+      this._footerAssignedSlots.delete(slot.name);
+    }
+    this.requestUpdate("_footerAssignedSlots");
   }
 
   private renderContainer() {
@@ -198,7 +202,11 @@ export default class BlDialog extends LitElement {
     return html` <div class="${classMap(classes)}">
       <header>${title} ${closeButton}</header>
       <section class="content"><slot></slot></section>
-      ${this.renderFooter()}
+      <footer>
+        <slot name="primary-action" @slotchange=${this.toggleFooterVisibility}></slot>
+        <slot name="secondary-action" @slotchange=${this.toggleFooterVisibility}></slot>
+        <slot name="tertiary-action" @slotchange=${this.toggleFooterVisibility}></slot>
+      </footer>
     </div>`;
   }
 

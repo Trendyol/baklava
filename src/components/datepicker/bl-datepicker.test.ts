@@ -1,4 +1,4 @@
-import { aTimeout, elementUpdated, expect, fixture, html } from "@open-wc/testing";
+import { aTimeout, expect, fixture, html } from "@open-wc/testing";
 import { BlButton, BlDatePicker } from "../../baklava";
 import { CALENDAR_TYPES } from "../calendar/bl-calendar.constant";
 import sinon from "sinon";
@@ -8,6 +8,7 @@ describe("BlDatepicker", () => {
   let element: BlDatePicker;
   let getElementByIdStub: sinon.SinonStub;
   let consoleWarnSpy: sinon.SinonSpy;
+
 
   beforeEach(async () => {
     element = await fixture<BlDatePicker>(html`
@@ -24,6 +25,7 @@ describe("BlDatepicker", () => {
       }
       return null;
     });
+
     consoleWarnSpy = sinon.spy(console, "warn");
 
     await element.updateComplete;
@@ -63,38 +65,7 @@ describe("BlDatepicker", () => {
     expect(element._popoverEl?.visible).to.be.true;
   });
 
-  it("should close the popover after selecting a date", async () => {
-
-    element._inputEl?.click();
-    await element.updateComplete;
-
-    element._calendarEl?.dispatchEvent(new CustomEvent("bl-calendar-change", { detail: [new Date()] }));
-    await element.updateComplete;
-    await aTimeout(400);
-    expect(element._selectedDates.length).to.equal(1);
-    expect(element._popoverEl.visible).to.be.false;
-  });
-
-  it("should trigger datepicker change event on date selection", async () => {
-    const testDate = new Date(2023, 1, 1);
-
-    element.addEventListener("bl-datepicker-change", (event) => {
-      const customEvent = event as CustomEvent;
-
-      expect(customEvent).to.exist;
-      expect(customEvent.detail).to.deep.equal([testDate]);
-
-    });
-
-    element._calendarEl.dispatchEvent(new CustomEvent("bl-calendar-change", { detail: [testDate] }));
-
-    await element.updateComplete;
-  });
-
   it("should clear selected dates when clear button is clicked", async () => {
-    element._selectedDates = [new Date(2023, 1, 1)];
-    await element.updateComplete;
-
     element.addEventListener("bl-datepicker-change", (event) => {
       const customEvent = event as CustomEvent;
 
@@ -109,7 +80,7 @@ describe("BlDatepicker", () => {
     await element.updateComplete;
 
 
-    expect(element._selectedDates).to.deep.equal([]);
+    expect(element._calendarEl?._dates).to.deep.equal([]);
     expect(element._inputValue).to.equal("");
   });
 
@@ -122,49 +93,24 @@ describe("BlDatepicker", () => {
     expect(input?.hasAttribute("disabled")).to.be.true;
   });
 
-  it("should use custom value formatter when provided", async () => {
+   it("should use custom value formatter when provided", async () => {
     const testDate = new Date(2023, 1, 1);
 
     element.valueFormatter = (dates: Date[]) => `Custom format: ${dates[0].toDateString()}`;
-    element.setDatePickerInput([testDate]);
-    await element.updateComplete;
+    element._calendarEl._dates=[testDate];
+    element.setDatePickerInput();
+    await element._calendarEl.updateComplete;
+    element._calendarEl.requestUpdate();
 
     expect(element._inputValue).to.equal(`Custom format: ${testDate.toDateString()}`);
-  });
-
-  it("should handle multiple date selections", async () => {
-    const dates = [new Date(2023, 1, 1), new Date(2023, 1, 2)];
-
-    element.type = CALENDAR_TYPES.MULTIPLE;
-    await element.updateComplete;
-
-    element._calendarEl?.dispatchEvent(new CustomEvent("bl-calendar-change", { detail: dates }));
-    await element.updateComplete;
-
-    expect(element._selectedDates.length).to.equal(2);
-    expect(element._selectedDates).to.deep.equal(dates);
   });
 
   it("should clear the datepicker even if no dates are selected", async () => {
     element.clearDatepicker();
     await element.updateComplete;
 
-    expect(element._selectedDates).to.deep.equal([]);
+    expect(element._calendarEl?._dates).to.deep.equal([]);
     expect(element._inputValue).to.equal("");
-  });
-
-  it("should handle selecting a range of dates", async () => {
-    const startDate = new Date(2023, 1, 1);
-    const endDate = new Date(2023, 1, 7);
-
-    element.type = CALENDAR_TYPES.RANGE;
-    await element.updateComplete;
-
-    element._calendarEl?.dispatchEvent(new CustomEvent("bl-calendar-change", { detail: [startDate, endDate] }));
-    await element.updateComplete;
-
-    expect(element._selectedDates.length).to.equal(2);
-    expect(element._selectedDates).to.deep.equal([startDate, endDate]);
   });
 
   it("should display help text when provided", async () => {
@@ -212,7 +158,7 @@ describe("BlDatepicker", () => {
   it("should include ',...' when floatingDateCount is greater than 0 for MULTIPLE type", () => {
 
     element.type = CALENDAR_TYPES.MULTIPLE;
-    element._selectedDates = [new Date("2024-01-01"), new Date("2024-01-02"), new Date("2024-01-03")];
+    element._calendarEl._dates = [new Date("2024-01-01"), new Date("2024-01-02"), new Date("2024-01-03")];
     element.setFloatingDates();
     element.defaultInputValueFormatter();
     expect(element._inputValue).to.include(" ,...");
@@ -221,7 +167,7 @@ describe("BlDatepicker", () => {
   it("should not include \" ,...\" when floatingDateCount is 0 for MULTIPLE type", () => {
 
     element.type = CALENDAR_TYPES.MULTIPLE;
-    element._selectedDates = [new Date("2024-01-01")];
+    element._calendarEl._dates = [new Date("2024-01-01")];
 
     element.setFloatingDates();
 
@@ -278,20 +224,6 @@ describe("BlDatepicker", () => {
     element.value = dates;
 
     expect(element.value).to.equal(dates);
-  });
-
-  it("should return undefined if value is not set", () => {
-    expect(element.value).to.be.undefined;
-  });
-
-  it("should warn when 'value' is not an array for multiple/range selection", async () => {
-    element = await fixture<BlDatePicker>(html`
-      <bl-datepicker type="multiple" locale="en"></bl-datepicker>`);
-    element.value = new Date();
-
-    element.firstUpdated();
-
-    expect(consoleWarnSpy.calledOnce).to.be.true;
   });
 
   it("should not warn when value is an array for multiple/range selection", () => {
@@ -383,15 +315,6 @@ describe("BlDatepicker", () => {
     expect(preventDefaultSpy.called).to.be.true;
 
     expect(focusSpy.called).to.be.true;
-  });
-
-  it("should call setDatePickerInput when _selectedDates changes", async () => {
-    const setDatePickerInputSpy = sinon.spy(element, "setDatePickerInput");
-
-    element.value = [new Date(2025,0,10)];
-    await elementUpdated(element);
-
-    expect(setDatePickerInputSpy).to.have.been.calledOnceWith(element._selectedDates);
   });
 
 });

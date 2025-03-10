@@ -1,15 +1,15 @@
 import {
   assert,
+  elementUpdated,
+  expect,
   fixture,
+  fixtureCleanup,
   html,
   oneEvent,
-  expect,
-  fixtureCleanup,
-  elementUpdated,
 } from "@open-wc/testing";
-import { sendKeys, sendMouse, resetMouse } from "@web/test-runner-commands";
-import BlDialog from "./bl-dialog";
+import { resetMouse, sendKeys, sendMouse } from "@web/test-runner-commands";
 import type typeOfBlDialog from "./bl-dialog";
+import BlDialog from "./bl-dialog";
 
 const htmlDialogElement = window.HTMLDialogElement;
 
@@ -92,6 +92,10 @@ describe("bl-dialog", () => {
     it("should render html dialog component with the default values when supports html dialog", async () => {
       const el = await fixture<typeOfBlDialog>(html`<bl-dialog .polyfilled=${false}></bl-dialog>`);
 
+      const footer = el.shadowRoot?.querySelector("footer");
+
+      expect(footer).have.style("display", "none");
+
       assert.shadowDom.equal(
         el,
         `
@@ -104,15 +108,18 @@ describe("bl-dialog", () => {
                 kind="neutral"
                 size="small"
                 variant="tertiary"
-              >
-              </bl-button>
+              ></bl-button>
             </header>
             <section class="content">
-              <slot>
-              </slot>
+              <slot></slot>
             </section>
+            <footer>
+              <slot name="primary-action"></slot>
+              <slot name="secondary-action"></slot>
+              <slot name="tertiary-action"></slot>
+            </footer>
           </div>
-          </dialog>
+        </dialog>
       `
       );
     });
@@ -176,8 +183,25 @@ describe("bl-dialog", () => {
       expect(content).to.exist;
       expect(content?.innerHTML).to.equal("<slot></slot>");
 
-      expect(footer).to.exist;
-      expect(footer?.slot).to.exist;
+      expect(footer).not.have.style("display", "none");
+    });
+
+    it("should render the footer", async () => {
+      const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
+        <div slot="primary-action">Primary</div>
+      </bl-dialog>`);
+
+      const caption = el.shadowRoot?.querySelector("h2") as HTMLElement;
+      const content = el.shadowRoot?.querySelector(".content") as HTMLElement;
+      const footer = el.shadowRoot?.querySelector("footer");
+
+      expect(caption).to.exist;
+      expect(caption?.innerText).to.equal("My title");
+
+      expect(content).to.exist;
+      expect(content?.innerHTML).to.equal("<slot></slot>");
+
+      expect(footer).not.have.style("display", "none");
     });
 
     it('should close the dialog when user presses "Escape" key', async () => {
@@ -476,6 +500,24 @@ describe("bl-dialog", () => {
 
         expect(el.open).to.be.true;
       });
+    });
+
+    it("should hide footer when actions are removed", async ()=>{
+      const el = await fixture<typeOfBlDialog>(html`<bl-dialog open caption="My title">
+        <bl-button slot="primary-action" size="large">Primary</bl-button>
+      </bl-dialog>`);
+
+      const footer = el.shadowRoot?.querySelector("footer");
+
+      expect(footer).not.have.style("display", "none");
+
+      const action = el.querySelector("[slot=primary-action]")!;
+
+      action.remove();
+
+      await elementUpdated(el);
+
+      expect(footer).have.style("display", "none");
     });
   });
 

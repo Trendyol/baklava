@@ -1,11 +1,11 @@
-import { html } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import {
-  Meta,
-  Canvas,
   ArgsTable,
+  Canvas,
+  Meta,
   Story,
 } from '@storybook/addon-docs';
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { extraPadding } from '../../utilities/chromatic-decorators';
 
 <Meta
@@ -79,7 +79,10 @@ import { extraPadding } from '../../utilities/chromatic-decorators';
     },
     helpText: {
       control: 'text'
-    }
+    },
+    error: {
+      control: 'text',
+    },
   }}
 />
 
@@ -106,6 +109,7 @@ export const SingleInputTemplate = (args) => html`<bl-input
     step='${ifDefined(args.step)}'
     icon='${ifDefined(args.icon)}'
     size='${ifDefined(args.size)}'
+    error='${ifDefined(args.error)}'
   >${args.slot?.()}</bl-input>`
 
 export const SizeVariantsTemplate = args => html`
@@ -118,6 +122,7 @@ ${SingleInputTemplate({ size: 'small', ...args })}
 
 <bl-badge icon="document">ADR</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=4%3A5586)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Input component is the component for taking text input from user.
 
@@ -249,19 +254,38 @@ Input validation will run after user enters a value and go out from the input. I
   </Story>
 </Canvas>
 
-Validation error messages are used from default browser error messages by default. If you want you can override error message by setting `invalid-text` attribute.
+### Custom Error Text
+
+Validation error messages are used from default browser error messages by default. If you want to override, you can do it in a native-like structure as below.
+
+```html
+<bl-input id="input" required />
+
+<script>
+  const blInput = document.getElementById("input");
+  blInput.addEventListener("bl-input", (e) => {
+    if(e.target.validity.valueMissing){
+      e.target.setCustomValidity("Custom Error Text");
+    }else{
+      e.target.setCustomValidity("");
+    }
+  });
+</script>
+```
+
+### Custom Validation
+
+If you want to use a different validation than all validations, you can do this with the `error` attribute. *Native validators will always be superior to custom errors.*
+
+<bl-alert icon variant="warning">When you use this attribute, the `dirty` prop will instantly become true.</bl-alert>
 
 <Canvas>
-  <Story name="Custom Error Message"
-         args={{ type: 'text', label: 'User Name', required: true, customInvalidText: 'This field is mandatory' }}
+  <Story name="Custom Validation"
+         args={{ type: 'text', label: 'User Name', error: 'I am custom validation' }}
   >
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
-
-You can also set input validation as invalid by calling `forceCustomError()` method of the input. In this case input will be in invalid state and will report
-its validity. Error message can be set with `invalid-text`. To clear this error state you would call `clearCustomError()` method. With the help of these 2 methods
-you can run your custom validation logic outside of the basic validation rules we provide with validation attributes.
 
 ## Input Sizes
 
@@ -307,6 +331,17 @@ Input can be set as disabled by adding `disabled` attribute.
   </Story>
 </Canvas>
 
+## Search Input with Clear Button
+
+Input with type `search` has a clear button by default. This button will be shown when input has a value. You can clear the input by clicking this button.
+This is going trigger `input` event with empty string.
+
+<Canvas>
+  <Story name="Search Input with Clear Button" args={{ type: 'search', placeholder: 'Search', value: 'some input' }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
 ## Search Input with Loading Attribute
 
 This example demonstrates how to use the `bl-spinner` component inside a search input field. The spinner is displayed to indicate that a search operation is in progress.
@@ -325,6 +360,108 @@ The `loading` attribute is set to `true` to show the spinner inside the input fi
     `}
   </Story>
 </Canvas>
+
+## RTL Support
+
+The input component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 16px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-input
+            label="Username"
+            placeholder="Enter username"
+            icon="profile"
+          ></bl-input>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-input
+            label="اسم المستخدم"
+            placeholder="أدخل اسم المستخدم"
+            icon="profile"
+          ></bl-input>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Input RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .flex-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="flex-container">
+      <!-- LTR Example -->
+      <div>
+        <h3>LTR Input</h3>
+        <bl-input
+          label="Username"
+          placeholder="Enter username"
+          icon="profile"
+        ></bl-input>
+      </div>
+
+      <!-- RTL Example -->
+      <div dir="rtl">
+        <h3>RTL Input</h3>
+        <bl-input
+          label="اسم المستخدم"
+          placeholder="أدخل اسم المستخدم"
+          icon="profile"
+        ></bl-input>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating an input programmatically
+    const createInput = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const input = document.createElement('bl-input');
+      input.label = isRTL ? 'اسم المستخدم' : 'Username';
+      input.placeholder = isRTL ? 'أدخل اسم المستخدم' : 'Enter username';
+      input.icon = 'profile';
+
+      container.appendChild(input);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
 
 ## Using within a form
 
@@ -370,7 +507,7 @@ Input masking is essential in user interfaces that require formatted entries suc
 
 Baklava is designed to provide stable and general low-level building blocks. This approach helps maintain the flexibility and adaptability of our components, allowing developers the freedom to leverage specialized features such as input masking by incorporating external libraries like [IMask](https://imask.js.org) or [Maskito](https://maskito.dev).
 
-Successfully integrating third-party masking libraries with Baklava’s components involves understanding how these libraries interact with web components. Libraries that provide granular control are especially well-suited for this. For example, IMask and Maskito are compatible with web components due to their APIs which allow direct interactions with the input elements, even those nested within shadow DOM. This capability ensures that the masking logic is applied correctly without interfering with the component's internal structure or lifecycle.
+Successfully integrating third-party masking libraries with Baklava's components involves understanding how these libraries interact with web components. Libraries that provide granular control are especially well-suited for this. For example, IMask and Maskito are compatible with web components due to their APIs which allow direct interactions with the input elements, even those nested within shadow DOM. This capability ensures that the masking logic is applied correctly without interfering with the component's internal structure or lifecycle.
 
 ### Using with JavaScript/TypeScript
 

@@ -55,6 +55,7 @@ ${BadgeTemplate({ content:'In Progress', size:'large', ...args })}
 
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/130)</bl-badge>
 <bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=25%3A3610)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Badge component can be used for highlighting a status or labeling an item.
 
@@ -114,6 +115,91 @@ We have 3 sizes of badges: `large`, `medium`, `small`. Default size is `medium`.
         {SizeTemplate.bind({})}
     </Story>
 </Canvas>
+
+## RTL Support
+
+The badge component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 16px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-badge icon="profile">User Status</bl-badge>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-badge icon="profile">حالة المستخدم</bl-badge>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Badge RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .flex-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="flex-container">
+      <!-- LTR Example -->
+      <div>
+        <h3>LTR Badge</h3>
+        <bl-badge icon="profile">User Status</bl-badge>
+      </div>
+
+      <!-- RTL Example -->
+      <div dir="rtl">
+        <h3>RTL Badge</h3>
+        <bl-badge icon="profile">حالة المستخدم</bl-badge>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating a badge programmatically
+    const createBadge = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const badge = document.createElement('bl-badge');
+      badge.icon = 'profile';
+      badge.textContent = isRTL ? 'حالة المستخدم' : 'User Status';
+
+      container.appendChild(badge);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
 
 ## Reference
 

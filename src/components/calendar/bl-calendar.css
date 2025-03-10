@@ -26,6 +26,10 @@
   flex: 1;
 }
 
+:host([dir="rtl"]) .arrow {
+  transform: scale(-1);
+}
+
 .header-text {
   flex: 3;
 }
@@ -102,14 +106,14 @@
 
 .range-start-day {
   background: var(--bl-color-primary-contrast);
-  border-top-left-radius: 50%;
-  border-bottom-left-radius: 50%;
+  border-start-start-radius: 50%;
+  border-end-start-radius: 50%;
 }
 
 .range-end-day {
   background: var(--bl-color-primary-contrast);
-  border-top-right-radius: 50%;
-  border-bottom-right-radius: 50%;
+  border-start-end-radius: 50%;
+  border-end-end-radius: 50%;
 }
 
 .weekday-text {
@@ -127,6 +131,7 @@
 
 .grid-item {
   width: 93.33px;
+
   --bl-size-3xs: 15px;
 }
 

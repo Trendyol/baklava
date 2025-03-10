@@ -36,6 +36,7 @@ export const Template = (args) => html`${CalendarTemplate({ ...args })}`;
 <bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/795)</bl-badge>
 <bl-badge
   icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?type=design&node-id=1412-8914&mode=design&t=b0kU7tBfJQFvz2at-0)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
 
 Calendar component is an **internal** component for using inside Datepicker component.
 
@@ -106,6 +107,98 @@ You can set dates which you want to disable from calendar.
   </Story>
 </Canvas>
 
+## RTL Support
+
+The calendar component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute and `lang` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div>
+        <iframe
+          srcdoc="
+            <html dir='rtl' lang='ar'>
+              <head>
+                <script type='module' src='https://cdn.jsdelivr.net/npm/@trendyol/baklava@latest/dist/baklava.js'></script>
+                <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@trendyol/baklava@latest/dist/themes/default.css'>
+                <style>
+                  body {
+                    margin: 0;
+                    padding: 24px;
+                  }
+                  .container {
+                    display: flex;
+                    gap: 32px;
+                  }
+                  .calendar-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                  }
+                  p {
+                    margin: 0;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class='container'>
+                  <div class='calendar-group'>
+                    <p>التقويم الأحادي (Single Calendar)</p>
+                    <bl-calendar type='single'></bl-calendar>
+                  </div>
+
+                  <div class='calendar-group'>
+                    <p>تقويم متعدد (Multiple Calendar)</p>
+                    <bl-calendar type='multiple'></bl-calendar>
+                  </div>
+
+                  <div class='calendar-group'>
+                    <p>تقويم النطاق (Range Calendar)</p>
+                    <bl-calendar type='range'></bl-calendar>
+                  </div>
+                </div>
+              </body>
+            </html>
+          "
+          style="border: none; width: 100%; height: 500px;"
+        ></iframe>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendar RTL Example</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@latest/dist/baklava.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava@latest/dist/localization.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava@latest/dist/themes/default.css">
+</head>
+<body>
+  <div>
+    <div>
+      <h3>التقويم الأحادي</h3>
+      <bl-calendar type="single"></bl-calendar>
+    </div>
+
+    <div>
+      <h3>تقويم متعدد</h3>
+      <bl-calendar type="multiple"></bl-calendar>
+    </div>
+
+    <div>
+      <h3>تقويم النطاق</h3>
+      <bl-calendar type="range"></bl-calendar>
+    </div>
+  </div>
+</body>
+</html>
+```
 
 ## Reference
 

@@ -60,10 +60,13 @@ export const focusSecondOption = async ({ }) => {
   await userEvent.keyboard('{ArrowRight}');
 }
 
-# Checkbox Group Component
+# Checkbox Group
 
-Checkbox Group is a component to take multiple selections from user with a list of options. It needs to be used with `bl-checkbox` component.
-If you set a list of `values`, options with those values will be selected.
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/136)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=118%3A4068)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
+
+Checkbox group component can be used to group multiple checkboxes.
 
 <Canvas>
   <Story name="Basic Usage" args={{ label: 'Favorite animals', name: 'favoriteAnimals', value:'["dog","bird"]', options: [{ value: 'cat', label: 'Cat'}, {value: 'dog', label: 'Dog'},{value: 'bird', label: 'Bird'}] }}>
@@ -116,6 +119,120 @@ Also custom invalid text can be passed by 'invalid-text' attribute.
     {FormTemplate.bind({})}
   </Story>
 </Canvas>
+
+## RTL Support
+
+The checkbox group component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div style="display: flex; gap: 32px;">
+        <div>
+          <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
+          <bl-checkbox-group label="Select your interests">
+            <bl-checkbox value="sports">Sports</bl-checkbox>
+            <bl-checkbox value="music">Music</bl-checkbox>
+            <bl-checkbox value="reading">Reading</bl-checkbox>
+          </bl-checkbox-group>
+        </div>
+        <div dir="rtl">
+          <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
+          <bl-checkbox-group label="اختر اهتماماتك">
+            <bl-checkbox value="sports">الرياضة</bl-checkbox>
+            <bl-checkbox value="music">الموسيقى</bl-checkbox>
+            <bl-checkbox value="reading">القراءة</bl-checkbox>
+          </bl-checkbox-group>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Here's a vanilla JavaScript and HTML example of how to use RTL support:
+
+```html
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Baklava Checkbox Group RTL Example</title>
+  <!-- Import Baklava's CSS and JavaScript -->
+  <script type="module" src="path/to/baklava.js"></script>
+  <style>
+    .container {
+      margin: 20px;
+    }
+    .checkbox-group-container {
+      display: flex;
+      gap: 32px;
+      margin-top: 20px;
+    }
+    .group {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
+
+    <div class="checkbox-group-container">
+      <!-- LTR Example -->
+      <div class="group">
+        <h3>LTR Checkbox Group</h3>
+        <bl-checkbox-group label="Select your interests">
+          <bl-checkbox value="sports">Sports</bl-checkbox>
+          <bl-checkbox value="music">Music</bl-checkbox>
+          <bl-checkbox value="reading">Reading</bl-checkbox>
+        </bl-checkbox-group>
+      </div>
+
+      <!-- RTL Example -->
+      <div class="group" dir="rtl">
+        <h3>RTL Checkbox Group</h3>
+        <bl-checkbox-group label="اختر اهتماماتك">
+          <bl-checkbox value="sports">الرياضة</bl-checkbox>
+          <bl-checkbox value="music">الموسيقى</bl-checkbox>
+          <bl-checkbox value="reading">القراءة</bl-checkbox>
+        </bl-checkbox-group>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example of dynamically changing direction
+    const toggleDirection = () => {
+      const rtlContainer = document.querySelector('[dir="rtl"]');
+      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
+    };
+
+    // Example of creating a checkbox group programmatically
+    const createCheckboxGroup = (isRTL) => {
+      const container = document.createElement('div');
+      if (isRTL) container.dir = 'rtl';
+
+      const checkboxGroup = document.createElement('bl-checkbox-group');
+      checkboxGroup.label = isRTL ? 'اختر اهتماماتك' : 'Select your interests';
+
+      const interests = isRTL ?
+        [['sports', 'الرياضة'], ['music', 'الموسيقى'], ['reading', 'القراءة']] :
+        [['sports', 'Sports'], ['music', 'Music'], ['reading', 'Reading']];
+
+      interests.forEach(([value, text]) => {
+        const checkbox = document.createElement('bl-checkbox');
+        checkbox.value = value;
+        checkbox.textContent = text;
+        checkboxGroup.appendChild(checkbox);
+      });
+
+      container.appendChild(checkboxGroup);
+      document.body.appendChild(container);
+    };
+  </script>
+</body>
+</html>
+```
 
 ## Reference
 

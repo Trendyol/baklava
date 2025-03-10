@@ -1,8 +1,8 @@
+import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { Meta, StoryObj } from "@storybook/web-components";
 import { fullscreenLayout } from "../../utilities/chromatic-decorators";
-import type { NotificationProps, Notification } from "./bl-notification";
+import type { Notification, NotificationProps } from "./bl-notification";
 
 const meta: Meta = {
   title: "Components/Notification",
@@ -414,5 +414,140 @@ export const VariantsExample: Story = {
         },
       });
     }
+  },
+};
+
+export const RTLExample: Story = {
+  render(args: NotificationArgs) {
+    return html`
+      <div class="rtl-container" dir="rtl" lang="ar">
+        ${BasicTemplate(args)}
+        ${NotificationCreator(
+          {
+            caption: "رسالة ترحيب",
+            description: "مرحباً بك في تطبيقنا! نتمنى لك تجربة ممتعة.",
+            duration: 7,
+            variant: "info" as const,
+            icon: true,
+            primaryAction: {
+              label: "ابدأ الآن",
+              onClick() {},
+            },
+          },
+          "Info"
+        )}
+        ${NotificationCreator(
+          {
+            caption: "تم إكمال المهمة",
+            description: "تم إكمال مهمتك بنجاح.",
+            duration: 10,
+            variant: "success" as const,
+            icon: true,
+          },
+          "Success"
+        )}
+        ${NotificationCreator(
+          {
+            caption: "تنبيه التخزين",
+            description: "مساحة التخزين الخاصة بك منخفضة.",
+            duration: 15,
+            variant: "warning" as const,
+            icon: true,
+            primaryAction: {
+              label: "ترقية",
+              onClick() {},
+            },
+            secondaryAction: {
+              label: "اعرف المزيد",
+              onClick() {},
+            },
+          },
+          "Warning"
+        )}
+        ${NotificationCreator(
+          {
+            caption: "خطأ في الاتصال",
+            description: "تعذر الاتصال بالخادم. يرجى المحاولة مرة أخرى.",
+            duration: 20,
+            variant: "error" as const,
+            icon: true,
+            primaryAction: {
+              label: "إعادة المحاولة",
+              onClick() {},
+            },
+          },
+          "Error"
+        )}
+      </div>
+
+      <style>
+        .rtl-container {
+          width: 100%;
+          min-height: 100%;
+          padding: 1rem;
+        }
+      </style>
+    `;
+  },
+  play: () => {
+    const rtlNotifications: NotificationProps[] = [
+      {
+        caption: "رسالة ترحيب",
+        description: "مرحباً بك في تطبيقنا! نتمنى لك تجربة ممتعة.",
+        duration: 7,
+        variant: "info",
+        icon: true,
+        primaryAction: {
+          label: "ابدأ الآن",
+          onClick() {},
+        },
+      },
+      {
+        caption: "تم إكمال المهمة",
+        description: "تم إكمال مهمتك بنجاح.",
+        duration: 10,
+        variant: "success",
+        icon: true,
+      },
+      {
+        caption: "تنبيه التخزين",
+        description: "مساحة التخزين الخاصة بك منخفضة.",
+        duration: 15,
+        variant: "warning",
+        icon: true,
+        primaryAction: {
+          label: "ترقية",
+          onClick() {},
+        },
+        secondaryAction: {
+          label: "اعرف المزيد",
+          onClick() {},
+        },
+      },
+      {
+        caption: "خطأ في الاتصال",
+        description: "تعذر الاتصال بالخادم. يرجى المحاولة مرة أخرى.",
+        duration: 20,
+        variant: "error",
+        icon: true,
+        primaryAction: {
+          label: "إعادة المحاولة",
+          onClick() {},
+        },
+      },
+    ];
+
+    // Add RTL notifications
+    rtlNotifications.forEach((notification, index) => {
+      setTimeout(() => {
+        const rtlContainer = document.querySelector<HTMLElement & { addNotification: typeof addNotification }>(".rtl-container bl-notification");
+
+        rtlContainer?.addNotification(notification);
+      }, index * 300);
+    });
+  },
+  args: {
+    noAnimation: true,
+    duration: 7,
   },
 };
