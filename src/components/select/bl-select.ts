@@ -449,12 +449,24 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       <div class="actions">
         ${this.opened ? (this.searchBarLoadingState ? searchSpinner : searchMagIcon) : ""}
         ${!this.opened ? removeButton : ""} ${actionDivider}
-
-        <div @click=${this._togglePopover}>
-          <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
-
-          <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
-        </div>
+        <bl-icon
+          class="dropdown-icon open"
+          name="arrow_up"
+          @click=${(e: MouseEvent) => {
+            e.stopPropagation();
+            this._togglePopover();
+          }}
+        >
+        </bl-icon>
+        <bl-icon
+          class="closed dropdown-icon"
+          name="arrow_down"
+          @click=${(e: MouseEvent) => {
+            e.stopPropagation();
+            this._togglePopover();
+          }}
+        >
+        </bl-icon>
       </div>
     </fieldset>`;
 
@@ -480,9 +492,24 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
           <div class="actions">
             ${removeButton} ${actionDivider}
-            <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
-
-            <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
+            <bl-icon
+              class="dropdown-icon open"
+              name="arrow_up"
+              @click=${(e: MouseEvent) => {
+                e.stopPropagation();
+                this._togglePopover();
+              }}
+            >
+            </bl-icon>
+            <bl-icon
+              class="closed dropdown-icon"
+              name="arrow_down"
+              @click=${(e: MouseEvent) => {
+                e.stopPropagation();
+                this._togglePopover();
+              }}
+            >
+            </bl-icon>
           </div>
         </fieldset>`;
   }
