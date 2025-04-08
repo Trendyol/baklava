@@ -353,6 +353,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     });
   }
 
+  private _handleToggleButtonClick(e: MouseEvent) {
+    e.stopPropagation();
+    this._togglePopover();
+  }
+
   connectedCallback(): void {
     super.connectedCallback();
 
@@ -449,24 +454,24 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       <div class="actions">
         ${this.opened ? (this.searchBarLoadingState ? searchSpinner : searchMagIcon) : ""}
         ${!this.opened ? removeButton : ""} ${actionDivider}
-        <bl-icon
+        <bl-button
           class="dropdown-icon open"
-          name="arrow_up"
-          @click=${(e: MouseEvent) => {
-            e.stopPropagation();
-            this._togglePopover();
-          }}
-        >
-        </bl-icon>
-        <bl-icon
+          variant="tertiary"
+          kind="neutral"
+          size="small"
+          icon="arrow_up"
+          @click=${this._handleToggleButtonClick}
+          aria-label="${msg("Close dropdown", { desc: "bl-select: close dropdown button" })}"
+        ></bl-button>
+        <bl-button
           class="closed dropdown-icon"
-          name="arrow_down"
-          @click=${(e: MouseEvent) => {
-            e.stopPropagation();
-            this._togglePopover();
-          }}
-        >
-        </bl-icon>
+          variant="tertiary"
+          kind="neutral"
+          size="small"
+          icon="arrow_down"
+          @click=${this._handleToggleButtonClick}
+          aria-label="${msg("Open dropdown", { desc: "bl-select: open dropdown button" })}"
+        ></bl-button>
       </div>
     </fieldset>`;
 
@@ -492,24 +497,9 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
           <span class="additional-selection-count">+${this._additionalSelectedOptionCount}</span>
           <div class="actions">
             ${removeButton} ${actionDivider}
-            <bl-icon
-              class="dropdown-icon open"
-              name="arrow_up"
-              @click=${(e: MouseEvent) => {
-                e.stopPropagation();
-                this._togglePopover();
-              }}
-            >
-            </bl-icon>
-            <bl-icon
-              class="closed dropdown-icon"
-              name="arrow_down"
-              @click=${(e: MouseEvent) => {
-                e.stopPropagation();
-                this._togglePopover();
-              }}
-            >
-            </bl-icon>
+            <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
+
+            <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
           </div>
         </fieldset>`;
   }
