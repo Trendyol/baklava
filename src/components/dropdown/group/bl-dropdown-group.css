@@ -23,10 +23,12 @@
   padding-top: var(--bl-size-xs);
 }
 
+/*
 :host(:not(:last-child)) .dropdown-group {
   border-bottom: 1px solid var(--bl-color-neutral-lighter);
   padding-bottom: var(--bl-size-xs);
 }
+*/
 
 /*
 :host(:not([caption])) ::slotted(:first-child) {
