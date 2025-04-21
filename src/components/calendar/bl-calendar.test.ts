@@ -1,8 +1,8 @@
-import { expect, fixture, html } from "@open-wc/testing";
+import { expect, fixture, html, aTimeout } from "@open-wc/testing";
 import "./bl-calendar";
 import { BlButton, BlCalendar } from "../../baklava";
 import { CALENDAR_TYPES, CALENDAR_VIEWS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX } from "./bl-calendar.constant";
-import sinon, { SinonFakeTimers } from "sinon";
+import sinon from "sinon";
 
 describe("bl-calendar", () => {
   let element: BlCalendar;
@@ -604,7 +604,6 @@ describe("bl-calendar", () => {
   });
 
   describe("Tooltip Functionality", () => {
-    let clock: SinonFakeTimers;
     const tooltipData = [
       {
         dates: ["Apr 12 2025"],
@@ -617,22 +616,16 @@ describe("bl-calendar", () => {
     ];
 
     beforeEach(async () => {
-      clock = sinon.useFakeTimers(new Date("2025-04-12").getTime());
       element._calendarMonth = 4;
       element._calendarYear = 2025;
       await element.updateComplete;
-    });
-
-    afterEach(() => {
-      clock.restore();
     });
 
     it("should not render any tooltips if tooltipData is not provided or empty", async () => {
       element.tooltipData = [];
       element.requestUpdate();
       await element.updateComplete;
-      // because we are using fake timers, we need to tick the clock manually
-      clock.tick(0);
+      await aTimeout(0);
       const tooltips = element.shadowRoot?.querySelectorAll("bl-tooltip");
 
       expect(tooltips?.length).to.equal(0);
@@ -644,8 +637,7 @@ describe("bl-calendar", () => {
 
       element.requestUpdate();
       await element.updateComplete;
-      // because we are using fake timers, we need to tick the clock manually
-      clock.tick(100);
+      await aTimeout(100);
 
       const actualTooltipText12 = getTooltipTextByDayButtonText(element, "12");
       const expectedTooltipText12 = tooltipData[0].tooltip;
