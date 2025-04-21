@@ -1,4 +1,4 @@
-import { expect, fixture, html } from "@open-wc/testing";
+import { expect, fixture, html, aTimeout } from "@open-wc/testing";
 import "./bl-calendar";
 import { BlButton, BlCalendar } from "../../baklava";
 import { CALENDAR_TYPES, CALENDAR_VIEWS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX } from "./bl-calendar.constant";
@@ -601,5 +601,67 @@ describe("bl-calendar", () => {
     element.updated(changedProperties);
 
     expect(element._dates).to.be.empty;
+  });
+
+  describe("Tooltip Functionality", () => {
+    const tooltipData = [
+      {
+        dates: ["Apr 12 2025"],
+        tooltip: "Holiday - Not Available"
+      },
+      {
+        dates: ["Apr 13 2025", "Apr 14 2025", "Apr 15 2025"],
+        tooltip: "Weekend - Limited Availability"
+      }
+    ];
+
+    beforeEach(async () => {
+      element._calendarMonth = 4;
+      element._calendarYear = 2025;
+      await element.updateComplete;
+    });
+
+    it("should not render any tooltips if tooltipData is not provided or empty", async () => {
+      element.tooltipData = [];
+      element.requestUpdate();
+      await element.updateComplete;
+      await aTimeout(0);
+      const tooltips = element.shadowRoot?.querySelectorAll("bl-tooltip");
+
+      expect(tooltips?.length).to.equal(0);
+    });
+
+    it("should render tooltips for dates if tooltipData is provided", async () => {
+      element = await fixture<BlCalendar>(html`
+        <bl-calendar .tooltipData=${tooltipData}></bl-calendar>`);
+
+      element.requestUpdate();
+      await element.updateComplete;
+      await aTimeout(100);
+
+      const actualTooltipText12 = getTooltipTextByDayButtonText(element, "12");
+      const expectedTooltipText12 = tooltipData[0].tooltip;
+
+      expect(actualTooltipText12, "Tooltip text for day 12 should be found").to.equal(expectedTooltipText12);
+    });
+
+    const getTooltipTextByDayButtonText = (calendarElement: BlCalendar, dayText: string): string | null | undefined => {
+      let targetButton: Element | null = null;
+      const dayWrapperDivs  = calendarElement.shadowRoot?.querySelectorAll(".day-wrapper");
+
+      dayWrapperDivs?.forEach(dayWrapperDiv => {
+        const button = dayWrapperDiv?.querySelector("bl-button");
+
+        if (button?.textContent?.trim() === dayText) {
+          targetButton = button;
+        }
+      });
+
+      if (!targetButton) return undefined;
+
+      const tooltipContentDiv = (targetButton as BlButton).nextElementSibling;
+
+      return tooltipContentDiv?.textContent?.trim();
+    };
   });
 });
