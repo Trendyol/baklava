@@ -1,4 +1,4 @@
-import { expect, fixture, html } from "@open-wc/testing";
+import { expect, fixture, html, aTimeout } from "@open-wc/testing";
 import "./bl-calendar";
 import { BlButton, BlCalendar } from "../../baklava";
 import { CALENDAR_TYPES, CALENDAR_VIEWS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX } from "./bl-calendar.constant";
@@ -603,69 +603,65 @@ describe("bl-calendar", () => {
     expect(element._dates).to.be.empty;
   });
 
-  describe("dayRenderer functionality", () => {
-    it("should render default day structure when no dayRenderer is provided", async () => {
-      element = await fixture<BlCalendar>(html`<bl-calendar></bl-calendar>`);
+  describe("Tooltip Functionality", () => {
+    const tooltipData = [
+      {
+        dates: ["Apr 12 2025"],
+        tooltip: "Holiday - Not Available"
+      },
+      {
+        dates: ["Apr 13 2025", "Apr 14 2025", "Apr 15 2025"],
+        tooltip: "Weekend - Limited Availability"
+      }
+    ];
+
+    beforeEach(async () => {
+      element._calendarMonth = 4;
+      element._calendarYear = 2025;
       await element.updateComplete;
-
-      const firstDayWrapper = element.shadowRoot?.querySelector(".day-wrapper");
-      const dayButton = firstDayWrapper?.querySelector("bl-button");
-      const daySpan = dayButton?.textContent?.trim();
-
-      expect(firstDayWrapper).to.exist;
-      expect(dayButton).to.exist;
-      expect(daySpan).to.not.be.empty;
     });
 
-    it("should use dayRenderer to render days if provided", async () => {
-      const dayRenderer = (date: Date) => html`<div class="custom-day">${date.getDate()}</div>`;
-
-      element = await fixture<BlCalendar>(html`<bl-calendar .dayRenderer=${dayRenderer}></bl-calendar>`);
+    it("should not render any tooltips if tooltipData is not provided or empty", async () => {
+      element.tooltipData = [];
+      element.requestUpdate();
       await element.updateComplete;
+      await aTimeout(0);
+      const tooltips = element.shadowRoot?.querySelectorAll("bl-tooltip");
 
-      const firstDayWrapper = element.shadowRoot?.querySelector(".day-wrapper");
-
-      expect(firstDayWrapper).to.exist;
-
-      const dayButton = firstDayWrapper?.querySelector("bl-button");
-
-      expect(dayButton).to.exist; // bl-button should now always exist
-
-      const customDayDiv = dayButton?.querySelector(".custom-day"); // custom-day is inside the button
-
-      expect(customDayDiv).to.exist;
-
-      const daySpan = customDayDiv?.textContent?.trim();
-
-      expect(daySpan).to.not.be.empty;
+      expect(tooltips?.length).to.equal(0);
     });
 
-    it("should call dayRenderer for each day in the current view", async () => {
-      const dayRendererSpy = sinon.spy((date: Date) => html`<span>${date.getDate()}</span>`);
+    it("should render tooltips for dates if tooltipData is provided", async () => {
+      element = await fixture<BlCalendar>(html`
+        <bl-calendar .tooltipData=${tooltipData}></bl-calendar>`);
 
-      element = await fixture<BlCalendar>(html`<bl-calendar .dayRenderer=${dayRendererSpy}></bl-calendar>`);
+      element.requestUpdate();
       await element.updateComplete;
+      await aTimeout(100);
 
-      // Calculate expected number of day cells visible in the default view (e.g., 6 weeks * 7 days)
-      // This might need adjustment based on how createCalendarDays populates the view exactly.
-      // For a typical month view, it's usually around 35-42 days (5-6 weeks).
-      const dayElements = element.shadowRoot?.querySelectorAll(".day-wrapper");
+      const actualTooltipText12 = getTooltipTextByDayButtonText(element, "12");
+      const expectedTooltipText12 = tooltipData[0].tooltip;
 
-      expect(dayElements?.length).to.be.greaterThan(27); // At least 4 weeks of days
-      expect(dayRendererSpy.callCount).to.equal(dayElements?.length);
+      expect(actualTooltipText12, "Tooltip text for day 12 should be found").to.equal(expectedTooltipText12);
     });
 
-    it("should render day with bold text when dayRenderer provides a template with strong tag", async () => {
-      const dayRendererWithBoldText = (date: Date) => html`<strong>${date.getDate()}</strong>`;
+    const getTooltipTextByDayButtonText = (calendarElement: BlCalendar, dayText: string): string | null | undefined => {
+      let targetButton: Element | null = null;
+      const dayWrapperDivs  = calendarElement.shadowRoot?.querySelectorAll(".day-wrapper");
 
-      element = await fixture<BlCalendar>(html`<bl-calendar .dayRenderer=${dayRendererWithBoldText}></bl-calendar>`);
-      await element.updateComplete;
+      dayWrapperDivs?.forEach(dayWrapperDiv => {
+        const button = dayWrapperDiv?.querySelector("bl-button");
 
-      const firstDayWrapper = element.shadowRoot?.querySelector(".day-wrapper");
-      const strongTag = firstDayWrapper?.querySelector("strong");
+        if (button?.textContent?.trim() === dayText) {
+          targetButton = button;
+        }
+      });
 
-      expect(strongTag).to.exist;
-      expect(strongTag?.textContent).to.not.be.empty;
-    });
+      if (!targetButton) return undefined;
+
+      const tooltipContentDiv = (targetButton as BlButton).nextElementSibling;
+
+      return tooltipContentDiv?.textContent?.trim();
+    };
   });
 });
