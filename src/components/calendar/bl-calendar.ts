@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, PropertyValues, TemplateResult } from "lit";
+import { CSSResultGroup, html, PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { localized } from "@lit/localize";
@@ -7,7 +7,9 @@ import { setDirectionProperty } from "../../utilities/direction";
 import { event, EventDispatcher } from "../../utilities/event";
 import { formatToDateArray } from "../../utilities/format-to-date-array";
 import "../button/bl-button";
+import { TooltipDateItem } from "../datepicker/bl-datepicker";
 import "../icon/bl-icon";
+import "../tooltip/bl-tooltip";
 import {
   CALENDAR_TYPES,
   CALENDAR_VIEWS,
@@ -40,11 +42,10 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   _dates: Date[] = [];
 
   /**
-   * Custom function to render day cells.
-   * It receives the date as an argument and should return a TemplateResult.
+   * Tooltip data for specific dates
    */
-  @property({ attribute: false })
-  dayRenderer?: (date: Date) => TemplateResult;
+  @property({ type: Array })
+  tooltipData: TooltipDateItem[] = [];
 
   /**
    * Fires when date selection changes
@@ -432,10 +433,10 @@ export default class BlCalendar extends DatepickerCalendarMixin {
           return html` <div class="week-row">
             ${valuesArray.map(values => {
               const date = values[key];
-
               const isSelectedDay = this.checkIfSelectedDate(date);
               const isDayToday = this.checkIfDateIsToday(date);
               const isDisabledDay = this.checkIfDateIsDisabled(date);
+              const tooltipContent = this.findTooltipForDate(date);
 
               const classes = classMap({
                 "day": true,
@@ -446,19 +447,46 @@ export default class BlCalendar extends DatepickerCalendarMixin {
                 "disabled-day": isDisabledDay,
               });
 
-              return html`<div class="day-wrapper">
-                <bl-button
-                  id=${date.getTime()}
-                  variant="tertiary"
-                  kind="neutral"
-                  size="small"
-                  class=${classes}
-                  ?disabled=${isDisabledDay}
-                  @click="${() => !isDisabledDay && this.handleDate(date)}"
-                >
-                  ${this.dayRenderer ? this.dayRenderer(date) : date.getDate()}
-                </bl-button>
-              </div>`;
+              const button = (options?: { fromTooltip?: boolean }) =>
+                options?.fromTooltip
+                  ? html`
+                      <bl-button
+                        slot="tooltip-trigger"
+                        id=${date.getTime()}
+                        variant="tertiary"
+                        kind="neutral"
+                        size="small"
+                        class=${classes}
+                        ?disabled=${isDisabledDay}
+                        @click="${() => !isDisabledDay && this.handleDate(date)}"
+                      >
+                        ${date.getDate()}
+                      </bl-button>
+                    `
+                  : html`
+                      <bl-button
+                        id=${date.getTime()}
+                        variant="tertiary"
+                        kind="neutral"
+                        size="small"
+                        class=${classes}
+                        ?disabled=${isDisabledDay}
+                        @click="${() => !isDisabledDay && this.handleDate(date)}"
+                      >
+                        ${date.getDate()}
+                      </bl-button>
+                    `;
+
+              return html`
+                <div class="day-wrapper">
+                  ${tooltipContent
+                    ? html` <bl-tooltip class="tooltip-wrapper" placement="bottom">
+                        ${button({ fromTooltip: true })}
+                        <div class="tooltip-content">${tooltipContent}</div>
+                      </bl-tooltip>`
+                    : button()}
+                </div>
+              `;
             })}
           </div>`;
         })}
@@ -514,5 +542,30 @@ export default class BlCalendar extends DatepickerCalendarMixin {
         </div>
       </div>
     `;
+  }
+
+  /**
+   * Find tooltip content for a specific date
+   */
+  findTooltipForDate(date: Date) {
+    if (!this.tooltipData || !this.tooltipData.length) {
+      return null;
+    }
+
+    const formattedDate = date.toDateString();
+
+    for (const item of this.tooltipData) {
+      const isDateInTooltip = item.dates.some(dateStr => {
+        const itemDate = new Date(dateStr).toDateString();
+
+        return itemDate === formattedDate;
+      });
+
+      if (isDateInTooltip) {
+        return item.tooltip;
+      }
+    }
+
+    return null;
   }
 }
