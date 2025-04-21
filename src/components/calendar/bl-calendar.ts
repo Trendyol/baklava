@@ -42,19 +42,10 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   _dates: Date[] = [];
 
   /**
-   * Map of tooltip data for specific dates, key is the date in milliseconds and value is the tooltip text
-   */
-  @state()
-  _tooltipDataMap: Map<number, string> = new Map();
-
-  /**
    * Tooltip data for specific dates
    */
-  @property({ type: Array, attribute: "tooltip-data", reflect: true })
-  set tooltipData(tooltipData: TooltipDateItem[]) {
-    // we are creating a map of tooltip data for faster lookup
-    this._tooltipDataMap = this.createTooltipDataMap(tooltipData);
-  }
+  @property({ type: Array })
+  tooltipData: TooltipDateItem[] = [];
 
   /**
    * Fires when date selection changes
@@ -375,18 +366,6 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     return calendar;
   }
 
-  createTooltipDataMap(tooltipData: TooltipDateItem[]) {
-    const tooltipDataMap = new Map<number, string>();
-
-    tooltipData?.forEach(item => {
-      item.dates?.forEach(dateStr =>
-        tooltipDataMap.set(new Date(dateStr)?.getTime(), item.tooltip)
-      );
-    });
-
-    return tooltipDataMap;
-  }
-
   updated(changedProperties: PropertyValues) {
     if (changedProperties.has("value")) {
       const dates = formatToDateArray(this._value);
@@ -569,6 +548,24 @@ export default class BlCalendar extends DatepickerCalendarMixin {
    * Find tooltip content for a specific date
    */
   findTooltipForDate(date: Date) {
-    return this._tooltipDataMap.get(date.getTime());
+    if (!this.tooltipData || !this.tooltipData.length) {
+      return null;
+    }
+
+    const formattedDate = date.toDateString();
+
+    for (const item of this.tooltipData) {
+      const isDateInTooltip = item.dates.some(dateStr => {
+        const itemDate = new Date(dateStr).toDateString();
+
+        return itemDate === formattedDate;
+      });
+
+      if (isDateInTooltip) {
+        return item.tooltip;
+      }
+    }
+
+    return null;
   }
 }

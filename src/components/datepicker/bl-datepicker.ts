@@ -15,7 +15,7 @@ import style from "./bl-datepicker.css";
  */
 export interface TooltipDateItem {
   dates: string[];
-  tooltip: string;
+  tooltip: string | TemplateResult;
 }
 
 /**
@@ -77,7 +77,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
    *   }
    * ]
    */
-  @property({ type: Array, attribute: "tooltip-data", reflect: true })
+  @property({ type: Array })
   tooltipData: TooltipDateItem[] = [];
 
   @state()

@@ -147,5 +147,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--bl-calendar-tooltip-padding, 0);
+  padding: var(--bl-size-m);
 }
