@@ -317,4 +317,21 @@ describe("BlDatepicker", () => {
     expect(focusSpy.called).to.be.true;
   });
 
+  it("should pass tooltipData to the calendar component", async () => {
+    const tooltipData = [
+      { dates: ["Jan 01 2024"], tooltip: "New Year" },
+      { dates: ["Dec 25 2024"], tooltip: "Christmas" },
+    ];
+
+    element.tooltipData = tooltipData;
+    await element.updateComplete;
+
+    // Ensure the popover is open to render the calendar
+    element.openPopover();
+    await element.updateComplete;
+
+    expect(element._calendarEl).to.exist;
+    expect(element._calendarEl.tooltipData).to.deep.equal(tooltipData);
+  });
+
 });
