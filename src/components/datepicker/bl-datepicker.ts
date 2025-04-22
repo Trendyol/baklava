@@ -77,7 +77,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
    *   }
    * ]
    */
-  @property({ type: Array })
+  @property({ type: Array, attribute: "tooltip-data", reflect: true })
   tooltipData: TooltipDateItem[] = [];
 
   @state()
