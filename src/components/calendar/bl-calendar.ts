@@ -50,7 +50,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   /**
    * Tooltip data for specific dates
    */
-  @property({ type: Array })
+  @property({ type: Array, attribute: "tooltip-data", reflect: true })
   set tooltipData(tooltipData: TooltipDateItem[]) {
     // we are creating a map of tooltip data for faster lookup
     this._tooltipDataMap = this.createTooltipDataMap(tooltipData);
@@ -379,7 +379,9 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     const tooltipDataMap = new Map<number, string>();
 
     tooltipData?.forEach(item => {
-      item.dates?.forEach(dateStr => tooltipDataMap.set(new Date(dateStr).getTime(), item.tooltip));
+      item.dates?.forEach(dateStr =>
+        tooltipDataMap.set(new Date(dateStr)?.getTime(), item.tooltip)
+      );
     });
 
     return tooltipDataMap;
