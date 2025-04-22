@@ -15,7 +15,7 @@ import style from "./bl-datepicker.css";
  */
 export interface TooltipDateItem {
   dates: string[];
-  tooltip: string | TemplateResult;
+  tooltip: string;
 }
 
 /**
