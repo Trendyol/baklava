@@ -127,10 +127,12 @@ You can pass tooltip data as an array of objects. Each object has `dates` and `t
 For example:
 
 ```json
-[
-  { "dates": ["Apr 1 2025", "Apr 2 2025"], "tooltip": "Tooltip1" },
-  { "dates": ["Apr 14 2025", "Apr 15 2025", "Apr 16 2025"], "tooltip": "Tooltip2 }
-]
+{
+  "tooltipData": [
+    { "dates": ["Apr 1 2025", "Apr 2 2025"], "tooltip": "Tooltip1" },
+    { "dates": ["Apr 14 2025", "Apr 15 2025", "Apr 16 2025"], "tooltip": "Tooltip2" }
+  ]
+}
 ```
 
 <Canvas>
@@ -138,7 +140,33 @@ For example:
     type: 'multiple',
     label: 'Tooltip Data',
     placeholder: 'Set tooltip data',
-    tooltipData: [{ dates: ['Apr 1 2025', 'Apr 2 2025'], tooltip: 'Tooltip for dates' }]
+    tooltipData: [
+      { dates: ['Apr 1 2025', 'Apr 2 2025'], tooltip: 'Tooltip1' },
+      { dates: ['Apr 14 2025', 'Apr 15 2025', 'Apr 16 2025'], tooltip: 'Tooltip2' }
+    ]
+  }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Tooltip on Disabled Dates
+
+You can also set tooltip for specific dates which are disabled. Below is an example of how to set a tooltip for disabled dates.
+
+```json
+{
+  "disabledDates": "Apr 15 2025, Apr 16 2025",
+  "tooltipData": [{ "dates": ["Apr 15 2025", "Apr 16 2025"], "tooltip": "Tooltip1 on disabled date" }]
+}
+```
+
+<Canvas>
+  <Story name="Tooltip on Disabled Dates" args={{
+    type: 'multiple',
+    label: 'Tooltip on Disabled Dates',
+    placeholder: 'Set tooltip data',
+    disabledDates: "Apr 15 2025, Apr 16 2025",
+    tooltipData: [{ dates: ['Apr 15 2025', 'Apr 16 2025'], tooltip: 'Tooltip1 on disabled date' }]
   }}>
     {Template.bind({})}
   </Story>
