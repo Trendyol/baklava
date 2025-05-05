@@ -45,6 +45,11 @@
   margin-right: var(--bl-size-3xs);
 }
 
+bl-popover {
+  --bl-popover-padding: 0;
+  --bl-popover-background-color: transparent;
+}
+
 .date-tooltip {
   position: absolute;
   z-index: 10;
