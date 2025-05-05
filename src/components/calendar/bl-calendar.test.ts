@@ -13,7 +13,6 @@ describe("bl-calendar", () => {
     element = await fixture<BlCalendar>(html`
       <bl-calendar locale="en"></bl-calendar>`);
     consoleWarnSpy = sinon.spy(console, "warn");
-
   });
 
   afterEach(() => {
@@ -604,6 +603,8 @@ describe("bl-calendar", () => {
   });
 
   describe("Tooltip Functionality", () => {
+    let clock: sinon.SinonFakeTimers;
+
     const tooltipData = [
       {
         dates: ["Apr 12 2025"],
@@ -616,9 +617,15 @@ describe("bl-calendar", () => {
     ];
 
     beforeEach(async () => {
-      element._calendarMonth = 4;
-      element._calendarYear = 2025;
+      clock = sinon.useFakeTimers(new Date(2025, 3, 10).getTime());
+
+      element = await fixture<BlCalendar>(html`
+        <bl-calendar locale="en"></bl-calendar>`);
       await element.updateComplete;
+    });
+
+    afterEach(() => {
+      clock.restore();
     });
 
     it("should not render any tooltips if tooltipData is not provided or empty", async () => {
@@ -632,25 +639,32 @@ describe("bl-calendar", () => {
     });
 
     it("should render tooltips for dates if tooltipData is provided", async () => {
-      element = await fixture<BlCalendar>(html`
-        <bl-calendar .tooltipData=${tooltipData}></bl-calendar>`);
-
+      element.tooltipData = tooltipData;
       element.requestUpdate();
       await element.updateComplete;
       await aTimeout(100);
+      await aTimeout(100);
+
+      expect(element._calendarMonth).to.equal(3);
+      expect(element._calendarYear).to.equal(2025);
 
       const actualTooltipText12 = getTooltipTextByDayButtonText(element, "12");
       const expectedTooltipText12 = tooltipData[0].tooltip;
 
       expect(actualTooltipText12, "Tooltip text for day 12 should be found").to.equal(expectedTooltipText12);
+      const actualTooltipText14 = getTooltipTextByDayButtonText(element, "14");
+      const expectedTooltipText14 = tooltipData[1].tooltip;
+
+      expect(actualTooltipText14, "Tooltip text for day 14 should be found").to.equal(expectedTooltipText14);
     });
 
-    const getTooltipTextByDayButtonText = (calendarElement: BlCalendar, dayText: string): string | null | undefined => {
+    const getTooltipTextByDayButtonText = (calendarElement: BlCalendar, dayText: string) => {
       let targetButton: Element | null = null;
-      const dayWrapperDivs  = calendarElement.shadowRoot?.querySelectorAll(".day-wrapper");
+      const dayWrapperDivs = calendarElement.shadowRoot?.querySelectorAll(".day-wrapper");
 
       dayWrapperDivs?.forEach(dayWrapperDiv => {
-        const button = dayWrapperDiv?.querySelector("bl-button");
+        const tooltip = dayWrapperDiv.querySelector("bl-tooltip");
+        const button = tooltip?.querySelector("bl-button") || dayWrapperDiv.querySelector("bl-button");
 
         if (button?.textContent?.trim() === dayText) {
           targetButton = button;
@@ -659,7 +673,8 @@ describe("bl-calendar", () => {
 
       if (!targetButton) return undefined;
 
-      const tooltipContentDiv = (targetButton as BlButton).nextElementSibling;
+      const tooltip = (targetButton as Element).closest("bl-tooltip");
+      const tooltipContentDiv = tooltip?.querySelector("[slot='content']");
 
       return tooltipContentDiv?.textContent?.trim();
     };
