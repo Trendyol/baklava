@@ -1,6 +1,7 @@
 :host {
   width: 314px;
   display: block;
+  --bl-calendar-tooltip-padding: 16px !important;
 }
 
 .datepicker-content {
