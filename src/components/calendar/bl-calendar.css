@@ -142,10 +142,3 @@
 .calendar-text {
   font: var(--bl-font-title-3-regular);
 }
-
-.tooltip-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--bl-calendar-tooltip-padding, 0);
-}
