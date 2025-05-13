@@ -24,8 +24,7 @@ export const CalendarTemplate = (args) => html`
     start-of-week=${ifDefined(args.startOfWeek)}
     locale=${ifDefined(args.locale)}
     value=${ifDefined(args.value)}
-    disabled-dates=${ifDefined(args.disabledDates)}
-    .tooltipData=${ifDefined(args.tooltipData)}>${unsafeHTML(args.content)}
+    disabled-dates=${ifDefined(args.disabledDates)}>${unsafeHTML(args.content)}
   </bl-calendar>`
 
 
@@ -47,7 +46,6 @@ Calendar component is an **internal** component for using inside Datepicker comp
 * Calendar has **min-date** and **max-date** attributes.By entering these values,you can disable all dates before min-date property or will disable all dates after max-date property.
 * Another attribute **disabled-dates** is also restrict the dates that can be selected on the calendar.
 * Attribute **start-of-date** defines the days of the week, corresponding to 0 Sundays and 6 Saturdays. By entering this, you can choose from which day the calendar will create the calendar view.
-* Attribute **tooltip-data** is used to set tooltip for specific dates. It is an array of objects. Each object has `dates` and `tooltip` properties. `dates` is an array of dates in string format and `tooltip` is the tooltip text.
 
 ## Calendar Types
 
@@ -107,32 +105,6 @@ You can set dates which you want to disable from calendar.
     {Template.bind({})}
   </Story>
 </Canvas>
-
-
-### Tooltip on Dates
-
-You can set tooltip for specific dates.
-You can pass tooltip data as an array of objects. Each object has `dates` and `tooltip` properties. `dates` is an array of dates in string format and `tooltip` is the tooltip text.
-For example:
-
-```json
-[
-  { "dates": ["Apr 1 2025", "Apr 2 2025"], "tooltip": "Tooltip1" },
-  { "dates": ["Apr 14 2025", "Apr 15 2025", "Apr 16 2025"], "tooltip": "Tooltip2 }
-]
-```
-
-<Canvas>
-  <Story name="Tooltip" args={{
-    type: 'single',
-    tooltipData: [{ dates: ['Apr 1 2025', 'Apr 12 2025', 'Apr 13 2025'], tooltip: 'Tooltip for dates' }],
-    disabledDates: ['Apr 12 2025', 'Apr 13 2025', 'Apr 14 2025'],
-    value: "Apr 1 2025"
-  }}>
-    {Template.bind({})}
-  </Story>
-</Canvas>
-
 
 ## RTL Support
 

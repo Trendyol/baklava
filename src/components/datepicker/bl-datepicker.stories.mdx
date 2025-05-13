@@ -27,8 +27,7 @@ export const DatepickerTemplate = (args) => html`
     locale=${ifDefined(args.locale)}
     value=${ifDefined(args.value)}
     style=${ifDefined(args.style)}
-    disabled-dates=${ifDefined(args.disabledDates)}
-    .tooltipData=${ifDefined(args.tooltipData)}>${unsafeHTML(args.content)}
+    disabled-dates=${ifDefined(args.disabledDates)}>${unsafeHTML(args.content)}
   </bl-datepicker>`
 
 
@@ -50,7 +49,6 @@ Datepicker renders the calendar component within itself and provides the functio
 * Datepicker has **min-date** and **max-date** attributes.By entering these values,you can disable all dates before min-date property or will disable all dates after max-date property.
 * Another attribute **disabled-dates** is also restrict the dates that can be selected on the datepicker.
 * Attribute **start-of-date** defines the days of the week, corresponding to 0 Sundays and 6 Saturdays. By entering this, you can choose from which day the datepicker will create the datepicker view.
-* Attribute **tooltip-data** is used to set tooltip for specific dates. It is an array of objects. Each object has `dates` and `tooltip` properties. `dates` is an array of dates in string format and `tooltip` is the tooltip text.
 
 ## Datepicker Types
 
@@ -115,60 +113,6 @@ You can set dates which you want to disable from Datepicker.
     label: 'Disabled Dates',
     placeholder: 'Set disabled dates',
     disabledDates: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)
-  }}>
-    {Template.bind({})}
-  </Story>
-</Canvas>
-
-### Tooltip on Dates
-
-You can set tooltip for specific dates.
-You can pass tooltip data as an array of objects. Each object has `dates` and `tooltip` properties. `dates` is an array of dates in string format and `tooltip` is the tooltip text.
-For example:
-
-```json
-{
-  "tooltipData": [
-    { "dates": ["Apr 1 2025", "Apr 2 2025"], "tooltip": "Tooltip1" },
-    { "dates": ["Apr 14 2025", "Apr 15 2025", "Apr 16 2025"], "tooltip": "Tooltip2" }
-  ]
-}
-```
-
-<Canvas>
-  <Story name="Tooltip Data" args={{
-    type: 'multiple',
-    label: 'Tooltip Data',
-    placeholder: 'Set tooltip data',
-    tooltipData: [
-      { dates: ['Apr 1 2025', 'Apr 2 2025'], tooltip: 'Tooltip1' },
-      { dates: ['Apr 14 2025', 'Apr 15 2025', 'Apr 16 2025'], tooltip: 'Tooltip2' }
-    ],
-    value: "Apr 1 2025"
-  }}>
-    {Template.bind({})}
-  </Story>
-</Canvas>
-
-### Tooltip on Disabled Dates
-
-You can also set tooltip for specific dates which are disabled. Below is an example of how to set a tooltip for disabled dates.
-
-```json
-{
-  "disabledDates": "Apr 15 2025, Apr 16 2025",
-  "tooltipData": [{ "dates": ["Apr 15 2025", "Apr 16 2025"], "tooltip": "Tooltip1 on disabled date" }]
-}
-```
-
-<Canvas>
-  <Story name="Tooltip on Disabled Dates" args={{
-    type: 'multiple',
-    label: 'Tooltip on Disabled Dates',
-    placeholder: 'Set tooltip data',
-    disabledDates: "Apr 15 2025, Apr 16 2025",
-    tooltipData: [{ dates: ['Apr 15 2025', 'Apr 16 2025'], tooltip: 'Tooltip1 on disabled date' }],
-    value: "Apr 14 2025"
   }}>
     {Template.bind({})}
   </Story>
