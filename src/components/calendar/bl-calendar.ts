@@ -8,7 +8,6 @@ import { event, EventDispatcher } from "../../utilities/event";
 import { formatToDateArray } from "../../utilities/format-to-date-array";
 import "../button/bl-button";
 import "../icon/bl-icon";
-import "../tooltip/bl-tooltip";
 import {
   CALENDAR_TYPES,
   CALENDAR_VIEWS,
