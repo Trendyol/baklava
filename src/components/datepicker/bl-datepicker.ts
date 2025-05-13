@@ -11,14 +11,6 @@ import "../tooltip/bl-tooltip";
 import style from "./bl-datepicker.css";
 
 /**
- * Date tooltip data type
- */
-export interface TooltipDateItem {
-  dates: string[];
-  tooltip: string;
-}
-
-/**
  * @tag bl-datepicker
  * @summary Baklava DatePicker component
  *
@@ -64,21 +56,11 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   helpText: string;
 
   /**
-   * Tooltip data for specific dates
-   * Example:
-   * [
-   *   {
-   *     dates: ["Apr 12 2025"],
-   *     tooltip: "Holiday"
-   *   },
-   *   {
-   *     dates: ["Apr 13 2025", "Apr 14 2025"],
-   *     tooltip: "Weekend"
-   *   }
-   * ]
+   * Custom function to render day cells in the calendar.
+   * It receives the date as an argument and should return a TemplateResult.
    */
-  @property({ type: Array, attribute: "tooltip-data", reflect: true })
-  tooltipData: TooltipDateItem[] = [];
+  @property({ attribute: false })
+  dayRenderer?: (date: Date) => TemplateResult;
 
   @state()
   _inputValue = "";
@@ -239,7 +221,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           .disabledDates=${this.disabledDates}
           .value=${this.value}
           .locale=${this.locale}
-          .tooltipData=${this.tooltipData}
+          .dayRenderer=${this.dayRenderer}
           @bl-calendar-change="${this.onCalendarChange}"
         ></bl-calendar>
       </bl-popover>
