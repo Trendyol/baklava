@@ -446,7 +446,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
                 "disabled-day": isDisabledDay,
               });
 
-              const button = html`
+              return html`<div class="day-wrapper">
                 <bl-button
                   id=${date.getTime()}
                   variant="tertiary"
@@ -458,9 +458,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
                 >
                   ${this.dayRenderer ? this.dayRenderer(date) : date.getDate()}
                 </bl-button>
-              `;
-
-              return html`<div class="day-wrapper">${button}</div>`;
+              </div>`;
             })}
           </div>`;
         })}
