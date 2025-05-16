@@ -1,5 +1,5 @@
-import { CSSResultGroup, html, PropertyValues } from "lit";
-import { customElement, state } from "lit/decorators.js";
+import { CSSResultGroup, html, PropertyValues, TemplateResult } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { localized } from "@lit/localize";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
@@ -38,6 +38,14 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   _calendarDays: CalendarDay[] = [];
   @state()
   _dates: Date[] = [];
+
+  /**
+   * Custom function to render day cells.
+   * It receives the date as an argument and should return a TemplateResult.
+   */
+  @property({ attribute: false })
+  dayRenderer?: (date: Date) => TemplateResult;
+
   /**
    * Fires when date selection changes
    */
@@ -414,8 +422,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     const calendarDays = this.createCalendarDays();
     const valuesArray = Array.from(calendarDays.values());
 
-    return html`
-      <div class="week-row">
+    return html` <div class="week-row">
         ${[...calendarDays.keys()].map(key => {
           return html` <div class="calendar-text weekday-text">${key}</div> `;
         })}
@@ -425,6 +432,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
           return html` <div class="week-row">
             ${valuesArray.map(values => {
               const date = values[key];
+
               const isSelectedDay = this.checkIfSelectedDate(date);
               const isDayToday = this.checkIfDateIsToday(date);
               const isDisabledDay = this.checkIfDateIsDisabled(date);
@@ -438,25 +446,22 @@ export default class BlCalendar extends DatepickerCalendarMixin {
                 "disabled-day": isDisabledDay,
               });
 
-              return html`
-                <div class="day-wrapper">
-                  <bl-button
-                    id=${date.getTime()}
-                    variant="tertiary"
-                    kind="neutral"
-                    size="small"
-                    class=${classes}
-                    ?disabled=${isDisabledDay}
-                    @click="${() => !isDisabledDay && this.handleDate(date)}"
-                  >
-                    ${date.getDate()}
-                  </bl-button>
-                </div>
-              `;
+              return html`<div class="day-wrapper">
+                <bl-button
+                  id=${date.getTime()}
+                  variant="tertiary"
+                  kind="neutral"
+                  size="small"
+                  class=${classes}
+                  ?disabled=${isDisabledDay}
+                  @click="${() => !isDisabledDay && this.handleDate(date)}"
+                >
+                  ${this.dayRenderer ? this.dayRenderer(date) : date.getDate()}
+                </bl-button>
+              </div>`;
             })}
           </div>`;
         })}
-      </div>
       </div>`;
   }
 
