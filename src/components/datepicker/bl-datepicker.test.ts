@@ -316,5 +316,4 @@ describe("BlDatepicker", () => {
 
     expect(focusSpy.called).to.be.true;
   });
-
 });

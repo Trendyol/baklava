@@ -602,4 +602,70 @@ describe("bl-calendar", () => {
 
     expect(element._dates).to.be.empty;
   });
+
+  describe("dayRenderer functionality", () => {
+    it("should render default day structure when no dayRenderer is provided", async () => {
+      element = await fixture<BlCalendar>(html`<bl-calendar></bl-calendar>`);
+      await element.updateComplete;
+
+      const firstDayWrapper = element.shadowRoot?.querySelector(".day-wrapper");
+      const dayButton = firstDayWrapper?.querySelector("bl-button");
+      const daySpan = dayButton?.textContent?.trim();
+
+      expect(firstDayWrapper).to.exist;
+      expect(dayButton).to.exist;
+      expect(daySpan).to.not.be.empty;
+    });
+
+    it("should use dayRenderer to render days if provided", async () => {
+      const dayRenderer = (date: Date) => html`<div class="custom-day">${date.getDate()}</div>`;
+
+      element = await fixture<BlCalendar>(html`<bl-calendar .dayRenderer=${dayRenderer}></bl-calendar>`);
+      await element.updateComplete;
+
+      const firstDayWrapper = element.shadowRoot?.querySelector(".day-wrapper");
+
+      expect(firstDayWrapper).to.exist;
+
+      const dayButton = firstDayWrapper?.querySelector("bl-button");
+
+      expect(dayButton).to.exist; // bl-button should now always exist
+
+      const customDayDiv = dayButton?.querySelector(".custom-day"); // custom-day is inside the button
+
+      expect(customDayDiv).to.exist;
+
+      const daySpan = customDayDiv?.textContent?.trim();
+
+      expect(daySpan).to.not.be.empty;
+    });
+
+    it("should call dayRenderer for each day in the current view", async () => {
+      const dayRendererSpy = sinon.spy((date: Date) => html`<span>${date.getDate()}</span>`);
+
+      element = await fixture<BlCalendar>(html`<bl-calendar .dayRenderer=${dayRendererSpy}></bl-calendar>`);
+      await element.updateComplete;
+
+      // Calculate expected number of day cells visible in the default view (e.g., 6 weeks * 7 days)
+      // This might need adjustment based on how createCalendarDays populates the view exactly.
+      // For a typical month view, it's usually around 35-42 days (5-6 weeks).
+      const dayElements = element.shadowRoot?.querySelectorAll(".day-wrapper");
+
+      expect(dayElements?.length).to.be.greaterThan(27); // At least 4 weeks of days
+      expect(dayRendererSpy.callCount).to.equal(dayElements?.length);
+    });
+
+    it("should render day with bold text when dayRenderer provides a template with strong tag", async () => {
+      const dayRendererWithBoldText = (date: Date) => html`<strong>${date.getDate()}</strong>`;
+
+      element = await fixture<BlCalendar>(html`<bl-calendar .dayRenderer=${dayRendererWithBoldText}></bl-calendar>`);
+      await element.updateComplete;
+
+      const firstDayWrapper = element.shadowRoot?.querySelector(".day-wrapper");
+      const strongTag = firstDayWrapper?.querySelector("strong");
+
+      expect(strongTag).to.exist;
+      expect(strongTag?.textContent).to.not.be.empty;
+    });
+  });
 });

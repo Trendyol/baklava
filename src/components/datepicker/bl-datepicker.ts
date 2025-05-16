@@ -55,6 +55,13 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   @property({ type: String, attribute: "help-text", reflect: true })
   helpText: string;
 
+  /**
+   * Custom function to render day cells in the calendar.
+   * It receives the date as an argument and should return a TemplateResult.
+   */
+  @property({ attribute: false })
+  dayRenderer?: (date: Date) => TemplateResult;
+
   @state()
   _inputValue = "";
 
@@ -214,6 +221,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           .disabledDates=${this.disabledDates}
           .value=${this.value}
           .locale=${this.locale}
+          .dayRenderer=${this.dayRenderer}
           @bl-calendar-change="${this.onCalendarChange}"
         ></bl-calendar>
       </bl-popover>
