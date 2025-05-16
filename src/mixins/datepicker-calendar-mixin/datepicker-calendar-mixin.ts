@@ -88,7 +88,7 @@ export default class DatepickerCalendarMixin extends LitElement {
       console.warn("Invalid minDate value.");
       return;
     }
-    if (this._maxDate && this._maxDate <= minDate) {
+    if (this._maxDate && this._maxDate < minDate) {
       console.warn("minDate cannot be greater than maxDate.");
     } else {
       this._minDate = new Date(minDate);
