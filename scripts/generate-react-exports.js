@@ -3,9 +3,9 @@ import { pascalCase } from "pascal-case";
 import path from "path";
 import { format } from "prettier";
 import { fileURLToPath } from "url";
-import prettierConfig from "../.prettierrc.json" assert { type: "json" };
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const prettierConfig = fs.readJSONSync(path.resolve(__dirname, "../.prettierrc.json"));
 
 const importStatements = [
   'import React from "react";',
