@@ -1,15 +1,12 @@
-import { LocaleModule, configureLocalization } from "@lit/localize";
-import { sourceLocale, targetLocales, allLocales } from "./generated/locale-codes";
-import * as templatesTR from "./generated/locales/tr";
+import { configureLocalization } from "@lit/localize";
+import { allLocales, sourceLocale, targetLocales } from "./generated/locale-codes";
 
-export type LangKey = "tr" | "en";
-
-const localizedTemplates = new Map<string, LocaleModule>([["tr", templatesTR]]);
+export type LangKey = (typeof allLocales)[number];
 
 const { setLocale } = configureLocalization({
   sourceLocale,
   targetLocales,
-  loadLocale: async (locale: string) => localizedTemplates.get(locale) as LocaleModule,
+  loadLocale: locale => import(`/locales/${locale}.js`),
 });
 
 export const init = async () => {
