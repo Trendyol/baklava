@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-<file target-language="tr" source-language="en" original="lit-localize-inputs" datatype="plaintext">
+<file target-language="ro" source-language="en" original="lit-localize-inputs" datatype="plaintext">
 <body>
+<trans-unit id="s3f9c368cd44f682b">
+  <source>An error occurred</source>
+  <target>A apărut o eroare</target>
+  <note from="lit-localize">bl-input: default custom error message</note>
+</trans-unit>
 <trans-unit id="sb1ba2131b9a7c7b0">
   <source>Go to</source>
-  <target>Git</target>
+  <target>Mergi la</target>
   <note from="lit-localize">bl-pagination: jumper text</note>
 </trans-unit>
 <trans-unit id="s716a6024e3fe999c">
   <source>Show</source>
-  <target>Göster</target>
+  <target>Arată</target>
   <note from="lit-localize">bl-pagination: listing text</note>
 </trans-unit>
 <trans-unit id="s76ddb3a843ed8e06">
   <source>Clear Search</source>
-  <target>Aramayı Temizle</target>
+  <target>Șterge căutarea</target>
   <note from="lit-localize">bl-select: clear search button text</note>
-</trans-unit>
-<trans-unit id="s144508ac0e146c46">
-  <source>No Data Found</source>
-  <target>Hiçbir Sonuç Bulunamadı</target>
-  <note from="lit-localize">bl-select: search no data text</note>
-</trans-unit>
-<trans-unit id="s5d929ff1619ac0c9">
-  <source>Search</source>
-  <target>Arama</target>
-  <note from="lit-localize">bl-select: search placeholder text</note>
-</trans-unit>
-<trans-unit id="sbaace8219b5f4612">
-  <source>Select All</source>
-  <target>Tümünü Seç</target>
-  <note from="lit-localize">bl-select: select all text</note>
-</trans-unit>
-<trans-unit id="s3f9c368cd44f682b">
-  <source>An error occurred</source>
-  <target>Bir hata oluştu</target>
-  <note from="lit-localize">bl-input: default custom error message</note>
 </trans-unit>
 <trans-unit id="s859e1270b0736efc">
   <source>Close dropdown</source>
-  <target>Açılır menüyü kapat</target>
+  <target>Închide meniul derulant</target>
   <note from="lit-localize">bl-select: close dropdown button</note>
 </trans-unit>
 <trans-unit id="s761665218da1556a">
   <source>Open dropdown</source>
-  <target>Açılır menüyü aç</target>
+  <target>Deschide meniul derulant</target>
   <note from="lit-localize">bl-select: open dropdown button</note>
+</trans-unit>
+<trans-unit id="s144508ac0e146c46">
+  <source>No Data Found</source>
+  <target>Nu s-au găsit date</target>
+  <note from="lit-localize">bl-select: search no data text</note>
+</trans-unit>
+<trans-unit id="s5d929ff1619ac0c9">
+  <source>Search</source>
+  <target>Căutare</target>
+  <note from="lit-localize">bl-select: search placeholder text</note>
+</trans-unit>
+<trans-unit id="sbaace8219b5f4612">
+  <source>Select All</source>
+  <target>Selectează tot</target>
+  <note from="lit-localize">bl-select: select all text</note>
 </trans-unit>
 </body>
 </file>
