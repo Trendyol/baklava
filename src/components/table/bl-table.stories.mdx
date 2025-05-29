@@ -129,6 +129,37 @@ export const TableWithPaginationTemplate = (args, {id}) => {
   `;
 }
 
+export const NoDataTableTemplate = (args) => {
+  const { headers, noDataContent } = args;
+  
+  return html`
+    <div style="height: 400px;">
+      <bl-table>
+        <bl-table-header sticky>
+          <bl-table-row>
+            ${headers.map((header) =>
+              html`<bl-table-header-cell
+                style="${header.width ? '--bl-table-header-cell-width: ' + header.width + ';' : ''} ${header.minWidth ? '--bl-table-header-cell-min-width: ' + header.minWidth + ';' : ''}"
+                ?sortable="${header.sortable || false}"
+                sort-key="${header.sortKey || ''}"
+              >
+                ${header.text}
+              </bl-table-header-cell>`
+            )}
+          </bl-table-row>
+        </bl-table-header>
+        <bl-table-body>
+          ${noDataContent ? html`
+            <div slot="no-data">
+              ${noDataContent}
+            </div>
+          ` : ''}
+        </bl-table-body>
+      </bl-table>
+    </div>
+  `;
+}
+
 # Table Component
 
 <bl-badge icon="check_fill">RTL Supported</bl-badge>
@@ -652,6 +683,55 @@ To enable pagination on the table, use the `bl-pagination` component. The `@bl-c
     rows: {table: {disable: true}}
   }}>
     {TableWithPaginationTemplate.bind({})}
+  </Story>
+</Canvas>
+
+# No Data Slot
+
+When there are no rows in the table, you can display custom content using the "no-data" slot. This slot appears automatically when no `bl-table-row` elements are present in the table body. If no custom slot is provided, a default no-data message will be displayed.
+
+export const EmptyTableTemplate = (args) => html`
+  <div style="height: 400px;">
+    <bl-table>
+      <bl-table-header sticky>
+        <bl-table-row>
+          <bl-table-header-cell>ID</bl-table-header-cell>
+          <bl-table-header-cell>Name</bl-table-header-cell>
+          <bl-table-header-cell>Email</bl-table-header-cell>
+          <bl-table-header-cell>Status</bl-table-header-cell>
+        </bl-table-row>
+      </bl-table-header>
+      <bl-table-body>
+        ${args.showNoDataSlot ? html`
+          <div slot="no-data">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 200px;">
+              <bl-icon name="archive" style="font-size: 32px; margin-bottom: var(--bl-size-l); color: var(--bl-color-primary);"></bl-icon>
+              <p style="margin: 0; font: var(--bl-font-title-2-medium); color: var(--bl-color-neutral-darker);">Custom Empty State</p>
+              <p style="margin: var(--bl-size-xs) 0 0 0; font: var(--bl-font-body-text-2); color: var(--bl-color-neutral-light);">This is a custom no-data slot implementation.</p>
+              <bl-button style="margin-top: var(--bl-size-l);">
+                Add New Item
+              </bl-button>
+            </div>
+          </div>
+        ` : ''}
+      </bl-table-body>
+    </bl-table>
+  </div>
+`;
+
+<Canvas>
+  <Story name="Table with No Data Slot" args={{ showNoDataSlot: true }}>
+    {EmptyTableTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Empty Table Without No Data Slot
+
+If no "no-data" slot is provided, the table displays a default no-data message with a standard design.
+
+<Canvas>
+  <Story name="Empty Table Without Slot" args={{ showNoDataSlot: false }}>
+    {EmptyTableTemplate.bind({})}
   </Story>
 </Canvas>
 

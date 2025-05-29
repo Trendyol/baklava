@@ -16,6 +16,8 @@
 's761665218da1556a': `Deschide meniul derulant`,
 's76ddb3a843ed8e06': `Șterge căutarea`,
 's859e1270b0736efc': `Închide meniul derulant`,
+'s8bf9dd3eac79af25': `În prezent nu există înregistrări de afișat.`,
+'sa26d7a273074cbf9': `Nu există date disponibile`,
 'sb1ba2131b9a7c7b0': `Mergi la`,
 'sbaace8219b5f4612': `Selectează tot`,
     };
