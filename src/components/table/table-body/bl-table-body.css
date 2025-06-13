@@ -1,3 +1,49 @@
 :host {
   display: table-row-group;
 }
+
+.no-data-row {
+  display: table-row;
+}
+
+.no-data-cell {
+  display: table-cell;
+  padding: var(--bl-size-2xl);
+  text-align: center;
+  vertical-align: middle;
+  background-color: var(--bl-color-neutral-full);
+  width: 100%;
+  min-height: 250px;
+  position: relative;
+}
+
+.no-data-cell ::slotted(*) {
+  display: block;
+  width: 100%;
+}
+
+.default-no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.default-no-data bl-icon {
+  font-size: 48px;
+  margin-bottom: var(--bl-size-m);
+  color: var(--bl-color-neutral-light);
+}
+
+.default-no-data .title {
+  margin: 0;
+  font: var(--bl-font-title-2-regular);
+  color: var(--bl-color-neutral-darker);
+}
+
+.default-no-data .subtitle {
+  margin: var(--bl-size-xs) 0 0 0;
+  font: var(--bl-font-body-text-2);
+  color: var(--bl-color-neutral-light);
+}

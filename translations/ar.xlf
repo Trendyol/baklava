@@ -47,6 +47,16 @@
   <target>اختر الكل</target>
   <note from="lit-localize">bl-select: select all text</note>
 </trans-unit>
+<trans-unit id="s8bf9dd3eac79af25">
+  <source>There are currently no records to display.</source>
+  <target>لا توجد حاليًا سجلات للعرض.</target>
+  <note from="lit-localize">bl-table-body: no data subtitle</note>
+</trans-unit>
+<trans-unit id="sa26d7a273074cbf9">
+  <source>No data available</source>
+  <target>لا توجد بيانات متاحة</target>
+  <note from="lit-localize">bl-table-body: no data title</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

@@ -47,6 +47,16 @@
   <target>Selectează tot</target>
   <note from="lit-localize">bl-select: select all text</note>
 </trans-unit>
+<trans-unit id="s8bf9dd3eac79af25">
+  <source>There are currently no records to display.</source>
+  <target>În prezent nu există înregistrări de afișat.</target>
+  <note from="lit-localize">bl-table-body: no data subtitle</note>
+</trans-unit>
+<trans-unit id="sa26d7a273074cbf9">
+  <source>No data available</source>
+  <target>Nu există date disponibile</target>
+  <note from="lit-localize">bl-table-body: no data title</note>
+</trans-unit>
 </body>
 </file>
 </xliff>
