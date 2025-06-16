@@ -52,9 +52,12 @@ ${componentsCode}`;
  */
 function resolveComponent(el, path) {
   const resolvedPath = resolveFilePath(path, "default", "./");
-  const eventsCode = el.events?.map(resolveEvent).join(",\n") ?? null;
+  const { exportCodes, fieldCodes } = resolveEvents(el.events, el.name);
 
   return `
+export type ${el.name} = ${resolvedPath};
+${exportCodes}
+
 ${el.jsDoc || ""}
 export const ${el.name} = React.lazy(() =>
   customElements.whenDefined("${el.tagName}").then(() => ({
@@ -63,19 +66,33 @@ export const ${el.name} = React.lazy(() =>
       displayName: "${el.name}",
       tagName: "${el.tagName}",
       elementClass: customElements.get("${el.name}") as Constructor<${resolvedPath}>,
-      ${eventsCode ? `events: {${eventsCode}}` : ""}
+      ${fieldCodes ? `events: {${fieldCodes}}` : ""}
     })
   }))
 );`;
 }
 
 /**
- * @param event {import("custom-elements-manifest").Event & {parsedType: import("custom-elements-manifest").Type}}
- * @return string
+ * @param events {(import("custom-elements-manifest").Event & {parsedType: import("custom-elements-manifest").Type})[] | null}
+ * @param componentName {string}
+ * @return {{exportCodes: string, fieldCodes: string}}
  */
-function resolveEvent(event) {
-  const indent = "        ";
-  return `${indent}on${pascalCase(event.name)}: "${event.name}" as EventName<CustomEvent<${
-    resolveParsedType(event.parsedType.text, "./") ?? "any"
-  }>>`;
+function resolveEvents(events, componentName) {
+  if (!events) {
+    return { exportCodes: "", fieldCodes: "" };
+  }
+
+  const exportCodes = [];
+  const fieldCodes = [];
+  for (const event of events) {
+    const pascalCaseEventName = pascalCase(event.name);
+    const exportedEventName = `${componentName}${pascalCaseEventName.replace(/^Bl/, "")}`;
+    const reactEventName = `on${pascalCaseEventName}`;
+    const resolvedEventType = resolveParsedType(event.parsedType.text, "./") ?? "any";
+
+    exportCodes.push(`export type ${exportedEventName} = CustomEvent<${resolvedEventType}>;`);
+    fieldCodes.push(`${reactEventName}: "${event.name}" as EventName<${exportedEventName}>`);
+  }
+
+  return { exportCodes: exportCodes.join("\n"), fieldCodes: fieldCodes.join("\n,") };
 }
