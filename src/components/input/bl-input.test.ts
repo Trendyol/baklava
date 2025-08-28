@@ -348,8 +348,6 @@ describe("bl-input", () => {
         expect((e as CustomEvent).detail).to.be.equal("");
       });
 
-      console.log(closeIcon);
-
 
       closeIcon?.click();
       await elementUpdated(el);
