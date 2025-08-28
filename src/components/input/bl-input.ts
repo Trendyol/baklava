@@ -408,9 +408,9 @@ export default class BlInput extends FormControlMixin(LitElement) {
               kind="neutral"
               variant="tertiary"
               aria-label="Clear search"
+              icon="close"
               @bl-click=${this.handleSearchClear}
             >
-              <bl-icon class="clear-icon" slot="icon" name="close"></bl-icon>
             </bl-button>
             <div class="split-divider"></div>
           `
