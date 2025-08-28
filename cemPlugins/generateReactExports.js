@@ -91,7 +91,6 @@ function resolveEvents(events, componentName) {
     const resolvedEventType = resolveParsedType(event.parsedType.text, "./") ?? "any";
 
     exportCodes.push(`export type ${exportedEventName} = CustomEvent<${resolvedEventType}>;`);
-    fieldCodes.push(`${reactEventName}: "${event.name}" as EventName<${exportedEventName}>`);
   }
 
   return { exportCodes: exportCodes.join("\n"), fieldCodes: fieldCodes.join("\n,") };
