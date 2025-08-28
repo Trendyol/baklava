@@ -333,7 +333,8 @@ describe("bl-input", () => {
 
     it("should show clear button and clear value on clear button click", async () => {
       const el = await fixture<BlInput>(html`<bl-input type="search" value="test"></bl-input>`);
-      const closeIcon = el?.shadowRoot?.querySelector('bl-icon[name="close"]') as HTMLElement | null;
+      const clearButton = el?.shadowRoot?.querySelector('bl-button[icon="close"]') as HTMLElement | null;
+      const closeIcon = clearButton?.shadowRoot?.querySelector("button") as HTMLElement | null;
       const input = el?.shadowRoot?.querySelector("input");
 
       expect(input).to.attr("type", "search");
@@ -346,6 +347,8 @@ describe("bl-input", () => {
         inputEventFired = true;
         expect((e as CustomEvent).detail).to.be.equal("");
       });
+
+      console.log(closeIcon);
 
 
       closeIcon?.click();

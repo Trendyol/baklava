@@ -1,4 +1,4 @@
-import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join as pathJoin } from "node:path";
 import { pascalCase } from "pascal-case";
 import { format } from "prettier";
@@ -32,7 +32,7 @@ export function generateReactExports() {
         .join("\n");
 
       const code = `import React from "react";
-import { type EventName, createComponent } from "@lit-labs/react";
+import { createComponent } from "@lit-labs/react";
 
 type Constructor<T> = { new (): T };
 ${componentsCode}`;
