@@ -12,11 +12,11 @@
   --input-font: var(--bl-font-body-text-2);
   --line-height: var(--bl-font-body-text-2-line-height);
   --icon-size: var(--line-height);
-  --icon-gap: var(--bl-size-xs);
+  --icon-gap: var(--bl-size-4xs);
   --padding-vertical: calc((var(--height) - var(--line-height)) / 2);
   --padding-horizontal: var(--bl-size-xs);
   --autofill-bg-color: var(--bl-color-primary-contrast);
-  --label-padding: var(--bl-size-3xs);
+  --label-padding: var(--bl-size-2xs);
   --background-color: var(--bl-color-neutral-full);
 
   display: grid;
@@ -38,15 +38,12 @@
   --height: var(--bl-size-3xl);
   --padding-vertical: var(--bl-size-xs);
   --padding-horizontal: var(--bl-size-m);
-  --icon-gap: var(--bl-size-m);
 }
 
 :host([size="small"]) .wrapper {
   --height: var(--bl-size-xl);
   --input-font: var(--bl-font-body-text-3);
   --padding-vertical: var(--bl-size-3xs);
-  --icon-size: var(--bl-font-body-text-3-line-height);
-  --icon-gap: var(--bl-size-2xs);
 }
 
 .input-wrapper {
@@ -329,4 +326,9 @@ bl-icon[name="eye_on"] {
   height: 1rem;
   width: 1px;
   background-color: var(--bl-color-neutral-lighter);
+}
+
+slot[name="icon"] bl-icon {
+  margin-inline-start: var(--bl-size-3xs);
+  font-size: var(--bl-font-size-m);
 }
