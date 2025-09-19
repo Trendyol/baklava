@@ -1,0 +1,191 @@
+import { html } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { ArgsTable, Canvas, Meta, Story } from "@storybook/addon-docs";
+
+<Meta
+  title="Components/Toggle"
+  component="bl-toggle"
+  argTypes={{
+    falseLabel: { control: 'text', name: 'label-false' },
+    trueLabel: { control: 'text', name: 'label-true' },
+    falseIcon: { control: 'text', name: 'icon-false' },
+    trueIcon: { control: 'text', name: 'icon-true' },
+    checked: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    inverted: { control: 'boolean' },
+    size: { options: ['small', 'large'], control: { type: 'select' } },
+    ariaLabel: { control: 'text', name: 'aria-label' },
+    class: { control: 'text' },
+    styles: { control: 'object' },
+  }}
+/>
+
+export const ToggleTemplate = (args) => html`<bl-toggle
+  class=${ifDefined(args.class)}
+  label-false=${ifDefined(args.falseLabel)}
+  label-true=${ifDefined(args.trueLabel)}
+  icon-false=${ifDefined(args.falseIcon)}
+  icon-true=${ifDefined(args.trueIcon)}
+  size=${ifDefined(args.size)}
+  aria-label=${ifDefined(args.ariaLabel)}
+  ?checked=${args.checked}
+  ?disabled=${args.disabled}
+  ?inverted=${args.inverted}
+></bl-toggle>`;
+
+export const IconVariantsTemplate = (args) => html`
+<div style="display:flex; gap: 16px; align-items: center;">
+${ToggleTemplate({ ...args, falseLabel: 'Disagree', trueLabel: 'Agree',})}
+${ToggleTemplate({ ...args, falseIcon: 'close_fill', trueIcon: 'check_fill' })}
+</div>
+`;
+
+export const SizesTemplate = (args) => html`
+  <div style="display:flex; gap: 16px; align-items: center;">
+    ${ToggleTemplate({ ...args, size: 'small' })}
+    ${ToggleTemplate({ ...args, size: 'medium' })}
+    ${ToggleTemplate({ ...args, size: 'large' })}
+  </div>
+`;
+
+export const ToggleStyled = (args) => html`
+<style>
+  .${args.class} {
+    ${Object.entries(args.styles || {})
+      .map(([key, value]) => `${key}: ${value};`)
+      .join('\n    ')}
+  }
+</style>
+${ToggleTemplate(args)}
+`;
+
+# Toggle
+
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
+
+Toggle component can be used to switch between two states. It supports optional labels and/or icons on each side.
+
+### Usage
+
+* Clicking on toggle triggers the action immediately; it shouldn't require users to click an extra button to apply or save.
+* If you render your own external label, set the `aria-label` attribute on the toggle for accessibility.
+* Toggle doesn't have an indeterminate state.
+
+## Basic
+
+<Canvas>
+  <Story name="Basic Usage" args={{ falseLabel: 'Off', trueLabel: 'On' }}>
+    {ToggleTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Checked
+
+<Canvas>
+  <Story name="Checked" args={{ falseLabel: 'Off', trueLabel: 'On', checked: true }}>
+    {ToggleTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## With Icons
+
+<Canvas>
+  <Story name="With Icons" args={{ falseIcon: 'close', trueIcon: 'check' }}>
+    {IconVariantsTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Sizes
+
+<Canvas>
+  <Story name="Toggle Sizes" args={{ falseLabel: 'Off', trueLabel: 'On' }}>
+    {SizesTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Inverted
+
+<Canvas>
+  <Story name="Inverted" args={{ falseLabel: 'Off', trueLabel: 'On', inverted: true }}>
+    {ToggleTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled
+
+<Canvas>
+  <Story name="Disabled" args={{ falseLabel: 'Off', trueLabel: 'On', disabled: true }}>
+    {ToggleTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Customization
+
+To customize colors for the toggle component, you can utilize the CSS property `--bl-toggle-color-on` to define the active state color.
+
+<Canvas>
+  <Story
+    name="Customizing Colors"
+    args={{
+      class: 'colored-toggle-1',
+      styles: {
+        '--bl-toggle-color-on': 'var(--bl-color-success)'
+      },
+      falseLabel: 'Off',
+      trueLabel: 'On'
+    }}
+  >
+    {ToggleStyled.bind({})}
+  </Story>
+  <Story
+    name="Customizing Colors Checked"
+    args={{
+      class: 'colored-toggle-2',
+      styles: {
+        '--bl-toggle-color-on': 'var(--bl-color-danger)'
+      },
+      checked: true,
+      falseLabel: 'Off',
+      trueLabel: 'On'
+    }}
+  >
+    {ToggleStyled.bind({})}
+  </Story>
+</Canvas>
+
+## RTL Support
+
+The toggle component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div>
+        <iframe style="border: none;" srcdoc="
+            <html dir='rtl'>
+              <head>
+                <script type='module' src='https://cdn.jsdelivr.net/npm/@trendyol/baklava@latest/dist/baklava.js'></script>
+                <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@trendyol/baklava@latest/dist/themes/default.css'>
+                <style>
+                  body { margin: 0; display: flex; flex-direction: column; align-items: flex-end; }
+                  bl-switch { display: block; margin-bottom: 8px; }
+                </style>
+              </head>
+              <body>
+
+                      <div style='display:flex; gap: 16px; align-items: center;'>
+                            <bl-toggle label-false='إيقاف' label-true='تشغيل'></bl-toggle>
+                            <bl-toggle label-false='إيقاف' label-true='تشغيل' disabled></bl-toggle>
+                            <bl-toggle label-false='إيقاف' label-true='تشغيل' icon-false='close_fill' icon-true='check_fill'></bl-toggle>
+                      </div>
+                  </body>
+                </html>
+              " ></iframe>
+          </div>
+`}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-toggle" />

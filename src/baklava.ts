@@ -35,6 +35,7 @@ export { default as BlTableBody } from "./components/table/table-body/bl-table-b
 export { default as BlTableRow } from "./components/table/table-row/bl-table-row";
 export { default as BlTableHeaderCell } from "./components/table/table-header-cell/bl-table-header-cell";
 export { default as BlTableCell } from "./components/table/table-cell/bl-table-cell";
+export { default as BlToggle } from "./components/toggle/bl-toggle";
 export { default as BlSplitButton } from "./components/split-button/bl-split-button";
 export { default as BlCalendar } from "./components/calendar/bl-calendar";
 export { default as BlTag } from "./components/tag/bl-tag";
