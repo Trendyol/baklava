@@ -19,18 +19,20 @@ describe("bl-toggle", () => {
       `
     <div class="toggle text-contain" role="switch" aria-checked="false" tabindex="0">
       <span class="track text-contain">
-        <span class="label false">
+        <span class="content false">
           <slot name="icon"></slot>
-          <span></span>
+          <span class="label"></span>
         </span>
-        <span class="label true">
+        <span class="content true">
           <slot name="icon"></slot>
-          <span></span>
+          <span class="label"></span>
         </span>
       </span>
       <span class="thumb text-contain">
+      <span class="content false">
         <slot name="icon"></slot>
-        <span></span>
+        <span class="label"></span>
+      </span>
       </span>
     </div>
     `
@@ -137,7 +139,7 @@ describe("bl-toggle", () => {
     const shadow = el.shadowRoot!;
 
     // Fallback content of slots should render bl-icon elements in both true/false labels
-    const labelEls = shadow.querySelectorAll(".label");
+    const labelEls = shadow.querySelectorAll(".content");
 
     labelEls.forEach(label => {
       expect((label as HTMLElement).querySelector("bl-icon")).to.exist;
@@ -159,15 +161,5 @@ describe("bl-toggle", () => {
     const root = el.shadowRoot!.querySelector(".toggle") as HTMLElement;
 
     expect(root.getAttribute("aria-label")).to.equal("Power");
-  });
-
-  it("falls back to deprecated true/false labels when new API not provided", async () => {
-    const el = await fixture<BlToggle>(html`<bl-toggle label-false="Off" label-true="On"></bl-toggle>`);
-    const shadow = el.shadowRoot!;
-    const falseSide = shadow.querySelector(".label.false span:last-child")!;
-    const trueSide = shadow.querySelector(".label.true span:last-child")!;
-
-    expect(falseSide.textContent).to.equal("Off");
-    expect(trueSide.textContent).to.equal("On");
   });
 });

@@ -67,7 +67,7 @@ Toggle component can be used to switch between two states. It supports optional 
 
 ### Usage
 
-* Clicking on toggle triggers the action immediately; it shouldn't require users to click an extra button to apply or save.
+* Clicking on the toggle triggers the action immediately; it shouldn't require users to click an extra button to apply or save.
 * If you render your own external label, set the `aria-label` attribute on the toggle for accessibility.
 * Toggle doesn't have an indeterminate state.
 
@@ -76,6 +76,24 @@ Toggle component can be used to switch between two states. It supports optional 
 <Canvas>
   <Story name="Basic Usage" args={{ falseLabel: 'Off', trueLabel: 'On' }}>
     {ToggleTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Full Width
+<Canvas>
+  <Story
+    name="Full Width"
+    parameters={{layout: 'padded'}}
+    args={{
+      class: 'full-width',
+      styles: {
+        'width': '100%'
+      },
+      falseLabel: '🐤 Make the chicken cross the road. 🛣️',
+      trueLabel: '🛣️ The chicken crossed it. 🐤'
+    }}
+  >
+    {ToggleStyled.bind({})}
   </Story>
 </Canvas>
 

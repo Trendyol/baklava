@@ -7,6 +7,8 @@
   --toggle-thumb-color: var(--bl-color-neutral-none, black);
   --toggle-radius: var(--bl-border-radius-m);
   --toggle-transition: var(--bl-toggle-animation-duration, 300ms) ease;
+  --toggle-label-content-position: center;
+  --toggle-min-content-width: 42px;
   --padding-vertical: var(--bl-size-2xs);
   --padding-horizontal: var(--bl-size-m);
   --icon-size: var(--bl-size-l);
@@ -39,6 +41,7 @@
 }
 
 .track {
+  flex-basis: 100%;
   z-index: 0;
   color: var(--toggle-thumb-color);
   gap: calc(var(--padding-horizontal) * 4);
@@ -51,13 +54,14 @@ span {
   text-overflow: ellipsis;
 }
 
-.label {
+.content {
   z-index: 2;
   width: 100%;
   padding: var(--padding-vertical) var(--padding-horizontal);
   display: flex;
   gap: var(--margin-icon);
-  min-width: 32px;
+  min-width: var(--toggle-min-content-width);
+  justify-content: var(--toggle-label-content-position);
 }
 
 .thumb {
@@ -71,7 +75,7 @@ span {
   border-radius: calc(var(--toggle-radius) - 1px);
   box-shadow: 0 0 4px rgb(0 0 0 / 20%);
   transition: transform var(--toggle-transition), content var(--toggle-transition);
-  padding: var(--padding-vertical) var(--padding-horizontal);
+  padding: var(--padding-vertical) 0;
   z-index: 1;
 }
 
@@ -84,7 +88,7 @@ span {
 }
 
 :host([checked]) .thumb {
-  transform: translateX(calc((100% - var(--padding-vertical) * 8)));
+  transform: translateX(100%);
 }
 
 :host ::slotted(bl-icon) {
@@ -143,7 +147,7 @@ span {
   gap: 0;
 }
 
-.toggle.has-icon:not(.has-content) .label {
+.toggle.has-icon:not(.has-content) .content {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,13 +171,12 @@ span {
   transform: translateX(100%);
 }
 
-.toggle.has-icon:not(.has-content) .label span,
-.toggle.has-icon:not(.has-content) .thumb span {
+.toggle.has-icon:not(.has-content) .content span {
   display: none;
 }
 
 :host([dir="rtl"][checked]) .thumb {
-  transform: translateX(calc(-1 * (100% - var(--padding-vertical) * 8)));
+  transform: translateX(calc(-1 * 100% ));
 }
 
 /* Icon-only layout RTL fixes */

@@ -17,6 +17,8 @@ export type ToggleSize = "small" | "medium" | "large";
  *
  * @cssproperty [--bl-toggle-color-on=var(--bl-color-primary)] Sets the active (on) background color.
  * @cssproperty [--bl-toggle-animation-duration=300ms] Sets the transition duration for thumb/track.
+ * @cssproperty [--toggle-label-content-position=center] Positions content of elements inside the toggle horizontally. Uses flexbox justify-content property.
+ * @cssproperty [--toggle-min-content-width=42px] Sets the minimum width of the toggle content. The default is set to be able to fit an icon and 3 letters.
  */
 @customElement("bl-toggle")
 export default class BlToggle extends LitElement {
@@ -151,16 +153,17 @@ export default class BlToggle extends LitElement {
         !!(this._hasDefaultSlot || this.labelFalse || this.labelTrue) && !this.iconOnly,
     };
 
-    const slotFalse = html` <span class="label false"
-      ><slot name="icon">${falseIconTpl}</slot><span>${this.labelFalse}</span></span
-    >`;
-    const slotTrue = html` <span class="label true"
-      ><slot name="icon">${trueIconTpl}</slot><span>${this.labelTrue}</span></span
-    >`;
-
-    const thumbSlot = html`
-      <slot name="icon">${!this.checked ? falseIconTpl : trueIconTpl}</slot>
-      <span>${!this.checked ? this.labelFalse : this.labelTrue}</span>
+    const slotFalse = html`
+      <span class="content false">
+        <slot name="icon">${falseIconTpl}</slot>
+        <span class="label">${this.labelFalse}</span>
+      </span>
+    `;
+    const slotTrue = html`
+      <span class="content true">
+        <slot name="icon">${trueIconTpl}</slot>
+        <span class="label">${this.labelTrue}</span>
+      </span>
     `;
 
     return html`
@@ -177,7 +180,7 @@ export default class BlToggle extends LitElement {
         aria-label=${ifDefined(ariaLabel)}
       >
         <span class="track text-contain">${slotFalse} ${slotTrue} </span>
-        <span class="thumb text-contain">${thumbSlot}</span>
+        <span class="thumb text-contain">${this.checked ? slotTrue : slotFalse}</span>
       </div>
     `;
   }
