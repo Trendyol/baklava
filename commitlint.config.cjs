@@ -40,6 +40,7 @@ module.exports = {
         "tag",
         "datepicker",
         "link",
+        "segmented-control",
       ],
     ],
   },
