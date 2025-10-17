@@ -446,6 +446,27 @@ export default class BlCalendar extends DatepickerCalendarMixin {
                 "disabled-day": isDisabledDay,
               });
 
+              // For disabled days with custom renderer that might contain tooltips,
+              // wrap in a container that can receive pointer events
+              if (isDisabledDay && this.dayRenderer) {
+                return html`<div class="day-wrapper">
+                  <div class="disabled-day-container">
+                    <bl-button
+                      id=${date.getTime()}
+                      variant="tertiary"
+                      kind="neutral"
+                      size="small"
+                      class=${classes}
+                      ?disabled=${isDisabledDay}
+                      @click="${() => !isDisabledDay && this.handleDate(date)}"
+                    >
+                      ${date.getDate()}
+                    </bl-button>
+                    <div class="custom-day-content">${this.dayRenderer(date)}</div>
+                  </div>
+                </div>`;
+              }
+
               return html`<div class="day-wrapper">
                 <bl-button
                   id=${date.getTime()}

@@ -667,5 +667,44 @@ describe("bl-calendar", () => {
       expect(strongTag).to.exist;
       expect(strongTag?.textContent).to.not.be.empty;
     });
+
+    it("should render custom day content for disabled dates in special container", async () => {
+      const dayRendererWithTooltip = (date: Date) => html`<bl-tooltip><span slot="tooltip-trigger">${date.getDate()}</span><div>Custom tooltip</div></bl-tooltip>`;
+      const disabledDate = new Date(2023, 0, 15);
+      
+      element = await fixture<BlCalendar>(html`<bl-calendar .dayRenderer=${dayRendererWithTooltip} .disabledDates=${[disabledDate]}></bl-calendar>`);
+      element._calendarMonth = 0;
+      element._calendarYear = 2023;
+      await element.updateComplete;
+
+      const dayWrappers = element.shadowRoot?.querySelectorAll(".day-wrapper");
+      let disabledDayWrapper: Element | null = null;
+      
+      // Find the disabled day wrapper
+      dayWrappers?.forEach(wrapper => {
+        const button = wrapper.querySelector("bl-button");
+
+        if (button?.hasAttribute("disabled")) {
+          const buttonId = button.getAttribute("id");
+
+          if (buttonId === disabledDate.getTime().toString()) {
+            disabledDayWrapper = wrapper;
+          }
+        }
+      });
+      
+      expect(disabledDayWrapper).to.exist;
+      const disabledDayContainer = disabledDayWrapper!.querySelector(".disabled-day-container");
+
+      expect(disabledDayContainer).to.exist;
+      
+      const customDayContent = disabledDayContainer!.querySelector(".custom-day-content");
+
+      expect(customDayContent).to.exist;
+      
+      const tooltip = customDayContent!.querySelector("bl-tooltip");
+
+      expect(tooltip).to.exist;
+    });
   });
 });
