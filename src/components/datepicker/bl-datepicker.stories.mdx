@@ -2,6 +2,7 @@ import { html } from "lit";
 import { ArgsTable, Canvas, Meta, Story } from "@storybook/addon-docs";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { stringToDateArray } from "../../utilities/string-to-date-converter";
 
 <Meta
   title="Components/Datepicker"
@@ -157,13 +158,23 @@ You can set min date or max date for the datepicker.
 You can render tooltips on disabled dates via `dayRenderer`. This example disables specific dates and shows a tooltip explaining why.
 
 <Canvas>
-  <Story name="Disabled Dates With Tooltip">
-    {() => {
-      const disabledDates = [
-        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2),
-        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 5),
-      ];
+  <Story
+    name="Disabled Dates With Tooltip"
+    args={{
+      type: 'single',
+      label: 'Disabled Dates With Tooltip',
+      placeholder: 'Select a date',
+      // Allow editing from Controls as comma-separated dates
+      disabledDates: `${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)}, ${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 5)}`,
+    }}
+  >
+    {(args) => {
+      const disabledDates = typeof args.disabledDates === 'string'
+        ? stringToDateArray(args.disabledDates)
+        : (args.disabledDates || []);
+
       const isDisabled = (d) => disabledDates.some(x => x.getFullYear() === d.getFullYear() && x.getMonth() === d.getMonth() && x.getDate() === d.getDate());
+
       const dayRenderer = (date) => html`
         <bl-tooltip>
           <span slot="tooltip-trigger">${date.getDate()}</span>
@@ -172,15 +183,15 @@ You can render tooltips on disabled dates via `dayRenderer`. This example disabl
           </div>
         </bl-tooltip>
       `;
+
       return html`
         <bl-datepicker
-          type="single"
-          label="Disabled Dates With Tooltip"
-          placeholder="Select a date"
+          type=${ifDefined(args.type)}
+          label=${ifDefined(args.label)}
+          placeholder=${ifDefined(args.placeholder)}
           .disabledDates=${disabledDates}
           .dayRenderer=${dayRenderer}
-        ></bl-datepicker>
-      `;
+        ></bl-datepicker>`;
     }}
   </Story>
 </Canvas>
