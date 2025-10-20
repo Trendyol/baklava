@@ -152,6 +152,39 @@ You can set min date or max date for the datepicker.
   </Story>
 </Canvas>
 
+### Disabled Dates With Tooltip
+
+You can render tooltips on disabled dates via `dayRenderer`. This example disables specific dates and shows a tooltip explaining why.
+
+<Canvas>
+  <Story name="Disabled Dates With Tooltip">
+    {() => {
+      const disabledDates = [
+        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2),
+        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 5),
+      ];
+      const isDisabled = (d) => disabledDates.some(x => x.getFullYear() === d.getFullYear() && x.getMonth() === d.getMonth() && x.getDate() === d.getDate());
+      const dayRenderer = (date) => html`
+        <bl-tooltip>
+          <span slot="tooltip-trigger">${date.getDate()}</span>
+          <div>
+            ${isDisabled(date) ? 'This date is disabled' : 'Available date'}
+          </div>
+        </bl-tooltip>
+      `;
+      return html`
+        <bl-datepicker
+          type="single"
+          label="Disabled Dates With Tooltip"
+          placeholder="Select a date"
+          .disabledDates=${disabledDates}
+          .dayRenderer=${dayRenderer}
+        ></bl-datepicker>
+      `;
+    }}
+  </Story>
+</Canvas>
+
 ## RTL Support
 
 The datepicker component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute and `lang` attribute on a parent element or the `html` tag.
