@@ -1,0 +1,324 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/addon-docs";
+import * as StepperStories from "./bl-stepper.stories";
+
+<Meta of={StepperStories} />
+
+# Stepper
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/blob/main/src/components/stepper/doc/ADR.md)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/design/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=23617-1414)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
+
+The Stepper component displays progress through a sequence of steps. It helps users understand where they are in a multi-step process and what steps remain.
+
+## Design Rules
+
+- Maximum 9 items can be included in a stepper
+- Three display types: dots, numbers, and icons
+- Four main states: default, active, success, and error
+- Supports both horizontal and vertical orientations
+- All items have equal spacing
+- Connecting lines between completed steps are dark
+- Lines between incomplete steps are light
+- Includes dedicated focus state for enhanced keyboard and assistive technology accessibility
+
+## Basic Usage
+
+A basic stepper can be created by combining `bl-stepper` with `bl-stepper-item` components.
+
+```html
+<bl-stepper>
+  <bl-stepper-item
+    id="1"
+    title="Step 1"
+    description="First step description"
+    variant="success"
+  ></bl-stepper-item>
+  <bl-stepper-item
+    id="2"
+    title="Step 2"
+    description="Second step description"
+    variant="active"
+  ></bl-stepper-item>
+  <bl-stepper-item
+    id="3"
+    title="Step 3"
+    description="Third step description"
+    variant="default"
+  ></bl-stepper-item>
+</bl-stepper>
+```
+
+<Canvas of={StepperStories.Default} />
+
+## Stepper Types
+
+### Dots Type
+
+The dots type displays simple circular indicators for each step.
+
+<Canvas of={StepperStories.DotsType} />
+
+### Numbers Type
+
+The numbers type displays step numbers in circular indicators.
+
+<Canvas of={StepperStories.NumbersType} />
+
+### Icons Type
+
+The icons type displays custom icons for each step.
+
+<Canvas of={StepperStories.IconsType} />
+
+## Directions
+
+### Horizontal Direction
+
+Horizontal steppers are ideal for desktop layouts and when you have limited vertical space.
+
+<Canvas of={StepperStories.Default} />
+
+### Vertical Direction
+
+Vertical steppers work well for mobile layouts and when you have more vertical space available.
+
+<Canvas of={StepperStories.VerticalDirection} />
+
+## Usage Modes
+
+### Clickable Mode
+
+In clickable mode, users can click on steps to navigate between them.
+
+<Canvas of={StepperStories.Default} />
+
+### Non-Clickable Mode
+
+In non-clickable mode, the stepper is read-only and users cannot interact with individual steps.
+
+<Canvas of={StepperStories.NonClickable} />
+
+## States
+
+### Success State
+
+Completed steps are shown with a success state (typically green with a checkmark).
+
+### Active State
+
+The current step is shown with an active state (typically highlighted with primary color).
+
+### Error State
+
+Steps that have encountered an error are shown with an error state (typically red with an error icon).
+
+<Canvas of={StepperStories.WithErrorState} />
+
+### Disabled State
+
+Individual steps can be disabled to prevent interaction.
+
+<Canvas of={StepperStories.WithDisabledItems} />
+
+## Interactive Example
+
+This example demonstrates how to programmatically control the stepper state.
+
+<Canvas of={StepperStories.InteractiveExample} />
+
+## Customization
+
+### Custom Styling
+
+You can customize the stepper appearance using CSS custom properties.
+
+<Canvas of={StepperStories.CustomStyling} />
+
+### Minimal Steps
+
+Steppers work well with just two steps for simple processes.
+
+<Canvas of={StepperStories.MinimalSteps} />
+
+### Many Steps
+
+Steppers can handle up to 9 steps for complex processes.
+
+<Canvas of={StepperStories.ManySteps} />
+
+## API Reference
+
+### bl-stepper
+
+<ArgsTable of="bl-stepper" />
+
+#### Attributes
+
+| Attribute   | Type                             | Description                  | Default Value  |
+| ----------- | -------------------------------- | ---------------------------- | -------------- |
+| `type`      | `"dots" \| "numbers" \| "icons"` | Defines stepper render style | `"dots"`       |
+| `direction` | `"horizontal" \| "vertical"`     | Defines stepper direction    | `"horizontal"` |
+| `usage`     | `"clickable" \| "non-clickable"` | Defines stepper usage mode   | `"clickable"`  |
+
+#### Events
+
+| Event               | Description                      | Return Value                                                      |
+| ------------------- | -------------------------------- | ----------------------------------------------------------------- |
+| `bl-stepper-change` | Fired when stepper state changes | `{ currentStep: number, totalSteps: number, activeStep: number }` |
+
+#### CSS Custom Properties
+
+| Property                            | Description                                  | Default Value                     |
+| ----------------------------------- | -------------------------------------------- | --------------------------------- |
+| `--bl-stepper-spacing`              | Sets the spacing between stepper items       | `var(--bl-size-m)`                |
+| `--bl-stepper-line-color`           | Sets the color of connecting lines           | `var(--bl-color-neutral-lighter)` |
+| `--bl-stepper-line-color-completed` | Sets the color of completed connecting lines | `var(--bl-color-neutral)`         |
+
+### bl-stepper-item
+
+<ArgsTable of="bl-stepper-item" />
+
+#### Attributes
+
+| Attribute     | Type                                            | Description                        | Default Value |
+| ------------- | ----------------------------------------------- | ---------------------------------- | ------------- |
+| `id`          | `string \| number`                              | Defines stepper item's id          | `""`          |
+| `variant`     | `"default" \| "active" \| "success" \| "error"` | Defines stepper item's status      | `"default"`   |
+| `disabled`    | `boolean`                                       | Defines stepper item's interaction | `false`       |
+| `icon`        | `string`                                        | Icon name for icon type steppers   | `"check"`     |
+| `title`       | `string`                                        | Defines stepper item's main title  | `""`          |
+| `description` | `string`                                        | Defines stepper item's description | `""`          |
+
+#### Events
+
+| Event                   | Description                        | Return Value                 |
+| ----------------------- | ---------------------------------- | ---------------------------- |
+| `bl-stepper-item-click` | Fired when stepper item is clicked | `string \| number` (item id) |
+
+#### CSS Custom Properties
+
+| Property                       | Description                                   | Default Value             |
+| ------------------------------ | --------------------------------------------- | ------------------------- |
+| `--bl-stepper-item-size`       | Sets the size of the stepper item             | `var(--bl-size-m)`        |
+| `--bl-stepper-item-color`      | Sets the color of the stepper item            | `var(--bl-color-neutral)` |
+| `--bl-stepper-item-background` | Sets the background color of the stepper item | `var(--bl-color-surface)` |
+
+## Accessibility
+
+The Stepper component includes comprehensive accessibility features:
+
+- **ARIA attributes**: Proper `role`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax` for progress indication
+- **Keyboard navigation**: Full keyboard support with Enter and Space key activation
+- **Focus management**: Clear focus indicators and proper tab order
+- **Screen reader support**: Descriptive labels and state announcements
+- **RTL support**: Proper layout and icon positioning for right-to-left languages
+
+## Best Practices
+
+1. **Limit the number of steps**: Keep steppers to 9 items or fewer for optimal usability
+2. **Use descriptive titles**: Provide clear, concise titles for each step
+3. **Include descriptions**: Add helpful descriptions to guide users through the process
+4. **Handle errors gracefully**: Use the error state to indicate problematic steps
+5. **Consider mobile**: Use vertical direction on smaller screens
+6. **Provide feedback**: Update step states as users progress through the process
+7. **Use appropriate types**: Choose dots for simple processes, numbers for sequential steps, and icons for distinct actions
+
+## Examples
+
+### Form Wizard
+
+```html
+<bl-stepper type="numbers" direction="horizontal">
+  <bl-stepper-item
+    id="1"
+    title="Personal Info"
+    description="Enter your details"
+    variant="success"
+  ></bl-stepper-item>
+  <bl-stepper-item
+    id="2"
+    title="Contact Info"
+    description="Add contact information"
+    variant="active"
+  ></bl-stepper-item>
+  <bl-stepper-item
+    id="3"
+    title="Preferences"
+    description="Set your preferences"
+    variant="default"
+  ></bl-stepper-item>
+  <bl-stepper-item
+    id="4"
+    title="Review"
+    description="Review and submit"
+    variant="default"
+  ></bl-stepper-item>
+</bl-stepper>
+```
+
+### Onboarding Process
+
+```html
+<bl-stepper type="icons" direction="vertical">
+  <bl-stepper-item
+    id="1"
+    title="Welcome"
+    description="Get started"
+    variant="success"
+    icon="home"
+  ></bl-stepper-item>
+  <bl-stepper-item
+    id="2"
+    title="Profile Setup"
+    description="Create your profile"
+    variant="active"
+    icon="user"
+  ></bl-stepper-item>
+  <bl-stepper-item
+    id="3"
+    title="Preferences"
+    description="Customize settings"
+    variant="default"
+    icon="settings"
+  ></bl-stepper-item>
+  <bl-stepper-item
+    id="4"
+    title="Complete"
+    description="You're all set!"
+    variant="default"
+    icon="check"
+  ></bl-stepper-item>
+</bl-stepper>
+```
+
+### Status Tracking
+
+```html
+<bl-stepper type="dots" usage="non-clickable">
+  <bl-stepper-item
+    id="1"
+    title="Order Placed"
+    description="Your order has been received"
+    variant="success"
+  ></bl-stepper-item>
+  <bl-stepper-item
+    id="2"
+    title="Processing"
+    description="We're preparing your order"
+    variant="active"
+  ></bl-stepper-item>
+  <bl-stepper-item
+    id="3"
+    title="Shipped"
+    description="Your order is on the way"
+    variant="default"
+  ></bl-stepper-item>
+  <bl-stepper-item
+    id="4"
+    title="Delivered"
+    description="Order delivered successfully"
+    variant="default"
+  ></bl-stepper-item>
+</bl-stepper>
+```
