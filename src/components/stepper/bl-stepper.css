@@ -1,0 +1,96 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.stepper {
+  --spacing: var(--bl-stepper-spacing, var(--bl-size-m));
+  --line-color: var(--bl-stepper-line-color, var(--bl-color-neutral-lighter));
+  --line-color-completed: var(--bl-stepper-line-color-completed, var(--bl-color-neutral));
+  --line-width: 2px;
+
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+/* Horizontal direction */
+.stepper.direction-horizontal {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.stepper.direction-horizontal .stepper-item {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stepper.direction-horizontal .stepper-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--bl-size-m) / 2);
+  left: calc(50% + var(--bl-size-m) / 2);
+  right: calc(-50% + var(--bl-size-m) / 2);
+  height: var(--line-width);
+  background-color: var(--line-color);
+  z-index: 1;
+}
+
+.stepper.direction-horizontal .stepper-item.variant-success:not(:last-child)::after {
+  background-color: var(--line-color-completed);
+}
+
+/* Vertical direction */
+.stepper.direction-vertical {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stepper.direction-vertical .stepper-item {
+  position: relative;
+  width: 100%;
+  margin-bottom: var(--spacing);
+}
+
+.stepper.direction-vertical .stepper-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--bl-size-m) + var(--bl-size-2xs));
+  left: calc(var(--bl-size-m) / 2);
+  width: var(--line-width);
+  height: calc(100% + var(--spacing) - var(--bl-size-m));
+  background-color: var(--line-color);
+  z-index: 1;
+}
+
+.stepper.direction-vertical .stepper-item.variant-success:not(:last-child)::after {
+  background-color: var(--line-color-completed);
+}
+
+/* Non-clickable usage */
+.stepper.usage-non-clickable .stepper-item {
+  cursor: default;
+}
+
+.stepper.usage-non-clickable .stepper-item:focus {
+  outline: none;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .stepper.direction-horizontal {
+    flex-direction: column;
+  }
+
+  .stepper.direction-horizontal .stepper-item:not(:last-child)::after {
+    display: none;
+  }
+
+  .stepper.direction-horizontal .stepper-item {
+    margin-bottom: var(--spacing);
+  }
+}
