@@ -157,3 +157,8 @@
   pointer-events: auto;
   z-index: 1;
 }
+
+/* Ensure disabled overlay content visually matches disabled button */
+.disabled-day-container .custom-day-content {
+  color: var(--bl-color-neutral-lighter);
+}

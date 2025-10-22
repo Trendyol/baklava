@@ -164,8 +164,9 @@ You can render tooltips on disabled dates via `dayRenderer`. This example disabl
       type: 'single',
       label: 'Disabled Dates With Tooltip',
       placeholder: 'Select a date',
-      // Allow editing from Controls as comma-separated dates
+      // Controls: comma-separated dates string
       disabledDates: `${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)}, ${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 5)}`,
+      disabledTooltipText: 'This date is disabled',
     }}
   >
     {(args) => {
@@ -175,14 +176,19 @@ You can render tooltips on disabled dates via `dayRenderer`. This example disabl
 
       const isDisabled = (d) => disabledDates.some(x => x.getFullYear() === d.getFullYear() && x.getMonth() === d.getMonth() && x.getDate() === d.getDate());
 
-      const dayRenderer = (date) => html`
-        <bl-tooltip>
-          <span slot="tooltip-trigger">${date.getDate()}</span>
-          <div>
-            ${isDisabled(date) ? 'This date is disabled' : 'Available date'}
-          </div>
-        </bl-tooltip>
-      `;
+      const dayRenderer = (date) => {
+        if (isDisabled(date)) {
+          // Only disabled days have tooltip; trigger is an invisible overlay to avoid duplicating numbers
+          return html`
+            <bl-tooltip>
+              <span slot="tooltip-trigger" style="position:absolute; inset:0; display:block;"></span>
+              <div>${args.disabledTooltipText}</div>
+            </bl-tooltip>
+          `;
+        }
+        // Non-disabled days should render the day number normally
+        return html`${date.getDate()}`;
+      };
 
       return html`
         <bl-datepicker
