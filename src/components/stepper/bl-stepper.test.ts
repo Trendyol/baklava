@@ -18,20 +18,20 @@ describe("bl-stepper", () => {
       </bl-stepper>
     `);
 
-    expect(el.type).to.equal("dots");
+    expect(el.type).to.equal("dot");
     expect(el.direction).to.equal("horizontal");
     expect(el.usage).to.equal("clickable");
   });
 
   it("renders with custom attributes", async () => {
     const el = await fixture<BlStepper>(html`
-      <bl-stepper type="numbers" direction="vertical" usage="non-clickable">
+      <bl-stepper type="number" direction="vertical" usage="non-clickable">
         <bl-stepper-item id="1" title="Step 1"></bl-stepper-item>
         <bl-stepper-item id="2" title="Step 2"></bl-stepper-item>
       </bl-stepper>
     `);
 
-    expect(el.type).to.equal("numbers");
+    expect(el.type).to.equal("number");
     expect(el.direction).to.equal("vertical");
     expect(el.usage).to.equal("non-clickable");
   });
@@ -126,7 +126,7 @@ describe("bl-stepper", () => {
 
   it("updates stepper items when type changes", async () => {
     const el = await fixture<BlStepper>(html`
-      <bl-stepper type="dots">
+      <bl-stepper type="dot">
         <bl-stepper-item id="1" title="Step 1"></bl-stepper-item>
         <bl-stepper-item id="2" title="Step 2"></bl-stepper-item>
       </bl-stepper>
@@ -134,14 +134,14 @@ describe("bl-stepper", () => {
 
     const items = el.querySelectorAll("bl-stepper-item");
 
-    expect((items[0] as BlStepperItem).stepperType).to.equal("dots");
-    expect((items[1] as BlStepperItem).stepperType).to.equal("dots");
+    expect((items[0] as BlStepperItem).stepperType).to.equal("dot");
+    expect((items[1] as BlStepperItem).stepperType).to.equal("dot");
 
-    el.type = "numbers";
+    el.type = "number";
     await elementUpdated(el);
 
-    expect((items[0] as BlStepperItem).stepperType).to.equal("numbers");
-    expect((items[1] as BlStepperItem).stepperType).to.equal("numbers");
+    expect((items[0] as BlStepperItem).stepperType).to.equal("number");
+    expect((items[1] as BlStepperItem).stepperType).to.equal("number");
   });
 
   it("has proper accessibility attributes", async () => {
@@ -163,7 +163,7 @@ describe("bl-stepper", () => {
   });
 
   it("handles different stepper types", async () => {
-    const types: Array<"dots" | "numbers" | "icons"> = ["dots", "numbers", "icons"];
+    const types: Array<"dot" | "number" | "icon"> = ["dot", "number", "icon"];
 
     for (const type of types) {
       const el = await fixture<BlStepper>(html`

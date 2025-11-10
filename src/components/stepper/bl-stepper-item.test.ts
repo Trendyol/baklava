@@ -149,7 +149,7 @@ describe("bl-stepper-item", () => {
       <bl-stepper-item id="step-1" variant="success" icon="settings"></bl-stepper-item>
     `);
 
-    el.stepperType = "icons";
+    el.stepperType = "icon";
     await el.updateComplete;
 
     expect(el.shouldShowIcon).to.be.true;
@@ -174,12 +174,12 @@ describe("bl-stepper-item", () => {
     expect(el.iconName).to.equal("close");
   });
 
-  it("renders step number for numbers type when not success or error", async () => {
+  it("renders step number for number type when not success or error", async () => {
     const el = await fixture<BlStepperItem>(html`
       <bl-stepper-item id="step-1" variant="active"></bl-stepper-item>
     `);
 
-    el.stepperType = "numbers";
+    el.stepperType = "number";
     await el.updateComplete;
 
     expect(el.shouldShowIcon).to.be.false;
@@ -190,12 +190,12 @@ describe("bl-stepper-item", () => {
     expect(stepNumber?.textContent?.trim()).to.equal("1");
   });
 
-  it("renders dot for dots type when not success or error", async () => {
+  it("renders dot for dot type when not success or error", async () => {
     const el = await fixture<BlStepperItem>(html`
       <bl-stepper-item id="step-1" variant="active"></bl-stepper-item>
     `);
 
-    el.stepperType = "dots";
+    el.stepperType = "dot";
     await el.updateComplete;
 
     expect(el.shouldShowIcon).to.be.false;
@@ -232,7 +232,7 @@ describe("bl-stepper-item", () => {
   });
 
   it("handles different variants", async () => {
-    const variants: Array<"default" | "active" | "success" | "error"> = ["default", "active", "success", "error"];
+    const variants: Array<"default" | "active" | "hover" | "success" | "error"> = ["default", "active", "hover", "success", "error"];
 
     for (const variant of variants) {
       const el = await fixture<BlStepperItem>(html`
@@ -248,12 +248,12 @@ describe("bl-stepper-item", () => {
       <bl-stepper-item id="step-1"></bl-stepper-item>
     `);
 
-    el.stepperType = "numbers";
+    el.stepperType = "number";
     el.direction = "vertical";
 
     await elementUpdated(el);
 
-    expect(el.stepperType).to.equal("numbers");
+    expect(el.stepperType).to.equal("number");
     expect(el.direction).to.equal("vertical");
   });
 

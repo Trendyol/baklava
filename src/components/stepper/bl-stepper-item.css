@@ -1,28 +1,28 @@
 :host {
   display: block;
   position: relative;
+  flex: 1;
 }
 
 .stepper-item {
-  --item-size: var(--bl-stepper-item-size, var(--bl-size-m));
-  --item-color: var(--bl-stepper-item-color, var(--bl-color-neutral));
-  --item-background: var(--bl-stepper-item-background, var(--bl-color-surface));
+  --item-color: var(--bl-color-neutral);
+  --item-background: var(--bl-color-neutral-full);
   --active-color: var(--bl-color-primary);
   --success-color: var(--bl-color-success);
   --error-color: var(--bl-color-danger);
   --disabled-color: var(--bl-color-neutral-lighter);
-  --text-color: var(--bl-color-neutral-darker);
+  --text-color: var(--bl-color-primary);
   --text-color-disabled: var(--bl-color-neutral-light);
 
   display: flex;
   align-items: flex-start;
-  gap: var(--bl-size-xs);
+  gap: 0;
   position: relative;
-  z-index: 2;
   background-color: transparent;
-  border-radius: var(--bl-border-radius-m);
   padding: 0;
   transition: all 0.2s ease;
+  width: 100%;
+  height: 100%;
 }
 
 /* Direction variants */
@@ -40,23 +40,93 @@
   width: 100%;
 }
 
+.vertical-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Connector wrap - horizontal mode */
+.stepper-item.direction-horizontal .connector-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Connector wrap - vertical mode */
+.stepper-item.direction-vertical .connector-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  position: relative;
+  flex: 0 0 auto;
+  min-height: 60px;
+}
+
+/* Connector styles */
+.connector {
+  background-color: #d0d5dd;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.connector.completed {
+  background-color: #6e7787;
+}
+
+/* Horizontal connectors */
+.stepper-item.direction-horizontal .connector {
+  height: 2px;
+  flex: 1 1 auto;
+  min-width: 48px;
+}
+
+/* Connector placeholder - invisible but takes space */
+.connector-placeholder {
+  height: 2px;
+  flex: 1 1 auto;
+  min-width: 48px;
+  visibility: hidden;
+}
+
+/* Vertical connectors */
+.stepper-item.direction-vertical .connector {
+  width: 2px;
+  flex: 1 1 auto;
+  min-height: 16px;
+}
+
 /* Indicator styles */
 .stepper-indicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--item-size);
-  height: var(--item-size);
-  min-width: var(--item-size);
-  min-height: var(--item-size);
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
   border-radius: 50%;
   background-color: var(--item-background);
   border: 2px solid var(--item-color);
   color: var(--item-color);
   font-weight: var(--bl-font-weight-medium);
-  font-size: var(--bl-font-size-s);
+  font-size: var(--bl-font-size-m);
+  line-height: 1;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 
 /* Content styles */
@@ -65,27 +135,39 @@
   flex-direction: column;
   gap: var(--bl-size-3xs);
   min-width: 0;
-  flex: 1;
-  margin-top: var(--bl-size-xs);
+  flex-shrink: 0;
+  margin-top: var(--bl-size-2xs);
+  width: 100%;
+  text-align: center;
 }
 
 .stepper-item.direction-vertical .stepper-content {
   margin-top: 0;
   margin-left: var(--bl-size-xs);
+  flex: 1;
 }
 
 .stepper-title {
-  font: var(--bl-font-body-text-2);
+  font-size: var(--bl-font-size-m);
   font-weight: var(--bl-font-weight-medium);
-  color: var(--text-color);
-  line-height: var(--bl-font-body-text-2-line-height);
+  color: var(--bl-color-primary);
+  line-height: 1.5;
 }
 
 .stepper-description {
-  font: var(--bl-font-body-text-3);
-  color: var(--text-color);
-  line-height: var(--bl-font-body-text-3-line-height);
-  opacity: 0.8;
+  font-size: var(--bl-font-size-s);
+  font-weight: var(--bl-font-weight-regular);
+  color: var(--bl-color-neutral-darker);
+  line-height: 1.5;
+}
+
+/* Step dot styles */
+.step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: currentcolor;
+  transition: all 0.2s ease;
 }
 
 /* Step number styles */
@@ -95,65 +177,19 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  font-size: var(--bl-font-size-s);
+  font-size: var(--bl-font-size-m);
   font-weight: var(--bl-font-weight-medium);
-}
-
-/* Step dot styles */
-.step-dot {
-  width: calc(var(--item-size) - 8px);
-  height: calc(var(--item-size) - 8px);
-  border-radius: 50%;
-  background-color: var(--item-color);
-  transition: all 0.2s ease;
+  line-height: 1;
 }
 
 /* Step icon styles */
 .step-icon {
-  width: calc(var(--item-size) - 8px);
-  height: calc(var(--item-size) - 8px);
-  color: var(--item-background);
-}
-
-/* Variant styles */
-.stepper-item.variant-default .stepper-indicator {
-  border-color: var(--item-color);
-  background-color: var(--item-background);
-  color: var(--item-color);
-}
-
-.stepper-item.variant-default .step-dot {
-  background-color: var(--item-color);
-}
-
-.stepper-item.variant-active .stepper-indicator {
-  border-color: var(--active-color);
-  background-color: var(--active-color);
-  color: var(--bl-color-neutral-full);
-}
-
-.stepper-item.variant-active .step-dot {
-  background-color: var(--active-color);
-}
-
-.stepper-item.variant-success .stepper-indicator {
-  border-color: var(--success-color);
-  background-color: var(--success-color);
-  color: var(--bl-color-neutral-full);
-}
-
-.stepper-item.variant-success .step-dot {
-  background-color: var(--success-color);
-}
-
-.stepper-item.variant-error .stepper-indicator {
-  border-color: var(--error-color);
-  background-color: var(--error-color);
-  color: var(--bl-color-neutral-full);
-}
-
-.stepper-item.variant-error .step-dot {
-  background-color: var(--error-color);
+  width: 18px;
+  height: 18px;
+  color: currentcolor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Disabled state */
@@ -161,10 +197,6 @@
   border-color: var(--disabled-color);
   background-color: var(--item-background);
   color: var(--disabled-color);
-}
-
-.stepper-item.disabled .step-dot {
-  background-color: var(--disabled-color);
 }
 
 .stepper-item.disabled .stepper-title,
@@ -191,78 +223,106 @@
 }
 
 /* Type-specific styles */
-.stepper-item.type-dots .stepper-indicator {
-  border: none;
-  background-color: transparent;
-}
-
-.stepper-item.type-numbers .stepper-indicator {
+.stepper-item.type-dot .stepper-indicator {
   border: 2px solid var(--item-color);
   background-color: var(--item-background);
+  padding: 0;
 }
 
-.stepper-item.type-icons .stepper-indicator {
+.stepper-item.type-number .stepper-indicator {
+  border: 2px solid var(--item-color);
+  background-color: var(--item-background);
+  color: var(--item-color);
+}
+
+.stepper-item.type-icon .stepper-indicator {
   border: none;
   background-color: var(--item-color);
+  color: var(--item-background);
 }
 
-/* Variant styles for type-specific indicators */
-.stepper-item.variant-default.type-dots .step-dot {
-  background-color: var(--item-color);
+/* Variant styles for type-specific indicators - Dot */
+.stepper-item.variant-default.type-dot .stepper-indicator {
+  border-color: var(--item-color);
+  color: var(--item-color);
 }
 
-.stepper-item.variant-active.type-dots .step-dot {
+.stepper-item.variant-hover.type-dot .stepper-indicator {
+  border-color: var(--active-color);
+  color: var(--active-color);
+}
+
+.stepper-item.variant-active.type-dot .stepper-indicator {
+  border-color: var(--active-color);
   background-color: var(--active-color);
+  color: var(--item-background);
 }
 
-.stepper-item.variant-success.type-dots .step-dot {
+.stepper-item.variant-success.type-dot .stepper-indicator {
+  border-color: var(--success-color);
   background-color: var(--success-color);
+  color: var(--item-background);
 }
 
-.stepper-item.variant-error.type-dots .step-dot {
+.stepper-item.variant-error.type-dot .stepper-indicator {
+  border-color: var(--error-color);
   background-color: var(--error-color);
+  color: var(--item-background);
 }
 
-.stepper-item.variant-default.type-numbers .stepper-indicator {
+/* Variant styles for type-specific indicators - Number */
+.stepper-item.variant-default.type-number .stepper-indicator {
   border-color: var(--item-color);
   background-color: var(--item-background);
   color: var(--item-color);
 }
 
-.stepper-item.variant-active.type-numbers .stepper-indicator {
+.stepper-item.variant-hover.type-number .stepper-indicator {
+  border-color: var(--active-color);
+  background-color: var(--item-background);
+  color: var(--active-color);
+}
+
+.stepper-item.variant-active.type-number .stepper-indicator {
   border-color: var(--active-color);
   background-color: var(--active-color);
   color: var(--bl-color-neutral-full);
 }
 
-.stepper-item.variant-success.type-numbers .stepper-indicator {
+.stepper-item.variant-success.type-number .stepper-indicator {
   border-color: var(--success-color);
   background-color: var(--success-color);
   color: var(--bl-color-neutral-full);
 }
 
-.stepper-item.variant-error.type-numbers .stepper-indicator {
+.stepper-item.variant-error.type-number .stepper-indicator {
   border-color: var(--error-color);
   background-color: var(--error-color);
   color: var(--bl-color-neutral-full);
 }
 
-.stepper-item.variant-default.type-icons .stepper-indicator {
+/* Variant styles for type-specific indicators - Icon */
+.stepper-item.variant-default.type-icon .stepper-indicator {
   background-color: var(--item-color);
   color: var(--bl-color-neutral-full);
 }
 
-.stepper-item.variant-active.type-icons .stepper-indicator {
+.stepper-item.variant-hover.type-icon .stepper-indicator {
   background-color: var(--active-color);
   color: var(--bl-color-neutral-full);
 }
 
-.stepper-item.variant-success.type-icons .stepper-indicator {
+.stepper-item.variant-active.type-icon .stepper-indicator {
+  background-color: var(--active-color);
+  color: var(--bl-color-neutral-full);
+}
+
+.stepper-item.variant-success.type-icon .stepper-indicator {
   background-color: var(--success-color);
   color: var(--bl-color-neutral-full);
 }
 
-.stepper-item.variant-error.type-icons .stepper-indicator {
+.stepper-item.variant-error.type-icon .stepper-indicator {
   background-color: var(--error-color);
   color: var(--bl-color-neutral-full);
 }

@@ -18,10 +18,27 @@
 
       body {
         font-family: var(--bl-font-family);
+        padding: 2rem;
       }
 
       h1 {
         font: var(--bl-font-display-1);
+      }
+
+      h3 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      bl-stepper {
+        margin-bottom: 3rem;
+        max-width: 900px;
+        width: 100%;
+      }
+
+      /* Debug connectors */
+      bl-stepper-item::part(connector) {
+        background: red !important;
       }
     </style>
   </head>
@@ -35,8 +52,8 @@
 
     <h2>Stepper Component Test</h2>
 
-    <h3>Dots Type - Horizontal</h3>
-    <bl-stepper type="dots" direction="horizontal" usage="clickable">
+    <h3>Dot Type - Horizontal</h3>
+    <bl-stepper type="dot" direction="horizontal" usage="clickable">
       <bl-stepper-item
         id="1"
         title="Step 1"
@@ -63,8 +80,8 @@
       ></bl-stepper-item>
     </bl-stepper>
 
-    <h3>Numbers Type - Horizontal</h3>
-    <bl-stepper type="numbers" direction="horizontal" usage="clickable">
+    <h3>Number Type - Horizontal</h3>
+    <bl-stepper type="number" direction="horizontal" usage="clickable">
       <bl-stepper-item
         id="1"
         title="Step 1"
@@ -91,8 +108,8 @@
       ></bl-stepper-item>
     </bl-stepper>
 
-    <h3>Icons Type - Horizontal</h3>
-    <bl-stepper type="icons" direction="horizontal" usage="clickable">
+    <h3>Icon Type - Horizontal</h3>
+    <bl-stepper type="icon" direction="horizontal" usage="clickable">
       <bl-stepper-item
         id="1"
         title="Step 1"
@@ -123,8 +140,8 @@
       ></bl-stepper-item>
     </bl-stepper>
 
-    <h3>Numbers Type - Vertical</h3>
-    <bl-stepper type="numbers" direction="vertical" usage="clickable">
+    <h3>Number Type - Vertical</h3>
+    <bl-stepper type="number" direction="vertical" usage="clickable">
       <bl-stepper-item
         id="1"
         title="Step 1"

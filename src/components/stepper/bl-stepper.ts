@@ -5,7 +5,7 @@ import { event, EventDispatcher } from "../../utilities/event";
 import "./bl-stepper-item";
 import style from "./bl-stepper.css";
 
-export type StepperType = "dots" | "numbers" | "icons";
+export type StepperType = "dot" | "number" | "icon";
 export type StepperDirection = "horizontal" | "vertical";
 export type StepperUsage = "clickable" | "non-clickable";
 
@@ -20,6 +20,8 @@ interface BlStepperItemElement extends Element {
   variant: "default" | "active" | "success" | "error";
   stepperType: StepperType;
   direction: StepperDirection;
+  showLeadingConnector: boolean;
+  showTrailingConnector: boolean;
 }
 
 /**
@@ -43,7 +45,7 @@ export default class BlStepper extends LitElement {
    * Defines stepper render style
    */
   @property({ type: String, reflect: true })
-  type: StepperType = "dots";
+  type: StepperType = "dot";
 
   /**
    * Defines stepper direction is horizontal or vertical
@@ -136,9 +138,15 @@ export default class BlStepper extends LitElement {
   private updateStepperItems() {
     const items = this.stepperItemsArray;
 
-    items.forEach(item => {
+    items.forEach((item, index) => {
       item.stepperType = this.type;
       item.direction = this.direction;
+
+      // İlk item'da leading connector yok
+      item.showLeadingConnector = index > 0;
+
+      // Son item'da trailing connector yok
+      item.showTrailingConnector = index < items.length - 1;
     });
   }
 
