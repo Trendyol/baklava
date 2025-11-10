@@ -7,8 +7,8 @@ import "../icon/bl-icon";
 import { BaklavaIcon } from "../icon/icon-list";
 import style from "./bl-stepper-item.css";
 
-export type StepperItemVariant = "default" | "active" | "success" | "error";
-export type StepperType = "dots" | "numbers" | "icons";
+export type StepperItemVariant = "default" | "active" | "hover" | "success" | "error";
+export type StepperType = "dot" | "number" | "icon";
 export type StepperDirection = "horizontal" | "vertical";
 
 /**
@@ -65,10 +65,22 @@ export default class BlStepperItem extends LitElement {
   description = "";
 
   /**
+   * Show leading connector (line before the step)
+   */
+  @property({ type: Boolean, reflect: true })
+  showLeadingConnector = false;
+
+  /**
+   * Show trailing connector (line after the step)
+   */
+  @property({ type: Boolean, reflect: true })
+  showTrailingConnector = true;
+
+  /**
    * Internal property to track stepper type from parent
    */
   @state()
-  stepperType: StepperType = "dots";
+  stepperType: StepperType = "dot";
 
   /**
    * Internal property to track stepper direction from parent
@@ -98,15 +110,12 @@ export default class BlStepperItem extends LitElement {
   }
 
   get shouldShowIcon(): boolean {
-    return (
-      this.stepperType === "icons" ||
-      (this.stepperType === "dots" && (this.variant === "success" || this.variant === "error")) ||
-      (this.stepperType === "numbers" && (this.variant === "success" || this.variant === "error"))
-    );
+    // Only icon type shows icons, dot and number types never show icons
+    return this.stepperType === "icon";
   }
 
   get iconName(): BaklavaIcon {
-    if (this.stepperType === "icons") {
+    if (this.stepperType === "icon") {
       return this.icon;
     }
     if (this.variant === "success") {
@@ -139,6 +148,18 @@ export default class BlStepperItem extends LitElement {
     }
   }
 
+  private handleMouseEnter() {
+    if (this.isClickable && this.variant === "default") {
+      this.variant = "hover";
+    }
+  }
+
+  private handleMouseLeave() {
+    if (this.variant === "hover") {
+      this.variant = "default";
+    }
+  }
+
   render(): TemplateResult {
     const classes = {
       "stepper-item": true,
@@ -156,13 +177,42 @@ export default class BlStepperItem extends LitElement {
       </div>
     `;
 
+    const connectorState =
+      this.variant === "success" || this.variant === "active" ? "completed" : "default";
+
     const stepIndicator = html`
-      <div class="stepper-indicator">
-        ${this.stepperType === "numbers" && this.variant !== "success" && this.variant !== "error"
-          ? html`<span class="step-number">${this.stepNumber}</span>`
-          : this.shouldShowIcon
-          ? html`<bl-icon name="${this.iconName}" class="step-icon"></bl-icon>`
-          : html`<div class="step-dot"></div>`}
+      <div class="connector-wrap">
+        ${this.direction === "horizontal"
+          ? html`
+              ${this.showLeadingConnector
+                ? html`<div class="connector connector-leading ${connectorState}"></div>`
+                : html`<div class="connector-placeholder"></div>`}
+              <div class="stepper-indicator">
+                ${this.shouldShowIcon
+                  ? html`<bl-icon name="${this.iconName}" class="step-icon"></bl-icon>`
+                  : this.stepperType === "number"
+                  ? html`<span class="step-number">${this.stepNumber}</span>`
+                  : html`<div class="step-dot"></div>`}
+              </div>
+              ${this.showTrailingConnector
+                ? html`<div class="connector connector-trailing ${connectorState}"></div>`
+                : html`<div class="connector-placeholder"></div>`}
+            `
+          : html`
+              ${this.showLeadingConnector
+                ? html`<div class="connector connector-leading ${connectorState}"></div>`
+                : ""}
+              <div class="stepper-indicator">
+                ${this.shouldShowIcon
+                  ? html`<bl-icon name="${this.iconName}" class="step-icon"></bl-icon>`
+                  : this.stepperType === "number"
+                  ? html`<span class="step-number">${this.stepNumber}</span>`
+                  : html`<div class="step-dot"></div>`}
+              </div>
+              ${this.showTrailingConnector
+                ? html`<div class="connector connector-trailing ${connectorState}"></div>`
+                : ""}
+            `}
       </div>
     `;
 
@@ -175,9 +225,12 @@ export default class BlStepperItem extends LitElement {
         aria-disabled="${this.disabled}"
         @click="${this.handleClick}"
         @keydown="${this.handleKeyDown}"
+        @mouseenter="${this.handleMouseEnter}"
+        @mouseleave="${this.handleMouseLeave}"
       >
-        ${this.direction === "horizontal" ? stepIndicator : ""} ${content}
-        ${this.direction === "vertical" ? stepIndicator : ""}
+        ${this.direction === "horizontal"
+          ? html` ${stepIndicator} ${content} `
+          : html` <div class="vertical-layout">${stepIndicator} ${content}</div> `}
       </div>
     `;
   }

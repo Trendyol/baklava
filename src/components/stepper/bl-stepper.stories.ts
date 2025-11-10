@@ -6,7 +6,7 @@ import BlStepper from "./bl-stepper";
 import BlStepperItem from "./bl-stepper-item";
 
 interface StepperArgs {
-  type?: "dots" | "numbers" | "icons";
+  type?: "dot" | "number" | "icon";
   direction?: "horizontal" | "vertical";
   usage?: "clickable" | "non-clickable";
   customStyles?: string;
@@ -53,11 +53,11 @@ const meta: Meta<StepperArgs> = {
   argTypes: {
     type: {
       control: { type: "select" },
-      options: ["dots", "numbers", "icons"],
+      options: ["dot", "number", "icon"],
       description: "Stepper render style",
       table: {
         type: { summary: "StepperType" },
-        defaultValue: { summary: "dots" },
+        defaultValue: { summary: "dot" },
       },
     },
     direction: {
@@ -101,34 +101,34 @@ const StepperTemplate = (args: StepperArgs) => html`
 
 export const Default: Story = {
   args: {
-    type: "dots",
+    type: "dot",
     direction: "horizontal",
     usage: "clickable",
   },
   render: StepperTemplate,
 };
 
-export const DotsType: Story = {
+export const DotType: Story = {
   args: {
-    type: "dots",
+    type: "dot",
     direction: "horizontal",
     usage: "clickable",
   },
   render: StepperTemplate,
 };
 
-export const NumbersType: Story = {
+export const NumberType: Story = {
   args: {
-    type: "numbers",
+    type: "number",
     direction: "horizontal",
     usage: "clickable",
   },
   render: StepperTemplate,
 };
 
-export const IconsType: Story = {
+export const IconType: Story = {
   args: {
-    type: "icons",
+    type: "icon",
     direction: "horizontal",
     usage: "clickable",
   },
@@ -149,7 +149,7 @@ export const IconsType: Story = {
 
 export const VerticalDirection: Story = {
   args: {
-    type: "numbers",
+    type: "number",
     direction: "vertical",
     usage: "clickable",
   },
@@ -158,7 +158,7 @@ export const VerticalDirection: Story = {
 
 export const NonClickable: Story = {
   args: {
-    type: "dots",
+    type: "dot",
     direction: "horizontal",
     usage: "non-clickable",
   },
@@ -167,12 +167,12 @@ export const NonClickable: Story = {
 
 export const WithErrorState: Story = {
   args: {
-    type: "numbers",
+    type: "number",
     direction: "horizontal",
     usage: "clickable",
   },
   render: () => html`
-    <bl-stepper type="numbers" direction="horizontal" usage="clickable">
+    <bl-stepper type="number" direction="horizontal" usage="clickable">
       <bl-stepper-item id="1" title="Step 1" description="First step description" variant="success"></bl-stepper-item>
       <bl-stepper-item id="2" title="Step 2" description="Second step description" variant="active"></bl-stepper-item>
       <bl-stepper-item id="3" title="Step 3" description="Third step description" variant="error"></bl-stepper-item>
@@ -183,12 +183,12 @@ export const WithErrorState: Story = {
 
 export const WithDisabledItems: Story = {
   args: {
-    type: "dots",
+    type: "dot",
     direction: "horizontal",
     usage: "clickable",
   },
   render: () => html`
-    <bl-stepper type="dots" direction="horizontal" usage="clickable">
+    <bl-stepper type="dot" direction="horizontal" usage="clickable">
       <bl-stepper-item id="1" title="Step 1" description="First step description" variant="success"></bl-stepper-item>
       <bl-stepper-item id="2" title="Step 2" description="Second step description" variant="active"></bl-stepper-item>
       <bl-stepper-item id="3" title="Step 3" description="Third step description" variant="default" disabled></bl-stepper-item>
@@ -199,12 +199,12 @@ export const WithDisabledItems: Story = {
 
 export const MinimalSteps: Story = {
   args: {
-    type: "numbers",
+    type: "number",
     direction: "horizontal",
     usage: "clickable",
   },
   render: () => html`
-    <bl-stepper type="numbers" direction="horizontal" usage="clickable">
+    <bl-stepper type="number" direction="horizontal" usage="clickable">
       <bl-stepper-item id="1" title="Step 1" variant="active"></bl-stepper-item>
       <bl-stepper-item id="2" title="Step 2" variant="default"></bl-stepper-item>
     </bl-stepper>
@@ -213,12 +213,12 @@ export const MinimalSteps: Story = {
 
 export const ManySteps: Story = {
   args: {
-    type: "dots",
+    type: "dot",
     direction: "horizontal",
     usage: "clickable",
   },
   render: () => html`
-    <bl-stepper type="dots" direction="horizontal" usage="clickable">
+    <bl-stepper type="dot" direction="horizontal" usage="clickable">
       <bl-stepper-item id="1" title="Step 1" variant="success"></bl-stepper-item>
       <bl-stepper-item id="2" title="Step 2" variant="success"></bl-stepper-item>
       <bl-stepper-item id="3" title="Step 3" variant="success"></bl-stepper-item>
@@ -232,12 +232,12 @@ export const ManySteps: Story = {
 
 export const WithoutDescriptions: Story = {
   args: {
-    type: "numbers",
+    type: "number",
     direction: "horizontal",
     usage: "clickable",
   },
   render: () => html`
-    <bl-stepper type="numbers" direction="horizontal" usage="clickable">
+    <bl-stepper type="number" direction="horizontal" usage="clickable">
       <bl-stepper-item id="1" title="Step 1" variant="success"></bl-stepper-item>
       <bl-stepper-item id="2" title="Step 2" variant="active"></bl-stepper-item>
       <bl-stepper-item id="3" title="Step 3" variant="default"></bl-stepper-item>
@@ -248,13 +248,13 @@ export const WithoutDescriptions: Story = {
 
 export const InteractiveExample: Story = {
   args: {
-    type: "numbers",
+    type: "number",
     direction: "horizontal",
     usage: "clickable",
   },
   render: () => html`
     <div style="display: flex; flex-direction: column; gap: var(--bl-size-m);">
-      <bl-stepper type="numbers" direction="horizontal" usage="clickable" id="interactive-stepper">
+      <bl-stepper type="number" direction="horizontal" usage="clickable" id="interactive-stepper">
         <bl-stepper-item id="1" title="Account Setup" description="Create your account" variant="success"></bl-stepper-item>
         <bl-stepper-item id="2" title="Profile Information" description="Add your details" variant="active"></bl-stepper-item>
         <bl-stepper-item id="3" title="Preferences" description="Set your preferences" variant="default"></bl-stepper-item>
@@ -312,7 +312,7 @@ export const InteractiveExample: Story = {
 
 export const CustomStyling: Story = {
   args: {
-    type: "dots",
+    type: "dot",
     direction: "horizontal",
     usage: "clickable",
     customStyles: "--bl-stepper-spacing: var(--bl-size-l); --bl-stepper-line-color: var(--bl-color-primary-lighter); --bl-stepper-line-color-completed: var(--bl-color-primary);",

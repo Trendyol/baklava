@@ -21,27 +21,13 @@
 }
 
 .stepper.direction-horizontal .stepper-item {
-  flex: 1;
+  flex: 1 1 0;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-}
-
-.stepper.direction-horizontal .stepper-item:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: calc(var(--bl-size-m) / 2);
-  left: calc(50% + var(--bl-size-m) / 2);
-  right: calc(-50% + var(--bl-size-m) / 2);
-  height: var(--line-width);
-  background-color: var(--line-color);
-  z-index: 1;
-}
-
-.stepper.direction-horizontal .stepper-item.variant-success:not(:last-child)::after {
-  background-color: var(--line-color-completed);
+  min-width: 0;
 }
 
 /* Vertical direction */
@@ -53,22 +39,11 @@
 .stepper.direction-vertical .stepper-item {
   position: relative;
   width: 100%;
-  margin-bottom: var(--spacing);
+  min-height: 80px;
 }
 
-.stepper.direction-vertical .stepper-item:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: calc(var(--bl-size-m) + var(--bl-size-2xs));
-  left: calc(var(--bl-size-m) / 2);
-  width: var(--line-width);
-  height: calc(100% + var(--spacing) - var(--bl-size-m));
-  background-color: var(--line-color);
-  z-index: 1;
-}
-
-.stepper.direction-vertical .stepper-item.variant-success:not(:last-child)::after {
-  background-color: var(--line-color-completed);
+.stepper.direction-vertical .stepper-item:not(:last-child) {
+  margin-bottom: var(--bl-size-2xs);
 }
 
 /* Non-clickable usage */
