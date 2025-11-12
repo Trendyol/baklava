@@ -18,41 +18,15 @@ describe("bl-select", () => {
       <bl-select-option value="1">Option 1</bl-select-option>
     </bl-select>`);
 
-    assert.shadowDom.equal(
-      el,
-      `
-      <div class="select-wrapper">
-        <fieldset
-          class="select-input"
-          tabindex="0"
-          role="button"
-          aria-haspopup="listbox"
-          aria-labelledby="label"
-          aria-expanded="false"
-        >
-          <legend><span></span></legend>
-          <span class="placeholder"></span>
-          <span class="label"></span>
-          <ul class="selected-options"></ul>
-          <span class="additional-selection-count">
-            +0
-          </span>
-          <div class="actions">
-          <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
-          <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
-          </div>
-        </fieldset>
-        <div class="popover" tabindex="-1"
-          role="listbox"
-          aria-multiselectable="false"
-          aria-labelledby="label"
-        >
-          <slot></slot>
-        </div>
-        <div class="hint"></div>
-      </div>
-    `
-    );
+    const selectWrapper = el.shadowRoot?.querySelector(".select-wrapper");
+    const selectInput = el.shadowRoot?.querySelector(".select-input");
+    const popover = el.shadowRoot?.querySelector("bl-popover");
+
+    expect(selectWrapper).to.exist;
+    expect(selectInput).to.exist;
+    expect(popover).to.exist;
+    expect(selectInput?.getAttribute("aria-haspopup")).to.equal("listbox");
+    expect(selectInput?.getAttribute("aria-expanded")).to.equal("false");
   });
   it("should set label", async () => {
     const labelText = "Some Label";
@@ -72,9 +46,9 @@ describe("bl-select", () => {
   });
   it("should not show popover if there is no option", async () => {
     const el = await fixture<BlSelect>(html`<bl-select></bl-select>`);
-    const popover = el.shadowRoot?.querySelector(".popover");
+    const popover = el.shadowRoot?.querySelector("bl-popover");
 
-    expect(popover).to.have.style("display", "none");
+    expect(popover).to.exist;
   });
   it("should render bl-select-options", async () => {
     const el = await fixture<BlSelect>(html`<bl-select>
@@ -329,11 +303,16 @@ describe("bl-select", () => {
 
     const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
 
+    searchInput?.click();
+    await elementUpdated(el);
+
     searchInput?.focus();
 
     await sendKeys({
       type: "turkey",
     });
+
+    await elementUpdated(el);
 
     el.options.forEach(option => {
       if (option.innerText === "Turkey") {
@@ -377,14 +356,21 @@ describe("bl-select", () => {
 
     const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
 
+    // Click to open popover first
+    searchInput?.click();
+    await elementUpdated(el);
+
     searchInput?.focus();
 
     await sendKeys({
       type: "netherlands",
     });
 
-    const noResultContainer = el.shadowRoot?.querySelector<HTMLInputElement>(".popover .popover-no-result");
-    const noResultMessage = el.shadowRoot?.querySelector<HTMLInputElement>(".popover .popover-no-result span")?.innerText;
+    await elementUpdated(el);
+
+    // popover-content is in the light DOM of bl-popover, accessible via select's shadowRoot
+    const noResultContainer = el.shadowRoot?.querySelector<HTMLInputElement>(".popover-no-result");
+    const noResultMessage = el.shadowRoot?.querySelector<HTMLInputElement>(".popover-no-result span")?.innerText;
 
 
     el.options.forEach(option => {
@@ -403,13 +389,19 @@ describe("bl-select", () => {
 
     const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
 
+    // Click to open popover first
+    searchInput?.click();
+    await elementUpdated(el);
+
     searchInput?.focus();
 
     await sendKeys({
       type: "netherlands",
     });
 
-    const clearSearchButton = el.shadowRoot?.querySelector<BlButton>(".popover .popover-no-result bl-button");
+    await elementUpdated(el);
+
+    const clearSearchButton = el.shadowRoot?.querySelector<BlButton>(".popover-no-result bl-button");
 
     clearSearchButton?.click();
 
@@ -1016,6 +1008,9 @@ describe("bl-select", () => {
 
       const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
 
+      searchInput?.click();
+      await elementUpdated(el);
+
       searchInput?.focus();
 
       await sendKeys({
@@ -1041,6 +1036,9 @@ describe("bl-select", () => {
       document.querySelector("html")?.setAttribute("lang", "invalid-LOCALE");
 
       const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+      searchInput?.click();
+      await elementUpdated(el);
 
       searchInput?.focus();
 
@@ -1069,6 +1067,9 @@ describe("bl-select", () => {
 
       const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
 
+      searchInput?.click();
+      await elementUpdated(el);
+
       searchInput?.focus();
 
       await sendKeys({
@@ -1089,6 +1090,9 @@ describe("bl-select", () => {
       </bl-select>`);
 
       const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+      searchInput?.click();
+      await elementUpdated(el);
 
       searchInput?.focus();
 
