@@ -39,5 +39,6 @@ export { default as BlSplitButton } from "./components/split-button/bl-split-but
 export { default as BlCalendar } from "./components/calendar/bl-calendar";
 export { default as BlTag } from "./components/tag/bl-tag";
 export { default as BlDatePicker } from "./components/datepicker/bl-datepicker";
+export { default as BlSlider } from "./components/slider/bl-slider";
 export { getIconPath, setIconPath } from "./utilities/asset-paths";
 export { html as litHtmlRenderer } from "lit";
