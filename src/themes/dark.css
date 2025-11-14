@@ -1,43 +1,54 @@
-@import url("@fontsource-variable/rubik");
+/**
+ * Baklava Design System - Dark Theme
+ * This theme provides dark mode support for all Baklava components
+ *
+ * Usage:
+ * Add data-theme="dark" attribute to :root or any parent element:
+ * <html data-theme="dark">
+ *
+ * Or use the .dark-theme class:
+ * <div class="dark-theme">
+ *   <!-- dark mode components -->
+ * </div>
+ */
 
-:root[data-theme="light"] {
-  /* Direction */
-  --bl-text-x-direction: 1;
+:root[data-theme="dark"],
+.dark-theme {
+  /* Neutral Colors - Dark Mode */
+  --bl-color-neutral-none: #F0F5FF;
+  --bl-color-neutral-darkest: #1A2230;
+  --bl-color-neutral-darker: #374050;
+  --bl-color-neutral-dark: #576172;
+  --bl-color-neutral-light: #798496;
+  --bl-color-neutral-lighter: #9DA8BB;
+  --bl-color-neutral-lightest: #C3CEE2;
+  --bl-color-neutral-full: #030713;
 
-  /* Primary Color */
-  --bl-color-primary: #f27a1a;
-  --bl-color-primary-highlight: #ef6114;
-  --bl-color-primary-contrast: #fef2e8;
+  /* Primary Color - Slightly adjusted for dark mode */
+  --bl-color-primary: #FB882B;
+  --bl-color-primary-highlight: #D46B00;
+  --bl-color-primary-contrast: #1F1D18;
 
-  /* Success Color */
-  --bl-color-success: #0bc15c;
-  --bl-color-success-highlight: #09a44e;
-  --bl-color-success-contrast: #e7f9ef;
+  /* Success Color - Adjusted for dark mode */
+  --bl-color-success: #3AC96B;
+  --bl-color-success-highlight: #00A84E;
+  --bl-color-success-contrast: #1A1E1A;
 
-  /* Danger Color */
-  --bl-color-danger: #ff5043;
-  --bl-color-danger-highlight: #ff3028;
-  --bl-color-danger-contrast: #ffeeec;
+  /* Danger Color - Adjusted for dark mode */
+  --bl-color-danger: #FB8179;
+  --bl-color-danger-highlight: #D8625B;
+  --bl-color-danger-contrast: #211B1A;
 
-  /* Warning Color */
-  --bl-color-warning: #ffb600;
-  --bl-color-warning-highlight: #ff9800;
-  --bl-color-warning-contrast: #fff8e6;
+  /* Warning Color - Adjusted for dark mode */
+  --bl-color-warning: #E09B1A;
+  --bl-color-warning-highlight: #BA7F00;
+  --bl-color-warning-contrast: #1F1C18;
 
-  /* Info Color */
-  --bl-color-info: #5794ff;
-  --bl-color-info-highlight: #457eff;
-  --bl-color-info-contrast: #eef4ff;
+  /* Info Color - Adjusted for dark mode */
+  --bl-color-info: #76AEF5;
+  --bl-color-info-highlight: #588ED4;
+  --bl-color-info-contrast: #1A1D22;
 
-  /* Neutral Color */
-  --bl-color-neutral-none: #000;
-  --bl-color-neutral-darkest: #0f131a;
-  --bl-color-neutral-darker: #273142;
-  --bl-color-neutral-dark: #6e7787;
-  --bl-color-neutral-light: #95a1b5;
-  --bl-color-neutral-lighter: #afbbca;
-  --bl-color-neutral-lightest: #f1f2f7;
-  --bl-color-neutral-full: #fff;
 
   /* Size and Spacing */
   --bl-size-4xs: 0.125rem; /* 2px */
@@ -228,3 +239,4 @@
   /* Typography */
   --bl-font-family: "Cairo";
 }
+

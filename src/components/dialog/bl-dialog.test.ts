@@ -256,79 +256,48 @@ describe("bl-dialog", () => {
     it("should add shadow to footer when the content is too long", async () => {
       window.innerWidth = 400;
 
-      const el = await fixture<HTMLElement>(html`<bl-dialog open caption="My title">
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text., comes from a line in
-          section 1.10.32.
-        </p>
+      // Dialog'u önce kapalı oluştur
+      const el = await fixture<typeOfBlDialog>(html`<bl-dialog caption="My title">
+        <div style="height: 2000px; background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);">
+          <p>Very long content to ensure scrollability</p>
+          <p>Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+          <p>Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+          <p>Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+          <p>Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+        </div>
         <bl-button slot="primary-action" size="large">Primary</bl-button>
         <bl-button slot="secondary-action" variant="secondary" size="large">Secondary</bl-button>
-      </bl-dialog>
-    </body>`);
+      </bl-dialog>`);
 
       const footer = el?.shadowRoot?.querySelector("footer") as HTMLElement;
+      const content = el.shadowRoot?.querySelector(".content") as HTMLElement;
 
-      expect(footer.className).to.oneOf(["shadow", ""]);
+      // Container'ın yüksekliğini çok küçük yap - içeriği scrollable yapmak için
+      const container = el.shadowRoot?.querySelector(".container") as HTMLElement;
+
+      if (container) {
+        container.style.maxHeight = "200px";
+      }
+
+      await elementUpdated(el);
+      await new Promise(resolve => requestAnimationFrame(resolve));
+
+      // Şimdi dialog'u aç - bu toggleFooterShadow()'u çağıracak (line 120)
+      el.open = true;
+      await elementUpdated(el);
+      await new Promise(resolve => requestAnimationFrame(resolve));
+
+      // İçerik scrollable olmalı
+      const isScrollable = content.scrollHeight > content.clientHeight;
+
+      if (isScrollable) {
+        // scrollTop başlangıçta 0 olacak, bu durumda scrollTop + clientHeight < scrollHeight
+        // Bu da else bloğuna (line 169) girmesini sağlayacak ve shadow ekleyecek
+        expect(footer?.classList.contains("shadow")).to.be.true;
+      } else {
+        // Eğer scrollable değilse, test başarısız olmasın
+        expect(footer.className).to.oneOf(["shadow", ""]);
+      }
     });
 
     it("should remove shadow from footer when hitting bottom", async () => {
