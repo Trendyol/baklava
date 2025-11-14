@@ -1,4 +1,9 @@
-import { addons } from '@storybook/addons';
-import baklavaTheme from './baklava-theme';
+import { addons } from '@storybook/manager-api';
+import { themes } from '@storybook/theming';
 
-addons.setConfig({ theme: baklavaTheme });
+addons.setConfig({
+  theme: themes.light,
+  sidebar: {
+    showRoots: true,
+  },
+});

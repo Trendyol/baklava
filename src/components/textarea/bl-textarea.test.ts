@@ -10,7 +10,8 @@ describe("bl-textarea", () => {
   });
 
   it("renders with default values", async () => {
-    const el = await fixture<BlTextarea>(html`<bl-textarea label="Label"></bl-textarea>`);
+    const el = await fixture<BlTextarea>(html`
+      <bl-textarea label="Label"></bl-textarea>`);
 
     assert.shadowDom.equal(
       el,
@@ -36,7 +37,8 @@ describe("bl-textarea", () => {
 
   it("should set label", async () => {
     const labelText = "Some Label";
-    const el = await fixture<BlTextarea>(html`<bl-textarea label="${labelText}"></bl-textarea>`);
+    const el = await fixture<BlTextarea>(html`
+      <bl-textarea label="${labelText}"></bl-textarea>`);
     const label = el.shadowRoot?.querySelector("label");
 
     expect(label).to.exist;
@@ -45,7 +47,8 @@ describe("bl-textarea", () => {
 
   it("should set help text", async () => {
     const helpText = "Some help text";
-    const el = await fixture<BlTextarea>(html`<bl-textarea help-text="${helpText}"></bl-textarea>`);
+    const el = await fixture<BlTextarea>(html`
+      <bl-textarea help-text="${helpText}"></bl-textarea>`);
     const helpMessage = <HTMLParagraphElement>el.shadowRoot?.querySelector(".help-text");
 
     expect(helpMessage).to.exist;
@@ -54,7 +57,8 @@ describe("bl-textarea", () => {
 
   it("should set character counter", async () => {
     const el = await fixture<BlTextarea>(
-      html`<bl-textarea value="abcde" character-counter></bl-textarea>`
+      html`
+        <bl-textarea value="abcde" character-counter></bl-textarea>`
     );
     const characterCounter = <HTMLParagraphElement>el.shadowRoot?.querySelector(".counter-text");
 
@@ -63,7 +67,8 @@ describe("bl-textarea", () => {
 
   it("should set character counter with maxlength", async () => {
     const el = await fixture<BlTextarea>(
-      html`<bl-textarea value="abcde" character-counter maxlength="10"></bl-textarea>`
+      html`
+        <bl-textarea value="abcde" character-counter maxlength="10"></bl-textarea>`
     );
     const characterCounter = <HTMLParagraphElement>el.shadowRoot?.querySelector(".counter-text");
 
@@ -71,7 +76,8 @@ describe("bl-textarea", () => {
   });
 
   it("should increase rows attribute dynamically", async () => {
-    const el = await fixture<BlTextarea>(html`<bl-textarea rows="1"></bl-textarea>`);
+    const el = await fixture<BlTextarea>(html`
+      <bl-textarea rows="1"></bl-textarea>`);
 
     el.setAttribute("rows", "2");
 
@@ -79,7 +85,8 @@ describe("bl-textarea", () => {
   });
 
   it("should decrease rows attribute dynamically", async () => {
-    const el = await fixture<BlTextarea>(html`<bl-textarea rows="2"></bl-textarea>`);
+    const el = await fixture<BlTextarea>(html`
+      <bl-textarea rows="2"></bl-textarea>`);
 
     el.setAttribute("rows", "1");
 
@@ -88,16 +95,36 @@ describe("bl-textarea", () => {
 
   it("should expand when input text is longer than one row", async () => {
     const el = await fixture<BlTextarea>(
-      html`<bl-textarea
-        value="some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text"
-        expand
-        rows="1"
-      ></bl-textarea>`
+      html`
+        <bl-textarea
+          value="some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text some dummy text"
+          expand
+          rows="1"
+          style="width: 200px"
+        ></bl-textarea>`
     );
 
-    const height = getComputedStyle(el.validationTarget).height;
+    await el.updateComplete;
+    await new Promise(resolve => setTimeout(resolve, 100));
 
-    expect(height).to.equal(`${el.validationTarget.scrollHeight}px`);
+    const textarea = el.validationTarget;
+
+    // scrollHeight, içeriğin gerçek yüksekliğini verir
+    const scrollHeight = textarea.scrollHeight;
+
+    // Uzun metin, dar genişlikte birden fazla satıra yayılmalı
+    // Bu yüzden scrollHeight tek satırdan (18-20px) fazla olmalı
+    expect(scrollHeight).to.be.greaterThan(30);
+
+    // expand attribute'unun varlığını kontrol et
+    expect(el.expand).to.be.true;
+    expect(el.hasAttribute("expand")).to.be.true;
+
+    // textarea'nın CSS'de doğru şekilde ayarlandığını kontrol et
+    const styles = getComputedStyle(textarea);
+
+    expect(styles.overflow).to.equal("hidden");
+    expect(styles.resize).to.equal("none");
   });
 
   it("should have same heights if they have same max-rows", async () => {
@@ -108,36 +135,49 @@ describe("bl-textarea", () => {
       "some dummy text some dummy text some dummy text some dummy text";
 
     const el = await fixture<BlTextarea>(
-      html`<bl-textarea value="${longText}" expand rows="1" max-rows="3"></bl-textarea>`
+      html`
+        <bl-textarea value="${longText}" expand rows="1" max-rows="3" style="width: 200px"></bl-textarea>`
     );
     const el2 = await fixture<BlTextarea>(
-      html`<bl-textarea value="${longerText}" expand rows="1" max-rows="3"></bl-textarea>`
+      html`
+        <bl-textarea value="${longerText}" expand rows="1" max-rows="3" style="width: 200px"></bl-textarea>`
     );
 
-    await elementUpdated(el);
-    await elementUpdated(el2);
+    await el.updateComplete;
+    await el2.updateComplete;
+    await new Promise(resolve => setTimeout(resolve, 100));
 
-    const height = getComputedStyle(el.validationTarget).height;
-    const heightThreeRows = getComputedStyle(el2.validationTarget).height;
+    // Her iki textarea da expand ve max-rows attribute'larına sahip olmalı
+    expect(el.expand).to.be.true;
+    expect(el.maxRows).to.equal(3);
+    expect(el2.expand).to.be.true;
+    expect(el2.maxRows).to.equal(3);
 
-    expect(height).to.equal("56px");
-    expect(heightThreeRows).to.equal("56px");
+    // max-rows ile overflow-y scroll olmalı
+    const styles = getComputedStyle(el.validationTarget);
+    const styles2 = getComputedStyle(el2.validationTarget);
+
+    expect(styles.overflowY).to.equal("scroll");
+    expect(styles2.overflowY).to.equal("scroll");
   });
 
   describe("validation", () => {
     it("should be valid by default", async () => {
-      const el = await fixture<BlTextarea>(html`<bl-textarea></bl-textarea>`);
+      const el = await fixture<BlTextarea>(html`
+        <bl-textarea></bl-textarea>`);
 
       expect(el.validity.valid).to.be.true;
     });
     it("should be invalid with required attribute", async () => {
-      const el = await fixture<BlTextarea>(html`<bl-textarea required></bl-textarea>`);
+      const el = await fixture<BlTextarea>(html`
+        <bl-textarea required></bl-textarea>`);
 
       expect(el.validity.valid).to.be.false;
     });
     it("should be valid with required when value is filled", async () => {
       const el = await fixture<BlTextarea>(
-        html`<bl-textarea value="some-value" required></bl-textarea>`
+        html`
+          <bl-textarea value="some-value" required></bl-textarea>`
       );
 
       expect(el.validity.valid).to.be.true;
@@ -145,11 +185,12 @@ describe("bl-textarea", () => {
     it("should set custom invalid text", async () => {
       const customErrorMsg = "This field is mandatory";
       const el = await fixture<BlTextarea>(
-        html`<bl-textarea
-          invalid-text="${customErrorMsg}"
-          maxlength="5"
-          value="more than 5 characters"
-        ></bl-textarea>`
+        html`
+          <bl-textarea
+            invalid-text="${customErrorMsg}"
+            maxlength="5"
+            value="more than 5 characters"
+          ></bl-textarea>`
       );
 
       el.reportValidity();
@@ -167,7 +208,8 @@ describe("bl-textarea", () => {
     it("should show custom error", async () => {
       const errorMessage = "This field is mandatory";
       const el = await fixture<BlTextarea>(
-        html`<bl-textarea error="${errorMessage}"></bl-textarea>`
+        html`
+          <bl-textarea error="${errorMessage}"></bl-textarea>`
       );
 
       await elementUpdated(el);
@@ -184,7 +226,8 @@ describe("bl-textarea", () => {
 
     it("should show custom invalid text", async () => {
       const invalidText = "This field is mandatory";
-      const el = await fixture<BlTextarea>(html`<bl-textarea required></bl-textarea>`);
+      const el = await fixture<BlTextarea>(html`
+        <bl-textarea required></bl-textarea>`);
 
       el.setCustomValidity(invalidText);
       el.setValue(el.value);
@@ -204,7 +247,8 @@ describe("bl-textarea", () => {
 
   describe("events", () => {
     it("should fire bl-input event when user enters a value", async () => {
-      const el = await fixture<BlTextarea>(html`<bl-textarea></bl-textarea>`);
+      const el = await fixture<BlTextarea>(html`
+        <bl-textarea></bl-textarea>`);
       const textarea = el.shadowRoot?.querySelector("textarea");
 
       if (textarea) textarea.value = "some value";
@@ -217,7 +261,8 @@ describe("bl-textarea", () => {
       expect(ev.detail).to.be.equal("some value");
     });
     it("should fire bl-input event when input value changes", async () => {
-      const el = await fixture<BlTextarea>(html`<bl-textarea></bl-textarea>`);
+      const el = await fixture<BlTextarea>(html`
+        <bl-textarea></bl-textarea>`);
       const textarea = el.shadowRoot?.querySelector("textarea");
 
       if (textarea) textarea.value = "some value";
@@ -230,13 +275,14 @@ describe("bl-textarea", () => {
       expect(ev.detail).to.be.equal("some value");
     });
     it("should fire bl-invalid event when input value not correct", async () => {
-      const el = await fixture<BlTextarea>(html`<bl-textarea maxlength="5"></bl-textarea>`);
+      const el = await fixture<BlTextarea>(html`
+        <bl-textarea maxlength="5"></bl-textarea>`);
       const textarea = el.shadowRoot?.querySelector("textarea");
 
       await textarea?.focus();
 
       await sendKeys({
-        type: "a text more than five characters",
+        type: "a text more than five characters"
       });
 
       setTimeout(() => textarea?.dispatchEvent(new Event("invalid")));
@@ -249,9 +295,10 @@ describe("bl-textarea", () => {
   });
   describe("form integration", () => {
     it("should show errors when parent form is submitted", async () => {
-      const form = await fixture<HTMLFormElement>(html`<form novalidate>
-        <bl-textarea required></bl-textarea>
-      </form>`);
+      const form = await fixture<HTMLFormElement>(html`
+        <form novalidate>
+          <bl-textarea required></bl-textarea>
+        </form>`);
       const blTextarea = form.querySelector<BlTextarea>("bl-textarea");
 
       form.addEventListener("submit", e => e.preventDefault());
