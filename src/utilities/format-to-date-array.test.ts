@@ -24,4 +24,16 @@ describe("normalizeValue", () => {
 
     expect(result).to.equal(input);
   });
+
+  it("should return an empty array when value is undefined", () => {
+    const result = formatToDateArray(undefined);
+
+    expect(result).to.deep.equal([]);
+  });
+
+  it("should return an empty array when value is an empty string", () => {
+    const result = formatToDateArray("");
+
+    expect(result).to.deep.equal([]);
+  });
 });
