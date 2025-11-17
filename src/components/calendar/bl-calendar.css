@@ -142,3 +142,23 @@
 .calendar-text {
   font: var(--bl-font-title-3-regular);
 }
+
+.disabled-day-container {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-day-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* Ensure disabled overlay content visually matches disabled button */
+.disabled-day-container .custom-day-content {
+  color: var(--bl-color-neutral-lighter);
+}

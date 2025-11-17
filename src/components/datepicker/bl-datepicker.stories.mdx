@@ -2,6 +2,7 @@ import { html } from "lit";
 import { ArgsTable, Canvas, Meta, Story } from "@storybook/addon-docs";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { stringToDateArray } from "../../utilities/string-to-date-converter";
 
 <Meta
   title="Components/Datepicker"
@@ -149,6 +150,55 @@ You can set min date or max date for the datepicker.
            maxDate: `${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)}`
          }}>
     {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Disabled Dates With Tooltip
+
+You can render tooltips on disabled dates via `dayRenderer`. This example disables specific dates and shows a tooltip explaining why.
+
+<Canvas>
+  <Story
+    name="Disabled Dates With Tooltip"
+    args={{
+      type: 'single',
+      label: 'Disabled Dates With Tooltip',
+      placeholder: 'Select a date',
+      // Controls: comma-separated dates string
+      disabledDates: `${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)}, ${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 5)}`,
+      disabledTooltipText: 'This date is disabled',
+    }}
+  >
+    {(args) => {
+      const disabledDates = typeof args.disabledDates === 'string'
+        ? stringToDateArray(args.disabledDates)
+        : (args.disabledDates || []);
+
+      const isDisabled = (d) => disabledDates.some(x => x.getFullYear() === d.getFullYear() && x.getMonth() === d.getMonth() && x.getDate() === d.getDate());
+
+      const dayRenderer = (date) => {
+        if (isDisabled(date)) {
+          // Only disabled days have tooltip; trigger is an invisible overlay to avoid duplicating numbers
+          return html`
+            <bl-tooltip>
+              <span slot="tooltip-trigger" style="position:absolute; inset:0; display:block;"></span>
+              <div>${args.disabledTooltipText}</div>
+            </bl-tooltip>
+          `;
+        }
+        // Non-disabled days should render the day number normally
+        return html`${date.getDate()}`;
+      };
+
+      return html`
+        <bl-datepicker
+          type=${ifDefined(args.type)}
+          label=${ifDefined(args.label)}
+          placeholder=${ifDefined(args.placeholder)}
+          .disabledDates=${disabledDates}
+          .dayRenderer=${dayRenderer}
+        ></bl-datepicker>`;
+    }}
   </Story>
 </Canvas>
 
