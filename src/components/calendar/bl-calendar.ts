@@ -58,6 +58,10 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   connectedCallback() {
     super.connectedCallback();
     setDirectionProperty(this);
+
+    if (this.monthYearOnly) {
+      this._calendarView = CALENDAR_VIEWS.MONTHS;
+    }
   }
 
   get months() {
@@ -90,7 +94,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
 
   setPreviousCalendarView() {
     this.clearRangePickerStyles();
-    if (this._calendarView === CALENDAR_VIEWS.DAYS) {
+    if (this._calendarView === CALENDAR_VIEWS.DAYS && !this.monthYearOnly) {
       if (this._calendarMonth === FIRST_MONTH_INDEX) {
         this._calendarMonth = LAST_MONTH_INDEX;
         this._calendarYear -= 1;
@@ -107,7 +111,7 @@ export default class BlCalendar extends DatepickerCalendarMixin {
 
   setNextCalendarView() {
     this.clearRangePickerStyles();
-    if (this._calendarView === CALENDAR_VIEWS.DAYS) {
+    if (this._calendarView === CALENDAR_VIEWS.DAYS && !this.monthYearOnly) {
       if (this._calendarMonth === LAST_MONTH_INDEX) {
         this._calendarMonth = FIRST_MONTH_INDEX;
         this._calendarYear += 1;
@@ -123,19 +127,29 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   }
 
   setCurrentCalendarView(view: CalendarView) {
-    this._calendarView = this._calendarView !== view ? view : CALENDAR_VIEWS.DAYS;
+    const defaultView = this.monthYearOnly ? CALENDAR_VIEWS.MONTHS : CALENDAR_VIEWS.DAYS;
+
+    this._calendarView = this._calendarView !== view ? view : defaultView;
     this.setHoverClass();
   }
 
   setMonthAndCalendarView(month: number) {
     this._calendarMonth = month;
-    this._calendarView = CALENDAR_VIEWS.DAYS;
-    if (this.type === CALENDAR_TYPES.RANGE) this.setHoverClass();
+
+    if (this.monthYearOnly) {
+      // In month-year only mode, selecting a month finalizes the selection
+      const date = new Date(this._calendarYear, month, 1);
+
+      this.handleDate(date);
+    } else {
+      this._calendarView = CALENDAR_VIEWS.DAYS;
+      if (this.type === CALENDAR_TYPES.RANGE) this.setHoverClass();
+    }
   }
 
   setYearAndCalendarView(year: number) {
     this._calendarYear = year;
-    this._calendarView = CALENDAR_VIEWS.DAYS;
+    this._calendarView = this.monthYearOnly ? CALENDAR_VIEWS.MONTHS : CALENDAR_VIEWS.DAYS;
     if (this.type === CALENDAR_TYPES.RANGE) this.setHoverClass();
   }
 
@@ -393,13 +407,15 @@ export default class BlCalendar extends DatepickerCalendarMixin {
           kind="neutral"
           @click="${() => this.setPreviousCalendarView()}"
         ></bl-button>
-        <bl-button
-          variant="tertiary"
-          kind="neutral"
-          class="header-text ${showMonthSelected}"
-          @click="${() => this.setCurrentCalendarView(CALENDAR_VIEWS.MONTHS)}"
-          >${this.months[this._calendarMonth].name}
-        </bl-button>
+        ${!this.monthYearOnly
+          ? html`<bl-button
+              variant="tertiary"
+              kind="neutral"
+              class="header-text ${showMonthSelected}"
+              @click="${() => this.setCurrentCalendarView(CALENDAR_VIEWS.MONTHS)}"
+              >${this.months[this._calendarMonth].name}
+            </bl-button>`
+          : html``}
         <bl-button
           variant="tertiary"
           kind="neutral"
