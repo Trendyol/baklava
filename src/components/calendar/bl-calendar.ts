@@ -194,7 +194,10 @@ export default class BlCalendar extends DatepickerCalendarMixin {
         break;
     }
 
-    this._onBlCalendarChange(this._dates);
+    if (this.type !== CALENDAR_TYPES.RANGE || !this.monthYearOnly || this._dates.length === 2) {
+      this._onBlCalendarChange(this._dates);
+    }
+
     this.requestUpdate();
   }
 
@@ -379,16 +382,27 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     return calendar;
   }
 
-  updated(changedProperties: PropertyValues) {
+  willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has("value")) {
       const dates = formatToDateArray(this._value);
 
       if (!dates?.length) {
         this.handleClearSelectedDates();
       } else {
-        dates?.forEach(date => {
-          this.handleDate(date);
-        });
+        this._dates = [...dates];
+
+        if (dates.length > 0) {
+          this._calendarYear = dates[0].getFullYear();
+          this._calendarMonth = dates[0].getMonth();
+        }
+      }
+    }
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has("value") || changedProperties.has("_dates")) {
+      if (this.type === CALENDAR_TYPES.RANGE && this._dates.length > 0) {
+        this.setHoverClass();
       }
     }
   }
@@ -484,13 +498,48 @@ export default class BlCalendar extends DatepickerCalendarMixin {
   renderCalendarMonths() {
     return html` <div class="grid-content">
       ${this.months.map((month, index) => {
-        const variant = month.value === this._calendarMonth ? "primary" : "tertiary";
-        const neutral = month.value === this._calendarMonth ? "default" : "neutral";
+        // Check if this month is selected in month-year only mode
+        const isSelectedMonth =
+          this.monthYearOnly &&
+          this._dates.some(
+            date => date.getFullYear() === this._calendarYear && date.getMonth() === month.value
+          );
+
+        // Check if this month is in range (for month-year-only range mode)
+        let isInRange = false;
+        let isRangeStart = false;
+        let isRangeEnd = false;
+
+        if (this.monthYearOnly && this.type === CALENDAR_TYPES.RANGE && this._dates.length === 2) {
+          const currentMonthDate = new Date(this._calendarYear, month.value, 1);
+          const startDate = new Date(this._dates[0].getFullYear(), this._dates[0].getMonth(), 1);
+          const endDate = new Date(this._dates[1].getFullYear(), this._dates[1].getMonth(), 1);
+
+          isRangeStart = currentMonthDate.getTime() === startDate.getTime();
+          isRangeEnd = currentMonthDate.getTime() === endDate.getTime();
+          isInRange =
+            currentMonthDate.getTime() > startDate.getTime() &&
+            currentMonthDate.getTime() < endDate.getTime();
+        }
+
+        const isCurrentMonth = !this.monthYearOnly && month.value === this._calendarMonth;
+        const variant =
+          isSelectedMonth || isCurrentMonth || isRangeStart || isRangeEnd ? "primary" : "tertiary";
+        const neutral =
+          isSelectedMonth || isCurrentMonth || isRangeStart || isRangeEnd ? "default" : "neutral";
+
+        // Build class names for range styling
+        const classes = {
+          "grid-item": true,
+          "range-start-month": isRangeStart,
+          "range-end-month": isRangeEnd,
+          "range-month": isInRange,
+        };
 
         return html` <bl-button
           variant=${variant}
           kind=${neutral}
-          class="grid-item"
+          class=${classMap(classes)}
           size="small"
           @click="${() => this.setMonthAndCalendarView(index)}"
           ><span class="calendar-text">${month.name}</span></bl-button
