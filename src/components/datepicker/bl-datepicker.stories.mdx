@@ -1,5 +1,6 @@
 import { html } from "lit";
 import { ArgsTable, Canvas, Meta, Story } from "@storybook/addon-docs";
+import { action } from "@storybook/addon-actions";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
@@ -28,7 +29,7 @@ export const DatepickerTemplate = (args) => html`
     value=${ifDefined(args.value)}
     style=${ifDefined(args.style)}
     disabled-dates=${ifDefined(args.disabledDates)}
-    ?month-year-only=${args.monthYearOnly}>${unsafeHTML(args.content)}
+    ?month-year-only=${args.monthYearOnly}
     @bl-datepicker-change=${(e) => {
       action('bl-datepicker-change')(e)
     }}>${unsafeHTML(args.content)}
