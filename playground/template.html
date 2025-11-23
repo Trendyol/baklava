@@ -1,171 +1,39 @@
 <!DOCTYPE html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Baklava Playground</title>
-    <link href="./dist/themes/default.css" rel="stylesheet" />
-    <script src="./dist/localization.js" type="module"></script>
-    <script src="./dist/baklava.js" type="module"></script>
-    <script>
-      // Live reload
-      new EventSource("/esbuild").addEventListener("change", () => location.reload());
-    </script>
-    <style>
-      *:not(:defined) {
-        display: none;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Baklava Playground</title>
+  <link href="./dist/themes/default.css" rel="stylesheet" />
+  <script src="./dist/localization.js" type="module"></script>
+  <script src="./dist/baklava.js" type="module"></script>
+  <script>
+    // Live reload
+    new EventSource("/esbuild").addEventListener("change", () => location.reload());
+  </script>
+  <style>
+    *:not(:defined) {
+      display: none;
+    }
 
-      body {
-        font-family: var(--bl-font-family);
-        padding: 2rem;
-      }
+    body {
+      font-family: var(--bl-font-family);
+    }
 
-      h1 {
-        font: var(--bl-font-display-1);
-      }
+    h1 {
+      font: var(--bl-font-display-1);
+    }
+  </style>
+</head>
+<body>
+<h1>Baklava Playground</h1>
 
-      h3 {
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-      }
+<p>
+  Copy this file as playground/index.html and try your work here by running
+  <code>npm run serve</code>.
+</p>
 
-      bl-stepper {
-        margin-bottom: 3rem;
-        max-width: 900px;
-        width: 100%;
-      }
+<bl-button>Baklava is ready</bl-button>
+</body>
 
-      /* Debug connectors */
-      bl-stepper-item::part(connector) {
-        background: red !important;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Baklava Playground</h1>
-
-    <p>
-      Copy this file as playground/index.html and try your work here by running
-      <code>npm run serve</code>.
-    </p>
-
-    <h2>Stepper Component Test</h2>
-
-    <h3>Dot Type - Horizontal</h3>
-    <bl-stepper type="dot" direction="horizontal" usage="clickable">
-      <bl-stepper-item
-        id="1"
-        title="Step 1"
-        description="First step description"
-        variant="success"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="2"
-        title="Step 2"
-        description="Second step description"
-        variant="active"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="3"
-        title="Step 3"
-        description="Third step description"
-        variant="default"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="4"
-        title="Step 4"
-        description="Fourth step description"
-        variant="default"
-      ></bl-stepper-item>
-    </bl-stepper>
-
-    <h3>Number Type - Horizontal</h3>
-    <bl-stepper type="number" direction="horizontal" usage="clickable">
-      <bl-stepper-item
-        id="1"
-        title="Step 1"
-        description="First step description"
-        variant="success"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="2"
-        title="Step 2"
-        description="Second step description"
-        variant="active"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="3"
-        title="Step 3"
-        description="Third step description"
-        variant="default"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="4"
-        title="Step 4"
-        description="Fourth step description"
-        variant="default"
-      ></bl-stepper-item>
-    </bl-stepper>
-
-    <h3>Icon Type - Horizontal</h3>
-    <bl-stepper type="icon" direction="horizontal" usage="clickable">
-      <bl-stepper-item
-        id="1"
-        title="Step 1"
-        description="First step description"
-        variant="success"
-        icon="check"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="2"
-        title="Step 2"
-        description="Second step description"
-        variant="active"
-        icon="settings"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="3"
-        title="Step 3"
-        description="Third step description"
-        variant="default"
-        icon="user"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="4"
-        title="Step 4"
-        description="Fourth step description"
-        variant="default"
-        icon="lock"
-      ></bl-stepper-item>
-    </bl-stepper>
-
-    <h3>Number Type - Vertical</h3>
-    <bl-stepper type="number" direction="vertical" usage="clickable">
-      <bl-stepper-item
-        id="1"
-        title="Step 1"
-        description="First step description"
-        variant="success"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="2"
-        title="Step 2"
-        description="Second step description"
-        variant="active"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="3"
-        title="Step 3"
-        description="Third step description"
-        variant="default"
-      ></bl-stepper-item>
-      <bl-stepper-item
-        id="4"
-        title="Step 4"
-        description="Fourth step description"
-        variant="default"
-      ></bl-stepper-item>
-    </bl-stepper>
-  </body>
 </html>

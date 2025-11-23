@@ -14,7 +14,6 @@
   width: 100%;
 }
 
-/* Horizontal direction */
 .stepper.direction-horizontal {
   flex-direction: row;
   align-items: flex-start;
@@ -43,7 +42,7 @@
 }
 
 .stepper.direction-vertical .stepper-item:not(:last-child) {
-  margin-bottom: var(--bl-size-2xs);
+  margin-bottom: 0;
 }
 
 /* Non-clickable usage */

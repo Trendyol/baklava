@@ -1,4 +1,5 @@
 import { assert, elementUpdated, expect, fixture, html } from "@open-wc/testing";
+import { sendKeys } from "@web/test-runner-commands";
 import * as sinon from "sinon";
 import BlStepper from "./bl-stepper";
 import BlStepperItem from "./bl-stepper-item";
@@ -144,6 +145,26 @@ describe("bl-stepper", () => {
     expect((items[1] as BlStepperItem).stepperType).to.equal("number");
   });
 
+  it("updates stepper items when usage changes", async () => {
+    const el = await fixture<BlStepper>(html`
+      <bl-stepper usage="clickable">
+        <bl-stepper-item id="1" title="Step 1"></bl-stepper-item>
+        <bl-stepper-item id="2" title="Step 2"></bl-stepper-item>
+      </bl-stepper>
+    `);
+
+    const items = el.querySelectorAll("bl-stepper-item");
+
+    expect((items[0] as BlStepperItem).stepUsage).to.equal("clickable");
+    expect((items[1] as BlStepperItem).stepUsage).to.equal("clickable");
+
+    el.usage = "non-clickable";
+    await elementUpdated(el);
+
+    expect((items[0] as BlStepperItem).stepUsage).to.equal("non-clickable");
+    expect((items[1] as BlStepperItem).stepUsage).to.equal("non-clickable");
+  });
+
   it("has proper accessibility attributes", async () => {
     const el = await fixture<BlStepper>(html`
       <bl-stepper>
@@ -205,5 +226,138 @@ describe("bl-stepper", () => {
 
       expect(el.usage).to.equal(usage);
     }
+  });
+
+  it("navigates with arrow keys", async () => {
+    const el = await fixture<BlStepper>(html`
+      <bl-stepper>
+        <bl-stepper-item id="1" title="Step 1"></bl-stepper-item>
+        <bl-stepper-item id="2" title="Step 2"></bl-stepper-item>
+        <bl-stepper-item id="3" title="Step 3"></bl-stepper-item>
+      </bl-stepper>
+    `);
+
+    const items = el.querySelectorAll("bl-stepper-item");
+    const firstItem = items[0] as BlStepperItem;
+    const secondItem = items[1] as BlStepperItem;
+    const thirdItem = items[2] as BlStepperItem;
+
+    firstItem.focus();
+    await elementUpdated(el);
+
+    await sendKeys({ press: "ArrowRight" });
+    await elementUpdated(el);
+
+    expect(document.activeElement).to.equal(secondItem);
+
+    await sendKeys({ press: "ArrowRight" });
+    await elementUpdated(el);
+
+    expect(document.activeElement).to.equal(thirdItem);
+
+    await sendKeys({ press: "ArrowRight" });
+    await elementUpdated(el);
+
+    expect(document.activeElement).to.equal(firstItem);
+
+    await sendKeys({ press: "ArrowLeft" });
+    await elementUpdated(el);
+
+    expect(document.activeElement).to.equal(thirdItem);
+  });
+
+  it("navigates with ArrowDown and ArrowUp keys", async () => {
+    const el = await fixture<BlStepper>(html`
+      <bl-stepper direction="vertical">
+        <bl-stepper-item id="1" title="Step 1"></bl-stepper-item>
+        <bl-stepper-item id="2" title="Step 2"></bl-stepper-item>
+        <bl-stepper-item id="3" title="Step 3"></bl-stepper-item>
+      </bl-stepper>
+    `);
+
+    const items = el.querySelectorAll("bl-stepper-item");
+    const firstItem = items[0] as BlStepperItem;
+    const secondItem = items[1] as BlStepperItem;
+
+    firstItem.focus();
+    await elementUpdated(el);
+
+    await sendKeys({ press: "ArrowDown" });
+    await elementUpdated(el);
+
+    expect(document.activeElement).to.equal(secondItem);
+
+    await sendKeys({ press: "ArrowUp" });
+    await elementUpdated(el);
+
+    expect(document.activeElement).to.equal(firstItem);
+  });
+
+  it("navigates to first item with Home key", async () => {
+    const el = await fixture<BlStepper>(html`
+      <bl-stepper>
+        <bl-stepper-item id="1" title="Step 1"></bl-stepper-item>
+        <bl-stepper-item id="2" title="Step 2"></bl-stepper-item>
+        <bl-stepper-item id="3" title="Step 3"></bl-stepper-item>
+      </bl-stepper>
+    `);
+
+    const items = el.querySelectorAll("bl-stepper-item");
+    const firstItem = items[0] as BlStepperItem;
+    const thirdItem = items[2] as BlStepperItem;
+
+    thirdItem.focus();
+    await elementUpdated(el);
+
+    await sendKeys({ press: "Home" });
+    await elementUpdated(el);
+
+    expect(document.activeElement).to.equal(firstItem);
+  });
+
+  it("navigates to last item with End key", async () => {
+    const el = await fixture<BlStepper>(html`
+      <bl-stepper>
+        <bl-stepper-item id="1" title="Step 1"></bl-stepper-item>
+        <bl-stepper-item id="2" title="Step 2"></bl-stepper-item>
+        <bl-stepper-item id="3" title="Step 3"></bl-stepper-item>
+      </bl-stepper>
+    `);
+
+    const items = el.querySelectorAll("bl-stepper-item");
+    const firstItem = items[0] as BlStepperItem;
+    const thirdItem = items[2] as BlStepperItem;
+
+    firstItem.focus();
+    await elementUpdated(el);
+
+    await sendKeys({ press: "End" });
+    await elementUpdated(el);
+
+    expect(document.activeElement).to.equal(thirdItem);
+  });
+
+  it("sets correct connector properties on items", async () => {
+    const el = await fixture<BlStepper>(html`
+      <bl-stepper>
+        <bl-stepper-item id="1"></bl-stepper-item>
+        <bl-stepper-item id="2"></bl-stepper-item>
+        <bl-stepper-item id="3"></bl-stepper-item>
+      </bl-stepper>
+    `);
+
+    const items = el.querySelectorAll("bl-stepper-item");
+    const firstItem = items[0] as BlStepperItem;
+    const secondItem = items[1] as BlStepperItem;
+    const thirdItem = items[2] as BlStepperItem;
+
+    expect(firstItem.showLeadingConnector).to.be.false;
+    expect(firstItem.showTrailingConnector).to.be.true;
+
+    expect(secondItem.showLeadingConnector).to.be.true;
+    expect(secondItem.showTrailingConnector).to.be.true;
+
+    expect(thirdItem.showLeadingConnector).to.be.true;
+    expect(thirdItem.showTrailingConnector).to.be.false;
   });
 });

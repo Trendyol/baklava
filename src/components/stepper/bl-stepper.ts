@@ -15,13 +15,14 @@ export interface StepperState {
   activeStep: number;
 }
 
-interface BlStepperItemElement extends Element {
+interface BlStepperItemElement extends HTMLElement {
   id: string;
   variant: "default" | "active" | "success" | "error";
   stepperType: StepperType;
   direction: StepperDirection;
   showLeadingConnector: boolean;
   showTrailingConnector: boolean;
+  stepUsage: StepperUsage;
 }
 
 /**
@@ -110,6 +111,38 @@ export default class BlStepper extends LitElement {
     });
   }
 
+  private handleKeyDown(event: KeyboardEvent) {
+    if (this.usage === "non-clickable") {
+      return;
+    }
+
+    const items = this.stepperItemsArray;
+    const focusedItemIndex = items.findIndex(item => item === document.activeElement);
+
+    if (focusedItemIndex === -1) {
+      return;
+    }
+
+    let nextIndex = -1;
+
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      nextIndex = focusedItemIndex + 1;
+      if (nextIndex >= items.length) nextIndex = 0;
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      nextIndex = focusedItemIndex - 1;
+      if (nextIndex < 0) nextIndex = items.length - 1;
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+    } else if (event.key === "End") {
+      nextIndex = items.length - 1;
+    }
+
+    if (nextIndex !== -1) {
+      event.preventDefault();
+      items[nextIndex].focus();
+    }
+  }
+
   connectedCallback() {
     super.connectedCallback();
   }
@@ -129,8 +162,11 @@ export default class BlStepper extends LitElement {
   updated(changedProperties: Map<string | number | symbol, unknown>) {
     super.updated(changedProperties);
 
-    // Update stepper items when type changes
-    if (changedProperties.has("type")) {
+    if (
+      changedProperties.has("type") ||
+      changedProperties.has("direction") ||
+      changedProperties.has("usage")
+    ) {
       this.updateStepperItems();
     }
   }
@@ -141,11 +177,10 @@ export default class BlStepper extends LitElement {
     items.forEach((item, index) => {
       item.stepperType = this.type;
       item.direction = this.direction;
+      item.stepUsage = this.usage;
 
-      // İlk item'da leading connector yok
       item.showLeadingConnector = index > 0;
 
-      // Son item'da trailing connector yok
       item.showTrailingConnector = index < items.length - 1;
     });
   }
@@ -165,8 +200,12 @@ export default class BlStepper extends LitElement {
         aria-valuenow="${this.activeStep}"
         aria-valuemin="0"
         aria-valuemax="${this.totalSteps - 1}"
+        @keydown="${this.handleKeyDown}"
       >
-        <slot @bl-stepper-item-click="${this.handleItemClick}"></slot>
+        <slot
+          @slotchange="${this.updateStepperItems}"
+          @bl-stepper-item-click="${this.handleItemClick}"
+        ></slot>
       </div>
     `;
   }
