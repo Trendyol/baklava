@@ -7,12 +7,12 @@
 .stepper-item {
   --item-color: var(--bl-color-neutral-light);
   --item-background: var(--bl-color-neutral-full);
-  --active-color: var( --bl-color-primary);
+  --active-color: var(--bl-color-primary);
   --hover-color: var(--bl-color-primary-highlight);
   --success-color: var(--bl-color-success);
   --error-color: var(--bl-color-danger);
   --disabled-color: var(--bl-color-neutral-lighter);
-  --text-color-active: var( --bl-color-primary);
+  --text-color-active: var(--bl-color-primary);
   --text-color-default: var(--bl-color-neutral-light);
   --description-color-active: var(--bl-color-neutral-darker);
   --description-color-default: var(--bl-color-neutral-light);
@@ -62,7 +62,6 @@
   flex: 1 1 auto;
   min-width: 0;
 }
-
 
 .stepper-item.direction-vertical .connector-wrap {
   display: flex;
