@@ -28,6 +28,10 @@ export default class BlStepperItem extends LitElement {
     return [style];
   }
 
+  static get shadowRootOptions() {
+    return { ...LitElement.shadowRootOptions, delegatesFocus: true };
+  }
+
   /**
    * Defines stepper item's id
    */
@@ -89,12 +93,18 @@ export default class BlStepperItem extends LitElement {
   direction: StepperDirection = "horizontal";
 
   /**
+   * Internal property to track stepper usage from parent
+   */
+  @state()
+  stepUsage: "clickable" | "non-clickable" = "clickable";
+
+  /**
    * Fires when stepper item is clicked
    */
   @event("bl-stepper-item-click") private onItemClick: EventDispatcher<string>;
 
   private get isClickable(): boolean {
-    return !this.disabled && this.variant !== "error";
+    return !this.disabled && this.variant !== "error" && this.stepUsage === "clickable";
   }
 
   get stepNumber(): number {
@@ -110,8 +120,13 @@ export default class BlStepperItem extends LitElement {
   }
 
   get shouldShowIcon(): boolean {
-    // Only icon type shows icons, dot and number types never show icons
-    return this.stepperType === "icon";
+    if (this.stepperType === "icon") {
+      return true;
+    }
+    if (this.stepperType === "number") {
+      return this.variant === "success" || this.variant === "error";
+    }
+    return false;
   }
 
   get iconName(): BaklavaIcon {
@@ -192,7 +207,7 @@ export default class BlStepperItem extends LitElement {
                   ? html`<bl-icon name="${this.iconName}" class="step-icon"></bl-icon>`
                   : this.stepperType === "number"
                   ? html`<span class="step-number">${this.stepNumber}</span>`
-                  : html`<div class="step-dot"></div>`}
+                  : ""}
               </div>
               ${this.showTrailingConnector
                 ? html`<div class="connector connector-trailing ${connectorState}"></div>`
@@ -207,7 +222,7 @@ export default class BlStepperItem extends LitElement {
                   ? html`<bl-icon name="${this.iconName}" class="step-icon"></bl-icon>`
                   : this.stepperType === "number"
                   ? html`<span class="step-number">${this.stepNumber}</span>`
-                  : html`<div class="step-dot"></div>`}
+                  : ""}
               </div>
               ${this.showTrailingConnector
                 ? html`<div class="connector connector-trailing ${connectorState}"></div>`

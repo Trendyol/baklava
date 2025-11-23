@@ -161,6 +161,9 @@ describe("bl-stepper-item", () => {
       <bl-stepper-item id="step-1" variant="success"></bl-stepper-item>
     `);
 
+    el.stepperType = "number";
+    await el.updateComplete;
+
     expect(el.shouldShowIcon).to.be.true;
     expect(el.iconName).to.equal("check");
   });
@@ -170,8 +173,19 @@ describe("bl-stepper-item", () => {
       <bl-stepper-item id="step-1" variant="error"></bl-stepper-item>
     `);
 
+    el.stepperType = "number";
+    await el.updateComplete;
+
     expect(el.shouldShowIcon).to.be.true;
     expect(el.iconName).to.equal("close");
+  });
+
+  it("returns default check icon for other variants when not icon type", async () => {
+    const el = await fixture<BlStepperItem>(html`
+      <bl-stepper-item variant="default"></bl-stepper-item>
+    `);
+
+    expect(el.iconName).to.equal("check");
   });
 
   it("renders step number for number type when not success or error", async () => {
@@ -190,7 +204,7 @@ describe("bl-stepper-item", () => {
     expect(stepNumber?.textContent?.trim()).to.equal("1");
   });
 
-  it("renders dot for dot type when not success or error", async () => {
+  it("renders indicator for dot type when not success or error", async () => {
     const el = await fixture<BlStepperItem>(html`
       <bl-stepper-item id="step-1" variant="active"></bl-stepper-item>
     `);
@@ -200,9 +214,31 @@ describe("bl-stepper-item", () => {
 
     expect(el.shouldShowIcon).to.be.false;
 
+    const indicator = el.shadowRoot!.querySelector(".stepper-indicator");
     const stepDot = el.shadowRoot!.querySelector(".step-dot");
 
-    expect(stepDot).to.exist;
+    expect(indicator).to.exist;
+    expect(stepDot).to.not.exist;
+  });
+
+  it("does not dispatch click event when stepUsage is non-clickable", async () => {
+    const el = await fixture<BlStepperItem>(html`
+      <bl-stepper-item id="step-1" title="Step 1"></bl-stepper-item>
+    `);
+
+    el.stepUsage = "non-clickable";
+    await el.updateComplete;
+
+    const clickSpy = sinon.spy();
+
+    el.addEventListener("bl-stepper-item-click", clickSpy);
+
+    const stepperItem = el.shadowRoot!.querySelector(".stepper-item") as HTMLElement;
+
+    stepperItem.click();
+
+    expect(clickSpy.called).to.be.false;
+    expect(stepperItem.classList.contains("clickable")).to.be.false;
   });
 
   it("has proper accessibility attributes", async () => {
@@ -250,11 +286,13 @@ describe("bl-stepper-item", () => {
 
     el.stepperType = "number";
     el.direction = "vertical";
+    el.stepUsage = "non-clickable";
 
     await elementUpdated(el);
 
     expect(el.stepperType).to.equal("number");
     expect(el.direction).to.equal("vertical");
+    expect(el.stepUsage).to.equal("non-clickable");
   });
 
   it("renders title and description when provided", async () => {
@@ -281,5 +319,55 @@ describe("bl-stepper-item", () => {
 
     expect(title).to.be.null;
     expect(description).to.be.null;
+  });
+
+  it("changes variant to hover on mouse enter and back on mouse leave", async () => {
+    const el = await fixture<BlStepperItem>(html`
+      <bl-stepper-item variant="default"></bl-stepper-item>
+    `);
+
+    const stepperItem = el.shadowRoot!.querySelector(".stepper-item") as HTMLElement;
+
+    stepperItem.dispatchEvent(new MouseEvent("mouseenter"));
+    await el.updateComplete;
+    expect(el.variant).to.equal("hover");
+
+    stepperItem.dispatchEvent(new MouseEvent("mouseleave"));
+    await el.updateComplete;
+    expect(el.variant).to.equal("default");
+  });
+
+  it("returns 1 as step number when no parent is present", async () => {
+    const el = await fixture<BlStepperItem>(html`
+      <bl-stepper-item></bl-stepper-item>
+    `);
+
+    expect(el.stepNumber).to.equal(1);
+  });
+
+  it("renders leading and trailing connectors based on properties", async () => {
+    const el = await fixture<BlStepperItem>(html`
+      <bl-stepper-item></bl-stepper-item>
+    `);
+
+    el.showLeadingConnector = true;
+    el.showTrailingConnector = true;
+    await el.updateComplete;
+
+    const leadingConnector = el.shadowRoot!.querySelector(".connector-leading");
+    const trailingConnector = el.shadowRoot!.querySelector(".connector-trailing");
+
+    expect(leadingConnector).to.exist;
+    expect(trailingConnector).to.exist;
+
+    el.showLeadingConnector = false;
+    el.showTrailingConnector = false;
+    await el.updateComplete;
+
+    const leadingConnectorAfter = el.shadowRoot!.querySelector(".connector-leading");
+    const trailingConnectorAfter = el.shadowRoot!.querySelector(".connector-trailing");
+
+    expect(leadingConnectorAfter).to.not.exist;
+    expect(trailingConnectorAfter).to.not.exist;
   });
 });

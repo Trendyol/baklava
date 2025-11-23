@@ -5,14 +5,17 @@
 }
 
 .stepper-item {
-  --item-color: var(--bl-color-neutral);
+  --item-color: #95A1B5; /* Neutral/Light - default state from Figma */
   --item-background: var(--bl-color-neutral-full);
-  --active-color: var(--bl-color-primary);
+  --active-color: #F27A1A; /* Primary/Key - active state from Figma */
+  --hover-color: #EF6114; /* Primary/Highlight - hover state */
   --success-color: var(--bl-color-success);
   --error-color: var(--bl-color-danger);
   --disabled-color: var(--bl-color-neutral-lighter);
-  --text-color: var(--bl-color-primary);
-  --text-color-disabled: var(--bl-color-neutral-light);
+  --text-color-active: #F27A1A; /* Primary/Key for active titles */
+  --text-color-default: #95A1B5; /* Neutral/Light for default titles */
+  --description-color-active: #273142; /* Neutral/Darker for active descriptions */
+  --description-color-default: #95A1B5;
 
   display: flex;
   align-items: flex-start;
@@ -43,7 +46,7 @@
 .vertical-layout {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 0;
   width: 100%;
   height: 100%;
@@ -71,18 +74,26 @@
   gap: 0;
   position: relative;
   flex: 0 0 auto;
-  min-height: 60px;
+  min-height: 100%; /* Fill height to connect steps */
+}
+
+.stepper-item.direction-vertical:last-child .connector-wrap {
+  min-height: auto; /* Last item doesn't need min-height */
+}
+
+.stepper-item.direction-vertical:last-child .connector-wrap {
+  min-height: auto; /* Last item doesn't need min-height */
 }
 
 /* Connector styles */
 .connector {
-  background-color: #d0d5dd;
+  background-color: #AFBBCA; /* Neutral/Lighter from Figma */
   transition: background-color 0.2s ease;
   flex-shrink: 0;
 }
 
 .connector.completed {
-  background-color: #6e7787;
+  background-color: #6e7787; /* Darker connector for completed steps */
 }
 
 /* Horizontal connectors */
@@ -105,6 +116,12 @@
   width: 2px;
   flex: 1 1 auto;
   min-height: 16px;
+}
+
+/* Hide leading connector in vertical mode to align dot with title */
+.stepper-item.direction-vertical .connector:first-child,
+.stepper-item.direction-vertical .connector-placeholder:first-child {
+  display: none;
 }
 
 /* Indicator styles */
@@ -144,27 +161,35 @@
 .stepper-item.direction-vertical .stepper-content {
   margin-top: 0;
   margin-left: var(--bl-size-xs);
+  text-align: left;
   flex: 1;
+  padding-bottom: var(--bl-size-xl, 24px); /* Add spacing between steps */
+  gap: 0; /* Remove gap between title and description */
+}
+
+/* Vertical alignment for dot type */
+.stepper-item.direction-vertical.type-dot .stepper-indicator {
+  margin-top: 2px; /* Align dot with title */
 }
 
 .stepper-title {
   font-size: var(--bl-font-size-m);
   font-weight: var(--bl-font-weight-medium);
-  color: var(--bl-color-primary);
+  color: var(--text-color-default); /* Default: Neutral/Light */
   line-height: 1.5;
 }
 
 .stepper-description {
   font-size: var(--bl-font-size-s);
   font-weight: var(--bl-font-weight-regular);
-  color: var(--bl-color-neutral-darker);
+  color: var(--description-color-default); /* Default: Neutral/Light */
   line-height: 1.5;
 }
 
 /* Step dot styles */
 .step-dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background-color: currentcolor;
   transition: all 0.2s ease;
@@ -192,6 +217,31 @@
   justify-content: center;
 }
 
+/* Variant-based title and description colors */
+.stepper-item.variant-active .stepper-title {
+  color: var(--text-color-active); /* Primary/Key for active */
+}
+
+.stepper-item.variant-active .stepper-description {
+  color: var(--description-color-active); /* Neutral/Darker for active */
+}
+
+.stepper-item.variant-hover .stepper-title {
+  color: var(--text-color-active); /* Primary/Key for hover */
+}
+
+.stepper-item.variant-hover .stepper-description {
+  color: var(--description-color-active); /* Neutral/Darker for hover */
+}
+
+.stepper-item.variant-success .stepper-title {
+  color: var(--success-color);
+}
+
+.stepper-item.variant-error .stepper-title {
+  color: var(--error-color);
+}
+
 /* Disabled state */
 .stepper-item.disabled .stepper-indicator {
   border-color: var(--disabled-color);
@@ -201,7 +251,7 @@
 
 .stepper-item.disabled .stepper-title,
 .stepper-item.disabled .stepper-description {
-  color: var(--text-color-disabled);
+  color: var(--text-color-default);
 }
 
 /* Clickable state */
@@ -224,9 +274,18 @@
 
 /* Type-specific styles */
 .stepper-item.type-dot .stepper-indicator {
-  border: 2px solid var(--item-color);
-  background-color: var(--item-background);
-  padding: 0;
+  width: 12px !important;
+  height: 12px !important;
+  min-width: 12px !important;
+  min-height: 12px !important;
+  border: none !important;
+  background-color: var(--item-color); /* Default state is just a colored dot */
+  padding: 0 !important;
+  border-radius: 50%;
+}
+
+.stepper-item.type-dot .step-dot {
+  display: none; /* Hide inner dot since indicator itself is the dot */
 }
 
 .stepper-item.type-number .stepper-indicator {
@@ -243,31 +302,40 @@
 
 /* Variant styles for type-specific indicators - Dot */
 .stepper-item.variant-default.type-dot .stepper-indicator {
-  border-color: var(--item-color);
-  color: var(--item-color);
+  background-color: var(--item-color);
 }
 
 .stepper-item.variant-hover.type-dot .stepper-indicator {
-  border-color: var(--active-color);
-  color: var(--active-color);
+  background-color: var(--hover-color);
+}
+
+/* Clickable hover effect for dot type */
+.stepper-item.clickable.type-dot:hover .stepper-indicator {
+  background-color: var(--hover-color) !important;
+}
+
+.stepper-item.clickable.variant-success.type-dot:hover .stepper-indicator {
+  background-color: var(--success-color) !important;
+}
+
+.stepper-item.clickable.variant-error.type-dot:hover .stepper-indicator {
+  background-color: var(--error-color) !important;
+}
+
+.stepper-item.clickable.variant-active.type-dot:hover .stepper-indicator {
+  background-color: var(--active-color) !important;
 }
 
 .stepper-item.variant-active.type-dot .stepper-indicator {
-  border-color: var(--active-color);
   background-color: var(--active-color);
-  color: var(--item-background);
 }
 
 .stepper-item.variant-success.type-dot .stepper-indicator {
-  border-color: var(--success-color);
   background-color: var(--success-color);
-  color: var(--item-background);
 }
 
 .stepper-item.variant-error.type-dot .stepper-indicator {
-  border-color: var(--error-color);
   background-color: var(--error-color);
-  color: var(--item-background);
 }
 
 /* Variant styles for type-specific indicators - Number */
