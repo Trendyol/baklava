@@ -5,17 +5,17 @@
 }
 
 .stepper-item {
-  --item-color: #95A1B5; /* Neutral/Light - default state from Figma */
+  --item-color: var(--bl-color-neutral-light);
   --item-background: var(--bl-color-neutral-full);
-  --active-color: #F27A1A; /* Primary/Key - active state from Figma */
-  --hover-color: #EF6114; /* Primary/Highlight - hover state */
+  --active-color: var( --bl-color-primary);
+  --hover-color: var(--bl-color-primary-highlight);
   --success-color: var(--bl-color-success);
   --error-color: var(--bl-color-danger);
   --disabled-color: var(--bl-color-neutral-lighter);
-  --text-color-active: #F27A1A; /* Primary/Key for active titles */
-  --text-color-default: #95A1B5; /* Neutral/Light for default titles */
-  --description-color-active: #273142; /* Neutral/Darker for active descriptions */
-  --description-color-default: #95A1B5;
+  --text-color-active: var( --bl-color-primary);
+  --text-color-default: var(--bl-color-neutral-light);
+  --description-color-active: var(--bl-color-neutral-darker);
+  --description-color-default: var(--bl-color-neutral-light);
 
   display: flex;
   align-items: flex-start;
@@ -28,7 +28,6 @@
   height: 100%;
 }
 
-/* Direction variants */
 .stepper-item.direction-horizontal {
   flex-direction: column;
   align-items: center;
@@ -52,7 +51,6 @@
   height: 100%;
 }
 
-/* Connector wrap - horizontal mode */
 .stepper-item.direction-horizontal .connector-wrap {
   display: flex;
   flex-direction: row;
@@ -65,7 +63,7 @@
   min-width: 0;
 }
 
-/* Connector wrap - vertical mode */
+
 .stepper-item.direction-vertical .connector-wrap {
   display: flex;
   flex-direction: column;
@@ -74,36 +72,33 @@
   gap: 0;
   position: relative;
   flex: 0 0 auto;
-  min-height: 100%; /* Fill height to connect steps */
+  min-height: 100%;
 }
 
 .stepper-item.direction-vertical:last-child .connector-wrap {
-  min-height: auto; /* Last item doesn't need min-height */
+  min-height: auto;
 }
 
 .stepper-item.direction-vertical:last-child .connector-wrap {
-  min-height: auto; /* Last item doesn't need min-height */
+  min-height: auto;
 }
 
-/* Connector styles */
 .connector {
-  background-color: #AFBBCA; /* Neutral/Lighter from Figma */
+  background-color: #afbbca;
   transition: background-color 0.2s ease;
   flex-shrink: 0;
 }
 
 .connector.completed {
-  background-color: #6e7787; /* Darker connector for completed steps */
+  background-color: #6e7787;
 }
 
-/* Horizontal connectors */
 .stepper-item.direction-horizontal .connector {
   height: 2px;
   flex: 1 1 auto;
   min-width: 48px;
 }
 
-/* Connector placeholder - invisible but takes space */
 .connector-placeholder {
   height: 2px;
   flex: 1 1 auto;
@@ -111,20 +106,17 @@
   visibility: hidden;
 }
 
-/* Vertical connectors */
 .stepper-item.direction-vertical .connector {
   width: 2px;
   flex: 1 1 auto;
   min-height: 16px;
 }
 
-/* Hide leading connector in vertical mode to align dot with title */
 .stepper-item.direction-vertical .connector:first-child,
 .stepper-item.direction-vertical .connector-placeholder:first-child {
   display: none;
 }
 
-/* Indicator styles */
 .stepper-indicator {
   display: flex;
   align-items: center;
@@ -146,7 +138,6 @@
   z-index: 2;
 }
 
-/* Content styles */
 .stepper-content {
   display: flex;
   flex-direction: column;
@@ -163,30 +154,28 @@
   margin-left: var(--bl-size-xs);
   text-align: left;
   flex: 1;
-  padding-bottom: var(--bl-size-xl, 24px); /* Add spacing between steps */
-  gap: 0; /* Remove gap between title and description */
+  padding-bottom: var(--bl-size-xl, 24px);
+  gap: 0;
 }
 
-/* Vertical alignment for dot type */
 .stepper-item.direction-vertical.type-dot .stepper-indicator {
-  margin-top: 2px; /* Align dot with title */
+  margin-top: 2px;
 }
 
 .stepper-title {
   font-size: var(--bl-font-size-m);
   font-weight: var(--bl-font-weight-medium);
-  color: var(--text-color-default); /* Default: Neutral/Light */
+  color: var(--text-color-default);
   line-height: 1.5;
 }
 
 .stepper-description {
   font-size: var(--bl-font-size-s);
   font-weight: var(--bl-font-weight-regular);
-  color: var(--description-color-default); /* Default: Neutral/Light */
+  color: var(--description-color-default);
   line-height: 1.5;
 }
 
-/* Step dot styles */
 .step-dot {
   width: 12px;
   height: 12px;
@@ -195,7 +184,6 @@
   transition: all 0.2s ease;
 }
 
-/* Step number styles */
 .step-number {
   display: flex;
   align-items: center;
@@ -207,7 +195,6 @@
   line-height: 1;
 }
 
-/* Step icon styles */
 .step-icon {
   width: 18px;
   height: 18px;
@@ -217,21 +204,20 @@
   justify-content: center;
 }
 
-/* Variant-based title and description colors */
 .stepper-item.variant-active .stepper-title {
-  color: var(--text-color-active); /* Primary/Key for active */
+  color: var(--text-color-active);
 }
 
 .stepper-item.variant-active .stepper-description {
-  color: var(--description-color-active); /* Neutral/Darker for active */
+  color: var(--description-color-active);
 }
 
 .stepper-item.variant-hover .stepper-title {
-  color: var(--text-color-active); /* Primary/Key for hover */
+  color: var(--text-color-active);
 }
 
 .stepper-item.variant-hover .stepper-description {
-  color: var(--description-color-active); /* Neutral/Darker for hover */
+  color: var(--description-color-active);
 }
 
 .stepper-item.variant-success .stepper-title {
@@ -242,7 +228,6 @@
   color: var(--error-color);
 }
 
-/* Disabled state */
 .stepper-item.disabled .stepper-indicator {
   border-color: var(--disabled-color);
   background-color: var(--item-background);
@@ -254,7 +239,6 @@
   color: var(--text-color-default);
 }
 
-/* Clickable state */
 .stepper-item.clickable {
   cursor: pointer;
 }
@@ -272,20 +256,19 @@
   outline-offset: 2px;
 }
 
-/* Type-specific styles */
 .stepper-item.type-dot .stepper-indicator {
   width: 12px !important;
   height: 12px !important;
   min-width: 12px !important;
   min-height: 12px !important;
   border: none !important;
-  background-color: var(--item-color); /* Default state is just a colored dot */
+  background-color: var(--item-color);
   padding: 0 !important;
   border-radius: 50%;
 }
 
 .stepper-item.type-dot .step-dot {
-  display: none; /* Hide inner dot since indicator itself is the dot */
+  display: none;
 }
 
 .stepper-item.type-number .stepper-indicator {
@@ -300,7 +283,6 @@
   color: var(--item-background);
 }
 
-/* Variant styles for type-specific indicators - Dot */
 .stepper-item.variant-default.type-dot .stepper-indicator {
   background-color: var(--item-color);
 }
@@ -309,7 +291,6 @@
   background-color: var(--hover-color);
 }
 
-/* Clickable hover effect for dot type */
 .stepper-item.clickable.type-dot:hover .stepper-indicator {
   background-color: var(--hover-color) !important;
 }
@@ -338,7 +319,6 @@
   background-color: var(--error-color);
 }
 
-/* Variant styles for type-specific indicators - Number */
 .stepper-item.variant-default.type-number .stepper-indicator {
   border-color: var(--item-color);
   background-color: var(--item-background);
@@ -369,7 +349,6 @@
   color: var(--bl-color-neutral-full);
 }
 
-/* Variant styles for type-specific indicators - Icon */
 .stepper-item.variant-default.type-icon .stepper-indicator {
   background-color: var(--item-color);
   color: var(--bl-color-neutral-full);
@@ -395,7 +374,6 @@
   color: var(--bl-color-neutral-full);
 }
 
-/* RTL support */
 :host([dir="rtl"]) .stepper-item.direction-horizontal {
   text-align: center;
 }
@@ -404,7 +382,6 @@
   text-align: right;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .stepper-item {
     padding: var(--bl-size-3xs);
