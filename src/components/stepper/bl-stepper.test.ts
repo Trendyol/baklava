@@ -84,6 +84,29 @@ describe("bl-stepper", () => {
     expect(changeSpy.called).to.be.false;
   });
 
+  it("ignores bl-stepper-item-click event if usage is non-clickable", async () => {
+    const el = await fixture<BlStepper>(html`
+      <bl-stepper usage="non-clickable">
+        <bl-stepper-item id="1" title="Step 1"></bl-stepper-item>
+      </bl-stepper>
+    `);
+
+    const changeSpy = sinon.spy();
+
+    el.addEventListener("bl-stepper-change", changeSpy);
+
+    const item = el.querySelector("bl-stepper-item")!;
+
+    item.dispatchEvent(
+      new CustomEvent("bl-stepper-item-click", {
+        bubbles: true,
+        composed: true,
+      })
+    );
+
+    expect(changeSpy.called).to.be.false;
+  });
+
   it("updates item variants when item is clicked", async () => {
     const el = await fixture<BlStepper>(html`
       <bl-stepper>
@@ -359,5 +382,45 @@ describe("bl-stepper", () => {
 
     expect(thirdItem.showLeadingConnector).to.be.true;
     expect(thirdItem.showTrailingConnector).to.be.false;
+  });
+
+  it("does not navigate with keyboard when usage is non-clickable", async () => {
+    const el = await fixture<BlStepper>(html`
+      <bl-stepper usage="non-clickable">
+        <bl-stepper-item id="1" title="Step 1"></bl-stepper-item>
+        <bl-stepper-item id="2" title="Step 2"></bl-stepper-item>
+      </bl-stepper>
+    `);
+
+    const items = el.querySelectorAll("bl-stepper-item");
+    const firstItem = items[0] as BlStepperItem;
+
+    firstItem.focus();
+    await elementUpdated(el);
+
+    await sendKeys({ press: "ArrowRight" });
+    await elementUpdated(el);
+
+    expect(document.activeElement).to.equal(firstItem);
+  });
+
+  it("does not navigate with keyboard when focused element is not a stepper item", async () => {
+    const el = await fixture<BlStepper>(html`
+      <bl-stepper>
+        <bl-stepper-item id="1" title="Step 1"></bl-stepper-item>
+      </bl-stepper>
+    `);
+
+    const stepperDiv = el.shadowRoot!.querySelector(".stepper")!;
+
+    const event = new KeyboardEvent("keydown", {
+      key: "ArrowRight",
+      bubbles: true,
+      cancelable: true,
+    });
+
+    const eventResult = stepperDiv.dispatchEvent(event);
+
+    expect(eventResult).to.be.true;
   });
 });
