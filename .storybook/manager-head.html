@@ -10,38 +10,10 @@ console.log('🚀 manager-head.html LOADED!');
 (function() {
   'use strict';
   console.log('🎨 Theme script starting...');
-  
+
   // CSS for light and dark themes
-  const lightCSS = `
-    /* Light theme styles */
-    body,
-    body *,
-    #storybook-root,
-    #storybook-root *,
-    [data-side="left"],
-    [data-side="left"] *,
-    nav[role="navigation"],
-    nav[role="navigation"] *,
-    .sidebar-container,
-    .sidebar-container *,
-    .os-host,
-    .os-host *,
-    .os-padding,
-    .os-padding * {
-      background: #ffffff !important;
-      background-color: #ffffff !important;
-      background-image: none !important;
-    }
-    
-    /* Remove any overlays or pseudo-elements */
-    [data-side="left"]::before,
-    [data-side="left"]::after,
-    nav[role="navigation"]::before,
-    nav[role="navigation"]::after {
-      display: none !important;
-    }
-  `;
-  
+  const lightCSS = ``;
+
   const darkCSS = `
     /* Dark theme styles - PURE BLACK background */
     body,
@@ -65,7 +37,7 @@ console.log('🚀 manager-head.html LOADED!');
       background-image: none !important;
       opacity: 1 !important;
     }
-    
+
     /* Remove any overlays, gradients or pseudo-elements */
     [data-side="left"]::before,
     [data-side="left"]::after,
@@ -76,14 +48,14 @@ console.log('🚀 manager-head.html LOADED!');
       display: none !important;
       background: transparent !important;
     }
-    
+
     /* Force text color to be visible */
     [data-side="left"] *,
     nav[role="navigation"] *,
     aside * {
       color: #E6E9F0 !important;
     }
-    
+
     /* Links and interactive elements */
     [data-side="left"] a,
     [data-side="left"] button,
@@ -91,7 +63,7 @@ console.log('🚀 manager-head.html LOADED!');
     nav[role="navigation"] button {
       color: #E6E9F0 !important;
     }
-    
+
     [data-side="left"] a:hover,
     [data-side="left"] button:hover,
     nav[role="navigation"] a:hover,
@@ -100,31 +72,31 @@ console.log('🚀 manager-head.html LOADED!');
       color: #ffffff !important;
     }
   `;
-  
+
   let styleElement = null;
-  
+
   function applyThemeCSS(theme) {
     console.log('Manager-head: Applying CSS for theme:', theme);
-    
+
     // Remove existing style if any
     if (styleElement) {
       styleElement.remove();
     }
-    
+
     // Create new style element
     styleElement = document.createElement('style');
     styleElement.id = 'dynamic-sidebar-theme';
     styleElement.textContent = theme === 'dark' ? darkCSS : lightCSS;
     document.head.appendChild(styleElement);
-    
+
     // Also set data attribute on body
     document.body.setAttribute('data-theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
-    
+
     // Debug: Check sidebar background and find all potential sidebar elements
     setTimeout(() => {
       console.log('=== DEBUG: Searching for sidebar elements ===');
-      
+
       // Try multiple selectors
       const selectors = [
         '[data-side="left"]',
@@ -137,7 +109,7 @@ console.log('🚀 manager-head.html LOADED!');
         '[aria-label*="Sidebar"]',
         '[id*="sidebar"]'
       ];
-      
+
       selectors.forEach(selector => {
         const elements = document.querySelectorAll(selector);
         if (elements.length > 0) {
@@ -150,15 +122,15 @@ console.log('🚀 manager-head.html LOADED!');
           });
         }
       });
-      
+
       // Also log body background
       const bodyComputed = window.getComputedStyle(document.body);
       console.log('Body background-color:', bodyComputed.backgroundColor);
-      
+
       console.log('=== END DEBUG ===');
     }, 500);
   }
-  
+
   // Get initial theme
   function getStoredTheme() {
     try {
@@ -172,11 +144,11 @@ console.log('🚀 manager-head.html LOADED!');
     }
     return 'light';
   }
-  
+
   // Apply initial theme immediately
   const initialTheme = getStoredTheme();
   applyThemeCSS(initialTheme);
-  
+
   // Listen for storage changes
   window.addEventListener('storage', function(e) {
     if (e.key === 'storybook-globals') {
@@ -184,14 +156,14 @@ console.log('🚀 manager-head.html LOADED!');
       applyThemeCSS(theme);
     }
   });
-  
+
   // Listen for postMessage
   window.addEventListener('message', function(event) {
     if (event.data && event.data.type === 'STORYBOOK_THEME_CHANGED') {
       applyThemeCSS(event.data.theme);
     }
   });
-  
+
   // Poll for theme changes (aggressive backup)
   let lastTheme = initialTheme;
   setInterval(function() {
@@ -202,7 +174,7 @@ console.log('🚀 manager-head.html LOADED!');
       applyThemeCSS(currentTheme);
     }
   }, 200);
-  
+
   // Also watch for DOM mutations (when sidebar is rendered)
   const observer = new MutationObserver(function() {
     const theme = getStoredTheme();
@@ -210,7 +182,7 @@ console.log('🚀 manager-head.html LOADED!');
       applyThemeCSS(theme);
     }
   });
-  
+
   // Start observing when DOM is ready
   if (document.body) {
     observer.observe(document.body, { childList: true, subtree: true });
