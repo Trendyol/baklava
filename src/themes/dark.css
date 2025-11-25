@@ -15,40 +15,39 @@
 :root[data-theme="dark"],
 .dark-theme {
   /* Neutral Colors - Dark Mode */
-  --bl-color-neutral-none: #F0F5FF;
-  --bl-color-neutral-darkest: #1A2230;
+  --bl-color-neutral-none: #f0f5ff;
+  --bl-color-neutral-darkest: #1a2230;
   --bl-color-neutral-darker: #374050;
   --bl-color-neutral-dark: #576172;
   --bl-color-neutral-light: #798496;
-  --bl-color-neutral-lighter: #9DA8BB;
-  --bl-color-neutral-lightest: #C3CEE2;
+  --bl-color-neutral-lighter: #9da8bb;
+  --bl-color-neutral-lightest: #c3cee2;
   --bl-color-neutral-full: #030713;
 
   /* Primary Color - Slightly adjusted for dark mode */
-  --bl-color-primary: #FB882B;
-  --bl-color-primary-highlight: #D46B00;
-  --bl-color-primary-contrast: #1F1D18;
+  --bl-color-primary: #fb882b;
+  --bl-color-primary-highlight: #d46b00;
+  --bl-color-primary-contrast: #1f1d18;
 
   /* Success Color - Adjusted for dark mode */
-  --bl-color-success: #3AC96B;
-  --bl-color-success-highlight: #00A84E;
-  --bl-color-success-contrast: #1A1E1A;
+  --bl-color-success: #3ac96b;
+  --bl-color-success-highlight: #00a84e;
+  --bl-color-success-contrast: #1a1e1a;
 
   /* Danger Color - Adjusted for dark mode */
-  --bl-color-danger: #FB8179;
-  --bl-color-danger-highlight: #D8625B;
-  --bl-color-danger-contrast: #211B1A;
+  --bl-color-danger: #fb8179;
+  --bl-color-danger-highlight: #d8625b;
+  --bl-color-danger-contrast: #211b1a;
 
   /* Warning Color - Adjusted for dark mode */
-  --bl-color-warning: #E09B1A;
-  --bl-color-warning-highlight: #BA7F00;
-  --bl-color-warning-contrast: #1F1C18;
+  --bl-color-warning: #e09b1a;
+  --bl-color-warning-highlight: #ba7f00;
+  --bl-color-warning-contrast: #1f1c18;
 
   /* Info Color - Adjusted for dark mode */
-  --bl-color-info: #76AEF5;
-  --bl-color-info-highlight: #588ED4;
-  --bl-color-info-contrast: #1A1D22;
-
+  --bl-color-info: #76aef5;
+  --bl-color-info-highlight: #588ed4;
+  --bl-color-info-contrast: #1a1d22;
 
   /* Size and Spacing */
   --bl-size-4xs: 0.125rem; /* 2px */
@@ -239,4 +238,3 @@
   /* Typography */
   --bl-font-family: "Cairo";
 }
-
