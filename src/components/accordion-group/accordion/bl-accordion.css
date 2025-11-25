@@ -29,7 +29,7 @@
   border-bottom: var(--bl-accordion-border-bottom, var(--border));
   border-radius: var(--radius-top-left) var(--radius-top-right) var(--radius-bottom-right)
     var(--radius-bottom-left);
-  transition: background-color 200ms;
+  transition: background-color 200ms, border-bottom 200ms, border-radius 200ms;
 }
 
 .summary::-webkit-details-marker {
