@@ -123,11 +123,12 @@
   width: 20px;
   height: 20px;
   right: -10px;
-  background: radial-gradient(circle,
-    var(--slider-color) 6px,     /* Inner 12px circle (radius 6px) */
-    white 6px,                    /* White ring starts */
-    white 8px,                    /* White ring ends */
-    var(--slider-color) 8px      /* Outer color continues */
+  background: radial-gradient(
+    circle,
+    var(--slider-color) 6px,
+    /* Inner 12px circle (radius 6px) */ white 6px,
+    /* White ring starts */ white 8px,
+    /* White ring ends */ var(--slider-color) 8px /* Outer color continues */
   );
 }
 
@@ -288,4 +289,3 @@
 .input:focus-visible {
   outline: none;
 }
-
