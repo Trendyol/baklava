@@ -342,7 +342,8 @@ The `bl-slider-change` event is fired when the slider value changes through user
   <Story name="With Event Handler">
     {() => {
       const handleSliderChange = (event) => {
-        console.log('Slider value changed:', event.detail.value);
+        // Handle slider value change
+        // event.detail.value contains the new value
       };
 
       return html`

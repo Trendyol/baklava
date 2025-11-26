@@ -74,7 +74,8 @@ The `show-min-max` attribute displays the min and max values next to the slider.
 
 ```javascript
 const handleSliderChange = (event) => {
-  console.log('Slider value changed:', event.detail.value);
+  // Handle slider value change
+  // event.detail.value contains the new value
 };
 
 document.querySelector('bl-slider').addEventListener('bl-slider-change', handleSliderChange);

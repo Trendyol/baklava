@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { styleMap } from "lit/directives/style-map.js";
@@ -23,9 +23,6 @@ export default class BlSlider extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
   }
-
-  @query("input[type='range']")
-  private input: HTMLInputElement;
 
   /**
    * Sets the label of the slider
@@ -90,9 +87,6 @@ export default class BlSlider extends LitElement {
   @state()
   private _isDragging = false;
 
-  @state()
-  private _tooltipPosition = 0;
-
   /**
    * Fires when slider value changes through user interaction
    */
@@ -114,6 +108,16 @@ export default class BlSlider extends LitElement {
     return parseFloat(this.step) || 1;
   }
 
+  private get _decimalPlaces(): number {
+    const stepStr = this._numericStep.toString();
+
+    return stepStr.includes(".") ? stepStr.split(".")[1].length : 0;
+  }
+
+  private get _range(): number {
+    return this._numericMax - this._numericMin;
+  }
+
   private get _parsedMarks(): SliderMark[] {
     if (!this.marks) return [];
 
@@ -125,11 +129,9 @@ export default class BlSlider extends LitElement {
   }
 
   private get _percentage(): number {
-    const range = this._numericMax - this._numericMin;
+    if (this._range === 0) return 0;
 
-    if (range === 0) return 0;
-
-    const basePercentage = ((this._numericValue - this._numericMin) / range) * 100;
+    const basePercentage = ((this._numericValue - this._numericMin) / this._range) * 100;
 
     // Discrete slider (marks varsa) ise track %1-%99 arasında olmalı
     if (this._parsedMarks.length > 0) {
@@ -140,6 +142,7 @@ export default class BlSlider extends LitElement {
   }
 
   private _constrainValue(value: number): number {
+    // Clamp value between min and max
     let constrained = Math.max(this._numericMin, Math.min(this._numericMax, value));
 
     // Round to step
@@ -151,61 +154,42 @@ export default class BlSlider extends LitElement {
     constrained = Math.min(this._numericMax, constrained);
 
     // Fix floating point precision issues
-    // Calculate decimal places from step
-    const stepStr = this._numericStep.toString();
-    const decimalPlaces = stepStr.includes(".") ? stepStr.split(".")[1].length : 0;
-
-    constrained = parseFloat(constrained.toFixed(decimalPlaces));
-
-    return constrained;
+    return parseFloat(constrained.toFixed(this._decimalPlaces));
   }
 
-  private _handleInput(event: Event) {
+  private _updateValue(event: Event, emitEvent = false) {
     if (this.disabled) return;
 
     const input = event.target as HTMLInputElement;
-    const newValue = parseFloat(input.value);
-    const constrainedValue = this._constrainValue(newValue);
+    const constrainedValue = this._constrainValue(parseFloat(input.value));
 
     this.value = String(constrainedValue);
-    this._updateTooltipPosition();
-  }
 
-  private _handleChange(event: Event) {
-    if (this.disabled) return;
-
-    const input = event.target as HTMLInputElement;
-    const newValue = parseFloat(input.value);
-    const constrainedValue = this._constrainValue(newValue);
-
-    this.value = String(constrainedValue);
-    this.onChange({ value: constrainedValue });
-  }
-
-  private _handleMouseDown() {
-    if (!this.disabled && this.tooltip) {
-      this._isDragging = true;
-      this._updateTooltipPosition();
+    if (emitEvent) {
+      this.onChange({ value: constrainedValue });
     }
   }
 
-  private _handleMouseUp() {
+  private _handleInput = (event: Event) => this._updateValue(event, false);
+  private _handleChange = (event: Event) => this._updateValue(event, true);
+
+  private _handleMouseDown = () => {
+    if (!this.disabled && this.tooltip) {
+      this._isDragging = true;
+    }
+  };
+
+  private _handleMouseUp = () => {
     if (this.tooltip) {
       this._isDragging = false;
     }
-  }
+  };
 
-  private _handleMouseMove() {
+  private _handleMouseMove = () => {
     if (this._isDragging && this.tooltip) {
-      this._updateTooltipPosition();
+      this.requestUpdate();
     }
-  }
-
-  private _updateTooltipPosition() {
-    if (this.input) {
-      this._tooltipPosition = this._percentage;
-    }
-  }
+  };
 
   connectedCallback() {
     super.connectedCallback();
@@ -216,14 +200,14 @@ export default class BlSlider extends LitElement {
       this.value = String(constrainedValue);
     }
 
-    document.addEventListener("mouseup", this._boundHandleMouseUp);
-    document.addEventListener("mousemove", this._boundHandleMouseMove);
+    document.addEventListener("mouseup", this._handleMouseUp);
+    document.addEventListener("mousemove", this._handleMouseMove);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    document.removeEventListener("mouseup", this._boundHandleMouseUp);
-    document.removeEventListener("mousemove", this._boundHandleMouseMove);
+    document.removeEventListener("mouseup", this._handleMouseUp);
+    document.removeEventListener("mousemove", this._handleMouseMove);
   }
 
   updated(changedProperties: PropertyValues) {
@@ -239,19 +223,12 @@ export default class BlSlider extends LitElement {
     }
   }
 
-  private _boundHandleMouseUp = this._handleMouseUp.bind(this);
-  private _boundHandleMouseMove = this._handleMouseMove.bind(this);
-
   private _renderLabel() {
-    if (!this.label) return null;
-
-    return html`<label class="label">${this.label}</label>`;
+    return this.label ? html`<label class="label">${this.label}</label>` : null;
   }
 
   private _renderHelpText() {
-    if (!this.helpText) return null;
-
-    return html`<div class="help-text">${this.helpText}</div>`;
+    return this.helpText ? html`<div class="help-text">${this.helpText}</div>` : null;
   }
 
   private _renderMarks() {
@@ -262,19 +239,14 @@ export default class BlSlider extends LitElement {
     return html`
       <div class="marks">
         ${marks.map(mark => {
-          const range = this._numericMax - this._numericMin;
           // Marks başlangıçta %1, bitişte %99 olacak şekilde ayarlanır
-          const percentage = range === 0 ? 1 : 1 + ((mark.value - this._numericMin) / range) * 98;
+          const percentage =
+            this._range === 0 ? 1 : 1 + ((mark.value - this._numericMin) / this._range) * 98;
           const isActive = mark.value <= this._numericValue;
-
-          const indicatorClasses = {
-            "mark-indicator": true,
-            "active": isActive,
-          };
 
           return html`
             <div class="mark" style=${styleMap({ left: `${percentage}%` })}>
-              <div class=${classMap(indicatorClasses)}></div>
+              <div class=${classMap({ "mark-indicator": true, "active": isActive })}></div>
               <div class="mark-label">${mark.label}</div>
             </div>
           `;
@@ -291,16 +263,10 @@ export default class BlSlider extends LitElement {
       "visible": this._isDragging,
     };
 
-    // Format value to avoid floating point precision issues
-    const stepStr = this._numericStep.toString();
-    const decimalPlaces = stepStr.includes(".") ? stepStr.split(".")[1].length : 0;
-    const displayValue = this._numericValue.toFixed(decimalPlaces);
+    const displayValue = this._numericValue.toFixed(this._decimalPlaces);
 
     return html`
-      <div
-        class=${classMap(tooltipClasses)}
-        style=${styleMap({ left: `${this._tooltipPosition}%` })}
-      >
+      <div class=${classMap(tooltipClasses)} style=${styleMap({ left: `${this._percentage}%` })}>
         ${displayValue}
       </div>
     `;
