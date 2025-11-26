@@ -2,7 +2,6 @@ import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from
 import { customElement, property, query, queryAll, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { autoUpdate, computePosition, flip, MiddlewareState, offset, size } from "@floating-ui/dom";
 import { localized, msg } from "@lit/localize";
 import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
@@ -14,6 +13,8 @@ import "../button/bl-button";
 import "../checkbox-group/checkbox/bl-checkbox";
 import BlCheckbox from "../checkbox-group/checkbox/bl-checkbox";
 import "../icon/bl-icon";
+import "../popover/bl-popover";
+import type BlPopover from "../popover/bl-popover";
 import style from "../select/bl-select.css";
 import "../select/option/bl-select-option";
 import type BlSelectOption from "./option/bl-select-option";
@@ -25,8 +26,6 @@ export interface ISelectOption<T = string> {
 }
 
 export type SelectSize = "medium" | "large" | "small";
-
-export type CleanUpFunction = () => void;
 
 /**
  * @tag bl-select
@@ -212,11 +211,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   @queryAll(".selected-options li")
   private selectedOptionsItems!: NodeListOf<HTMLElement>;
 
-  @query(".popover")
-  private _popover: HTMLElement;
+  @query("bl-popover")
+  private _popover!: BlPopover;
 
   @query(".select-input")
-  private _selectInput: HTMLElement;
+  private _selectInput!: HTMLElement;
 
   /**
    * Fires when selection changes
@@ -234,8 +233,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     (document.querySelector("html")?.getAttribute("lang") as LangKey | null) || navigator.language;
 
   private _connectedOptions: BlSelectOption<ValueType>[] = [];
-
-  private _cleanUpPopover: CleanUpFunction | null = null;
 
   private setOptionsSelected() {
     this._connectedOptions.forEach(
@@ -305,7 +302,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     }
 
     this._isPopoverOpen = true;
-    this._setupPopover();
+    this._popover?.show();
     document.addEventListener("click", this._interactOutsideHandler, true);
     document.addEventListener("focus", this._interactOutsideHandler, true);
   }
@@ -317,7 +314,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
     this._isPopoverOpen = false;
     this.focusedOptionIndex = -1;
-    this._cleanUpPopover && this._cleanUpPopover();
+    this._popover?.hide();
     document.removeEventListener("click", this._interactOutsideHandler, true);
     document.removeEventListener("focus", this._interactOutsideHandler, true);
   }
@@ -329,29 +326,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       this.close();
     }
   };
-
-  private _setupPopover() {
-    this._cleanUpPopover = autoUpdate(this._selectInput, this._popover, () => {
-      computePosition(this._selectInput, this._popover, {
-        placement: "bottom",
-        strategy: "fixed",
-        middleware: [
-          flip(),
-          offset(8),
-          size({
-            apply(args: MiddlewareState) {
-              Object.assign(args.elements.floating.style, {
-                width: `${args.elements.reference.getBoundingClientRect().width}px`,
-              });
-            },
-          }),
-        ],
-      }).then(({ x, y }) => {
-        this._popover.style.setProperty("--left", `${x}px`);
-        this._popover.style.setProperty("--top", `${y}px`);
-      });
-    });
-  }
 
   private _handleToggleButtonClick(e: MouseEvent) {
     e.stopPropagation();
@@ -370,8 +344,6 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   disconnectedCallback() {
     super.disconnectedCallback();
-
-    this._cleanUpPopover && this._cleanUpPopover();
   }
 
   private inputTemplate() {
@@ -558,31 +530,27 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       @keydown=${this.handleKeydown}
     >
       ${label} ${this.inputTemplate()}
-      <div
-        class="popover"
-        tabindex="${ifDefined(this._isPopoverOpen ? undefined : "-1")}"
-        @bl-select-option=${this._handleSelectOptionEvent}
-        role="listbox"
-        aria-multiselectable="${this.multiple}"
-        aria-labelledby="label"
-      >
-        ${this.selectAllTemplate()}
-        <slot></slot>
-        ${this.searchBar && this.noResultFound
-          ? html`<div name="popover-clear-search-text" class="popover-no-result">
-              <span>${noDataText}</span>
-              <bl-button
-                variant="tertiary"
-                @click=${() => {
-                  this._handleSearchOptions({ target: { value: "" } } as InputEvent & {
-                    target: HTMLInputElement;
-                  });
-                }}
-                >${clearSearchText}</bl-button
-              >
-            </div>`
-          : ""}
-      </div>
+      <bl-popover .target=${this._selectInput} placement="bottom-start" fit-size>
+        <div
+          class="popover"
+          tabindex="${ifDefined(this._isPopoverOpen ? undefined : "-1")}"
+          @bl-select-option=${this._handleSelectOptionEvent}
+          role="listbox"
+          aria-multiselectable="${this.multiple}"
+          aria-labelledby="label"
+        >
+          ${this.selectAllTemplate()}
+          <slot></slot>
+          ${this.searchBar && this.noResultFound
+            ? html`<div name="popover-clear-search-text" class="popover-no-result">
+                <span>${noDataText}</span>
+                <bl-button variant="tertiary" @click=${this._clearSearch}
+                  >${clearSearchText}</bl-button
+                >
+              </div>`
+            : ""}
+        </div>
+      </bl-popover>
       <div class="hint">${invalidMessage} ${helpMessage}</div>
     </div> `;
   }
@@ -670,30 +638,33 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     this._onBlSearch(this._searchText);
   }
 
+  private _clearSearch() {
+    this._handleSearchOptions({ target: { value: "" } } as InputEvent & {
+      target: HTMLInputElement;
+    });
+  }
+
+  private _normalizeText(text: string): string {
+    try {
+      return text.toLocaleLowerCase(this.userLang);
+    } catch {
+      return text.toLowerCase();
+    }
+  }
+
   private _handleSearchOptions(e: InputEvent): void {
     if (!this.searchBar) return;
 
     this._searchText = (e.target as HTMLInputElement).value;
-
     this._handleSearchEvent();
 
+    const searchTextLower = this._normalizeText(this._searchText);
+
     this._connectedOptions.forEach(option => {
-      const searchText = this._searchText.toLowerCase();
-      let optionText = "";
+      const optionText = option.textContent?.trim() || "";
+      const optionTextLower = this._normalizeText(optionText);
 
-      if (option.textContent) {
-        try {
-          // Try locale-specific comparison first
-          optionText = option.textContent.toLocaleLowerCase(this.userLang);
-        } catch {
-          // Fallback to basic toLowerCase if locale is not supported
-          optionText = option.textContent.toLowerCase();
-        }
-      }
-
-      const isVisible = optionText.includes(searchText);
-
-      option.hidden = !isVisible;
+      option.hidden = !optionTextLower.includes(searchTextLower);
     });
 
     this._selectedOptions = this.options.filter(option => option.selected);
@@ -704,13 +675,15 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   private _handleLastVisibleSearchedOption() {
     const lastVisibleOption = [...this.options].reverse().find(option => !option.hidden);
 
-    if (lastVisibleOption) {
-      lastVisibleOption?.shadowRoot?.querySelector("div")?.classList.add("no-border-bottom");
-    }
+    this.options.forEach(option => {
+      const borderElement = option.shadowRoot?.querySelector("div");
 
-    this.options.map(option => {
-      if (!option.hidden && option !== lastVisibleOption) {
-        option.shadowRoot?.querySelector("div")?.classList.remove("no-border-bottom");
+      if (!borderElement) return;
+
+      if (option === lastVisibleOption) {
+        borderElement.classList.add("no-border-bottom");
+      } else {
+        borderElement.classList.remove("no-border-bottom");
       }
     });
   }
