@@ -1,0 +1,375 @@
+import { html } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { ArgsTable, Canvas, Meta, Story } from "@storybook/addon-docs";
+
+<Meta
+  title="Components/Segmented Control"
+  component="bl-segmented-control"
+  argTypes={{
+    size: { options: ['small', 'medium', 'large'], control: { type: 'select' } },
+    orientation: { options: ['horizontal', 'vertical'], control: { type: 'inline-radio' } },
+    disabled: { control: 'boolean' },
+    iconOnly: { control: 'boolean', name: 'icon-only' },
+    value: { control: 'text' },
+    ariaLabel: { control: 'text', name: 'aria-label' },
+    class: { control: 'text' },
+    styles: { control: 'object' },
+    inverted: { control: 'boolean' },
+  }}
+/>
+
+export const Template = (args) => html`
+  <bl-segmented-control
+    class=${ifDefined(args.class)}
+    size=${ifDefined(args.size)}
+    orientation=${ifDefined(args.orientation)}
+    aria-label=${ifDefined(args.ariaLabel)}
+    .value=${ifDefined(args.value)}
+    ?disabled=${args.disabled}
+    ?icon-only=${args.iconOnly}
+    ?inverted=${args.inverted}
+  >
+    ${(args.options || []).map((o) => html`<bl-segment label=${o.label || ''} value=${o.value} icon=${ifDefined(o.icon)} color=${ifDefined(o.color)} .disabled="${o.disabled}" ?style=${o.style}></bl-segment>\n`)}
+  </bl-segmented-control>
+`;
+
+export const StyledTemplate = (args) => html`
+<style>
+  .${args.class} {
+    ${Object.entries(args.styles || {})
+      .map(([key, value]) => `${key}: ${value};`)
+      .join('\n    ')}
+  }
+</style>
+${Template(args)}
+`;
+
+export const IconVariantsTemplate = (args) => html`
+  <div style="display:flex; gap: 16px; align-items: center;">
+    ${Template({
+      ...args,
+      options: [
+        { label: 'Minimize', value: 'minimize', icon: 'metric_decrease' },
+        { label: 'Maximize', value: 'maximize', icon: 'metric_increase' },
+        { label: 'Close', value: 'close', icon: 'close_fill' },
+      ],
+    })}
+    ${Template({
+      ...args,
+      iconOnly: true,
+      options: [
+        { value: 'source', icon: 'code' },
+        { value: 'preview', icon: 'eye_on' },
+        { value: 'export', icon: 'export' },
+      ],
+    })}
+  </div>
+`;
+
+export const BasicTemplate = (args) => html`
+  <div style="display:flex; gap: 16px; align-items: center;">
+    ${Template({ ...args, options: [
+        { label: 'React', value: 'react' },
+        { label: 'Vue', value: 'vue' },
+        { label: 'Svelte', value: 'svelte' },
+      ]})}
+    ${Template({ ...args, options: [
+        { label: 'Off', value: true },
+        { label: 'On', value: false },
+      ]})}
+  </div>
+`;
+
+export const DisabledTemplate = (args) => html`
+  <div style="display:flex; gap: 16px; align-items: center;">
+    ${Template({ ...args, disabled: true,
+      options: [
+        { label: 'Day', value: 'day' },
+        { label: 'Week', value: 'week' },
+        { label: 'Month', value: 'month' },
+      ]})}
+    ${Template({ ...args,
+      options: [
+        { label: 'React', value: 'react' },
+        { label: 'Vue', value: 'vue' },
+        { label: 'Angular', value: 'angular', disabled: true },
+        { label: 'Svelte', value: 'svelte' },
+        { label: 'Lit', value: 'lit' },
+        { label: 'Solid', value: 'solid', disabled: true },
+      ]})}
+    ${Template({ ...args,
+      options: [
+        { label: 'Yes', value: 'yes', disabled: true },
+        { label: 'No', value: 'no', disabled: true },
+        { label: 'Maybe', value: 'maybe'},
+      ]})}
+  </div>
+`;
+
+
+export const SizesTemplate = (args) => html`
+  <div style="display:flex; gap: 16px; align-items: center;">
+    ${Template({ ...args, size: 'small'})}
+    ${Template({ ...args, size: 'medium'})}
+    ${Template({ ...args, size: 'large'})}
+  </div>
+`;
+
+# Segmented Control
+
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
+
+Segmented Control allows selection from multiple options. It supports optional labels and/or icons and can be vertical.
+
+### Usage
+
+<ul>
+  <li>Clicking a segment changes the selection immediately; there is no extra apply/save action.</li>
+  <li>If you render an external label for the whole control, set the <code>aria-label</code> attribute for accessibility.</li>
+  <li>Use the <code>value</code> property to control the selected option programmatically.</li>
+  <li>Enable the <code>icon-only</code> mode when you want a compact control that shows only icons.</li>
+</ul>
+
+## Basic
+
+<Canvas>
+  <Story name="Basic">
+    {BasicTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Variable length labels
+
+<Canvas>
+<Story name="Basic with different length" args={{
+  options: [
+    { label: 'Short option', value: 'short' },
+    { label: 'Very long option text that to variable thumb length', value: 'long' },
+    { label: 'Another short option', value: 'short2' },
+  ],
+}}>
+  {Template.bind({})}
+</Story>
+
+<Story name="Basic with fixed length" args={{
+  class: 'fixed-width',
+  styles: { '--bl-segment-width': '300px', },
+  options: [
+    { label: 'Short option', value: 'short' },
+    { label: 'Very long option text that to variable thumb length', value: 'long' },
+    { label: 'Another short option', value: 'short2' },
+  ],
+}}>
+  {StyledTemplate.bind({})}
+</Story>
+
+</Canvas>
+
+## With Icons
+
+<Canvas>
+  <Story name="With Icons">
+    {IconVariantsTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled
+
+<Canvas>
+  <Story name="Disabled">
+    {DisabledTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Preselected Value
+
+<Canvas>
+  <Story name="Preselected Value" args={{
+    value: 'week',
+    options: [
+      { label: 'Day', value: 'day' },
+      { label: 'Week', value: 'week' },
+      { label: 'Month', value: 'month' },
+    ],
+  }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Sizes
+
+<Canvas>
+  <Story name="Sizes" args={{
+    options: [
+      { label: 'A', value: 'a' },
+      { label: 'B', value: 'b' },
+      { label: 'C', value: 'c' }]
+  }}>
+    {SizesTemplate.bind()}
+  </Story>
+</Canvas>
+
+## Full Width
+
+<Canvas>
+  <Story
+    name="Full Width"
+    parameters={{layout: 'padded'}}
+    args={{
+      class: 'full-width',
+      styles: {
+        '--bl-segment-width': '100%',
+        'width': '100%',
+      },
+      options: [
+        { label: 'Short option', value: 'short' },
+        { label: 'Very long option text that to variable thumb length', value: 'long' },
+        { label: 'Another short option ', value: 'short2' },
+      ],
+    }}>
+    {StyledTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Vertical
+
+<Canvas>
+  <Story name="Vertical" args={{
+    orientation: 'vertical',
+    options: [
+      { label: 'Day', value: 'day' },
+      { label: 'Week', value: 'week' },
+      { label: 'Month', value: 'month' },
+    ],
+  }}>
+    {SizesTemplate.bind()}
+  </Story>
+  <Story name="Vertical with Icons" args={{orientation: 'vertical'}}>
+    {IconVariantsTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Inverted Variant
+
+<Canvas>
+  <Story name="Inverted" args={{ inverted: true, options: [
+      { label: 'React', value: 'react' },
+      { label: 'Vue', value: 'vue' },
+      { label: 'Angular', value: 'angular', disabled: true },
+      { label: 'Svelte', value: 'svelte' },
+      { label: 'Lit', value: 'lit' },
+      { label: 'Solid', value: 'solid', disabled: true },
+    ] }}>
+    {Template.bind()}
+  </Story>
+  <Story name="Inverted with icons" args={{ inverted: true }}>
+    {IconVariantsTemplate.bind()}
+  </Story>
+</Canvas>
+
+## Custom Colors Per Option
+
+<Canvas>
+  <Story name="Custom Colors" args={{
+    options: [
+      { label: 'Default', value: 'default' },
+      { label: 'Success', value: 'success', color: 'var(--bl-color-success)' },
+      { label: 'Danger', value: 'danger', color: 'var(--bl-color-danger)' },
+    ],
+  }}>
+    {Template.bind({})}
+  </Story>
+  <Story name="Custom Colors Inverted" args={{
+    options: [
+      { label: 'Default', value: 'default' },
+      { label: 'Success', value: 'success', color: 'var(--bl-color-success)' },
+      { label: 'Danger', value: 'danger', color: 'var(--bl-color-danger)' },
+    ],
+    inverted: true,
+  }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Customization
+
+To customize the Segmented Control, you can use CSS custom properties:
+
+<ul>
+  <li><code>--bl-segment-selected-bg</code>: background color of the selected segment (thumb)</li>
+  <li><code>--bl-segment-selected-color</code>: text/icon color of the selected segment</li>
+  <li><code>--bl-segment-bg</code>: background color of the container</li>
+  <li><code>--bl-segment-width</code>: total width of the control</li>
+</ul>
+
+<Canvas>
+  <Story
+    name="Customizing Colors"
+    args={{
+      class: 'colored-sc-1',
+      styles: {
+        '--bl-segment-selected-bg': 'var(--bl-color-success)',
+        '--bl-segment-selected-color': 'var(--bl-color-info-contrast)'
+      },
+      options: [
+        { label: 'Alpha', value: 'a' },
+        { label: 'Beta', value: 'b' },
+        { label: 'Gamma', value: 'c' },
+      ],
+    }}
+  >
+    {StyledTemplate.bind({})}
+  </Story>
+  <Story
+    name="Customizing Colors Preselected"
+    args={{
+      class: 'colored-sc-2',
+      styles: {
+        '--bl-segment-selected-bg': 'var(--bl-color-neutral-lightest)',
+        '--bl-segment-selected-color': 'var(--bl-color-neutral-darkest)',
+        '--bl-segment-bg': 'var(--bl-color-info)',
+        '--bl-segment-color': 'var(--bl-color-info-contrast)'
+      },
+      value: 'warn',
+      options: [
+        { label: 'Info', value: 'info' },
+        { label: 'Warn', value: 'warn' },
+        { label: 'Error', value: 'error', color: "var(--bl-color-danger)", style: "--selected-color: var(--bl-color-info-contrast)"},
+      ],
+    }}
+  >
+    {StyledTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## RTL Support
+
+<Canvas>
+  <Story name="RTL Support">
+    {() => html`
+      <div>
+        <iframe style="border: none;" srcdoc="
+            <html dir='rtl'>
+              <head>
+                <script type='module' src='https://cdn.jsdelivr.net/npm/@trendyol/baklava@latest/dist/baklava.js'></script>
+                <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@trendyol/baklava@latest/dist/themes/default.css'>
+              </head>
+              <body>
+                <div style='padding: 16px;' dir="rtl">
+                  <bl-segmented-control>
+                    <bl-segment label='أ' value='a'></bl-segment>
+                    <bl-segment label='ب' value='b'></bl-segment>
+                    <bl-segment label='ج' value='c'></bl-segment>
+                  </bl-segmented-control>
+                </div>
+              </body>
+            </html>
+          "></iframe>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-segmented-control" />

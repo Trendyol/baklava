@@ -1,0 +1,160 @@
+:host {
+  display: inline-block;
+
+  --bl-segment-bg: var(--bl-color-neutral-lightest, #eee);
+  --bl-segment-selected-bg: var(--bl-segment-color-on, var(--bl-color-primary));
+  --bl-segment-selected-color: var(--bl-color-info-contrast, #fff);
+  --bl-segment-color: var(--bl-color-neutral-none, #000);
+  --bl-segment-radius: var(--bl-border-radius-m);
+  --bl-segment-padding: var(--bl-size-3xs);
+  --bl-segment-item-padding-block: var(--bl-size-2xs);
+  --bl-segment-item-padding-inline: var(--bl-size-m);
+  --bl-segment-font: var(--bl-font-title-3);
+  --bl-segment-icon-size: var(--bl-size-l);
+  --bl-segment-transition: var(--bl-segment-animation-duration, 300ms) ease;
+  --bl-segment-label-width: max-content;
+
+
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+.segmented {
+  position: relative;
+  background: var(--bl-segment-bg);
+  border-radius: var(--bl-segment-radius);
+  padding: var(--bl-segment-padding);
+  box-sizing: border-box;
+  color: var(--bl-segment-color);
+  width: var(--bl-segment-width, max-content);
+  font: var(--bl-segment-font);
+}
+
+.track {
+  display: grid;
+  grid-template-columns: repeat(var(--count), auto);
+  grid-template-rows: 1fr;
+  align-items: stretch;
+  z-index: 0;
+}
+
+:host([orientation="vertical"]) .track {
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(var(--count), auto);
+}
+
+::slotted(.content) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bl-size-2xs);
+  padding: var(--bl-segment-item-padding-block) var(--bl-segment-item-padding-inline);
+  min-width: 0;
+  z-index: 2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.thumb {
+  position: absolute;
+  inset-block-start: var(--bl-segment-padding);
+  inset-inline-start: var(--bl-segment-padding);
+  width: var(--thumb-width, calc((100% - var(--bl-segment-padding) * 2) / var(--count)));
+  height: calc(100% - var(--bl-segment-padding) * 2);
+  background: var(--selected-bg, var(--bl-segment-selected-bg));
+  border-radius: calc(var(--bl-segment-radius) - 1px);
+  box-shadow: 0 0 4px rgb(0 0 0 / 20%);
+  transition:
+    transform var(--bl-toggle-animation-duration, 300ms) ease,
+    width var(--bl-toggle-animation-duration, 300ms) ease,
+    height var(--bl-toggle-animation-duration, 300ms) ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Hide thumb until a selection exists to avoid misleading initial state */
+.segmented:not([data-has-selection="true"]) .thumb {
+  display: none;
+}
+
+:host([orientation="vertical"]) .thumb {
+  width: calc(100% - var(--bl-segment-padding) * 2);
+  height: var(--thumb-height, calc((100% - var(--bl-segment-padding) * 2) / var(--count)));
+  transform: translateY(var(--thumb-offset, calc(var(--index) * 100%)));
+}
+
+/* Translate according to selected index */
+:host(:not([orientation="vertical"])) .thumb {
+  transform: translateX(var(--thumb-offset, calc(var(--index) * 100%)));
+}
+
+.icon,
+::slotted(.content) .icon {
+  font-size: var(--bl-segment-icon-size);
+}
+
+:host([size="small"]) {
+  --bl-segment-item-padding-block: var(--bl-size-3xs);
+  --bl-segment-item-padding-inline: var(--bl-size-2xs);
+  --bl-segment-icon-size: var(--bl-size-s);
+}
+
+:host([size="large"]) {
+  --bl-segment-item-padding-block: var(--bl-size-xs);
+  --bl-segment-item-padding-inline: var(--bl-size-xl);
+  --bl-segment-icon-size: var(--bl-size-2xl);
+}
+
+/* State styles for selected/disabled/focus */
+.content[aria-checked="true"],
+::slotted(.content[aria-checked="true"]) {
+  color: var(--selected-color, var(--bl-segment-selected-color));
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+}
+
+.content[aria-disabled="true"],
+::slotted(.content[aria-disabled="true"]) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+:host([disabled]) .content {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+:host([dir="rtl"]) .track {
+  direction: rtl;
+}
+
+:host([dir="rtl"]:not([orientation="vertical"])) .thumb {
+  transform: translateX(calc(-1 * var(--thumb-offset, calc(var(--index) * 100%))));
+}
+
+:host([inverted]) .content[aria-checked="true"] {
+  color: var(--bl-segment-color);
+}
+
+:host([inverted]) .track , :host([inverted]) .segmented {
+  background: var(--selected-bg, var(--bl-segment-selected-bg));
+  color: var(--selected-color, var(--bl-segment-selected-color));
+}
+
+:host([inverted]) .thumb {
+  background: var(--bl-segment-bg);
+  color: var(--bl-segment-color);
+}
+
+:host([inverted]) ::slotted(.content) .icon {
+  color: var(--bl-segment-color)
+}
+
+:host([inverted]) ::slotted(.content[aria-checked="true"]) {
+  color: var(--selected-bg, var(--bl-segment-color));
+}
