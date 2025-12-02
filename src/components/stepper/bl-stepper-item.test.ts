@@ -304,6 +304,29 @@ describe("bl-stepper-item", () => {
     expect(stepperItem?.getAttribute("tabindex")).to.equal("0");
   });
 
+  it("has tabindex -1 when variant is error", async () => {
+    const el = await fixture<BlStepperItem>(html`
+      <bl-stepper-item id="step-1" title="Step Title" variant="error"></bl-stepper-item>
+    `);
+
+    const stepperItem = el.shadowRoot!.querySelector(".stepper-item");
+
+    expect(stepperItem?.getAttribute("tabindex")).to.equal("-1");
+  });
+
+  it("has tabindex -1 when usage is non-clickable", async () => {
+    const el = await fixture<BlStepperItem>(html`
+      <bl-stepper-item id="step-1" title="Step Title"></bl-stepper-item>
+    `);
+
+    el.stepUsage = "non-clickable";
+    await el.updateComplete;
+
+    const stepperItem = el.shadowRoot!.querySelector(".stepper-item");
+
+    expect(stepperItem?.getAttribute("tabindex")).to.equal("-1");
+  });
+
   it("handles different variants", async () => {
     const variants: Array<"default" | "active" | "hover" | "success" | "error"> = ["default", "active", "hover", "success", "error"];
 
@@ -358,20 +381,33 @@ describe("bl-stepper-item", () => {
     expect(description).to.be.null;
   });
 
-  it("changes variant to hover on mouse enter and back on mouse leave", async () => {
+  it("applies hover class on mouse enter and removes on mouse leave", async () => {
     const el = await fixture<BlStepperItem>(html`
       <bl-stepper-item variant="default"></bl-stepper-item>
     `);
 
     const stepperItem = el.shadowRoot!.querySelector(".stepper-item") as HTMLElement;
 
+    // Initially should have variant-default class
+    expect(stepperItem.classList.contains("variant-default")).to.be.true;
+    expect(stepperItem.classList.contains("variant-hover")).to.be.false;
+
     stepperItem.dispatchEvent(new MouseEvent("mouseenter"));
     await el.updateComplete;
-    expect(el.variant).to.equal("hover");
+
+    // Should have variant-hover class
+    expect(stepperItem.classList.contains("variant-hover")).to.be.true;
+    expect(stepperItem.classList.contains("variant-default")).to.be.false;
+
+    // Public variant should remain unchanged
+    expect(el.variant).to.equal("default");
 
     stepperItem.dispatchEvent(new MouseEvent("mouseleave"));
     await el.updateComplete;
-    expect(el.variant).to.equal("default");
+
+    // Should return to variant-default class
+    expect(stepperItem.classList.contains("variant-default")).to.be.true;
+    expect(stepperItem.classList.contains("variant-hover")).to.be.false;
   });
 
   it("does not change variant to hover on mouse enter if variant is not default", async () => {

@@ -9,12 +9,6 @@ export type StepperType = "dot" | "number" | "icon";
 export type StepperDirection = "horizontal" | "vertical";
 export type StepperUsage = "clickable" | "non-clickable";
 
-export interface StepperState {
-  currentStep: number;
-  totalSteps: number;
-  activeStep: number;
-}
-
 interface BlStepperItemElement extends HTMLElement {
   id: string;
   variant: "default" | "active" | "success" | "error";
@@ -67,7 +61,10 @@ export default class BlStepper extends LitElement {
   /**
    * Fires when stepper state changes
    */
-  @event("bl-stepper-change") private onStepperChange: EventDispatcher<StepperState>;
+  @event("bl-stepper-change") private onStepperChange: EventDispatcher<{
+    activeStep: number;
+    totalSteps: number;
+  }>;
 
   private get totalSteps(): number {
     return this.stepperItemsArray.length;
@@ -105,9 +102,8 @@ export default class BlStepper extends LitElement {
 
     // Dispatch change event
     this.onStepperChange({
-      currentStep: clickedIndex,
-      totalSteps: this.totalSteps,
       activeStep: clickedIndex,
+      totalSteps: this.totalSteps,
     });
   }
 
@@ -152,11 +148,6 @@ export default class BlStepper extends LitElement {
 
     // Initialize stepper items
     this.updateStepperItems();
-
-    // Validate maximum items
-    if (this.stepperItemsArray.length > 9) {
-      console.warn("bl-stepper: Maximum 9 items are allowed in a stepper");
-    }
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
@@ -172,17 +163,34 @@ export default class BlStepper extends LitElement {
   }
 
   private updateStepperItems() {
-    const items = this.stepperItemsArray;
+    const allItems = this.stepperItemsArray;
+    const maxItems = 9;
 
-    items.forEach((item, index) => {
+    // Hide items beyond the maximum limit
+    allItems.forEach((item, index) => {
+      if (index >= maxItems) {
+        item.style.display = "none";
+        return;
+      }
+
+      item.style.display = "";
       item.stepperType = this.type;
       item.direction = this.direction;
       item.stepUsage = this.usage;
 
       item.showLeadingConnector = index > 0;
 
-      item.showTrailingConnector = index < items.length - 1;
+      item.showTrailingConnector = index < Math.min(allItems.length, maxItems) - 1;
     });
+
+    // Show error if there are more than maximum items
+    if (allItems.length > maxItems) {
+      console.error(
+        `bl-stepper: Maximum ${maxItems} items are allowed. ${
+          allItems.length - maxItems
+        } item(s) will not be displayed.`
+      );
+    }
   }
 
   render(): TemplateResult {

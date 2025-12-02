@@ -31,7 +31,7 @@ const meta: Meta<StepperArgs> = {
           "<div class=\"bl-docs-container\">" +
             "<p class=\"bl-docs-description\">" +
               "The Stepper component displays progress through a sequence of steps. " +
-              "It supports different visual styles (dots, numbers, icons), directions (horizontal, vertical), " +
+              "It supports different visual styles (dot, number, icon), directions (horizontal, vertical), " +
               "and usage modes (clickable, non-clickable). Maximum 9 items are allowed." +
             "</p>" +
 
@@ -141,7 +141,7 @@ export const IconType: Story = {
     >
       <bl-stepper-item id="1" title="Step 1" description="First step description" variant="success" icon="check"></bl-stepper-item>
       <bl-stepper-item id="2" title="Step 2" description="Second step description" variant="active" icon="settings"></bl-stepper-item>
-      <bl-stepper-item id="3" title="Step 3" description="Third step description" variant="default" icon="user"></bl-stepper-item>
+      <bl-stepper-item id="3" title="Step 3" description="Third step description" variant="default" icon="clock"></bl-stepper-item>
       <bl-stepper-item id="4" title="Step 4" description="Fourth step description" variant="default" icon="lock"></bl-stepper-item>
     </bl-stepper>
   `,
@@ -162,7 +162,64 @@ export const NonClickable: Story = {
     direction: "horizontal",
     usage: "non-clickable",
   },
-  render: StepperTemplate,
+  render: () => html`
+    <div style="display: flex; flex-direction: column; gap: var(--bl-size-m);">
+      <bl-stepper type="dot" direction="horizontal" usage="non-clickable" id="non-clickable-stepper">
+        <bl-stepper-item id="1" title="Account Setup" description="Create your account" variant="success"></bl-stepper-item>
+        <bl-stepper-item id="2" title="Profile Information" description="Add your details" variant="active"></bl-stepper-item>
+        <bl-stepper-item id="3" title="Preferences" description="Set your preferences" variant="default"></bl-stepper-item>
+        <bl-stepper-item id="4" title="Confirmation" description="Review and confirm" variant="default"></bl-stepper-item>
+      </bl-stepper>
+
+      <div style="display: flex; gap: var(--bl-size-xs);">
+        <bl-button variant="secondary" size="small" @click=${() => {
+          const stepper = document.getElementById("non-clickable-stepper") as BlStepper;
+          const items = stepper.querySelectorAll("bl-stepper-item") as NodeListOf<BlStepperItem>;
+
+          // Find current active step
+          let currentStep = 0;
+
+          items.forEach((item: BlStepperItem, index: number) => {
+            if (item.variant === "active") currentStep = index;
+          });
+
+          // Go to previous step
+          if (currentStep > 0) {
+            const prevStep = currentStep - 1;
+
+            items.forEach((item: BlStepperItem, index: number) => {
+              if (index === prevStep) item.variant = "active";
+              else if (index < prevStep) item.variant = "success";
+              else item.variant = "default";
+            });
+          }
+        }}>Previous</bl-button>
+
+        <bl-button variant="primary" size="small" @click=${() => {
+          const stepper = document.getElementById("non-clickable-stepper") as BlStepper;
+          const items = stepper.querySelectorAll("bl-stepper-item") as NodeListOf<BlStepperItem>;
+
+          // Find current active step
+          let currentStep = 0;
+
+          items.forEach((item: BlStepperItem, index: number) => {
+            if (item.variant === "active") currentStep = index;
+          });
+
+          // Go to next step
+          if (currentStep < items.length - 1) {
+            const nextStep = currentStep + 1;
+
+            items.forEach((item: BlStepperItem, index: number) => {
+              if (index === nextStep) item.variant = "active";
+              else if (index < nextStep) item.variant = "success";
+              else item.variant = "default";
+            });
+          }
+        }}>Next</bl-button>
+      </div>
+    </div>
+  `,
 };
 
 export const WithErrorState: Story = {
@@ -226,6 +283,10 @@ export const ManySteps: Story = {
       <bl-stepper-item id="5" title="Step 5" variant="default"></bl-stepper-item>
       <bl-stepper-item id="6" title="Step 6" variant="default"></bl-stepper-item>
       <bl-stepper-item id="7" title="Step 7" variant="default"></bl-stepper-item>
+      <bl-stepper-item id="8" title="Step 8" variant="default"></bl-stepper-item>
+      <bl-stepper-item id="9" title="Step 9" variant="default"></bl-stepper-item>
+      <bl-stepper-item id="10" title="Step 10" variant="default"></bl-stepper-item>
+      <bl-stepper-item id="11" title="Step 11" variant="default"></bl-stepper-item>
     </bl-stepper>
   `,
 };
@@ -308,14 +369,4 @@ export const InteractiveExample: Story = {
       </div>
     </div>
   `,
-};
-
-export const CustomStyling: Story = {
-  args: {
-    type: "dot",
-    direction: "horizontal",
-    usage: "clickable",
-    customStyles: "--bl-stepper-spacing: var(--bl-size-l); --bl-stepper-line-color: var(--bl-color-primary-lighter); --bl-stepper-line-color-completed: var(--bl-color-primary);",
-  },
-  render: StepperTemplate,
 };

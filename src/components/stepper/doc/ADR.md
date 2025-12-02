@@ -6,7 +6,7 @@
 
 **Max Items**: A maximum of 9 items can be included.
 
-**Types**: It has three display types: dots, numbers, and icons.
+**Types**: It has three display types: dot, number, and icon.
 
 **States**: There are four main states: default, active, success, and error.
 
@@ -28,7 +28,7 @@ Bl-Stepper-Item Attributes
 | Attribute | Description | Default Value |
 | --------------- | --------------- | --------------- |
 id(`number,string`) | Defines stepper item's id  | undefined
-variant(`string`) | Defines stepper item's status  | default
+variant(`"default" \| "active" \| "success" \| "error"`) | Defines stepper item's status  | default
 disabled(`boolean`) | Defines stepper item's interaction  | false
 icon(`string`) | If stepper type is icon,it should be rendered on stepper items  | check
 title(`string`) | Defines stepper item's main title | ''
@@ -41,9 +41,9 @@ Bl-Stepper Attributes
 
 | Attribute | Description | Default Value |
 | --------------- | --------------- | --------------- |
-type(`string`) | Defines stepper render style  | dots
-direction(`string`) | Defines stepper direction is horizontal or vertical  | horizontal
-usage(`string`) | Defines stepper usage is clickable or non-clickable | clickable
+type(`"dot" \| "number" \| "icon"`) | Defines stepper render style  | dot
+direction(`"horizontal" \| "vertical"`) | Defines stepper direction is horizontal or vertical  | horizontal
+usage(`"clickable" \| "non-clickable"`) | Defines stepper usage is clickable or non-clickable | clickable
 
 
 ### Events
@@ -52,7 +52,7 @@ Bl-Stepper Events
 
 | Event | Description | Return Value |
 | --------------- | --------------- | --------------- |
-| `bl-stepper-change` | Event will pass stepper's current state | {}
+| `bl-stepper-change` | Event will pass stepper's current state | { activeStep: number, totalSteps: number }
 
 ---
 
