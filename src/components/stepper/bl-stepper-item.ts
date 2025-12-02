@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { event, EventDispatcher } from "../../utilities/event";
@@ -7,7 +7,8 @@ import "../icon/bl-icon";
 import { BaklavaIcon } from "../icon/icon-list";
 import style from "./bl-stepper-item.css";
 
-export type StepperItemVariant = "default" | "active" | "hover" | "success" | "error";
+export type StepperItemVariant = "default" | "active" | "success" | "error";
+type InternalStepperItemVariant = StepperItemVariant | "hover";
 export type StepperType = "dot" | "number" | "icon";
 export type StepperDirection = "horizontal" | "vertical";
 
@@ -16,10 +17,6 @@ export type StepperDirection = "horizontal" | "vertical";
  * @summary Baklava Stepper Item component for individual steps in a stepper
  *
  * @slot default - Step content (title and description)
- *
- * @cssproperty [--bl-stepper-item-size=var(--bl-size-m)] Sets the size of the stepper item
- * @cssproperty [--bl-stepper-item-color=var(--bl-color-neutral)] Sets the color of the stepper item
- * @cssproperty [--bl-stepper-item-background=var(--bl-color-surface)] Sets the background color of the stepper item
  */
 
 @customElement("bl-stepper-item")
@@ -43,6 +40,11 @@ export default class BlStepperItem extends LitElement {
    */
   @property({ type: String, reflect: true })
   variant: StepperItemVariant = "default";
+
+  /**
+   * Internal variant state that includes hover
+   */
+  private _internalVariant: InternalStepperItemVariant = "default";
 
   /**
    * Defines stepper item's interaction
@@ -83,25 +85,34 @@ export default class BlStepperItem extends LitElement {
   /**
    * Internal property to track stepper type from parent
    */
-  @state()
+  @property({ type: String, attribute: false })
   stepperType: StepperType = "dot";
 
   /**
    * Internal property to track stepper direction from parent
    */
-  @state()
+  @property({ type: String, attribute: false })
   direction: StepperDirection = "horizontal";
 
   /**
    * Internal property to track stepper usage from parent
    */
-  @state()
+  @property({ type: String, attribute: false })
   stepUsage: "clickable" | "non-clickable" = "clickable";
 
   /**
    * Fires when stepper item is clicked
    */
   @event("bl-stepper-item-click") private onItemClick: EventDispatcher<string>;
+
+  willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
+    super.willUpdate(changedProperties);
+
+    // Sync internal variant with public variant
+    if (changedProperties.has("variant")) {
+      this._internalVariant = this.variant;
+    }
+  }
 
   private get isClickable(): boolean {
     return !this.disabled && this.variant !== "error" && this.stepUsage === "clickable";
@@ -165,20 +176,22 @@ export default class BlStepperItem extends LitElement {
 
   private handleMouseEnter() {
     if (this.isClickable && this.variant === "default") {
-      this.variant = "hover";
+      this._internalVariant = "hover";
+      this.requestUpdate();
     }
   }
 
   private handleMouseLeave() {
-    if (this.variant === "hover") {
-      this.variant = "default";
+    if (this._internalVariant === "hover") {
+      this._internalVariant = "default";
+      this.requestUpdate();
     }
   }
 
   render(): TemplateResult {
     const classes = {
       "stepper-item": true,
-      [`variant-${this.variant}`]: true,
+      [`variant-${this._internalVariant}`]: true,
       [`type-${this.stepperType}`]: true,
       [`direction-${this.direction}`]: true,
       disabled: this.disabled,

@@ -59,9 +59,8 @@ describe("bl-stepper", () => {
 
     expect(changeSpy.calledOnce).to.be.true;
     expect(changeSpy.firstCall.args[0].detail).to.deep.equal({
-      currentStep: 0,
-      totalSteps: 3,
       activeStep: 0,
+      totalSteps: 3,
     });
   });
 
@@ -131,10 +130,10 @@ describe("bl-stepper", () => {
     expect(thirdItem.variant).to.equal("active");
   });
 
-  it("warns when more than 9 items are added", async () => {
-    const consoleWarnSpy = sinon.spy(console, "warn");
+  it("hides items beyond maximum limit and shows error", async () => {
+    const consoleErrorStub = sinon.stub(console, "error");
 
-    await fixture<BlStepper>(html`
+    const el = await fixture<BlStepper>(html`
       <bl-stepper>
         ${Array.from({ length: 10 }, (_, i) =>
           html`<bl-stepper-item id="${i + 1}" title="Step ${i + 1}"></bl-stepper-item>`
@@ -142,10 +141,23 @@ describe("bl-stepper", () => {
       </bl-stepper>
     `);
 
-    expect(consoleWarnSpy.calledOnce).to.be.true;
-    expect(consoleWarnSpy.firstCall.args[0]).to.include("Maximum 9 items are allowed");
+    await el.updateComplete;
 
-    consoleWarnSpy.restore();
+    const items = el.querySelectorAll("bl-stepper-item");
+
+    // First 9 items should be visible
+    for (let i = 0; i < 9; i++) {
+      expect((items[i] as HTMLElement).style.display).to.not.equal("none");
+    }
+
+    // 10th item should be hidden
+    expect((items[9] as HTMLElement).style.display).to.equal("none");
+
+    expect(consoleErrorStub.called).to.be.true;
+    expect(consoleErrorStub.firstCall.args[0]).to.include("Maximum 9 items are allowed");
+    expect(consoleErrorStub.firstCall.args[0]).to.include("1 item(s) will not be displayed");
+
+    consoleErrorStub.restore();
   });
 
   it("updates stepper items when type changes", async () => {
