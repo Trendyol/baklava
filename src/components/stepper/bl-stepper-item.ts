@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { event, EventDispatcher } from "../../utilities/event";
@@ -25,6 +25,9 @@ export default class BlStepperItem extends LitElement {
     return [style];
   }
 
+  /**
+   * @internal
+   */
   static get shadowRootOptions() {
     return { ...LitElement.shadowRootOptions, delegatesFocus: true };
   }
@@ -43,6 +46,7 @@ export default class BlStepperItem extends LitElement {
 
   /**
    * Internal variant state that includes hover
+   * @internal
    */
   private _internalVariant: InternalStepperItemVariant = "default";
 
@@ -71,33 +75,38 @@ export default class BlStepperItem extends LitElement {
   description = "";
 
   /**
-   * Show leading connector (line before the step)
+   * Internal state to show leading connector (line before the step)
+   * @internal
    */
-  @property({ type: Boolean, reflect: true })
+  @state()
   showLeadingConnector = false;
 
   /**
-   * Show trailing connector (line after the step)
+   * Internal state to show trailing connector (line after the step)
+   * @internal
    */
-  @property({ type: Boolean, reflect: true })
+  @state()
   showTrailingConnector = true;
 
   /**
-   * Internal property to track stepper type from parent
+   * Internal state to track stepper type from parent
+   * @internal
    */
-  @property({ type: String, attribute: false })
+  @state()
   stepperType: StepperType = "dot";
 
   /**
-   * Internal property to track stepper direction from parent
+   * Internal state to track stepper direction from parent
+   * @internal
    */
-  @property({ type: String, attribute: false })
+  @state()
   direction: StepperDirection = "horizontal";
 
   /**
-   * Internal property to track stepper usage from parent
+   * Internal state to track stepper usage from parent
+   * @internal
    */
-  @property({ type: String, attribute: false })
+  @state()
   stepUsage: "clickable" | "non-clickable" = "clickable";
 
   /**
@@ -118,6 +127,9 @@ export default class BlStepperItem extends LitElement {
     return !this.disabled && this.variant !== "error" && this.stepUsage === "clickable";
   }
 
+  /**
+   * @internal
+   */
   get stepNumber(): number {
     const parent = this.parentElement;
 
@@ -130,6 +142,9 @@ export default class BlStepperItem extends LitElement {
     return items.indexOf(this) + 1;
   }
 
+  /**
+   * @internal
+   */
   get shouldShowIcon(): boolean {
     if (this.stepperType === "icon") {
       return true;
@@ -140,6 +155,9 @@ export default class BlStepperItem extends LitElement {
     return false;
   }
 
+  /**
+   * @internal
+   */
   get iconName(): BaklavaIcon {
     if (this.stepperType === "icon") {
       return this.icon;

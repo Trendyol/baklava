@@ -4,10 +4,7 @@
 }
 
 .stepper {
-  --spacing: var(--bl-stepper-spacing, var(--bl-size-m));
-  --line-color: var(--bl-stepper-line-color, var(--bl-color-neutral-lighter));
-  --line-color-completed: var(--bl-stepper-line-color-completed, var(--bl-color-neutral));
-  --line-width: 2px;
+  --spacing: var(--bl-size-m);
 
   display: flex;
   position: relative;
