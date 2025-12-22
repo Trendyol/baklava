@@ -78,10 +78,6 @@
   min-height: auto;
 }
 
-.stepper-item.direction-vertical:last-child .connector-wrap {
-  min-height: auto;
-}
-
 .connector {
   background-color: #afbbca;
   transition: background-color 0.2s ease;

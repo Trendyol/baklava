@@ -36,10 +36,10 @@ const meta: Meta<StepperArgs> = {
             "</p>" +
 
             "<div class=\"bl-docs-links\" style=\"display: flex; gap: var(--bl-size-2xs); margin-top: var(--bl-size-m);\">" +
-              "<bl-badge icon=\"document\" style=\"--bl-badge-background: var(--bl-color-surface-hover)\">" +
+              "<bl-badge icon=\"document\"" +
                 "<bl-link variant='inline' href='" + ADR_LINK + "' target='_blank'>ADR</bl-link>" +
               "</bl-badge>" +
-              "<bl-badge icon=\"puzzle\" style=\"--bl-badge-background: var(--bl-color-surface-hover)\">" +
+              "<bl-badge icon=\"puzzle\"" +
                 "<bl-link variant='inline' href='" + FIGMA_LINK + "' target='_blank'>Figma</bl-link>" +
               "</bl-badge>" +
             "</div>" +

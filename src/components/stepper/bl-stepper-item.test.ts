@@ -328,7 +328,7 @@ describe("bl-stepper-item", () => {
   });
 
   it("handles different variants", async () => {
-    const variants: Array<"default" | "active" | "hover" | "success" | "error"> = ["default", "active", "hover", "success", "error"];
+    const variants: Array<"default" | "active" | "success" | "error"> = ["default", "active", "success", "error"];
 
     for (const variant of variants) {
       const el = await fixture<BlStepperItem>(html`

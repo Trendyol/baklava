@@ -24,10 +24,6 @@ interface BlStepperItemElement extends HTMLElement {
  * @summary Baklava Stepper component for displaying progress through a sequence of steps
  *
  * @slot default - Stepper items
- *
- * @cssproperty [--bl-stepper-spacing=var(--bl-size-m)] Sets the spacing between stepper items
- * @cssproperty [--bl-stepper-line-color=var(--bl-color-neutral-lighter)] Sets the color of connecting lines
- * @cssproperty [--bl-stepper-line-color-completed=var(--bl-color-neutral)] Sets the color of completed connecting lines
  */
 
 @customElement("bl-stepper")
