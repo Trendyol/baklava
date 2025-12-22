@@ -269,4 +269,276 @@ describe("bl-textarea", () => {
       expect(errorMessageElement).to.exist;
     });
   });
+
+  describe("interaction tests", () => {
+    describe("focus state", () => {
+      it("should handle focus event when textarea is focused", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea label="Test Textarea"></bl-textarea>`);
+        const textarea = el.shadowRoot?.querySelector("textarea");
+
+        expect(textarea).to.exist;
+
+        textarea?.focus();
+        await elementUpdated(el);
+
+        expect(document.activeElement).to.equal(el);
+      });
+
+      it("should have autofocus attribute when set", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea autofocus></bl-textarea>`);
+        const textarea = el.shadowRoot?.querySelector("textarea");
+
+        await elementUpdated(el);
+
+        expect(el.autofocus).to.be.true;
+        expect(textarea?.hasAttribute("autofocus")).to.be.true;
+      });
+
+      it("should maintain focus after user interaction", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea label="Test"></bl-textarea>`);
+        const textarea = el.shadowRoot?.querySelector("textarea");
+
+        textarea?.focus();
+        await elementUpdated(el);
+
+        if (textarea) {
+          textarea.value = "test value";
+          textarea.dispatchEvent(new Event("input"));
+        }
+
+        await elementUpdated(el);
+
+        expect(document.activeElement).to.equal(el);
+      });
+    });
+
+    describe("filled state", () => {
+      it("should show has-value class when textarea has value", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea value="test"></bl-textarea>`);
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        expect(wrapper?.classList.contains("has-value")).to.be.true;
+      });
+
+      it("should add has-value class when user types", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea></bl-textarea>`);
+        const textarea = el.shadowRoot?.querySelector("textarea");
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        expect(wrapper?.classList.contains("has-value")).to.be.false;
+
+        if (textarea) {
+          textarea.value = "new value";
+          textarea.dispatchEvent(new Event("input"));
+        }
+
+        await elementUpdated(el);
+
+        expect(wrapper?.classList.contains("has-value")).to.be.true;
+      });
+
+      it("should remove has-value class when textarea is cleared", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea value="test"></bl-textarea>`);
+        const textarea = el.shadowRoot?.querySelector("textarea");
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        expect(wrapper?.classList.contains("has-value")).to.be.true;
+
+        if (textarea) {
+          textarea.value = "";
+          textarea.dispatchEvent(new Event("input"));
+        }
+
+        await elementUpdated(el);
+
+        expect(wrapper?.classList.contains("has-value")).to.be.false;
+      });
+
+      it("should maintain filled state with whitespace value", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea value="   "></bl-textarea>`);
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        expect(wrapper?.classList.contains("has-value")).to.be.true;
+      });
+
+      it("should maintain filled state with multiline text", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea value="line1\nline2\nline3"></bl-textarea>`);
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        expect(wrapper?.classList.contains("has-value")).to.be.true;
+      });
+    });
+
+    describe("valid state", () => {
+      it("should be valid when textarea meets all requirements", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea required value="test"></bl-textarea>`);
+
+        expect(el.validity.valid).to.be.true;
+        expect(el.checkValidity()).to.be.true;
+      });
+
+      it("should show no error message when valid", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea required value="test"></bl-textarea>`);
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        const errorMessage = el.shadowRoot?.querySelector(".invalid-text");
+
+        expect(errorMessage).to.not.exist;
+      });
+
+      it("should not have invalid class when valid", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea required value="test"></bl-textarea>`);
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        expect(wrapper?.classList.contains("invalid")).to.be.false;
+      });
+
+      it("should transition from invalid to valid on user input", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea required></bl-textarea>`);
+        const textarea = el.shadowRoot?.querySelector("textarea");
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        expect(el.validity.valid).to.be.false;
+
+        if (textarea) {
+          textarea.value = "valid input";
+          textarea.dispatchEvent(new Event("input"));
+        }
+
+        await elementUpdated(el);
+
+        expect(el.validity.valid).to.be.true;
+      });
+
+      it("should validate minlength correctly", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea minlength="3" value="test"></bl-textarea>`);
+
+        expect(el.validity.valid).to.be.true;
+        expect(el.validity.tooShort).to.be.false;
+      });
+
+      it("should validate maxlength correctly when under limit", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea maxlength="10" value="test"></bl-textarea>`);
+
+        expect(el.validity.valid).to.be.true;
+        expect(el.validity.tooLong).to.be.false;
+      });
+    });
+
+    describe("invalid state", () => {
+      it("should be invalid when required field is empty", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea required></bl-textarea>`);
+
+        expect(el.validity.valid).to.be.false;
+        expect(el.validity.valueMissing).to.be.true;
+      });
+
+      it("should show error message when invalid and dirty", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea required></bl-textarea>`);
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        const errorMessage = el.shadowRoot?.querySelector(".invalid-text");
+
+        expect(errorMessage).to.exist;
+        expect(errorMessage?.textContent).to.not.be.empty;
+      });
+
+      it("should have invalid class when validation fails", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea required></bl-textarea>`);
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        expect(wrapper?.classList.contains("invalid")).to.be.true;
+      });
+
+      it("should have minlength attribute set correctly", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea minlength="5"></bl-textarea>`);
+        const textarea = el.shadowRoot?.querySelector("textarea");
+
+        expect(textarea?.getAttribute("minlength")).to.equal("5");
+        expect(el.minlength).to.equal(5);
+      });
+
+      it("should show custom error message with invalid-text attribute", async () => {
+        const customError = "Custom error message";
+        const el = await fixture<BlTextarea>(html`<bl-textarea required invalid-text="${customError}"></bl-textarea>`);
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        const errorMessage = el.shadowRoot?.querySelector(".invalid-text");
+
+        expect(errorMessage?.textContent?.trim()).to.equal(customError);
+      });
+
+      it("should fire bl-invalid event when validation fails", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea required></bl-textarea>`);
+        const textarea = el.shadowRoot?.querySelector("textarea");
+
+        if (textarea) textarea.value = "";
+
+        setTimeout(() => textarea?.dispatchEvent(new Event("invalid")));
+
+        const ev = await oneEvent(el, "bl-invalid");
+
+        expect(ev).to.exist;
+        expect(ev.detail).to.exist;
+        expect(ev.detail.valid).to.be.false;
+      });
+
+      it("should transition from valid to invalid when value is cleared", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea required value="test"></bl-textarea>`);
+        const textarea = el.shadowRoot?.querySelector("textarea");
+
+        expect(el.validity.valid).to.be.true;
+
+        if (textarea) {
+          textarea.value = "";
+          textarea.dispatchEvent(new Event("input"));
+        }
+
+        await elementUpdated(el);
+
+        expect(el.validity.valid).to.be.false;
+      });
+
+      it("should show max-len-invalid class when maxlength exceeded", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea maxlength="5" value="more than 5 characters"></bl-textarea>`);
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        expect(wrapper?.classList.contains("max-len-invalid")).to.be.true;
+      });
+
+      it("should update character counter when maxlength exceeded", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea maxlength="5" value="toolong" character-counter></bl-textarea>`);
+        const counterText = el.shadowRoot?.querySelector(".counter-text");
+
+        expect(counterText?.textContent).to.equal("7/5");
+      });
+
+      it("should validate maxlength constraint", async () => {
+        const el = await fixture<BlTextarea>(html`<bl-textarea maxlength="5" value="more than five"></bl-textarea>`);
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        expect(el.validity.valid).to.be.false;
+        expect(el.validity.tooLong).to.be.true;
+      });
+    });
+  });
 });
