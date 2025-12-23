@@ -11,43 +11,9 @@ import * as StepperStories from "./bl-stepper.stories";
 
 The Stepper component displays progress through a sequence of steps. It helps users understand where they are in a multi-step process and what steps remain.
 
-## Design Rules
-
-- Maximum 9 items can be included in a stepper
-- Three display types: dot, number, and icon
-- Four main states: default, active, success, and error
-- Supports both horizontal and vertical orientations
-- All items have equal spacing
-- Connecting lines between completed steps are dark
-- Lines between incomplete steps are light
-- Includes dedicated focus state for enhanced keyboard and assistive technology accessibility
-
 ## Basic Usage
 
 A basic stepper can be created by combining `bl-stepper` with `bl-stepper-item` components.
-
-```html
-<bl-stepper>
-  <bl-stepper-item
-    id="1"
-    title="Step 1"
-    description="First step description"
-    variant="success"
-  ></bl-stepper-item>
-  <bl-stepper-item
-    id="2"
-    title="Step 2"
-    description="Second step description"
-    variant="active"
-  ></bl-stepper-item>
-  <bl-stepper-item
-    id="3"
-    title="Step 3"
-    description="Third step description"
-    variant="default"
-  ></bl-stepper-item>
-</bl-stepper>
-```
 
 <Canvas of={StepperStories.Default} />
 
@@ -160,24 +126,3 @@ Steppers can handle up to 9 steps for complex processes. If more than 9 items ar
 | Event               | Description                      | Return Value                                 |
 | ------------------- | -------------------------------- | -------------------------------------------- |
 | `bl-stepper-change` | Fired when stepper state changes | `{ activeStep: number, totalSteps: number }` |
-
-### bl-stepper-item
-
-<ArgsTable of="bl-stepper-item" />
-
-#### Attributes
-
-| Attribute     | Type                                            | Description                        | Default Value |
-| ------------- | ----------------------------------------------- | ---------------------------------- | ------------- |
-| `id`          | `string \| number`                              | Defines stepper item's id          | `""`          |
-| `variant`     | `"default" \| "active" \| "success" \| "error"` | Defines stepper item's status      | `"default"`   |
-| `disabled`    | `boolean`                                       | Defines stepper item's interaction | `false`       |
-| `icon`        | `string`                                        | Icon name for icon type steppers   | `"check"`     |
-| `title`       | `string`                                        | Defines stepper item's main title  | `""`          |
-| `description` | `string`                                        | Defines stepper item's description | `""`          |
-
-#### Events
-
-| Event                   | Description                        | Return Value                 |
-| ----------------------- | ---------------------------------- | ---------------------------- |
-| `bl-stepper-item-click` | Fired when stepper item is clicked | `string \| number` (item id) |
