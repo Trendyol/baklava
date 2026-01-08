@@ -1,6 +1,15 @@
 import * as React from 'react';
 import { DocsContainer as BaseContainer, DocsContainerProps } from '@storybook/blocks';
-import { themes } from '@storybook/theming';
+import { create, themes } from '@storybook/theming';
+
+// Custom dark theme with custom background color
+const customDarkTheme = create({
+  ...themes.dark,
+  base: 'dark',
+  appBg: '#030713',
+  appContentBg: '#030713',
+  barBg: '#030713',
+});
 
 export const DocsContainer: React.FC<React.PropsWithChildren<DocsContainerProps>> = ({ children, context }) => {
   // Get theme from context globals
@@ -14,8 +23,7 @@ export const DocsContainer: React.FC<React.PropsWithChildren<DocsContainerProps>
 
   return React.createElement(
     BaseContainer,
-    { theme: theme === 'dark' ? themes.dark : themes.light, context },
+    { theme: theme === 'dark' ? customDarkTheme : themes.light, context },
     children
   );
 };
-

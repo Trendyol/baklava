@@ -16,12 +16,12 @@
 .dark-theme {
   /* Neutral Colors - Dark Mode */
   --bl-color-neutral-none: #f0f5ff;
-  --bl-color-neutral-darkest: #1a2230;
-  --bl-color-neutral-darker: #374050;
-  --bl-color-neutral-dark: #576172;
-  --bl-color-neutral-light: #798496;
-  --bl-color-neutral-lighter: #9da8bb;
-  --bl-color-neutral-lightest: #c3cee2;
+  --bl-color-neutral-darkest: #f1f2f7;
+  --bl-color-neutral-darker: #afbbca;
+  --bl-color-neutral-dark: #95a1b5;
+  --bl-color-neutral-light: #6e7787;
+  --bl-color-neutral-lighter: #273142;
+  --bl-color-neutral-lightest: #0f131a;
   --bl-color-neutral-full: #030713;
 
   /* Primary Color - Slightly adjusted for dark mode */
