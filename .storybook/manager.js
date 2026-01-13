@@ -15,40 +15,48 @@ const injectSidebarCSS = themeName => {
     themeName === "dark"
       ? `
     /* Dark theme - PURE BLACK sidebar and toolbar */
-    /* Only target sidebar and toolbar areas, exclude preview/content */
-
-    /* Sidebar container */
+    body,
+    body *,
+    #storybook-root,
+    #storybook-root *,
     [data-side="left"],
-    [data-side="left"] > *,
-    .react-draggable,
-    .react-draggable > *,
-    .sidebar-container,
-    nav.sidebar-container {
-      background: #000000 !important;
-      background-color: #000000 !important;
-      background-image: none !important;
-    }
-
-    /* All elements inside sidebar */
-    [data-side="left"] *:not(iframe):not(iframe *),
-    .react-draggable *:not(iframe):not(iframe *),
-    .sidebar-container *:not(iframe):not(iframe *) {
-      background: #000000 !important;
-      background-color: #000000 !important;
-      background-image: none !important;
-      opacity: 1 !important;
-      filter: none !important;
-    }
-
-    /* Top toolbar */
+    [data-side="left"] *,
+    [data-side="left"] *::before,
+    [data-side="left"] *::after,
     [data-side="top"],
-    [data-side="top"] > * {
-      background: #000000 !important;
-      background-color: #000000 !important;
-      background-image: none !important;
-    }
-
-    [data-side="top"] *:not(iframe):not(iframe *) {
+    [data-side="top"] *,
+    [data-side="top"] *::before,
+    [data-side="top"] *::after,
+    nav,
+    nav *,
+    nav *::before,
+    nav *::after,
+    aside,
+    aside *,
+    aside *::before,
+    aside *::after,
+    header,
+    header *,
+    header *::before,
+    header *::after,
+    [class*="sidebar"],
+    [class*="sidebar"] *,
+    [class*="Sidebar"],
+    [class*="Sidebar"] *,
+    [class*="bar"],
+    [class*="bar"] *,
+    [role="toolbar"],
+    [role="toolbar"] *,
+    div[class^="css-"],
+    div[class^="css-"] *,
+    button,
+    button *,
+    a,
+    a *,
+    svg,
+    svg *,
+    span,
+    span * {
       background: #000000 !important;
       background-color: #000000 !important;
       background-image: none !important;
@@ -99,6 +107,31 @@ const injectSidebarCSS = themeName => {
       border-right: 1px solid #1a1a1a !important;
     }
 
+    /* Top header - Dark theme - Black background */
+    .css-13p4azl,
+    .css-13p4azl *,
+    div[class*="css-"]:not([class*="sidebar"]):first-child,
+    div[class*="css-"]:not([class*="sidebar"]):first-child * {
+      background: #000000 !important;
+      background-color: #000000 !important;
+    }
+
+    .css-13p4azl {
+      border-bottom: 1px solid #1a1a1a !important;
+    }
+
+    /* Top header buttons/icons hover - show theme background */
+    .css-13p4azl button:hover,
+    .css-13p4azl button:hover *,
+    .css-13p4azl a:hover,
+    .css-13p4azl a:hover *,
+    .css-13p4azl [role="button"]:hover,
+    .css-13p4azl [role="button"]:hover * {
+      background: #1a1a1a !important;
+      background-color: #1a1a1a !important;
+      border-radius: 4px !important;
+    }
+
     /* Scrollbar for dark theme - Always visible but styled */
     .react-draggable::-webkit-scrollbar {
       width: 8px !important;
@@ -128,193 +161,59 @@ const injectSidebarCSS = themeName => {
       scrollbar-color: #333333 #000000 !important;
     }
 
-    /* Text colors for visibility - only in sidebar/toolbar */
+    /* Text colors for visibility */
+    [data-side="left"],
     [data-side="left"] *,
+    [data-side="top"],
     [data-side="top"] *,
-    .react-draggable *,
-    .sidebar-container * {
+    nav,
+    nav *,
+    aside,
+    aside *,
+    header,
+    header *,
+    [class*="sidebar"],
+    [class*="sidebar"] *,
+    [class*="Sidebar"],
+    [class*="Sidebar"] *,
+    [class*="bar"],
+    [class*="bar"] *,
+    [role="toolbar"],
+    [role="toolbar"] *,
+    button,
+    button *,
+    a,
+    a *,
+    span {
       color: #E6E9F0 !important;
       fill: #E6E9F0 !important;
     }
 
-    /* SVG icons in sidebar/toolbar */
+    /* SVG icons */
     [data-side="left"] svg,
     [data-side="left"] svg *,
     [data-side="top"] svg,
-    [data-side="top"] svg *,
-    .react-draggable svg,
-    .react-draggable svg * {
+    [data-side="top"] svg * {
       fill: #E6E9F0 !important;
       stroke: #E6E9F0 !important;
       opacity: 1 !important;
     }
 
-    /* Hover states in sidebar/toolbar */
+    /* Hover states */
     [data-side="left"] a:hover,
     [data-side="left"] button:hover,
     [data-side="top"] a:hover,
     [data-side="top"] button:hover,
-    .react-draggable a:hover,
-    .react-draggable button:hover {
+    nav a:hover,
+    nav button:hover,
+    header a:hover,
+    header button:hover {
       background: #1a1a1a !important;
       opacity: 1 !important;
     }
   `
       : `
-    /* Light theme - Clean white sidebar and toolbar */
-    /* Only target sidebar and toolbar areas, exclude preview/content */
 
-    /* Sidebar container */
-    [data-side="left"],
-    [data-side="left"] > *,
-    .react-draggable,
-    .react-draggable > *,
-    .sidebar-container,
-    nav.sidebar-container {
-      background: #ffffff !important;
-      background-color: #ffffff !important;
-      background-image: none !important;
-    }
-
-    /* All elements inside sidebar */
-    [data-side="left"] *:not(iframe):not(iframe *),
-    .react-draggable *:not(iframe):not(iframe *),
-    .sidebar-container *:not(iframe):not(iframe *) {
-      background: #ffffff !important;
-      background-color: #ffffff !important;
-      background-image: none !important;
-      opacity: 1 !important;
-      filter: none !important;
-    }
-
-    /* Top toolbar */
-    [data-side="top"],
-    [data-side="top"] > * {
-      background: #ffffff !important;
-      background-color: #ffffff !important;
-      background-image: none !important;
-    }
-
-    [data-side="top"] *:not(iframe):not(iframe *) {
-      background: #ffffff !important;
-      background-color: #ffffff !important;
-      background-image: none !important;
-      opacity: 1 !important;
-      filter: none !important;
-    }
-
-    /* Remove any box-shadows */
-    [data-side="left"],
-    [data-side="left"] *,
-    [data-side="top"],
-    [data-side="top"] * {
-      box-shadow: none !important;
-    }
-
-    /* Remove borders from all children first */
-    [data-side="left"] *,
-    [data-side="top"] * {
-      border: none !important;
-    }
-
-    /* Enable scrolling for sidebar */
-    .react-draggable,
-    .sidebar-container,
-    nav.sidebar-container {
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-    }
-
-    /* Sidebar border - Light theme */
-    .react-draggable nav.sidebar-container,
-    .react-draggable .sidebar-container,
-    nav.sidebar-container.css-t68aeq,
-    nav.sidebar-container,
-    nav[class*="sidebar-container"],
-    .sidebar-container,
-    [class*="sidebar-container"],
-    .react-draggable {
-      border-right: 1px solid #e0e0e0 !important;
-      border-top: none !important;
-      border-bottom: none !important;
-      border-left: none !important;
-    }
-
-    /* Force border on react-draggable wrapper if it contains sidebar */
-    .react-draggable:has(.sidebar-container),
-    .react-draggable:has([class*="sidebar"]) {
-      border-right: 1px solid #e0e0e0 !important;
-    }
-
-    /* Scrollbar for light theme */
-    .react-draggable::-webkit-scrollbar {
-      width: 8px !important;
-    }
-
-    .react-draggable::-webkit-scrollbar-track {
-      background: #ffffff !important;
-    }
-
-    .react-draggable::-webkit-scrollbar-thumb {
-      background: #cccccc !important;
-      border-radius: 4px !important;
-    }
-
-    .react-draggable::-webkit-scrollbar-thumb:hover {
-      background: #aaaaaa !important;
-    }
-
-    /* OverlayScrollbars - Light theme */
-    .os-scrollbar-vertical {
-      background: #e0e0e0 !important;
-    }
-
-    /* Firefox scrollbar */
-    .react-draggable {
-      scrollbar-width: thin !important;
-      scrollbar-color: #cccccc #ffffff !important;
-    }
-
-    /* Text colors for visibility - only in sidebar/toolbar */
-    [data-side="left"] *,
-    [data-side="top"] *,
-    .react-draggable *,
-    .sidebar-container * {
-      color: #2E3438 !important;
-      fill: #2E3438 !important;
-    }
-
-    /* SVG icons in sidebar/toolbar */
-    [data-side="left"] svg,
-    [data-side="left"] svg *,
-    [data-side="top"] svg,
-    [data-side="top"] svg *,
-    .react-draggable svg,
-    .react-draggable svg * {
-      fill: #2E3438 !important;
-      stroke: #2E3438 !important;
-      opacity: 1 !important;
-    }
-
-    /* Hover states in sidebar/toolbar */
-    [data-side="left"] a:hover,
-    [data-side="left"] button:hover,
-    [data-side="top"] a:hover,
-    [data-side="top"] button:hover,
-    .react-draggable a:hover,
-    .react-draggable button:hover {
-      background: #f5f5f5 !important;
-      opacity: 1 !important;
-    }
-
-    /* Search input styling */
-    [data-side="left"] input,
-    .react-draggable input,
-    .sidebar-container input {
-      background: #f5f5f5 !important;
-      border: 1px solid #e0e0e0 !important;
-      color: #2E3438 !important;
-    }
   `;
 
   // Create and append style element
