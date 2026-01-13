@@ -1,17 +1,19 @@
-import { addons } from '@storybook/manager-api';
-import { lightTheme, darkTheme } from './baklava-theme';
+import { addons } from "@storybook/manager-api";
+import { darkTheme, lightTheme } from "./baklava-theme";
 
 // Inject CSS for sidebar theming
 let themeStyleElement = null;
 
-const injectSidebarCSS = (themeName) => {
+const injectSidebarCSS = themeName => {
   // Remove existing style
   if (themeStyleElement) {
     themeStyleElement.remove();
   }
 
   // Create CSS based on theme
-  const css = themeName === 'dark' ? `
+  const css =
+    themeName === "dark"
+      ? `
     /* Dark theme - PURE BLACK sidebar and toolbar */
     body,
     body *,
@@ -209,43 +211,115 @@ const injectSidebarCSS = (themeName) => {
       background: #1a1a1a !important;
       opacity: 1 !important;
     }
-  ` : `
+  `
+      : `
 
   `;
 
   // Create and append style element
-  themeStyleElement = document.createElement('style');
-  themeStyleElement.id = 'baklava-sidebar-theme';
+  themeStyleElement = document.createElement("style");
+  themeStyleElement.id = "baklava-sidebar-theme";
   themeStyleElement.textContent = css;
   document.head.appendChild(themeStyleElement);
 };
 
-// Function to update theme
-const updateTheme = (themeName) => {
-  const selectedTheme = themeName === 'dark' ? darkTheme : lightTheme;
+// Helper function to update all story iframes with theme query param
+const updateAllIframesTheme = theme => {
+  // Find the main preview iframe
+  const previewIframe = document.getElementById("storybook-preview-iframe");
+  if (previewIframe) {
+    try {
+      const iframeDoc = previewIframe.contentDocument || previewIframe.contentWindow?.document;
+      if (iframeDoc) {
+        // Find all story iframes within docs pages
+        // Storybook uses id="iframe--{story-id}" format for story iframes in docs
+        const storyIframes = iframeDoc.querySelectorAll(
+          'iframe[id^="iframe--"], iframe[src*="iframe.html"]'
+        );
 
-addons.setConfig({
+        storyIframes.forEach(iframe => {
+          try {
+            const currentSrc = iframe.src;
+            if (!currentSrc || !currentSrc.includes("iframe.html")) return;
+
+            const url = new URL(currentSrc, window.location.origin);
+            const globalsParam = url.searchParams.get("globals");
+
+            // Parse existing globals or create new
+            const globalsMap = new Map();
+            if (globalsParam) {
+              globalsParam.split(";").forEach(pair => {
+                const [key, value] = pair.split(":");
+                if (key && value) globalsMap.set(key, value);
+              });
+            }
+
+            // Check if theme already matches
+            if (globalsMap.get("theme") === theme) return;
+
+            // Update theme in globals
+            globalsMap.set("theme", theme);
+
+            // Rebuild globals string
+            const newGlobals = Array.from(globalsMap.entries())
+              .map(([k, v]) => `${k}:${v}`)
+              .join(";");
+
+            url.searchParams.set("globals", newGlobals);
+
+            // Update iframe src
+            iframe.src = url.toString();
+          } catch (e) {
+            // Ignore invalid URLs
+          }
+        });
+      }
+    } catch (e) {
+      // Ignore cross-origin errors
+    }
+  }
+};
+
+// Function to update theme
+const updateTheme = themeName => {
+  const selectedTheme = themeName === "dark" ? darkTheme : lightTheme;
+
+  addons.setConfig({
     theme: selectedTheme,
-  sidebar: {
-    showRoots: true,
-  },
+    sidebar: {
+      showRoots: true,
+    },
   });
 
   // Inject sidebar CSS
   injectSidebarCSS(themeName);
 };
 
-// Get initial theme from localStorage
-let currentTheme = 'light';
-try {
-  const storedGlobals = localStorage.getItem('storybook-globals');
-  if (storedGlobals) {
-    const parsed = JSON.parse(storedGlobals);
-    currentTheme = parsed.theme || 'light';
-  }
-} catch (e) {
-  // Use default light theme
-}
+// Get initial theme from URL params or localStorage
+const getInitialTheme = () => {
+  // 1. First try URL params (globals=theme:dark)
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const globals = urlParams.get("globals");
+    if (globals) {
+      const themeMatch = globals.match(/theme:([^;]+)/);
+      if (themeMatch) return themeMatch[1];
+    }
+  } catch (e) {}
+
+  // 2. Fallback to localStorage
+  try {
+    const storedGlobals = localStorage.getItem("storybook-globals");
+    if (storedGlobals) {
+      const parsed = JSON.parse(storedGlobals);
+      if (parsed.theme) return parsed.theme;
+    }
+  } catch (e) {}
+
+  return "light";
+};
+
+let currentTheme = getInitialTheme();
 
 // Set initial config
 updateTheme(currentTheme);
@@ -261,26 +335,42 @@ setInterval(() => {
   injectSidebarCSS(storedTheme);
 }, 1000);
 
+// Helper to get theme from URL params
+const getThemeFromURL = () => {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const globals = urlParams.get("globals");
+    if (globals) {
+      const themeMatch = globals.match(/theme:([^;]+)/);
+      if (themeMatch) return themeMatch[1];
+    }
+  } catch (e) {}
+  return null;
+};
+
 // Listen for theme changes via channel
 const channel = addons.getChannel();
-channel.on('GLOBALS_UPDATED', ({ globals }) => {
+channel.on("GLOBALS_UPDATED", ({ globals }) => {
   if (globals && globals.theme && globals.theme !== currentTheme) {
     currentTheme = globals.theme;
     updateTheme(globals.theme);
+    // Save to localStorage
+    localStorage.setItem("storybook-globals", JSON.stringify({ theme: globals.theme }));
+    // Update all story iframes with new theme
+    setTimeout(() => updateAllIframesTheme(globals.theme), 100);
   }
 });
 
-// Poll localStorage for theme changes (backup mechanism)
+// Poll for theme changes from URL params only
+// URL is the source of truth - don't use localStorage to prevent race conditions
 setInterval(() => {
   try {
-    const storedGlobals = localStorage.getItem('storybook-globals');
-    if (storedGlobals) {
-      const parsed = JSON.parse(storedGlobals);
-      const newTheme = parsed.theme || 'light';
-      if (newTheme !== currentTheme) {
-        currentTheme = newTheme;
-        updateTheme(newTheme);
-      }
+    const urlTheme = getThemeFromURL();
+    if (urlTheme && urlTheme !== currentTheme) {
+      currentTheme = urlTheme;
+      updateTheme(urlTheme);
+      updateAllIframesTheme(urlTheme);
+      localStorage.setItem("storybook-globals", JSON.stringify({ theme: urlTheme }));
     }
   } catch (e) {
     // Ignore errors
@@ -288,12 +378,14 @@ setInterval(() => {
 }, 300);
 
 // Listen for postMessage from preview iframe
-window.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'STORYBOOK_THEME_CHANGED') {
+window.addEventListener("message", event => {
+  if (event.data && event.data.type === "STORYBOOK_THEME_CHANGED") {
     const newTheme = event.data.theme;
     if (newTheme && newTheme !== currentTheme) {
       currentTheme = newTheme;
       updateTheme(newTheme);
+      // Update all story iframes with new theme
+      updateAllIframesTheme(newTheme);
     }
   }
 });
