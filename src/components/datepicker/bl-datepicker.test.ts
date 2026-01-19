@@ -1,7 +1,7 @@
 import { aTimeout, expect, fixture, html } from "@open-wc/testing";
+import sinon from "sinon";
 import { BlButton, BlDatePicker } from "../../baklava";
 import { CALENDAR_TYPES } from "../calendar/bl-calendar.constant";
-import sinon from "sinon";
 import "./bl-datepicker";
 
 describe("BlDatepicker", () => {
@@ -317,4 +317,91 @@ describe("BlDatepicker", () => {
     expect(focusSpy.called).to.be.true;
   });
 
+  describe("Month-Year Only Mode", () => {
+    beforeEach(async () => {
+      element = await fixture<BlDatePicker>(html`
+        <bl-datepicker type="single" locale="en" month-year-only></bl-datepicker>`);
+      await element.updateComplete;
+    });
+
+    it("should pass month-year-only attribute to calendar", async () => {
+      expect(element._calendarEl?.monthYearOnly).to.be.true;
+    });
+
+    it("should format date as MM/YYYY in month-year-only mode", async () => {
+      const testDate = new Date(2024, 9, 15); // October 15, 2024
+      const formattedDate = element.formatDate(testDate);
+
+      expect(formattedDate).to.equal("10/2024");
+    });
+
+    it("should format single date selection correctly in month-year-only mode", async () => {
+      element._calendarEl._dates = [new Date(2024, 5, 1)]; // June 2024
+      element.setDatePickerInput();
+      await element.updateComplete;
+
+      expect(element._inputValue).to.equal("06/2024");
+    });
+
+    it("should format multiple date selection correctly in month-year-only mode", async () => {
+      element.type = CALENDAR_TYPES.MULTIPLE;
+      await element.updateComplete;
+
+      element._calendarEl._dates = [new Date(2024, 0, 1), new Date(2024, 1, 1)]; // Jan & Feb 2024
+      element.setFloatingDates();
+      element.setDatePickerInput();
+      await element.updateComplete;
+
+      expect(element._inputValue).to.include("01/2024");
+      expect(element._inputValue).to.include("02/2024");
+    });
+
+    it("should format range date selection correctly in month-year-only mode", async () => {
+      element.type = CALENDAR_TYPES.RANGE;
+      await element.updateComplete;
+
+      element._calendarEl._dates = [new Date(2024, 2, 1), new Date(2024, 5, 1)]; // March to June 2024
+      element.setDatePickerInput();
+      await element.updateComplete;
+
+      expect(element._inputValue).to.equal("03/2024-06/2024");
+    });
+
+    it("should open calendar in MONTHS view when month-year-only is enabled", async () => {
+      element._inputEl?.click();
+      await element.updateComplete;
+
+      expect(element._calendarEl._calendarView).to.equal("months");
+    });
+
+    it("should fire bl-datepicker-change event with first day of month in month-year-only mode", (done) => {
+      element.addEventListener("bl-datepicker-change", (event) => {
+        const customEvent = event as CustomEvent<Date[]>;
+
+        expect(customEvent.detail.length).to.equal(1);
+        expect(customEvent.detail[0].getDate()).to.equal(1);
+        done();
+      });
+
+      // Simulate month selection
+      const testDate = new Date(2024, 6, 1); // July 1, 2024
+
+      element._calendarEl._dates = [testDate];
+      element.onCalendarChange();
+    });
+
+    it("should clear datepicker correctly in month-year-only mode", async () => {
+      element._calendarEl._dates = [new Date(2024, 3, 1)]; // April 2024
+      element.setDatePickerInput();
+      await element.updateComplete;
+
+      expect(element._inputValue).to.equal("04/2024");
+
+      element.clearDatepicker();
+      await element.updateComplete;
+
+      expect(element._inputValue).to.equal("");
+      expect(element._calendarEl._dates).to.deep.equal([]);
+    });
+  });
 });

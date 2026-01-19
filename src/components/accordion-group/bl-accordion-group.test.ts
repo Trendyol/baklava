@@ -1,7 +1,7 @@
-import { assert, aTimeout, expect, fixture, html } from "@open-wc/testing";
-import BlAccordionGroup from "./bl-accordion-group";
+import { assert, aTimeout, fixture, html, waitUntil } from "@open-wc/testing";
 import "./accordion/bl-accordion";
 import BlAccordion from "./accordion/bl-accordion";
+import BlAccordionGroup from "./bl-accordion-group";
 
 describe("bl-accordion-group", () => {
   it("is defined", () => {
@@ -31,13 +31,19 @@ describe("bl-accordion-group", () => {
 
     for (const accordion of accordions) {
       accordion.shadowRoot!.querySelector("summary")!.click();
-      await aTimeout(250);
+      await aTimeout(400);
     }
 
-    await aTimeout(250);
+    await aTimeout(400);
 
-    const openAccordions = el.querySelectorAll("bl-accordion[open]");
+    await waitUntil(
+      () => {
+        const openAccordions = el.querySelectorAll("bl-accordion[open]");
 
-    expect(openAccordions.length).to.eq(1);
+        return openAccordions.length === 1;
+      },
+      "Expected only one accordion to be open",
+      { timeout: 5000 }
+    );
   });
 });

@@ -55,6 +55,13 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   @property({ type: String, attribute: "help-text", reflect: true })
   helpText: string;
 
+  /**
+   * Custom function to render day cells in the calendar.
+   * It receives the date as an argument and should return a TemplateResult.
+   */
+  @property({ attribute: false })
+  dayRenderer?: (date: Date) => TemplateResult;
+
   @state()
   _inputValue = "";
 
@@ -136,6 +143,9 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   formatDate(date: Date): string {
+    if (this.monthYearOnly) {
+      return `${String(date?.getMonth() + 1).padStart(2, "0")}/${date?.getFullYear()}`;
+    }
     return `${String(date?.getDate()).padStart(2, "0")}/${String(date?.getMonth() + 1).padStart(
       2,
       "0"
@@ -214,6 +224,8 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           .disabledDates=${this.disabledDates}
           .value=${this.value}
           .locale=${this.locale}
+          .dayRenderer=${this.dayRenderer}
+          ?month-year-only=${this.monthYearOnly}
           @bl-calendar-change="${this.onCalendarChange}"
         ></bl-calendar>
       </bl-popover>
@@ -244,6 +256,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
               kind="neutral"
               icon="close"
               @click=${this.clearDatepicker}
+              ?disabled=${this.disabled}
             ></bl-button>
             <div class="action-divider"></div>`
         : "";

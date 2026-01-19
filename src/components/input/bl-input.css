@@ -12,11 +12,11 @@
   --input-font: var(--bl-font-body-text-2);
   --line-height: var(--bl-font-body-text-2-line-height);
   --icon-size: var(--line-height);
-  --icon-gap: var(--bl-size-xs);
+  --icon-gap: var(--bl-size-4xs);
   --padding-vertical: calc((var(--height) - var(--line-height)) / 2);
   --padding-horizontal: var(--bl-size-xs);
   --autofill-bg-color: var(--bl-color-primary-contrast);
-  --label-padding: var(--bl-size-3xs);
+  --label-padding: var(--bl-size-2xs);
   --background-color: var(--bl-color-neutral-full);
 
   display: grid;
@@ -38,15 +38,12 @@
   --height: var(--bl-size-3xl);
   --padding-vertical: var(--bl-size-xs);
   --padding-horizontal: var(--bl-size-m);
-  --icon-gap: var(--bl-size-m);
 }
 
 :host([size="small"]) .wrapper {
   --height: var(--bl-size-xl);
   --input-font: var(--bl-font-body-text-3);
   --padding-vertical: var(--bl-size-3xs);
-  --icon-size: var(--bl-font-body-text-3-line-height);
-  --icon-gap: var(--bl-size-2xs);
 }
 
 .input-wrapper {
@@ -58,14 +55,13 @@
   gap: var(--padding-vertical);
   height: var(--height);
   border: solid var(--border-size) var(--border-color);
-  padding: 0
-    calc(
-      var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding) -
+  padding-block: 0;
+  padding-inline: calc(
+      var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding) -
         var(--border-size)
     )
-    0
     calc(
-      var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding) -
+      var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding) -
         var(--border-size)
     );
   background-color: var(--background-color);
@@ -135,7 +131,8 @@ input {
   align-self: stretch;
   outline: 0;
   border: 0;
-  padding: 0 0 0 var(--label-padding);
+  padding-block: 0;
+  padding-inline: var(--label-padding) 0;
   font: var(--input-font);
   color: var(--text-color);
   -webkit-text-fill-color: var(--text-color);
@@ -329,4 +326,9 @@ bl-icon[name="eye_on"] {
   height: 1rem;
   width: 1px;
   background-color: var(--bl-color-neutral-lighter);
+}
+
+slot[name="icon"] bl-icon {
+  margin-inline-start: var(--bl-size-3xs);
+  font-size: var(--bl-font-size-m);
 }

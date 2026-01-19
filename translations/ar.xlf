@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+<file target-language="ar" source-language="en" original="lit-localize-inputs" datatype="plaintext">
+<body>
+<trans-unit id="s3f9c368cd44f682b">
+  <source>An error occurred</source>
+  <target>حدث خطأ</target>
+  <note from="lit-localize">bl-input: default custom error message</note>
+</trans-unit>
+<trans-unit id="sb1ba2131b9a7c7b0">
+  <source>Go to</source>
+  <target>اذهب إلى</target>
+  <note from="lit-localize">bl-pagination: jumper text</note>
+</trans-unit>
+<trans-unit id="s716a6024e3fe999c">
+  <source>Show</source>
+  <target>عرض</target>
+  <note from="lit-localize">bl-pagination: listing text</note>
+</trans-unit>
+<trans-unit id="s76ddb3a843ed8e06">
+  <source>Clear Search</source>
+  <target>مسح البحث</target>
+  <note from="lit-localize">bl-select: clear search button text</note>
+</trans-unit>
+<trans-unit id="s859e1270b0736efc">
+  <source>Close dropdown</source>
+  <target>إغلاق القائمة المنسدلة</target>
+  <note from="lit-localize">bl-select: close dropdown button</note>
+</trans-unit>
+<trans-unit id="s761665218da1556a">
+  <source>Open dropdown</source>
+  <target>فتح القائمة المنسدلة</target>
+  <note from="lit-localize">bl-select: open dropdown button</note>
+</trans-unit>
+<trans-unit id="s144508ac0e146c46">
+  <source>No Data Found</source>
+  <target>لم يتم العثور على بيانات</target>
+  <note from="lit-localize">bl-select: search no data text</note>
+</trans-unit>
+<trans-unit id="s5d929ff1619ac0c9">
+  <source>Search</source>
+  <target>بحث</target>
+  <note from="lit-localize">bl-select: search placeholder text</note>
+</trans-unit>
+<trans-unit id="sbaace8219b5f4612">
+  <source>Select All</source>
+  <target>اختر الكل</target>
+  <note from="lit-localize">bl-select: select all text</note>
+</trans-unit>
+<trans-unit id="s8bf9dd3eac79af25">
+  <source>There are currently no records to display.</source>
+  <target>لا توجد حاليًا سجلات للعرض.</target>
+  <note from="lit-localize">bl-table-body: no data subtitle</note>
+</trans-unit>
+<trans-unit id="sa26d7a273074cbf9">
+  <source>No data available</source>
+  <target>لا توجد بيانات متاحة</target>
+  <note from="lit-localize">bl-table-body: no data title</note>
+</trans-unit>
+</body>
+</file>
+</xliff>

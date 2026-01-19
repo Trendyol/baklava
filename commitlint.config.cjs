@@ -5,6 +5,7 @@ module.exports = {
       2,
       "always",
       [
+        "lang",
         "storybook",
         "design",
         "react",
@@ -38,6 +39,8 @@ module.exports = {
         "split-button",
         "tag",
         "datepicker",
+        "link",
+        "stepper",
       ],
     ],
   },

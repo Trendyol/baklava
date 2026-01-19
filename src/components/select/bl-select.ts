@@ -353,6 +353,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     });
   }
 
+  private _handleToggleButtonClick(e: MouseEvent) {
+    e.stopPropagation();
+    this._togglePopover();
+  }
+
   connectedCallback(): void {
     super.connectedCallback();
 
@@ -371,9 +376,13 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   private inputTemplate() {
     const inputSelectedOptions = html`<ul class="selected-options">
-      ${this._selectedOptions.map(
-        item => html`<li>${item.getAttribute("label") || item.textContent}</li>`
-      )}
+      ${this._selectedOptions.map(item => {
+        const icon = item.icon
+          ? html`<bl-icon name=${item.icon}></bl-icon>`
+          : Array.from(item.querySelectorAll("[slot=icon]")).map(el => el.cloneNode(true));
+
+        return html`<li>${icon}${item.getAttribute("label") || item.textContent}</li>`;
+      })}
     </ul>`;
 
     const isAllSelectedDisabled =
@@ -449,12 +458,24 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       <div class="actions">
         ${this.opened ? (this.searchBarLoadingState ? searchSpinner : searchMagIcon) : ""}
         ${!this.opened ? removeButton : ""} ${actionDivider}
-
-        <div @click=${this._togglePopover}>
-          <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
-
-          <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
-        </div>
+        <bl-button
+          class="dropdown-icon open"
+          variant="tertiary"
+          kind="neutral"
+          size="small"
+          icon="arrow_up"
+          @click=${this._handleToggleButtonClick}
+          aria-label="${msg("Close dropdown", { desc: "bl-select: close dropdown button" })}"
+        ></bl-button>
+        <bl-button
+          class="closed dropdown-icon"
+          variant="tertiary"
+          kind="neutral"
+          size="small"
+          icon="arrow_down"
+          @click=${this._handleToggleButtonClick}
+          aria-label="${msg("Open dropdown", { desc: "bl-select: open dropdown button" })}"
+        ></bl-button>
       </div>
     </fieldset>`;
 

@@ -124,6 +124,16 @@ describe("bl-select", () => {
     expect(selectedOptions?.textContent).contains("custom-label-1");
     expect(selectedOptions?.textContent).contains("Option 3");
   });
+  it("should render icon correctly on bl-select if an option selected that has icon", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select>
+      <bl-select-option selected icon="info" value="1">Option 1</bl-select-option>
+      <bl-select-option value="2">Option 2</bl-select-option>
+    </bl-select>`);
+
+    const selectedOptions = el.shadowRoot?.querySelector<HTMLUListElement>(".selected-options");
+
+    expect(selectedOptions?.children[0].children[0].outerHTML).to.equal("<bl-icon name=\"info\"></bl-icon>");
+  });
   it("should open select menu", async () => {
     const el = await fixture<BlSelect>(html`<bl-select><bl-select-option value="1">Option 1</bl-select-option></bl-select>`);
 
@@ -1302,6 +1312,62 @@ describe("bl-select", () => {
     // Clean up after tests
     afterEach(() => {
       document.documentElement.removeAttribute("lang");
+    });
+  });
+
+  describe("dropdown icon behavior", () => {
+    it("should toggle popover when closed dropdown icon is clicked", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select>
+        <bl-select-option value="1">Option 1</bl-select-option>
+      </bl-select>`);
+
+      expect(el.opened).to.be.false;
+
+      const closedDropdownIcon = el.shadowRoot?.querySelector(".closed.dropdown-icon") as HTMLElement;
+
+      closedDropdownIcon.click();
+
+      expect(el.opened).to.be.true;
+    });
+
+    it("should toggle popover when open dropdown icon is clicked", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select>
+        <bl-select-option value="1">Option 1</bl-select-option>
+      </bl-select>`);
+
+      // First open it
+      el.open();
+      await elementUpdated(el);
+      expect(el.opened).to.be.true;
+
+      // Then close it via the open icon
+      const openDropdownIcon = el.shadowRoot?.querySelector(".open.dropdown-icon") as HTMLElement;
+
+      openDropdownIcon.click();
+
+      expect(el.opened).to.be.false;
+    });
+
+    it("should toggle popover when dropdown icons are clicked in search mode", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select search-bar>
+        <bl-select-option value="1">Option 1</bl-select-option>
+      </bl-select>`);
+
+      expect(el.opened).to.be.false;
+
+      // Click closed icon to open
+      const closedDropdownIcon = el.shadowRoot?.querySelector(".closed.dropdown-icon") as HTMLElement;
+
+      closedDropdownIcon.click();
+
+      expect(el.opened).to.be.true;
+
+      // Click open icon to close
+      const openDropdownIcon = el.shadowRoot?.querySelector(".open.dropdown-icon") as HTMLElement;
+
+      openDropdownIcon.click();
+
+      expect(el.opened).to.be.false;
     });
   });
 });

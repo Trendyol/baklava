@@ -1,5 +1,6 @@
 import { html } from "lit";
 import { ArgsTable, Canvas, Meta, Story } from "@storybook/addon-docs";
+import { action } from "@storybook/addon-actions";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
@@ -27,7 +28,11 @@ export const DatepickerTemplate = (args) => html`
     locale=${ifDefined(args.locale)}
     value=${ifDefined(args.value)}
     style=${ifDefined(args.style)}
-    disabled-dates=${ifDefined(args.disabledDates)}>${unsafeHTML(args.content)}
+    disabled-dates=${ifDefined(args.disabledDates)}
+    ?month-year-only=${args.monthYearOnly}
+    @bl-datepicker-change=${(e) => {
+      action('bl-datepicker-change')(e)
+    }}>${unsafeHTML(args.content)}
   </bl-datepicker>`
 
 
@@ -49,7 +54,6 @@ Datepicker renders the calendar component within itself and provides the functio
 * Datepicker has **min-date** and **max-date** attributes.By entering these values,you can disable all dates before min-date property or will disable all dates after max-date property.
 * Another attribute **disabled-dates** is also restrict the dates that can be selected on the datepicker.
 * Attribute **start-of-date** defines the days of the week, corresponding to 0 Sundays and 6 Saturdays. By entering this, you can choose from which day the datepicker will create the datepicker view.
-
 
 ## Datepicker Types
 
@@ -148,6 +152,24 @@ You can set min date or max date for the datepicker.
            placeholder: 'Set min and max date',
            minDate: `${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 2)}`,
            maxDate: `${new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)}`
+         }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Month and Year Only Selection
+
+You can set the datepicker to month-year only mode by using the `month-year-only` attribute. When enabled, users can only select a month and year, not a specific day.
+
+### Single Type Month-Year Only
+
+<Canvas>
+  <Story name="Month Year Only - Single"
+         args={{
+           type: 'single',
+           label: 'Select Month and Year',
+           placeholder: 'Select month and year',
+           monthYearOnly: true
          }}>
     {Template.bind({})}
   </Story>

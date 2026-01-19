@@ -1,0 +1,87 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+}
+
+.link {
+  /* Custom properties */
+  --color: var(--bl-link-color, var(--bl-color-primary));
+  --hover-color: var(--bl-link-hover-color, var(--bl-color-primary-highlight));
+  --active-color: var(--bl-link-active-color, var(--bl-color-primary-highlight));
+
+  /* Base styles */
+  display: inline-flex;
+  align-items: center;
+  color: var(--color);
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  font-family: var(--bl-font-family);
+}
+
+/* States */
+.link:hover {
+  text-decoration: none;
+  color: var(--hover-color);
+}
+
+.link:active {
+  color: var(--active-color);
+}
+
+/* Focus styles */
+.link:focus-visible {
+  outline: none;
+}
+
+.link:focus-visible::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 2px solid var(--bl-color-primary);
+  border-radius: var(--bl-border-radius-s);
+}
+
+/* Primary kind */
+.link.standalone.kind-primary {
+  color: var(--bl-color-primary);
+}
+
+.link.standalone.kind-primary:hover,
+.link.standalone.kind-primary:active {
+  color: var(--bl-color-primary-highlight);
+}
+
+/* Neutral kind */
+.link.standalone.kind-neutral {
+  color: var(--bl-color-neutral);
+}
+
+.link.standalone.kind-neutral:hover,
+.link.standalone.kind-neutral:active {
+  color: var(--bl-color-neutral-highlight);
+}
+
+/* Size variants */
+.link.standalone.size-large {
+  font-weight: var(--bl-font-weight-regular);
+  font-size: var(--bl-font-size-l);
+}
+
+.link.standalone.size-medium {
+  font-weight: var(--bl-font-weight-regular);
+  font-size: var(--bl-font-size-m);
+}
+
+.link.standalone.size-small {
+  font-weight: var(--bl-font-weight-regular);
+  font-size: var(--bl-font-size-s);
+}
+
+/* Icon styles */
+::slotted([slot="icon"]) {
+  margin-inline-start: var(--bl-size-3xs);
+  margin-inline-end: var(--bl-size-3xs);
+  display: inline-block;
+  vertical-align: middle;
+}

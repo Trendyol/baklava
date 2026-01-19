@@ -333,7 +333,8 @@ describe("bl-input", () => {
 
     it("should show clear button and clear value on clear button click", async () => {
       const el = await fixture<BlInput>(html`<bl-input type="search" value="test"></bl-input>`);
-      const closeIcon = el?.shadowRoot?.querySelector('bl-icon[name="close"]') as HTMLElement | null;
+      const clearButton = el?.shadowRoot?.querySelector('bl-button[icon="close"]') as HTMLElement | null;
+      const closeIcon = clearButton?.shadowRoot?.querySelector("button") as HTMLElement | null;
       const input = el?.shadowRoot?.querySelector("input");
 
       expect(input).to.attr("type", "search");
@@ -501,6 +502,287 @@ describe("bl-input", () => {
       const spinner = el.shadowRoot?.querySelector("bl-spinner");
 
       expect(spinner).to.not.exist;
+    });
+  });
+
+  describe("interaction tests", () => {
+    describe("focus state", () => {
+      it("should handle focus event when input is focused", async () => {
+        const el = await fixture<BlInput>(html`<bl-input label="Test Input"></bl-input>`);
+        const input = el.shadowRoot?.querySelector("input");
+
+        expect(input).to.exist;
+
+        input?.focus();
+        await elementUpdated(el);
+
+        expect(document.activeElement).to.equal(el);
+      });
+
+      it("should have autofocus attribute when set", async () => {
+        const el = await fixture<BlInput>(html`<bl-input autofocus></bl-input>`);
+        const input = el.shadowRoot?.querySelector("input");
+        
+        await elementUpdated(el);
+
+        expect(el.autofocus).to.be.true;
+        expect(input?.hasAttribute("autofocus")).to.be.true;
+      });
+
+      it("should maintain focus after user interaction", async () => {
+        const el = await fixture<BlInput>(html`<bl-input label="Test"></bl-input>`);
+        const input = el.shadowRoot?.querySelector("input");
+
+        input?.focus();
+        await elementUpdated(el);
+
+        if (input) {
+          input.value = "test value";
+          input.dispatchEvent(new Event("input"));
+        }
+
+        await elementUpdated(el);
+
+        expect(document.activeElement).to.equal(el);
+      });
+    });
+
+    describe("filled state", () => {
+      it("should show has-value class when input has value", async () => {
+        const el = await fixture<BlInput>(html`<bl-input value="test"></bl-input>`);
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        expect(wrapper?.classList.contains("has-value")).to.be.true;
+      });
+
+      it("should add has-value class when user types", async () => {
+        const el = await fixture<BlInput>(html`<bl-input></bl-input>`);
+        const input = el.shadowRoot?.querySelector("input");
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        expect(wrapper?.classList.contains("has-value")).to.be.false;
+
+        if (input) {
+          input.value = "new value";
+          input.dispatchEvent(new Event("input"));
+        }
+
+        await elementUpdated(el);
+
+        expect(wrapper?.classList.contains("has-value")).to.be.true;
+      });
+
+      it("should remove has-value class when input is cleared", async () => {
+        const el = await fixture<BlInput>(html`<bl-input value="test"></bl-input>`);
+        const input = el.shadowRoot?.querySelector("input");
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        expect(wrapper?.classList.contains("has-value")).to.be.true;
+
+        if (input) {
+          input.value = "";
+          input.dispatchEvent(new Event("input"));
+        }
+
+        await elementUpdated(el);
+
+        expect(wrapper?.classList.contains("has-value")).to.be.false;
+      });
+
+      it("should maintain filled state with whitespace value", async () => {
+        const el = await fixture<BlInput>(html`<bl-input value="   "></bl-input>`);
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        expect(wrapper?.classList.contains("has-value")).to.be.true;
+      });
+    });
+
+    describe("valid state", () => {
+      it("should be valid when input meets all requirements", async () => {
+        const el = await fixture<BlInput>(html`<bl-input required value="test"></bl-input>`);
+
+        expect(el.validity.valid).to.be.true;
+        expect(el.checkValidity()).to.be.true;
+      });
+
+      it("should show no error message when valid", async () => {
+        const el = await fixture<BlInput>(html`<bl-input required value="test"></bl-input>`);
+        
+        el.reportValidity();
+        await elementUpdated(el);
+
+        const errorMessage = el.shadowRoot?.querySelector(".invalid-text");
+
+        expect(errorMessage).to.not.exist;
+      });
+
+      it("should not have invalid class when valid", async () => {
+        const el = await fixture<BlInput>(html`<bl-input required value="test"></bl-input>`);
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        expect(wrapper?.classList.contains("invalid")).to.be.false;
+      });
+
+      it("should transition from invalid to valid on user input", async () => {
+        const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
+        const input = el.shadowRoot?.querySelector("input");
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        expect(el.validity.valid).to.be.false;
+
+        if (input) {
+          input.value = "valid input";
+          input.dispatchEvent(new Event("input"));
+        }
+
+        await elementUpdated(el);
+
+        expect(el.validity.valid).to.be.true;
+      });
+
+      it("should validate pattern correctly", async () => {
+        const el = await fixture<BlInput>(html`<bl-input pattern="[0-9]{3}" value="123"></bl-input>`);
+
+        expect(el.validity.valid).to.be.true;
+        expect(el.validity.patternMismatch).to.be.false;
+      });
+
+      it("should validate minlength correctly", async () => {
+        const el = await fixture<BlInput>(html`<bl-input minlength="3" value="test"></bl-input>`);
+
+        expect(el.validity.valid).to.be.true;
+        expect(el.validity.tooShort).to.be.false;
+      });
+
+      it("should validate maxlength correctly", async () => {
+        const el = await fixture<BlInput>(html`<bl-input maxlength="10" value="test"></bl-input>`);
+
+        expect(el.validity.valid).to.be.true;
+        expect(el.validity.tooLong).to.be.false;
+      });
+    });
+
+    describe("invalid state", () => {
+      it("should be invalid when required field is empty", async () => {
+        const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
+
+        expect(el.validity.valid).to.be.false;
+        expect(el.validity.valueMissing).to.be.true;
+      });
+
+      it("should show error message when invalid and dirty", async () => {
+        const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        const errorMessage = el.shadowRoot?.querySelector(".invalid-text");
+
+        expect(errorMessage).to.exist;
+        expect(errorMessage?.textContent).to.not.be.empty;
+      });
+
+      it("should have invalid class when validation fails", async () => {
+        const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
+        const wrapper = el.shadowRoot?.querySelector(".wrapper");
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        expect(wrapper?.classList.contains("invalid")).to.be.true;
+      });
+
+      it("should show alert icon when invalid", async () => {
+        const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        const alertIcon = el.shadowRoot?.querySelector('bl-icon[name="alert"]');
+
+        expect(alertIcon).to.exist;
+      });
+
+      it("should validate pattern mismatch", async () => {
+        const el = await fixture<BlInput>(html`<bl-input pattern="[0-9]{3}" value="abc"></bl-input>`);
+
+        expect(el.validity.valid).to.be.false;
+        expect(el.validity.patternMismatch).to.be.true;
+      });
+
+      it("should have minlength attribute set correctly", async () => {
+        const el = await fixture<BlInput>(html`<bl-input minlength="5"></bl-input>`);
+        const input = el.shadowRoot?.querySelector("input");
+
+        expect(input?.getAttribute("minlength")).to.equal("5");
+        expect(el.minlength).to.equal(5);
+      });
+
+      it("should show custom error message with invalid-text attribute", async () => {
+        const customError = "Custom error message";
+        const el = await fixture<BlInput>(html`<bl-input required invalid-text="${customError}"></bl-input>`);
+
+        el.reportValidity();
+        await elementUpdated(el);
+
+        const errorMessage = el.shadowRoot?.querySelector(".invalid-text");
+
+        expect(errorMessage?.textContent?.trim()).to.equal(customError);
+      });
+
+      it("should fire bl-invalid event when validation fails", async () => {
+        const el = await fixture<BlInput>(html`<bl-input required></bl-input>`);
+
+        setTimeout(() => el.reportValidity());
+
+        const event = await oneEvent(el, "bl-invalid");
+
+        expect(event).to.exist;
+        expect(event.detail).to.exist;
+        expect(event.detail.valid).to.be.false;
+      });
+
+      it("should transition from valid to invalid when value is cleared", async () => {
+        const el = await fixture<BlInput>(html`<bl-input required value="test"></bl-input>`);
+        const input = el.shadowRoot?.querySelector("input");
+
+        expect(el.validity.valid).to.be.true;
+
+        if (input) {
+          input.value = "";
+          input.dispatchEvent(new Event("input"));
+        }
+
+        await elementUpdated(el);
+
+        expect(el.validity.valid).to.be.false;
+      });
+
+      it("should validate email type correctly", async () => {
+        const el = await fixture<BlInput>(html`<bl-input type="email" value="invalid-email"></bl-input>`);
+
+        expect(el.validity.valid).to.be.false;
+        expect(el.validity.typeMismatch).to.be.true;
+      });
+
+      it("should validate number type with min constraint", async () => {
+        const el = await fixture<BlInput>(html`<bl-input type="number" min="10" value="5"></bl-input>`);
+
+        expect(el.validity.valid).to.be.false;
+        expect(el.validity.rangeUnderflow).to.be.true;
+      });
+
+      it("should validate number type with max constraint", async () => {
+        const el = await fixture<BlInput>(html`<bl-input type="number" max="10" value="15"></bl-input>`);
+
+        expect(el.validity.valid).to.be.false;
+        expect(el.validity.rangeOverflow).to.be.true;
+      });
     });
   });
 });
