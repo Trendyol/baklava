@@ -1,5 +1,8 @@
 import { setCustomElementsManifest } from '@storybook/web-components';
 import customElements from '../dist/custom-elements.json';
+import '../src/themes/dark.css';
+import '../src/themes/default.css';
+import { DocsContainer } from './DocsContainer';
 
 setCustomElementsManifest(customElements);
 
@@ -7,6 +10,7 @@ export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   viewMode: 'docs',
   docs: {
+    container: DocsContainer,
     transformSource: source =>
       source
         .replace(/<!--\?lit\$[0-9]+\$-->|<!--\??-->/g, '')
@@ -31,6 +35,19 @@ export const parameters = {
 };
 
 export const globalTypes = {
+  theme: {
+    name: 'theme',
+    description: 'Global theme for components',
+    defaultValue: 'light',
+    toolbar: {
+      icon: 'circlehollow',
+      items: [
+        { value: 'light', icon: 'sun', title: 'Light Mode' },
+        { value: 'dark', icon: 'moon', title: 'Dark Mode' },
+      ],
+      dynamicTitle: true,
+    },
+  },
   version: {
     name: 'version',
     description: 'Select version Stable/Beta',
@@ -48,6 +65,26 @@ export const globalTypes = {
 
 export const decorators = [
   (storyFn, context) => {
+    const theme = context.globals.theme || 'light';
+
+    document.documentElement.setAttribute('data-theme', theme);
+
+    const previewBody = document.body;
+    previewBody.setAttribute('data-theme', theme);
+
+    previewBody.style.backgroundColor = 'var(--bl-color-neutral-full)';
+    previewBody.style.color = 'var(--bl-color-neutral-darkest)';
+
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'STORYBOOK_THEME_CHANGED', theme }, '*');
+      }
+    } catch (e) {
+    }
+
+    return storyFn();
+  },
+  (storyFn, context) => {
     if (context.globals.version === 'stable' && window.parent.location.hostname.includes('next')) {
       window.parent.location.assign('https://baklava.design' + window.parent.location.search);
     }
@@ -57,3 +94,4 @@ export const decorators = [
     return storyFn();
   }
 ];
+
