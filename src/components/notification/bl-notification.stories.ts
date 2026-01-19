@@ -109,7 +109,7 @@ const NotificationCreator = (args: NotificationProps, buttonLabel = "Add Notific
 
     <script>
       (function () {
-        if (window.__applyStorybookTheme) window.__applyStorybookTheme();
+        window?.__applyStorybookTheme?.();
 
         const notificationElement = document.querySelector("bl-notification");
         const addButton = document.querySelector("bl-button#${slug}");
@@ -147,7 +147,7 @@ export const RemoveExample: Story = {
 
       <script>
         (function () {
-          if (window.__applyStorybookTheme) window.__applyStorybookTheme();
+          window?.__applyStorybookTheme?.();
 
           const notificationElement = document.querySelector("bl-notification");
           const removeButton = document.querySelector("bl-button");
@@ -175,7 +175,7 @@ export const RemoveAwaitExample: Story = {
 
       <script>
         (function () {
-          if (window.__applyStorybookTheme) window.__applyStorybookTheme();
+          window?.__applyStorybookTheme?.();
 
           const notificationElement = document.querySelector("bl-notification");
           const removeButton = document.querySelector("bl-button");
@@ -215,7 +215,7 @@ export const PrimaryActionExample: Story = {
       ${BasicTemplate(args)}
       <script>
         (function () {
-          if (window.__applyStorybookTheme) window.__applyStorybookTheme();
+          window?.__applyStorybookTheme?.();
 
           const notificationElement = document.querySelector("bl-notification");
 
@@ -242,7 +242,7 @@ export const SecondaryActionExample: Story = {
       ${BasicTemplate(args)}
       <script>
         (function () {
-          if (window.__applyStorybookTheme) window.__applyStorybookTheme();
+          window?.__applyStorybookTheme?.();
 
           const notificationElement = document.querySelector("bl-notification");
 
@@ -275,7 +275,7 @@ export const ActionsRemoveExample: Story = {
       ${BasicTemplate(args)}
       <script>
         (function () {
-          if (window.__applyStorybookTheme) window.__applyStorybookTheme();
+          window?.__applyStorybookTheme?.();
 
           const notificationElement = document.querySelector("bl-notification");
 

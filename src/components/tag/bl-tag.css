@@ -93,5 +93,5 @@
 
 slot[name="icon"] bl-icon {
   font-size: var(--icon-size);
-  color: var(--icon-color);
+  color: var(--color);
 }

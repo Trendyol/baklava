@@ -1,5 +1,6 @@
 @import url("@fontsource-variable/rubik");
 
+:root,
 :root[data-theme="light"] {
   /* Direction */
   --bl-text-x-direction: 1;

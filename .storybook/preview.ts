@@ -1,7 +1,7 @@
 import { setCustomElementsManifest } from '@storybook/web-components';
 import customElements from '../dist/custom-elements.json';
-import '../src/themes/default.css';
 import '../src/themes/dark.css';
+import '../src/themes/default.css';
 import { DocsContainer } from './DocsContainer';
 
 setCustomElementsManifest(customElements);
@@ -64,33 +64,26 @@ export const globalTypes = {
 
 
 export const decorators = [
-  // Theme decorator - apply dark/light mode
   (storyFn, context) => {
     const theme = context.globals.theme || 'light';
 
-    // Apply theme to document root
     document.documentElement.setAttribute('data-theme', theme);
 
-    // Apply theme to preview body
     const previewBody = document.body;
     previewBody.setAttribute('data-theme', theme);
 
-    // Set body styles
     previewBody.style.backgroundColor = 'var(--bl-color-neutral-full)';
     previewBody.style.color = 'var(--bl-color-neutral-darkest)';
 
-    // Notify parent/manager window about theme change
     try {
       if (window.parent && window.parent !== window) {
         window.parent.postMessage({ type: 'STORYBOOK_THEME_CHANGED', theme }, '*');
       }
     } catch (e) {
-      // Ignore cross-origin errors
     }
 
     return storyFn();
   },
-  // Version decorator - redirect based on version
   (storyFn, context) => {
     if (context.globals.version === 'stable' && window.parent.location.hostname.includes('next')) {
       window.parent.location.assign('https://baklava.design' + window.parent.location.search);
