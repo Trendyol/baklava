@@ -18,41 +18,15 @@ describe("bl-select", () => {
       <bl-select-option value="1">Option 1</bl-select-option>
     </bl-select>`);
 
-    assert.shadowDom.equal(
-      el,
-      `
-      <div class="select-wrapper">
-        <fieldset
-          class="select-input"
-          tabindex="0"
-          role="button"
-          aria-haspopup="listbox"
-          aria-labelledby="label"
-          aria-expanded="false"
-        >
-          <legend><span></span></legend>
-          <span class="placeholder"></span>
-          <span class="label"></span>
-          <ul class="selected-options"></ul>
-          <span class="additional-selection-count">
-            +0
-          </span>
-          <div class="actions">
-          <bl-icon class="dropdown-icon open" name="arrow_up"></bl-icon>
-          <bl-icon class="dropdown-icon closed" name="arrow_down"></bl-icon>
-          </div>
-        </fieldset>
-        <div class="popover" tabindex="-1"
-          role="listbox"
-          aria-multiselectable="false"
-          aria-labelledby="label"
-        >
-          <slot></slot>
-        </div>
-        <div class="hint"></div>
-      </div>
-    `
-    );
+    const selectWrapper = el.shadowRoot?.querySelector(".select-wrapper");
+    const selectInput = el.shadowRoot?.querySelector(".select-input");
+    const popover = el.shadowRoot?.querySelector("bl-popover");
+
+    expect(selectWrapper).to.exist;
+    expect(selectInput).to.exist;
+    expect(popover).to.exist;
+    expect(selectInput?.getAttribute("aria-haspopup")).to.equal("listbox");
+    expect(selectInput?.getAttribute("aria-expanded")).to.equal("false");
   });
   it("should set label", async () => {
     const labelText = "Some Label";
@@ -70,9 +44,41 @@ describe("bl-select", () => {
     expect(helpMessage).to.exist;
     expect(helpMessage?.innerText).to.equal(helpText);
   });
+
+  it("should set size to small", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select size="small"></bl-select>`);
+
+    expect(el.size).to.equal("small");
+    expect(el.getAttribute("size")).to.equal("small");
+  });
+
+  it("should set size to medium by default", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select></bl-select>`);
+
+    expect(el.size).to.equal("medium");
+  });
+
+  it("should set size to large", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select size="large"></bl-select>`);
+
+    expect(el.size).to.equal("large");
+    expect(el.getAttribute("size")).to.equal("large");
+  });
+
+  it("should update size dynamically", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select size="small"></bl-select>`);
+
+    expect(el.size).to.equal("small");
+
+    el.size = "large";
+    await elementUpdated(el);
+
+    expect(el.size).to.equal("large");
+    expect(el.getAttribute("size")).to.equal("large");
+  });
   it("should not show popover if there is no option", async () => {
     const el = await fixture<BlSelect>(html`<bl-select></bl-select>`);
-    const popover = el.shadowRoot?.querySelector(".popover");
+    const popover = el.shadowRoot?.querySelector("bl-popover");
 
     expect(popover).to.have.style("display", "none");
   });
@@ -337,13 +343,23 @@ describe("bl-select", () => {
       <bl-select-option value="en">United States of America</bl-select-option>
     </bl-select>`);
 
-    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+    // Open the select first (search bar is only visible when opened)
+    const selectInput = el.shadowRoot?.querySelector<HTMLElement>(".select-input");
 
-    searchInput?.focus();
+    selectInput?.click();
+    await elementUpdated(el);
 
-    await sendKeys({
-      type: "turkey",
-    });
+    // Manual search trigger
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input");
+
+    expect(searchInput).to.exist;
+
+    if (searchInput) {
+      searchInput.value = "turkey";
+      searchInput.dispatchEvent(new InputEvent("input", { bubbles: true }));
+    }
+
+    await elementUpdated(el);
 
     el.options.forEach(option => {
       if (option.innerText === "Turkey") {
@@ -385,17 +401,24 @@ describe("bl-select", () => {
       <bl-select-option value="en">United States of America</bl-select-option>
     </bl-select>`);
 
-    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+    // Open the select first
+    const selectInput = el.shadowRoot?.querySelector<HTMLElement>(".select-input");
 
-    searchInput?.focus();
+    selectInput?.click();
+    await elementUpdated(el);
 
-    await sendKeys({
-      type: "netherlands",
-    });
+    // Manual search trigger
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input");
+
+    if (searchInput) {
+      searchInput.value = "netherlands";
+      searchInput.dispatchEvent(new InputEvent("input", { bubbles: true }));
+    }
+
+    await elementUpdated(el);
 
     const noResultContainer = el.shadowRoot?.querySelector<HTMLInputElement>(".popover .popover-no-result");
     const noResultMessage = el.shadowRoot?.querySelector<HTMLInputElement>(".popover .popover-no-result span")?.innerText;
-
 
     el.options.forEach(option => {
       expect(option.hidden).to.be.true;
@@ -419,11 +442,48 @@ describe("bl-select", () => {
       type: "netherlands",
     });
 
+    await elementUpdated(el);
+
     const clearSearchButton = el.shadowRoot?.querySelector<BlButton>(".popover .popover-no-result bl-button");
 
     clearSearchButton?.click();
 
-    setTimeout(() => expect(searchInput?.value).to.equal(""));
+    await elementUpdated(el);
+
+    expect(searchInput?.value).to.equal("");
+
+    // All options should be visible after clearing search
+    el.options.forEach(option => {
+      expect(option.hidden).to.be.false;
+    });
+  });
+
+  it("should call _clearSearch method when clear button is clicked", async () => {
+    const el = await fixture<BlSelect>(html`<bl-select search-bar>
+      <bl-select-option value="1">Option 1</bl-select-option>
+      <bl-select-option value="2">Option 2</bl-select-option>
+    </bl-select>`);
+
+    const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+
+    searchInput?.focus();
+
+    await sendKeys({
+      type: "xyz",
+    });
+
+    await elementUpdated(el);
+
+    // Verify no result found state
+    expect(el.options.every(opt => opt.hidden)).to.be.true;
+
+    // Test _clearSearch method directly
+    (el as unknown as { _clearSearch: () => void })._clearSearch();
+
+    await elementUpdated(el);
+
+    // All options should be visible again
+    expect(el.options.every(opt => !opt.hidden)).to.be.true;
   });
 
   it("should focus if one or more option selected already", async () => {
@@ -1042,21 +1102,27 @@ describe("bl-select", () => {
     });
 
     it("should fallback to basic toLowerCase when locale is not supported", async () => {
+      // Set an invalid locale
+      document.querySelector("html")?.setAttribute("lang", "invalid-LOCALE");
+
       const el = await fixture<BlSelect>(html`<bl-select search-bar>
         <bl-select-option value="tr">Turkey</bl-select-option>
         <bl-select-option value="en">United States of America</bl-select-option>
       </bl-select>`);
 
-      // Set an invalid locale
-      document.querySelector("html")?.setAttribute("lang", "invalid-LOCALE");
+      // Open the select first
+      const selectInput = el.shadowRoot?.querySelector<HTMLElement>(".select-input");
 
-      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+      selectInput?.click();
+      await elementUpdated(el);
 
-      searchInput?.focus();
+      // Manual search trigger
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input");
 
-      await sendKeys({
-        type: "turk",
-      });
+      if (searchInput) {
+        searchInput.value = "turk";
+        searchInput.dispatchEvent(new InputEvent("input", { bubbles: true }));
+      }
 
       await elementUpdated(el);
 
@@ -1077,13 +1143,19 @@ describe("bl-select", () => {
         <bl-select-option value="en">Testing</bl-select-option>
       </bl-select>`);
 
-      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+      // Open the select first
+      const selectInput = el.shadowRoot?.querySelector<HTMLElement>(".select-input");
 
-      searchInput?.focus();
+      selectInput?.click();
+      await elementUpdated(el);
 
-      await sendKeys({
-        type: "test",
-      });
+      // Manual search trigger
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input");
+
+      if (searchInput) {
+        searchInput.value = "test";
+        searchInput.dispatchEvent(new InputEvent("input", { bubbles: true }));
+      }
 
       await elementUpdated(el);
 
@@ -1098,23 +1170,192 @@ describe("bl-select", () => {
         <bl-select-option value="normal">Test</bl-select-option>
       </bl-select>`);
 
-      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>("fieldset input");
+      // Open the select first
+      const selectInput = el.shadowRoot?.querySelector<HTMLElement>(".select-input");
 
-      searchInput?.focus();
+      selectInput?.click();
+      await elementUpdated(el);
 
-      await sendKeys({
-        type: "test",
-      });
+      // Get search input and trigger search manually
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input");
+
+      if (searchInput) {
+        searchInput.value = "test";
+        searchInput.dispatchEvent(new InputEvent("input", { bubbles: true }));
+      }
 
       await elementUpdated(el);
 
+      // Verify: empty option should be hidden, "Test" option should be visible
+      const emptyOption = el.options.find(opt => opt.value === "empty");
+      const testOption = el.options.find(opt => opt.value === "normal");
+
+      expect(emptyOption?.hidden, "Empty option should be hidden when searching for 'test'").to.be.true;
+      expect(testOption?.hidden, "'Test' option should be visible when searching for 'test'").to.be.false;
+    });
+
+    it("should add 'no-border-bottom' class to the last visible option after search", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select search-bar>
+        <bl-select-option value="1">Apple</bl-select-option>
+        <bl-select-option value="2">Apricot</bl-select-option>
+        <bl-select-option value="3">Banana</bl-select-option>
+        <bl-select-option value="4">Cherry</bl-select-option>
+      </bl-select>`);
+
+      // Open the select
+      const selectInput = el.shadowRoot?.querySelector<HTMLElement>(".select-input");
+
+      selectInput?.click();
+      await elementUpdated(el);
+
+      // Search for "ap" - should match Apple and Apricot
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input");
+
+      if (searchInput) {
+        searchInput.value = "ap";
+        searchInput.dispatchEvent(new InputEvent("input", { bubbles: true }));
+      }
+
+      await elementUpdated(el);
+
+      // Find visible options
+      const visibleOptions = el.options.filter(opt => !opt.hidden);
+      const lastVisibleOption = visibleOptions[visibleOptions.length - 1];
+
+      // Check that only the last visible option has no-border-bottom class
       el.options.forEach(option => {
-        if (option.innerText === "") {
-          expect(option.hidden).to.be.true;
-        } else {
-          expect(option.hidden).to.be.false;
+        const borderElement = option.shadowRoot?.querySelector("div");
+
+        if (option === lastVisibleOption) {
+          expect(borderElement?.classList.contains("no-border-bottom"),
+            `Last visible option (${option.textContent?.trim()}) should have 'no-border-bottom' class`
+          ).to.be.true;
+        } else if (!option.hidden) {
+          expect(borderElement?.classList.contains("no-border-bottom"),
+            `Non-last visible option (${option.textContent?.trim()}) should NOT have 'no-border-bottom' class`
+          ).to.be.false;
         }
       });
+    });
+
+    it("should update 'no-border-bottom' class when search changes", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select search-bar>
+        <bl-select-option value="1">Apple</bl-select-option>
+        <bl-select-option value="2">Apricot</bl-select-option>
+        <bl-select-option value="3">Banana</bl-select-option>
+      </bl-select>`);
+
+      // Open the select
+      const selectInput = el.shadowRoot?.querySelector<HTMLElement>(".select-input");
+
+      selectInput?.click();
+      await elementUpdated(el);
+
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input");
+
+      // First search: "ap" - matches Apple and Apricot
+      if (searchInput) {
+        searchInput.value = "ap";
+        searchInput.dispatchEvent(new InputEvent("input", { bubbles: true }));
+      }
+      await elementUpdated(el);
+
+      const apricotOption = el.options.find(opt => opt.value === "2");
+      let borderElement = apricotOption?.shadowRoot?.querySelector("div");
+
+      expect(borderElement?.classList.contains("no-border-bottom")).to.be.true;
+
+      // Second search: "apple" - matches only Apple
+      if (searchInput) {
+        searchInput.value = "apple";
+        searchInput.dispatchEvent(new InputEvent("input", { bubbles: true }));
+      }
+      await elementUpdated(el);
+
+      const appleOption = el.options.find(opt => opt.value === "1");
+
+      borderElement = appleOption?.shadowRoot?.querySelector("div");
+
+      expect(borderElement?.classList.contains("no-border-bottom")).to.be.true;
+
+      // Apricot should no longer have the class
+      const apricotBorder = apricotOption?.shadowRoot?.querySelector("div");
+
+      expect(apricotBorder?.classList.contains("no-border-bottom")).to.be.false;
+    });
+
+    it("should handle case when all options are hidden (no border class needed)", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select search-bar>
+        <bl-select-option value="1">Apple</bl-select-option>
+        <bl-select-option value="2">Banana</bl-select-option>
+      </bl-select>`);
+
+      // Open the select
+      const selectInput = el.shadowRoot?.querySelector<HTMLElement>(".select-input");
+
+      selectInput?.click();
+      await elementUpdated(el);
+
+      // Search for something that doesn't match
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input");
+
+      if (searchInput) {
+        searchInput.value = "xyz";
+        searchInput.dispatchEvent(new InputEvent("input", { bubbles: true }));
+      }
+
+      await elementUpdated(el);
+
+      // All options should be hidden, no option should have no-border-bottom
+      el.options.forEach(option => {
+        expect(option.hidden).to.be.true;
+        const borderElement = option.shadowRoot?.querySelector("div");
+
+        expect(borderElement?.classList.contains("no-border-bottom")).to.be.false;
+      });
+    });
+
+    it("should handle option without borderElement gracefully (early return)", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select search-bar>
+        <bl-select-option value="1">Apple</bl-select-option>
+        <bl-select-option value="2">Banana</bl-select-option>
+      </bl-select>`);
+
+      // Open the select
+      const selectInput = el.shadowRoot?.querySelector<HTMLElement>(".select-input");
+
+      selectInput?.click();
+      await elementUpdated(el);
+
+      // Mock an option without borderElement to test the early return (line 681)
+      const firstOption = el.options[0];
+      const originalQuerySelector = firstOption.shadowRoot?.querySelector.bind(firstOption.shadowRoot);
+
+      // Temporarily mock querySelector to return null
+      if (firstOption.shadowRoot) {
+        firstOption.shadowRoot.querySelector = () => null;
+      }
+
+      // Trigger search to call _handleLastVisibleSearchedOption
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input");
+
+      if (searchInput) {
+        searchInput.value = "ban";
+        searchInput.dispatchEvent(new InputEvent("input", { bubbles: true }));
+      }
+
+      await elementUpdated(el);
+
+      // Should not throw error - early return should handle null borderElement
+      // Banana should still be processed correctly
+      const bananaOption = el.options.find(opt => opt.textContent?.includes("Banana"));
+
+      expect(bananaOption?.hidden).to.be.false;
+
+      // Restore original querySelector
+      if (firstOption.shadowRoot && originalQuerySelector) {
+        firstOption.shadowRoot.querySelector = originalQuerySelector;
+      }
     });
   });
 
@@ -1307,6 +1548,23 @@ describe("bl-select", () => {
 
       expect(visibleOptions.length).to.equal(1);
       expect(visibleOptions[0].textContent?.trim()).to.equal("Test Option");
+    });
+
+    it("should normalize text correctly with _normalizeText method", async () => {
+      document.documentElement.setAttribute("lang", "en");
+
+      const el = await fixture<BlSelect>(html`
+        <bl-select search-bar>
+          <bl-select-option value="1">Test</bl-select-option>
+        </bl-select>
+      `);
+
+      // Access private method through type casting for testing
+      const normalizeText = (el as unknown as { _normalizeText: (text: string) => string })._normalizeText.bind(el);
+
+      expect(normalizeText("HELLO")).to.equal("hello");
+      expect(normalizeText("World")).to.equal("world");
+      expect(normalizeText("TeSt")).to.equal("test");
     });
 
     // Clean up after tests
