@@ -4,9 +4,7 @@
   data-apiKey="5A35jcVHRxiP6ojnrXXjKIWTSLfiNyuj0zCt-K4yI3Ew4gyadnKz2ldxfDNnhN3MnNsM0g=="
 ></script>
 <script>
-  // Global helper to get and apply Storybook theme
   window.__getStorybookTheme = function () {
-    // 1. First try URL params (globals=theme:dark)
     var urlParams = new URLSearchParams(window.location.search);
     var globals = urlParams.get("globals");
     if (globals) {
@@ -14,17 +12,14 @@
       if (themeMatch) return themeMatch[1];
     }
 
-    // 2. Try to get from parent document's data-theme attribute
     try {
       if (window.parent && window.parent !== window) {
         var parentTheme = window.parent.document.documentElement.getAttribute("data-theme");
         if (parentTheme) return parentTheme;
       }
     } catch (e) {
-      // Cross-origin error, ignore
     }
 
-    // 3. Try to get from top window's preview iframe
     try {
       if (window.top && window.top !== window) {
         var previewIframe = window.top.document.getElementById("storybook-preview-iframe");
@@ -35,10 +30,8 @@
         }
       }
     } catch (e) {
-      // Cross-origin error, ignore
     }
 
-    // 4. Fallback to localStorage
     try {
       var stored = localStorage.getItem("storybook-globals");
       if (stored) {
@@ -56,7 +49,6 @@
     return theme;
   };
 
-  // Auto-apply theme on load
   window.__applyStorybookTheme();
 </script>
 <link
