@@ -1,23 +1,82 @@
-<script src="https://cdn.dsmcdn.com/hedwig/latest/hedwig.js" data-appId="6514f2ad-479b-4d90-b3d5-f8362b34adfc" data-apiKey="5A35jcVHRxiP6ojnrXXjKIWTSLfiNyuj0zCt-K4yI3Ew4gyadnKz2ldxfDNnhN3MnNsM0g=="></script>
-<link rel="preload" href="./assets/rubik-latin-variable-wghtOnly-normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<script
+  src="https://cdn.dsmcdn.com/hedwig/latest/hedwig.js"
+  data-appId="6514f2ad-479b-4d90-b3d5-f8362b34adfc"
+  data-apiKey="5A35jcVHRxiP6ojnrXXjKIWTSLfiNyuj0zCt-K4yI3Ew4gyadnKz2ldxfDNnhN3MnNsM0g=="
+></script>
+<script>
+  window.__getStorybookTheme = function () {
+    var urlParams = new URLSearchParams(window.location.search);
+    var globals = urlParams.get("globals");
+    if (globals) {
+      var themeMatch = globals.match(/theme:([^;]+)/);
+      if (themeMatch) return themeMatch[1];
+    }
+
+    try {
+      if (window.parent && window.parent !== window) {
+        var parentTheme = window.parent.document.documentElement.getAttribute("data-theme");
+        if (parentTheme) return parentTheme;
+      }
+    } catch (e) {
+    }
+
+    try {
+      if (window.top && window.top !== window) {
+        var previewIframe = window.top.document.getElementById("storybook-preview-iframe");
+        if (previewIframe && previewIframe.contentDocument) {
+          var iframeTheme =
+            previewIframe.contentDocument.documentElement.getAttribute("data-theme");
+          if (iframeTheme) return iframeTheme;
+        }
+      }
+    } catch (e) {
+    }
+
+    try {
+      var stored = localStorage.getItem("storybook-globals");
+      if (stored) {
+        var parsed = JSON.parse(stored);
+        return parsed.theme || "light";
+      }
+    } catch (e) {}
+
+    return "light";
+  };
+
+  window.__applyStorybookTheme = function () {
+    var theme = window.__getStorybookTheme();
+    document.documentElement.setAttribute("data-theme", theme);
+    return theme;
+  };
+
+  window.__applyStorybookTheme();
+</script>
+<link
+  rel="preload"
+  href="./assets/rubik-latin-variable-wghtOnly-normal.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin="anonymous"
+/>
 <link rel="stylesheet" href="./themes/default.css" />
+<link rel="stylesheet" href="./themes/dark.css" />
 <script type="module" src="./baklava.js"></script>
 <style>
-.innerZoomElementWrapper > * {
-  vertical-align: top;
-}
-table {
-  width: 100%;
-}
-code {
-  font-size: 12px;
-}
+  .innerZoomElementWrapper > * {
+    vertical-align: top;
+  }
+  table {
+    width: 100%;
+  }
+  code {
+    font-size: 12px;
+  }
 
-bl-dialog {
-  font: var(--bl-font-body-text-2)
-}
+  bl-dialog {
+    font: var(--bl-font-body-text-2);
+  }
 
-.limited-width {
-  max-width: 300px;
-}
+  .limited-width {
+    max-width: 300px;
+  }
 </style>

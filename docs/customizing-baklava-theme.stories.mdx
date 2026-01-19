@@ -9,8 +9,8 @@ to provide a list of component that you can customize every part of it. Instead 
 uses it.
 
 But there are still many customization options in Baklava, those doesn't effect UX result of the components a lot. These are design tokens and a set of
-design token definitions are named as a "theme". Baklava comes with a default theme that you can import from `themes/default.css` file and will provide
-more soon (like a dark theme). But you can also create your own theme or extend/override some part of the default theme in your applications.
+design token definitions are named as a "theme". Baklava comes with a default theme that you can import from `themes/default.css` file and also provides
+a dark theme from `themes/dark.css` file. You can also create your own theme or extend/override some part of the default theme in your applications.
 
 ## Creating your own theme
 
@@ -35,6 +35,34 @@ If you want to change a small set of the design tokens, you may consider to exte
 ```
 
 With this, you can -for example- only override color palette for your app and continue to use typography or spacing rules from the default theme.
+
+## Using Dark Theme
+
+Baklava provides a built-in dark theme that you can use in your application. To enable dark mode:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/themes/default.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/themes/dark.css" />
+
+<html data-theme="dark">
+  <!-- All components will use dark theme -->
+  <bl-button>Click Me</bl-button>
+</html>
+```
+
+Or you can toggle dark mode dynamically with JavaScript:
+
+```html
+<script>
+  function toggleDarkMode(isDark) {
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  }
+
+  // Listen to system preference
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  toggleDarkMode(prefersDark);
+</script>
+```
 
 ## Using themes in a smaller scope
 
@@ -69,6 +97,23 @@ This opportunity gives a big power for handling esceptional use cases like:
 
 * Using dark theme in a part of your document (like header or footer)
 * Having more color or spacing options inside your app.
+
+For example, you can use dark theme only in header:
+
+```html
+<link rel="stylesheet" href="path/to/themes/default.css" />
+<link rel="stylesheet" href="path/to/themes/dark.css" />
+
+<header class="dark-theme">
+  <!-- Dark mode components -->
+  <bl-button>Menu</bl-button>
+</header>
+
+<main>
+  <!-- Light mode components -->
+  <bl-button>Content</bl-button>
+</main>
+```
 
 ## Changing default styles of components
 
