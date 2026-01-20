@@ -7,9 +7,7 @@
       <h4 class="text-sm font-medium text-neutral-dark mb-3">Basic Tooltip</h4>
       <div class="flex flex-wrap gap-4">
         <bl-tooltip>
-          <template #tooltip-trigger>
-<bl-button >Hover me</bl-button>
-</template>
+          <bl-button slot="tooltip-trigger">Hover me</bl-button>
           This is a tooltip message
         </bl-tooltip>
       </div>
@@ -20,27 +18,19 @@
       <h4 class="text-sm font-medium text-neutral-dark mb-3">Placements</h4>
       <div class="flex flex-wrap gap-4 py-8">
         <bl-tooltip placement="top">
-          <template #tooltip-trigger>
-<bl-button  variant="secondary">Top</bl-button>
-</template>
+          <bl-button slot="tooltip-trigger" variant="secondary">Top</bl-button>
           Tooltip on top
         </bl-tooltip>
         <bl-tooltip placement="bottom">
-          <template #tooltip-trigger>
-<bl-button  variant="secondary">Bottom</bl-button>
-</template>
+          <bl-button slot="tooltip-trigger" variant="secondary">Bottom</bl-button>
           Tooltip on bottom
         </bl-tooltip>
         <bl-tooltip placement="left">
-          <template #tooltip-trigger>
-<bl-button  variant="secondary">Left</bl-button>
-</template>
+          <bl-button slot="tooltip-trigger" variant="secondary">Left</bl-button>
           Tooltip on left
         </bl-tooltip>
         <bl-tooltip placement="right">
-          <template #tooltip-trigger>
-<bl-button  variant="secondary">Right</bl-button>
-</template>
+          <bl-button slot="tooltip-trigger" variant="secondary">Right</bl-button>
           Tooltip on right
         </bl-tooltip>
       </div>
@@ -51,23 +41,17 @@
       <h4 class="text-sm font-medium text-neutral-dark mb-3">On Different Elements</h4>
       <div class="flex flex-wrap items-center gap-6">
         <bl-tooltip>
-          <template #tooltip-trigger>
-<bl-button  icon="info" label="Info"></bl-button>
-</template>
+          <bl-button slot="tooltip-trigger" icon="info" label="Info"></bl-button>
           Click for more information
         </bl-tooltip>
 
         <bl-tooltip>
-          <template #tooltip-trigger>
-<bl-badge  icon="star">Featured</bl-badge>
-</template>
+          <bl-badge slot="tooltip-trigger" icon="star">Featured</bl-badge>
           This item is featured
         </bl-tooltip>
 
         <bl-tooltip>
-          <template #tooltip-trigger>
-<span  class="text-primary cursor-help underline">Help text</span>
-</template>
+          <span slot="tooltip-trigger" class="text-primary cursor-help underline">Help text</span>
           Additional help information
         </bl-tooltip>
       </div>
@@ -78,27 +62,21 @@
       <h4 class="text-sm font-medium text-neutral-dark mb-3">Icon Buttons with Tooltips</h4>
       <div class="flex flex-wrap gap-2">
         <bl-tooltip placement="bottom">
-          <template #tooltip-trigger>
-<bl-button  icon="edit" variant="tertiary" label="Edit"></bl-button>
-</template>
+          <bl-button slot="tooltip-trigger" icon="edit" variant="tertiary" label="Edit"></bl-button>
           Edit item
         </bl-tooltip>
         <bl-tooltip placement="bottom">
-          <template #tooltip-trigger>
-<bl-button  icon="copy" variant="tertiary" label="Copy"></bl-button>
-</template>
+          <bl-button slot="tooltip-trigger" icon="copy" variant="tertiary" label="Copy"></bl-button>
           Copy to clipboard
         </bl-tooltip>
         <bl-tooltip placement="bottom">
-          <template #tooltip-trigger>
-<bl-button
-            
+          <bl-button
+            slot="tooltip-trigger"
             icon="delete"
             variant="tertiary"
             kind="danger"
             label="Delete"
           ></bl-button>
-</template>
           Delete item
         </bl-tooltip>
       </div>

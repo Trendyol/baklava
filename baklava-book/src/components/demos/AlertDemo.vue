@@ -56,15 +56,11 @@
       <div class="space-y-3">
         <bl-alert variant="info" caption="New Update Available" icon>
           A new version is available. Click to update now.
-          <template #action>
-<bl-button >Update</bl-button>
-</template>
+          <bl-button slot="action">Update</bl-button>
         </bl-alert>
         <bl-alert variant="danger" caption="Session Expired" icon closable>
           Your session has expired. Please log in again.
-          <template #action>
-<bl-button >Login</bl-button>
-</template>
+          <bl-button slot="action">Login</bl-button>
         </bl-alert>
       </div>
     </div>

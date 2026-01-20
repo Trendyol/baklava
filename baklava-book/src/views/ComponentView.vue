@@ -44,7 +44,7 @@ import AccordionGroupDemo from "@/components/demos/AccordionGroupDemo.vue";
 import SplitButtonDemo from "@/components/demos/SplitButtonDemo.vue";
 
 const route = useRoute();
-const framework = ref<"vue" | "react">("vue");
+const framework = ref<"vue" | "react" | "nextjs">("vue");
 
 const slug = computed(() => route.params.slug as string);
 const component = computed(() => getComponentBySlug(slug.value));
@@ -95,6 +95,9 @@ const currentDemo = computed(() => demoComponents[slug.value]);
 
 // Kod örnekleri
 const codeExamples = computed(() => {
+  const tagName = component.value?.tagName || "bl-component";
+  const pascalName = toPascalCase(tagName);
+
   if (slug.value === "button") {
     return {
       vue: `<template>
@@ -119,19 +122,49 @@ function App() {
     </Suspense>
   );
 }`,
+      nextjs: `'use client';
+
+import { Suspense } from 'react';
+import { BlButton } from '@trendyol/baklava/dist/baklava-react';
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BlButton variant="primary">Primary Button</BlButton>
+      <BlButton variant="secondary">Secondary Button</BlButton>
+      <BlButton variant="tertiary">Tertiary Button</BlButton>
+    </Suspense>
+  );
+}`,
     };
   }
 
   // Genel şablon
-  const tagName = component.value?.tagName || "bl-component";
   return {
     vue: `<template>
   <${tagName}>Content</${tagName}>
 </template>`,
-    react: `import { ${toPascalCase(tagName)} } from '@trendyol/baklava/dist/baklava-react';
+    react: `import { Suspense } from 'react';
+import { ${pascalName} } from '@trendyol/baklava/dist/baklava-react';
 
 function App() {
-  return <${toPascalCase(tagName)}>Content</${toPascalCase(tagName)}>;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <${pascalName}>Content</${pascalName}>
+    </Suspense>
+  );
+}`,
+    nextjs: `'use client';
+
+import { Suspense } from 'react';
+import { ${pascalName} } from '@trendyol/baklava/dist/baklava-react';
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <${pascalName}>Content</${pascalName}>
+    </Suspense>
+  );
 }`,
   };
 });
@@ -244,6 +277,14 @@ function toPascalCase(str: string): string {
       >
         React
       </bl-button>
+      <bl-button
+        :variant="framework === 'nextjs' ? 'primary' : 'tertiary'"
+        size="small"
+        icon="code"
+        @bl-click="framework = 'nextjs'"
+      >
+        Next.js
+      </bl-button>
     </div>
 
     <!-- Demo Canvas -->
@@ -263,9 +304,21 @@ function toPascalCase(str: string): string {
       <h2 class="text-xl font-semibold text-neutral-darkest dark:text-white mb-4">Kullanım</h2>
 
       <CodeBlock
-        :code="framework === 'vue' ? codeExamples.vue : codeExamples.react"
-        :language="framework === 'vue' ? 'html' : 'jsx'"
+        :code="framework === 'vue' ? codeExamples.vue : framework === 'react' ? codeExamples.react : codeExamples.nextjs"
+        :language="framework === 'vue' ? 'html' : 'tsx'"
       />
+
+      <!-- Next.js için ek bilgi -->
+      <div v-if="framework === 'nextjs'" class="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
+        <p class="text-sm text-amber-800 dark:text-amber-200">
+          <strong>⚠️ Önemli:</strong> Next.js'te Baklava componentlerini kullanmak için:
+        </p>
+        <ul class="text-sm text-amber-700 dark:text-amber-300 mt-2 ml-4 list-disc space-y-1">
+          <li><code>'use client'</code> direktifini dosyanın başına ekleyin</li>
+          <li>Componentleri <code>&lt;Suspense&gt;</code> ile sarın</li>
+          <li>Detaylı kurulum için <router-link to="/docs/using-baklava-in-next" class="underline hover:text-amber-900 dark:hover:text-amber-100">Next.js Dokümantasyonu</router-link>'na bakın</li>
+        </ul>
+      </div>
     </section>
 
     <!-- API Reference -->

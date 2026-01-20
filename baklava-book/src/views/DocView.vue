@@ -25,6 +25,7 @@ Baklava is a design system provided by Trendyol to create a consistent UI/UX for
 - 🎨 **27+ Components** - Buttons, Inputs, Dialogs, and more
 - 🟢 **Vue Support** - Works seamlessly with Vue 3
 - 🔵 **React Support** - React wrappers included
+- ⬛ **Next.js Support** - SSR-compatible with App Router
 - 🌙 **Dark Mode** - Built-in theme support
 - ♿ **Accessible** - WCAG 2.1 compliant
 - 📱 **Responsive** - Mobile-first design
@@ -147,6 +148,118 @@ function Form() {
   )
 }
 \`\`\`
+  `,
+
+  "using-baklava-in-next": `
+# Using Baklava in Next.js
+
+Next.js is a React framework that requires special configuration for Web Components due to Server-Side Rendering (SSR).
+
+## Installation
+
+\`\`\`bash
+npm install @trendyol/baklava
+\`\`\`
+
+## Configuration
+
+### next.config.js
+
+\`\`\`js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  transpilePackages: ['@trendyol/baklava'],
+}
+
+module.exports = nextConfig
+\`\`\`
+
+## Client-Side Only Import
+
+Baklava components must be loaded on the client side only. Create a wrapper component:
+
+### components/BaklavaProvider.tsx
+
+\`\`\`tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+
+export default function BaklavaProvider({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    import('@trendyol/baklava');
+    import('@trendyol/baklava/dist/themes/default.css');
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return <>{children}</>;
+}
+\`\`\`
+
+## Usage in Layout (App Router)
+
+### app/layout.tsx
+
+\`\`\`tsx
+import BaklavaProvider from '@/components/BaklavaProvider';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <BaklavaProvider>
+          {children}
+        </BaklavaProvider>
+      </body>
+    </html>
+  );
+}
+\`\`\`
+
+## Using Components
+
+### app/page.tsx
+
+\`\`\`tsx
+'use client';
+
+import { Suspense } from 'react';
+import { BlButton, BlInput } from '@trendyol/baklava/dist/baklava-react';
+
+export default function Home() {
+  return (
+    <main>
+      <Suspense fallback={<div>Loading...</div>}>
+        <BlButton variant="primary" onBlClick={() => console.log('Clicked!')}>
+          Click me
+        </BlButton>
+        <BlInput placeholder="Enter text..." />
+      </Suspense>
+    </main>
+  );
+}
+\`\`\`
+
+## Pages Router (Legacy)
+
+For the Pages Router, use dynamic imports with \`ssr: false\` option.
+
+Create a dynamic wrapper in \`pages/_app.tsx\`:
+- Use \`dynamic()\` from \`next/dynamic\`
+- Set \`{ ssr: false }\` to disable server-side rendering
+- Wrap your app with the BaklavaProvider component
+
+## Important Notes
+
+- Always use \`'use client'\` directive for components using Baklava
+- Wrap Baklava React components in \`<Suspense>\`
+- Load Baklava dynamically to avoid SSR issues
+- For Pages Router, use dynamic imports with SSR disabled
   `,
 
   "customizing-baklava-theme": `

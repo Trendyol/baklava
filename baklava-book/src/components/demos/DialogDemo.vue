@@ -22,9 +22,7 @@ const formDialogOpen = ref(false);
           This is a basic dialog with some content. Dialogs are used to display important
           information or get user input.
         </p>
-        <template #primary-action>
-<bl-button  @bl-click="basicDialogOpen = false">OK</bl-button>
-</template>
+        <bl-button slot="primary-action" @bl-click="basicDialogOpen = false">OK</bl-button>
       </bl-dialog>
     </div>
 
@@ -39,16 +37,12 @@ const formDialogOpen = ref(false);
         @bl-dialog-close="confirmDialogOpen = false"
       >
         <p>Are you sure you want to delete this item? This action cannot be undone.</p>
-        <template #secondary-action>
-<bl-button  variant="secondary" @bl-click="confirmDialogOpen = false"
+        <bl-button slot="secondary-action" variant="secondary" @bl-click="confirmDialogOpen = false"
           >Cancel</bl-button
         >
-</template>
-        <template #primary-action>
-<bl-button  kind="danger" @bl-click="confirmDialogOpen = false"
+        <bl-button slot="primary-action" kind="danger" @bl-click="confirmDialogOpen = false"
           >Delete</bl-button
         >
-</template>
       </bl-dialog>
     </div>
 
@@ -67,14 +61,10 @@ const formDialogOpen = ref(false);
           <bl-input label="Email" type="email" placeholder="Enter your email"></bl-input>
           <bl-textarea label="Bio" placeholder="Tell us about yourself"></bl-textarea>
         </div>
-        <template #secondary-action>
-<bl-button  variant="secondary" @bl-click="formDialogOpen = false"
+        <bl-button slot="secondary-action" variant="secondary" @bl-click="formDialogOpen = false"
           >Cancel</bl-button
         >
-</template>
-        <template #primary-action>
-<bl-button  @bl-click="formDialogOpen = false">Save</bl-button>
-</template>
+        <bl-button slot="primary-action" @bl-click="formDialogOpen = false">Save</bl-button>
       </bl-dialog>
     </div>
 

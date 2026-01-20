@@ -6,9 +6,7 @@
     <div>
       <h4 class="text-sm font-medium text-neutral-dark mb-3">Basic Popover</h4>
       <bl-popover>
-        <template #popover-trigger>
-<bl-button >Click me</bl-button>
-</template>
+        <bl-button slot="popover-trigger">Click me</bl-button>
         <div class="p-2">
           <p class="text-neutral-darker dark:text-neutral-light">This is popover content</p>
         </div>
@@ -20,27 +18,19 @@
       <h4 class="text-sm font-medium text-neutral-dark mb-3">Placements</h4>
       <div class="flex flex-wrap gap-4 py-8">
         <bl-popover placement="top">
-          <template #popover-trigger>
-<bl-button  variant="secondary">Top</bl-button>
-</template>
+          <bl-button slot="popover-trigger" variant="secondary">Top</bl-button>
           <div class="p-2">Popover on top</div>
         </bl-popover>
         <bl-popover placement="bottom">
-          <template #popover-trigger>
-<bl-button  variant="secondary">Bottom</bl-button>
-</template>
+          <bl-button slot="popover-trigger" variant="secondary">Bottom</bl-button>
           <div class="p-2">Popover on bottom</div>
         </bl-popover>
         <bl-popover placement="left">
-          <template #popover-trigger>
-<bl-button  variant="secondary">Left</bl-button>
-</template>
+          <bl-button slot="popover-trigger" variant="secondary">Left</bl-button>
           <div class="p-2">Popover on left</div>
         </bl-popover>
         <bl-popover placement="right">
-          <template #popover-trigger>
-<bl-button  variant="secondary">Right</bl-button>
-</template>
+          <bl-button slot="popover-trigger" variant="secondary">Right</bl-button>
           <div class="p-2">Popover on right</div>
         </bl-popover>
       </div>
@@ -50,9 +40,7 @@
     <div>
       <h4 class="text-sm font-medium text-neutral-dark mb-3">With Arrow</h4>
       <bl-popover style="--bl-popover-arrow-display: block">
-        <template #popover-trigger>
-<bl-button >With Arrow</bl-button>
-</template>
+        <bl-button slot="popover-trigger">With Arrow</bl-button>
         <div class="p-2">
           <p>Popover with arrow indicator</p>
         </div>
@@ -63,9 +51,7 @@
     <div>
       <h4 class="text-sm font-medium text-neutral-dark mb-3">Rich Content</h4>
       <bl-popover>
-        <template #popover-trigger>
-<bl-button  icon="account">User Menu</bl-button>
-</template>
+        <bl-button slot="popover-trigger" icon="account">User Menu</bl-button>
         <div class="p-3 min-w-48">
           <div
             class="flex items-center gap-3 mb-3 pb-3 border-b border-neutral-lightest dark:border-neutral-darker"

@@ -82,15 +82,15 @@ import { components, categories, getComponentsByCategory } from "@/data/componen
 
     <!-- Framework Support -->
     <section class="py-20 px-6 bg-neutral-lightest dark:bg-neutral-darker">
-      <div class="max-w-4xl mx-auto text-center">
+      <div class="max-w-6xl mx-auto text-center">
         <h2 class="text-3xl font-bold text-neutral-darkest dark:text-white mb-4">
-          Vue & React Desteği
+          Vue, React & Next.js Desteği
         </h2>
         <p class="text-neutral-dark dark:text-neutral-light mb-10">
-          Web Components tabanlı olduğu için her iki framework'te de sorunsuz çalışır.
+          Web Components tabanlı olduğu için tüm popüler framework'lerde sorunsuz çalışır.
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Vue -->
           <div
             class="p-6 bg-white dark:bg-neutral-darkest rounded-2xl border border-neutral-lighter dark:border-neutral-dark text-center"
@@ -126,6 +126,35 @@ import { components, categories, getComponentsByCategory } from "@/data/componen
             <pre
               class="text-left text-sm bg-neutral-darkest text-neutral-lightest p-4 rounded-lg overflow-x-auto"
             ><code>import { BlButton } from '@trendyol/baklava/react'
+
+&lt;BlButton variant="primary"&gt;
+  Click me
+&lt;/BlButton&gt;</code></pre>
+          </div>
+
+          <!-- Next.js -->
+          <div
+            class="p-6 bg-white dark:bg-neutral-darkest rounded-2xl border border-neutral-lighter dark:border-neutral-dark text-center"
+          >
+            <svg class="w-12 h-12 mb-4 mx-auto" viewBox="0 0 128 128">
+              <circle cx="64" cy="64" r="64" fill="black" />
+              <path
+                fill="url(#nextjs-gradient)"
+                d="M106.3 115.3c-1.4-1.8-51-66.8-53.3-69.8L52.7 45v49.5l-1 .2c-5.7 1.2-9.2-1.7-10.7-4.2-.8-1.3-1.2-2.8-1.2-4.3V45h-9.5v41.2c0 2.4.4 4.7 1.3 6.9 2.8 7 10.2 11.2 18.4 10.4 2.9-.3 5.6-1.2 8-2.6l.9-.5 36.7 47.8c5.4-4 10.3-8.7 14.5-14l-3.8-19z"
+              />
+              <path fill="white" d="M80.3 45h9.5v41.2h-9.5z" />
+              <defs>
+                <linearGradient id="nextjs-gradient" x1="52" y1="45" x2="52" y2="133" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="white" />
+                  <stop offset="1" stop-color="white" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <h3 class="text-xl font-semibold text-neutral-darkest dark:text-white mb-2">Next.js</h3>
+            <pre
+              class="text-left text-sm bg-neutral-darkest text-neutral-lightest p-4 rounded-lg overflow-x-auto"
+            ><code>'use client';
+import { BlButton } from '@trendyol/baklava/react'
 
 &lt;BlButton variant="primary"&gt;
   Click me

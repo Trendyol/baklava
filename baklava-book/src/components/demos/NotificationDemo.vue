@@ -55,9 +55,7 @@ function showNotification(variant: string) {
       <div class="max-w-md">
         <bl-notification-card variant="info" caption="New Message" icon>
           You have a new message from John.
-          <template #action>
-<bl-button  variant="secondary" size="small">View</bl-button>
-</template>
+          <bl-button slot="action" variant="secondary" size="small">View</bl-button>
         </bl-notification-card>
       </div>
     </div>
