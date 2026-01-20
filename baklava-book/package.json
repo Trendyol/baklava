@@ -1,0 +1,35 @@
+{
+  "name": "@trendyol/baklava-book",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@trendyol/baklava": "file:..",
+    "marked": "^15.0.0",
+    "shiki": "^1.0.0",
+    "vue": "^3.5.0",
+    "vue-router": "^4.4.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@vitejs/plugin-vue": "^5.2.0",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/eslint-config-typescript": "^14.6.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-vue": "^10.7.0",
+    "globals": "^17.0.0",
+    "postcss": "^8.4.0",
+    "prettier": "^3.8.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "~5.6.0",
+    "typescript-eslint": "^8.53.1",
+    "vite": "^6.0.0",
+    "vue-tsc": "^2.2.0"
+  }
+}

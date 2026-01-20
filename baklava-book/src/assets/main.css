@@ -1,0 +1,70 @@
+@import url("@fontsource-variable/rubik");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --sidebar-width: 260px;
+  --header-height: 56px;
+}
+
+body {
+  font-family: "Rubik Variable", sans-serif;
+  @apply bg-white text-neutral-darkest antialiased;
+}
+
+.dark body {
+  @apply bg-neutral-darkest text-white;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-lighter rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-neutral-light;
+}
+
+/* Code blocks */
+pre {
+  @apply bg-neutral-darkest text-neutral-lightest p-4 rounded-lg overflow-x-auto text-sm leading-relaxed;
+}
+
+code {
+  font-family: "Fira Code", "Monaco", "Consolas", monospace;
+}
+
+:not(pre) > code {
+  @apply bg-neutral-lightest text-primary px-1.5 py-0.5 rounded text-sm;
+}
+
+/* Canvas demo area */
+.canvas {
+  @apply border border-neutral-lightest rounded-xl p-6 bg-white;
+}
+
+.dark .canvas {
+  @apply border-neutral-darker bg-neutral-darkest;
+}
+
+/* Framework tabs */
+.framework-tab {
+  @apply px-4 py-2 text-sm font-medium transition-colors cursor-pointer;
+  @apply text-neutral-dark hover:text-neutral-darkest;
+  @apply border-b-2 border-transparent;
+}
+
+.framework-tab.active {
+  @apply text-primary border-primary;
+}
