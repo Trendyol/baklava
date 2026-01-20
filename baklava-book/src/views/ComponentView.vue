@@ -201,6 +201,14 @@ function toPascalCase(str: string): string {
         >
           Beta
         </bl-badge>
+        <bl-badge
+          v-if="component?.rtlSupported"
+          icon="check_fill"
+          size="small"
+          style="--bl-badge-bg-color: #e6f0ff; --bl-badge-color: #2563eb"
+        >
+          RTL Supported
+        </bl-badge>
       </div>
       <p class="text-neutral-dark dark:text-neutral-light text-lg mb-3">
         {{ component?.description }}

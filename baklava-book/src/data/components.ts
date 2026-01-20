@@ -9,6 +9,7 @@ export interface ComponentMeta {
   hasStory?: boolean;
   figmaUrl?: string;
   githubIssue?: string;
+  rtlSupported?: boolean;
 }
 
 // Component için doküman linkleri
@@ -32,6 +33,7 @@ export const components: ComponentMeta[] = [
     hasStory: true,
     figmaUrl:
       "https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=4%3A5584",
+    rtlSupported: true,
   },
   {
     name: "Input",
@@ -42,6 +44,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Textarea",
@@ -52,6 +55,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Select",
@@ -62,6 +66,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Checkbox Group",
@@ -72,6 +77,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Radio Group",
@@ -82,6 +88,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Switch",
@@ -92,6 +99,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Datepicker",
@@ -101,6 +109,7 @@ export const components: ComponentMeta[] = [
     category: "form",
     status: "stable",
     hasStory: true,
+    rtlSupported: true,
   },
 
   // Navigation
@@ -112,6 +121,7 @@ export const components: ComponentMeta[] = [
     category: "navigation",
     status: "stable",
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Tab Group",
@@ -122,6 +132,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Pagination",
@@ -132,6 +143,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Stepper",
@@ -142,6 +154,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
 
   // Feedback
@@ -156,6 +169,7 @@ export const components: ComponentMeta[] = [
     hasStory: true,
     figmaUrl:
       "https://www.figma.com/file/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=25%3A3607",
+    rtlSupported: true,
   },
   {
     name: "Badge",
@@ -166,6 +180,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Notification",
@@ -176,6 +191,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Spinner",
@@ -195,6 +211,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Tooltip",
@@ -205,6 +222,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
 
   // Overlay
@@ -217,6 +235,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Drawer",
@@ -227,6 +246,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Popover",
@@ -237,6 +257,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Dropdown",
@@ -246,6 +267,7 @@ export const components: ComponentMeta[] = [
     category: "overlay",
     status: "stable",
     hasStory: true,
+    rtlSupported: true,
   },
 
   // Data Display
@@ -258,6 +280,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Tag",
@@ -268,6 +291,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Calendar",
@@ -277,6 +301,7 @@ export const components: ComponentMeta[] = [
     category: "data-display",
     status: "stable",
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Icon",
@@ -299,6 +324,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
   {
     name: "Split Button",
@@ -309,6 +335,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     hasADR: true,
     hasStory: true,
+    rtlSupported: true,
   },
 ];
 

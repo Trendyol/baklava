@@ -1,79 +1,150 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref, onMounted } from "vue";
 
 const props = defineProps<{
   tagName: string;
 }>();
 
-// Button için örnek API verileri
-// Gerçek projede custom-elements.json'dan çekilecek
-const apiData = computed(() => {
-  if (props.tagName === "bl-button") {
-    return {
-      attributes: [
-        {
-          name: "variant",
-          type: '"primary" | "secondary" | "tertiary"',
-          default: '"primary"',
-          description: "Button varyantını belirler",
-        },
-        {
-          name: "kind",
-          type: '"default" | "neutral" | "success" | "danger"',
-          default: '"default"',
-          description: "Button türünü belirler",
-        },
-        {
-          name: "size",
-          type: '"small" | "medium" | "large"',
-          default: '"medium"',
-          description: "Button boyutunu belirler",
-        },
-        {
-          name: "disabled",
-          type: "boolean",
-          default: "false",
-          description: "Butonu devre dışı bırakır",
-        },
-        {
-          name: "loading",
-          type: "boolean",
-          default: "false",
-          description: "Yükleniyor durumunu gösterir",
-        },
-        { name: "icon", type: "string", default: "-", description: "İkon adını belirler" },
-        {
-          name: "href",
-          type: "string",
-          default: "-",
-          description: "Link URL'i (anchor olarak render eder)",
-        },
-      ],
-      events: [
-        { name: "bl-click", detail: "string", description: "Button tıklandığında tetiklenir" },
-      ],
-      cssProperties: [
-        {
-          name: "--bl-button-display",
-          default: "inline-block",
-          description: "Button display özelliğini ayarlar",
-        },
-        {
-          name: "--bl-button-justify",
-          default: "center",
-          description: "Button justify-content özelliğini ayarlar",
-        },
-      ],
-    };
+interface Attribute {
+  name: string;
+  type: string;
+  default: string;
+  description: string;
+}
+
+interface Event {
+  name: string;
+  detail: string;
+  description: string;
+}
+
+interface CssProperty {
+  name: string;
+  default: string;
+  description: string;
+}
+
+interface ApiData {
+  attributes: Attribute[];
+  events: Event[];
+  cssProperties: CssProperty[];
+  slots: { name: string; description: string }[];
+}
+
+const customElementsData = ref<any>(null);
+const loading = ref(true);
+
+onMounted(async () => {
+  try {
+    // custom-elements.json dosyasını yükle
+    const response = await fetch("/custom-elements.json");
+    if (response.ok) {
+      customElementsData.value = await response.json();
+    }
+  } catch (e) {
+    console.error("Failed to load custom-elements.json", e);
+  } finally {
+    loading.value = false;
   }
+});
+
+const apiData = computed<ApiData | null>(() => {
+  if (!customElementsData.value || !props.tagName) {
+    return null;
+  }
+
+  // Modüller içinde tagName'e göre ara
+  const modules = customElementsData.value.modules || [];
+
+  for (const mod of modules) {
+    const declarations = mod.declarations || [];
+
+    for (const decl of declarations) {
+      if (decl.tagName === props.tagName) {
+        const attributes: Attribute[] = [];
+        const events: Event[] = [];
+        const cssProperties: CssProperty[] = [];
+        const slots: { name: string; description: string }[] = [];
+
+        // Attributes/Members
+        if (decl.members) {
+          for (const member of decl.members) {
+            if (member.kind === "field" && member.attribute) {
+              attributes.push({
+                name: member.attribute,
+                type: member.parsedType?.text || member.type?.text || "unknown",
+                default: member.default || "-",
+                description: member.description || "",
+              });
+            }
+          }
+        }
+
+        // Also check attributes array directly
+        if (decl.attributes) {
+          for (const attr of decl.attributes) {
+            // Skip if already added from members
+            if (!attributes.find((a) => a.name === attr.name)) {
+              attributes.push({
+                name: attr.name,
+                type: attr.parsedType?.text || attr.type?.text || "unknown",
+                default: attr.default || "-",
+                description: attr.description || "",
+              });
+            }
+          }
+        }
+
+        // Events
+        if (decl.events) {
+          for (const event of decl.events) {
+            events.push({
+              name: event.name,
+              detail: event.parsedType?.text || event.type?.text || "-",
+              description: event.description || "",
+            });
+          }
+        }
+
+        // CSS Properties
+        if (decl.cssProperties) {
+          for (const cssProp of decl.cssProperties) {
+            cssProperties.push({
+              name: cssProp.name,
+              default: cssProp.default || "-",
+              description: cssProp.description || "",
+            });
+          }
+        }
+
+        // Slots
+        if (decl.slots) {
+          for (const slot of decl.slots) {
+            slots.push({
+              name: slot.name || "default",
+              description: slot.description || "",
+            });
+          }
+        }
+
+        return { attributes, events, cssProperties, slots };
+      }
+    }
+  }
+
   return null;
 });
 </script>
 
 <template>
-  <div v-if="apiData" class="space-y-8">
+  <div v-if="loading" class="text-neutral-dark text-center py-8">
+    <bl-spinner></bl-spinner>
+    <span class="ml-2">API verileri yükleniyor...</span>
+  </div>
+
+  <div v-else-if="apiData" class="space-y-8">
     <!-- Attributes -->
-    <div>
+    <div v-if="apiData.attributes.length">
       <h3 class="text-lg font-medium text-neutral-darkest dark:text-white mb-3">Attributes</h3>
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
@@ -97,11 +168,40 @@ const apiData = computed(() => {
               <td class="py-3 px-4 text-neutral-dark dark:text-neutral-light font-mono text-xs">
                 {{ attr.type }}
               </td>
-              <td class="py-3 px-4 text-neutral-dark dark:text-neutral-light">
+              <td class="py-3 px-4 text-neutral-dark dark:text-neutral-light font-mono text-xs">
                 {{ attr.default }}
               </td>
               <td class="py-3 px-4 text-neutral-darker dark:text-neutral-lighter">
                 {{ attr.description }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Slots -->
+    <div v-if="apiData.slots?.length">
+      <h3 class="text-lg font-medium text-neutral-darkest dark:text-white mb-3">Slots</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-neutral-lightest dark:border-neutral-darker">
+              <th class="text-left py-3 px-4 font-medium text-neutral-dark">Name</th>
+              <th class="text-left py-3 px-4 font-medium text-neutral-dark">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="slot in apiData.slots"
+              :key="slot.name"
+              class="border-b border-neutral-lightest dark:border-neutral-darker"
+            >
+              <td class="py-3 px-4">
+                <code class="text-primary">{{ slot.name }}</code>
+              </td>
+              <td class="py-3 px-4 text-neutral-darker dark:text-neutral-lighter">
+                {{ slot.description }}
               </td>
             </tr>
           </tbody>
@@ -165,7 +265,7 @@ const apiData = computed(() => {
               <td class="py-3 px-4">
                 <code class="text-primary">{{ prop.name }}</code>
               </td>
-              <td class="py-3 px-4 text-neutral-dark dark:text-neutral-light">
+              <td class="py-3 px-4 text-neutral-dark dark:text-neutral-light font-mono text-xs">
                 {{ prop.default }}
               </td>
               <td class="py-3 px-4 text-neutral-darker dark:text-neutral-lighter">
@@ -176,9 +276,22 @@ const apiData = computed(() => {
         </table>
       </div>
     </div>
+
+    <!-- No data message -->
+    <div
+      v-if="
+        !apiData.attributes.length &&
+        !apiData.events?.length &&
+        !apiData.cssProperties?.length &&
+        !apiData.slots?.length
+      "
+      class="text-neutral-dark text-center py-8"
+    >
+      Bu component için API referansı henüz eklenmedi.
+    </div>
   </div>
 
   <div v-else class="text-neutral-dark text-center py-8">
-    Bu component için API referansı henüz eklenmedi.
+    Bu component için API referansı bulunamadı.
   </div>
 </template>
