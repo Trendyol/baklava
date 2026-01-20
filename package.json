@@ -33,6 +33,8 @@
     "build-storybook-docs": "storybook build --docs",
     "serve": "node scripts/build.js --serve",
     "storybook:dev": "storybook dev -p 1994",
+    "book:dev": "cd baklava-book && npm run dev",
+    "book:install": "cd baklava-book && npm install",
     "lint": "npm-run-all -s lint:* && npm run localize:extract",
     "lint:tsc": "tsc --noEmit --project ./tsconfig.json",
     "lint:eslint": "eslint src",
