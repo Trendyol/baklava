@@ -155,9 +155,8 @@ const navItems = computed(() => [
           variant="tertiary"
           kind="neutral"
           size="small"
-          :icon="dark ? 'sun' : 'moon'"
           @bl-click="dark = !dark"
-        />
+        >{{!dark ? 'Dark Mode' : 'Light Mode'}}</bl-button>
 
         <!-- GitHub -->
         <bl-button

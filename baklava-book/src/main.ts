@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import "@trendyol/baklava";
 import "@trendyol/baklava/dist/themes/default.css";
+import "../../src/themes/dark.css";
 
 import App from "./App.vue";
 import "./assets/main.css";

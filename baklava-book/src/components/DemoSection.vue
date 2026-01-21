@@ -69,12 +69,10 @@ const showCode = ref(false);
 }
 
 :root.dark .demo-content {
-  background: var(--bl-color-neutral-darker);
   border-color: var(--bl-color-neutral-dark);
 }
 
 :root.dark .demo-footer {
-  background: var(--bl-color-neutral-dark);
   border-color: var(--bl-color-neutral-dark);
 }
 </style>
