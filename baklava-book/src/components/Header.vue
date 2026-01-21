@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 import { docCategories } from "@/data/docs";
+import SearchModal from "./SearchModal.vue";
 
 const route = useRoute();
 const dark = defineModel<boolean>("dark", { default: false });
 
 const activeDropdown = ref<string | null>(null);
+const showSearch = ref(false);
 
 function toggleDropdown(id: string) {
   activeDropdown.value = activeDropdown.value === id ? null : id;
@@ -15,6 +17,22 @@ function toggleDropdown(id: string) {
 function closeDropdowns() {
   activeDropdown.value = null;
 }
+
+// ⌘K veya Ctrl+K ile arama aç
+function handleGlobalKeydown(e: KeyboardEvent) {
+  if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+    e.preventDefault();
+    showSearch.value = true;
+  }
+}
+
+onMounted(() => {
+  document.addEventListener("keydown", handleGlobalKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keydown", handleGlobalKeydown);
+});
 
 // Navbar menü yapısı
 const navItems = computed(() => [
@@ -146,7 +164,13 @@ const navItems = computed(() => [
       <!-- Right Side -->
       <div class="flex items-center gap-2">
         <!-- Search -->
-        <bl-button variant="tertiary" kind="neutral" size="small" icon="search">
+        <bl-button
+          variant="tertiary"
+          kind="neutral"
+          size="small"
+          icon="search"
+          @bl-click="showSearch = true"
+        >
           Search ⌘K
         </bl-button>
 
@@ -175,4 +199,7 @@ const navItems = computed(() => [
     <!-- Mobile overlay to close dropdowns -->
     <div v-if="activeDropdown" class="fixed inset-0 z-40" @click="closeDropdowns" />
   </header>
+
+  <!-- Search Modal -->
+  <SearchModal v-if="showSearch" @close="showSearch = false" />
 </template>
