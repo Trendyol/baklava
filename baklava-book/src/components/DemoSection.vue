@@ -1,13 +1,62 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, inject, computed } from "vue";
 import CodeBlock from "./CodeBlock.vue";
 
-defineProps<{
+const props = defineProps<{
   title: string;
   code: string;
 }>();
 
 const showCode = ref(false);
+
+// Framework seçimini parent'tan al
+const framework = inject<{ value: "vue" | "react" | "nextjs" }>("framework", { value: "vue" });
+
+// Vue kodunu React/Next.js formatına dönüştür
+function convertToReact(vueCode: string): string {
+  let code = vueCode;
+  
+  // bl-element'leri BlElement'e dönüştür (PascalCase)
+  code = code.replace(/<bl-([a-z-]+)/g, (_, name) => {
+    const pascalName = "Bl" + name.split("-").map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join("");
+    return `<${pascalName}`;
+  });
+  
+  // Kapanış tag'lerini dönüştür
+  code = code.replace(/<\/bl-([a-z-]+)>/g, (_, name) => {
+    const pascalName = "Bl" + name.split("-").map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join("");
+    return `</${pascalName}>`;
+  });
+  
+  // @bl-event → onBlEvent
+  code = code.replace(/@bl-([a-z]+)="([^"]+)"/g, (_, event, handler) => {
+    const eventName = "onBl" + event.charAt(0).toUpperCase() + event.slice(1);
+    return `${eventName}={${handler}}`;
+  });
+  
+  // @click → onClick
+  code = code.replace(/@click="([^"]+)"/g, 'onClick={$1}');
+  
+  // v-model → value + onChange (basit dönüşüm)
+  code = code.replace(/v-model="([^"]+)"/g, 'value={$1}');
+  
+  // :prop="value" → prop={value}
+  code = code.replace(/:([a-z-]+)="([^"]+)"/g, '$1={$2}');
+  
+  return code;
+}
+
+// Aktif framework'e göre kodu dönüştür
+const displayCode = computed(() => {
+  if (framework.value === "vue") {
+    return props.code;
+  }
+  return convertToReact(props.code);
+});
+
+const codeLanguage = computed(() => {
+  return framework.value === "vue" ? "html" : "tsx";
+});
 </script>
 
 <template>
@@ -30,7 +79,7 @@ const showCode = ref(false);
     </div>
 
     <div v-if="showCode" class="demo-code">
-      <CodeBlock :code="code" language="html" />
+      <CodeBlock :key="framework.value" :code="displayCode" :language="codeLanguage" />
     </div>
   </div>
 </template>

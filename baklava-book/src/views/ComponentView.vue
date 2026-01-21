@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed, provide } from "vue";
 import { useRoute } from "vue-router";
 import { getComponentBySlug, getComponentSourceLinks } from "@/data/components";
 import CodeBlock from "@/components/CodeBlock.vue";
@@ -45,6 +45,9 @@ import SplitButtonDemo from "@/components/demos/SplitButtonDemo.vue";
 
 const route = useRoute();
 const framework = ref<"vue" | "react" | "nextjs">("vue");
+
+// Framework seçimini child component'lara provide et
+provide("framework", framework);
 
 const slug = computed(() => route.params.slug as string);
 const component = computed(() => getComponentBySlug(slug.value));
@@ -175,6 +178,23 @@ function toPascalCase(str: string): string {
     .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
     .join("");
 }
+
+// Framework'e göre aktif kod
+const currentCode = computed(() => {
+  const examples = codeExamples.value;
+  switch (framework.value) {
+    case "react":
+      return examples.react;
+    case "nextjs":
+      return examples.nextjs;
+    default:
+      return examples.vue;
+  }
+});
+
+const currentLanguage = computed(() => {
+  return framework.value === "vue" ? "vue" : "tsx";
+});
 </script>
 
 <template>
@@ -273,7 +293,7 @@ function toPascalCase(str: string): string {
         :variant="framework === 'vue' ? 'primary' : 'tertiary'"
         size="small"
         icon="code"
-        @bl-click="framework = 'vue'"
+        @click="framework = 'vue'"
       >
         Vue
       </bl-button>
@@ -281,7 +301,7 @@ function toPascalCase(str: string): string {
         :variant="framework === 'react' ? 'primary' : 'tertiary'"
         size="small"
         icon="code"
-        @bl-click="framework = 'react'"
+        @click="framework = 'react'"
       >
         React
       </bl-button>
@@ -289,7 +309,7 @@ function toPascalCase(str: string): string {
         :variant="framework === 'nextjs' ? 'primary' : 'tertiary'"
         size="small"
         icon="code"
-        @bl-click="framework = 'nextjs'"
+        @click="framework = 'nextjs'"
       >
         Next.js
       </bl-button>
@@ -312,8 +332,9 @@ function toPascalCase(str: string): string {
       <h2 class="text-xl font-semibold text-neutral-darkest dark:text-white mb-4">Kullanım</h2>
 
       <CodeBlock
-        :code="framework === 'vue' ? codeExamples.vue : framework === 'react' ? codeExamples.react : codeExamples.nextjs"
-        :language="framework === 'vue' ? 'html' : 'tsx'"
+        :key="framework"
+        :code="currentCode"
+        :language="currentLanguage"
       />
 
       <!-- Next.js için ek bilgi -->

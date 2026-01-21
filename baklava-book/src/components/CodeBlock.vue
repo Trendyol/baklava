@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch, computed } from "vue";
+import { codeToHtml } from "shiki";
 
 const props = defineProps<{
   code: string;
@@ -7,6 +8,53 @@ const props = defineProps<{
 }>();
 
 const copied = ref(false);
+const highlightedCode = ref("");
+
+// Language mapping
+const languageMap: Record<string, string> = {
+  vue: "vue",
+  html: "html",
+  tsx: "tsx",
+  jsx: "jsx",
+  js: "javascript",
+  ts: "typescript",
+  css: "css",
+  bash: "bash",
+  shell: "bash",
+  json: "json",
+};
+
+const effectiveLang = computed(() => {
+  const lang = props.language?.toLowerCase() || "text";
+  return languageMap[lang] || lang;
+});
+
+// Shiki ile highlight et
+async function highlight() {
+  try {
+    const html = await codeToHtml(props.code.trim(), {
+      lang: effectiveLang.value,
+      theme: "github-dark",
+    });
+    highlightedCode.value = html;
+  } catch {
+    // Fallback - düz metin göster
+    const escaped = props.code
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    highlightedCode.value = `<pre class="shiki github-dark" style="background-color:#24292e;color:#e1e4e8"><code>${escaped}</code></pre>`;
+  }
+}
+
+// code veya language değiştiğinde yeniden highlight et
+watch(
+  [() => props.code, () => props.language],
+  () => {
+    highlight();
+  },
+  { immediate: true, deep: true }
+);
 
 async function copyCode() {
   await navigator.clipboard.writeText(props.code);
@@ -18,8 +66,8 @@ async function copyCode() {
 </script>
 
 <template>
-  <div class="relative group">
-    <pre class="!pr-12"><code>{{ code }}</code></pre>
+  <div class="relative group code-block">
+    <div v-html="highlightedCode" class="code-container" />
 
     <bl-button
       class="copy-btn absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -32,6 +80,19 @@ async function copyCode() {
 </template>
 
 <style scoped>
+.code-block :deep(pre) {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.code-block :deep(code) {
+  font-family: "Fira Code", "Monaco", "Consolas", monospace;
+}
+
 .copy-btn {
   --bl-button-color: var(--bl-color-neutral-lighter);
   --bl-button-hover-color: var(--bl-color-neutral-lightest);
