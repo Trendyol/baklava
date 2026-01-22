@@ -47,7 +47,8 @@
     
     // Create button
     const btn = document.createElement('a');
-    btn.href = 'http://localhost:3001';
+    // Production'da /book/, development'ta localhost:3000
+    btn.href = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '/book/';
     btn.target = '_blank';
     btn.className = 'baklava-book-btn';
     btn.innerHTML = `

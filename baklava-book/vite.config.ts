@@ -13,6 +13,11 @@ export default defineConfig({
       },
     }),
   ],
+  // Production'da /book/ path'i altında sunulacak
+  base: process.env.NODE_ENV === "production" ? "/book/" : "/",
+  build: {
+    outDir: "dist",
+  },
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"),
