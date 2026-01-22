@@ -13,8 +13,8 @@ export default defineConfig({
       },
     }),
   ],
-  // Production'da /book/ path'i altında sunulacak
-  base: process.env.NODE_ENV === "production" ? "/book/" : "/",
+  // Production'da GitHub Pages için base URL
+  base: process.env.NODE_ENV === "production" ? "/baklava-book/" : "/",
   build: {
     outDir: "dist",
   },
