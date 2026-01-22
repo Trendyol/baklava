@@ -1,6 +1,6 @@
 // Doküman içerikleri - ayrı dosyada tutuyoruz ki Vue parser HTML taglerini yanlış yorumlamasın
 
-export const docContents: Record = {
+export const docContents: Record<string, string> = {
   welcome: `
 # Baklava Design System
 

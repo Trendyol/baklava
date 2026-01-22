@@ -299,7 +299,7 @@ setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava-icons@latest/icons')
         placeholder="Search icons..."
         icon="search"
         :value="searchQuery"
-        @bl-input="searchQuery = ($event as CustomEvent).target.value"
+        @bl-input="searchQuery = (($event as CustomEvent).target as HTMLInputElement)?.value || ''"
         style="max-width: 400px"
       ></bl-input>
     </div>

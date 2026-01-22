@@ -451,7 +451,7 @@ const accessibilityCode = `<!-- Use title attribute for accessibility -->
         icon="search"
         :value="searchQuery"
         @bl-input="
-          searchQuery = ($event as CustomEvent).target.value;
+          searchQuery = (($event as CustomEvent).target as HTMLInputElement)?.value || '';
           filterIcons();
         "
       ></bl-input>
