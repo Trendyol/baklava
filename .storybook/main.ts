@@ -26,10 +26,6 @@ const config: StorybookConfig = {
       from: './assets',
       to: '/assets',
     },
-    {
-      from: '../baklava-book/dist',
-      to: '/book',
-    },
   ],
   docs: {
     autodocs: true,

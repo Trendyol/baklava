@@ -29,7 +29,7 @@
     "analyze": "cem analyze",
     "commit": "commit",
     "build": "del-cli dist/ && npm run analyze && tsc --emitDeclarationOnly && node scripts/build.js && npm run localize:build",
-    "build-storybook": "npm run book:install && npm run book:build && NODE_ENV=production storybook build -o storybook-static",
+    "build-storybook": "NODE_ENV=production storybook build -o storybook-static",
     "book:build": "cd baklava-book && npm run build",
     "build-storybook-docs": "storybook build --docs",
     "serve": "node scripts/build.js --serve",
