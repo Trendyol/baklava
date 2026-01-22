@@ -784,5 +784,21 @@ describe("bl-input", () => {
         expect(el.validity.rangeOverflow).to.be.true;
       });
     });
+
+    describe("disabled input text overflow", () => {
+      it("should apply text-overflow ellipsis to disabled input", async () => {
+        const el = await fixture<BlInput>(
+          html`<bl-input disabled value="Very long text that should be truncated with ellipsis"></bl-input>`
+        );
+        const input = el.shadowRoot?.querySelector("input");
+
+        expect(input).to.exist;
+
+        const styles = window.getComputedStyle(input!);
+        expect(styles.textOverflow).to.equal("ellipsis");
+        expect(styles.whiteSpace).to.equal("nowrap");
+        expect(styles.overflow).to.equal("hidden");
+      });
+    });
   });
 });

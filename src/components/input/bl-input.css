@@ -150,6 +150,9 @@ input::-webkit-credentials-auto-fill-button {
 
 input:disabled {
   cursor: not-allowed;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 input::-webkit-calendar-picker-indicator {
