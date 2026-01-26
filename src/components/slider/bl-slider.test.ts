@@ -232,7 +232,7 @@ describe("bl-slider", () => {
   describe("tooltip", () => {
     it("should render tooltip when tooltip attribute is set", async () => {
       const el = await fixture<BlSlider>(html`<bl-slider tooltip value="60"></bl-slider>`);
-      const tooltip = el.shadowRoot?.querySelector(".tooltip");
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
 
       expect(tooltip).to.exist;
       expect(tooltip?.textContent?.trim()).to.equal("60");
@@ -240,7 +240,7 @@ describe("bl-slider", () => {
 
     it("should not render tooltip when tooltip attribute is not set", async () => {
       const el = await fixture<BlSlider>(html`<bl-slider value="60"></bl-slider>`);
-      const tooltip = el.shadowRoot?.querySelector(".tooltip");
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
 
       expect(tooltip).to.not.exist;
     });
@@ -248,87 +248,87 @@ describe("bl-slider", () => {
     it("should show tooltip on mousedown", async () => {
       const el = await fixture<BlSlider>(html`<bl-slider tooltip value="60"></bl-slider>`);
       const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
-      const tooltip = el.shadowRoot?.querySelector(".tooltip") as HTMLElement;
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
 
-      expect(tooltip.classList.contains("visible")).to.be.false;
+      expect(tooltip?.visible).to.be.false;
 
       input.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
       await elementUpdated(el);
 
-      expect(tooltip.classList.contains("visible")).to.be.true;
+      expect(tooltip?.visible).to.be.true;
     });
 
     it("should hide tooltip on mouseup", async () => {
       const el = await fixture<BlSlider>(html`<bl-slider tooltip value="60"></bl-slider>`);
       const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
-      const tooltip = el.shadowRoot?.querySelector(".tooltip") as HTMLElement;
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
 
       input.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
       await elementUpdated(el);
 
-      expect(tooltip.classList.contains("visible")).to.be.true;
+      expect(tooltip?.visible).to.be.true;
 
       document.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
       await elementUpdated(el);
 
-      expect(tooltip.classList.contains("visible")).to.be.false;
+      expect(tooltip?.visible).to.be.false;
     });
 
     it("should update tooltip content when value changes", async () => {
       const el = await fixture<BlSlider>(html`<bl-slider tooltip value="60"></bl-slider>`);
-      const tooltip = el.shadowRoot?.querySelector(".tooltip") as HTMLElement;
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
 
-      expect(tooltip.textContent?.trim()).to.equal("60");
+      expect(tooltip?.textContent?.trim()).to.equal("60");
 
       el.value = "80";
       await elementUpdated(el);
 
-      expect(tooltip.textContent?.trim()).to.equal("80");
+      expect(tooltip?.textContent?.trim()).to.equal("80");
     });
 
     it("should display tooltip value with correct decimal places for integer step", async () => {
       const el = await fixture<BlSlider>(
         html`<bl-slider tooltip min="0" max="100" step="1" value="50"></bl-slider>`
       );
-      const tooltip = el.shadowRoot?.querySelector(".tooltip") as HTMLElement;
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
 
       // Integer step should show no decimal places
-      expect(tooltip.textContent?.trim()).to.equal("50");
+      expect(tooltip?.textContent?.trim()).to.equal("50");
 
       el.value = "75";
       await elementUpdated(el);
 
-      expect(tooltip.textContent?.trim()).to.equal("75");
+      expect(tooltip?.textContent?.trim()).to.equal("75");
     });
 
     it("should display tooltip value with correct decimal places for decimal step", async () => {
       const el = await fixture<BlSlider>(
         html`<bl-slider tooltip min="0" max="2" step="0.1" value="1.0"></bl-slider>`
       );
-      const tooltip = el.shadowRoot?.querySelector(".tooltip") as HTMLElement;
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
 
       // Step 0.1 has 1 decimal place, so tooltip should show 1 decimal place
-      expect(tooltip.textContent?.trim()).to.equal("1.0");
+      expect(tooltip?.textContent?.trim()).to.equal("1.0");
 
       el.value = "1.5";
       await elementUpdated(el);
 
-      expect(tooltip.textContent?.trim()).to.equal("1.5");
+      expect(tooltip?.textContent?.trim()).to.equal("1.5");
     });
 
     it("should display tooltip value with correct decimal places for step with multiple decimals", async () => {
       const el = await fixture<BlSlider>(
         html`<bl-slider tooltip min="0" max="1" step="0.01" value="0.50"></bl-slider>`
       );
-      const tooltip = el.shadowRoot?.querySelector(".tooltip") as HTMLElement;
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
 
       // Step 0.01 has 2 decimal places, so tooltip should show 2 decimal places
-      expect(tooltip.textContent?.trim()).to.equal("0.50");
+      expect(tooltip?.textContent?.trim()).to.equal("0.50");
 
       el.value = "0.75";
       await elementUpdated(el);
 
-      expect(tooltip.textContent?.trim()).to.equal("0.75");
+      expect(tooltip?.textContent?.trim()).to.equal("0.75");
     });
   });
 
@@ -830,18 +830,18 @@ describe("bl-slider", () => {
     it("should update tooltip position when value changes during drag", async () => {
       const el = await fixture<BlSlider>(html`<bl-slider tooltip value="50"></bl-slider>`);
       const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
-      const tooltip = el.shadowRoot?.querySelector(".tooltip") as HTMLElement;
+      const tooltipWrapper = el.shadowRoot?.querySelector(".tooltip-wrapper") as HTMLElement;
 
       input.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
       await elementUpdated(el);
 
-      const initialLeft = tooltip.style.left;
+      const initialLeft = tooltipWrapper.style.left;
 
       input.value = "75";
       input.dispatchEvent(new Event("input", { bubbles: true }));
       await elementUpdated(el);
 
-      const updatedLeft = tooltip.style.left;
+      const updatedLeft = tooltipWrapper.style.left;
 
       expect(initialLeft).to.not.equal(updatedLeft);
     });
@@ -851,13 +851,14 @@ describe("bl-slider", () => {
     it("should update tooltip position on mouse move during drag", async () => {
       const el = await fixture<BlSlider>(html`<bl-slider tooltip value="50"></bl-slider>`);
       const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
-      const tooltip = el.shadowRoot?.querySelector(".tooltip") as HTMLElement;
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
+      const tooltipWrapper = el.shadowRoot?.querySelector(".tooltip-wrapper") as HTMLElement;
 
       // Start dragging
       input.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
       await elementUpdated(el);
 
-      expect(tooltip.classList.contains("visible")).to.be.true;
+      expect(tooltip?.visible).to.be.true;
 
       // Change value during drag
       input.value = "75";
@@ -868,48 +869,48 @@ describe("bl-slider", () => {
       await elementUpdated(el);
 
       // Tooltip should still be visible and position updated
-      expect(tooltip.classList.contains("visible")).to.be.true;
-      expect(tooltip.style.left).to.equal("75%");
+      expect(tooltip?.visible).to.be.true;
+      expect(tooltipWrapper.style.left).to.equal("75%");
     });
 
     it("should not update tooltip position on mouse move when not dragging", async () => {
       const el = await fixture<BlSlider>(html`<bl-slider tooltip value="50"></bl-slider>`);
-      const tooltip = el.shadowRoot?.querySelector(".tooltip") as HTMLElement;
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
 
       // Tooltip should not be visible when not dragging
-      expect(tooltip.classList.contains("visible")).to.be.false;
+      expect(tooltip?.visible).to.be.false;
 
       // Simulate mouse move without dragging
       document.dispatchEvent(new MouseEvent("mousemove", { bubbles: true }));
       await elementUpdated(el);
 
       // Tooltip should still not be visible
-      expect(tooltip.classList.contains("visible")).to.be.false;
+      expect(tooltip?.visible).to.be.false;
     });
 
     it("should stop showing tooltip on mouse up", async () => {
       const el = await fixture<BlSlider>(html`<bl-slider tooltip value="50"></bl-slider>`);
       const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
-      const tooltip = el.shadowRoot?.querySelector(".tooltip") as HTMLElement;
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
 
       // Start dragging
       input.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
       await elementUpdated(el);
 
-      expect(tooltip.classList.contains("visible")).to.be.true;
+      expect(tooltip?.visible).to.be.true;
 
       // Release mouse
       document.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
       await elementUpdated(el);
 
       // Tooltip should be hidden
-      expect(tooltip.classList.contains("visible")).to.be.false;
+      expect(tooltip?.visible).to.be.false;
     });
 
     it("should not show tooltip on mouse move when tooltip is disabled", async () => {
       const el = await fixture<BlSlider>(html`<bl-slider value="50"></bl-slider>`);
       const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
-      const tooltip = el.shadowRoot?.querySelector(".tooltip");
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
 
       // Tooltip should not exist
       expect(tooltip).to.not.exist;
@@ -923,7 +924,7 @@ describe("bl-slider", () => {
       await elementUpdated(el);
 
       // Tooltip should still not exist
-      const tooltipAfter = el.shadowRoot?.querySelector(".tooltip");
+      const tooltipAfter = el.shadowRoot?.querySelector("bl-tooltip");
 
       expect(tooltipAfter).to.not.exist;
     });

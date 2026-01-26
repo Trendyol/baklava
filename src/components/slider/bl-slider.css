@@ -123,13 +123,7 @@
   width: 20px;
   height: 20px;
   right: -10px;
-  background: radial-gradient(
-    circle,
-    var(--slider-color) 6px,
-    /* Inner 12px circle (radius 6px) */ white 6px,
-    /* White ring starts */ white 8px,
-    /* White ring ends */ var(--slider-color) 8px /* Outer color continues */
-  );
+  box-shadow: 0 0 0 3px var(--bl-color-neutral-full), 0 0 0 5px var(--slider-color);
 }
 
 .wrapper.disabled .slider-container:hover .track-active::after {
@@ -248,35 +242,18 @@
 }
 
 /* Tooltip */
-.tooltip {
+.tooltip-wrapper {
   position: absolute;
-  bottom: calc(100% + var(--bl-size-xs));
-  left: 0;
-  transform: translateX(-50%);
-  background-color: var(--bl-color-info);
-  color: var(--bl-color-neutral-full);
-  padding: var(--bl-size-3xs) var(--bl-size-2xs);
-  border-radius: var(--bl-border-radius-s);
-  font: var(--bl-font-body-text-2-regular);
-  white-space: nowrap;
+  top: 50%;
+  transform: translate(-50%, -50%);
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s ease;
   z-index: 4;
 }
 
-.tooltip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 4px solid transparent;
-  border-top-color: var(--bl-color-info);
-}
-
-.tooltip.visible {
-  opacity: 1;
+.tooltip-trigger {
+  display: block;
+  width: 20px;
+  height: 20px;
 }
 
 .help-text {

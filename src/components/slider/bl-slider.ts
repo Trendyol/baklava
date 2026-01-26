@@ -1,9 +1,11 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { styleMap } from "lit/directives/style-map.js";
 import { event, EventDispatcher } from "../../utilities/event";
+import "../tooltip/bl-tooltip";
+import type BlTooltip from "../tooltip/bl-tooltip";
 import style from "./bl-slider.css";
 
 export interface SliderMark {
@@ -86,6 +88,9 @@ export default class BlSlider extends LitElement {
 
   @state()
   private _isDragging = false;
+
+  @query("bl-tooltip")
+  private _tooltip: BlTooltip;
 
   /**
    * Fires when slider value changes through user interaction
@@ -176,12 +181,14 @@ export default class BlSlider extends LitElement {
   private _handleMouseDown = () => {
     if (!this.disabled && this.tooltip) {
       this._isDragging = true;
+      this._tooltip?.show();
     }
   };
 
   private _handleMouseUp = () => {
     if (this.tooltip) {
       this._isDragging = false;
+      this._tooltip?.hide();
     }
   };
 
@@ -258,16 +265,14 @@ export default class BlSlider extends LitElement {
   private _renderTooltip() {
     if (!this.tooltip) return null;
 
-    const tooltipClasses = {
-      "tooltip": true,
-      "visible": this._isDragging,
-    };
-
     const displayValue = this._numericValue.toFixed(this._decimalPlaces);
 
     return html`
-      <div class=${classMap(tooltipClasses)} style=${styleMap({ left: `${this._percentage}%` })}>
-        ${displayValue}
+      <div class="tooltip-wrapper" style=${styleMap({ left: `${this._percentage}%` })}>
+        <bl-tooltip placement="top">
+          <span slot="tooltip-trigger" class="tooltip-trigger"></span>
+          ${displayValue}
+        </bl-tooltip>
       </div>
     `;
   }
