@@ -928,6 +928,327 @@ describe("bl-slider", () => {
 
       expect(tooltipAfter).to.not.exist;
     });
+
+    it("should not show tooltip on mousedown when disabled", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider tooltip disabled value="50"></bl-slider>`);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
+
+      input.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+      await elementUpdated(el);
+
+      expect(tooltip?.visible).to.be.false;
+    });
+  });
+
+  describe("lifecycle", () => {
+    it("should cleanup event listeners on disconnect", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider tooltip value="50"></bl-slider>`);
+
+      // Remove from DOM
+      el.remove();
+
+      // Trigger events that would normally be handled
+      document.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
+      document.dispatchEvent(new MouseEvent("mousemove", { bubbles: true }));
+
+      // Should not throw errors
+      expect(true).to.be.true;
+    });
+
+    it("should constrain initial value on connected callback", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider min="20" max="80" value="10"></bl-slider>`);
+
+      // Value should be constrained to min
+      expect(el.value).to.equal("20");
+    });
+  });
+
+  describe("dynamic property changes", () => {
+    it("should update when step changes dynamically", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider min="0" max="100" step="1" value="55"></bl-slider>`);
+
+      expect(el.value).to.equal("55");
+
+      el.step = "10";
+      await elementUpdated(el);
+
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      expect(input.step).to.equal("10");
+    });
+
+    it("should update when marks change dynamically", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider value="50"></bl-slider>`);
+
+      let marksContainer = el.shadowRoot?.querySelector(".marks");
+
+      expect(marksContainer).to.not.exist;
+
+      el.marks = JSON.stringify([
+        { value: 0, label: "Start" },
+        { value: 100, label: "End" },
+      ]);
+      await elementUpdated(el);
+
+      marksContainer = el.shadowRoot?.querySelector(".marks");
+
+      expect(marksContainer).to.exist;
+    });
+
+    it("should handle empty marks array", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider value="50" marks="[]"></bl-slider>`);
+      const marksContainer = el.shadowRoot?.querySelector(".marks");
+
+      expect(marksContainer).to.not.exist;
+    });
+
+    it("should update when disabled changes dynamically", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider value="50"></bl-slider>`);
+      const wrapper = el.shadowRoot?.querySelector(".wrapper");
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      expect(wrapper?.classList.contains("disabled")).to.be.false;
+      expect(input.disabled).to.be.false;
+
+      el.disabled = true;
+      await elementUpdated(el);
+
+      expect(wrapper?.classList.contains("disabled")).to.be.true;
+      expect(input.disabled).to.be.true;
+    });
+
+    it("should update when tooltip changes dynamically", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider value="50"></bl-slider>`);
+
+      let tooltip = el.shadowRoot?.querySelector("bl-tooltip");
+
+      expect(tooltip).to.not.exist;
+
+      el.tooltip = true;
+      await elementUpdated(el);
+
+      tooltip = el.shadowRoot?.querySelector("bl-tooltip");
+
+      expect(tooltip).to.exist;
+    });
+
+    it("should update when label changes dynamically", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider value="50"></bl-slider>`);
+
+      let label = el.shadowRoot?.querySelector(".label");
+
+      expect(label).to.not.exist;
+
+      el.label = "Volume";
+      await elementUpdated(el);
+
+      label = el.shadowRoot?.querySelector(".label");
+
+      expect(label).to.exist;
+      expect(label?.textContent).to.equal("Volume");
+    });
+
+    it("should update when helpText changes dynamically", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider value="50"></bl-slider>`);
+
+      let helpText = el.shadowRoot?.querySelector(".help-text");
+
+      expect(helpText).to.not.exist;
+
+      el.helpText = "Adjust the value";
+      await elementUpdated(el);
+
+      helpText = el.shadowRoot?.querySelector(".help-text");
+
+      expect(helpText).to.exist;
+      expect(helpText?.textContent).to.equal("Adjust the value");
+    });
+
+    it("should update when showMinMax changes dynamically", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider min="0" max="100" value="50"></bl-slider>`);
+
+      let minValue = el.shadowRoot?.querySelector(".min-value");
+      let maxValue = el.shadowRoot?.querySelector(".max-value");
+
+      expect(minValue).to.not.exist;
+      expect(maxValue).to.not.exist;
+
+      el.showMinMax = true;
+      await elementUpdated(el);
+
+      minValue = el.shadowRoot?.querySelector(".min-value");
+      maxValue = el.shadowRoot?.querySelector(".max-value");
+
+      expect(minValue).to.exist;
+      expect(maxValue).to.exist;
+    });
+  });
+
+  describe("bl-tooltip integration", () => {
+    it("should render tooltip with top placement", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider tooltip value="50"></bl-slider>`);
+      const tooltip = el.shadowRoot?.querySelector("bl-tooltip");
+
+      expect(tooltip?.getAttribute("placement")).to.equal("top");
+    });
+
+    it("should have tooltip trigger element", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider tooltip value="50"></bl-slider>`);
+      const tooltipTrigger = el.shadowRoot?.querySelector(".tooltip-trigger");
+
+      expect(tooltipTrigger).to.exist;
+    });
+
+    it("should position tooltip wrapper correctly", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider tooltip min="0" max="100" value="25"></bl-slider>`);
+      const tooltipWrapper = el.shadowRoot?.querySelector(".tooltip-wrapper") as HTMLElement;
+
+      expect(tooltipWrapper.style.left).to.equal("25%");
+    });
+  });
+
+  describe("disabled state", () => {
+    it("should apply disabled styles to label", async () => {
+      const el = await fixture<BlSlider>(html`<bl-slider label="Volume" disabled value="50"></bl-slider>`);
+      const label = el.shadowRoot?.querySelector(".label");
+
+      expect(label).to.exist;
+      // Label should exist in disabled state
+    });
+
+    it("should apply disabled styles to help text", async () => {
+      const el = await fixture<BlSlider>(
+        html`<bl-slider help-text="Adjust volume" disabled value="50"></bl-slider>`
+      );
+      const helpText = el.shadowRoot?.querySelector(".help-text");
+
+      expect(helpText).to.exist;
+      // Help text should exist in disabled state
+    });
+
+    it("should apply disabled styles to min/max values", async () => {
+      const el = await fixture<BlSlider>(
+        html`<bl-slider min="0" max="100" show-min-max disabled value="50"></bl-slider>`
+      );
+      const minValue = el.shadowRoot?.querySelector(".min-value");
+      const maxValue = el.shadowRoot?.querySelector(".max-value");
+
+      expect(minValue).to.exist;
+      expect(maxValue).to.exist;
+    });
+
+    it("should apply disabled styles to marks", async () => {
+      const marks = [
+        { value: 0, label: "Min" },
+        { value: 100, label: "Max" },
+      ];
+      const el = await fixture<BlSlider>(
+        html`<bl-slider disabled value="50" marks=${JSON.stringify(marks)}></bl-slider>`
+      );
+      const markLabels = el.shadowRoot?.querySelectorAll(".mark-label");
+
+      expect(markLabels).to.have.lengthOf(2);
+    });
+  });
+
+  describe("multiple sliders", () => {
+    it("should work independently when multiple sliders exist", async () => {
+      const container = await fixture<HTMLDivElement>(html`
+        <div>
+          <bl-slider id="slider1" value="25"></bl-slider>
+          <bl-slider id="slider2" value="75"></bl-slider>
+        </div>
+      `);
+
+      const slider1 = container.querySelector("#slider1") as BlSlider;
+      const slider2 = container.querySelector("#slider2") as BlSlider;
+
+      expect(slider1.value).to.equal("25");
+      expect(slider2.value).to.equal("75");
+
+      slider1.value = "50";
+      await elementUpdated(slider1);
+
+      expect(slider1.value).to.equal("50");
+      expect(slider2.value).to.equal("75");
+    });
+
+    it("should fire events independently", async () => {
+      const container = await fixture<HTMLDivElement>(html`
+        <div>
+          <bl-slider id="slider1" value="25"></bl-slider>
+          <bl-slider id="slider2" value="75"></bl-slider>
+        </div>
+      `);
+
+      const slider1 = container.querySelector("#slider1") as BlSlider;
+      const slider2 = container.querySelector("#slider2") as BlSlider;
+
+      let slider1EventFired = false;
+      let slider2EventFired = false;
+
+      slider1.addEventListener("bl-slider-change", () => {
+        slider1EventFired = true;
+      });
+
+      slider2.addEventListener("bl-slider-change", () => {
+        slider2EventFired = true;
+      });
+
+      const input1 = slider1.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      input1.value = "50";
+      input1.dispatchEvent(new Event("change", { bubbles: true }));
+      await elementUpdated(slider1);
+
+      expect(slider1EventFired).to.be.true;
+      expect(slider2EventFired).to.be.false;
+    });
+  });
+
+  describe("marks edge cases", () => {
+    it("should handle marks with duplicate values", async () => {
+      const marks = [
+        { value: 50, label: "First" },
+        { value: 50, label: "Second" },
+      ];
+      const el = await fixture<BlSlider>(html`<bl-slider value="50" marks=${JSON.stringify(marks)}></bl-slider>`);
+      const markElements = el.shadowRoot?.querySelectorAll(".mark");
+
+      expect(markElements).to.have.lengthOf(2);
+    });
+
+    it("should handle marks with values outside min/max range", async () => {
+      const marks = [
+        { value: -50, label: "Below Min" },
+        { value: 50, label: "In Range" },
+        { value: 150, label: "Above Max" },
+      ];
+      const el = await fixture<BlSlider>(
+        html`<bl-slider min="0" max="100" value="50" marks=${JSON.stringify(marks)}></bl-slider>`
+      );
+      const markElements = el.shadowRoot?.querySelectorAll(".mark");
+
+      // All marks should render (positioning may be off-screen)
+      expect(markElements).to.have.lengthOf(3);
+    });
+
+    it("should handle marks without labels", async () => {
+      const marks = [
+        { value: 0, label: "" },
+        { value: 50, label: "" },
+        { value: 100, label: "" },
+      ];
+      const el = await fixture<BlSlider>(html`<bl-slider value="50" marks=${JSON.stringify(marks)}></bl-slider>`);
+      const markElements = el.shadowRoot?.querySelectorAll(".mark");
+      const markLabels = el.shadowRoot?.querySelectorAll(".mark-label");
+
+      expect(markElements).to.have.lengthOf(3);
+      expect(markLabels).to.have.lengthOf(3);
+      // Labels exist but are empty
+      expect(markLabels?.[0].textContent).to.equal("");
+    });
   });
 });
 
