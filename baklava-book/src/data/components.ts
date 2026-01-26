@@ -371,3 +371,7 @@ export function getComponentBySlug(slug: string): ComponentMeta | undefined {
 export function getComponentsByCategory(category: string): ComponentMeta[] {
   return components.filter((c) => c.category === category);
 }
+
+export function getAllComponentsSorted(): ComponentMeta[] {
+  return [...components].sort((a, b) => a.name.localeCompare(b.name));
+}
