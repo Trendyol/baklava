@@ -1,0 +1,67 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.stepper {
+  --spacing: var(--bl-size-m);
+
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.stepper.direction-horizontal {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.stepper.direction-horizontal .stepper-item {
+  flex: 1 1 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+}
+
+/* Vertical direction */
+.stepper.direction-vertical {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stepper.direction-vertical .stepper-item {
+  position: relative;
+  width: 100%;
+  min-height: 80px;
+}
+
+.stepper.direction-vertical .stepper-item:not(:last-child) {
+  margin-bottom: 0;
+}
+
+/* Non-clickable usage */
+.stepper.usage-non-clickable .stepper-item {
+  cursor: default;
+}
+
+.stepper.usage-non-clickable .stepper-item:focus {
+  outline: none;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .stepper.direction-horizontal {
+    flex-direction: column;
+  }
+
+  .stepper.direction-horizontal .stepper-item:not(:last-child)::after {
+    display: none;
+  }
+
+  .stepper.direction-horizontal .stepper-item {
+    margin-bottom: var(--spacing);
+  }
+}
