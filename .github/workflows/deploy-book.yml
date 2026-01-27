@@ -2,11 +2,11 @@ name: Deploy Baklava Book
 
 on:
   push:
-    branches: [main, next]
+    branches: [main, next, new-docs]
     paths:
-      - 'baklava-book/**'
-      - 'src/**'
-      - '.github/workflows/deploy-book.yml'
+      - "baklava-book/**"
+      - "src/**"
+      - ".github/workflows/deploy-book.yml"
   workflow_dispatch:
 
 permissions:
@@ -15,7 +15,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -28,8 +28,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: "22"
+          cache: "npm"
 
       - name: Install root dependencies
         run: npm ci
@@ -53,7 +53,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './baklava-book/dist'
+          path: "./baklava-book/dist"
 
   deploy:
     environment:
