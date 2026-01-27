@@ -2,7 +2,7 @@ name: Deploy Baklava Book
 
 on:
   push:
-    branches: [main, next, new-docs]
+    branches: [main, next]
     paths:
       - "baklava-book/**"
       - "src/**"
