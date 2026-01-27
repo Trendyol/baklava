@@ -78,9 +78,6 @@ export const SliderWithValue = (args) => html`
         }
       }}
     ></bl-slider>
-    <div class="value-display" style="margin-top: 16px; font: var(--bl-font-title-4-medium); color: var(--bl-color-primary);">
-      Value: ${args.value || '0'}
-    </div>
   </div>
 `;
 
@@ -96,7 +93,7 @@ Slider component allows users to select a numeric value from a range by moving a
 Sliders are used for adjusting values like number, amount, price, etc. intervals visually. You can adapt and use them with different options such as labels, text, numbers, and tooltips.
 
 <Canvas>
-  <Story name="Usage" args={{ label: 'Label', helpText: 'Helper text', value: '50' }}>
+  <Story name="Usage" args={{ value: '50' }}>
     {SliderWithValue.bind({})}
   </Story>
 </Canvas>
@@ -132,7 +129,6 @@ This slider moves in fixed steps instead of a smooth range. Use it when users sh
 <Canvas>
   <Story name="Discrete" args={{
     label: 'Label',
-    helpText: 'Helper text',
     value: '30',
     step: '10',
     marks: JSON.stringify([
@@ -160,7 +156,6 @@ This slider displays a tooltip showing the selected value while adjusting. Use i
 <Canvas>
   <Story name="Tooltip" args={{
     label: 'Label',
-    helpText: 'Helper text',
     tooltip: true,
     value: '50'
   }}>
@@ -253,9 +248,6 @@ Slider with custom range values. The slider value is always constrained between 
             show-min-max
             @bl-slider-change=${sliderChange}
           ></bl-slider>
-          <div class="value-display" style="font: var(--bl-font-title-4-medium); color: var(--bl-color-primary);">
-            Value: 22 (Min: -20, Max: 40)
-          </div>
         </div>
       `;
     }}
@@ -305,9 +297,6 @@ In the hover state of slider, the thumb increases by 4 px.
         <div style="flex: 1;">
           <bl-slider label="Label" help-text="Helper text" value="40"></bl-slider>
         </div>
-        <div style="flex: 1;">
-          <bl-slider label="Label" help-text="Helper text" value="80"></bl-slider>
-        </div>
       </div>
     `}
   </Story>
@@ -323,9 +312,6 @@ In the slider's focus state, the thumb transitions to its hover state and change
       <div style="display: flex; gap: 32px;">
         <div style="flex: 1;">
           <bl-slider label="Label" help-text="Helper text" value="40"></bl-slider>
-        </div>
-        <div style="flex: 1;">
-          <bl-slider label="Label" help-text="Helper text" value="80"></bl-slider>
         </div>
       </div>
     `}
@@ -383,80 +369,6 @@ In the slider's focus state, the thumb transitions to its hover state and change
           label="With Help Text"
           help-text="Drag to adjust the value"
           value="60"
-        ></bl-slider>
-      </div>
-    `}
-  </Story>
-</Canvas>
-
-## Events
-
-The `bl-slider-change` event is fired when the slider value changes through user interaction.
-
-<Canvas>
-  <Story name="With Event Handler">
-    {() => {
-      const handleSliderChange = (event) => {
-        // Handle slider value change
-        // event.detail.value contains the new value
-      };
-
-      return html`
-        <bl-slider
-          label="Brightness"
-          value="75"
-          @bl-slider-change=${handleSliderChange}
-        ></bl-slider>
-      `;
-    }}
-  </Story>
-</Canvas>
-
-## CSS Custom Properties
-
-You can customize the slider appearance using CSS custom properties:
-
-- `--bl-slider-color`: Color of the active track & thumb (default: `--bl-color-primary`)
-- `--bl-slider-track-color`: Color of the inactive track (default: `--bl-color-neutral-lightest`)
-
-<Canvas>
-  <Story name="Custom Colors">
-    {() => html`
-      <div style="display: flex; flex-direction: column; gap: 32px;">
-        <bl-slider
-          label="Error Slider"
-          value="50"
-          style="--bl-slider-color: var(--bl-color-danger);"
-        ></bl-slider>
-
-        <bl-slider
-          label="Success Slider"
-          value="75"
-          style="--bl-slider-color: var(--bl-color-success);"
-        ></bl-slider>
-
-        <bl-slider
-          label="Info Slider"
-          value="30"
-          style="--bl-slider-color: var(--bl-color-info);"
-        ></bl-slider>
-      </div>
-    `}
-  </Story>
-</Canvas>
-
-## Dark Mode
-
-The slider component automatically adapts to dark mode when the theme is switched.
-
-<Canvas>
-  <Story name="Dark Mode">
-    {() => html`
-      <div data-theme="dark" style="background-color: var(--bl-color-neutral-full); padding: 32px; border-radius: 8px;">
-        <bl-slider
-          label="Label"
-          help-text="Helper text"
-          value="50"
         ></bl-slider>
       </div>
     `}
