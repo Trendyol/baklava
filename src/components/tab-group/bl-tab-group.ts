@@ -9,6 +9,9 @@ import type BlTab from "./tab/bl-tab";
 /**
  * @tag bl-tab-group
  * @summary Baklava Tab group component
+ *
+ * @slot tabs - Slot for bl-tab elements
+ * @slot - Default slot for bl-tab-panel elements
  */
 @customElement("bl-tab-group")
 export default class BlTabGroup extends LitElement {

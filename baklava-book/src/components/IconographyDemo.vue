@@ -1,188 +1,114 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import CodeBlock from "@/components/CodeBlock.vue";
+import iconList from "@trendyol/baklava-icons";
 
 const searchQuery = ref("");
+
+// Icon list directly from @trendyol/baklava-icons package
+const allIconList = [...iconList];
 
 // Icon categories based on Baklava Icons
 const iconCategories = [
   {
     name: "Navigation",
     icons: [
-      "home",
-      "menu",
-      "arrow_left",
-      "arrow_right",
-      "arrow_up",
-      "arrow_down",
-      "chevron_double_left",
-      "chevron_double_right",
-      "external_link",
-      "exit",
+      "home", "hamburger_menu", "arrow_left", "arrow_right", "arrow_up", "arrow_down",
+      "back", "back_fill", "forward", "go_forward", "left_sided_arrow", "right_sided_arrow",
+      "two_sided_arrow", "external_link", "external_share", "exit", "door_open", "expand", "full_size"
     ],
   },
   {
     name: "Actions",
     icons: [
-      "search",
-      "edit",
-      "delete",
-      "copy",
-      "share",
-      "download",
-      "upload",
-      "refresh",
-      "save",
-      "print",
-      "plus",
-      "minus",
-      "close",
-      "check",
-      "check_fill",
+      "search", "edit", "delete", "copy", "copy_checked", "share", "download", "upload",
+      "save", "print", "plus", "plus_fill", "minus", "minus_fill", "close", "close_fill",
+      "check", "check_fill", "change", "change_fill", "rotate", "drag_and_drop", "export",
+      "filter", "sorting", "sorting_asc", "sorting_desc", "preview", "archive"
     ],
   },
   {
     name: "Communication",
-    icons: ["email", "phone", "chat", "message", "bell", "megaphone", "paper_plane"],
+    icons: [
+      "mail", "mail_opened", "send_mail", "phone", "phone_settings", "message", "chatbot",
+      "notification", "announcement", "dialog", "support", "live_support", "send"
+    ],
   },
   {
     name: "User & Account",
     icons: [
-      "account",
-      "user",
-      "user_plus",
-      "user_minus",
-      "user_check",
-      "group_1",
-      "lock",
-      "logout",
+      "account", "profile", "profile_check", "profile_star", "people", "group_of_people",
+      "user_management", "lock", "unlock", "incognito"
     ],
   },
   {
     name: "E-commerce",
     icons: [
-      "cart",
-      "shop",
-      "store",
-      "orders",
-      "package",
-      "box",
-      "delivery",
-      "receipt",
-      "invoice",
-      "wallet",
-      "money",
-      "cash",
-      "credit_card",
-      "coins",
-      "coupon_code",
-      "discount",
-      "badge_discount",
-      "badge_price",
-      "percent",
-      "tag",
-      "gift",
-      "free_return",
+      "shopping_bag", "shopping_bag_add", "shopping_bag_back", "shopping_bag_cancel",
+      "shopping_bag_discount", "shopping_bag_return", "store", "new_store", "store_performance",
+      "market", "market_order_back", "market_order_cancel", "market_order_change", "market_order_check",
+      "market_processing", "order", "order_back", "order_box", "order_boxes", "order_cancel",
+      "order_check", "order_return", "order_settings", "order_time", "order_tracking",
+      "product", "add_product", "wallet", "money", "money_transfer", "split_money", "coin",
+      "credit_card", "coupon", "gift", "label", "barcode", "qr", "price_settings", "offers",
+      "campaign", "bill", "express", "express_delivery", "express_furniture"
     ],
   },
   {
-    name: "Content",
+    name: "Content & Documents",
     icons: [
-      "document",
-      "file",
-      "folder",
-      "image",
-      "video",
-      "calendar",
-      "clock",
-      "history",
-      "bookmark",
-      "link",
-      "attach",
-      "barcode",
-      "qr_code",
+      "document", "document_search", "paper", "book", "report", "excel", "add_note",
+      "image", "photo", "photo_off", "add_photo", "calendar", "clock", "history",
+      "hourglass", "link", "attach", "listing", "browser", "code"
     ],
   },
   {
     name: "Status & Feedback",
     icons: [
-      "info",
-      "warning",
-      "warning_fill",
-      "help",
-      "question",
-      "check_fill",
-      "close",
-      "loading",
-      "badge_check",
+      "info", "warning", "alert", "notice", "help", "check", "check_fill", "close", "close_fill",
+      "loading", "disable", "partial_approve", "complain", "review"
     ],
   },
   {
     name: "Media & Controls",
-    icons: ["play", "pause", "record", "mic", "speaker", "video", "camera", "headset"],
+    icons: [
+      "play", "play_fill", "pause", "pause_fill", "stop", "stop_fill", "microphone",
+      "microphone_off", "sound_on", "sound_off", "camera", "camera_off", "desktop",
+      "desktop_filled", "mobile", "mobile_fill", "mobile_settings"
+    ],
   },
   {
     name: "Favorites & Ratings",
-    icons: ["heart", "heart_fill", "star", "star_fill", "thumbs_up", "thumbs_down", "award"],
+    icons: [
+      "heart", "heart_fill", "star", "star_fill", "star_double", "star_triple",
+      "like", "dislike", "award", "medal", "badge", "happy", "normal", "sad", "very_happy", "very_sad"
+    ],
   },
   {
     name: "Location & Maps",
-    icons: ["location", "map", "pin", "globe", "target"],
+    icons: ["map", "pin", "globe", "global_export", "target", "compass", "warehouse", "truck", "motorcycle", "motorcycle_check"],
   },
   {
     name: "Settings & Tools",
     icons: [
-      "settings",
-      "filter",
-      "sort",
-      "grid",
-      "list",
-      "resize",
-      "rotate",
-      "zoom_in",
-      "zoom_out",
-      "code",
-      "puzzle",
-      "palette",
-      "ruler",
-      "lightbulb",
-      "flash",
-      "keyboard",
+      "settings", "services", "add_part", "zoom_in", "zoom_out", "puzzle", "light_bulb",
+      "flash", "flash_fill", "magic_wand", "translation", "chart", "graphic", "graphic_decrease",
+      "pie_chart", "pie_chart_report", "metric_decrease", "metric_increase", "metric_minus", "growth"
     ],
   },
   {
-    name: "Social",
-    icons: ["facebook", "twitter", "instagram", "google", "whatsapp", "youtube"],
+    name: "Social & Media",
+    icons: ["facebook", "instagram", "youtube"],
   },
   {
-    name: "Miscellaneous",
+    name: "Business & Finance",
     icons: [
-      "eye",
-      "eye_off",
-      "shield",
-      "secure",
-      "policy",
-      "leaf",
-      "hand",
-      "handshake",
-      "rocket",
-      "academy",
-      "education",
-      "ticket",
-      "catalog",
-      "compare",
-      "shuffle",
-      "transfer",
-      "trending_up",
-      "trending_down",
-      "more_horizontal",
-      "more_vertical",
+      "finance_accounting", "suitcase", "handshake", "donation", "academy", "ticket",
+      "vacation_mode", "confetti", "fire", "flag", "rocket", "heartbeat", "meal_bag",
+      "burger", "live_monitor", "eye_on", "eye_off", "turn_back", "turn_back_fill"
     ],
   },
 ];
-
-const allIcons = computed(() => {
-  return iconCategories.flatMap((cat) => cat.icons);
-});
 
 const filteredCategories = computed(() => {
   if (!searchQuery.value) return iconCategories;
@@ -196,11 +122,20 @@ const filteredCategories = computed(() => {
     .filter((cat) => cat.icons.length > 0);
 });
 
-const totalIcons = computed(() => allIcons.value.length);
+const totalIcons = computed(() => allIconList.length);
 
 const copyToClipboard = (iconName: string) => {
   navigator.clipboard.writeText(`<bl-icon name="${iconName}"></bl-icon>`);
 };
+
+// Code examples
+const setupCode = `import { setIconPath } from '@trendyol/baklava'
+
+setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava-icons@latest/icons')`;
+
+const usageCode = `<bl-icon name="home"></bl-icon>
+<bl-icon name="search"></bl-icon>
+<bl-icon name="settings"></bl-icon>`;
 </script>
 
 <template>
@@ -213,7 +148,7 @@ const copyToClipboard = (iconName: string) => {
     </p>
 
     <div class="flex flex-wrap gap-4 mb-8">
-      <bl-badge size="medium" icon="info">{{ totalIcons }}+ Icons</bl-badge>
+      <bl-badge size="medium" icon="info">{{ totalIcons }} Icons</bl-badge>
       <a
         href="https://trendyol.github.io/baklava-icons/?path=/docs/documentation-baklava-icons--icons"
         target="_blank"
@@ -228,10 +163,8 @@ const copyToClipboard = (iconName: string) => {
     <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
       Set the icon path during initialization to use Baklava icons:
     </p>
-    <div class="bg-black rounded-xl p-4 overflow-x-auto mb-8">
-      <pre class="text-sm text-[#d4d4d4]"><code>import { setIconPath } from '@trendyol/baklava'
-
-setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava-icons@latest/icons')</code></pre>
+    <div class="mb-8">
+      <CodeBlock :code="setupCode" language="typescript" />
     </div>
 
     <!-- Usage -->
@@ -239,10 +172,8 @@ setIconPath('https://cdn.jsdelivr.net/npm/@trendyol/baklava-icons@latest/icons')
     <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
       Use the <code class="text-primary">bl-icon</code> component to display icons:
     </p>
-    <div class="bg-black rounded-xl p-4 overflow-x-auto mb-8">
-      <pre class="text-sm text-[#d4d4d4]"><code>&lt;bl-icon name="home"&gt;&lt;/bl-icon&gt;
-&lt;bl-icon name="search"&gt;&lt;/bl-icon&gt;
-&lt;bl-icon name="settings"&gt;&lt;/bl-icon&gt;</code></pre>
+    <div class="mb-8">
+      <CodeBlock :code="usageCode" language="html" />
     </div>
 
     <!-- Customization -->

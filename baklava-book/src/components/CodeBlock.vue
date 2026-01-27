@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
 import { codeToHtml } from "shiki";
+import { useTheme } from "@/composables/useTheme";
 
 const props = defineProps<{
   code: string;
   language?: string;
 }>();
 
+const { isDark } = useTheme();
 const copied = ref(false);
 const highlightedCode = ref("");
 
@@ -29,27 +31,32 @@ const effectiveLang = computed(() => {
   return languageMap[lang] || lang;
 });
 
-// Shiki ile highlight et
+// Dynamic theme based on dark mode
+const shikiTheme = computed(() => (isDark.value ? "github-dark" : "github-light"));
+
+// Shiki highlighting
 async function highlight() {
   try {
     const html = await codeToHtml(props.code.trim(), {
       lang: effectiveLang.value,
-      theme: "github-dark",
+      theme: shikiTheme.value,
     });
     highlightedCode.value = html;
   } catch {
-    // Fallback - düz metin göster
+    // Fallback - plain text
     const escaped = props.code
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
-    highlightedCode.value = `<pre class="shiki github-dark" style="background-color:#24292e;color:#e1e4e8"><code>${escaped}</code></pre>`;
+    const bgColor = isDark.value ? "#24292e" : "#f6f8fa";
+    const textColor = isDark.value ? "#e1e4e8" : "#24292e";
+    highlightedCode.value = `<pre class="shiki" style="background-color:${bgColor};color:${textColor}"><code>${escaped}</code></pre>`;
   }
 }
 
-// code veya language değiştiğinde yeniden highlight et
+// Re-highlight when code, language, or theme changes
 watch(
-  [() => props.code, () => props.language],
+  [() => props.code, () => props.language, shikiTheme],
   () => {
     highlight();
   },
@@ -83,10 +90,22 @@ async function copyCode() {
 .code-block :deep(pre) {
   padding: 1rem;
   border-radius: 0.5rem;
-  overflow-x: auto;
+  overflow-x: hidden;
   font-size: 0.875rem;
   line-height: 1.6;
   margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Light mode: create contrast with white content */
+.code-block :deep(pre.shiki.github-light) {
+  background-color: #f6f8fa !important;
+}
+
+/* Dark mode: ensure dark background is applied */
+.code-block :deep(pre.shiki.github-dark) {
+  background-color: #24292e !important;
 }
 
 .code-block :deep(code) {
@@ -94,7 +113,15 @@ async function copyCode() {
 }
 
 .copy-btn {
-  --bl-button-color: var(--bl-color-neutral-lighter);
+  --bl-button-color: var(--bl-color-neutral-light);
   --bl-button-hover-color: var(--bl-color-neutral-lightest);
+}
+</style>
+
+<style>
+/* Dark mode copy button styling */
+html.dark .code-block .copy-btn {
+  --bl-button-color: var(--bl-color-neutral-light);
+  --bl-button-hover-color: var(--bl-color-neutral-full);
 }
 </style>

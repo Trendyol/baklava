@@ -36,7 +36,7 @@ const loading = ref(true);
 
 onMounted(async () => {
   try {
-    // custom-elements.json dosyasını yükle
+    // Load custom-elements.json manifest
     const response = await fetch("/custom-elements.json");
     if (response.ok) {
       customElementsData.value = await response.json();
@@ -48,12 +48,50 @@ onMounted(async () => {
   }
 });
 
+// Helper function to find a declaration by class name
+const findDeclarationByName = (className: string, modules: any[]): any | null => {
+  for (const mod of modules) {
+    const declarations = mod.declarations || [];
+    for (const decl of declarations) {
+      if (decl.name === className) {
+        return decl;
+      }
+    }
+  }
+  return null;
+};
+
+// Helper function to extract members from a declaration and its superclasses
+const extractMembersFromDeclaration = (
+  decl: any,
+  modules: any[],
+  visited: Set<string> = new Set()
+): any[] => {
+  if (!decl || visited.has(decl.name)) {
+    return [];
+  }
+  visited.add(decl.name);
+
+  let members = [...(decl.members || [])];
+
+  // Recursively get members from superclass
+  if (decl.superclass?.name && decl.superclass.name !== "LitElement") {
+    const superDecl = findDeclarationByName(decl.superclass.name, modules);
+    if (superDecl) {
+      const superMembers = extractMembersFromDeclaration(superDecl, modules, visited);
+      members = [...members, ...superMembers];
+    }
+  }
+
+  return members;
+};
+
 const apiData = computed<ApiData | null>(() => {
   if (!customElementsData.value || !props.tagName) {
     return null;
   }
 
-  // Modüller içinde tagName'e göre ara
+  // Search for tagName in modules
   const modules = customElementsData.value.modules || [];
 
   for (const mod of modules) {
@@ -66,10 +104,14 @@ const apiData = computed<ApiData | null>(() => {
         const cssProperties: CssProperty[] = [];
         const slots: { name: string; description: string }[] = [];
 
+        // Get all members including from superclasses/mixins
+        const allMembers = extractMembersFromDeclaration(decl, modules);
+
         // Attributes/Members
-        if (decl.members) {
-          for (const member of decl.members) {
-            if (member.kind === "field" && member.attribute) {
+        for (const member of allMembers) {
+          if (member.kind === "field" && member.attribute) {
+            // Skip if already added
+            if (!attributes.find((a) => a.name === member.attribute)) {
               attributes.push({
                 name: member.attribute,
                 type: member.parsedType?.text || member.type?.text || "unknown",
@@ -139,7 +181,7 @@ const apiData = computed<ApiData | null>(() => {
 <template>
   <div v-if="loading" class="text-neutral-dark text-center py-8">
     <bl-spinner></bl-spinner>
-    <span class="ml-2">API verileri yükleniyor...</span>
+    <span class="ml-2">Loading API data…</span>
   </div>
 
   <div v-else-if="apiData" class="space-y-8">
@@ -287,11 +329,14 @@ const apiData = computed<ApiData | null>(() => {
       "
       class="text-neutral-dark text-center py-8"
     >
-      Bu component için API referansı henüz eklenmedi.
+      No API reference available for this component yet.
     </div>
   </div>
 
   <div v-else class="text-neutral-dark text-center py-8">
-    Bu component için API referansı bulunamadı.
+    <p class="mb-2">API reference not found for this component.</p>
+    <p class="text-sm">
+      Run <code>npm run analyze</code> in the project root to generate the API documentation.
+    </p>
   </div>
 </template>

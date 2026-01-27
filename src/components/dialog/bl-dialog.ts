@@ -14,6 +14,11 @@ type DialogElement = {
  * @tag bl-dialog
  * @summary Baklava Dialog component
  *
+ * @slot - Default slot for dialog content
+ * @slot primary-action - Slot for primary action button
+ * @slot secondary-action - Slot for secondary action button
+ * @slot tertiary-action - Slot for tertiary action button
+ *
  * @cssproperty [--bl-dialog-width=auto] Sets the width of the dialog content
  * @cssproperty [--bl-dialog-caption-line-clamp=1] Sets the line clamp of the caption
  */

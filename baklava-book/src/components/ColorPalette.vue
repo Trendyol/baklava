@@ -67,8 +67,16 @@ const neutralColors = [
   { variable: "--bl-color-neutral-full", label: "Full", value: "#ffffff" },
 ];
 
-const copyToClipboard = (text: string) => {
+import { ref } from "vue";
+
+const copiedVariable = ref<string | null>(null);
+
+const copyToClipboard = (text: string, variable: string) => {
   navigator.clipboard.writeText(text);
+  copiedVariable.value = variable;
+  setTimeout(() => {
+    copiedVariable.value = null;
+  }, 1500);
 };
 
 const getContrastColor = (hex: string) => {
@@ -103,14 +111,18 @@ const getContrastColor = (hex: string) => {
       >
         <!-- Gradient Header -->
         <div class="flex">
-          <div
+          <bl-tooltip
             v-for="color in group.colors"
             :key="color.variable"
-            class="flex-1 h-16 cursor-pointer transition-opacity hover:opacity-80 first:rounded-tl-xl last:rounded-tr-xl"
-            :style="{ backgroundColor: color.value }"
-            :title="`Click to copy: var(${color.variable})`"
-            @click="copyToClipboard(`var(${color.variable})`)"
-          ></div>
+            :content="copiedVariable === color.variable ? 'Copied!' : `Click to copy: var(${color.variable})`"
+            class="flex-1"
+          >
+            <div
+              class="h-16 cursor-pointer transition-opacity hover:opacity-80 first:rounded-tl-xl last:rounded-tr-xl"
+              :style="{ backgroundColor: color.value }"
+              @click="copyToClipboard(`var(${color.variable})`, color.variable)"
+            ></div>
+          </bl-tooltip>
         </div>
 
         <!-- Color Info -->
@@ -130,13 +142,18 @@ const getContrastColor = (hex: string) => {
               v-for="color in group.colors"
               :key="color.variable"
               class="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-lightest dark:hover:bg-neutral-dark cursor-pointer transition-colors border border-neutral-lightest dark:border-neutral-dark"
-              :title="`Click to copy: var(${color.variable})`"
-              @click="copyToClipboard(`var(${color.variable})`)"
+              @click="copyToClipboard(`var(${color.variable})`, color.variable)"
             >
               <div
-                class="w-10 h-10 rounded-lg shadow-inner border border-neutral-lighter dark:border-neutral-darker flex-shrink-0"
+                class="w-10 h-10 rounded-lg shadow-inner border border-neutral-lighter dark:border-neutral-darker shrink-0 flex items-center justify-center"
                 :style="{ backgroundColor: color.value }"
-              ></div>
+              >
+                <bl-icon
+                  v-if="copiedVariable === color.variable"
+                  name="check_fill"
+                  :style="{ color: getContrastColor(color.value) }"
+                ></bl-icon>
+              </div>
               <div class="min-w-0 flex-1">
                 <p class="text-sm font-medium text-neutral-darkest dark:text-white">
                   {{ color.label }}
@@ -163,14 +180,18 @@ const getContrastColor = (hex: string) => {
     >
       <!-- Gradient Header -->
       <div class="h-20 flex">
-        <div
+        <bl-tooltip
           v-for="color in neutralColors"
           :key="color.variable"
-          class="flex-1 cursor-pointer transition-opacity hover:opacity-80"
-          :style="{ backgroundColor: color.value }"
-          :title="`Click to copy: var(${color.variable})`"
-          @click="copyToClipboard(`var(${color.variable})`)"
-        ></div>
+          :content="copiedVariable === color.variable ? 'Copied!' : `Click to copy: var(${color.variable})`"
+          class="flex-1"
+        >
+          <div
+            class="h-20 cursor-pointer transition-opacity hover:opacity-80"
+            :style="{ backgroundColor: color.value }"
+            @click="copyToClipboard(`var(${color.variable})`, color.variable)"
+          ></div>
+        </bl-tooltip>
       </div>
 
       <!-- Color List -->
@@ -179,13 +200,18 @@ const getContrastColor = (hex: string) => {
           v-for="color in neutralColors"
           :key="color.variable"
           class="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-lightest dark:hover:bg-neutral-dark cursor-pointer transition-colors"
-          :title="`Click to copy: var(${color.variable})`"
-          @click="copyToClipboard(`var(${color.variable})`)"
+          @click="copyToClipboard(`var(${color.variable})`, color.variable)"
         >
           <div
-            class="w-10 h-10 rounded-lg shadow-inner border border-neutral-lighter dark:border-neutral-dark flex-shrink-0"
+            class="w-10 h-10 rounded-lg shadow-inner border border-neutral-lighter dark:border-neutral-dark flex-shrink-0 flex items-center justify-center"
             :style="{ backgroundColor: color.value }"
-          ></div>
+          >
+            <bl-icon
+              v-if="copiedVariable === color.variable"
+              name="check_fill"
+              :style="{ color: getContrastColor(color.value) }"
+            ></bl-icon>
+          </div>
           <div class="min-w-0">
             <p class="text-sm font-medium text-neutral-darkest dark:text-white">{{ color.label }}</p>
             <code class="text-xs text-neutral-dark dark:text-neutral-light block truncate">

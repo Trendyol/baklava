@@ -15,7 +15,7 @@ let opts = {};
 
 /** @type {import('@custom-elements-manifest/analyzer').AnalyzerConfig} */
 export default {
-  globs: ["src/components/**/!(*.test|*.stories).ts"],
+  globs: ["src/components/**/!(*.test|*.stories).ts", "src/mixins/**/!(*.test|*.stories).ts"],
   exclude: [
     "src/**/*.css",
     "src/**/*.constant.ts",

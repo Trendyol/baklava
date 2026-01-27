@@ -82,9 +82,9 @@ const rtlCode = `<!-- LTR (Left-to-Right) -->
 
     <DemoSection title="Sizes" :code="sizesCode">
       <div class="flex flex-wrap items-center gap-4">
-        <bl-link href="#" size="large">Large Link</bl-link>
-        <bl-link href="#" size="medium">Medium Link</bl-link>
-        <bl-link href="#" size="small">Small Link</bl-link>
+        <bl-link href="#" variant="standalone" size="large">Large Link</bl-link>
+        <bl-link href="#" variant="standalone" size="medium">Medium Link</bl-link>
+        <bl-link href="#" variant="standalone" size="small">Small Link</bl-link>
       </div>
     </DemoSection>
 

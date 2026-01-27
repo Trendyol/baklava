@@ -26,9 +26,7 @@ const iconOnlyCode = `<bl-badge icon="check_fill"></bl-badge>
 
 const usageCode = `<div class="flex items-center gap-2">
   <span>Status:</span>
-  <bl-badge icon="check_fill" style="--bl-badge-bg-color: #e7f9ef; --bl-badge-color: #0bc15c">
-    Active
-  </bl-badge>
+  <bl-badge icon="check_fill">Active</bl-badge>
 </div>
 <div class="flex items-center gap-2">
   <span>Version:</span>
@@ -160,12 +158,7 @@ const usageCode = `<div class="flex items-center gap-2">
       <div class="flex flex-wrap gap-4">
         <div class="flex items-center gap-2">
           <span class="text-neutral-darker dark:text-neutral-light">Status:</span>
-          <bl-badge
-            icon="check_fill"
-            style="--bl-badge-bg-color: #e7f9ef; --bl-badge-color: #0bc15c"
-          >
-            Active
-          </bl-badge>
+          <bl-badge icon="check_fill">Active</bl-badge>
         </div>
         <div class="flex items-center gap-2">
           <span class="text-neutral-darker dark:text-neutral-light">Version:</span>

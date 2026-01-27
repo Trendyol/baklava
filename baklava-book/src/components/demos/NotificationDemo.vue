@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CodeBlock from "@/components/CodeBlock.vue";
 import DemoSection from "@/components/DemoSection.vue";
 
 function addNotification(options: {
@@ -325,7 +326,7 @@ notification.addNotification({
       </p>
     </div>
 
-    <DemoSection title="Permanent" :code="permanentCode">
+    <DemoSection title="Permanent" :code="permanentCode" language="js">
       <bl-button @bl-click="showPermanent()">Show Permanent Notification</bl-button>
     </DemoSection>
 
@@ -340,7 +341,7 @@ notification.addNotification({
       </p>
     </div>
 
-    <DemoSection title="With Primary Action" :code="primaryActionCode">
+    <DemoSection title="With Primary Action" :code="primaryActionCode" language="js">
       <bl-button @bl-click="showWithPrimaryAction()">Show with Primary Action</bl-button>
     </DemoSection>
 
@@ -356,7 +357,7 @@ notification.addNotification({
       </p>
     </div>
 
-    <DemoSection title="With Both Actions" :code="bothActionsCode">
+    <DemoSection title="With Both Actions" :code="bothActionsCode" language="js">
       <bl-button @bl-click="showWithBothActions()">Show with Both Actions</bl-button>
     </DemoSection>
 
@@ -371,7 +372,7 @@ notification.addNotification({
       </p>
     </div>
 
-    <DemoSection title="Custom Duration" :code="durationCode">
+    <DemoSection title="Custom Duration" :code="durationCode" language="js">
       <bl-button @bl-click="showCustomDuration()">Show 3-second Notification</bl-button>
     </DemoSection>
 
@@ -388,14 +389,13 @@ notification.addNotification({
       </p>
     </div>
 
-    <DemoSection title="Remove API" :code="removeCode">
-      <div class="p-4 bg-neutral-lightest dark:bg-neutral-darker rounded">
-        <pre class="text-sm text-neutral-dark dark:text-neutral-light overflow-x-auto">
-// notification.remove() - Removes the notification
-// await notification.remove() - Wait for removal animation
-// notificationElement.removeNotification(id) - Remove by ID</pre
-        >
-      </div>
+    <DemoSection title="Remove API" :code="removeCode" language="js">
+      <CodeBlock
+        code="notification.remove() // Removes the notification
+await notification.remove() // Wait for removal animation
+notificationElement.removeNotification(id) // Remove by ID"
+        language="js"
+      />
     </DemoSection>
 
     <!-- Notification Object Reference -->

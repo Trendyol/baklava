@@ -18,9 +18,11 @@ export type TargetType = "_blank" | "_parent" | "_self" | "_top";
  * @tag bl-button
  * @summary Baklava Button component
  *
+ * @slot - Default slot for button content
+ * @slot icon - Slot for custom icon content
+ *
  * @cssproperty [--bl-button-display=inline-block] Sets the display property of button
  * @cssproperty [--bl-button-justify=center] Sets the justify-content property of button
- *
  */
 @customElement("bl-button")
 export default class BlButton extends LitElement {

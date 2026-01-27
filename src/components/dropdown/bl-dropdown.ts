@@ -13,6 +13,8 @@ export const blDropdownTag = "bl-dropdown";
 /**
  * @tag bl-dropdown
  * @summary Baklava Dropdown component
+ *
+ * @slot - Default slot for bl-dropdown-item elements
  */
 @customElement(blDropdownTag)
 export default class BlDropdown extends LitElement {

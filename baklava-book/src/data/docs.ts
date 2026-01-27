@@ -23,7 +23,7 @@ export const docCategories: DocCategory[] = [
   },
   {
     id: "frameworks",
-    label: "Frameworks",
+    label: "Libraries and Frameworks",
     icon: "⚡",
     items: [
       {

@@ -99,7 +99,7 @@
     "@storybook/testing-library": "^0.2.2",
     "@storybook/web-components": "7.4.3",
     "@storybook/web-components-vite": "^7.4.3",
-    "@trendyol/baklava-icons": "^1.0.0",
+    "@trendyol/baklava-icons": "^1.1.0",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/estree": "1.0.0",
     "@types/prettier": "^2.6.4",

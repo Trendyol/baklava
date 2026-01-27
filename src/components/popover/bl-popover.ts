@@ -35,6 +35,8 @@ export type Placement =
  * @tag bl-popover
  * @summary Baklava Popover component
  *
+ * @slot - Default slot for popover content
+ *
  * @cssproperty [--bl-popover-arrow-display=none] - Sets the display of popovers arrow. Set as `block` to make arrow visible.
  * @cssproperty [--bl-popover-background-color=--bl-color-neutral-full] - Sets the background color of popover.
  * @cssproperty [--bl-popover-border-color=--bl-color-primary-highlight] - Sets the border color of popover.

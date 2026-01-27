@@ -5,6 +5,7 @@ on:
     branches: [main, next]
     paths:
       - 'baklava-book/**'
+      - 'src/**'
       - '.github/workflows/deploy-book.yml'
   workflow_dispatch:
 
@@ -27,7 +28,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install root dependencies
@@ -37,10 +38,12 @@ jobs:
         run: npm run build
 
       - name: Install Baklava Book dependencies
-        run: cd baklava-book && npm install
+        working-directory: baklava-book
+        run: npm install
 
       - name: Build Baklava Book
-        run: cd baklava-book && npm run build
+        working-directory: baklava-book
+        run: npm run build
         env:
           NODE_ENV: production
 

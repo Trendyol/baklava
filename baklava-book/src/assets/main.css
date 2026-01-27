@@ -1,24 +1,69 @@
-@import url("@fontsource-variable/rubik");
+@import "@fontsource-variable/rubik";
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ===== Tailwind 4 Dark Mode Configuration ===== */
+@custom-variant dark (&:where(.dark, .dark *));
 
+/* ===== Theme Configuration (Tailwind 4) ===== */
+@theme {
+  /* Colors */
+  --color-primary: #f27a1a;
+  --color-primary-highlight: #ef6114;
+  --color-primary-contrast: #fef2e8;
+  --color-neutral-darkest: #0f131a;
+  --color-neutral-darker: #273142;
+  --color-neutral-dark: #6e7787;
+  --color-neutral-light: #95a1b5;
+  --color-neutral-lighter: #afbbca;
+  --color-neutral-lightest: #f1f2f7;
+
+  /* Font Family */
+  --font-sans: "Rubik Variable", sans-serif;
+
+  /* Shadows */
+  --shadow-layered: 0 1px 2px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07);
+  --shadow-layered-lg: 0 2px 4px rgba(0, 0, 0, 0.05), 0 8px 16px rgba(0, 0, 0, 0.08), 0 24px 48px rgba(0, 0, 0, 0.1);
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 20px rgba(242, 122, 26, 0.3);
+  --shadow-glow-lg: 0 0 40px rgba(242, 122, 26, 0.4);
+}
+
+/* ===== CSS Variables ===== */
 :root {
-  --sidebar-width: 260px;
+  --sidebar-width: 17.5rem;
   --header-height: 56px;
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
+}
+
+/* ===== Base Styles ===== */
+html {
+  background-color: var(--bl-color-neutral-full);
 }
 
 body {
-  font-family: "Rubik Variable", sans-serif;
-  @apply bg-white text-neutral-darkest antialiased;
+  font-family: var(--font-sans);
+  background-color: var(--bl-color-neutral-full);
+  @apply text-neutral-darkest antialiased;
 }
 
-.dark body {
-  @apply bg-neutral-darkest text-white;
+html.dark body {
+  @apply text-white;
 }
 
-/* Scrollbar */
+/* ===== VISUAL DESIGN: Card Styles with Depth ===== */
+.card-elevated {
+  @apply bg-white rounded-2xl shadow-layered;
+}
+
+html.dark .card-elevated {
+  @apply bg-neutral-darker border border-neutral-dark;
+}
+
+/* ===== Scrollbar ===== */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -36,9 +81,52 @@ body {
   @apply bg-neutral-light;
 }
 
-/* Code blocks */
+html.dark ::-webkit-scrollbar-thumb {
+  @apply bg-neutral-dark;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  @apply bg-neutral-light;
+}
+
+/* ===== Sidebar Scrollbar: visible only on hover ===== */
+.sidebar-container {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.sidebar-container:hover {
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+html.dark .sidebar-container:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.sidebar-container::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.sidebar-container:hover::-webkit-scrollbar-thumb {
+  @apply bg-neutral-lighter;
+}
+
+html.dark .sidebar-container:hover::-webkit-scrollbar-thumb {
+  @apply bg-neutral-dark;
+}
+
+/* ===== Code blocks ===== */
 pre {
-  @apply bg-neutral-darkest text-neutral-lightest p-4 rounded-lg overflow-x-auto text-sm leading-relaxed;
+  @apply p-4 rounded-lg overflow-x-auto text-sm leading-relaxed;
+}
+
+/* Fallback for non-Shiki code blocks */
+pre:not(.shiki) {
+  @apply bg-neutral-lightest text-neutral-darkest;
+}
+
+html.dark pre:not(.shiki) {
+  @apply bg-neutral-darkest text-neutral-lightest;
 }
 
 code {
@@ -49,22 +137,70 @@ code {
   @apply bg-neutral-lightest text-primary px-1.5 py-0.5 rounded text-sm;
 }
 
-/* Canvas demo area */
+html.dark :not(pre) > code {
+  @apply bg-neutral-darker text-primary;
+}
+
+/* ===== Canvas demo area ===== */
 .canvas {
   @apply border border-neutral-lightest rounded-xl p-6 bg-white;
 }
 
-.dark .canvas {
+html.dark .canvas {
   @apply border-neutral-darker bg-neutral-darkest;
 }
 
-/* Framework tabs */
+/* ===== Framework tabs ===== */
 .framework-tab {
-  @apply px-4 py-2 text-sm font-medium transition-colors cursor-pointer;
+  @apply px-4 py-2 text-sm font-medium cursor-pointer;
   @apply text-neutral-dark hover:text-neutral-darkest;
   @apply border-b-2 border-transparent;
+  transition: color 0.2s ease-out, border-color 0.2s ease-out;
 }
 
 .framework-tab.active {
   @apply text-primary border-primary;
+}
+
+/* ===== ACCESSIBILITY: Screen Reader Only ===== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ===== ACCESSIBILITY: Focus Visible Styles ===== */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Remove default focus for elements that will use focus-visible */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ===== TYPOGRAPHY: Standards ===== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== MODALS: Overscroll Behavior ===== */
+[role="dialog"] {
+  overscroll-behavior: contain;
 }

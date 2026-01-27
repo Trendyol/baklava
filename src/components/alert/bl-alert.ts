@@ -13,6 +13,11 @@ export type AlertVariant = "info" | "warning" | "success" | "danger";
 /**
  * @tag bl-alert
  * @summary Baklava Alert component
+ *
+ * @slot - Default slot for alert description content
+ * @slot caption - Slot for alert caption/title
+ * @slot action - Slot for primary action button
+ * @slot action-secondary - Slot for secondary action button
  */
 
 @customElement("bl-alert")

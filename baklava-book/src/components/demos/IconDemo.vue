@@ -1,178 +1,21 @@
 <script setup lang="ts">
 import DemoSection from "@/components/DemoSection.vue";
-import { ref } from "vue";
+import iconList from "@trendyol/baklava-icons";
+import { computed, ref } from "vue";
 
 const searchQuery = ref("");
 
-// All available icons
-const allIcons = [
-  "academy",
-  "account",
-  "add_note",
-  "archive",
-  "arrow_down",
-  "arrow_left",
-  "arrow_right",
-  "arrow_up",
-  "attach",
-  "award",
-  "badge_check",
-  "badge_discount",
-  "badge_price",
-  "barcode",
-  "bell",
-  "bookmark",
-  "box",
-  "calendar",
-  "camera",
-  "cart",
-  "cash",
-  "catalog",
-  "chat",
-  "check_fill",
-  "check",
-  "chevron_double_left",
-  "chevron_double_right",
-  "clock",
-  "close",
-  "code",
-  "coins",
-  "compare",
-  "copy",
-  "coupon_code",
-  "credit_card",
-  "delete",
-  "delivery",
-  "discount",
-  "document",
-  "down_1",
-  "download",
-  "edit",
-  "education",
-  "email",
-  "exit",
-  "external_link",
-  "eye",
-  "eye_off",
-  "facebook",
-  "file",
-  "filter",
-  "flash",
-  "folder",
-  "free_return",
-  "gift",
-  "globe",
-  "google",
-  "grid",
-  "group_1",
-  "hand",
-  "handshake",
-  "headset",
-  "heart_fill",
-  "heart",
-  "help",
-  "history",
-  "home",
-  "image",
-  "info",
-  "instagram",
-  "invoice",
-  "keyboard",
-  "leaf",
-  "left_1",
-  "lightbulb",
-  "link",
-  "list",
-  "loading",
-  "location",
-  "lock",
-  "logout",
-  "map",
-  "megaphone",
-  "menu",
-  "message",
-  "mic",
-  "minus",
-  "money",
-  "more_horizontal",
-  "more_vertical",
-  "offer_horizontal",
-  "offer_vertical",
-  "orders",
-  "package",
-  "palette",
-  "paper_plane",
-  "pause",
-  "percent",
-  "phone",
-  "pin",
-  "play",
-  "plus_fill",
-  "plus",
-  "policy",
-  "print",
-  "puzzle",
-  "qr_code",
-  "question",
-  "receipt",
-  "record",
-  "refresh",
-  "reply",
-  "resize",
-  "right_1",
-  "rocket",
-  "rotate",
-  "ruler",
-  "save",
-  "search",
-  "secure",
-  "settings",
-  "share",
-  "shield",
-  "shop",
-  "shuffle",
-  "sort",
-  "speaker",
-  "star_fill",
-  "star",
-  "store",
-  "tag",
-  "target",
-  "thumbs_down",
-  "thumbs_up",
-  "ticket",
-  "transfer",
-  "trash",
-  "trending_down",
-  "trending_up",
-  "twitter",
-  "up_1",
-  "upload",
-  "user_check",
-  "user_minus",
-  "user_plus",
-  "user",
-  "video",
-  "wallet",
-  "warning_fill",
-  "warning",
-  "whatsapp",
-  "youtube",
-  "zoom_in",
-  "zoom_out",
-];
+// Icon list directly from @trendyol/baklava-icons package
+const allIcons = [...iconList];
 
-const filteredIcons = ref(allIcons);
-
-const filterIcons = () => {
+const filteredIcons = computed(() => {
   if (!searchQuery.value) {
-    filteredIcons.value = allIcons;
-  } else {
-    filteredIcons.value = allIcons.filter((icon) =>
-      icon.toLowerCase().includes(searchQuery.value.toLowerCase())
-    );
+    return allIcons;
   }
-};
+  return allIcons.filter((icon) =>
+    icon.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 
 const copyIconName = (name: string) => {
   navigator.clipboard.writeText(`<bl-icon name="${name}"></bl-icon>`);
@@ -269,8 +112,6 @@ const accessibilityCode = `<!-- Use title attribute for accessibility -->
         <bl-icon name="search"></bl-icon>
         <bl-icon name="settings"></bl-icon>
         <bl-icon name="account"></bl-icon>
-        <bl-icon name="bell"></bl-icon>
-        <bl-icon name="email"></bl-icon>
         <bl-icon name="calendar"></bl-icon>
         <bl-icon name="heart"></bl-icon>
       </div>
@@ -450,10 +291,7 @@ const accessibilityCode = `<!-- Use title attribute for accessibility -->
         placeholder="Search icons..."
         icon="search"
         :value="searchQuery"
-        @bl-input="
-          searchQuery = (($event as CustomEvent).target as HTMLInputElement)?.value || '';
-          filterIcons();
-        "
+        @bl-input="searchQuery = (($event as CustomEvent).target as HTMLInputElement)?.value || ''"
       ></bl-input>
     </div>
 

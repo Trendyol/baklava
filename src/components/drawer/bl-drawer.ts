@@ -9,6 +9,8 @@ import style from "./bl-drawer.css";
  * @tag bl-drawer
  * @summary Baklava Drawer component
  *
+ * @slot - Default slot for drawer content
+ *
  * @cssproperty [--bl-drawer-animation-duration=250ms] Drawer slide in animation duration
  */
 
