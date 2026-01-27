@@ -32,6 +32,8 @@ export type CleanUpFunction = () => void;
  * @tag bl-select
  * @summary Baklava Select component
  *
+ * @slot - Default slot for bl-select-option elements
+ *
  * @cssproperty [--bl-popover-position=fixed] Sets the positioning strategy of select popover. You can set it as `absolute` if you need to show popover relative to its trigger element.
  */
 @customElement("bl-select")

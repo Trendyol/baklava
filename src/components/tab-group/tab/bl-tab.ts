@@ -8,6 +8,8 @@ import style from "./bl-tab.css";
 /**
  * @tag bl-tab
  * @summary Baklava Tab component
+ *
+ * @slot - Default slot for tab title content
  */
 @customElement("bl-tab")
 export default class BlTab extends LitElement {

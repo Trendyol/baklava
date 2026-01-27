@@ -13,6 +13,13 @@ enum AnimationStatus {
   COLLAPSING,
 }
 
+/**
+ * @tag bl-accordion
+ * @summary Baklava Accordion component
+ *
+ * @slot - Default slot for accordion content
+ * @slot caption - Slot for custom caption content
+ */
 @customElement("bl-accordion")
 export default class BlAccordion extends LitElement {
   /**

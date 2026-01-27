@@ -12,6 +12,8 @@ type TagVariant = "selectable" | "removable";
 /**
  * @tag bl-tag
  * @summary Baklava Tag component
+ *
+ * @slot - Default slot for tag content
  */
 @customElement("bl-tag")
 export default class BlTag extends LitElement {

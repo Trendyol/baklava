@@ -15,6 +15,7 @@ export type SortDirection = "asc" | "desc" | "";
  * @tag bl-table
  * @summary Baklava Table component
  *
+ * @slot - Default slot for bl-table-header and bl-table-body elements
  */
 @customElement(blTableTag)
 export default class BlTable extends LitElement {

@@ -16,6 +16,8 @@ export const blSplitButtonTag = "bl-split-button";
 /**
  * @tag bl-split-button
  * @summary Baklava Split Button component
+ *
+ * @slot - Default slot for bl-dropdown-item elements
  */
 
 @customElement(blSplitButtonTag)
