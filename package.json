@@ -134,7 +134,7 @@
     "react-dom": "^18.2.0",
     "rollup-plugin-lit-css": "^4.0.0",
     "sinon": "^16.0.0",
-    "storybook": "7.4.3",
+    "storybook": "10.2.1",
     "stylelint": "^15.10.2",
     "stylelint-config-standard": "^34.0.0",
     "ts-lit-plugin": "^2.0.1",
