@@ -1,0 +1,381 @@
+import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { extraPadding } from '../../utilities/chromatic-decorators';
+
+<Meta
+  title="Components/Slider"
+  component="bl-slider"
+  decorators={[
+    extraPadding,
+  ]}
+  argTypes={{
+    label: {
+      control: 'text',
+    },
+    value: {
+      control: 'text',
+    },
+    min: {
+      control: 'text',
+    },
+    max: {
+      control: 'text',
+    },
+    step: {
+      control: 'text',
+    },
+    helpText: {
+      control: 'text',
+    },
+    disabled: {
+      control: 'boolean',
+    },
+    tooltip: {
+      control: 'boolean',
+    },
+    marks: {
+      control: 'text',
+    },
+    showMinMax: {
+      control: 'boolean',
+    },
+  }}
+/>
+
+export const SliderTemplate = (args) => html`
+  <bl-slider
+    label=${ifDefined(args.label)}
+    value=${ifDefined(args.value)}
+    min=${ifDefined(args.min)}
+    max=${ifDefined(args.max)}
+    step=${ifDefined(args.step)}
+    help-text=${ifDefined(args.helpText)}
+    ?disabled=${args.disabled}
+    ?tooltip=${args.tooltip}
+    ?show-min-max=${args.showMinMax}
+    marks=${ifDefined(args.marks)}
+  ></bl-slider>
+`;
+
+export const SliderWithValue = (args) => html`
+  <div>
+    <bl-slider
+      label=${ifDefined(args.label)}
+      value=${ifDefined(args.value)}
+      min=${ifDefined(args.min)}
+      max=${ifDefined(args.max)}
+      step=${ifDefined(args.step)}
+      help-text=${ifDefined(args.helpText)}
+      ?disabled=${args.disabled}
+      ?tooltip=${args.tooltip}
+      ?show-min-max=${args.showMinMax}
+      marks=${ifDefined(args.marks)}
+      @bl-slider-change=${(e) => {
+        const valueDisplay = e.target.parentElement.querySelector('.value-display');
+        if (valueDisplay) {
+          valueDisplay.textContent = `Value: ${e.detail.value}`;
+        }
+      }}
+    ></bl-slider>
+  </div>
+`;
+
+# Slider
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/683)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/design/lSvX6Qe0jc8b4CaIK7egXR/Baklava-Component-Library?node-id=22837-9405&t=a6b6d96GJX7NqtZE-0)</bl-badge>
+
+Slider component allows users to select a numeric value from a range by moving a thumb along a track.
+
+## Usage
+
+Sliders are used for adjusting values like number, amount, price, etc. intervals visually. You can adapt and use them with different options such as labels, text, numbers, and tooltips.
+
+<Canvas>
+  <Story name="Usage" args={{ value: '50' }}>
+    {SliderWithValue.bind({})}
+  </Story>
+</Canvas>
+
+## With Label
+
+This slider includes a label to describe its purpose. Use it when you need to clearly indicate what the slider controls.
+
+<Canvas>
+  <Story name="With Label" args={{ label: 'Label', value: '75' }}>
+    {SliderWithValue.bind({})}
+  </Story>
+</Canvas>
+
+## With Helper Text
+
+This slider comes with a helper text to provide additional information. Use it to explain units, ranges, or any specific details users should know.
+
+<Canvas>
+  <Story name="With Helper Text" args={{
+    label: 'Label',
+    helpText: 'Helper Text',
+    value: '75'
+  }}>
+    {SliderWithValue.bind({})}
+  </Story>
+</Canvas>
+
+## Discrete
+
+This slider moves in fixed steps instead of a smooth range. Use it when users should select predefined values rather than free input.
+
+<Canvas>
+  <Story name="Discrete" args={{
+    label: 'Label',
+    value: '30',
+    step: '10',
+    marks: JSON.stringify([
+      { value: 0, label: '' },
+      { value: 10, label: '' },
+      { value: 20, label: '' },
+      { value: 30, label: '' },
+      { value: 40, label: '' },
+      { value: 50, label: '' },
+      { value: 60, label: '' },
+      { value: 70, label: '' },
+      { value: 80, label: '' },
+      { value: 90, label: '' },
+      { value: 100, label: '' }
+    ])
+  }}>
+    {SliderWithValue.bind({})}
+  </Story>
+</Canvas>
+
+## Tooltip
+
+This slider displays a tooltip showing the selected value while adjusting. Use it when users need real-time feedback on their selection.
+
+<Canvas>
+  <Story name="Tooltip" args={{
+    label: 'Label',
+    tooltip: true,
+    value: '50'
+  }}>
+    {SliderWithValue.bind({})}
+  </Story>
+</Canvas>
+
+## With Custom Min/Max Values
+
+Slider with custom range values. The slider value is always constrained between the min and max values. You can adjust min and max values using the inputs below to test the behavior.
+
+<Canvas>
+  <Story name="Custom Range">
+    {() => {
+      const minInput = (e) => {
+        const container = e.target.closest('div').parentElement;
+        const slider = container.querySelector('bl-slider');
+        const valueDisplay = container.querySelector('.value-display');
+        if (slider) {
+          const newMin = parseFloat(e.target.value);
+          const currentValue = parseFloat(slider.value);
+          slider.min = e.target.value;
+
+          // Value'yu yeni min'e göre constrain et
+          if (currentValue < newMin) {
+            slider.value = String(newMin);
+          }
+
+          // UI'ı güncelle
+          slider.requestUpdate();
+          if (valueDisplay) {
+            valueDisplay.textContent = `Value: ${slider.value} (Min: ${slider.min}, Max: ${slider.max})`;
+          }
+        }
+      };
+      const maxInput = (e) => {
+        const container = e.target.closest('div').parentElement;
+        const slider = container.querySelector('bl-slider');
+        const valueDisplay = container.querySelector('.value-display');
+        if (slider) {
+          const newMax = parseFloat(e.target.value);
+          const currentValue = parseFloat(slider.value);
+          slider.max = e.target.value;
+
+          // Value'yu yeni max'a göre constrain et
+          if (currentValue > newMax) {
+            slider.value = String(newMax);
+          }
+
+          // UI'ı güncelle
+          slider.requestUpdate();
+          if (valueDisplay) {
+            valueDisplay.textContent = `Value: ${slider.value} (Min: ${slider.min}, Max: ${slider.max})`;
+          }
+        }
+      };
+      const sliderChange = (e) => {
+        const valueDisplay = e.target.parentElement.querySelector('.value-display');
+        if (valueDisplay) {
+          valueDisplay.textContent = `Value: ${e.detail.value} (Min: ${e.target.min}, Max: ${e.target.max})`;
+        }
+      };
+      return html`
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="display: flex; gap: 16px; align-items: center;">
+            <label style="font: var(--bl-font-body-text-2);">
+              Min Value:
+              <input
+                type="number"
+                value="-20"
+                @input=${minInput}
+                style="margin-left: 8px; padding: 4px 8px; border: 1px solid var(--bl-color-neutral-light); border-radius: 4px; width: 80px;"
+              />
+            </label>
+            <label style="font: var(--bl-font-body-text-2);">
+              Max Value:
+              <input
+                type="number"
+                value="40"
+                @input=${maxInput}
+                style="margin-left: 8px; padding: 4px 8px; border: 1px solid var(--bl-color-neutral-light); border-radius: 4px; width: 80px;"
+              />
+            </label>
+          </div>
+          <bl-slider
+            label="Temperature"
+            min="-20"
+            max="40"
+            value="22"
+            show-min-max
+            @bl-slider-change=${sliderChange}
+          ></bl-slider>
+        </div>
+      `;
+    }}
+  </Story>
+</Canvas>
+
+## With Decimal Step
+
+Slider with decimal step values for precise control.
+
+<Canvas>
+  <Story name="Decimal Step" args={{
+    label: 'Label',
+    min: '0.5',
+    max: '2',
+    step: '0.1',
+    value: '1.0',
+    tooltip: true
+  }}>
+    {SliderWithValue.bind({})}
+  </Story>
+</Canvas>
+
+## Disable
+
+This slider is disabled and cannot be adjusted. Use it to display a fixed value or when input is not allowed.
+
+<Canvas>
+  <Story name="Disable" args={{
+    label: 'Label',
+    helpText: 'Helper text',
+    value: '50',
+    disabled: true
+  }}>
+    {SliderTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Hover State
+
+In the hover state of slider, the thumb increases by 4 px.
+
+<Canvas>
+  <Story name="Hover State">
+    {() => html`
+      <div style="display: flex; gap: 32px;">
+        <div style="flex: 1;">
+          <bl-slider label="Label" help-text="Helper text" value="40"></bl-slider>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## Focused State
+
+In the slider's focus state, the thumb transitions to its hover state and changes shape to indicate focus. Use this for focus styling.
+
+<Canvas>
+  <Story name="Focused State">
+    {() => html`
+      <div style="display: flex; gap: 32px;">
+        <div style="flex: 1;">
+          <bl-slider label="Label" help-text="Helper text" value="40"></bl-slider>
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## All Variants
+
+<Canvas>
+  <Story name="All Variants">
+    {() => html`
+      <div style="display: flex; flex-direction: column; gap: 32px;">
+        <bl-slider label="Basic Slider" value="50"></bl-slider>
+
+        <bl-slider
+          label="With Tooltip"
+          tooltip
+          value="75"
+        ></bl-slider>
+
+        <bl-slider
+          label="Discrete"
+          help-text="Helper text"
+          value="30"
+          step="10"
+          marks=${JSON.stringify([
+            { value: 0, label: '' },
+            { value: 10, label: '' },
+            { value: 20, label: '' },
+            { value: 30, label: '' },
+            { value: 40, label: '' },
+            { value: 50, label: '' },
+            { value: 60, label: '' },
+            { value: 70, label: '' },
+            { value: 80, label: '' },
+            { value: 90, label: '' },
+            { value: 100, label: '' }
+          ])}
+        ></bl-slider>
+
+        <bl-slider
+          label="Custom Range (-20 to 40)"
+          min="-20"
+          max="40"
+          value="10"
+        ></bl-slider>
+
+        <bl-slider
+          label="Disabled"
+          value="30"
+          disabled
+        ></bl-slider>
+
+        <bl-slider
+          label="With Help Text"
+          help-text="Drag to adjust the value"
+          value="60"
+        ></bl-slider>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## API Reference
+
+<ArgsTable of="bl-slider" />
+
