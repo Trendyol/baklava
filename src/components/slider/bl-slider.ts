@@ -92,6 +92,9 @@ export default class BlSlider extends LitElement {
   @query("bl-tooltip")
   private _tooltip: BlTooltip;
 
+  @query("input")
+  private _input: HTMLInputElement;
+
   /**
    * Fires when slider value changes through user interaction
    */
@@ -179,16 +182,19 @@ export default class BlSlider extends LitElement {
   private _handleChange = (event: Event) => this._updateValue(event, true);
 
   private _handleMouseDown = () => {
-    if (!this.disabled && this.tooltip) {
+    if (!this.disabled) {
       this._isDragging = true;
-      this._tooltip?.show();
+      if (this.tooltip) {
+        this._tooltip?.show();
+      }
     }
   };
 
   private _handleMouseUp = () => {
-    if (this.tooltip) {
+    if (this._isDragging) {
       this._isDragging = false;
       this._tooltip?.hide();
+      this._input?.blur();
     }
   };
 

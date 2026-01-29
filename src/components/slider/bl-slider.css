@@ -2,7 +2,7 @@
   display: block;
 
   --slider-height: 4px;
-  --thumb-size: 20px;
+  --thumb-size: 16px;
   --slider-color: var(--bl-slider-color, var(--bl-color-primary));
   --track-color: var(--bl-slider-track-color, var(--bl-color-neutral-lightest));
 }
@@ -68,7 +68,7 @@
 
 .slider-container {
   position: relative;
-  padding: var(--bl-size-xs) 0;
+  padding: var(--bl-size-2xs) 0;
   display: flex;
   align-items: center;
   flex: 1;
@@ -120,8 +120,8 @@
 }
 
 .slider-container:focus-within .track-active::after {
-  width: 20px;
-  height: 20px;
+  width: 12px;
+  height: 12px;
   right: -10px;
   box-shadow: 0 0 0 3px var(--bl-color-neutral-full), 0 0 0 5px var(--slider-color);
 }
@@ -252,8 +252,8 @@
 
 .tooltip-trigger {
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 .help-text {
