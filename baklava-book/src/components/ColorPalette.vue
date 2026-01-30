@@ -1,73 +1,100 @@
 <script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref } from "vue";
+
+interface ColorDef {
+  variable: string;
+  label: string;
+}
+
 interface ColorGroup {
   name: string;
   description: string;
-  colors: {
-    variable: string;
-    label: string;
-    value: string;
-  }[];
+  colors: ColorDef[];
 }
 
-const colorGroups: ColorGroup[] = [
+const colorGroupDefs: ColorGroup[] = [
   {
     name: "Primary",
     description: "Main brand color used for primary actions and key UI elements.",
     colors: [
-      { variable: "--bl-color-primary", label: "Primary", value: "#f27a1a" },
-      { variable: "--bl-color-primary-highlight", label: "Highlight", value: "#ef6114" },
-      { variable: "--bl-color-primary-contrast", label: "Contrast", value: "#fef2e8" },
+      { variable: "--bl-color-primary", label: "Primary" },
+      { variable: "--bl-color-primary-highlight", label: "Highlight" },
+      { variable: "--bl-color-primary-contrast", label: "Contrast" },
     ],
   },
   {
     name: "Success",
     description: "Indicates successful actions and positive states.",
     colors: [
-      { variable: "--bl-color-success", label: "Success", value: "#0bc15c" },
-      { variable: "--bl-color-success-highlight", label: "Highlight", value: "#0aae53" },
-      { variable: "--bl-color-success-contrast", label: "Contrast", value: "#e7f9ef" },
+      { variable: "--bl-color-success", label: "Success" },
+      { variable: "--bl-color-success-highlight", label: "Highlight" },
+      { variable: "--bl-color-success-contrast", label: "Contrast" },
     ],
   },
   {
     name: "Danger",
     description: "Indicates errors, destructive actions, or critical states.",
     colors: [
-      { variable: "--bl-color-danger", label: "Danger", value: "#ff5043" },
-      { variable: "--bl-color-danger-highlight", label: "Highlight", value: "#e6483c" },
-      { variable: "--bl-color-danger-contrast", label: "Contrast", value: "#ffedec" },
+      { variable: "--bl-color-danger", label: "Danger" },
+      { variable: "--bl-color-danger-highlight", label: "Highlight" },
+      { variable: "--bl-color-danger-contrast", label: "Contrast" },
     ],
   },
   {
     name: "Warning",
     description: "Indicates warnings or actions that need attention.",
     colors: [
-      { variable: "--bl-color-warning", label: "Warning", value: "#ffb600" },
-      { variable: "--bl-color-warning-highlight", label: "Highlight", value: "#e6a400" },
-      { variable: "--bl-color-warning-contrast", label: "Contrast", value: "#fff8e6" },
+      { variable: "--bl-color-warning", label: "Warning" },
+      { variable: "--bl-color-warning-highlight", label: "Highlight" },
+      { variable: "--bl-color-warning-contrast", label: "Contrast" },
     ],
   },
   {
     name: "Info",
     description: "Indicates informational content and neutral notifications.",
     colors: [
-      { variable: "--bl-color-info", label: "Info", value: "#5794ff" },
-      { variable: "--bl-color-info-highlight", label: "Highlight", value: "#4e85e6" },
-      { variable: "--bl-color-info-contrast", label: "Contrast", value: "#eef4ff" },
+      { variable: "--bl-color-info", label: "Info" },
+      { variable: "--bl-color-info-highlight", label: "Highlight" },
+      { variable: "--bl-color-info-contrast", label: "Contrast" },
     ],
   },
 ];
 
-const neutralColors = [
-  { variable: "--bl-color-neutral-darkest", label: "Darkest", value: "#0f131a" },
-  { variable: "--bl-color-neutral-darker", label: "Darker", value: "#273142" },
-  { variable: "--bl-color-neutral-dark", label: "Dark", value: "#6e7787" },
-  { variable: "--bl-color-neutral-light", label: "Light", value: "#95a1b5" },
-  { variable: "--bl-color-neutral-lighter", label: "Lighter", value: "#afbbca" },
-  { variable: "--bl-color-neutral-lightest", label: "Lightest", value: "#f1f2f7" },
-  { variable: "--bl-color-neutral-full", label: "Full", value: "#ffffff" },
+const neutralColorDefs: ColorDef[] = [
+  { variable: "--bl-color-neutral-darkest", label: "Darkest" },
+  { variable: "--bl-color-neutral-darker", label: "Darker" },
+  { variable: "--bl-color-neutral-dark", label: "Dark" },
+  { variable: "--bl-color-neutral-light", label: "Light" },
+  { variable: "--bl-color-neutral-lighter", label: "Lighter" },
+  { variable: "--bl-color-neutral-lightest", label: "Lightest" },
+  { variable: "--bl-color-neutral-full", label: "Full" },
 ];
 
-import { ref } from "vue";
+const updateKey = ref(0);
+
+const getColorValue = (variable: string): string => {
+  // Force reactivity by reading updateKey
+  updateKey.value;
+  const styles = getComputedStyle(document.documentElement);
+  return styles.getPropertyValue(variable).trim() || "#000000";
+};
+
+const colorGroups = computed(() => {
+  return colorGroupDefs.map(group => ({
+    ...group,
+    colors: group.colors.map(color => ({
+      ...color,
+      value: getColorValue(color.variable),
+    })),
+  }));
+});
+
+const neutralColors = computed(() => {
+  return neutralColorDefs.map(color => ({
+    ...color,
+    value: getColorValue(color.variable),
+  }));
+});
 
 const copiedVariable = ref<string | null>(null);
 
@@ -80,12 +107,30 @@ const copyToClipboard = (text: string, variable: string) => {
 };
 
 const getContrastColor = (hex: string) => {
+  if (!hex || hex.length < 7) return "#000000";
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   return luminance > 0.5 ? "#000000" : "#ffffff";
 };
+
+// Watch for theme changes
+let observer: MutationObserver | null = null;
+
+onMounted(() => {
+  observer = new MutationObserver(() => {
+    updateKey.value++;
+  });
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme", "class"],
+  });
+});
+
+onUnmounted(() => {
+  observer?.disconnect();
+});
 </script>
 
 <template>

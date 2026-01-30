@@ -4,16 +4,19 @@ import { ref } from "vue";
 
 const selectedCountry = ref("");
 
-const basicCode = `<bl-select placeholder="Choose country" label="Country">
+const basicCode = `<!-- Basic Select -->
+<bl-select placeholder="Choose country" label="Country">
   <bl-select-option value="tr">Turkiye</bl-select-option>
   <bl-select-option value="nl">The Netherlands</bl-select-option>
   <bl-select-option value="de">Germany</bl-select-option>
   <bl-select-option value="uk">United Kingdom</bl-select-option>
-</bl-select>`;
+</bl-select>
 
-const initialValueCode = `<bl-select placeholder="Choose country" label="Country" value="tr">
+<!-- With Initial Value -->
+<bl-select placeholder="Choose country" label="Country" value="tr">
   <bl-select-option value="tr">Turkiye</bl-select-option>
   <bl-select-option value="nl">The Netherlands</bl-select-option>
+  <bl-select-option value="de">Germany</bl-select-option>
 </bl-select>`;
 
 const multipleCode = `<bl-select placeholder="Choose countries" label="Countries" multiple>
@@ -56,13 +59,59 @@ const sizesCode = `<bl-select label="Small" size="small">...</bl-select>
 const statesCode = `<bl-select label="Disabled" disabled>...</bl-select>
 <bl-select label="With Help Text" help-text="Select your country">...</bl-select>`;
 
-const searchableCode = `<bl-select
+const searchableCode = `<!-- Basic Searchable -->
+<bl-select
   label="Country"
   search-bar
   search-bar-placeholder="Search countries..."
 >
   <bl-select-option value="tr">Turkiye</bl-select-option>
   <bl-select-option value="nl">The Netherlands</bl-select-option>
+</bl-select>
+
+<!-- Multiple + Select All -->
+<bl-select
+  label="Countries"
+  search-bar
+  search-bar-placeholder="Search..."
+  multiple
+  view-select-all
+  select-all-text="Select All"
+>
+  <bl-select-option value="tr">Turkiye</bl-select-option>
+  <bl-select-option value="nl">The Netherlands</bl-select-option>
+</bl-select>
+
+<!-- Loading State -->
+<bl-select
+  label="Country"
+  search-bar
+  search-bar-placeholder="Search..."
+  search-bar-loading-state
+>
+  <bl-select-option value="tr">Turkiye</bl-select-option>
+</bl-select>`;
+
+const disabledOptionsCode = `<bl-select placeholder="Choose country" label="Country">
+  <bl-select-option value="tr">Turkiye</bl-select-option>
+  <bl-select-option value="nl">The Netherlands</bl-select-option>
+  <bl-select-option value="de" disabled>Germany (Disabled)</bl-select-option>
+  <bl-select-option value="uk">United Kingdom</bl-select-option>
+</bl-select>`;
+
+const iconSlotCode = `<bl-select placeholder="Choose Country" label="Country">
+  <bl-select-option value="tr" label="Turkiye">
+    <div slot="icon">
+      <img style="width: 1em;" src="https://flagcdn.com/w20/tr.png" alt="TR">
+    </div>
+    Turkiye
+  </bl-select-option>
+  <bl-select-option value="nl" label="Netherlands">
+    <div slot="icon">
+      <img style="width: 1em;" src="https://flagcdn.com/w20/nl.png" alt="NL">
+    </div>
+    Netherlands
+  </bl-select-option>
 </bl-select>`;
 
 const iconsCode = `<bl-select placeholder="Choose Payment Method" label="Payment">
@@ -127,24 +176,24 @@ const rtlCode = `<!-- LTR (Left-to-Right) -->
     </div>
 
     <DemoSection title="Basic Select" :code="basicCode">
-      <div class="max-w-xs">
-        <bl-select placeholder="Choose country" label="Country">
-          <bl-select-option value="tr">Turkiye</bl-select-option>
-          <bl-select-option value="nl">The Netherlands</bl-select-option>
-          <bl-select-option value="de">Germany</bl-select-option>
-          <bl-select-option value="uk">United Kingdom</bl-select-option>
-        </bl-select>
-      </div>
-    </DemoSection>
-
-    <!-- With Initial Value -->
-    <DemoSection title="With Initial Value" :code="initialValueCode">
-      <div class="max-w-xs">
-        <bl-select placeholder="Choose country" label="Country" value="tr">
-          <bl-select-option value="tr">Turkiye</bl-select-option>
-          <bl-select-option value="nl">The Netherlands</bl-select-option>
-          <bl-select-option value="de">Germany</bl-select-option>
-        </bl-select>
+      <div class="flex flex-wrap gap-4">
+        <div class="w-64">
+          <p class="text-xs text-neutral-dark mb-2">Basic Select</p>
+          <bl-select placeholder="Choose country" label="Country">
+            <bl-select-option value="tr">Turkiye</bl-select-option>
+            <bl-select-option value="nl">The Netherlands</bl-select-option>
+            <bl-select-option value="de">Germany</bl-select-option>
+            <bl-select-option value="uk">United Kingdom</bl-select-option>
+          </bl-select>
+        </div>
+        <div class="w-64">
+          <p class="text-xs text-neutral-dark mb-2">With Initial Value</p>
+          <bl-select placeholder="Choose country" label="Country" value="tr">
+            <bl-select-option value="tr">Turkiye</bl-select-option>
+            <bl-select-option value="nl">The Netherlands</bl-select-option>
+            <bl-select-option value="de">Germany</bl-select-option>
+          </bl-select>
+        </div>
       </div>
     </DemoSection>
 
@@ -225,7 +274,7 @@ const rtlCode = `<!-- LTR (Left-to-Right) -->
     </div>
 
     <DemoSection title="Label Variants" :code="labelCode">
-      <div class="flex flex-wrap gap-4">
+      <div class="flex flex-wrap items-end gap-4">
         <bl-select label="Floating Label">
           <bl-select-option value="tr">Turkiye</bl-select-option>
           <bl-select-option value="nl">The Netherlands</bl-select-option>
@@ -293,18 +342,74 @@ const rtlCode = `<!-- LTR (Left-to-Right) -->
     <div class="mt-8 mb-2">
       <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">Searchable</h3>
       <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
-        Select component can be searchable by using <code>search-bar</code> attribute.
+        Select component can be searchable by using <code>search-bar</code> attribute. You can also
+        use <code>search-bar-loading-state</code> to show loading state while fetching options.
       </p>
     </div>
 
     <DemoSection title="Searchable" :code="searchableCode">
+      <div class="flex flex-wrap gap-4">
+        <div class="w-64">
+          <p class="text-xs text-neutral-dark mb-2">Basic Searchable</p>
+          <bl-select label="Country" search-bar search-bar-placeholder="Search countries...">
+            <bl-select-option value="tr">Turkiye</bl-select-option>
+            <bl-select-option value="nl">The Netherlands</bl-select-option>
+            <bl-select-option value="de">Germany</bl-select-option>
+            <bl-select-option value="uk">United Kingdom</bl-select-option>
+            <bl-select-option value="us">United States</bl-select-option>
+          </bl-select>
+        </div>
+        <div class="w-64">
+          <p class="text-xs text-neutral-dark mb-2">Multiple + Select All</p>
+          <bl-select
+            label="Countries"
+            placeholder="Choose countries"
+            search-bar
+            search-bar-placeholder="Search..."
+            multiple
+            view-select-all
+            select-all-text="Select All"
+          >
+            <bl-select-option value="tr">Turkiye</bl-select-option>
+            <bl-select-option value="nl">The Netherlands</bl-select-option>
+            <bl-select-option value="de">Germany</bl-select-option>
+            <bl-select-option value="uk">United Kingdom</bl-select-option>
+            <bl-select-option value="us">United States</bl-select-option>
+          </bl-select>
+        </div>
+        <div class="w-64">
+          <p class="text-xs text-neutral-dark mb-2">Loading State</p>
+          <bl-select
+            label="Country"
+            search-bar
+            search-bar-placeholder="Search..."
+            search-bar-loading-state
+          >
+            <bl-select-option value="tr">Turkiye</bl-select-option>
+            <bl-select-option value="nl">The Netherlands</bl-select-option>
+          </bl-select>
+        </div>
+      </div>
+    </DemoSection>
+
+    <!-- Disabled Options -->
+    <div class="mt-8 mb-2">
+      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">
+        Disabled Options
+      </h3>
+      <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
+        Individual options can be disabled using the <code>disabled</code> attribute on
+        <code>bl-select-option</code>.
+      </p>
+    </div>
+
+    <DemoSection title="Disabled Options" :code="disabledOptionsCode">
       <div class="max-w-xs">
-        <bl-select label="Country" search-bar search-bar-placeholder="Search countries...">
+        <bl-select placeholder="Choose country" label="Country">
           <bl-select-option value="tr">Turkiye</bl-select-option>
           <bl-select-option value="nl">The Netherlands</bl-select-option>
-          <bl-select-option value="de">Germany</bl-select-option>
+          <bl-select-option value="de" disabled>Germany (Disabled)</bl-select-option>
           <bl-select-option value="uk">United Kingdom</bl-select-option>
-          <bl-select-option value="us">United States</bl-select-option>
         </bl-select>
       </div>
     </DemoSection>
@@ -326,6 +431,48 @@ const rtlCode = `<!-- LTR (Left-to-Right) -->
           <bl-select-option value="credit_card" icon="info">Credit Card</bl-select-option>
           <bl-select-option value="cash" icon="money">Cash</bl-select-option>
           <bl-select-option value="coin" icon="coin">Coin</bl-select-option>
+        </bl-select>
+      </div>
+    </DemoSection>
+
+    <!-- Icon Slots -->
+    <div class="mt-8 mb-2">
+      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">
+        Custom Icon Slots
+      </h3>
+      <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
+        You can use <code>slot="icon"</code> in <code>bl-select-option</code> instead of the
+        <code>icon</code> attribute to display custom icons like flags.
+      </p>
+    </div>
+
+    <DemoSection title="Icon Slots (Flags)" :code="iconSlotCode">
+      <div class="max-w-xs">
+        <bl-select placeholder="Choose Country" label="Country">
+          <bl-select-option value="tr" label="Turkiye">
+            <div slot="icon">
+              <img style="width: 1em;" src="https://flagcdn.com/w20/tr.png" alt="TR">
+            </div>
+            Turkiye
+          </bl-select-option>
+          <bl-select-option value="nl" label="Netherlands">
+            <div slot="icon">
+              <img style="width: 1em;" src="https://flagcdn.com/w20/nl.png" alt="NL">
+            </div>
+            Netherlands
+          </bl-select-option>
+          <bl-select-option value="de" label="Germany">
+            <div slot="icon">
+              <img style="width: 1em;" src="https://flagcdn.com/w20/de.png" alt="DE">
+            </div>
+            Germany
+          </bl-select-option>
+          <bl-select-option value="uk" label="United Kingdom">
+            <div slot="icon">
+              <img style="width: 1em;" src="https://flagcdn.com/w20/gb.png" alt="UK">
+            </div>
+            United Kingdom
+          </bl-select-option>
         </bl-select>
       </div>
     </DemoSection>

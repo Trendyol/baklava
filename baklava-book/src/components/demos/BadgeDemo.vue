@@ -14,10 +14,10 @@ const iconsCode = `<bl-badge icon="check_fill">Completed</bl-badge>
 <bl-badge icon="star">Featured</bl-badge>
 <bl-badge icon="clock">Pending</bl-badge>`;
 
-const colorsCode = `<bl-badge style="--bl-badge-bg-color: #e7f9ef; --bl-badge-color: #0bc15c">Success</bl-badge>
-<bl-badge style="--bl-badge-bg-color: #ffeeec; --bl-badge-color: #ff5043">Error</bl-badge>
-<bl-badge style="--bl-badge-bg-color: #fff8e6; --bl-badge-color: #ffb600">Warning</bl-badge>
-<bl-badge style="--bl-badge-bg-color: #eef4ff; --bl-badge-color: #5794ff">Info</bl-badge>`;
+const colorsCode = `<bl-badge style="--bl-badge-bg-color: var(--bl-color-success-contrast); --bl-badge-color: var(--bl-color-success)">Success</bl-badge>
+<bl-badge style="--bl-badge-bg-color: var(--bl-color-danger-contrast); --bl-badge-color: var(--bl-color-danger)">Error</bl-badge>
+<bl-badge style="--bl-badge-bg-color: var(--bl-color-warning-contrast); --bl-badge-color: var(--bl-color-warning)">Warning</bl-badge>
+<bl-badge style="--bl-badge-bg-color: var(--bl-color-info-contrast); --bl-badge-color: var(--bl-color-info)">Info</bl-badge>`;
 
 const iconOnlyCode = `<bl-badge icon="check_fill"></bl-badge>
 <bl-badge icon="close"></bl-badge>
@@ -118,10 +118,10 @@ const usageCode = `<div class="flex items-center gap-2">
 
     <DemoSection title="Custom Colors" :code="colorsCode">
       <div class="flex flex-wrap gap-3">
-        <bl-badge style="--bl-badge-bg-color: #e7f9ef; --bl-badge-color: #0bc15c">Success</bl-badge>
-        <bl-badge style="--bl-badge-bg-color: #ffeeec; --bl-badge-color: #ff5043">Error</bl-badge>
-        <bl-badge style="--bl-badge-bg-color: #fff8e6; --bl-badge-color: #ffb600">Warning</bl-badge>
-        <bl-badge style="--bl-badge-bg-color: #eef4ff; --bl-badge-color: #5794ff">Info</bl-badge>
+        <bl-badge style="--bl-badge-bg-color: var(--bl-color-success-contrast); --bl-badge-color: var(--bl-color-success)">Success</bl-badge>
+        <bl-badge style="--bl-badge-bg-color: var(--bl-color-danger-contrast); --bl-badge-color: var(--bl-color-danger)">Error</bl-badge>
+        <bl-badge style="--bl-badge-bg-color: var(--bl-color-warning-contrast); --bl-badge-color: var(--bl-color-warning)">Warning</bl-badge>
+        <bl-badge style="--bl-badge-bg-color: var(--bl-color-info-contrast); --bl-badge-color: var(--bl-color-info)">Info</bl-badge>
       </div>
     </DemoSection>
 

@@ -1,18 +1,10 @@
 <script setup lang="ts">
 import DemoSection from "@/components/DemoSection.vue";
 
-const basicCode = `<!-- Using label attribute -->
-<bl-dropdown label="Dropdown Button">
+const basicCode = `<bl-dropdown label="Dropdown Button">
   <bl-dropdown-item>Action 1</bl-dropdown-item>
   <bl-dropdown-item>Action 2</bl-dropdown-item>
   <bl-dropdown-item>Action 3</bl-dropdown-item>
-</bl-dropdown>
-
-<!-- Using slot for custom trigger -->
-<bl-dropdown>
-  <bl-button slot="dropdown-trigger">Custom Trigger</bl-button>
-  <bl-dropdown-item>Action 1</bl-dropdown-item>
-  <bl-dropdown-item>Action 2</bl-dropdown-item>
 </bl-dropdown>`;
 
 const variantsCode = `<!-- Primary (default) -->
@@ -111,19 +103,6 @@ const longTextCode = `<!-- Popover auto-widens for long text -->
   </bl-dropdown-group>
 </bl-dropdown>`;
 
-const iconTriggerCode = `<!-- Icon-only trigger -->
-<bl-dropdown>
-  <bl-button
-    slot="dropdown-trigger"
-    icon="more_vertical"
-    variant="tertiary"
-    label="More"
-  ></bl-button>
-  <bl-dropdown-item icon="edit">Edit</bl-dropdown-item>
-  <bl-dropdown-item icon="share">Share</bl-dropdown-item>
-  <bl-dropdown-item icon="delete">Delete</bl-dropdown-item>
-</bl-dropdown>`;
-
 const placementCode = `<bl-dropdown label="Bottom Start" placement="bottom-start">
   <bl-dropdown-item>Option 1</bl-dropdown-item>
   <bl-dropdown-item>Option 2</bl-dropdown-item>
@@ -192,23 +171,16 @@ const rtlCode = `<!-- LTR (Left-to-Right) -->
     <div class="mb-2">
       <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">Basic Usage</h3>
       <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
-        Use the <code>label</code> attribute for a quick setup, or use
-        <code>slot="dropdown-trigger"</code> for custom trigger elements.
+        Use the <code>label</code> attribute to create a dropdown button with a text label.
       </p>
     </div>
 
     <DemoSection title="Basic Dropdown" :code="basicCode">
-      <div class="flex flex-wrap gap-4">
+      <div class="flex">
         <bl-dropdown label="Dropdown Button">
           <bl-dropdown-item>Action 1</bl-dropdown-item>
           <bl-dropdown-item>Action 2</bl-dropdown-item>
           <bl-dropdown-item>Action 3</bl-dropdown-item>
-        </bl-dropdown>
-
-        <bl-dropdown>
-          <bl-button slot="dropdown-trigger" variant="secondary">Custom Trigger</bl-button>
-          <bl-dropdown-item>Action 1</bl-dropdown-item>
-          <bl-dropdown-item>Action 2</bl-dropdown-item>
         </bl-dropdown>
       </div>
     </DemoSection>
@@ -480,44 +452,6 @@ const rtlCode = `<!-- LTR (Left-to-Right) -->
         </bl-dropdown-group>
         <bl-dropdown-item icon="info">Info</bl-dropdown-item>
       </bl-dropdown>
-    </DemoSection>
-
-    <!-- Icon Button Trigger -->
-    <div class="mt-8 mb-2">
-      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">
-        Icon Button Trigger
-      </h3>
-      <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
-        Use an icon-only button as the dropdown trigger for compact layouts. Use
-        <code>slot="dropdown-trigger"</code> with a custom button.
-      </p>
-    </div>
-
-    <DemoSection title="Icon Button Trigger" :code="iconTriggerCode">
-      <div class="flex gap-4">
-        <bl-dropdown>
-          <bl-button
-            slot="dropdown-trigger"
-            icon="more_vertical"
-            variant="tertiary"
-            label="More"
-          ></bl-button>
-          <bl-dropdown-item icon="edit">Edit</bl-dropdown-item>
-          <bl-dropdown-item icon="share">Share</bl-dropdown-item>
-          <bl-dropdown-item icon="delete">Delete</bl-dropdown-item>
-        </bl-dropdown>
-
-        <bl-dropdown>
-          <bl-button
-            slot="dropdown-trigger"
-            icon="more_horizontal"
-            variant="secondary"
-            label="More"
-          ></bl-button>
-          <bl-dropdown-item icon="edit">Edit</bl-dropdown-item>
-          <bl-dropdown-item icon="share">Share</bl-dropdown-item>
-        </bl-dropdown>
-      </div>
     </DemoSection>
 
     <!-- Placement -->

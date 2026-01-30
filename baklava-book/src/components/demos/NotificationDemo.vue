@@ -327,7 +327,9 @@ notification.addNotification({
     </div>
 
     <DemoSection title="Permanent" :code="permanentCode" language="js">
-      <bl-button @bl-click="showPermanent()">Show Permanent Notification</bl-button>
+      <div class="flex">
+        <bl-button @bl-click="showPermanent()">Show Permanent Notification</bl-button>
+      </div>
     </DemoSection>
 
     <!-- Primary Action -->
@@ -342,7 +344,9 @@ notification.addNotification({
     </div>
 
     <DemoSection title="With Primary Action" :code="primaryActionCode" language="js">
-      <bl-button @bl-click="showWithPrimaryAction()">Show with Primary Action</bl-button>
+      <div class="flex">
+        <bl-button @bl-click="showWithPrimaryAction()">Show with Primary Action</bl-button>
+      </div>
     </DemoSection>
 
     <!-- Both Actions -->
@@ -358,7 +362,9 @@ notification.addNotification({
     </div>
 
     <DemoSection title="With Both Actions" :code="bothActionsCode" language="js">
-      <bl-button @bl-click="showWithBothActions()">Show with Both Actions</bl-button>
+      <div class="flex">
+        <bl-button @bl-click="showWithBothActions()">Show with Both Actions</bl-button>
+      </div>
     </DemoSection>
 
     <!-- Custom Duration -->
@@ -373,7 +379,9 @@ notification.addNotification({
     </div>
 
     <DemoSection title="Custom Duration" :code="durationCode" language="js">
-      <bl-button @bl-click="showCustomDuration()">Show 3-second Notification</bl-button>
+      <div class="flex">
+        <bl-button @bl-click="showCustomDuration()">Show 3-second Notification</bl-button>
+      </div>
     </DemoSection>
 
     <!-- Removing Notifications -->
@@ -483,12 +491,17 @@ notificationElement.removeNotification(id) // Remove by ID"
     </div>
 
     <DemoSection title="RTL Example" :code="rtlCode">
-      <div class="p-4 bg-neutral-lightest dark:bg-neutral-darker rounded">
-        <p class="text-sm text-neutral-dark dark:text-neutral-light">
-          Set <code>dir="rtl"</code> on a parent element to enable RTL mode. The notification will
-          appear on the left side of the screen and text will be right-aligned.
-        </p>
+      <div class="space-y-4 max-w-md" dir="rtl">
+        <bl-alert variant="info" icon>
+          <strong>رسالة ترحيب:</strong> مرحباً بك في تطبيقنا!
+        </bl-alert>
+        <bl-alert variant="success" icon>
+          <strong>تم بنجاح:</strong> تم حفظ التغييرات بنجاح.
+        </bl-alert>
       </div>
+      <p class="text-sm text-neutral-dark mt-4">
+        Note: RTL notifications will appear on the left side of the screen with right-aligned text.
+      </p>
     </DemoSection>
   </div>
 </template>

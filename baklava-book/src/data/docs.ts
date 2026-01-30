@@ -63,6 +63,17 @@ export const docCategories: DocCategory[] = [
     ],
   },
   {
+    id: "contributing",
+    label: "Contributing",
+    icon: "🤝",
+    items: [
+      { name: "Contributing Guide", slug: "contributing", file: "contributing.stories.mdx" },
+      { name: "Commit Rules", slug: "commit-rules", file: "commit-rules.stories.mdx" },
+      { name: "Testing", slug: "testing", file: "testing.stories.mdx" },
+      { name: "Linting", slug: "linting", file: "linting.stories.mdx" },
+    ],
+  },
+  {
     id: "design-system",
     label: "Design System",
     icon: "🎯",
@@ -79,22 +90,11 @@ export const docCategories: DocCategory[] = [
       { name: "Z-Index", slug: "z-index", file: "design-system/z-index.stories.mdx" },
     ],
   },
-  {
-    id: "contributing",
-    label: "Contributing",
-    icon: "🤝",
-    items: [
-      { name: "Contributing Guide", slug: "contributing", file: "contributing.stories.mdx" },
-      { name: "Commit Rules", slug: "commit-rules", file: "commit-rules.stories.mdx" },
-      { name: "Testing", slug: "testing", file: "testing.stories.mdx" },
-      { name: "Linting", slug: "linting", file: "linting.stories.mdx" },
-    ],
-  },
 ];
 
 export function getDocBySlug(slug: string): DocItem | undefined {
   for (const category of docCategories) {
-    const found = category.items.find((item) => item.slug === slug);
+    const found = category.items.find(item => item.slug === slug);
 
     if (found) return found;
   }
@@ -104,7 +104,7 @@ export function getDocBySlug(slug: string): DocItem | undefined {
 
 export function getDocCategoryBySlug(slug: string): DocCategory | undefined {
   for (const category of docCategories) {
-    if (category.items.some((item) => item.slug === slug)) {
+    if (category.items.some(item => item.slug === slug)) {
       return category;
     }
   }

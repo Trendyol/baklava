@@ -129,9 +129,11 @@ const richContentCode = `<bl-popover>
     </div>
 
     <DemoSection title="Basic Popover" :code="basicCode">
-      <bl-button id="basic-popover-trigger" @bl-click="togglePopover('basic-popover', $event)">
-        Click me
-      </bl-button>
+      <div class="flex">
+        <bl-button id="basic-popover-trigger" @bl-click="togglePopover('basic-popover', $event)">
+          Click me
+        </bl-button>
+      </div>
       <bl-popover id="basic-popover">
         <div class="p-2">
           <p class="text-neutral-darker dark:text-neutral-light">This is popover content</p>
@@ -313,7 +315,9 @@ const richContentCode = `<bl-popover>
     </div>
 
     <DemoSection title="With Arrow" :code="arrowCode">
-      <bl-button @bl-click="togglePopover('popover-arrow', $event)">With Arrow</bl-button>
+      <div class="flex">
+        <bl-button @bl-click="togglePopover('popover-arrow', $event)">With Arrow</bl-button>
+      </div>
       <bl-popover id="popover-arrow" style="--bl-popover-arrow-display: block">
         <div class="p-2">
           <p class="text-neutral-darker dark:text-neutral-light">Popover with arrow indicator</p>
@@ -410,9 +414,11 @@ const richContentCode = `<bl-popover>
     </div>
 
     <DemoSection title="Fit Size" :code="fitSizeCode">
-      <bl-button @bl-click="togglePopover('popover-fitsize', $event)">
-        Long Button Text for FitSize Demo
-      </bl-button>
+      <div class="flex">
+        <bl-button @bl-click="togglePopover('popover-fitsize', $event)">
+          Long Button Text for FitSize Demo
+        </bl-button>
+      </div>
       <bl-popover id="popover-fitsize" fit-size>
         <div class="p-2 text-center">
           <p class="text-neutral-darker dark:text-neutral-light">
@@ -431,9 +437,11 @@ const richContentCode = `<bl-popover>
     </div>
 
     <DemoSection title="Rich Content" :code="richContentCode">
-      <bl-button icon="account" @bl-click="togglePopover('popover-rich', $event)">
-        User Menu
-      </bl-button>
+      <div class="flex">
+        <bl-button icon="account" @bl-click="togglePopover('popover-rich', $event)">
+          User Menu
+        </bl-button>
+      </div>
       <bl-popover id="popover-rich">
         <div class="p-3 min-w-48">
           <div

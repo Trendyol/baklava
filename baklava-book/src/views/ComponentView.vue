@@ -346,8 +346,8 @@ function handleTabChange(event: CustomEvent) {
 <style>
 /* Badge color variants - Light mode */
 .badge-success {
-  --bl-badge-bg-color: #dcfce7;
-  --bl-badge-color: #166534;
+  --bl-badge-bg-color: var(--bl-color-success);
+  --bl-badge-color: var(--bl-color-neutral-darkest);
 }
 
 .badge-warning {
@@ -356,29 +356,16 @@ function handleTabChange(event: CustomEvent) {
 }
 
 .badge-info {
-  --bl-badge-bg-color: #dbeafe;
-  --bl-badge-color: #1e40af;
+  --bl-badge-bg-color: var(--bl-color-info);
+  --bl-badge-color: var(--bl-color-neutral-full);
 }
 
-.badge-adr {
-  --bl-badge-bg-color: #fce7f3;
-  --bl-badge-color: #9d174d;
-}
-
-.badge-story {
-  --bl-badge-bg-color: #e0e7ff;
-  --bl-badge-color: #3730a3;
-}
 
 .badge-figma {
   --bl-badge-bg-color: #fef3c7;
   --bl-badge-color: #92400e;
 }
 
-.badge-source {
-  --bl-badge-bg-color: #f3e8ff;
-  --bl-badge-color: #6b21a8;
-}
 
 /* Badge color variants - Dark mode */
 html.dark .badge-success {

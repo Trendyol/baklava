@@ -32,12 +32,24 @@ const badgesCode = `<bl-tab-group>
 </bl-tab-group>`;
 
 const disabledCode = `<bl-tab-group>
-  <bl-tab slot="tabs" name="active" caption="Active" selected></bl-tab>
+  <bl-tab slot="tabs" name="enabled" caption="Enabled" selected></bl-tab>
   <bl-tab slot="tabs" name="disabled" caption="Disabled" disabled></bl-tab>
   <bl-tab slot="tabs" name="other" caption="Other"></bl-tab>
 
-  <bl-tab-panel tab="active">Active tab content</bl-tab-panel>
+  <bl-tab-panel tab="enabled">Enabled tab content</bl-tab-panel>
   <bl-tab-panel tab="other">Other tab content</bl-tab-panel>
+</bl-tab-group>`;
+
+const scrollableCode = `<bl-tab-group>
+  <bl-tab slot="tabs" name="tab-1" caption="Tab 1" selected></bl-tab>
+  <bl-tab slot="tabs" name="tab-2" caption="Tab 2"></bl-tab>
+  <bl-tab slot="tabs" name="tab-3" caption="Tab 3"></bl-tab>
+  <!-- ... many more tabs -->
+  <bl-tab slot="tabs" name="tab-18" caption="Tab 18"></bl-tab>
+
+  <bl-tab-panel tab="tab-1">Panel 1</bl-tab-panel>
+  <bl-tab-panel tab="tab-2">Panel 2</bl-tab-panel>
+  <!-- ... -->
 </bl-tab-group>`;
 
 const eventCode = `<bl-tab-group @bl-tab-change="handleTabChange">
@@ -168,12 +180,64 @@ const rtlCode = `<!-- LTR (Left-to-Right) -->
 
     <DemoSection title="Disabled Tab" :code="disabledCode">
       <bl-tab-group>
-        <bl-tab slot="tabs" name="active" caption="Active" selected></bl-tab>
+        <bl-tab slot="tabs" name="enabled" caption="Enabled" selected></bl-tab>
         <bl-tab slot="tabs" name="disabled" caption="Disabled" disabled></bl-tab>
         <bl-tab slot="tabs" name="other" caption="Other"></bl-tab>
 
-        <bl-tab-panel tab="active">Active tab content</bl-tab-panel>
+        <bl-tab-panel tab="enabled">Enabled tab content</bl-tab-panel>
         <bl-tab-panel tab="other">Other tab content</bl-tab-panel>
+      </bl-tab-group>
+    </DemoSection>
+
+    <!-- Scrollable Tab Group -->
+    <div class="mt-8 mb-2">
+      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">
+        Scrollable Tab Group
+      </h3>
+      <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
+        When there are many tabs, the navigation will automatically become scrollable to fit all tabs.
+      </p>
+    </div>
+
+    <DemoSection title="Scrollable Tabs" :code="scrollableCode">
+      <bl-tab-group>
+        <bl-tab slot="tabs" name="tab-1" caption="Tab 1" selected></bl-tab>
+        <bl-tab slot="tabs" name="tab-2" caption="Tab 2"></bl-tab>
+        <bl-tab slot="tabs" name="tab-3" caption="Tab 3"></bl-tab>
+        <bl-tab slot="tabs" name="tab-4" caption="Tab 4"></bl-tab>
+        <bl-tab slot="tabs" name="tab-5" caption="Tab 5"></bl-tab>
+        <bl-tab slot="tabs" name="tab-6" caption="Tab 6"></bl-tab>
+        <bl-tab slot="tabs" name="tab-7" caption="Tab 7"></bl-tab>
+        <bl-tab slot="tabs" name="tab-8" caption="Tab 8"></bl-tab>
+        <bl-tab slot="tabs" name="tab-9" caption="Tab 9"></bl-tab>
+        <bl-tab slot="tabs" name="tab-10" caption="Tab 10"></bl-tab>
+        <bl-tab slot="tabs" name="tab-11" caption="Tab 11"></bl-tab>
+        <bl-tab slot="tabs" name="tab-12" caption="Tab 12"></bl-tab>
+        <bl-tab slot="tabs" name="tab-13" caption="Tab 13"></bl-tab>
+        <bl-tab slot="tabs" name="tab-14" caption="Tab 14"></bl-tab>
+        <bl-tab slot="tabs" name="tab-15" caption="Tab 15"></bl-tab>
+        <bl-tab slot="tabs" name="tab-16" caption="Tab 16"></bl-tab>
+        <bl-tab slot="tabs" name="tab-17" caption="Tab 17"></bl-tab>
+        <bl-tab slot="tabs" name="tab-18" caption="Tab 18"></bl-tab>
+
+        <bl-tab-panel tab="tab-1">Panel 1 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-2">Panel 2 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-3">Panel 3 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-4">Panel 4 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-5">Panel 5 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-6">Panel 6 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-7">Panel 7 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-8">Panel 8 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-9">Panel 9 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-10">Panel 10 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-11">Panel 11 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-12">Panel 12 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-13">Panel 13 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-14">Panel 14 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-15">Panel 15 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-16">Panel 16 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-17">Panel 17 content</bl-tab-panel>
+        <bl-tab-panel tab="tab-18">Panel 18 content</bl-tab-panel>
       </bl-tab-group>
     </DemoSection>
 

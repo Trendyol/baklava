@@ -365,11 +365,11 @@ export const categories = [
 ];
 
 export function getComponentBySlug(slug: string): ComponentMeta | undefined {
-  return components.find((c) => c.slug === slug);
+  return components.find(c => c.slug === slug);
 }
 
 export function getComponentsByCategory(category: string): ComponentMeta[] {
-  return components.filter((c) => c.category === category);
+  return components.filter(c => c.category === category);
 }
 
 export function getAllComponentsSorted(): ComponentMeta[] {

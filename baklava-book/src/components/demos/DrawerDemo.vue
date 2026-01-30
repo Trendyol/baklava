@@ -110,7 +110,9 @@ const formCode = `<bl-drawer :open="formDrawerOpen" caption="Edit Profile">
     </div>
 
     <DemoSection title="Default Drawer" :code="basicCode">
-      <bl-button @bl-click="defaultDrawerOpen = true">Open Drawer</bl-button>
+      <div class="flex">
+        <bl-button @bl-click="defaultDrawerOpen = true">Open Drawer</bl-button>
+      </div>
 
       <bl-drawer :open="defaultDrawerOpen" @bl-drawer-close="defaultDrawerOpen = false">
         <div class="p-4">
@@ -136,7 +138,9 @@ const formCode = `<bl-drawer :open="formDrawerOpen" caption="Edit Profile">
     </div>
 
     <DemoSection title="With Caption" :code="captionCode">
-      <bl-button @bl-click="captionDrawerOpen = true">Open With Caption</bl-button>
+      <div class="flex">
+        <bl-button @bl-click="captionDrawerOpen = true">Open With Caption</bl-button>
+      </div>
 
       <bl-drawer
         :open="captionDrawerOpen"
@@ -174,7 +178,9 @@ const formCode = `<bl-drawer :open="formDrawerOpen" caption="Edit Profile">
     </div>
 
     <DemoSection title="With External Link" :code="externalLinkCode">
-      <bl-button @bl-click="externalLinkDrawerOpen = true">Open With External Link</bl-button>
+      <div class="flex">
+        <bl-button @bl-click="externalLinkDrawerOpen = true">Open With External Link</bl-button>
+      </div>
 
       <bl-drawer
         :open="externalLinkDrawerOpen"
@@ -203,7 +209,9 @@ const formCode = `<bl-drawer :open="formDrawerOpen" caption="Edit Profile">
     </div>
 
     <DemoSection title="Custom Width" :code="customWidthCode">
-      <bl-button @bl-click="customWidthDrawerOpen = true">Open Wide Drawer (800px)</bl-button>
+      <div class="flex">
+        <bl-button @bl-click="customWidthDrawerOpen = true">Open Wide Drawer (800px)</bl-button>
+      </div>
 
       <bl-drawer
         :open="customWidthDrawerOpen"

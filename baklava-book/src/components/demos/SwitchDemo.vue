@@ -5,8 +5,7 @@ import { ref } from "vue";
 const isEnabled = ref(false);
 const notificationsEnabled = ref(true);
 
-const basicCode = `<bl-switch>Enable notifications</bl-switch>
-<bl-switch checked>Dark mode</bl-switch>`;
+const basicCode = `<bl-switch>Enable notifications</bl-switch>`;
 
 const withLabelCode = `<bl-switch aria-label="Notification Settings">
   Enable Email Notifications
@@ -94,10 +93,7 @@ const isEnabled = ref(false);
     </div>
 
     <DemoSection title="Basic Switch" :code="basicCode">
-      <div class="flex flex-wrap gap-6">
-        <bl-switch>Enable notifications</bl-switch>
-        <bl-switch checked>Dark mode</bl-switch>
-      </div>
+      <bl-switch>Enable notifications</bl-switch>
     </DemoSection>
 
     <!-- With Label -->

@@ -4,13 +4,19 @@ import { ref } from "vue";
 
 const selectedAnimals = ref<string[]>([]);
 
-const basicCode = `<bl-checkbox-group label="Favorite animals" name="favoriteAnimals">
-  <bl-checkbox value="cat">Cat</bl-checkbox>
-  <bl-checkbox value="dog">Dog</bl-checkbox>
-  <bl-checkbox value="bird">Bird</bl-checkbox>
-</bl-checkbox-group>`;
+const singleCheckboxCode = `<!-- Standalone checkbox -->
+<bl-checkbox>Accept terms and conditions</bl-checkbox>
 
-const preselectedCode = `<bl-checkbox-group label="Favorite animals" name="favoriteAnimals" value='["dog","bird"]'>
+<!-- With checked state -->
+<bl-checkbox checked>Remember me</bl-checkbox>
+
+<!-- Disabled checkbox -->
+<bl-checkbox disabled>Disabled option</bl-checkbox>
+
+<!-- Indeterminate state -->
+<bl-checkbox indeterminate>Select all</bl-checkbox>`;
+
+const basicCode = `<bl-checkbox-group label="Favorite animals" name="favoriteAnimals">
   <bl-checkbox value="cat">Cat</bl-checkbox>
   <bl-checkbox value="dog">Dog</bl-checkbox>
   <bl-checkbox value="bird">Bird</bl-checkbox>
@@ -102,25 +108,33 @@ const rtlCode = `<!-- LTR (Left-to-Right) -->
       </ul>
     </div>
 
-    <!-- Basic Usage -->
+    <!-- Single Checkbox -->
     <div class="mb-2">
-      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">Basic Usage</h3>
+      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">Single Checkbox</h3>
       <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
-        A simple checkbox group with multiple options.
+        Standalone checkboxes can be used independently without a group wrapper.
+      </p>
+    </div>
+
+    <DemoSection title="Single Checkbox" :code="singleCheckboxCode">
+      <div class="flex flex-col gap-4">
+        <div><bl-checkbox>Accept terms and conditions</bl-checkbox></div>
+        <div><bl-checkbox checked>Remember me</bl-checkbox></div>
+        <div><bl-checkbox disabled>Disabled option</bl-checkbox></div>
+        <div><bl-checkbox indeterminate>Select all</bl-checkbox></div>
+      </div>
+    </DemoSection>
+
+    <!-- Checkbox Group -->
+    <div class="mt-8 mb-2">
+      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">Checkbox Group</h3>
+      <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
+        A checkbox group with multiple options.
       </p>
     </div>
 
     <DemoSection title="Basic Checkbox Group" :code="basicCode">
       <bl-checkbox-group label="Favorite animals" name="favoriteAnimals">
-        <bl-checkbox value="cat">Cat</bl-checkbox>
-        <bl-checkbox value="dog">Dog</bl-checkbox>
-        <bl-checkbox value="bird">Bird</bl-checkbox>
-      </bl-checkbox-group>
-    </DemoSection>
-
-    <!-- Preselected Values -->
-    <DemoSection title="With Preselected Values" :code="preselectedCode">
-      <bl-checkbox-group label="Favorite animals" name="favoriteAnimals2" value='["dog","bird"]'>
         <bl-checkbox value="cat">Cat</bl-checkbox>
         <bl-checkbox value="dog">Dog</bl-checkbox>
         <bl-checkbox value="bird">Bird</bl-checkbox>

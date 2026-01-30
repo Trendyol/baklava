@@ -4,6 +4,11 @@ import { ref } from "vue";
 
 const selectedPayment = ref("");
 
+const singleRadioCode = `<!-- Standalone radio buttons -->
+<bl-radio name="single-demo" value="option1">Option 1</bl-radio>
+<bl-radio name="single-demo" value="option2" checked>Option 2 (Selected)</bl-radio>
+<bl-radio name="single-demo" value="option3" disabled>Option 3 (Disabled)</bl-radio>`;
+
 const basicCode = `<bl-radio-group label="Payment Type" name="paymentType">
   <bl-radio value="cc">Credit Card</bl-radio>
   <bl-radio value="ideal">iDeal</bl-radio>
@@ -103,9 +108,26 @@ const selectedPayment = ref("");
       </ul>
     </div>
 
-    <!-- Basic Usage -->
+    <!-- Single Radio -->
     <div class="mb-2">
-      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">Basic Usage</h3>
+      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">Single Radio</h3>
+      <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
+        Standalone radio buttons can be used independently. Use the same <code>name</code> attribute
+        to group them.
+      </p>
+    </div>
+
+    <DemoSection title="Single Radio" :code="singleRadioCode">
+      <div class="flex flex-col gap-4">
+        <div><bl-radio name="single-demo" value="option1">Option 1</bl-radio></div>
+        <div><bl-radio name="single-demo" value="option2" checked>Option 2 (Selected)</bl-radio></div>
+        <div><bl-radio name="single-demo" value="option3" disabled>Option 3 (Disabled)</bl-radio></div>
+      </div>
+    </DemoSection>
+
+    <!-- Radio Group -->
+    <div class="mt-8 mb-2">
+      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">Radio Group</h3>
       <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
         By default radio options are listed in vertical stack. Use <code>label</code> to add a
         group label and <code>name</code> for form submission.

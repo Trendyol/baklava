@@ -99,7 +99,9 @@ document.querySelector('bl-dialog').close();`;
     </div>
 
     <DemoSection title="Basic Dialog" :code="basicCode">
-      <bl-button @bl-click="basicDialogOpen = true">Open Dialog</bl-button>
+      <div class="flex">
+        <bl-button @bl-click="basicDialogOpen = true">Open Dialog</bl-button>
+      </div>
 
       <bl-dialog
         :open="basicDialogOpen"
@@ -126,7 +128,9 @@ document.querySelector('bl-dialog').close();`;
     </div>
 
     <DemoSection title="Confirmation Dialog" :code="confirmCode">
-      <bl-button kind="danger" @bl-click="confirmDialogOpen = true">Delete Item</bl-button>
+      <div class="flex">
+        <bl-button kind="danger" @bl-click="confirmDialogOpen = true">Delete Item</bl-button>
+      </div>
 
       <bl-dialog
         :open="confirmDialogOpen"
@@ -157,7 +161,9 @@ document.querySelector('bl-dialog').close();`;
     </div>
 
     <DemoSection title="Form Dialog" :code="formCode">
-      <bl-button variant="secondary" @bl-click="formDialogOpen = true">Edit Profile</bl-button>
+      <div class="flex">
+        <bl-button variant="secondary" @bl-click="formDialogOpen = true">Edit Profile</bl-button>
+      </div>
 
       <bl-dialog
         :open="formDialogOpen"
@@ -188,17 +194,20 @@ document.querySelector('bl-dialog').close();`;
     </div>
 
     <DemoSection title="Sticky Footer" :code="stickyCode">
-      <bl-button variant="tertiary" @bl-click="stickyDialogOpen = true">
-        Open Long Dialog
-      </bl-button>
+      <div class="flex">
+        <bl-button variant="tertiary" @bl-click="stickyDialogOpen = true">
+          Open Long Dialog
+        </bl-button>
+      </div>
 
       <bl-dialog
         :open="stickyDialogOpen"
         caption="Terms and Conditions"
         sticky-footer
+        style="--bl-dialog-width: 500px"
         @bl-dialog-close="stickyDialogOpen = false"
       >
-        <div class="space-y-4">
+        <div class="space-y-4" style="max-height: 300px; overflow-y: auto">
           <p v-for="i in 10" :key="i">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud

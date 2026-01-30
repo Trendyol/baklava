@@ -146,34 +146,6 @@ const copyToClipboard = (text: string) => {
       </li>
     </ul>
 
-    <!-- Visual Scale -->
-    <h2 class="text-xl font-semibold text-neutral-darkest dark:text-white mb-4">Visual Scale</h2>
-    <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
-      See the full size scale visually:
-    </p>
-    <div
-      class="bg-white dark:bg-neutral-darker rounded-xl border border-neutral-lightest dark:border-neutral-dark p-6"
-    >
-      <div class="space-y-3">
-        <div
-          v-for="item in sizeValues"
-          :key="item.variable"
-          class="flex items-center gap-4"
-        >
-          <code class="text-xs text-primary font-mono w-32">{{ item.variable.replace('--bl-size-', '') }}</code>
-          <div
-            :style="{
-              width: item.rem,
-              height: item.rem,
-              backgroundColor: 'var(--bl-color-neutral-light)',
-              borderRadius: '2px',
-              minWidth: item.rem,
-            }"
-          ></div>
-          <span class="text-xs text-neutral-dark">{{ item.px }}</span>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 

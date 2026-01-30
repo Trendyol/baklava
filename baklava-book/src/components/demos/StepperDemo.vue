@@ -516,7 +516,7 @@ const prevStep = () => {
           <bl-button variant="secondary" @bl-click="prevStep" :disabled="currentStep === 1">
             Previous
           </bl-button>
-          <bl-button @bl-click="nextStep" :disabled="currentStep === 4"> Next </bl-button>
+          <bl-button @bl-click="nextStep" :disabled="currentStep === 4">Next</bl-button>
         </div>
         <p class="text-neutral-dark">
           Current step: <strong class="text-primary">{{ currentStep }} / 4</strong>

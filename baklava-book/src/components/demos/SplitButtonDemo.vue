@@ -115,11 +115,13 @@ const rtlCode = `<div dir="rtl">
     </div>
 
     <DemoSection title="Basic Split Button" :code="basicCode">
-      <bl-split-button label="Save">
-        <bl-dropdown-item>Save as Draft</bl-dropdown-item>
-        <bl-dropdown-item>Save and Close</bl-dropdown-item>
-        <bl-dropdown-item>Save and New</bl-dropdown-item>
-      </bl-split-button>
+      <div class="flex">
+        <bl-split-button label="Save">
+          <bl-dropdown-item>Save as Draft</bl-dropdown-item>
+          <bl-dropdown-item>Save and Close</bl-dropdown-item>
+          <bl-dropdown-item>Save and New</bl-dropdown-item>
+        </bl-split-button>
+      </div>
     </DemoSection>
 
     <!-- Variants -->

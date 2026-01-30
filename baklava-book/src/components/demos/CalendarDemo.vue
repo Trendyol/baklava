@@ -1,11 +1,5 @@
 <script setup lang="ts">
 import DemoSection from "@/components/DemoSection.vue";
-import { ref } from "vue";
-
-const selectedDate = ref<Date | null>(null);
-const selectedDates = ref<Date[]>([]);
-const rangeStart = ref<Date | null>(null);
-const rangeEnd = ref<Date | null>(null);
 
 // Calculate min and max dates for demo
 const today = new Date();
@@ -18,23 +12,6 @@ const defaultDate = new Date(today.getFullYear(), today.getMonth(), today.getDat
 // Disabled dates demo
 const disabledDate1 = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2);
 const disabledDate2 = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
-
-const handleSingleChange = (event: CustomEvent) => {
-  selectedDate.value = event.detail[0];
-};
-
-const handleMultipleChange = (event: CustomEvent) => {
-  selectedDates.value = event.detail;
-};
-
-const handleRangeChange = (event: CustomEvent) => {
-  if (event.detail.length >= 1) {
-    rangeStart.value = event.detail[0];
-  }
-  if (event.detail.length >= 2) {
-    rangeEnd.value = event.detail[1];
-  }
-};
 
 const formatDate = (date: Date | null) => {
   if (!date) return "None";
@@ -141,15 +118,7 @@ const rtlCode = `<div dir="rtl" lang="ar">
     </div>
 
     <DemoSection title="Single Selection" :code="singleCode">
-      <div class="flex flex-col md:flex-row gap-6">
-        <bl-calendar type="single" @bl-calendar-change="handleSingleChange"></bl-calendar>
-        <div class="p-4 bg-neutral-lightest dark:bg-neutral-darker rounded-lg min-w-48">
-          <p class="text-sm text-neutral-dark mb-1">Selected Date:</p>
-          <p class="text-lg font-medium text-primary">
-            {{ formatDate(selectedDate) }}
-          </p>
-        </div>
-      </div>
+      <bl-calendar type="single"></bl-calendar>
     </DemoSection>
 
     <!-- Multiple Type Calendar -->
@@ -163,22 +132,7 @@ const rtlCode = `<div dir="rtl" lang="ar">
     </div>
 
     <DemoSection title="Multiple Selection" :code="multipleCode">
-      <div class="flex flex-col md:flex-row gap-6">
-        <bl-calendar type="multiple" @bl-calendar-change="handleMultipleChange"></bl-calendar>
-        <div class="p-4 bg-neutral-lightest dark:bg-neutral-darker rounded-lg min-w-48">
-          <p class="text-sm text-neutral-dark mb-1">Selected Dates:</p>
-          <div v-if="selectedDates.length > 0" class="space-y-1">
-            <p
-              v-for="(date, index) in selectedDates"
-              :key="index"
-              class="text-sm font-medium text-primary"
-            >
-              {{ formatDate(date) }}
-            </p>
-          </div>
-          <p v-else class="text-sm text-neutral-dark">None selected</p>
-        </div>
-      </div>
+      <bl-calendar type="multiple"></bl-calendar>
     </DemoSection>
 
     <!-- Range Type Calendar -->
@@ -193,22 +147,7 @@ const rtlCode = `<div dir="rtl" lang="ar">
     </div>
 
     <DemoSection title="Range Selection" :code="rangeCode">
-      <div class="flex flex-col md:flex-row gap-6">
-        <bl-calendar type="range" @bl-calendar-change="handleRangeChange"></bl-calendar>
-        <div class="p-4 bg-neutral-lightest dark:bg-neutral-darker rounded-lg min-w-48">
-          <p class="text-sm text-neutral-dark mb-1">Selected Range:</p>
-          <div class="space-y-1">
-            <p class="text-sm">
-              <span class="text-neutral-dark">Start:</span>
-              <span class="font-medium text-primary ml-2">{{ formatDate(rangeStart) }}</span>
-            </p>
-            <p class="text-sm">
-              <span class="text-neutral-dark">End:</span>
-              <span class="font-medium text-primary ml-2">{{ formatDate(rangeEnd) }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
+      <bl-calendar type="range"></bl-calendar>
     </DemoSection>
 
     <!-- Default Value -->

@@ -268,31 +268,44 @@ const copyToClipboard = (text: string) => {
     <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
       Heading fonts are used as larger, higher impact text, such as in a title or section header.
     </p>
-    <div class="space-y-6 mb-8">
-      <div
-        v-for="heading in headings"
-        :key="heading.level"
-        class="bg-white dark:bg-neutral-darker rounded-xl border border-neutral-lightest dark:border-neutral-dark overflow-hidden"
-      >
-        <div class="px-6 py-3 bg-neutral-lightest dark:bg-neutral-dark border-b border-neutral-lightest dark:border-neutral-dark">
-          <span class="font-semibold text-neutral-darkest dark:text-white">{{ heading.level }}</span>
-          <span class="text-sm text-neutral-dark ml-2">({{ heading.size }})</span>
-        </div>
-        <table class="w-full">
-          <tbody>
+    <div
+      class="overflow-x-auto bg-white dark:bg-neutral-darker rounded-xl border border-neutral-lightest dark:border-neutral-dark mb-8"
+    >
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-neutral-lightest dark:border-neutral-dark">
+            <th class="text-left py-4 px-6 text-sm font-semibold text-neutral-darkest dark:text-white">
+              Variable
+            </th>
+            <th class="text-left py-4 px-6 text-sm font-semibold text-neutral-darkest dark:text-white">
+              Weight
+            </th>
+            <th class="text-left py-4 px-6 text-sm font-semibold text-neutral-darkest dark:text-white">
+              Size
+            </th>
+            <th class="text-left py-4 px-6 text-sm font-semibold text-neutral-darkest dark:text-white">
+              Example
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="heading in headings" :key="heading.level">
             <tr
               v-for="variant in heading.variants"
               :key="variant.variable"
               class="border-b border-neutral-lightest dark:border-neutral-dark last:border-b-0 hover:bg-neutral-lightest dark:hover:bg-neutral-dark transition-colors cursor-pointer"
               @click="copyToClipboard(variant.variable)"
             >
-              <td class="py-4 px-6 w-1/2">
+              <td class="py-4 px-6">
                 <code class="text-sm text-primary font-mono">{{ variant.variable }}</code>
               </td>
-              <td class="py-4 px-6 w-1/4 text-neutral-darker dark:text-neutral-light">
-                Weight: {{ variant.weight }}
+              <td class="py-4 px-6 text-neutral-darker dark:text-neutral-light">
+                {{ variant.weight }}
               </td>
-              <td class="py-4 px-6 w-1/4">
+              <td class="py-4 px-6 text-neutral-darker dark:text-neutral-light">
+                {{ heading.size }}
+              </td>
+              <td class="py-4 px-6">
                 <span
                   class="text-neutral-darkest dark:text-white"
                   :style="{ font: `var(${variant.variable})` }"
@@ -301,9 +314,9 @@ const copyToClipboard = (text: string) => {
                 </span>
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
+          </template>
+        </tbody>
+      </table>
     </div>
 
     <!-- Body Texts -->
@@ -311,31 +324,44 @@ const copyToClipboard = (text: string) => {
     <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
       Body text is typically used for long-form writing as it works well for small text sizes.
     </p>
-    <div class="space-y-6 mb-8">
-      <div
-        v-for="body in bodyTexts"
-        :key="body.level"
-        class="bg-white dark:bg-neutral-darker rounded-xl border border-neutral-lightest dark:border-neutral-dark overflow-hidden"
-      >
-        <div class="px-6 py-3 bg-neutral-lightest dark:bg-neutral-dark border-b border-neutral-lightest dark:border-neutral-dark">
-          <span class="font-semibold text-neutral-darkest dark:text-white">{{ body.level }}</span>
-          <span class="text-sm text-neutral-dark ml-2">({{ body.size }})</span>
-        </div>
-        <table class="w-full">
-          <tbody>
+    <div
+      class="overflow-x-auto bg-white dark:bg-neutral-darker rounded-xl border border-neutral-lightest dark:border-neutral-dark mb-8"
+    >
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-neutral-lightest dark:border-neutral-dark">
+            <th class="text-left py-4 px-6 text-sm font-semibold text-neutral-darkest dark:text-white">
+              Variable
+            </th>
+            <th class="text-left py-4 px-6 text-sm font-semibold text-neutral-darkest dark:text-white">
+              Weight
+            </th>
+            <th class="text-left py-4 px-6 text-sm font-semibold text-neutral-darkest dark:text-white">
+              Size
+            </th>
+            <th class="text-left py-4 px-6 text-sm font-semibold text-neutral-darkest dark:text-white">
+              Example
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="body in bodyTexts" :key="body.level">
             <tr
               v-for="variant in body.variants"
               :key="variant.variable"
               class="border-b border-neutral-lightest dark:border-neutral-dark last:border-b-0 hover:bg-neutral-lightest dark:hover:bg-neutral-dark transition-colors cursor-pointer"
               @click="copyToClipboard(variant.variable)"
             >
-              <td class="py-4 px-6 w-1/2">
+              <td class="py-4 px-6">
                 <code class="text-sm text-primary font-mono">{{ variant.variable }}</code>
               </td>
-              <td class="py-4 px-6 w-1/4 text-neutral-darker dark:text-neutral-light">
-                Weight: {{ variant.weight }}
+              <td class="py-4 px-6 text-neutral-darker dark:text-neutral-light">
+                {{ variant.weight }}
               </td>
-              <td class="py-4 px-6 w-1/4">
+              <td class="py-4 px-6 text-neutral-darker dark:text-neutral-light">
+                {{ body.size }}
+              </td>
+              <td class="py-4 px-6">
                 <span
                   class="text-neutral-darkest dark:text-white"
                   :style="{ font: `var(${variant.variable})` }"
@@ -344,9 +370,9 @@ const copyToClipboard = (text: string) => {
                 </span>
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
+          </template>
+        </tbody>
+      </table>
     </div>
 
     <!-- Caption -->

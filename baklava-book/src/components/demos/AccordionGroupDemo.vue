@@ -30,13 +30,25 @@ const iconsCode = `<bl-accordion-group>
   <bl-accordion caption="Account Settings" icon="account">
     Manage your account information.
   </bl-accordion>
-  <bl-accordion caption="Notifications" icon="bell">
+  <bl-accordion caption="Notifications" icon="notification">
     Configure your notification preferences.
   </bl-accordion>
   <bl-accordion caption="Privacy" icon="lock">
     Control your privacy settings.
   </bl-accordion>
+  <bl-accordion caption="Billing" icon="credit_card">
+    Manage your payment methods and billing information.
+  </bl-accordion>
 </bl-accordion-group>`;
+
+const singleAccordionCode = `<!-- Standalone accordion without group -->
+<bl-accordion caption="Single Accordion">
+  This is a standalone accordion that can be used independently.
+</bl-accordion>
+
+<bl-accordion caption="With Icon" icon="info" open>
+  A standalone accordion with an icon and default open state.
+</bl-accordion>`;
 
 const openCode = `<!-- Use the open attribute for default expanded state -->
 <bl-accordion-group>
@@ -144,9 +156,33 @@ const faqCode = `<bl-accordion-group>
       </ul>
     </div>
 
-    <!-- Basic Usage -->
+    <!-- Single Accordion (Standalone) -->
     <div class="mb-2">
-      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">Basic Usage</h3>
+      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">Single Accordion</h3>
+      <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
+        A standalone accordion can be used independently without a group wrapper.
+      </p>
+    </div>
+
+    <DemoSection title="Single Accordion" :code="singleAccordionCode">
+      <div class="space-y-4">
+        <bl-accordion caption="Single Accordion">
+          <p class="text-neutral-darker dark:text-neutral-light">
+            This is a standalone accordion that can be used independently without
+            <code>bl-accordion-group</code>.
+          </p>
+        </bl-accordion>
+        <bl-accordion caption="With Icon" icon="info" open>
+          <p class="text-neutral-darker dark:text-neutral-light">
+            A standalone accordion with an icon and default open state.
+          </p>
+        </bl-accordion>
+      </div>
+    </DemoSection>
+
+    <!-- Basic Usage (Group) -->
+    <div class="mt-8 mb-2">
+      <h3 class="text-lg font-semibold text-neutral-darkest dark:text-white mb-2">Accordion Group</h3>
       <p class="text-sm text-neutral-dark dark:text-neutral-light mb-4">
         By default, only one accordion can be open at a time. Opening a new accordion automatically
         closes the previously opened one.
@@ -223,7 +259,7 @@ const faqCode = `<bl-accordion-group>
             Manage your account information, password, and security settings.
           </p>
         </bl-accordion>
-        <bl-accordion caption="Notifications" icon="bell">
+        <bl-accordion caption="Notifications" icon="notification">
           <p class="text-neutral-darker dark:text-neutral-light">
             Configure your notification preferences for email, push, and SMS.
           </p>
