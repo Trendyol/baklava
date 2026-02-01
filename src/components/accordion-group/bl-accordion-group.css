@@ -7,6 +7,9 @@
 .accordion-group ::slotted(bl-accordion:first-child) {
   --bl-accordion-radius-bottom-right: 0;
   --bl-accordion-radius-bottom-left: 0;
+}
+
+.accordion-group ::slotted(bl-accordion:first-child:not(:last-child)) {
   --bl-accordion-border-bottom: 0;
 }
 
