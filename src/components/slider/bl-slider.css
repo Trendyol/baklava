@@ -122,7 +122,7 @@
 .slider-container:focus-within .track-active::after {
   width: 12px;
   height: 12px;
-  right: -10px;
+  right: -6px;
   box-shadow: 0 0 0 3px var(--bl-color-neutral-full), 0 0 0 5px var(--slider-color);
 }
 
@@ -248,6 +248,7 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 4;
+  transition: left 0.1s ease;
 }
 
 .tooltip-trigger {
