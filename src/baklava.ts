@@ -42,4 +42,5 @@ export { default as BlTableRow } from "./components/table/table-row/bl-table-row
 export { default as BlTag } from "./components/tag/bl-tag";
 export { default as BlTextarea } from "./components/textarea/bl-textarea";
 export { default as BlTooltip } from "./components/tooltip/bl-tooltip";
+export { default as BlUpload } from "./components/upload/bl-upload";
 export { getIconPath, setIconPath } from "./utilities/asset-paths";
