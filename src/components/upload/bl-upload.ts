@@ -527,7 +527,7 @@ export default class BlUpload extends LitElement {
     `;
   }
 
-  private _renderHorizontalLayout(): TemplateResult {
+  private _renderLayout(): TemplateResult {
     return html`
       <div class="upload-content">
         <bl-icon class="upload-icon" name="upload"></bl-icon>
@@ -540,43 +540,6 @@ export default class BlUpload extends LitElement {
         ${this.buttonText}
       </bl-button>
     `;
-  }
-
-  private _renderVerticalLayout(): TemplateResult {
-    return html`
-      <div class="upload-content vertical">
-        <bl-icon class="upload-icon" name="upload"></bl-icon>
-        <span class="header">${this.headerText}</span>
-        <span class="description">${this.descriptionText}</span>
-        <bl-button variant="secondary" ?disabled=${this.disabled} @click=${this._handleButtonClick}>
-          ${this.buttonText}
-        </bl-button>
-      </div>
-    `;
-  }
-
-  private _renderButtonLayout(): TemplateResult {
-    return html`
-      <bl-button
-        variant="secondary"
-        icon="upload"
-        ?disabled=${this.disabled}
-        @click=${this._handleButtonClick}
-      >
-        ${this.buttonText}
-      </bl-button>
-    `;
-  }
-
-  private _renderUploadContent(): TemplateResult {
-    switch (this.variant) {
-      case "vertical":
-        return this._renderVerticalLayout();
-      case "button":
-        return this._renderButtonLayout();
-      default:
-        return this._renderHorizontalLayout();
-    }
   }
 
   render(): TemplateResult {
@@ -610,7 +573,7 @@ export default class BlUpload extends LitElement {
             hidden
           />
 
-          ${this._renderUploadContent()}
+          ${this._renderLayout()}
         </div>
 
         ${this._renderFileList()}
