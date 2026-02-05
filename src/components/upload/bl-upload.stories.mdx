@@ -90,9 +90,53 @@ export const UploadTemplate = (args) => html`
   ?auto-upload='${args.autoUpload}'
 ></bl-upload>`
 
-export const UploadedTemplate = (args) => html`
+export const UploadedTemplate = (args) => {
+  const uploadId = `upload-${Math.random().toString(36).substr(2, 9)}`;
+
+  // Simulate file states after render
+  setTimeout(() => {
+    const upload = document.getElementById(uploadId);
+    if (upload && upload._fileItems?.length === 0) {
+      // Create mock files with different statuses
+      const mockFiles = [
+        {
+          file: new File([''], 'örnekgorsel.png', { type: 'image/png' }),
+          id: 'file-success-1',
+          name: 'örnekgorsel.png',
+          size: 245000,
+          type: 'image/png',
+          status: 'success',
+          progress: 100,
+        },
+        {
+          file: new File([''], 'dosya.hec', { type: '' }),
+          id: 'file-error-1',
+          name: 'dosya.hec',
+          size: 120000,
+          type: '',
+          status: 'error',
+          progress: 100,
+          errorMessage: 'Yanlış dosya formatı, dosya formatı PDF, PNG, JPG veya JPEG olmalıdır.',
+        },
+        {
+          file: new File([''], 'dosya2.pdf', { type: 'application/pdf' }),
+          id: 'file-pending-1',
+          name: 'dosya2.pdf',
+          size: 890000,
+          type: 'application/pdf',
+          status: 'pending',
+          progress: 45,
+        },
+      ];
+      upload._fileItems = mockFiles;
+      upload.requestUpdate();
+    }
+  }, 100);
+
+  return html`
 ${TemplateHeader({...args, header: '', description: '', subHeader: 'Uploaded State'})}
 <bl-upload
+  id='${uploadId}'
   variant='${ifDefined(args.variant)}'
   accept='${ifDefined(args.accept)}'
   ?multiple='${args.multiple}'
@@ -104,7 +148,9 @@ ${TemplateHeader({...args, header: '', description: '', subHeader: 'Uploaded Sta
   ?disabled='${args.disabled}'
   ?show-file-list='${args.showFileList}'
   ?auto-upload='${args.autoUpload}'
-></bl-upload>`
+></bl-upload>
+`;
+}
 
 # Upload
 
@@ -129,7 +175,7 @@ There are three different layouts for the upload component: horizontal, vertical
   <Story name="Hover State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
      {HoverTemplate.bind()}
   </Story>
-  <Story name="Uploaded State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true }}>
+  <Story name="Uploaded State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png,.pdf' }}>
      {UploadedTemplate.bind()}
   </Story>
 </Canvas>

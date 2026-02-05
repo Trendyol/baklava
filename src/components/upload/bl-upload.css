@@ -202,7 +202,7 @@ input[type="file"] {
 
 .file-info {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--bl-size-xs);
 }
 

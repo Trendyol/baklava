@@ -465,7 +465,7 @@ export default class BlUpload extends LitElement {
       case "success":
         return "check_fill";
       case "error":
-        return "warning";
+        return "alert";
       case "pending":
         return "loading";
       default:
