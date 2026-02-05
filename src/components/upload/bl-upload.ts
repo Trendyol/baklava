@@ -460,16 +460,16 @@ export default class BlUpload extends LitElement {
     this._updateFileProgress(fileId, progress);
   }
 
-  private _getStatusIcon(status: FileStatus): string {
+  private _getStatusIcon(status: FileStatus) {
     switch (status) {
       case "success":
         return "check_fill";
       case "error":
         return "warning";
-      case "uploading":
+      case "pending":
         return "loading";
       default:
-        return "document";
+        return "pending";
     }
   }
 
@@ -484,11 +484,11 @@ export default class BlUpload extends LitElement {
   }
 
   private _renderStatusIcon(file: FileItem): TemplateResult {
-    if (file.status === "uploading") {
-      return html`<bl-spinner class="status-icon" size="small"></bl-spinner>`;
+    if (file.status === "pending") {
+      return html` <bl-spinner class="status-icon" size="small"></bl-spinner>`;
     }
 
-    return html`<bl-icon class="status-icon" name=${this._getStatusIcon(file.status)}></bl-icon>`;
+    return html` <bl-icon class="status-icon" name=${this._getStatusIcon(file.status)}></bl-icon>`;
   }
 
   private _renderFileItem(file: FileItem): TemplateResult {
@@ -512,13 +512,11 @@ export default class BlUpload extends LitElement {
               ? html`<span class="error-message">${file.errorMessage}</span>`
               : null}
           </div>
-          <button
-            class="remove-button"
+          <bl-icon
             @click=${(e: MouseEvent) => this._handleRemoveFile(e, file.id)}
-            aria-label="Dosyayı kaldır"
-          >
-            <bl-icon name="close"></bl-icon>
-          </button>
+            class="remove-button"
+            name="close"
+          ></bl-icon>
         </div>
         <div class="progress-container">
           <div class=${classMap(progressClasses)} style="width: ${file.progress}%"></div>
@@ -575,9 +573,8 @@ export default class BlUpload extends LitElement {
 
           ${this._renderLayout()}
         </div>
-
-        ${this._renderFileList()}
       </div>
+      ${this._renderFileList()}
     `;
   }
 }
