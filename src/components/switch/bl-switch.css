@@ -83,13 +83,32 @@ label {
   );
 }
 
-:host([disabled]) .switch {
+:host([disabled]) .switch,
+:host([loading]) .switch {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-:host([disabled]) {
+:host([disabled]),
+:host([loading]) {
   cursor: not-allowed;
+}
+
+:host([loading]) .switch {
+  position: relative;
+}
+
+.loading-spinner {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: var(--thumb-offset);
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+:host([checked][loading]) .loading-spinner {
+  inset-inline-start: auto;
+  inset-inline-end: var(--thumb-offset);
 }
 
 .switch:focus-visible {
