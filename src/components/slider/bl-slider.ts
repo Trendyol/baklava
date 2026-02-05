@@ -141,7 +141,6 @@ export default class BlSlider extends LitElement {
 
     const basePercentage = ((this._numericValue - this._numericMin) / this._range) * 100;
 
-    // Discrete slider (marks varsa) ise track %1-%99 arasında olmalı
     if (this._parsedMarks.length > 0) {
       return 1 + (basePercentage / 100) * 98;
     }
@@ -150,18 +149,12 @@ export default class BlSlider extends LitElement {
   }
 
   private _constrainValue(value: number): number {
-    // Clamp value between min and max
     let constrained = Math.max(this._numericMin, Math.min(this._numericMax, value));
-
-    // Round to step
     const steps = Math.round((constrained - this._numericMin) / this._numericStep);
 
     constrained = this._numericMin + steps * this._numericStep;
-
-    // Ensure we don't exceed max due to floating point arithmetic
     constrained = Math.min(this._numericMax, constrained);
 
-    // Fix floating point precision issues
     return parseFloat(constrained.toFixed(this._decimalPlaces));
   }
 
@@ -206,7 +199,6 @@ export default class BlSlider extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    // Constrain initial value
     const constrainedValue = this._constrainValue(this._numericValue);
 
     if (constrainedValue !== this._numericValue) {
@@ -226,7 +218,6 @@ export default class BlSlider extends LitElement {
   updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
 
-    // Min veya max değiştiğinde value'yu yeniden constrain et
     if (changedProperties.has("min") || changedProperties.has("max")) {
       const constrainedValue = this._constrainValue(this._numericValue);
 
@@ -252,7 +243,6 @@ export default class BlSlider extends LitElement {
     return html`
       <div class="marks">
         ${marks.map(mark => {
-          // Marks başlangıçta %1, bitişte %99 olacak şekilde ayarlanır
           const percentage =
             this._range === 0 ? 1 : 1 + ((mark.value - this._numericMin) / this._range) * 98;
           const isActive = mark.value <= this._numericValue;

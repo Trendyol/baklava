@@ -1,13 +1,22 @@
 :host {
   display: block;
-
-  --slider-height: 4px;
-  --thumb-size: 16px;
-  --slider-color: var(--bl-slider-color, var(--bl-color-primary));
-  --track-color: var(--bl-slider-track-color, var(--bl-color-neutral-lightest));
 }
 
 .wrapper {
+  --slider-height: 4px;
+  --thumb-size: 16px;
+  --thumb-size-hover: 20px;
+  --thumb-size-focus: 12px;
+  --thumb-offset: calc(var(--thumb-size) / -2);
+  --thumb-offset-hover: calc(var(--thumb-size-hover) / -2);
+  --thumb-offset-focus: calc(var(--thumb-size-focus) / -2);
+  --input-height: 40px;
+  --mark-size: 2px;
+  --mark-label-gap: 8px;
+  --minmax-width: 32px;
+  --slider-color: var(--bl-slider-color, var(--bl-color-primary));
+  --track-color: var(--bl-slider-track-color, var(--bl-color-neutral-lightest));
+
   display: flex;
   flex-direction: column;
   gap: var(--bl-size-2xs);
@@ -61,7 +70,7 @@
 .max-value {
   font: var(--bl-font-body-text-2);
   color: var(--bl-color-neutral-dark);
-  min-width: 32px;
+  min-width: var(--minmax-width);
   text-align: center;
   flex-shrink: 0;
 }
@@ -101,47 +110,47 @@
 .track-active::after {
   content: "";
   position: absolute;
-  width: 16px;
-  height: 16px;
+  width: var(--thumb-size);
+  height: var(--thumb-size);
   border-radius: 50%;
   background: var(--slider-color);
   top: 50%;
-  right: -8px;
+  right: var(--thumb-offset);
   opacity: 1;
   transform: translateY(-50%);
   transition: width 0.2s ease, height 0.2s ease, right 0.2s ease, background 0.2s ease;
 }
 
 .slider-container:hover .track-active::after {
-  width: 20px;
-  height: 20px;
-  right: -10px;
+  width: var(--thumb-size-hover);
+  height: var(--thumb-size-hover);
+  right: var(--thumb-offset-hover);
 }
 
 .slider-container:focus-within .track-active::after {
-  width: 12px;
-  height: 12px;
-  right: -6px;
+  width: var(--thumb-size-focus);
+  height: var(--thumb-size-focus);
+  right: var(--thumb-offset-focus);
   box-shadow: 0 0 0 3px var(--bl-color-neutral-full), 0 0 0 5px var(--slider-color);
 }
 
 .wrapper.disabled .slider-container:hover .track-active::after {
-  width: 16px;
-  height: 16px;
-  right: -8px;
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  right: var(--thumb-offset);
 }
 
 .wrapper.disabled .slider-container:focus-within .track-active::after {
-  width: 16px;
-  height: 16px;
-  right: -8px;
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  right: var(--thumb-offset);
   background: var(--bl-color-neutral-lighter);
 }
 
 .input {
   position: absolute;
   width: 100%;
-  height: 40px;
+  height: var(--input-height);
   top: 50%;
   transform: translateY(-50%);
   margin: 0;
@@ -155,7 +164,6 @@
   cursor: not-allowed;
 }
 
-/* Custom thumb styling using pseudo-elements on track */
 .input::-webkit-slider-thumb {
   appearance: none;
   width: var(--thumb-size);
@@ -201,7 +209,6 @@
   cursor: not-allowed;
 }
 
-/* Marks */
 .marks {
   position: absolute;
   width: 100%;
@@ -220,8 +227,8 @@
 }
 
 .mark-indicator {
-  width: 2px;
-  height: 2px;
+  width: var(--mark-size);
+  height: var(--mark-size);
   border-radius: 50%;
   background-color: var(--bl-color-neutral-lighter);
   opacity: 1;
@@ -239,10 +246,9 @@
   white-space: nowrap;
   position: absolute;
   top: 100%;
-  margin-top: 8px;
+  margin-top: var(--mark-label-gap);
 }
 
-/* Tooltip */
 .tooltip-wrapper {
   position: absolute;
   top: 50%;
@@ -253,8 +259,8 @@
 
 .tooltip-trigger {
   display: block;
-  width: 16px;
-  height: 16px;
+  width: var(--thumb-size);
+  height: var(--thumb-size);
 }
 
 .help-text {
@@ -263,7 +269,6 @@
   margin-top: var(--bl-size-3xs);
 }
 
-/* Focus visible for accessibility */
 .input:focus-visible {
   outline: none;
 }
