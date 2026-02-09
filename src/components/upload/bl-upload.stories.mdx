@@ -227,7 +227,11 @@ ${TemplateHeader({...args, header: '', description: '', subHeader: 'Error State'
 }
 
 export const UploadedTemplate = (args) => {
-  const uploadId = 'upload-uploaded-demo';
+  const variantName = args.variant || 'horizontal';
+  const uploadId = 'upload-uploaded-' + variantName;
+  const successId = 'file-success-' + variantName;
+  const errorId = 'file-error-' + variantName;
+  const loadingId = 'file-loading-' + variantName;
 
   setTimeout(() => {
     const upload = document.getElementById(uploadId);
@@ -235,7 +239,7 @@ export const UploadedTemplate = (args) => {
       const mockFiles = [
         {
           file: new File([''], 'ornekgorsel.png', { type: 'image/png' }),
-          id: 'file-success-1',
+          id: successId,
           name: 'ornekgorsel.png',
           size: 245000,
           type: 'image/png',
@@ -244,7 +248,7 @@ export const UploadedTemplate = (args) => {
         },
         {
           file: new File([''], 'dosya.hec', { type: '' }),
-          id: 'file-error-1',
+          id: errorId,
           name: 'dosya.hec',
           size: 120000,
           type: '',
@@ -253,20 +257,19 @@ export const UploadedTemplate = (args) => {
         },
         {
           file: new File([''], 'resim2.jpg', { type: 'image/jpeg' }),
-          id: 'file-pending-1',
+          id: loadingId,
           name: 'resim2.jpg',
           size: 890000,
           type: 'image/jpeg',
           status: 'uploading',
-          progress: 0,
+          progress: 5,
         },
       ];
       upload._fileItems = mockFiles;
       upload.requestUpdate();
 
-      setTimeout(() => { animateProgress(upload, 'file-success-1', 100, false, null); }, 100);
-      setTimeout(() => { animateProgress(upload, 'file-error-1', 100, true, 'Yanlis dosya formati, dosya formati .jpg, .jpeg, .png olmalidir.'); }, 300);
-      setTimeout(() => { animateProgress(upload, 'file-pending-1', 100, false, null); }, 500);
+      setTimeout(() => { animateProgress(upload, successId, 100, false, null); }, 100);
+      setTimeout(() => { animateProgress(upload, errorId, 100, true, 'Yanlis dosya formati, dosya formati .jpg, .jpeg, .png olmalidir.'); }, 300);
     }
   }, 100);
 
