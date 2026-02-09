@@ -65,10 +65,28 @@ export const DefaultButtonTemplate = (args)=> html`
 ${TemplateHeader({...args, header: 'Button-only', description: 'All layouts include a title, description, icon, and button as optional variants.', subHeader: 'Default State'})}
 ${UploadTemplate(args)}`
 
-export const HoverTemplate = (args)=> html`
+export const HoverTemplate = (args) => {
+  const variantName = args.variant || 'horizontal';
+  const uploadId = 'upload-hover-' + variantName;
+
+  setTimeout(() => {
+    const uploadEl = document.getElementById(uploadId);
+    if (uploadEl && uploadEl.shadowRoot) {
+      const wrapper = uploadEl.shadowRoot.querySelector('.upload-wrapper, .button-wrapper');
+      if (wrapper) {
+        wrapper.classList.add('__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__');
+      }
+      const button = uploadEl.shadowRoot.querySelector('bl-button');
+      if (button) {
+        button.classList.add('__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__');
+      }
+    }
+  }, 100);
+
+  return html`
 ${TemplateHeader({...args, header: '', description: '', subHeader: 'Hover State'})}
 <bl-upload
-  style='--bl-color-neutral-lighter: var(--bl-color-primary)'
+  id='${uploadId}'
   variant='${ifDefined(args.variant)}'
   accept='${ifDefined(args.accept)}'
   ?multiple='${args.multiple}'
@@ -80,7 +98,9 @@ ${TemplateHeader({...args, header: '', description: '', subHeader: 'Hover State'
   ?disabled='${args.disabled}'
   ?show-file-list='${args.showFileList}'
   ?auto-upload='${args.autoUpload}'
-></bl-upload>`
+></bl-upload>
+`;
+}
 
 export const ButtonHoverTemplate = (args) => {
   const buttonId = 'btn-hover-demo';
@@ -90,9 +110,7 @@ export const ButtonHoverTemplate = (args) => {
     if (uploadEl && uploadEl.shadowRoot) {
       const button = uploadEl.shadowRoot.querySelector('bl-button');
       if (button) {
-        button.style.setProperty('--bl-button-bg-color', 'var(--bl-color-primary)');
-        button.style.setProperty('--bl-button-text-color', 'var(--bl-color-primary-contrast)');
-        button.style.setProperty('--bl-button-border-color', 'var(--bl-color-primary)');
+        button.classList.add('__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__');
       }
     }
   }, 100);
