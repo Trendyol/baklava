@@ -100,6 +100,34 @@ export default class BlUpload extends LitElement {
   @property({ type: Boolean, attribute: "auto-upload" })
   autoUpload = false;
 
+  /**
+   * Callback function called when files are selected
+   */
+  @property({ attribute: false })
+  onFilesSelected?: (
+    files: { file: File; id: string; name: string; size: number; type: string }[]
+  ) => void;
+
+  /**
+   * Callback function called when there's an error
+   */
+  @property({ attribute: false })
+  onError?: (
+    errors: { file: File; error: "size" | "type" | "maxFiles"; message: string }[]
+  ) => void;
+
+  /**
+   * Callback function called when a file is removed
+   */
+  @property({ attribute: false })
+  onFileRemoved?: (file: {
+    file: File;
+    id: string;
+    name: string;
+    size: number;
+    type: string;
+  }) => void;
+
   @state()
   private _isDragOver = false;
 
@@ -149,22 +177,17 @@ export default class BlUpload extends LitElement {
     const acceptedTypes = this.accept.split(",").map(t => t.trim().toLowerCase());
 
     for (const acceptedType of acceptedTypes) {
-      // Wildcard match (e.g., "image/*")
       if (acceptedType.endsWith("/*")) {
         const category = acceptedType.slice(0, -2);
 
         if (file.type.toLowerCase().startsWith(category + "/")) {
           return true;
         }
-      }
-      // Extension match (e.g., ".pdf")
-      else if (acceptedType.startsWith(".")) {
+      } else if (acceptedType.startsWith(".")) {
         if (file.name.toLowerCase().endsWith(acceptedType)) {
           return true;
         }
-      }
-      // MIME type match (e.g., "image/png")
-      else {
+      } else {
         if (file.type.toLowerCase() === acceptedType) {
           return true;
         }
@@ -203,7 +226,6 @@ export default class BlUpload extends LitElement {
     const maxFilesToProcess = this.multiple ? this.maxFiles - currentFileCount : 1;
     const filesToProcess = files.slice(0, Math.max(0, maxFilesToProcess));
 
-    // Check if too many files
     if (files.length > maxFilesToProcess) {
       for (let i = maxFilesToProcess; i < files.length; i++) {
         errors.push({
@@ -217,7 +239,6 @@ export default class BlUpload extends LitElement {
     for (const file of filesToProcess) {
       const fileId = this._generateId();
 
-      // Check file type - start with uploading state, will become error after animation
       if (!this._isValidFileType(file)) {
         const errorMessage = `Yanlış dosya formatı, dosya formatı ${
           this.accept?.replace(/,/g, ", ") || "desteklenen format"
@@ -242,7 +263,6 @@ export default class BlUpload extends LitElement {
         continue;
       }
 
-      // Check file size - start with uploading state, will become error after animation
       if (file.size > this.maxFileSize) {
         const errorMessage = `Dosya boyutu çok büyük: ${this._formatFileSize(
           file.size
@@ -267,7 +287,6 @@ export default class BlUpload extends LitElement {
         continue;
       }
 
-      // Valid file - start with uploading state
       valid.push({
         file,
         id: fileId,
@@ -295,7 +314,6 @@ export default class BlUpload extends LitElement {
         clearInterval(interval);
 
         if (willFail) {
-          // Show error state after animation completes
           this._updateFileStatusWithError(fileId, "error", 100, errorMessage);
         } else {
           this._updateFileStatus(fileId, "success", 100);
@@ -340,28 +358,33 @@ export default class BlUpload extends LitElement {
     if (valid.length > 0) {
       this._fileItems = this.multiple ? [...this._fileItems, ...valid] : valid;
 
-      // Start upload animation for all files
       valid.forEach(f => {
         const errorInfo = errorFileIds.find(e => e.id === f.id);
 
         if (errorInfo) {
-          // File has validation error - animate then show error
           this._simulateUpload(f.id, true, errorInfo.errorMessage);
         } else {
-          // Valid file - animate then show success
           this._simulateUpload(f.id, false);
         }
       });
 
-      // Emit event with public file format (without internal status fields)
-      this.onUpload({ files: valid.map(f => this._toPublicFile(f)) });
+      const publicFiles = valid.map(f => this._toPublicFile(f));
+
+      this.onUpload({ files: publicFiles });
+
+      if (this.onFilesSelected) {
+        this.onFilesSelected(publicFiles);
+      }
     }
 
     if (errors.length > 0) {
       this.onUploadError({ errors });
+
+      if (this.onError) {
+        this.onError(errors);
+      }
     }
 
-    // Reset input
     if (this._fileInput) {
       this._fileInput.value = "";
     }
@@ -380,7 +403,6 @@ export default class BlUpload extends LitElement {
     e.preventDefault();
     e.stopPropagation();
 
-    // Only set to false if we're leaving the container entirely
     const relatedTarget = e.relatedTarget as Node;
 
     if (!this.shadowRoot?.contains(relatedTarget)) {
@@ -415,7 +437,6 @@ export default class BlUpload extends LitElement {
   };
 
   private _handleContainerClick = (e: MouseEvent) => {
-    // Don't trigger if clicking on the button
     const target = e.target as HTMLElement;
 
     if (target.tagName === "BL-BUTTON" || target.closest("bl-button")) {
@@ -442,7 +463,13 @@ export default class BlUpload extends LitElement {
 
     if (fileItem) {
       this._fileItems = this._fileItems.filter(f => f.id !== fileId);
-      this.onFileRemove({ file: this._toPublicFile(fileItem) });
+      const publicFile = this._toPublicFile(fileItem);
+
+      this.onFileRemove({ file: publicFile });
+
+      if (this.onFileRemoved) {
+        this.onFileRemoved(publicFile);
+      }
     }
   };
 

@@ -435,6 +435,61 @@ upload.setFileStatus(fileId, 'error', 'Upload failed');
 upload.setFileProgress(fileId, 50);
 ```
 
+## Callback Functions
+
+You can also use callback functions instead of events:
+
+```javascript
+const upload = document.querySelector('bl-upload');
+
+// Called when files are selected
+upload.onFilesSelected = (files) => {
+  console.log('Files selected:', files);
+  
+  // Upload files to server
+  files.forEach(fileInfo => {
+    const formData = new FormData();
+    formData.append('file', fileInfo.file);
+    fetch('/api/upload', { method: 'POST', body: formData });
+  });
+};
+
+// Called when there's an error
+upload.onError = (errors) => {
+  console.log('Errors:', errors);
+  errors.forEach(err => {
+    alert(`Error with ${err.file.name}: ${err.message}`);
+  });
+};
+
+// Called when a file is removed
+upload.onFileRemoved = (file) => {
+  console.log('File removed:', file.name);
+};
+```
+
+### React/Vue Usage
+
+```jsx
+// React
+<BlUpload
+  onFilesSelected={(files) => handleUpload(files)}
+  onError={(errors) => handleErrors(errors)}
+  onFileRemoved={(file) => handleRemove(file)}
+  multiple
+/>
+```
+
+```vue
+<!-- Vue -->
+<bl-upload
+  :onFilesSelected="handleUpload"
+  :onError="handleErrors"
+  :onFileRemoved="handleRemove"
+  multiple
+/>
+```
+
 ## Complete Example
 
 Here's a complete example with custom upload handling:
