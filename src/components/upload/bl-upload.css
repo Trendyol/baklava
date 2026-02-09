@@ -134,39 +134,12 @@ input[type="file"] {
 
 /* ==================== BUTTON VARIANT ==================== */
 
+:host([variant="button"]){
+  --bl-upload-width: 453px;
+}
+
 .upload-container.variant-button {
-  display: inline-flex;
-  min-height: auto;
   padding: 0;
-  border: none;
-  background: transparent;
-  border-radius: 0;
-}
-
-.upload-container.variant-button:hover {
-  background: transparent;
-  border-color: transparent;
-}
-
-.upload-container.variant-button:focus-visible {
-  box-shadow: none;
-}
-
-.upload-container.variant-button.drag-over {
-  border: none;
-  background: transparent;
-  box-shadow: none;
-}
-
-/* Button variant file list styling */
-:host([variant="button"]) .file-list {
-  border: none;
-  border-radius: 0;
-  margin-top: var(--bl-size-xs);
-}
-
-:host([variant="button"]) .upload-wrapper:has(.file-list) .upload-container {
-  border-radius: 0;
 }
 
 .file-list {

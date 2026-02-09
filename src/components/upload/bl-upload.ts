@@ -554,7 +554,7 @@ export default class BlUpload extends LitElement {
     };
 
     return html`
-      <div class=${`${this.variant}-wrapper ${this.variant !== "button" && "upload-wrapper"}`}>
+      <div class=${`${this.variant}-wrapper ${this.variant !== "button" ? "upload-wrapper" : ""}`}>
         <div
           class=${classMap(containerClasses)}
           @dragover=${this._handleDragOver}
