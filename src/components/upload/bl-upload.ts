@@ -526,14 +526,19 @@ export default class BlUpload extends LitElement {
   }
 
   private _renderLayout(): TemplateResult {
+    const variantLayout =
+      this.variant !== "button"
+        ? html`<div class="upload-content">
+            <bl-icon class="upload-icon" name="upload"></bl-icon>
+            <div class="text-container">
+              <span class="header">${this.headerText}</span>
+              <span class="description">${this.descriptionText}</span>
+            </div>
+          </div>`
+        : "";
+
     return html`
-      <div class="upload-content">
-        <bl-icon class="upload-icon" name="upload"></bl-icon>
-        <div class="text-container">
-          <span class="header">${this.headerText}</span>
-          <span class="description">${this.descriptionText}</span>
-        </div>
-      </div>
+      ${variantLayout}
       <bl-button variant="secondary" ?disabled=${this.disabled} @click=${this._handleButtonClick}>
         ${this.buttonText}
       </bl-button>
@@ -543,13 +548,13 @@ export default class BlUpload extends LitElement {
   render(): TemplateResult {
     const containerClasses = {
       "upload-container": true,
-      "drag-over": this._isDragOver,
+      "drag-over": this.variant !== "button" && this._isDragOver,
       "disabled": this.disabled,
       [`variant-${this.variant}`]: true,
     };
 
     return html`
-      <div class="upload-wrapper">
+      <div class=${`${this.variant}-wrapper ${this.variant !== "button" && "upload-wrapper"}`}>
         <div
           class=${classMap(containerClasses)}
           @dragover=${this._handleDragOver}

@@ -53,8 +53,16 @@ export const TemplateHeader = (args) => html`
 </div>
 `
 
-export const DefaultTemplate = (args)=> html`
+export const DefaultHorizontalTemplate = (args)=> html`
 ${TemplateHeader({...args, header: 'Horizontal', description: 'All layouts include a title, description, icon, and button as optional variants.', subHeader: 'Default State'})}
+${UploadTemplate(args)}`
+
+export const DefaultVerticalTemplate = (args)=> html`
+${TemplateHeader({...args, header: 'Vertical', description: 'All layouts include a title, description, icon, and button as optional variants.', subHeader: 'Default State'})}
+${UploadTemplate(args)}`
+
+export const DefaultButtonTemplate = (args)=> html`
+${TemplateHeader({...args, header: 'Button-only', description: 'All layouts include a title, description, icon, and button as optional variants.', subHeader: 'Default State'})}
 ${UploadTemplate(args)}`
 
 export const HoverTemplate = (args)=> html`
@@ -125,7 +133,7 @@ export const UploadedTemplate = (args) => {
           size: 890000,
           type: 'application/pdf',
           status: 'pending',
-          progress: 45,
+          progress: 10,
         },
       ];
       upload._fileItems = mockFiles;
@@ -170,12 +178,36 @@ There are three different layouts for the upload component: horizontal, vertical
 
 <Canvas>
   <Story name="Default State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
-     {DefaultTemplate.bind()}
+     {DefaultHorizontalTemplate.bind()}
   </Story>
   <Story name="Hover State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
      {HoverTemplate.bind()}
   </Story>
   <Story name="Uploaded State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png,.pdf' }}>
+     {UploadedTemplate.bind()}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Default Vertical State"  args={{ variant:'vertical', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
+    {DefaultVerticalTemplate.bind()}
+  </Story>
+<Story name="Vertical Hover State" args={{ variant:'vertical',headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
+     {HoverTemplate.bind()}
+  </Story>
+  <Story name="Vertical Uploaded State" args={{ variant:'vertical',headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png,.pdf' }}>
+     {UploadedTemplate.bind()}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Default Button State"  args={{ variant:'button', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
+    {DefaultButtonTemplate.bind()}
+  </Story>
+  <Story name="Button Hover State" args={{ variant:'button',headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
+     {HoverTemplate.bind()}
+  </Story>
+  <Story name="Button Uploaded State" args={{ variant:'button',headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png,.pdf' }}>
      {UploadedTemplate.bind()}
   </Story>
 </Canvas>
