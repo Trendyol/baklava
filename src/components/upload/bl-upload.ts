@@ -193,9 +193,11 @@ export default class BlUpload extends LitElement {
   private _validateFiles(files: File[]): {
     valid: FileItem[];
     errors: { file: File; error: "size" | "type" | "maxFiles"; message: string }[];
+    errorFileIds: { id: string; errorMessage: string }[];
   } {
     const valid: FileItem[] = [];
     const errors: { file: File; error: "size" | "type" | "maxFiles"; message: string }[] = [];
+    const errorFileIds: { id: string; errorMessage: string }[] = [];
 
     const currentFileCount = this._fileItems.length;
     const maxFilesToProcess = this.multiple ? this.maxFiles - currentFileCount : 1;
@@ -213,21 +215,25 @@ export default class BlUpload extends LitElement {
     }
 
     for (const file of filesToProcess) {
-      // Check file type
+      const fileId = this._generateId();
+
+      // Check file type - start with uploading state, will become error after animation
       if (!this._isValidFileType(file)) {
-        // Add as error file to show in list
+        const errorMessage = `Yanlış dosya formatı, dosya formatı ${
+          this.accept?.replace(/,/g, ", ") || "desteklenen format"
+        } olmalıdır.`;
+
         valid.push({
           file,
-          id: this._generateId(),
+          id: fileId,
           name: file.name,
           size: file.size,
           type: file.type,
-          status: "error",
-          progress: 100,
-          errorMessage: `Yanlış dosya formatı, dosya formatı ${
-            this.accept?.replace(/,/g, ", ") || "desteklenen format"
-          } olmalıdır.`,
+          status: "uploading",
+          progress: 0,
+          errorMessage,
         });
+        errorFileIds.push({ id: fileId, errorMessage });
         errors.push({
           file,
           error: "type",
@@ -236,56 +242,79 @@ export default class BlUpload extends LitElement {
         continue;
       }
 
-      // Check file size
+      // Check file size - start with uploading state, will become error after animation
       if (file.size > this.maxFileSize) {
+        const errorMessage = `Dosya boyutu çok büyük: ${this._formatFileSize(
+          file.size
+        )} (Maksimum: ${this._formatFileSize(this.maxFileSize)})`;
+
         valid.push({
           file,
-          id: this._generateId(),
+          id: fileId,
           name: file.name,
           size: file.size,
           type: file.type,
-          status: "error",
-          progress: 100,
-          errorMessage: `Dosya boyutu çok büyük: ${this._formatFileSize(
-            file.size
-          )} (Maksimum: ${this._formatFileSize(this.maxFileSize)})`,
+          status: "uploading",
+          progress: 0,
+          errorMessage,
         });
+        errorFileIds.push({ id: fileId, errorMessage });
         errors.push({
           file,
           error: "size",
-          message: `Dosya boyutu çok büyük: ${this._formatFileSize(
-            file.size
-          )} (Maksimum: ${this._formatFileSize(this.maxFileSize)})`,
+          message: errorMessage,
         });
         continue;
       }
 
+      // Valid file - start with uploading state
       valid.push({
         file,
-        id: this._generateId(),
+        id: fileId,
         name: file.name,
         size: file.size,
         type: file.type,
-        status: this.autoUpload ? "uploading" : "pending",
-        progress: this.autoUpload ? 0 : 100,
+        status: "uploading",
+        progress: 0,
       });
     }
 
-    return { valid, errors };
+    return { valid, errors, errorFileIds };
   }
 
-  private _simulateUpload(fileId: string) {
+  private _simulateUpload(fileId: string, willFail: boolean = false, errorMessage?: string) {
     let progress = 0;
+    const progressStep = willFail ? Math.random() * 15 + 10 : Math.random() * 20 + 15;
+    const intervalTime = 150;
+
     const interval = setInterval(() => {
-      progress += Math.random() * 30;
+      progress += progressStep + Math.random() * 10;
+
       if (progress >= 100) {
         progress = 100;
         clearInterval(interval);
-        this._updateFileStatus(fileId, "success", 100);
+
+        if (willFail) {
+          // Show error state after animation completes
+          this._updateFileStatusWithError(fileId, "error", 100, errorMessage);
+        } else {
+          this._updateFileStatus(fileId, "success", 100);
+        }
       } else {
         this._updateFileProgress(fileId, progress);
       }
-    }, 200);
+    }, intervalTime);
+  }
+
+  private _updateFileStatusWithError(
+    fileId: string,
+    status: FileStatus,
+    progress: number,
+    errorMessage?: string
+  ) {
+    this._fileItems = this._fileItems.map(f =>
+      f.id === fileId ? { ...f, status, progress, errorMessage: errorMessage || f.errorMessage } : f
+    );
   }
 
   private _updateFileProgress(fileId: string, progress: number) {
@@ -306,15 +335,23 @@ export default class BlUpload extends LitElement {
     if (!files || files.length === 0 || this.disabled) return;
 
     const fileArray = Array.from(files);
-    const { valid, errors } = this._validateFiles(fileArray);
+    const { valid, errors, errorFileIds } = this._validateFiles(fileArray);
 
     if (valid.length > 0) {
       this._fileItems = this.multiple ? [...this._fileItems, ...valid] : valid;
 
-      // Simulate upload for auto-upload files
-      if (this.autoUpload) {
-        valid.filter(f => f.status === "uploading").forEach(f => this._simulateUpload(f.id));
-      }
+      // Start upload animation for all files
+      valid.forEach(f => {
+        const errorInfo = errorFileIds.find(e => e.id === f.id);
+
+        if (errorInfo) {
+          // File has validation error - animate then show error
+          this._simulateUpload(f.id, true, errorInfo.errorMessage);
+        } else {
+          // Valid file - animate then show success
+          this._simulateUpload(f.id, false);
+        }
+      });
 
       // Emit event with public file format (without internal status fields)
       this.onUpload({ files: valid.map(f => this._toPublicFile(f)) });
@@ -426,40 +463,6 @@ export default class BlUpload extends LitElement {
     }
   }
 
-  /**
-   * Removes a specific file by id
-   */
-  removeFile(fileId: string) {
-    this._fileItems = this._fileItems.filter(f => f.id !== fileId);
-  }
-
-  /**
-   * Updates a file's status programmatically
-   */
-  setFileStatus(
-    fileId: string,
-    status: "pending" | "uploading" | "success" | "error",
-    errorMessage?: string
-  ) {
-    this._fileItems = this._fileItems.map(f =>
-      f.id === fileId
-        ? {
-            ...f,
-            status,
-            progress: status === "success" || status === "error" ? 100 : f.progress,
-            errorMessage,
-          }
-        : f
-    );
-  }
-
-  /**
-   * Updates a file's progress programmatically
-   */
-  setFileProgress(fileId: string, progress: number) {
-    this._updateFileProgress(fileId, progress);
-  }
-
   private _getStatusIcon(status: FileStatus) {
     switch (status) {
       case "success":
@@ -484,7 +487,7 @@ export default class BlUpload extends LitElement {
   }
 
   private _renderStatusIcon(file: FileItem): TemplateResult {
-    if (file.status === "pending") {
+    if (file.status === "pending" || file.status === "uploading") {
       return html` <bl-spinner class="status-icon" size="small"></bl-spinner>`;
     }
 
@@ -505,12 +508,9 @@ export default class BlUpload extends LitElement {
     return html`
       <div class=${classMap(itemClasses)}>
         <div class="file-info">
-          ${this._renderStatusIcon(file)}
           <div class="file-details">
+            ${this._renderStatusIcon(file)}
             <span class="file-name">${file.name}</span>
-            ${file.status === "error" && file.errorMessage
-              ? html`<span class="error-message">${file.errorMessage}</span>`
-              : null}
           </div>
           <bl-icon
             @click=${(e: MouseEvent) => this._handleRemoveFile(e, file.id)}
@@ -518,6 +518,9 @@ export default class BlUpload extends LitElement {
             name="close"
           ></bl-icon>
         </div>
+        ${file.status === "error" && file.errorMessage
+          ? html`<span class="error-message">${file.errorMessage}</span>`
+          : null}
         <div class="progress-container">
           <div class=${classMap(progressClasses)} style="width: ${file.progress}%"></div>
         </div>

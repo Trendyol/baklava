@@ -83,15 +83,13 @@ ${TemplateHeader({...args, header: '', description: '', subHeader: 'Hover State'
 ></bl-upload>`
 
 export const ButtonHoverTemplate = (args) => {
-  const buttonId = `btn-hover-${Math.random().toString(36).substr(2, 9)}`;
+  const buttonId = 'btn-hover-demo';
 
-  // Apply hover styles to the button after render
   setTimeout(() => {
     const uploadEl = document.getElementById(buttonId);
-    if (uploadEl) {
-      const button = uploadEl.shadowRoot?.querySelector('bl-button');
+    if (uploadEl && uploadEl.shadowRoot) {
+      const button = uploadEl.shadowRoot.querySelector('bl-button');
       if (button) {
-        // Apply hover state styling to the button
         button.style.setProperty('--bl-button-bg-color', 'var(--bl-color-primary)');
         button.style.setProperty('--bl-button-text-color', 'var(--bl-color-primary-contrast)');
         button.style.setProperty('--bl-button-border-color', 'var(--bl-color-primary)');
@@ -134,23 +132,115 @@ export const UploadTemplate = (args) => html`
   ?auto-upload='${args.autoUpload}'
 ></bl-upload>`
 
-export const UploadedTemplate = (args) => {
-  const uploadId = `upload-${Math.random().toString(36).substr(2, 9)}`;
+export const animateProgress = (upload, fileId, targetProgress, willFail, errorMessage) => {
+  let progress = 0;
+  const step = Math.random() * 15 + 10;
+  
+  const interval = setInterval(() => {
+    progress += step + Math.random() * 8;
+    if (progress >= targetProgress) {
+      progress = targetProgress;
+      clearInterval(interval);
+      
+      const newStatus = willFail ? 'error' : 'success';
+      const newErrorMessage = willFail ? errorMessage : undefined;
+      upload._fileItems = upload._fileItems.map(f => {
+        if (f.id === fileId) {
+          return { ...f, progress: 100, status: newStatus, errorMessage: newErrorMessage };
+        }
+        return f;
+      });
+      upload.requestUpdate();
+    } else {
+      upload._fileItems = upload._fileItems.map(f => {
+        if (f.id === fileId) {
+          return { ...f, progress };
+        }
+        return f;
+      });
+      upload.requestUpdate();
+    }
+  }, 150);
+};
 
-  // Simulate file states after render
+export const ErrorTemplate = (args) => {
+  const uploadId = 'upload-error-demo';
+
   setTimeout(() => {
     const upload = document.getElementById(uploadId);
-    if (upload && upload._fileItems?.length === 0) {
-      // Create mock files with different statuses
+    if (upload && (!upload._fileItems || upload._fileItems.length === 0)) {
       const mockFiles = [
         {
-          file: new File([''], 'örnekgorsel.png', { type: 'image/png' }),
+          file: new File([''], 'belge.xlsx', { type: 'application/vnd.ms-excel' }),
+          id: 'file-error-format',
+          name: 'belge.xlsx',
+          size: 45000,
+          type: 'application/vnd.ms-excel',
+          status: 'uploading',
+          progress: 0,
+        },
+        {
+          file: new File([''], 'buyuk-resim.png', { type: 'image/png' }),
+          id: 'file-error-size',
+          name: 'buyuk-resim.png',
+          size: 15000000,
+          type: 'image/png',
+          status: 'uploading',
+          progress: 0,
+        },
+        {
+          file: new File([''], 'video.mp4', { type: 'video/mp4' }),
+          id: 'file-error-video',
+          name: 'video.mp4',
+          size: 8500000,
+          type: 'video/mp4',
+          status: 'uploading',
+          progress: 0,
+        },
+      ];
+      upload._fileItems = mockFiles;
+      upload.requestUpdate();
+
+      setTimeout(() => { animateProgress(upload, 'file-error-format', 100, true, 'Yanlış dosya formatı, dosya formatı .jpg, .jpeg, .png olmalıdır.'); }, 100);
+      setTimeout(() => { animateProgress(upload, 'file-error-size', 100, true, 'Dosya boyutu çok büyük: 14.31 MB (Maksimum: 10 MB)'); }, 300);
+      setTimeout(() => { animateProgress(upload, 'file-error-video', 100, true, 'Yanlış dosya formatı, dosya formatı .jpg, .jpeg, .png olmalıdır.'); }, 500);
+    }
+  }, 100);
+
+  return html`
+${TemplateHeader({...args, header: '', description: '', subHeader: 'Error State'})}
+<bl-upload
+  id='${uploadId}'
+  variant='${ifDefined(args.variant)}'
+  accept='${ifDefined(args.accept)}'
+  ?multiple='${args.multiple}'
+  max-file-size='${ifDefined(args.maxFileSize)}'
+  max-files='${ifDefined(args.maxFiles)}'
+  header-text='${ifDefined(args.headerText)}'
+  description-text='${ifDefined(args.descriptionText)}'
+  button-text='${ifDefined(args.buttonText)}'
+  ?disabled='${args.disabled}'
+  ?show-file-list='${args.showFileList}'
+  ?auto-upload='${args.autoUpload}'
+></bl-upload>
+`;
+}
+
+export const UploadedTemplate = (args) => {
+  const uploadId = 'upload-uploaded-demo';
+
+  setTimeout(() => {
+    const upload = document.getElementById(uploadId);
+    if (upload && (!upload._fileItems || upload._fileItems.length === 0)) {
+      const mockFiles = [
+        {
+          file: new File([''], 'ornekgorsel.png', { type: 'image/png' }),
           id: 'file-success-1',
-          name: 'örnekgorsel.png',
+          name: 'ornekgorsel.png',
           size: 245000,
           type: 'image/png',
-          status: 'success',
-          progress: 100,
+          status: 'uploading',
+          progress: 0,
         },
         {
           file: new File([''], 'dosya.hec', { type: '' }),
@@ -158,22 +248,25 @@ export const UploadedTemplate = (args) => {
           name: 'dosya.hec',
           size: 120000,
           type: '',
-          status: 'error',
-          progress: 100,
-          errorMessage: 'Yanlış dosya formatı, dosya formatı PDF, PNG, JPG veya JPEG olmalıdır.',
+          status: 'uploading',
+          progress: 0,
         },
         {
-          file: new File([''], 'dosya2.pdf', { type: 'application/pdf' }),
+          file: new File([''], 'resim2.jpg', { type: 'image/jpeg' }),
           id: 'file-pending-1',
-          name: 'dosya2.pdf',
+          name: 'resim2.jpg',
           size: 890000,
-          type: 'application/pdf',
-          status: 'pending',
-          progress: 10,
+          type: 'image/jpeg',
+          status: 'uploading',
+          progress: 0,
         },
       ];
       upload._fileItems = mockFiles;
       upload.requestUpdate();
+
+      setTimeout(() => { animateProgress(upload, 'file-success-1', 100, false, null); }, 100);
+      setTimeout(() => { animateProgress(upload, 'file-error-1', 100, true, 'Yanlis dosya formati, dosya formati .jpg, .jpeg, .png olmalidir.'); }, 300);
+      setTimeout(() => { animateProgress(upload, 'file-pending-1', 100, false, null); }, 500);
     }
   }, 100);
 
@@ -213,37 +306,37 @@ Upload components are used for selecting and uploading files.
 There are three different layouts for the upload component: horizontal, vertical, and button-only.
 
 <Canvas>
-  <Story name="Default State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
+  <Story name="Default State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
      {DefaultHorizontalTemplate.bind()}
   </Story>
-  <Story name="Hover State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
+  <Story name="Hover State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
      {HoverTemplate.bind()}
   </Story>
-  <Story name="Uploaded State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png,.pdf' }}>
+  <Story name="Uploaded State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}
   </Story>
 </Canvas>
 
 <Canvas>
-  <Story name="Default Vertical State"  args={{ variant:'vertical', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
+  <Story name="Default Vertical State"  args={{ variant:'vertical', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
     {DefaultVerticalTemplate.bind()}
   </Story>
-<Story name="Vertical Hover State" args={{ variant:'vertical',headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
+  <Story name="Vertical Hover State" args={{ variant:'vertical', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
      {HoverTemplate.bind()}
   </Story>
-  <Story name="Vertical Uploaded State" args={{ variant:'vertical',headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png,.pdf' }}>
+  <Story name="Vertical Uploaded State" args={{ variant:'vertical', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}
   </Story>
 </Canvas>
 
 <Canvas isColumn>
-  <Story name="Default Button State"  args={{ variant:'button', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
+  <Story name="Default Button State"  args={{ variant:'button', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
     {DefaultButtonTemplate.bind()}
   </Story>
-  <Story name="Button Hover State" args={{ variant:'button', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç' }}>
+  <Story name="Button Hover State" args={{ variant:'button', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
      {ButtonHoverTemplate.bind()}
   </Story>
-  <Story name="Button Uploaded State" args={{ variant:'button', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png,.pdf' }}>
+  <Story name="Button Uploaded State" args={{ variant:'button', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}
   </Story>
 </Canvas>

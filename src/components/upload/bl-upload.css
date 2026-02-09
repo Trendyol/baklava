@@ -46,20 +46,12 @@
   height: 100%;
 }
 
-.upload-wrapper:hover {
+.upload-wrapper:hover, .drag-over {
   border-color: var(--bl-color-primary);
 }
 
 .upload-container:focus-visible {
   border-color: var(--bl-color-primary);
-}
-
-.upload-container.drag-over {
-  border-color: var(--bl-color-primary);
-}
-
-.upload-container.drag-over .upload-icon {
-  transform: scale(1.2);
 }
 
 .upload-container.disabled {
@@ -152,13 +144,18 @@ input[type="file"] {
 .file-item {
   display: flex;
   flex-direction: column;
-  height: var(--bl-size-3xl);
   gap: var(--bl-size-3xs);
 }
 
 .file-info {
   display: flex;
   align-items: flex-start;
+  gap: var(--bl-size-xs);
+  justify-content: space-between;
+}
+
+.file-details {
+  display: flex;
   gap: var(--bl-size-xs);
 }
 
@@ -175,6 +172,10 @@ input[type="file"] {
   color: var(--bl-color-primary);
 }
 
+.file-item.status-uploading .status-icon {
+  color: var(--bl-color-primary);
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -183,14 +184,6 @@ input[type="file"] {
   to {
     transform: rotate(360deg);
   }
-}
-
-.file-details {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--bl-size-3xs);
-  min-width: 0;
 }
 
 .file-name {
@@ -217,8 +210,8 @@ input[type="file"] {
 .progress-container {
   height: var(--bl-size-3xs);
   border-radius: var(--bl-border-radius-s);
-  margin-top: var(--bl-size-xs);
   overflow: hidden;
+  background-color: var(--bl-color-neutral-lighter);
 }
 
 .progress-bar {
@@ -236,5 +229,9 @@ input[type="file"] {
 }
 
 .progress-bar.progress-pending {
+  background-color: var(--bl-color-success);
+}
+
+.progress-bar.progress-uploading {
   background-color: var(--bl-color-success);
 }
