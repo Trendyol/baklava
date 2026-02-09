@@ -153,13 +153,13 @@ export const UploadTemplate = (args) => html`
 export const animateProgress = (upload, fileId, targetProgress, willFail, errorMessage) => {
   let progress = 0;
   const step = Math.random() * 15 + 10;
-  
+
   const interval = setInterval(() => {
     progress += step + Math.random() * 8;
     if (progress >= targetProgress) {
       progress = targetProgress;
       clearInterval(interval);
-      
+
       const newStatus = willFail ? 'error' : 'success';
       const newErrorMessage = willFail ? errorMessage : undefined;
       upload._fileItems = upload._fileItems.map(f => {
@@ -189,18 +189,18 @@ export const ErrorTemplate = (args) => {
     if (upload && (!upload._fileItems || upload._fileItems.length === 0)) {
       const mockFiles = [
         {
-          file: new File([''], 'belge.xlsx', { type: 'application/vnd.ms-excel' }),
+          file: new File([''], 'document.xlsx', { type: 'application/vnd.ms-excel' }),
           id: 'file-error-format',
-          name: 'belge.xlsx',
+          name: 'document.xlsx',
           size: 45000,
           type: 'application/vnd.ms-excel',
           status: 'uploading',
           progress: 0,
         },
         {
-          file: new File([''], 'buyuk-resim.png', { type: 'image/png' }),
+          file: new File([''], 'large-image.png', { type: 'image/png' }),
           id: 'file-error-size',
-          name: 'buyuk-resim.png',
+          name: 'large-image.png',
           size: 15000000,
           type: 'image/png',
           status: 'uploading',
@@ -219,9 +219,9 @@ export const ErrorTemplate = (args) => {
       upload._fileItems = mockFiles;
       upload.requestUpdate();
 
-      setTimeout(() => { animateProgress(upload, 'file-error-format', 100, true, 'Yanlış dosya formatı, dosya formatı .jpg, .jpeg, .png olmalıdır.'); }, 100);
-      setTimeout(() => { animateProgress(upload, 'file-error-size', 100, true, 'Dosya boyutu çok büyük: 14.31 MB (Maksimum: 10 MB)'); }, 300);
-      setTimeout(() => { animateProgress(upload, 'file-error-video', 100, true, 'Yanlış dosya formatı, dosya formatı .jpg, .jpeg, .png olmalıdır.'); }, 500);
+      setTimeout(() => { animateProgress(upload, 'file-error-format', 100, true, 'Invalid file format, file format must be .jpg, .jpeg, .png.'); }, 100);
+      setTimeout(() => { animateProgress(upload, 'file-error-size', 100, true, 'File size too large: 14.31 MB (Maximum: 10 MB)'); }, 300);
+      setTimeout(() => { animateProgress(upload, 'file-error-video', 100, true, 'Invalid file format, file format must be .jpg, .jpeg, .png.'); }, 500);
     }
   }, 100);
 
@@ -256,27 +256,27 @@ export const UploadedTemplate = (args) => {
     if (upload && (!upload._fileItems || upload._fileItems.length === 0)) {
       const mockFiles = [
         {
-          file: new File([''], 'ornekgorsel.png', { type: 'image/png' }),
+          file: new File([''], 'sample-image.png', { type: 'image/png' }),
           id: successId,
-          name: 'ornekgorsel.png',
+          name: 'sample-image.png',
           size: 245000,
           type: 'image/png',
           status: 'uploading',
           progress: 0,
         },
         {
-          file: new File([''], 'dosya.hec', { type: '' }),
+          file: new File([''], 'file.hec', { type: '' }),
           id: errorId,
-          name: 'dosya.hec',
+          name: 'file.hec',
           size: 120000,
           type: '',
           status: 'uploading',
           progress: 0,
         },
         {
-          file: new File([''], 'resim2.jpg', { type: 'image/jpeg' }),
+          file: new File([''], 'image2.jpg', { type: 'image/jpeg' }),
           id: loadingId,
-          name: 'resim2.jpg',
+          name: 'image2.jpg',
           size: 890000,
           type: 'image/jpeg',
           status: 'uploading',
@@ -287,7 +287,7 @@ export const UploadedTemplate = (args) => {
       upload.requestUpdate();
 
       setTimeout(() => { animateProgress(upload, successId, 100, false, null); }, 100);
-      setTimeout(() => { animateProgress(upload, errorId, 100, true, 'Yanlis dosya formati, dosya formati .jpg, .jpeg, .png olmalidir.'); }, 300);
+      setTimeout(() => { animateProgress(upload, errorId, 100, true, 'Invalid file format, file format must be .jpg, .jpeg, .png.'); }, 300);
     }
   }, 100);
 
@@ -327,38 +327,62 @@ Upload components are used for selecting and uploading files.
 There are three different layouts for the upload component: horizontal, vertical, and button-only.
 
 <Canvas>
-  <Story name="Default State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
+  <Story name="Default State" args={{ headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
      {DefaultHorizontalTemplate.bind()}
   </Story>
-  <Story name="Hover State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
+  <Story name="Hover State" args={{ headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
      {HoverTemplate.bind()}
   </Story>
-  <Story name="Uploaded State" args={{ headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
+  <Story name="Uploaded State" args={{ headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}
   </Story>
 </Canvas>
 
 <Canvas>
-  <Story name="Default Vertical State"  args={{ variant:'vertical', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
+  <Story name="Default Vertical State"  args={{ variant:'vertical', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
     {DefaultVerticalTemplate.bind()}
   </Story>
-  <Story name="Vertical Hover State" args={{ variant:'vertical', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
+  <Story name="Vertical Hover State" args={{ variant:'vertical', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
      {HoverTemplate.bind()}
   </Story>
-  <Story name="Vertical Uploaded State" args={{ variant:'vertical', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
+  <Story name="Vertical Uploaded State" args={{ variant:'vertical', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}
   </Story>
 </Canvas>
 
 <Canvas isColumn>
-  <Story name="Default Button State"  args={{ variant:'button', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
+  <Story name="Default Button State"  args={{ variant:'button', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
     {DefaultButtonTemplate.bind()}
   </Story>
-  <Story name="Button Hover State" args={{ variant:'button', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', accept: '.jpg,.jpeg,.png' }}>
+  <Story name="Button Hover State" args={{ variant:'button', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
      {ButtonHoverTemplate.bind()}
   </Story>
-  <Story name="Button Uploaded State" args={{ variant:'button', headerText: 'Dosya Seç / Sürükle', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Dosya Seç', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
+  <Story name="Button Uploaded State" args={{ variant:'button', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}
+  </Story>
+</Canvas>
+
+## Single vs Multiple File Upload
+
+Upload component supports both single and multiple file selection modes.
+
+### Single File Upload
+
+When `multiple` is not set or set to `false`, only one file can be uploaded at a time. Selecting a new file replaces the previous one.
+
+<Canvas>
+  <Story name="Single File Upload" args={{ headerText: 'Select / Drop File', descriptionText: 'You can upload only 1 file', buttonText: 'Select File', showFileList: true, multiple: false, accept: '.jpg,.jpeg,.png' }}>
+     {UploadTemplate.bind()}
+  </Story>
+</Canvas>
+
+### Multiple File Upload
+
+When `multiple` is set to `true`, users can select and upload multiple files. You can limit the number of files with `max-files` attribute.
+
+<Canvas>
+  <Story name="Multiple File Upload" args={{ headerText: 'Select / Drop Files', descriptionText: 'You can upload multiple files (Maximum 5)', buttonText: 'Select Files', showFileList: true, multiple: true, maxFiles: 5, accept: '.jpg,.jpeg,.png' }}>
+     {UploadTemplate.bind()}
   </Story>
 </Canvas>
 
@@ -422,9 +446,9 @@ Here's a complete example with custom upload handling:
   accept="image/*"
   max-file-size="5242880"
   max-files="5"
-  header-text="Resimlerinizi Yükleyin"
-  description-text="PNG, JPG - Maksimum 5MB"
-  button-text="Resim Seç"
+  header-text="Upload Your Images"
+  description-text="PNG, JPG - Maximum 5MB"
+  button-text="Select Image"
 ></bl-upload>
 
 <script>
