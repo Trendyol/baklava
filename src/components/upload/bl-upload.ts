@@ -240,9 +240,9 @@ export default class BlUpload extends LitElement {
       const fileId = this._generateId();
 
       if (!this._isValidFileType(file)) {
-        const errorMessage = `Yanlış dosya formatı, dosya formatı ${
-          this.accept?.replace(/,/g, ", ") || "desteklenen format"
-        } olmalıdır.`;
+        // accept is always defined here because _isValidFileType returns true when accept is undefined
+        const acceptedFormats = this.accept!.replace(/,/g, ", ");
+        const errorMessage = `Yanlış dosya formatı, dosya formatı ${acceptedFormats} olmalıdır.`;
 
         valid.push({
           file,
@@ -314,7 +314,12 @@ export default class BlUpload extends LitElement {
         clearInterval(interval);
 
         if (willFail) {
-          this._updateFileStatusWithError(fileId, "error", 100, errorMessage);
+          this._updateFileStatusWithError(
+            fileId,
+            "error",
+            100,
+            errorMessage || "Dosya yüklenemedi"
+          );
         } else {
           this._updateFileStatus(fileId, "success", 100);
         }
@@ -328,10 +333,10 @@ export default class BlUpload extends LitElement {
     fileId: string,
     status: FileStatus,
     progress: number,
-    errorMessage?: string
+    errorMessage: string
   ) {
     this._fileItems = this._fileItems.map(f =>
-      f.id === fileId ? { ...f, status, progress, errorMessage: errorMessage || f.errorMessage } : f
+      f.id === fileId ? { ...f, status, progress, errorMessage } : f
     );
   }
 
@@ -558,7 +563,7 @@ export default class BlUpload extends LitElement {
   private _renderLayout(): TemplateResult {
     const variantLayout =
       this.variant !== "button"
-        ? html`<div class="upload-content">
+        ? html` <div class="upload-content">
             <bl-icon class="upload-icon" name="upload"></bl-icon>
             <div class="text-container">
               <span class="header">${this.headerText}</span>
