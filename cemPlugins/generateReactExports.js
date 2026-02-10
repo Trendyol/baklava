@@ -32,7 +32,7 @@ export function generateReactExports() {
         .join("\n");
 
       const code = `import React from "react";
-import { createComponent } from "@lit-labs/react";
+import { type EventName, createComponent } from "@lit-labs/react";
 
 type Constructor<T> = { new (): T };
 ${componentsCode}`;
@@ -65,7 +65,7 @@ export const ${el.name} = React.lazy(() =>
       react: React,
       displayName: "${el.name}",
       tagName: "${el.tagName}",
-      elementClass: customElements.get("${el.name}") as Constructor<${resolvedPath}>,
+      elementClass: customElements.get("${el.tagName}") as Constructor<${resolvedPath}>,
       ${fieldCodes ? `events: {${fieldCodes}}` : ""}
     })
   }))
@@ -91,6 +91,7 @@ function resolveEvents(events, componentName) {
     const resolvedEventType = resolveParsedType(event.parsedType.text, "./") ?? "any";
 
     exportCodes.push(`export type ${exportedEventName} = CustomEvent<${resolvedEventType}>;`);
+    fieldCodes.push(`${reactEventName}: "${event.name}" as EventName<${exportedEventName}>`);
   }
 
   return { exportCodes: exportCodes.join("\n"), fieldCodes: fieldCodes.join("\n,") };
