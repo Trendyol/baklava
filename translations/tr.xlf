@@ -57,6 +57,21 @@
   <target>Veri bulunamadı</target>
   <note from="lit-localize">bl-table-body: no data title</note>
 </trans-unit>
+<trans-unit id="s0fbf6dc6a1966408">
+  <source>Next</source>
+  <target>Sonraki</target>
+  <note from="lit-localize">bl-pagination: next page button</note>
+</trans-unit>
+<trans-unit id="sf3ff78cc329d3528">
+  <source>Previous</source>
+  <target>Önceki</target>
+  <note from="lit-localize">bl-pagination: previous page button</note>
+</trans-unit>
+<trans-unit id="sc2b31c8d71636c74">
+  <source>Page <x id="0" equiv-text="${page}"/></source>
+  <target>Sayfa <x id="0" equiv-text="${page}"/></target>
+  <note from="lit-localize">bl-pagination: page number button</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

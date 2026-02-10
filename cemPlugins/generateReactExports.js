@@ -65,7 +65,7 @@ export const ${el.name} = React.lazy(() =>
       react: React,
       displayName: "${el.name}",
       tagName: "${el.tagName}",
-      elementClass: customElements.get("${el.name}") as Constructor<${resolvedPath}>,
+      elementClass: customElements.get("${el.tagName}") as Constructor<${resolvedPath}>,
       ${fieldCodes ? `events: {${fieldCodes}}` : ""}
     })
   }))
