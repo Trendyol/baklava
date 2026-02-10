@@ -6,6 +6,6 @@
     "source.sortImports": "always",
     "source.removeUnusedImports": "always",
     "source.addMissingImports": "always"
-  },
+  }
  
 }
