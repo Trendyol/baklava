@@ -63,43 +63,79 @@ export default class BlAccordion extends LitElement {
     return [style];
   }
 
+  private _cleanupStyles() {
+    this.detailsEl.style.height = "";
+    this.detailsEl.style.overflow = "";
+    this.contentEl.style.display = "";
+    this.contentEl.style.visibility = "";
+  }
+
   _animate(isExpanding: boolean) {
     this._animationStatus = isExpanding ? AnimationStatus.EXPANDING : AnimationStatus.COLLAPSING;
-
-    const startHeight = `${this.detailsEl.offsetHeight}px`;
-    const endHeight = isExpanding
-      ? `${this.summaryEl.offsetHeight + this.contentEl.offsetHeight}px`
-      : `${this.summaryEl.offsetHeight}px`;
 
     if (this._animation) {
       this._animation.cancel();
     }
 
-    this._animation = this.detailsEl.animate(
-      {
-        height: [startHeight, endHeight],
-      },
-      {
-        duration: this.animationDuration,
-        easing: "ease-out",
-      }
-    );
+    if (isExpanding) {
+      this.open = true;
+    }
 
-    this._animation.onfinish = () => this._onAnimationFinish(isExpanding);
-    this._animation.oncancel = () => (this._animationStatus = null);
+    const startHeight = this.detailsEl.offsetHeight;
+
+    if (isExpanding) {
+      this.contentEl.style.display = "block";
+      this.contentEl.style.visibility = "hidden";
+    }
+
+    requestAnimationFrame(() => {
+      const endHeight = isExpanding
+        ? this.summaryEl.offsetHeight + this.contentEl.offsetHeight
+        : this.summaryEl.offsetHeight;
+
+      if (isExpanding) {
+        this.contentEl.style.visibility = "";
+      }
+
+      this.detailsEl.style.overflow = "hidden";
+      this.detailsEl.style.height = `${startHeight}px`;
+
+      requestAnimationFrame(() => {
+        this._animation = this.detailsEl.animate(
+          {
+            height: [`${startHeight}px`, `${endHeight}px`],
+          },
+          {
+            duration: this.animationDuration,
+            easing: "ease-out",
+            fill: "forwards",
+          }
+        );
+
+        this._animation.onfinish = () => this._onAnimationFinish(isExpanding);
+        this._animation.oncancel = () => {
+          this._animationStatus = null;
+          this._cleanupStyles();
+          if (!isExpanding) {
+            this.open = false;
+          }
+        };
+      });
+    });
   }
 
-  private _onAnimationFinish(open: boolean) {
-    this.open = open;
+  private _onAnimationFinish(isExpanding: boolean) {
+    this._cleanupStyles();
+
+    if (!isExpanding) {
+      this.open = false;
+    }
+
     this._animation = null;
     this._animationStatus = null;
-    this.detailsEl.style.height = this.detailsEl.style.overflow = "";
   }
 
   expand() {
-    this.detailsEl.style.overflow = "hidden";
-    this.detailsEl.style.height = `${this.detailsEl.offsetHeight}px`;
-    this.open = true;
     this._animate(true);
   }
 
@@ -112,9 +148,11 @@ export default class BlAccordion extends LitElement {
 
     if (this.disabled) return;
 
-    if (this._animationStatus === AnimationStatus.COLLAPSING || !this.open) {
+    const shouldExpand = this._animationStatus === AnimationStatus.COLLAPSING || !this.open;
+
+    if (shouldExpand) {
       this.expand();
-    } else if (this._animationStatus === AnimationStatus.EXPANDING || this.open) {
+    } else {
       this.collapse();
     }
   }

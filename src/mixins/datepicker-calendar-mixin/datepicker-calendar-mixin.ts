@@ -21,6 +21,12 @@ export default class DatepickerCalendarMixin extends LitElement {
   locale: string = document.documentElement.lang || "en-EN";
 
   /**
+   * Enables month and year only selection mode
+   */
+  @property({ type: Boolean, attribute: "month-year-only", reflect: true })
+  monthYearOnly = false;
+
+  /**
    * Defines the unselectable dates for calendar
    */
   protected _disabledDates: Date[] = [];

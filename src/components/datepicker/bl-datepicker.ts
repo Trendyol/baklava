@@ -143,6 +143,9 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   formatDate(date: Date): string {
+    if (this.monthYearOnly) {
+      return `${String(date?.getMonth() + 1).padStart(2, "0")}/${date?.getFullYear()}`;
+    }
     return `${String(date?.getDate()).padStart(2, "0")}/${String(date?.getMonth() + 1).padStart(
       2,
       "0"
@@ -222,6 +225,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           .value=${this.value}
           .locale=${this.locale}
           .dayRenderer=${this.dayRenderer}
+          ?month-year-only=${this.monthYearOnly}
           @bl-calendar-change="${this.onCalendarChange}"
         ></bl-calendar>
       </bl-popover>

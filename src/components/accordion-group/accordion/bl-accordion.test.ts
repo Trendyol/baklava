@@ -93,7 +93,6 @@ describe("bl-accordion", () => {
 
     const body = el.shadowRoot!.querySelector(".accordion-content")!;
 
-    // Only check for display: none since that's what we're using in the CSS
     expect(getComputedStyle(body).display).to.equal("none");
   });
 
@@ -181,5 +180,83 @@ describe("bl-accordion", () => {
 
     await aTimeout(200);
     expect(el.open).to.eq(true);
+  });
+
+  it("should expand when expand() is called", async () => {
+    const el = await fixture<BlAccordion>(html`
+      <bl-accordion>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+        dolore magna aliqua. Molestie at elementum eu facilisis. Morbi quis commodo odio aenean sed adipiscing diam
+        donec.
+      </bl-accordion>`);
+
+    el.expand();
+
+    await waitUntil(() => el.open === true, "Accordion should be open", { timeout: 1000 });
+    expect(el.open).to.eq(true);
+  });
+
+  it("should collapse when collapse() is called", async () => {
+    const el = await fixture<BlAccordion>(html`
+      <bl-accordion open>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+        dolore magna aliqua. Molestie at elementum eu facilisis. Morbi quis commodo odio aenean sed adipiscing diam
+        donec.
+      </bl-accordion>`);
+
+    el.collapse();
+
+    await waitUntil(() => el.open === false, "Accordion should be closed", { timeout: 1000 });
+    expect(el.open).to.eq(false);
+  });
+
+  it("should handle animation cancellation when expanding", async () => {
+    const el = await fixture<BlAccordion>(html`
+      <bl-accordion>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+        dolore magna aliqua. Molestie at elementum eu facilisis. Morbi quis commodo odio aenean sed adipiscing diam
+        donec.
+      </bl-accordion>`);
+
+    el.expand();
+
+    await aTimeout(100);
+
+    el.collapse();
+
+    await waitUntil(
+      () => {
+        const detailsEl = el.shadowRoot!.querySelector("details")!;
+
+        return detailsEl.style.height === "" && detailsEl.style.overflow === "";
+      },
+      "Styles should be cleaned up after animation cancellation",
+      { timeout: 500 }
+    );
+  });
+
+  it("should handle animation cancellation when collapsing", async () => {
+    const el = await fixture<BlAccordion>(html`
+      <bl-accordion open>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+        dolore magna aliqua. Molestie at elementum eu facilisis. Morbi quis commodo odio aenean sed adipiscing diam
+        donec.
+      </bl-accordion>`);
+
+    el.collapse();
+
+    await aTimeout(100);
+
+    el.expand();
+
+    await waitUntil(
+      () => {
+        const detailsEl = el.shadowRoot!.querySelector("details")!;
+
+        return detailsEl.style.height === "" && detailsEl.style.overflow === "";
+      },
+      "Styles should be cleaned up after animation cancellation",
+      { timeout: 500 }
+    );
   });
 });

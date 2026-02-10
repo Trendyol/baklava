@@ -1,8 +1,8 @@
 import { expect, fixture, html } from "@open-wc/testing";
-import "./bl-calendar";
-import { BlButton, BlCalendar } from "../../baklava";
-import { CALENDAR_TYPES, CALENDAR_VIEWS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX } from "./bl-calendar.constant";
 import sinon from "sinon";
+import { BlButton, BlCalendar } from "../../baklava";
+import "./bl-calendar";
+import { CALENDAR_TYPES, CALENDAR_VIEWS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX } from "./bl-calendar.constant";
 
 describe("bl-calendar", () => {
   let element: BlCalendar;
@@ -666,6 +666,108 @@ describe("bl-calendar", () => {
 
       expect(strongTag).to.exist;
       expect(strongTag?.textContent).to.not.be.empty;
+    });
+  });
+
+  describe("Month-Year Only Mode", () => {
+    it("should start in MONTHS view when month-year-only is enabled", async () => {
+      element = await fixture<BlCalendar>(html`<bl-calendar month-year-only></bl-calendar>`);
+      await element.updateComplete;
+
+      expect(element._calendarView).to.equal(CALENDAR_VIEWS.MONTHS);
+    });
+
+    it("should hide month button in header when in month-year-only mode", async () => {
+      element = await fixture<BlCalendar>(html`<bl-calendar month-year-only></bl-calendar>`);
+      await element.updateComplete;
+
+      const headerButtons = element.shadowRoot?.querySelectorAll(".calendar-header .header-text");
+
+      // Should only have year button, not month button
+      expect(headerButtons?.length).to.equal(1);
+    });
+
+    it("should select first day of month when month is clicked in month-year-only mode", async () => {
+      element = await fixture<BlCalendar>(html`<bl-calendar month-year-only type="single"></bl-calendar>`);
+      await element.updateComplete;
+
+      const monthButtons = Array.from(element.shadowRoot?.querySelectorAll(".grid-item") || []) as BlButton[];
+      const firstMonthButton = monthButtons[0];
+
+      firstMonthButton?.click();
+      await element.updateComplete;
+
+      expect(element._dates.length).to.equal(1);
+      expect(element._dates[0].getDate()).to.equal(1);
+      expect(element._dates[0].getMonth()).to.equal(0); // January
+    });
+
+    it("should navigate to MONTHS view when year is selected in month-year-only mode", async () => {
+      element = await fixture<BlCalendar>(html`<bl-calendar month-year-only></bl-calendar>`);
+      await element.updateComplete;
+
+      // Click to year view
+      const yearButton = element.shadowRoot?.querySelector(".calendar-header .header-text") as BlButton;
+
+      yearButton?.click();
+      await element.updateComplete;
+      expect(element._calendarView).to.equal(CALENDAR_VIEWS.YEARS);
+
+      // Select a year
+      const yearButtons = Array.from(element.shadowRoot?.querySelectorAll(".grid-item") || []) as BlButton[];
+
+      yearButtons[0]?.click();
+      await element.updateComplete;
+
+      // Should navigate to MONTHS view, not DAYS view
+      expect(element._calendarView).to.equal(CALENDAR_VIEWS.MONTHS);
+    });
+
+    it("should allow multiple month selection in month-year-only mode", async () => {
+      element = await fixture<BlCalendar>(html`<bl-calendar month-year-only type="multiple"></bl-calendar>`);
+      await element.updateComplete;
+
+      const monthButtons = Array.from(element.shadowRoot?.querySelectorAll(".grid-item") || []) as BlButton[];
+
+      monthButtons[0]?.click(); // January
+      await element.updateComplete;
+      monthButtons[1]?.click(); // February
+      await element.updateComplete;
+
+      expect(element._dates.length).to.equal(2);
+      expect(element._dates[0].getMonth()).to.equal(0); // January
+      expect(element._dates[1].getMonth()).to.equal(1); // February
+    });
+
+    it("should allow month range selection in month-year-only mode", async () => {
+      element = await fixture<BlCalendar>(html`<bl-calendar month-year-only type="range"></bl-calendar>`);
+      await element.updateComplete;
+
+      const monthButtons = Array.from(element.shadowRoot?.querySelectorAll(".grid-item") || []) as BlButton[];
+
+      monthButtons[0]?.click(); // January
+      await element.updateComplete;
+      monthButtons[2]?.click(); // March
+      await element.updateComplete;
+
+      expect(element._dates.length).to.equal(2);
+      expect(element._dates[0].getMonth()).to.equal(0); // January
+      expect(element._dates[1].getMonth()).to.equal(2); // March
+    });
+
+    it("should not navigate to previous/next month in month-year-only mode", async () => {
+      element = await fixture<BlCalendar>(html`<bl-calendar month-year-only></bl-calendar>`);
+      await element.updateComplete;
+
+      const prevButton = element.shadowRoot?.querySelector(".calendar-header .arrow") as BlButton;
+
+      prevButton?.click();
+      await element.updateComplete;
+
+      // Month should stay the same, year should change
+      expect(element._calendarView).to.equal(CALENDAR_VIEWS.MONTHS);
+      // Year navigation should work
+      expect(element._calendarYear).to.be.lessThan(new Date().getFullYear() + 1);
     });
   });
 });

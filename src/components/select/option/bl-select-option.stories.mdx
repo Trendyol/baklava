@@ -17,6 +17,10 @@ import {
     selected: {
       control: 'boolean',
     },
+    icon: {
+      control: 'text',
+      type: 'string'
+    }
   }}
 />
 
@@ -28,6 +32,7 @@ export const Template = (args) => html`
     value="bl"
     ?disabled='${args.disabled}'
     ?selected='${args.selected}'
+    icon="${ifDefined(args.icon)}"
   >baklava</bl-select-option>
 `
 
@@ -54,5 +59,12 @@ If you want to disable an option, you can use the `disabled` attribute.
   </Story>
 </Canvas>
 
+## Icon
+You can use baklava icons to render icon for `bl-select` and the icon of selected option seems in `bl-select`
+<Canvas>
+  <Story name="Icon" args={{ icon: 'info' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
 
 <ArgsTable of="bl-select-option" />

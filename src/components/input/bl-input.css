@@ -55,14 +55,13 @@
   gap: var(--padding-vertical);
   height: var(--height);
   border: solid var(--border-size) var(--border-color);
-  padding: 0
-    calc(
-      var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding) -
+  padding-block: 0;
+  padding-inline: calc(
+      var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding) -
         var(--border-size)
     )
-    0
     calc(
-      var(--bl-input-padding-start, var(--padding-horizontal)) - var(--label-padding) -
+      var(--bl-input-padding-end, var(--padding-horizontal)) - var(--label-padding) -
         var(--border-size)
     );
   background-color: var(--background-color);
@@ -132,7 +131,8 @@ input {
   align-self: stretch;
   outline: 0;
   border: 0;
-  padding: 0 0 0 var(--label-padding);
+  padding-block: 0;
+  padding-inline: var(--label-padding) 0;
   font: var(--input-font);
   color: var(--text-color);
   -webkit-text-fill-color: var(--text-color);

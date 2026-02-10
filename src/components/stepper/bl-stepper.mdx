@@ -1,0 +1,128 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/addon-docs";
+import * as StepperStories from "./bl-stepper.stories";
+
+<Meta of={StepperStories} />
+
+# Stepper
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/blob/main/src/components/stepper/doc/ADR.md)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/design/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=23617-1414)</bl-badge>
+<bl-badge icon="check_fill">RTL Supported</bl-badge>
+
+The Stepper component displays progress through a sequence of steps. It helps users understand where they are in a multi-step process and what steps remain.
+
+## Basic Usage
+
+A basic stepper can be created by combining `bl-stepper` with `bl-stepper-item` components.
+
+<Canvas of={StepperStories.Default} />
+
+## Stepper Types
+
+### Dots Type
+
+The dots type displays simple circular indicators for each step.
+
+<Canvas of={StepperStories.DotType} />
+
+### Numbers Type
+
+The numbers type displays step numbers in circular indicators.
+
+<Canvas of={StepperStories.NumberType} />
+
+### Icons Type
+
+The icons type displays custom icons for each step.
+
+<Canvas of={StepperStories.IconType} />
+
+## Directions
+
+### Horizontal Direction
+
+Horizontal steppers are ideal for desktop layouts and when you have limited vertical space.
+
+<Canvas of={StepperStories.Default} />
+
+### Vertical Direction
+
+Vertical steppers work well for mobile layouts and when you have more vertical space available.
+
+<Canvas of={StepperStories.VerticalDirection} />
+
+## Usage Modes
+
+### Clickable Mode
+
+In clickable mode, users can click on steps to navigate between them.
+
+<Canvas of={StepperStories.Default} />
+
+### Non-Clickable Mode
+
+In non-clickable mode, the stepper is read-only and users cannot interact with individual steps.
+
+<Canvas of={StepperStories.NonClickable} />
+
+## States
+
+### Success State
+
+Completed steps are shown with a success state (typically green with a checkmark).
+
+### Active State
+
+The current step is shown with an active state (typically highlighted with primary color).
+
+### Error State
+
+Steps that have encountered an error are shown with an error state (typically red with an error icon).
+
+<Canvas of={StepperStories.WithErrorState} />
+
+### Disabled State
+
+Individual steps can be disabled to prevent interaction.
+
+<Canvas of={StepperStories.WithDisabledItems} />
+
+## Interactive Example
+
+This example demonstrates how to programmatically control the stepper state.
+
+<Canvas of={StepperStories.InteractiveExample} />
+
+## Examples
+
+### Minimal Steps
+
+Steppers work well with just two steps for simple processes.
+
+<Canvas of={StepperStories.MinimalSteps} />
+
+### Many Steps
+
+Steppers can handle up to 9 steps for complex processes. If more than 9 items are added, only the first 9 will be displayed and an error will be logged to the console.
+
+<Canvas of={StepperStories.ManySteps} />
+
+## API Reference
+
+### bl-stepper
+
+<ArgsTable of="bl-stepper" />
+
+#### Attributes
+
+| Attribute   | Type                             | Description                  | Default Value  |
+| ----------- | -------------------------------- | ---------------------------- | -------------- |
+| `type`      | `"dot" \| "number" \| "icon"`    | Defines stepper render style | `"dot"`        |
+| `direction` | `"horizontal" \| "vertical"`     | Defines stepper direction    | `"horizontal"` |
+| `usage`     | `"clickable" \| "non-clickable"` | Defines stepper usage mode   | `"clickable"`  |
+
+#### Events
+
+| Event               | Description                      | Return Value                                 |
+| ------------------- | -------------------------------- | -------------------------------------------- |
+| `bl-stepper-change` | Fired when stepper state changes | `{ activeStep: number, totalSteps: number }` |
