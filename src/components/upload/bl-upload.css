@@ -46,7 +46,8 @@
   height: 100%;
 }
 
-.upload-wrapper:hover, .drag-over {
+.upload-wrapper:hover,
+.drag-over {
   border-color: var(--bl-color-primary);
 }
 
@@ -126,7 +127,7 @@ input[type="file"] {
 
 /* ==================== BUTTON VARIANT ==================== */
 
-:host([variant="button"]){
+:host([variant="button"]) {
   --bl-upload-width: 453px;
 }
 
@@ -235,3 +236,4 @@ input[type="file"] {
 .progress-bar.progress-uploading {
   background-color: var(--bl-color-success);
 }
+
