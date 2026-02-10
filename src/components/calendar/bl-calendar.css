@@ -136,7 +136,33 @@
 }
 
 .grid-item:not(:nth-last-child(-n + 3)) {
-  padding-bottom: var(--bl-size-2xs);
+  margin-bottom: var(--bl-size-2xs);
+}
+
+/* Range styling for months */
+.range-month {
+  background: var(--bl-color-primary-contrast);
+
+  --bl-color-neutral-lightest: var(--bl-color-primary-contrast);
+}
+
+.range-start-month,
+.range-end-month {
+  --bl-color-neutral-lightest: var(--bl-color-primary);
+  --bl-color-neutral-darker: var(--bl-color-neutral-full);
+  --bl-color-neutral-darkest: var(--bl-color-neutral-full) !important;
+}
+
+.range-start-month {
+  background: var(--bl-color-primary-contrast);
+  border-start-start-radius: var(--bl-border-radius-m);
+  border-end-start-radius: var(--bl-border-radius-m);
+}
+
+.range-end-month {
+  background: var(--bl-color-primary-contrast);
+  border-start-end-radius: var(--bl-border-radius-m);
+  border-end-end-radius: var(--bl-border-radius-m);
 }
 
 .calendar-text {
