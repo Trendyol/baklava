@@ -218,7 +218,7 @@ export default class BlPagination extends LitElement {
           kind="neutral"
           icon="arrow_left"
           class="previous"
-          label="Previous"
+          label=${msg("Previous", { desc: "bl-pagination: previous button" })}
           ?disabled=${this.currentPage === 1}
         ></bl-button>
         <ul class="page-list">
@@ -232,7 +232,7 @@ export default class BlPagination extends LitElement {
           kind="neutral"
           icon="arrow_right"
           class="next"
-          label="Next"
+          label=${msg("Next", { desc: "bl-pagination: next button" })}
           ?disabled=${this.currentPage === this._getLastPage()}
         ></bl-button>
       </div>

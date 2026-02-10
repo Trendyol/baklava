@@ -57,6 +57,16 @@
   <target>Veri bulunamadı</target>
   <note from="lit-localize">bl-table-body: no data title</note>
 </trans-unit>
+<trans-unit id="s2e192b19ed15fcf6">
+  <source>Previous</source>
+  <target>Önceki</target>
+  <note from="lit-localize">bl-pagination: previous button</note>
+</trans-unit>
+<trans-unit id="sf3ff78cc329d3528">
+  <source>Next</source>
+  <target>İleri</target>
+  <note from="lit-localize">bl-pagination: next button</note>
+</trans-unit>
 </body>
 </file>
 </xliff>
