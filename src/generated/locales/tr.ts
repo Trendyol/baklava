@@ -3,13 +3,14 @@
     // Re-generate this file by running lit-localize
 
     
-    
+    import {str} from '@lit/localize';
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      's144508ac0e146c46': `Hiçbir Sonuç Bulunamadı`,
+      's0fbf6dc6a1966408': `Sonraki`,
+'s144508ac0e146c46': `Hiçbir Sonuç Bulunamadı`,
 's3f9c368cd44f682b': `Bir hata oluştu`,
 's5d929ff1619ac0c9': `Arama`,
 's716a6024e3fe999c': `Göster`,
@@ -20,5 +21,7 @@
 'sa26d7a273074cbf9': `Veri bulunamadı`,
 'sb1ba2131b9a7c7b0': `Git`,
 'sbaace8219b5f4612': `Tümünü Seç`,
+'sc2b31c8d71636c74': str`Sayfa ${0}`,
+'sf3ff78cc329d3528': `Önceki`,
     };
   
