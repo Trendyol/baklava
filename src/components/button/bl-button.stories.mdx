@@ -54,17 +54,7 @@ import { Meta, Canvas, ArgsTable, Story } from '@storybook/addon-docs';
   }}
 />
 
-export const SingleButtonTemplate = (args) => {
-  // WCAG 2 AA/AAA Accessibility Standard Compliance
-  // Contrast Ratio: 7.31:1 (Foreground: #803C00, Background: #F2F2F2)
-  const accessibilityStyles = {
-    '--main-color': '#803C00',
-    '--main-hover-color': '#6B3410',
-    '--content-color': '#803C00',
-    'font-weight': '600',
-  };
-
-  return html`<bl-button
+export const SingleButtonTemplate = (args) => html`<bl-button
     class=${ifDefined(args.class)}
     variant=${ifDefined(args.variant)}
     kind=${ifDefined(args.kind)}
@@ -76,8 +66,27 @@ export const SingleButtonTemplate = (args) => {
     loading-label="${ifDefined(args.loadingLabel)}"
     ?disabled=${args.disabled}
     ?loading=${args.loading}
+    style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+      >${unsafeHTML(args.content)}</bl-button>`
+
+
+export const FocusStateTemplate = (args) => {
+  const accessibilityStyles = {
+    '--bl-color-primary': '#803C00',
+    '--bl-color-primary-highlight': '#6B3410',
+    '--bl-color-neutral-full': '#F2F2F2',
+    'font-weight': '600',
+  };
+
+  return html`<bl-button
+    variant=${ifDefined(args.variant || 'primary')}
+    kind=${ifDefined(args.kind || 'default')}
+    size=${ifDefined(args.size || 'medium')}
+    label="${ifDefined(args.label || 'Focus Test')}"
     style=${styleMap(accessibilityStyles)}
-  >${unsafeHTML(args.content)}</bl-button>`;
+  >
+    ${unsafeHTML(args.content || 'Focus Test')}
+  </bl-button>`;
 };
 
 export const Template = (args) => html`
@@ -136,7 +145,10 @@ Primary buttons are used for main actions of the screens. Like a submit button i
 
 <Canvas>
   <Story name="Primary Buttons" args={{ content: 'Primary Button' }}>
-    {html`<bl-button style="--bl-color-primary: #803C00; --bl-color-primary-highlight: #6B3410; --bl-color-neutral-full: #F2F2F2; font-weight: 600;">Primary Button</bl-button>`}
+    {(args) => SingleButtonTemplate({
+      ...args,
+      styles: { '--bl-color-primary': '#803C00', '--bl-color-primary-highlight': '#6B3410', '--bl-color-neutral-full': '#F2F2F2', 'font-weight': '600' }
+    })}
   </Story>
 </Canvas>
 
@@ -145,8 +157,12 @@ Primary buttons are used for main actions of the screens. Like a submit button i
 Secondary buttons represent the important actions in the app. But not the primary ones. They work with all the kinds.
 
 <Canvas>
-  <Story name="Secondary Buttons" args={{ content: 'Secondary button' }}>
-    {html`<bl-button variant="secondary" style="--bl-color-primary: #803C00; --bl-color-primary-highlight: #6B3410; --bl-color-neutral-full: #F2F2F2; font-weight: 600;">Secondary Button</bl-button>`}
+  <Story name="Secondary Buttons" args={{ content: 'Secondary Button' }}>
+    {(args) => SingleButtonTemplate({
+      ...args,
+      variant: 'secondary',
+      styles: { '--bl-color-primary': '#803C00', '--bl-color-primary-highlight': '#6B3410', '--bl-color-neutral-full': '#F2F2F2', 'font-weight': '600' }
+    })}
   </Story>
 </Canvas>
 
@@ -155,8 +171,17 @@ Secondary buttons represent the important actions in the app. But not the primar
 Tertiary buttons are typically used for less important actions which also have all the kinds.
 
 <Canvas>
-  <Story name="Tertiary Buttons" args={{ content: 'Tertiary button' }}>
-    {html`<bl-button variant="tertiary" style="--bl-color-primary: #803C00; --bl-color-primary-highlight: #6B3410; --bl-color-neutral-full: #F2F2F2; font-weight: 600;">Tertiary Button</bl-button>`}
+  <Story name="Tertiary Buttons" args={{ content: 'Tertiary Button' }}>
+    {(args) => SingleButtonTemplate({
+      ...args,
+      variant: 'tertiary',
+      styles: {
+        '--bl-color-primary': '#803C00',
+        '--bl-color-primary-highlight': '#6B3410',
+        '--bl-color-neutral-full': '#F2F2F2',
+        'font-weight': '600'
+      }
+    })}
   </Story>
 </Canvas>
 
@@ -168,14 +193,14 @@ Our icons are defined to be left of the default slot.
 To be able to use icon with button, you should give the name of icon to `icon` attribute.
 
 <Canvas>
-  <Story name="Icon Buttons" args={{ content: 'Save', icon: 'info' }}>
-    {html`<bl-button icon="info" style="--bl-color-primary: #803C00; --bl-color-primary-highlight: #6B3410; --bl-color-neutral-full: #F2F2F2; font-weight: 600;">Save</bl-button>`}
+  <Story name="Icon Buttons" args={{ content: 'Save', icon: 'info', styles: { '--bl-color-primary': '#803C00', '--bl-color-primary-highlight': '#6B3410', '--bl-color-neutral-full': '#F2F2F2', 'font-weight': '600' } }}>
+    {SingleButtonTemplate.bind({})}
   </Story>
 </Canvas>
 
 <Canvas>
-  <Story name="Tertiary Buttons With Icon" args={{href: "https://trendyol.com", content: 'Save', variant:'tertiary', icon: 'info' }}>
-    {html`<bl-button variant="tertiary" href="https://trendyol.com" icon="info" style="--bl-color-primary: #803C00; --bl-color-primary-highlight: #6B3410; --bl-color-neutral-full: #F2F2F2; font-weight: 600;">Save</bl-button>`}
+  <Story name="Tertiary Buttons With Icon" args={{ href: "https://trendyol.com", content: 'Save', variant: 'tertiary', icon: 'info', styles: { '--bl-color-primary': '#803C00', '--bl-color-primary-highlight': '#6B3410', '--bl-color-neutral-full': '#F2F2F2', 'font-weight': '600' } }}>
+    {SingleButtonTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -184,8 +209,8 @@ To be able to use icon with button, you should give the name of icon to `icon` a
 Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favorites.)
 
 <Canvas>
-  <Story name="Icon Only Buttons" args={{ content: '', label: 'Save', icon: 'info' }}>
-    {html`<bl-button label="Save" icon="info" style="--bl-color-primary: #803C00; --bl-color-primary-highlight: #6B3410; --bl-color-neutral-full: #F2F2F2; font-weight: 600;"></bl-button>`}
+  <Story name="Icon Only Buttons" args={{ content: '', label: 'Save', icon: 'info', styles: { '--bl-color-primary': '#803C00', '--bl-color-primary-highlight': '#6B3410', '--bl-color-neutral-full': '#F2F2F2', 'font-weight': '600' } }}>
+    {SingleButtonTemplate.bind({})}
   </Story>
 </Canvas>
 
@@ -404,7 +429,7 @@ Focus state indicator test with Interaction and Accessibility (WCAG 2.1) optimiz
       if (button) await button.focus();
     }
   }}>
-    {html`<bl-button style="--bl-color-primary: #803C00; --bl-color-primary-highlight: #6B3410; --bl-color-neutral-full: #F2F2F2; font-weight: 600;">Focus Test</bl-button>`}
+    {(args) => FocusStateTemplate(args)}
   </Story>
 </Canvas>
 
