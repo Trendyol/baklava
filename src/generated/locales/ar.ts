@@ -3,13 +3,14 @@
     // Re-generate this file by running lit-localize
 
     
-    
+    import {str} from '@lit/localize';
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      's144508ac0e146c46': `لم يتم العثور على بيانات`,
+      's0fbf6dc6a1966408': `التالي`,
+'s144508ac0e146c46': `لم يتم العثور على بيانات`,
 's3f9c368cd44f682b': `حدث خطأ`,
 's5d929ff1619ac0c9': `بحث`,
 's716a6024e3fe999c': `عرض`,
@@ -20,5 +21,7 @@
 'sa26d7a273074cbf9': `لا توجد بيانات متاحة`,
 'sb1ba2131b9a7c7b0': `اذهب إلى`,
 'sbaace8219b5f4612': `اختر الكل`,
+'sc2b31c8d71636c74': str`صفحة ${0}`,
+'sf3ff78cc329d3528': `السابق`,
     };
   
