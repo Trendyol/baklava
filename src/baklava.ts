@@ -41,5 +41,7 @@ export { default as BlTableHeader } from "./components/table/table-header/bl-tab
 export { default as BlTableRow } from "./components/table/table-row/bl-table-row";
 export { default as BlTag } from "./components/tag/bl-tag";
 export { default as BlTextarea } from "./components/textarea/bl-textarea";
+export { default as BlTreeSelect } from "./components/tree-select/bl-tree-select";
+export type { TreeNode } from "./components/tree-select/bl-tree-select";
 export { default as BlTooltip } from "./components/tooltip/bl-tooltip";
 export { getIconPath, setIconPath } from "./utilities/asset-paths";
