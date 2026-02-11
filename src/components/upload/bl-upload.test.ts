@@ -389,7 +389,7 @@ describe("bl-upload", () => {
 
       expect(fileListEl).to.exist;
       expect(fileItem).to.exist;
-      expect(fileName?.textContent).to.equal("test.jpg");
+      expect(fileName?.textContent?.trim()).to.equal("test.jpg");
     });
 
     it("does not display file list when showFileList is false", async () => {
@@ -454,13 +454,100 @@ describe("bl-upload", () => {
 
       expect(el.files).to.have.lengthOf(0);
     });
+
+    it("uses bl-button for remove (not bl-icon)", async () => {
+      const el = await fixture<BlUpload>(html`
+        <bl-upload></bl-upload>`);
+      const input = el.shadowRoot?.querySelector("input[type=\"file\"]") as HTMLInputElement;
+      const mockFile = createMockFile("test.jpg", 1024, "image/jpeg");
+      const fileList = createMockFileList([mockFile]);
+
+      Object.defineProperty(input, "files", { value: fileList });
+      input.dispatchEvent(new Event("change"));
+
+      await elementUpdated(el);
+
+      const removeControl = el.shadowRoot?.querySelector(".remove-button");
+
+      expect(removeControl?.tagName).to.equal("BL-BUTTON");
+    });
+
+    it("renders file name as a button with file-name class", async () => {
+      const el = await fixture<BlUpload>(html`
+        <bl-upload></bl-upload>`);
+      const input = el.shadowRoot?.querySelector("input[type=\"file\"]") as HTMLInputElement;
+      const mockFile = createMockFile("document.pdf", 1024, "application/pdf");
+      const fileList = createMockFileList([mockFile]);
+
+      Object.defineProperty(input, "files", { value: fileList });
+      input.dispatchEvent(new Event("change"));
+
+      await elementUpdated(el);
+
+      const fileNameButton = el.shadowRoot?.querySelector(".file-name");
+
+      expect(fileNameButton?.tagName).to.equal("BUTTON");
+      expect(fileNameButton?.textContent?.trim()).to.equal("document.pdf");
+    });
+
+    it("triggers download when file name button is clicked", async () => {
+      const createObjectURLSpy = spy(URL, "createObjectURL");
+      const revokeObjectURLSpy = spy(URL, "revokeObjectURL");
+
+      const el = await fixture<BlUpload>(html`
+        <bl-upload></bl-upload>`);
+      const input = el.shadowRoot?.querySelector("input[type=\"file\"]") as HTMLInputElement;
+      const mockFile = createMockFile("test.jpg", 1024, "image/jpeg");
+      const fileList = createMockFileList([mockFile]);
+
+      Object.defineProperty(input, "files", { value: fileList });
+      input.dispatchEvent(new Event("change"));
+
+      await elementUpdated(el);
+
+      const fileNameButton = el.shadowRoot?.querySelector(".file-name") as HTMLButtonElement;
+
+      fileNameButton?.click();
+
+      expect(createObjectURLSpy.calledOnce).to.be.true;
+      expect(createObjectURLSpy.firstCall.args[0]).to.be.instanceOf(File);
+      expect(createObjectURLSpy.firstCall.args[0]).to.have.property("name", "test.jpg");
+      expect(revokeObjectURLSpy.calledOnce).to.be.true;
+
+      createObjectURLSpy.restore();
+      revokeObjectURLSpy.restore();
+    });
+
+    it("clicking file name does not remove the file from list", async () => {
+      const el = await fixture<BlUpload>(html`
+        <bl-upload></bl-upload>`);
+      const input = el.shadowRoot?.querySelector("input[type=\"file\"]") as HTMLInputElement;
+      const mockFile = createMockFile("test.jpg", 1024, "image/jpeg");
+      const fileList = createMockFileList([mockFile]);
+
+      Object.defineProperty(input, "files", { value: fileList });
+      input.dispatchEvent(new Event("change"));
+
+      await elementUpdated(el);
+
+      expect(el.files).to.have.lengthOf(1);
+
+      const fileNameButton = el.shadowRoot?.querySelector(".file-name") as HTMLButtonElement;
+
+      fileNameButton?.click();
+
+      await elementUpdated(el);
+
+      expect(el.files).to.have.lengthOf(1);
+    });
   });
 
   describe("drag and drop", () => {
-    it("adds drag-over class when dragging over", async () => {
+    it("adds drag-over class to wrapper when dragging over", async () => {
       const el = await fixture<BlUpload>(html`
         <bl-upload></bl-upload>`);
       const container = el.shadowRoot?.querySelector(".upload-container") as HTMLElement;
+      const wrapper = el.shadowRoot?.querySelector(".upload-wrapper") as HTMLElement;
 
       const dragOverEvent = new DragEvent("dragover", {
         bubbles: true,
@@ -471,13 +558,14 @@ describe("bl-upload", () => {
 
       await elementUpdated(el);
 
-      expect(container.classList.contains("drag-over")).to.be.true;
+      expect(wrapper?.classList.contains("drag-over")).to.be.true;
     });
 
-    it("removes drag-over class when dragging leaves", async () => {
+    it("removes drag-over class from wrapper when dragging leaves", async () => {
       const el = await fixture<BlUpload>(html`
         <bl-upload></bl-upload>`);
       const container = el.shadowRoot?.querySelector(".upload-container") as HTMLElement;
+      const wrapper = el.shadowRoot?.querySelector(".upload-wrapper") as HTMLElement;
 
       const dragOverEvent = new DragEvent("dragover", {
         bubbles: true,
@@ -496,13 +584,14 @@ describe("bl-upload", () => {
       container.dispatchEvent(dragLeaveEvent);
       await elementUpdated(el);
 
-      expect(container.classList.contains("drag-over")).to.be.false;
+      expect(wrapper?.classList.contains("drag-over")).to.be.false;
     });
 
     it("does not add drag-over class when disabled", async () => {
       const el = await fixture<BlUpload>(html`
         <bl-upload disabled></bl-upload>`);
       const container = el.shadowRoot?.querySelector(".upload-container") as HTMLElement;
+      const wrapper = el.shadowRoot?.querySelector(".upload-wrapper") as HTMLElement;
 
       const dragOverEvent = new DragEvent("dragover", {
         bubbles: true,
@@ -512,13 +601,14 @@ describe("bl-upload", () => {
       container.dispatchEvent(dragOverEvent);
       await elementUpdated(el);
 
-      expect(container.classList.contains("drag-over")).to.be.false;
+      expect(wrapper?.classList.contains("drag-over")).to.be.false;
     });
 
     it("does not add drag-over class for button variant", async () => {
       const el = await fixture<BlUpload>(html`
         <bl-upload variant="button"></bl-upload>`);
       const container = el.shadowRoot?.querySelector(".upload-container") as HTMLElement;
+      const wrapper = container?.parentElement;
 
       const dragOverEvent = new DragEvent("dragover", {
         bubbles: true,
@@ -528,7 +618,7 @@ describe("bl-upload", () => {
       container.dispatchEvent(dragOverEvent);
       await elementUpdated(el);
 
-      expect(container.classList.contains("drag-over")).to.be.false;
+      expect(wrapper?.classList.contains("drag-over")).to.be.false;
     });
   });
 

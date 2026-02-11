@@ -65,76 +65,6 @@ export const DefaultButtonTemplate = (args)=> html`
 ${TemplateHeader({...args, header: 'Button-only', description: 'All layouts include a title, description, icon, and button as optional variants.', subHeader: 'Default State'})}
 ${UploadTemplate(args)}`
 
-export const HoverTemplate = (args) => {
-  const variantName = args.variant || 'horizontal';
-  const uploadId = 'upload-hover-' + variantName;
-
-  setTimeout(() => {
-    const uploadEl = document.getElementById(uploadId);
-    if (uploadEl && uploadEl.shadowRoot) {
-      const wrapper = uploadEl.shadowRoot.querySelector('.upload-wrapper, .button-wrapper');
-      if (wrapper) {
-        wrapper.classList.add('__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__');
-      }
-      const button = uploadEl.shadowRoot.querySelector('bl-button');
-      if (button) {
-        button.classList.add('__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__');
-      }
-    }
-  }, 100);
-
-  return html`
-${TemplateHeader({...args, header: '', description: '', subHeader: 'Hover State'})}
-<bl-upload
-  id='${uploadId}'
-  variant='${ifDefined(args.variant)}'
-  accept='${ifDefined(args.accept)}'
-  ?multiple='${args.multiple}'
-  max-file-size='${ifDefined(args.maxFileSize)}'
-  max-files='${ifDefined(args.maxFiles)}'
-  header-text='${ifDefined(args.headerText)}'
-  description-text='${ifDefined(args.descriptionText)}'
-  button-text='${ifDefined(args.buttonText)}'
-  ?disabled='${args.disabled}'
-  ?show-file-list='${args.showFileList}'
-  ?auto-upload='${args.autoUpload}'
-></bl-upload>
-`;
-}
-
-export const ButtonHoverTemplate = (args) => {
-  const buttonId = 'btn-hover-demo';
-
-  setTimeout(() => {
-    const uploadEl = document.getElementById(buttonId);
-    if (uploadEl && uploadEl.shadowRoot) {
-      const button = uploadEl.shadowRoot.querySelector('bl-button');
-      if (button) {
-        button.classList.add('__ONLY_FOR_STORYBOOK_DEMONSTRATION_HOVER__');
-      }
-    }
-  }, 100);
-
-  return html`
-${TemplateHeader({...args, header: '', description: '', subHeader: 'Hover State'})}
-<bl-upload
-  id='${buttonId}'
-  variant='${ifDefined(args.variant)}'
-  accept='${ifDefined(args.accept)}'
-  ?multiple='${args.multiple}'
-  max-file-size='${ifDefined(args.maxFileSize)}'
-  max-files='${ifDefined(args.maxFiles)}'
-  header-text='${ifDefined(args.headerText)}'
-  description-text='${ifDefined(args.descriptionText)}'
-  button-text='${ifDefined(args.buttonText)}'
-  ?disabled='${args.disabled}'
-  ?show-file-list='${args.showFileList}'
-  ?auto-upload='${args.autoUpload}'
-></bl-upload>
-`;
-}
-
-
 export const UploadTemplate = (args) => html`
 <bl-upload
   variant='${ifDefined(args.variant)}'
@@ -333,9 +263,6 @@ There are three different layouts for the upload component: horizontal, vertical
   <Story name="Default State" args={{ headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
      {DefaultHorizontalTemplate.bind()}
   </Story>
-  <Story name="Hover State" args={{ headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
-     {HoverTemplate.bind()}
-  </Story>
   <Story name="Uploaded State" args={{ headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}
   </Story>
@@ -345,9 +272,6 @@ There are three different layouts for the upload component: horizontal, vertical
   <Story name="Default Vertical State"  args={{ variant:'vertical', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
     {DefaultVerticalTemplate.bind()}
   </Story>
-  <Story name="Vertical Hover State" args={{ variant:'vertical', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
-     {HoverTemplate.bind()}
-  </Story>
   <Story name="Vertical Uploaded State" args={{ variant:'vertical', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}
   </Story>
@@ -356,9 +280,6 @@ There are three different layouts for the upload component: horizontal, vertical
 <Canvas isColumn>
   <Story name="Default Button State"  args={{ variant:'button', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
     {DefaultButtonTemplate.bind()}
-  </Story>
-  <Story name="Button Hover State" args={{ variant:'button', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
-     {ButtonHoverTemplate.bind()}
   </Story>
   <Story name="Button Uploaded State" args={{ variant:'button', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}

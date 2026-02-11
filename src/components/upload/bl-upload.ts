@@ -526,6 +526,20 @@ export default class BlUpload extends LitElement {
     return html` <bl-icon class="status-icon" name=${this._getStatusIcon(file.status)}></bl-icon>`;
   }
 
+  private _handleFileNameClick = (e: MouseEvent, file: FileItem) => {
+    e.stopPropagation();
+    const url = URL.createObjectURL(file.file);
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = file.name;
+    a.rel = "download";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   private _renderFileItem(file: FileItem): TemplateResult {
     const itemClasses = {
       "file-item": true,
@@ -542,13 +556,23 @@ export default class BlUpload extends LitElement {
         <div class="file-info">
           <div class="file-details">
             ${this._renderStatusIcon(file)}
-            <span class="file-name">${file.name}</span>
+            <button
+              type="button"
+              class="file-name"
+              @click=${(e: MouseEvent) => this._handleFileNameClick(e, file)}
+            >
+              ${file.name}
+            </button>
           </div>
-          <bl-icon
-            @click=${(e: MouseEvent) => this._handleRemoveFile(e, file.id)}
+          <bl-button
+            variant="tertiary"
+            kind="neutral"
+            size="small"
+            icon="close"
+            label="Dosyayı kaldır"
             class="remove-button"
-            name="close"
-          ></bl-icon>
+            @click=${(e: MouseEvent) => this._handleRemoveFile(e, file.id)}
+          ></bl-button>
         </div>
         ${file.status === "error" && file.errorMessage
           ? html`<span class="error-message">${file.errorMessage}</span>`
@@ -588,8 +612,12 @@ export default class BlUpload extends LitElement {
       [`variant-${this.variant}`]: true,
     };
 
+    const wrapperClasses =
+      `${this.variant}-wrapper ${this.variant !== "button" ? "upload-wrapper" : ""}` +
+      (this._isDragOver && this.variant !== "button" ? " drag-over" : "");
+
     return html`
-      <div class=${`${this.variant}-wrapper ${this.variant !== "button" ? "upload-wrapper" : ""}`}>
+      <div class=${wrapperClasses}>
         <div
           class=${classMap(containerClasses)}
           @dragover=${this._handleDragOver}

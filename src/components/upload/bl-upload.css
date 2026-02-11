@@ -47,7 +47,7 @@
 }
 
 .upload-wrapper:hover,
-.drag-over {
+.upload-wrapper.drag-over {
   border-color: var(--bl-color-primary);
 }
 
@@ -191,6 +191,15 @@ input[type="file"] {
   font: var(--bl-font-body-text-2-medium);
   color: var(--bl-color-neutral-darker);
   text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.file-name:hover {
+  color: var(--bl-color-primary);
 }
 
 .file-item.status-error .file-name {
@@ -202,9 +211,8 @@ input[type="file"] {
   color: var(--bl-color-danger);
 }
 
-.remove-button bl-icon {
-  font-size: var(--bl-size-2xl);
-  cursor: pointer;
+.file-info .remove-button {
+  flex-shrink: 0;
 }
 
 /* Progress bar */
