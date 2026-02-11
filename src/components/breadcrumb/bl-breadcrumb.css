@@ -1,0 +1,108 @@
+:host {
+  display: block;
+
+  --bl-popover-border-color: var(--bl-color-neutral-darkest);
+  --bl-breadcrumb-separator-color: var(--bl-color-neutral-light);
+  --bl-breadcrumb-item-color: var(--bl-color-neutral-dark);
+  --bl-link-color: var(--bl-breadcrumb-item-color, var(--bl-color-neutral-dark));
+  --bl-link-hover-color: var(--bl-link-color);
+  --bl-link-active-color: var(--bl-link-color);
+  --bl-popover-max-width: 108px;
+}
+
+.breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bl-size-2xs);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bl-size-2xs);
+  font: var(--bl-font-title-4-regular);
+}
+
+.separator {
+  display: inline-flex;
+  align-items: center;
+  color: var(--bl-breadcrumb-separator-color, var(--bl-color-neutral-light));
+  font-size: var(--bl-font-size-m);
+  user-select: none;
+}
+
+.chevron {
+  width: 1em;
+  height: 1em;
+}
+
+.ellipsis-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  min-height: 14px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--bl-color-neutral-dark);
+  cursor: pointer;
+}
+
+.ellipsis-trigger.active {
+  padding: 6px;
+  width: 22px;
+  height: 14px;
+  border-radius: 9px;
+  background: var(--bl-color-neutral-lightest);
+}
+
+.ellipsis-dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.ellipsis-dot {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background-color: var(--bl-color-neutral-dark);
+}
+
+.ellipsis-trigger:focus-visible {
+  outline: 2px solid var(--bl-color-primary);
+  outline-offset: 2px;
+}
+
+.overflow-popover {
+  display: contents;
+}
+
+.popover-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bl-size-2xs);
+  min-width: 120px;
+}
+
+.popover-item {
+  white-space: nowrap;
+}
+
+.open .last {
+  --bl-breadcrumb-item-color: var(--bl-color-neutral-darkest);
+  --bl-link-color: var(--bl-color-neutral-darkest);
+  --bl-link-hover-color: var(--bl-color-neutral-darkest);
+  --bl-link-active-color: var(--bl-color-neutral-darkest);
+}
+
+.popover-item bl-breadcrumb-item {
+  display: block;
+}

@@ -1,0 +1,104 @@
+import { Meta, Canvas, Story, ArgsTable } from "@storybook/addon-docs";
+import { html } from "lit";
+
+<Meta
+  title="Components/Breadcrumb"
+  component="bl-breadcrumb"
+  argTypes={{
+    items: {
+      description: "Breadcrumb öğeleri. Her öğe { href: string, label: string }.",
+      control: false,
+      table: {
+        type: { summary: "BreadcrumbItemData[]" },
+      },
+    },
+  }}
+/>
+
+# Breadcrumb
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/1123)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/design/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=30127-3068&t=wp9gNTQXEncunzk0-0)</bl-badge>
+
+The breadcrumb is a secondary navigation pattern that helps a user understand the hierarchy among levels and navigate back through them.
+
+## Usage
+
+* It is limited to displaying links to a maximum of 4 pages.
+* If there are more than 4 pages, three dots are used in between.
+* Clicking on the three dots will open a breadcrumb popover and allow you to select the pages in between.
+
+## Default
+
+<Canvas>
+  <Story name="Default">
+    {() => html`
+      <bl-breadcrumb
+        .items=${[
+          { href: "#item-01", label: "Item 01" },
+          { href: "#item-02", label: "Item 02" },
+          { href: "#item-03", label: "Item 03" },
+          { href: "#item-04", label: "Item 04" },
+        ]}
+      ></bl-breadcrumb>
+    `}
+  </Story>
+</Canvas>
+
+## Hover
+
+<Canvas>
+  <Story name="Hover state">
+    {() => html`
+      <bl-breadcrumb
+        .items=${[
+          { href: "#item-01", label: "Item 01" },
+          { href: "#item-02", label: "Item 02" },
+          { href: "#item-03", label: "Item 03" },
+        ]}
+      ></bl-breadcrumb>
+    `}
+  </Story>
+</Canvas>
+
+## Long Variant
+
+If there are more than 4 pages, three dots are used in between. Clicking on the three dots will open a breadcrumb popover and allow you to select the pages in between.
+
+<Canvas>
+  <Story name="Long variant - 5 items">
+    {() => html`
+      <bl-breadcrumb
+        .items=${[
+          { href: "#item-01", label: "Item 01" },
+          { href: "#item-02", label: "Item 02" },
+          { href: "#item-03", label: "Item 03" },
+          { href: "#item-04", label: "Item 04" },
+          { href: "#item-05", label: "Item 05" },
+        ]}
+      ></bl-breadcrumb>
+    `}
+  </Story>
+</Canvas>
+
+## Son öğe bağlantısız (mevcut sayfa)
+
+Son öğede `href` boş string verilirse mevcut sayfa olarak gösterilir (tıklanmaz).
+
+<Canvas>
+  <Story name="Current page (no href on last item)">
+    {() => html`
+      <bl-breadcrumb
+        .items=${[
+          { href: "#home", label: "Home" },
+          { href: "#categories", label: "Categories" },
+          { href: "", label: "Current Page" },
+        ]}
+      ></bl-breadcrumb>
+    `}
+  </Story>
+</Canvas>
+
+## Reference
+
+<ArgsTable of="bl-breadcrumb" />

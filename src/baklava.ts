@@ -3,6 +3,11 @@ export { default as BlAccordion } from "./components/accordion-group/accordion/b
 export { default as BlAccordionGroup } from "./components/accordion-group/bl-accordion-group";
 export { default as BlAlert } from "./components/alert/bl-alert";
 export { default as BlBadge } from "./components/badge/bl-badge";
+export {
+  default as BlBreadcrumb,
+  type BreadcrumbItemData,
+} from "./components/breadcrumb/bl-breadcrumb";
+export { default as BlBreadcrumbItem } from "./components/breadcrumb/item/bl-breadcrumb-item";
 export { default as BlButton } from "./components/button/bl-button";
 export { default as BlCalendar } from "./components/calendar/bl-calendar";
 export { default as BlCheckboxGroup } from "./components/checkbox-group/bl-checkbox-group";
