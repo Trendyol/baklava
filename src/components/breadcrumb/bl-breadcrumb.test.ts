@@ -234,7 +234,7 @@ describe("bl-breadcrumb", () => {
 
     const trigger = el.shadowRoot!.querySelector(".ellipsis-trigger") as HTMLElement;
 
-    expect(trigger.getAttribute("aria-label")).to.equal("Aradaki sayfaları göster");
+    expect(trigger.getAttribute("aria-label")).to.equal("Show pages in between");
   });
 
   it("should call popover show when ellipsis is clicked", async () => {

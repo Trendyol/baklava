@@ -5,9 +5,9 @@ import style from "./bl-breadcrumb-item.css";
 
 /**
  * @tag bl-breadcrumb-item
- * @summary Baklava Breadcrumb Item - tek bir breadcrumb bağlantısı
+ * @summary Single breadcrumb link item
  *
- * @cssproperty [--bl-breadcrumb-item-color=--bl-color-neutral-dark] Öğe metin rengi
+ * @cssproperty [--bl-breadcrumb-item-color=--bl-color-neutral-dark] Item text color
  */
 
 @customElement("bl-breadcrumb-item")

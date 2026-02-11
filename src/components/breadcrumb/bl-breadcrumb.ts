@@ -16,9 +16,9 @@ export interface BreadcrumbItemData {
 
 /**
  * @tag bl-breadcrumb
- * @summary İkincil navigasyon: kullanıcının hiyerarşiyi görmesini ve seviyeler arasında geri gitmesini sağlar.
+ * @summary Secondary navigation that helps users understand hierarchy and navigate back through levels.
  *
- * @cssproperty [--bl-breadcrumb-separator-color=--bl-color-neutral-light] Ayırıcı (chevron) rengi
+ * @cssproperty [--bl-breadcrumb-separator-color=--bl-color-neutral-light] Separator (chevron) color
  */
 
 @customElement("bl-breadcrumb")
@@ -27,9 +27,6 @@ export default class BlBreadcrumb extends LitElement {
     return [style];
   }
 
-  /**
-   * Breadcrumb öğeleri. Dışarıdan bu property ile verilir.
-   */
   @property({ type: Array })
   items: BreadcrumbItemData[] = [];
 
@@ -97,7 +94,7 @@ export default class BlBreadcrumb extends LitElement {
         <button
           type="button"
           class="ellipsis-trigger ${this._ellipsisActive ? "active" : ""}"
-          aria-label="Aradaki sayfaları göster"
+          aria-label="Show pages in between"
           aria-expanded="${this._ellipsisActive}"
           @click="${this.handleEllipsisClick}"
         >
