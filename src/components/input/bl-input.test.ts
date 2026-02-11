@@ -795,6 +795,7 @@ describe("bl-input", () => {
         expect(input).to.exist;
 
         const styles = window.getComputedStyle(input!);
+        
         expect(styles.textOverflow).to.equal("ellipsis");
         expect(styles.whiteSpace).to.equal("nowrap");
         expect(styles.overflow).to.equal("hidden");
