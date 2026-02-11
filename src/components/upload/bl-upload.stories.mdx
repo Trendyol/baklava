@@ -312,6 +312,9 @@ ${TemplateHeader({...args, header: '', description: '', subHeader: 'Uploaded Sta
 
 # Upload
 
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/1126)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/design/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=30165-23095&t=2KatC0pHP0MvvtaW-1)</bl-badge>
+
 Upload components are used for selecting and uploading files.
 
 ## Usage
@@ -445,7 +448,7 @@ const upload = document.querySelector('bl-upload');
 // Called when files are selected
 upload.onFilesSelected = (files) => {
   console.log('Files selected:', files);
-  
+
   // Upload files to server
   files.forEach(fileInfo => {
     const formData = new FormData();
