@@ -36,8 +36,9 @@
   display: flex;
   align-items: center;
   gap: var(--bl-size-2xs);
-  height: 34px;
-  padding: 3px var(--bl-size-3xs) 3px var(--bl-size-xs);
+  height: var(--bl-size-2xl);
+  padding-block: 3px;
+  padding-inline: var(--bl-size-xs) var(--bl-size-3xs);
   border: 1px solid var(--tree-select-border-color);
   border-radius: var(--bl-border-radius-s);
   background-color: var(--tree-select-bg);

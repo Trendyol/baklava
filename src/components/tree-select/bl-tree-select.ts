@@ -2,6 +2,7 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { localized } from "@lit/localize";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import "../checkbox-group/checkbox/bl-checkbox";
@@ -24,6 +25,7 @@ export interface TreeNode {
  * Supports single/multi select, expand/collapse, Select All, search with path display.
  */
 @customElement("bl-tree-select")
+@localized()
 export default class BlTreeSelect extends LitElement {
   static get styles(): CSSResultGroup {
     return [style];
@@ -40,6 +42,12 @@ export default class BlTreeSelect extends LitElement {
    */
   @property({ type: String, reflect: true })
   placeholder = "";
+
+  /**
+   * When searching text loading icon
+   */
+  @property({ type: Boolean, reflect: false })
+  isSearchLoading = false;
 
   /**
    * Tree data: array of root nodes. Each node has value, label, optional count, optional children.
@@ -89,8 +97,9 @@ export default class BlTreeSelect extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   required = false;
+
   @property({ type: String, attribute: "empty-result-text", reflect: true })
-  emptyResultText = "Sonuç Bulunamadı.";
+  searchNotFoundText?: string;
 
   @state()
   private _open = false;
@@ -383,7 +392,6 @@ export default class BlTreeSelect extends LitElement {
     }
   }
 
-  /** Single modda sadece yaprak node seçilir (checkbox ile). Parent’ta checkbox yok. */
   private _setSingleLeafValue(node: TreeNode, checked: boolean) {
     if (this.disabled || this.isMultiple) return;
     this.value = checked ? node.value : null;
@@ -391,7 +399,6 @@ export default class BlTreeSelect extends LitElement {
     if (checked) this.close();
   }
 
-  /** Parent seçildiğinde kendisi + tüm alt node'lar (children) seçilir; kaldırıldığında hepsi kaldırılır. */
   private _toggleNode(node: TreeNode, checked: boolean) {
     const nodeAndAllDescendants = this._getNodeAndDescendantValues(node);
     const newSet = new Set(this.selectedSet);
@@ -660,7 +667,7 @@ export default class BlTreeSelect extends LitElement {
             @focus=${() => this.open()}
             @click=${(e: MouseEvent) => e.stopPropagation()}
           />
-          ${this._open && this._searchText.trim() !== ""
+          ${this.isSearchLoading
             ? html`<bl-spinner
                 class="tree-select-loading"
                 size="var(--bl-font-size-m)"
@@ -735,7 +742,7 @@ export default class BlTreeSelect extends LitElement {
                       )}
                     </div>
                   `
-                : html`<div class="autocomplete-empty">${this.emptyResultText}</div>`
+                : html`<div class="autocomplete-empty">${this.searchNotFoundText}</div>`
               : html`
                   ${this.isMultiple && this.viewSelectAll
                     ? html`

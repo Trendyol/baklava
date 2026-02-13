@@ -652,7 +652,7 @@ describe("bl-tree-select", () => {
 
   it("shows loading spinner when search text is non-empty and open", async () => {
     const el = await fixture<BlTreeSelect>(
-      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+      html`<bl-tree-select .isSearchLoading=${true} .items=${sampleTree}></bl-tree-select>`
     );
 
     el.open();
@@ -913,7 +913,7 @@ describe("bl-tree-select", () => {
       html`<bl-tree-select empty-result-text="No items"></bl-tree-select>`
     );
 
-    expect(el.emptyResultText).to.equal("No items");
+    expect(el.searchNotFoundText).to.equal("No items");
   });
 
   it("ArrowRight expands focused node when panel open", async () => {

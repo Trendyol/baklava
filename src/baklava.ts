@@ -1,4 +1,3 @@
-export { html as litHtmlRenderer } from "lit";
 export { default as BlAccordion } from "./components/accordion-group/accordion/bl-accordion";
 export { default as BlAccordionGroup } from "./components/accordion-group/bl-accordion-group";
 export { default as BlAlert } from "./components/alert/bl-alert";
@@ -41,7 +40,6 @@ export { default as BlTableHeader } from "./components/table/table-header/bl-tab
 export { default as BlTableRow } from "./components/table/table-row/bl-table-row";
 export { default as BlTag } from "./components/tag/bl-tag";
 export { default as BlTextarea } from "./components/textarea/bl-textarea";
-export { default as BlTreeSelect } from "./components/tree-select/bl-tree-select";
-export type { TreeNode } from "./components/tree-select/bl-tree-select";
+export { default as BlTreeSelect, type TreeNode } from "./components/tree-select/bl-tree-select";
 export { default as BlTooltip } from "./components/tooltip/bl-tooltip";
 export { getIconPath, setIconPath } from "./utilities/asset-paths";
