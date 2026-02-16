@@ -4,6 +4,7 @@ import type { TemplateResult } from "lit";
 import { sendKeys } from "@web/test-runner-commands";
 import BlTreeSelect from "./bl-tree-select";
 import type { TreeNode } from "./bl-tree-select";
+import type BlSelect from "../select/bl-select";
 
 const sampleTree: TreeNode[] = [
   {
@@ -26,6 +27,23 @@ function getCheckboxInput(host: Element, selector: string): HTMLInputElement | n
   return (blCheckbox as Element & { shadowRoot: ShadowRoot }).shadowRoot.querySelector("input");
 }
 
+/** Get the bl-select element from tree-select's shadow root */
+function getBlSelect(host: BlTreeSelect): BlSelect | null {
+  return host.shadowRoot?.querySelector("bl-select") as BlSelect | null;
+}
+
+/** Get the search input inside bl-select's shadow DOM */
+function getSearchInput(host: BlTreeSelect): HTMLInputElement | null {
+  const blSelect = getBlSelect(host);
+
+  return blSelect?.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input") ?? null;
+}
+
+/** Get the clear overlay button from tree-select's shadow root */
+function getClearButton(host: BlTreeSelect): HTMLElement | null {
+  return host.shadowRoot?.querySelector(".tree-select-clear-overlay") as HTMLElement | null;
+}
+
 describe("bl-tree-select", () => {
   it("is defined", () => {
     const el = document.createElement("bl-tree-select");
@@ -37,7 +55,7 @@ describe("bl-tree-select", () => {
     const el = await fixture<BlTreeSelect>(html`<bl-tree-select></bl-tree-select>`);
 
     expect(el.shadowRoot?.querySelector(".tree-select-wrapper")).to.exist;
-    expect(el.shadowRoot?.querySelector(".tree-select-input")).to.exist;
+    expect(getBlSelect(el)).to.exist;
     expect(el.label).to.equal("");
     expect(el.placeholder).to.equal("");
     expect(el.isMultiple).to.be.true;
@@ -70,23 +88,24 @@ describe("bl-tree-select", () => {
       html`<bl-tree-select placeholder="Select..."></bl-tree-select>`
     );
 
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const blSelect = getBlSelect(el);
 
-    expect(input?.placeholder).to.equal("Select...");
+    expect(blSelect?.searchBarPlaceholder).to.equal("Select...");
   });
 
-  it("opens panel on input focus and closes on Escape", async () => {
+  it("opens panel on click and closes on Escape", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
 
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
-
-    input?.focus();
+    el.open();
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.exist;
     expect(el.shadowRoot?.querySelector(".tree-select-panel")).to.exist;
 
+    const input = getSearchInput(el);
+
+    input?.focus();
     await sendKeys({ press: "Escape" });
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.not.exist;
@@ -173,12 +192,12 @@ describe("bl-tree-select", () => {
       html`<bl-tree-select .items=${sampleTree} .value=${["c1"]} is-multiple></bl-tree-select>`
     );
 
-    const clearBtn = el.shadowRoot?.querySelector(".tree-select-clear") as HTMLElement;
+    const clearBtn = getClearButton(el);
 
     expect(clearBtn).to.exist;
     const promise = oneEvent(el, "bl-tree-select-change");
 
-    clearBtn.click();
+    clearBtn!.click();
     const ev = await promise;
 
     expect(ev.detail?.value).to.deep.equal([]);
@@ -204,7 +223,7 @@ describe("bl-tree-select", () => {
       html`<bl-tree-select .items=${sampleTree} .value=${["c1"]} disabled></bl-tree-select>`
     );
 
-    expect(el.shadowRoot?.querySelector(".tree-select-clear")).to.not.exist;
+    expect(getClearButton(el)).to.not.exist;
   });
 
   it("shows Select All row when viewSelectAll and isMultiple", async () => {
@@ -450,7 +469,7 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input!.value = "child";
     input?.dispatchEvent(new InputEvent("input", { bubbles: true }));
@@ -619,7 +638,7 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input?.focus();
     input!.value = "child";
@@ -639,7 +658,7 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input!.value = "xyznonexistent";
     input?.dispatchEvent(new InputEvent("input", { bubbles: true }));
@@ -657,12 +676,10 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const blSelect = getBlSelect(el);
 
-    input!.value = "p";
-    input?.dispatchEvent(new InputEvent("input", { bubbles: true }));
-    await elementUpdated(el);
-    expect(el.shadowRoot?.querySelector(".tree-select-loading")).to.exist;
+    expect(blSelect?.searchBarLoadingState).to.be.true;
+    expect(blSelect?.shadowRoot?.querySelector(".search-spinner")).to.exist;
   });
 
   it("chevron button click toggles open state", async () => {
@@ -670,31 +687,35 @@ describe("bl-tree-select", () => {
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
 
-    const chevron = el.shadowRoot?.querySelector(".tree-select-chevron") as HTMLElement;
+    const blSelect = getBlSelect(el);
+    const chevron = blSelect?.shadowRoot?.querySelector(".dropdown-icon.closed") as HTMLElement;
 
     expect(chevron).to.exist;
     chevron?.click();
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.exist;
 
-    chevron?.click();
+    const chevronOpen = blSelect?.shadowRoot?.querySelector(".dropdown-icon.open") as HTMLElement;
+
+    chevronOpen?.click();
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.not.exist;
   });
 
-  it("wrapper Enter toggles open state", async () => {
+  it("wrapper Enter opens and Escape closes", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
 
-    const wrapper = el.shadowRoot?.querySelector(".tree-select-input") as HTMLElement;
+    const blSelect = getBlSelect(el);
+    const fieldset = blSelect?.shadowRoot?.querySelector(".select-input") as HTMLElement;
 
-    wrapper?.focus();
+    fieldset?.focus();
     await sendKeys({ press: "Enter" });
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.exist;
 
-    await sendKeys({ press: "Enter" });
+    await sendKeys({ press: "Escape" });
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.not.exist;
   });
@@ -706,7 +727,7 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input?.focus();
     await sendKeys({ press: "ArrowDown" });
@@ -759,7 +780,7 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input!.value = "parent";
     input?.dispatchEvent(new InputEvent("input", { bubbles: true }));
@@ -780,7 +801,7 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input!.value = "child";
     input?.dispatchEvent(new InputEvent("input", { bubbles: true }));
@@ -838,18 +859,17 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input!.value = "test";
     input?.dispatchEvent(new InputEvent("input", { bubbles: true }));
     await elementUpdated(el);
     el.close();
     await elementUpdated(el);
-    el.open();
-    await elementUpdated(el);
-    const inputAfter = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
 
-    expect(inputAfter?.value ?? "").to.equal("");
+    const host = el as unknown as { _searchText: string };
+
+    expect(host._searchText).to.equal("");
   });
 
   it("handles value as array for single mode (_singleValue)", async () => {
@@ -868,7 +888,7 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input?.focus();
     await sendKeys({ press: "ArrowDown" });
@@ -884,28 +904,32 @@ describe("bl-tree-select", () => {
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
 
-    const wrapper = el.shadowRoot?.querySelector(".tree-select-input") as HTMLElement;
+    const blSelect = getBlSelect(el);
+    const fieldset = blSelect?.shadowRoot?.querySelector(".select-input") as HTMLElement;
 
-    wrapper?.focus();
+    fieldset?.focus();
     await sendKeys({ press: " " });
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.exist;
   });
 
-  it("input has tabindex 0 when not disabled and -1 when disabled", async () => {
+  it("bl-select is present and disabled attribute propagates", async () => {
     const enabled = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
 
-    expect(enabled.shadowRoot?.querySelector(".tree-select-input")?.getAttribute("tabindex")).to
-      .equal("0");
+    const blSelectEnabled = getBlSelect(enabled);
+
+    expect(blSelectEnabled).to.exist;
+    expect(blSelectEnabled?.disabled).to.not.be.true;
 
     const disabled = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree} disabled></bl-tree-select>`
     );
 
-    expect(disabled.shadowRoot?.querySelector(".tree-select-input")?.getAttribute("tabindex")).to
-      .equal("-1");
+    const blSelectDisabled = getBlSelect(disabled);
+
+    expect(blSelectDisabled?.disabled).to.be.true;
   });
 
   it("empty-result-text attribute is reflected", async () => {
@@ -923,7 +947,7 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input?.focus();
     await sendKeys({ press: "ArrowRight" });
@@ -938,7 +962,7 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input?.focus();
     await sendKeys({ press: "ArrowRight" });
@@ -950,18 +974,24 @@ describe("bl-tree-select", () => {
     expect(el.shadowRoot?.querySelector(".tree-node-expanded")).to.not.exist;
   });
 
-  it("panel keydown with unhandled key does nothing (default case)", async () => {
+  it("_onPanelKeydown default branch does nothing for unhandled key (line 381)", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
 
     el.open();
     await elementUpdated(el);
-    const panel = el.shadowRoot?.querySelector(".tree-select-panel") as HTMLElement;
+    const host = el as unknown as {
+      _onPanelKeydown(e: KeyboardEvent): void;
+      _focusedIndex: number;
+    };
+    const prevIndex = host._focusedIndex;
+    const prevValue = el.value;
 
-    panel?.focus();
-    panel?.dispatchEvent(new KeyboardEvent("keydown", { key: "a", bubbles: true }));
+    host._onPanelKeydown(new KeyboardEvent("keydown", { key: "Tab", bubbles: true }));
     await elementUpdated(el);
+    expect(host._focusedIndex).to.equal(prevIndex);
+    expect(el.value).to.equal(prevValue);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.exist;
   });
 
@@ -972,7 +1002,7 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input?.focus();
     await sendKeys({ press: "ArrowDown" });
@@ -991,7 +1021,7 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-search-input");
+    const input = getSearchInput(el);
 
     input?.focus();
     await sendKeys({ press: "ArrowDown" });
@@ -1067,18 +1097,128 @@ describe("bl-tree-select", () => {
     expect(el.selectedSet.size).to.equal(0);
   });
 
-  it("panel keydown with empty focusable list does nothing", async () => {
+  it("_filterVisible returns parent with filteredChildren when only child matches (childMatch branch)", async () => {
+    const deepTree: TreeNode[] = [
+      {
+        value: "fruits",
+        label: "Fruits",
+        children: [
+          { value: "apple", label: "Apple" },
+          { value: "grape", label: "Grape" },
+        ],
+      },
+      { value: "vegetables", label: "Vegetables" },
+    ];
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${deepTree}></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const filterVisible = (el as unknown as {
+      _filterVisible(nodes: TreeNode[], searchLower: string): TreeNode[];
+    })._filterVisible.bind(el);
+
+    const result = filterVisible(deepTree, "apple");
+
+    expect(result.length).to.equal(1);
+    expect(result[0].value).to.equal("fruits");
+    expect(result[0].children?.length).to.equal(1);
+    expect(result[0].children?.[0].value).to.equal("apple");
+  });
+
+  it("_filterVisible returns node with original children when selfMatch true but no filteredChildren (node.children fallback)", async () => {
+    const treeWithEmptyChildren: TreeNode[] = [
+      { value: "p2", label: "Parent 2", count: 0, children: [] },
+    ];
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${treeWithEmptyChildren}></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const filterVisible = (el as unknown as {
+      _filterVisible(nodes: TreeNode[], searchLower: string): TreeNode[];
+    })._filterVisible.bind(el);
+
+    const result = filterVisible(treeWithEmptyChildren, "parent 2");
+
+    expect(result.length).to.equal(1);
+    expect(result[0].value).to.equal("p2");
+    expect(result[0].children).to.deep.equal([]);
+  });
+
+  it("_filterVisible returns null for nodes where neither selfMatch nor childMatch (null branch)", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const filterVisible = (el as unknown as {
+      _filterVisible(nodes: TreeNode[], searchLower: string): TreeNode[];
+    })._filterVisible.bind(el);
+
+    const result = filterVisible(sampleTree, "xyznotfound");
+
+    expect(result.length).to.equal(0);
+  });
+
+  it("_selectAllState returns checked:false, indeterminate:false when items are empty (line 428)", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${[]} is-multiple view-select-all></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const host = el as unknown as {
+      _selectAllState: { checked: boolean; indeterminate: boolean };
+    };
+
+    expect(host._selectAllState.checked).to.be.false;
+    expect(host._selectAllState.indeterminate).to.be.false;
+  });
+
+  it("_onPanelKeydown returns early when focusable list is empty (line 341)", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${[]}></bl-tree-select>`
     );
 
     el.open();
     await elementUpdated(el);
-    const panel = el.shadowRoot?.querySelector(".tree-select-panel") as HTMLElement;
+    const host = el as unknown as {
+      _onPanelKeydown(e: KeyboardEvent): void;
+      _focusedIndex: number;
+    };
 
-    panel?.focus();
-    await sendKeys({ press: "ArrowDown" });
+    host._focusedIndex = 0;
+    const event = new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true });
+
+    host._onPanelKeydown(event);
     await elementUpdated(el);
+    expect(host._focusedIndex).to.equal(0);
     expect(el.value).to.be.null;
+  });
+
+  it("firstUpdated returns early when _selectEl is not available (line 476)", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    Object.defineProperty(el, "_selectEl", { get: () => null, configurable: true });
+    const host = el as unknown as { firstUpdated(): void; _open: boolean };
+
+    host.firstUpdated();
+    expect(host._open).to.be.false;
+  });
+
+  it("monkey-patched open returns early when disabled (line 491)", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree} disabled></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const blSelect = getBlSelect(el);
+
+    blSelect?.open();
+    await elementUpdated(el);
+    expect(el.shadowRoot?.querySelector(".tree-select-open")).to.not.exist;
   });
 });

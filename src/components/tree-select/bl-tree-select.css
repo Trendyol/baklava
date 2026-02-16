@@ -32,55 +32,25 @@
   color: var(--bl-color-danger);
 }
 
-.tree-select-input {
+.tree-select-trigger-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: var(--bl-size-2xs);
-  height: var(--bl-size-2xl);
-  padding-block: 3px;
-  padding-inline: var(--bl-size-xs) var(--bl-size-3xs);
-  border: 1px solid var(--tree-select-border-color);
-  border-radius: var(--bl-border-radius-s);
-  background-color: var(--tree-select-bg);
-  cursor: pointer;
-  box-sizing: border-box;
 }
 
-.tree-select-open .tree-select-input {
-  border-color: var(--tree-select-focus-border-color);
+.tree-select-trigger-wrapper bl-select {
+  width: 100%;
 }
 
-.tree-select-search-input {
-  flex: 1;
-  min-width: 0;
-  border: none;
-  background: transparent;
-  font: var(--bl-font-title-3-regular);
-  color: var(--bl-color-neutral-darker);
-  padding: 0;
+.tree-select-clear-overlay {
+  position: absolute;
+  inset-inline-end: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
 }
 
-.tree-select-search-input::placeholder {
-  color: var(--bl-color-neutral-light);
-}
-
-.tree-select-search-input:focus {
-  outline: none;
-}
-
-.tree-select-loading {
-  flex-shrink: 0;
-}
-
-.tree-select-clear {
-  flex-shrink: 0;
-}
-
-.tree-select-chevron {
-  flex-shrink: 0;
-}
-
-:host([disabled]) .tree-select-input {
+:host([disabled]) .tree-select-trigger-wrapper {
   pointer-events: none;
   opacity: 0.6;
   cursor: not-allowed;
@@ -245,10 +215,6 @@
 }
 
 .autocomplete-empty {
-  padding: var(--bl-size-s);
-  font: var(--bl-font-body-text-2-regular);
-  color: var(--bl-color-neutral-darker);
-  border: 1px solid var(--bl-color-warning);
-  border-radius: var(--bl-border-radius-s);
-  background-color: var(--bl-color-neutral-full);
+  font: var(--bl-font-title-3-regular);
+  color: var(--bl-color-neutral-dark);
 }

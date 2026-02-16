@@ -80,7 +80,7 @@ export const DefaultTemplate = (args) => html`
   <bl-tree-select
     label=${args.label}
     placeholder=${args.placeholder}
-    .items=${sampleTree}
+    .items=${args.items ?? sampleTree}
     .value=${args.value}
     .isMultiple=${args.isMultiple}
     ?view-select-all=${args.viewSelectAll}
@@ -224,6 +224,7 @@ When the search has no matching results, an empty state message is shown with an
       placeholder: "Kategori seçin",
       isMultiple: true,
       emptyResultText: "Sonuç Bulunamadı.",
+      items: [],
     }}
   >
     {DefaultTemplate.bind()}
