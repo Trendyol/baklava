@@ -32,25 +32,74 @@
   color: var(--bl-color-danger);
 }
 
-.tree-select-trigger-wrapper {
-  position: relative;
+/* Trigger (input wrapper) */
+.tree-select-trigger {
   display: flex;
   align-items: center;
+  gap: var(--bl-size-3xs);
+  padding: var(--bl-size-3xs) var(--bl-size-xs);
+  border: 1px solid var(--tree-select-border-color);
+  border-radius: var(--bl-border-radius-s);
+  background-color: var(--tree-select-bg);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease;
+  min-height: 40px;
 }
 
-.tree-select-trigger-wrapper bl-select {
-  width: 100%;
+.tree-select-trigger:hover {
+  border-color: var(--bl-color-primary);
 }
 
-.tree-select-clear-overlay {
-  position: absolute;
-  inset-inline-end: 32px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
+.tree-select-trigger:focus-visible,
+.tree-select-trigger-focused {
+  border-color: var(--tree-select-focus-border-color);
 }
 
-:host([disabled]) .tree-select-trigger-wrapper {
+.tree-select-trigger-has-value .tree-select-input {
+  color: var(--bl-color-neutral-darker);
+}
+
+.tree-select-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: var(--bl-font-body-text-2-regular);
+  color: var(--bl-color-neutral-light);
+  cursor: inherit;
+  padding: 0;
+}
+
+.tree-select-input::placeholder {
+  color: var(--bl-color-neutral-light);
+}
+
+.tree-select-trigger-has-value .tree-select-input::placeholder {
+  color: var(--bl-color-neutral-darker);
+}
+
+.tree-select-loading {
+  flex-shrink: 0;
+}
+
+.tree-select-clear {
+  flex-shrink: 0;
+}
+
+.tree-select-chevron {
+  flex-shrink: 0;
+  font-size: var(--bl-font-size-m);
+  color: var(--bl-color-neutral-dark);
+  transition: transform 0.2s ease;
+}
+
+.tree-select-chevron-open {
+  transform: rotate(180deg);
+}
+
+:host([disabled]) .tree-select-trigger {
   pointer-events: none;
   opacity: 0.6;
   cursor: not-allowed;

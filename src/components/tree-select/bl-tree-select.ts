@@ -2,13 +2,14 @@ import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { localized } from "@lit/localize";
+import { localized, msg, str } from "@lit/localize";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import "../checkbox-group/checkbox/bl-checkbox";
 import "../icon/bl-icon";
-import "../select/bl-select";
-import type BlSelect from "../select/bl-select";
+import "../popover/bl-popover";
+import type BlPopover from "../popover/bl-popover";
+import "../spinner/bl-spinner";
 import style from "./bl-tree-select.css";
 
 export interface TreeNode {
@@ -77,7 +78,7 @@ export default class BlTreeSelect extends LitElement {
    * Text for Select All (e.g. "Select All")
    */
   @property({ type: String, attribute: "select-all-text", reflect: true })
-  selectAllText = "Select All";
+  selectAllText = "";
 
   /**
    * Placeholder for search input inside dropdown
@@ -112,8 +113,11 @@ export default class BlTreeSelect extends LitElement {
   @state()
   private _focusedIndex = 0;
 
-  @query("bl-select")
-  private _selectEl!: BlSelect;
+  @query("bl-popover")
+  private _popover!: BlPopover;
+
+  @query(".tree-select-input")
+  private _inputEl!: HTMLInputElement;
 
   @event("bl-tree-select-change")
   private _onChange: EventDispatcher<{ value: string | string[] | null }>;
@@ -460,11 +464,18 @@ export default class BlTreeSelect extends LitElement {
 
   open() {
     if (this.disabled) return;
-    this._selectEl?.open();
+    this._open = true;
+    this._popover?.show();
+    this.updateComplete.then(() => {
+      this._inputEl?.focus();
+    });
   }
 
   close() {
-    this._selectEl?.close();
+    this._open = false;
+    this._searchText = "";
+    this._focusedIndex = 0;
+    this._popover?.hide();
   }
 
   private _clearSelection() {
@@ -473,49 +484,43 @@ export default class BlTreeSelect extends LitElement {
   }
 
   protected firstUpdated() {
-    if (!this._selectEl) return;
+    this._popover.target = this.renderRoot.querySelector(".tree-select-trigger") as Element;
+  }
 
-    const injectedStyle = document.createElement("style");
+  private _handleInputChange(e: Event) {
+    this._searchText = (e.target as HTMLInputElement).value;
+  }
 
-    injectedStyle.textContent = [
-      ".popover-no-result { display: none !important; }",
-      ".popover { max-height: 400px !important; padding: 0 !important; }",
-      ":host([has-tree-value]) .select-wrapper { --placeholder-color: var(--bl-color-neutral-darker); }",
-    ].join("\n");
-    this._selectEl.shadowRoot?.appendChild(injectedStyle);
+  private _handleTriggerClick() {
+    if (this.disabled) return;
+    if (this._open) {
+      this.close();
+    } else {
+      this.open();
+    }
+  }
 
-    const origOpen = this._selectEl.open.bind(this._selectEl);
-    const origClose = this._selectEl.close.bind(this._selectEl);
+  private _handleTriggerKeydown(e: KeyboardEvent) {
+    if (this.disabled) return;
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      if (!this._open) {
+        this.open();
+      }
+    } else if (e.key === "Escape" && this._open) {
+      e.preventDefault();
+      this.close();
+    } else if (this._open) {
+      this._onPanelKeydown(e);
+    }
+  }
 
-    this._selectEl.open = () => {
-      if (this.disabled) return;
-      origOpen();
-      this._open = true;
-    };
-
-    this._selectEl.close = () => {
-      origClose();
+  private _onPopoverHide() {
+    if (this._open) {
       this._open = false;
       this._searchText = "";
       this._focusedIndex = 0;
-    };
-
-    this._selectEl.addEventListener(
-      "keydown",
-      (e: KeyboardEvent) => {
-        if (!this._open) return;
-        if (["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight", " ", "Enter"].includes(e.key)) {
-          e.preventDefault();
-          e.stopPropagation();
-          this._onPanelKeydown(e);
-        }
-      },
-      true
-    );
-  }
-
-  private _handleBlSearch(e: CustomEvent<string>) {
-    this._searchText = e.detail;
+    }
   }
 
   protected updated(_changedProperties: Map<string, unknown>) {
@@ -665,8 +670,12 @@ export default class BlTreeSelect extends LitElement {
           .indeterminate=${indeterminate}
           @bl-checkbox-change=${(e: CustomEvent<boolean>) => this._handleSelectAll(e.detail)}
         >
-          ${this.selectAllText}
-          ${count > 0 ? html`<span class="select-all-count">(${count} selected)</span>` : ""}
+          ${this.selectAllText || msg("Select All", { desc: "bl-tree-select: select all text" })}
+          ${count > 0
+            ? html`<span class="select-all-count"
+                >${msg(str`(${count} selected)`, { desc: "bl-tree-select: selected count" })}</span
+              >`
+            : ""}
         </bl-checkbox>
       </div>
     `;
@@ -676,13 +685,19 @@ export default class BlTreeSelect extends LitElement {
     if (this._searchText.trim()) {
       return this._autocompleteList.length > 0
         ? this._renderAutocompleteList()
-        : html`<div class="autocomplete-empty">${this.searchNotFoundText}</div>`;
+        : html`<div class="autocomplete-empty">
+            ${this.searchNotFoundText ??
+            msg("No Result Found", { desc: "bl-tree-select: search no result text" })}
+          </div>`;
     }
     return html`${this._renderSelectAllRow()} ${this._renderTree(this.items)}`;
   }
 
   render(): TemplateResult {
     const displayText = this._getDisplayText();
+    const inputPlaceholder = this._open
+      ? this.searchPlaceholder || this.placeholder || undefined
+      : displayText || this.placeholder || undefined;
 
     return html`
       <div
@@ -698,36 +713,43 @@ export default class BlTreeSelect extends LitElement {
               ><label class="required-suffix">${this.required ? "*" : ""}</label>
             </div>`
           : ""}
-        <div class="tree-select-trigger-wrapper">
-          <bl-select
-            search-bar
-            ?has-tree-value=${this._hasValue && !this._open}
-            .searchBarPlaceholder=${this._open
-              ? this.searchPlaceholder || this.placeholder || undefined
-              : displayText || this.placeholder || undefined}
-            .disabled=${this.disabled}
-            .searchBarLoadingState=${this.isSearchLoading}
-            @bl-search=${this._handleBlSearch}
-          >
-            <div
-              class="tree-select-panel"
-              role=${this.isMultiple ? "listbox" : "tree"}
-              aria-multiselectable=${this.isMultiple}
-              aria-label=${ifDefined(this.label || undefined)}
-              @keydown=${(e: KeyboardEvent) => e.stopPropagation()}
-            >
-              ${this._renderPanelContent()}
-            </div>
-          </bl-select>
+        <div
+          class=${classMap({
+            "tree-select-trigger": true,
+            "tree-select-trigger-focused": this._open,
+            "tree-select-trigger-has-value": this._hasValue && !this._open,
+          })}
+          tabindex=${this.disabled ? -1 : 0}
+          role="combobox"
+          aria-expanded=${this._open}
+          aria-haspopup="tree"
+          aria-label=${ifDefined(this.label || undefined)}
+          @click=${this._handleTriggerClick}
+          @keydown=${this._handleTriggerKeydown}
+        >
+          <input
+            class="tree-select-input"
+            .value=${this._open ? this._searchText : ""}
+            placeholder=${ifDefined(inputPlaceholder)}
+            ?disabled=${this.disabled}
+            ?readonly=${!this._open}
+            @input=${this._handleInputChange}
+            @click=${(e: MouseEvent) => {
+              if (this._open) e.stopPropagation();
+            }}
+          />
+          ${this.isSearchLoading && this._open
+            ? html`<bl-spinner class="tree-select-loading" size="small"></bl-spinner>`
+            : ""}
           ${this._hasValue && !this.disabled
             ? html`
                 <bl-button
-                  class="tree-select-clear-overlay"
+                  class="tree-select-clear"
                   variant="tertiary"
                   kind="neutral"
                   size="small"
                   icon="close"
-                  label="Temizle"
+                  label=${msg("Clear", { desc: "bl-tree-select: clear selection button" })}
                   @click=${(e: MouseEvent) => {
                     e.stopPropagation();
                     this._clearSelection();
@@ -735,7 +757,24 @@ export default class BlTreeSelect extends LitElement {
                 ></bl-button>
               `
             : ""}
+          <bl-icon
+            class=${classMap({
+              "tree-select-chevron": true,
+              "tree-select-chevron-open": this._open,
+            })}
+            name="arrow_down"
+          ></bl-icon>
         </div>
+        <bl-popover fit-size placement="bottom-start" @bl-popover-hide=${this._onPopoverHide}>
+          <div
+            class="tree-select-panel"
+            role=${this.isMultiple ? "listbox" : "tree"}
+            aria-multiselectable=${this.isMultiple}
+            aria-label=${ifDefined(this.label || undefined)}
+          >
+            ${this._renderPanelContent()}
+          </div>
+        </bl-popover>
       </div>
     `;
   }

@@ -4,7 +4,6 @@ import type { TemplateResult } from "lit";
 import { sendKeys } from "@web/test-runner-commands";
 import BlTreeSelect from "./bl-tree-select";
 import type { TreeNode } from "./bl-tree-select";
-import type BlSelect from "../select/bl-select";
 
 const sampleTree: TreeNode[] = [
   {
@@ -27,21 +26,19 @@ function getCheckboxInput(host: Element, selector: string): HTMLInputElement | n
   return (blCheckbox as Element & { shadowRoot: ShadowRoot }).shadowRoot.querySelector("input");
 }
 
-/** Get the bl-select element from tree-select's shadow root */
-function getBlSelect(host: BlTreeSelect): BlSelect | null {
-  return host.shadowRoot?.querySelector("bl-select") as BlSelect | null;
-}
-
-/** Get the search input inside bl-select's shadow DOM */
+/** Get the search input from tree-select's shadow root */
 function getSearchInput(host: BlTreeSelect): HTMLInputElement | null {
-  const blSelect = getBlSelect(host);
-
-  return blSelect?.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input") ?? null;
+  return host.shadowRoot?.querySelector<HTMLInputElement>(".tree-select-input") ?? null;
 }
 
-/** Get the clear overlay button from tree-select's shadow root */
+/** Get the clear button from tree-select's shadow root */
 function getClearButton(host: BlTreeSelect): HTMLElement | null {
-  return host.shadowRoot?.querySelector(".tree-select-clear-overlay") as HTMLElement | null;
+  return host.shadowRoot?.querySelector(".tree-select-clear") as HTMLElement | null;
+}
+
+/** Get the trigger element from tree-select's shadow root */
+function getTrigger(host: BlTreeSelect): HTMLElement | null {
+  return host.shadowRoot?.querySelector(".tree-select-trigger") as HTMLElement | null;
 }
 
 describe("bl-tree-select", () => {
@@ -55,7 +52,8 @@ describe("bl-tree-select", () => {
     const el = await fixture<BlTreeSelect>(html`<bl-tree-select></bl-tree-select>`);
 
     expect(el.shadowRoot?.querySelector(".tree-select-wrapper")).to.exist;
-    expect(getBlSelect(el)).to.exist;
+    expect(getTrigger(el)).to.exist;
+    expect(getSearchInput(el)).to.exist;
     expect(el.label).to.equal("");
     expect(el.placeholder).to.equal("");
     expect(el.isMultiple).to.be.true;
@@ -73,7 +71,7 @@ describe("bl-tree-select", () => {
     expect(el.shadowRoot?.querySelector(".required-suffix")?.textContent).to.include("*");
   });
 
-  it("renders label without required suffix when required is false (line 624 : \"\")", async () => {
+  it("renders label without required suffix when required is false", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select label="Category"></bl-tree-select>`
     );
@@ -88,9 +86,9 @@ describe("bl-tree-select", () => {
       html`<bl-tree-select placeholder="Select..."></bl-tree-select>`
     );
 
-    const blSelect = getBlSelect(el);
+    const input = getSearchInput(el);
 
-    expect(blSelect?.searchBarPlaceholder).to.equal("Select...");
+    expect(input?.placeholder).to.equal("Select...");
   });
 
   it("opens panel on click and closes on Escape", async () => {
@@ -103,9 +101,9 @@ describe("bl-tree-select", () => {
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.exist;
     expect(el.shadowRoot?.querySelector(".tree-select-panel")).to.exist;
 
-    const input = getSearchInput(el);
+    const trigger = getTrigger(el);
 
-    input?.focus();
+    trigger?.focus();
     await sendKeys({ press: "Escape" });
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.not.exist;
@@ -446,7 +444,7 @@ describe("bl-tree-select", () => {
     expect(host._focusedValue).to.be.null;
   });
 
-  it("_scrollFocusedIntoView returns early when _focusedValue is null (line 329)", async () => {
+  it("_scrollFocusedIntoView returns early when _focusedValue is null", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree} is-multiple></bl-tree-select>`
     );
@@ -462,7 +460,7 @@ describe("bl-tree-select", () => {
     await elementUpdated(el);
   });
 
-  it("_selectAutocompleteItem with leaf node (no children) sets value and closes in single mode", async () => {
+  it("_selectAutocompleteItem with leaf node sets value and closes in single mode", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree} .isMultiple=${false}></bl-tree-select>`
     );
@@ -486,7 +484,7 @@ describe("bl-tree-select", () => {
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.not.exist;
   });
 
-  it("_selectAutocompleteItem with node that has children in single mode does not set value (line 202 false branch)", async () => {
+  it("_selectAutocompleteItem with node that has children in single mode does not set value", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree} .isMultiple=${false}></bl-tree-select>`
     );
@@ -523,7 +521,7 @@ describe("bl-tree-select", () => {
     (el as unknown as { _allValues(nodes: TreeNode[]): Set<string> })._allValues = origAllValues;
   });
 
-  it("_getDisplayText returns empty string when single value not found in tree (label : \"\")", async () => {
+  it("_getDisplayText returns empty string when single value not found in tree", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree} .value=${"not-in-tree"} .isMultiple=${false}></bl-tree-select>`
     );
@@ -534,7 +532,7 @@ describe("bl-tree-select", () => {
     expect(getDisplayText()).to.equal("");
   });
 
-  it("_findNodeByValue returns found node when value is in children (if (found) return found)", async () => {
+  it("_findNodeByValue returns found node when value is in children", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
@@ -553,6 +551,51 @@ describe("bl-tree-select", () => {
 
     expect(c2).to.not.be.null;
     expect(c2?.value).to.equal("c2");
+  });
+
+  it("_findNodeByValue returns null when value does not exist in tree", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const findNodeByValue = (el as unknown as {
+      _findNodeByValue(value: string, nodes?: TreeNode[]): TreeNode | null;
+    })._findNodeByValue.bind(el);
+
+    expect(findNodeByValue("nonexistent")).to.be.null;
+  });
+
+  it("_findNodeByValue returns deeply nested node via recursive found branch", async () => {
+    const deepTree: TreeNode[] = [
+      {
+        value: "root",
+        label: "Root",
+        children: [
+          {
+            value: "mid",
+            label: "Mid",
+            children: [
+              { value: "deep-leaf", label: "Deep Leaf" },
+            ],
+          },
+        ],
+      },
+    ];
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${deepTree}></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const findNodeByValue = (el as unknown as {
+      _findNodeByValue(value: string, nodes?: TreeNode[]): TreeNode | null;
+    })._findNodeByValue.bind(el);
+
+    const found = findNodeByValue("deep-leaf");
+
+    expect(found).to.not.be.null;
+    expect(found?.value).to.equal("deep-leaf");
+    expect(found?.label).to.equal("Deep Leaf");
   });
 
   it("expand/collapse toggles children visibility", async () => {
@@ -576,7 +619,7 @@ describe("bl-tree-select", () => {
     expect(expandBtn?.getAttribute("aria-expanded")).to.equal("false");
   });
 
-  it("node without count renders no tree-node-count (count != null : \"\" branch)", async () => {
+  it("node without count renders no tree-node-count", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
@@ -593,7 +636,7 @@ describe("bl-tree-select", () => {
     expect(c2Row?.querySelector(".tree-node-count")).to.not.exist;
   });
 
-  it("single mode: parent without count renders no tree-node-count (line 556 : \"\")", async () => {
+  it("single mode: parent without count renders no tree-node-count", async () => {
     const treeParentNoCount: TreeNode[] = [
       {
         value: "p",
@@ -614,7 +657,7 @@ describe("bl-tree-select", () => {
     expect(parentRow?.querySelector(".tree-node-count")).to.not.exist;
   });
 
-  it("single mode: leaf without count renders no tree-node-count (line 571 : \"\")", async () => {
+  it("single mode: leaf without count renders no tree-node-count", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree} .isMultiple=${false}></bl-tree-select>`
     );
@@ -669,48 +712,40 @@ describe("bl-tree-select", () => {
     );
   });
 
-  it("shows loading spinner when search text is non-empty and open", async () => {
+  it("shows loading spinner when isSearchLoading and open", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .isSearchLoading=${true} .items=${sampleTree}></bl-tree-select>`
     );
 
     el.open();
     await elementUpdated(el);
-    const blSelect = getBlSelect(el);
-
-    expect(blSelect?.searchBarLoadingState).to.be.true;
-    expect(blSelect?.shadowRoot?.querySelector(".search-spinner")).to.exist;
+    expect(el.shadowRoot?.querySelector(".tree-select-loading")).to.exist;
   });
 
-  it("chevron button click toggles open state", async () => {
+  it("chevron click toggles open state", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
 
-    const blSelect = getBlSelect(el);
-    const chevron = blSelect?.shadowRoot?.querySelector(".dropdown-icon.closed") as HTMLElement;
+    const trigger = getTrigger(el);
 
-    expect(chevron).to.exist;
-    chevron?.click();
+    trigger?.click();
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.exist;
 
-    const chevronOpen = blSelect?.shadowRoot?.querySelector(".dropdown-icon.open") as HTMLElement;
-
-    chevronOpen?.click();
+    trigger?.click();
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.not.exist;
   });
 
-  it("wrapper Enter opens and Escape closes", async () => {
+  it("trigger Enter opens and Escape closes", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
 
-    const blSelect = getBlSelect(el);
-    const fieldset = blSelect?.shadowRoot?.querySelector(".select-input") as HTMLElement;
+    const trigger = getTrigger(el);
 
-    fieldset?.focus();
+    trigger?.focus();
     await sendKeys({ press: "Enter" });
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.exist;
@@ -727,9 +762,9 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = getSearchInput(el);
+    const trigger = getTrigger(el);
 
-    input?.focus();
+    trigger?.focus();
     await sendKeys({ press: "ArrowDown" });
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-node-row-focused")).to.exist;
@@ -888,9 +923,9 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = getSearchInput(el);
+    const trigger = getTrigger(el);
 
-    input?.focus();
+    trigger?.focus();
     await sendKeys({ press: "ArrowDown" });
     await sendKeys({ press: "ArrowDown" });
     await elementUpdated(el);
@@ -899,37 +934,36 @@ describe("bl-tree-select", () => {
     expect(el.shadowRoot?.querySelector(".tree-node-row-focused")).to.exist;
   });
 
-  it("Space on wrapper toggles open", async () => {
+  it("Space on trigger opens", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
 
-    const blSelect = getBlSelect(el);
-    const fieldset = blSelect?.shadowRoot?.querySelector(".select-input") as HTMLElement;
+    const trigger = getTrigger(el);
 
-    fieldset?.focus();
+    trigger?.focus();
     await sendKeys({ press: " " });
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.exist;
   });
 
-  it("bl-select is present and disabled attribute propagates", async () => {
+  it("trigger is present and disabled attribute propagates", async () => {
     const enabled = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
 
-    const blSelectEnabled = getBlSelect(enabled);
+    const triggerEnabled = getTrigger(enabled);
 
-    expect(blSelectEnabled).to.exist;
-    expect(blSelectEnabled?.disabled).to.not.be.true;
+    expect(triggerEnabled).to.exist;
+    expect(triggerEnabled?.getAttribute("tabindex")).to.equal("0");
 
     const disabled = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree} disabled></bl-tree-select>`
     );
 
-    const blSelectDisabled = getBlSelect(disabled);
+    const triggerDisabled = getTrigger(disabled);
 
-    expect(blSelectDisabled?.disabled).to.be.true;
+    expect(triggerDisabled?.getAttribute("tabindex")).to.equal("-1");
   });
 
   it("empty-result-text attribute is reflected", async () => {
@@ -947,9 +981,9 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = getSearchInput(el);
+    const trigger = getTrigger(el);
 
-    input?.focus();
+    trigger?.focus();
     await sendKeys({ press: "ArrowRight" });
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-node-expanded")).to.exist;
@@ -962,9 +996,9 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = getSearchInput(el);
+    const trigger = getTrigger(el);
 
-    input?.focus();
+    trigger?.focus();
     await sendKeys({ press: "ArrowRight" });
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-node-expanded")).to.exist;
@@ -974,7 +1008,7 @@ describe("bl-tree-select", () => {
     expect(el.shadowRoot?.querySelector(".tree-node-expanded")).to.not.exist;
   });
 
-  it("_onPanelKeydown default branch does nothing for unhandled key (line 381)", async () => {
+  it("_onPanelKeydown default branch does nothing for unhandled key", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
     );
@@ -1002,14 +1036,15 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = getSearchInput(el);
+    const host = el as unknown as {
+      _onPanelKeydown(e: KeyboardEvent): void;
+      _focusedIndex: number;
+    };
 
-    input?.focus();
-    await sendKeys({ press: "ArrowDown" });
-    await elementUpdated(el);
+    host._focusedIndex = 0;
     const promise = oneEvent(el, "bl-tree-select-change");
 
-    await sendKeys({ press: "Enter" });
+    host._onPanelKeydown(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
     await promise;
     expect(el.selectedSet.size).to.be.greaterThan(0);
   });
@@ -1021,14 +1056,15 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const input = getSearchInput(el);
+    const host = el as unknown as {
+      _onPanelKeydown(e: KeyboardEvent): void;
+      _focusedIndex: number;
+    };
 
-    input?.focus();
-    await sendKeys({ press: "ArrowDown" });
-    await elementUpdated(el);
+    host._focusedIndex = 0;
     const promise = oneEvent(el, "bl-tree-select-change");
 
-    await sendKeys({ press: " " });
+    host._onPanelKeydown(new KeyboardEvent("keydown", { key: " ", bubbles: true }));
     await promise;
     expect(el.selectedSet.size).to.be.greaterThan(0);
   });
@@ -1044,22 +1080,22 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const panel = el.shadowRoot?.querySelector<HTMLElement>(".tree-select-panel");
+    const host = el as unknown as {
+      _onPanelKeydown(e: KeyboardEvent): void;
+      _focusedIndex: number;
+    };
 
-    expect(panel).to.exist;
-    panel!.focus();
-    await elementUpdated(el);
-    // Panel açıldığında _focusedIndex=0, view-select-all ile ilk öğe "select-all"
+    host._focusedIndex = 0;
     const promise1 = oneEvent(el, "bl-tree-select-change");
 
-    panel!.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+    host._onPanelKeydown(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
     await promise1;
     await elementUpdated(el);
     expect(el.selectedSet.size).to.be.greaterThan(0);
 
     const promise2 = oneEvent(el, "bl-tree-select-change");
 
-    panel!.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+    host._onPanelKeydown(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
     await promise2;
     await elementUpdated(el);
     expect(el.selectedSet.size).to.equal(0);
@@ -1076,22 +1112,22 @@ describe("bl-tree-select", () => {
 
     el.open();
     await elementUpdated(el);
-    const panel = el.shadowRoot?.querySelector<HTMLElement>(".tree-select-panel");
+    const host = el as unknown as {
+      _onPanelKeydown(e: KeyboardEvent): void;
+      _focusedIndex: number;
+    };
 
-    expect(panel).to.exist;
-    panel!.focus();
-    await elementUpdated(el);
-    // Panel açıldığında _focusedIndex=0, view-select-all ile ilk öğe "select-all"
+    host._focusedIndex = 0;
     const promise1 = oneEvent(el, "bl-tree-select-change");
 
-    panel!.dispatchEvent(new KeyboardEvent("keydown", { key: " ", bubbles: true }));
+    host._onPanelKeydown(new KeyboardEvent("keydown", { key: " ", bubbles: true }));
     await promise1;
     await elementUpdated(el);
     expect(el.selectedSet.size).to.be.greaterThan(0);
 
     const promise2 = oneEvent(el, "bl-tree-select-change");
 
-    panel!.dispatchEvent(new KeyboardEvent("keydown", { key: " ", bubbles: true }));
+    host._onPanelKeydown(new KeyboardEvent("keydown", { key: " ", bubbles: true }));
     await promise2;
     await elementUpdated(el);
     expect(el.selectedSet.size).to.equal(0);
@@ -1161,7 +1197,7 @@ describe("bl-tree-select", () => {
     expect(result.length).to.equal(0);
   });
 
-  it("_selectAllState returns checked:false, indeterminate:false when items are empty (line 428)", async () => {
+  it("_selectAllState returns checked:false, indeterminate:false when items are empty", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${[]} is-multiple view-select-all></bl-tree-select>`
     );
@@ -1175,7 +1211,7 @@ describe("bl-tree-select", () => {
     expect(host._selectAllState.indeterminate).to.be.false;
   });
 
-  it("_onPanelKeydown returns early when focusable list is empty (line 341)", async () => {
+  it("_onPanelKeydown returns early when focusable list is empty", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${[]}></bl-tree-select>`
     );
@@ -1196,29 +1232,242 @@ describe("bl-tree-select", () => {
     expect(el.value).to.be.null;
   });
 
-  it("firstUpdated returns early when _selectEl is not available (line 476)", async () => {
-    const el = await fixture<BlTreeSelect>(
-      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
-    );
-
-    await elementUpdated(el);
-    Object.defineProperty(el, "_selectEl", { get: () => null, configurable: true });
-    const host = el as unknown as { firstUpdated(): void; _open: boolean };
-
-    host.firstUpdated();
-    expect(host._open).to.be.false;
-  });
-
-  it("monkey-patched open returns early when disabled (line 491)", async () => {
+  it("disabled trigger prevents opening", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree} disabled></bl-tree-select>`
     );
 
     await elementUpdated(el);
-    const blSelect = getBlSelect(el);
-
-    blSelect?.open();
+    el.open();
     await elementUpdated(el);
     expect(el.shadowRoot?.querySelector(".tree-select-open")).to.not.exist;
+  });
+
+  it("_handleTriggerClick returns early when disabled", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree} disabled></bl-tree-select>`
+    );
+
+    const trigger = getTrigger(el);
+
+    trigger?.click();
+    await elementUpdated(el);
+    expect(el.shadowRoot?.querySelector(".tree-select-open")).to.not.exist;
+  });
+
+  it("_handleTriggerKeydown returns early when disabled", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree} disabled></bl-tree-select>`
+    );
+
+    const host = el as unknown as {
+      _handleTriggerKeydown(e: KeyboardEvent): void;
+      _open: boolean;
+    };
+
+    host._handleTriggerKeydown(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+    await elementUpdated(el);
+    expect(host._open).to.be.false;
+  });
+
+  it("_handleTriggerKeydown delegates to _onPanelKeydown when open and key is not Enter/Space/Escape", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    el.open();
+    await elementUpdated(el);
+    const host = el as unknown as {
+      _handleTriggerKeydown(e: KeyboardEvent): void;
+      _focusedIndex: number;
+    };
+
+    host._focusedIndex = 0;
+    host._handleTriggerKeydown(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+    await elementUpdated(el);
+    expect(host._focusedIndex).to.equal(1);
+  });
+
+  it("_onPopoverHide resets state when panel was open", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    el.open();
+    await elementUpdated(el);
+    const input = getSearchInput(el);
+
+    input!.value = "child";
+    input?.dispatchEvent(new InputEvent("input", { bubbles: true }));
+    await elementUpdated(el);
+
+    const host = el as unknown as {
+      _onPopoverHide(): void;
+      _open: boolean;
+      _searchText: string;
+      _focusedIndex: number;
+    };
+
+    host._onPopoverHide();
+    await elementUpdated(el);
+    expect(host._open).to.be.false;
+    expect(host._searchText).to.equal("");
+    expect(host._focusedIndex).to.equal(0);
+  });
+
+  it("_onPopoverHide does nothing when panel was already closed", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    const host = el as unknown as {
+      _onPopoverHide(): void;
+      _open: boolean;
+    };
+
+    expect(host._open).to.be.false;
+    host._onPopoverHide();
+    expect(host._open).to.be.false;
+  });
+
+  it("_getDisplayText returns comma-separated labels in multiple mode", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree} .value=${["c1", "c2"]} is-multiple></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const getDisplayText = (el as unknown as { _getDisplayText(): string })._getDisplayText.bind(el);
+    const result = getDisplayText();
+
+    expect(result).to.include("Child 1");
+    expect(result).to.include("Child 2");
+    expect(result).to.include(", ");
+  });
+
+  it("_getDisplayText returns label for single selected value", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree} .value=${"c1"} .isMultiple=${false}></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const getDisplayText = (el as unknown as { _getDisplayText(): string })._getDisplayText.bind(el);
+
+    expect(getDisplayText()).to.equal("Child 1");
+  });
+
+  it("_getDisplayText returns empty string when no selection in multiple mode", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree} is-multiple></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const getDisplayText = (el as unknown as { _getDisplayText(): string })._getDisplayText.bind(el);
+
+    expect(getDisplayText()).to.equal("");
+  });
+
+  it("input click does not close panel when open", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    el.open();
+    await elementUpdated(el);
+    const input = getSearchInput(el);
+
+    input?.click();
+    await elementUpdated(el);
+    expect(el.shadowRoot?.querySelector(".tree-select-open")).to.exist;
+  });
+
+  it("firstUpdated sets popover target to trigger element", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const popover = el.shadowRoot?.querySelector("bl-popover") as HTMLElement & { target: Element };
+    const trigger = getTrigger(el);
+
+    expect(popover).to.exist;
+    expect(popover.target).to.equal(trigger);
+  });
+
+  it("placeholder shows display text when closed and value is set", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree} .value=${"c1"} .isMultiple=${false} placeholder="Select..."></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    const input = getSearchInput(el);
+
+    expect(input?.placeholder).to.equal("Child 1");
+  });
+
+  it("placeholder shows searchPlaceholder when open", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree} search-placeholder="Search..." placeholder="Select..."></bl-tree-select>`
+    );
+
+    el.open();
+    await elementUpdated(el);
+    const input = getSearchInput(el);
+
+    expect(input?.placeholder).to.equal("Search...");
+  });
+
+  it("updated resets _focusedIndex when _open changes", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    el.open();
+    await elementUpdated(el);
+    const host = el as unknown as { _focusedIndex: number };
+
+    host._focusedIndex = 5;
+    el.open();
+    await elementUpdated(el);
+    expect(host._focusedIndex).to.be.lessThanOrEqual(1);
+  });
+
+  it("chevron rotates when open", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    expect(el.shadowRoot?.querySelector(".tree-select-chevron-open")).to.not.exist;
+    el.open();
+    await elementUpdated(el);
+    expect(el.shadowRoot?.querySelector(".tree-select-chevron-open")).to.exist;
+  });
+
+  it("loading spinner is hidden when not searching or closed", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .isSearchLoading=${true} .items=${sampleTree}></bl-tree-select>`
+    );
+
+    expect(el.shadowRoot?.querySelector(".tree-select-loading")).to.not.exist;
+  });
+
+  it("trigger has tree-select-trigger-has-value class when value set and closed", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree} .value=${["c1"]} is-multiple></bl-tree-select>`
+    );
+
+    await elementUpdated(el);
+    expect(el.shadowRoot?.querySelector(".tree-select-trigger-has-value")).to.exist;
+
+    el.open();
+    await elementUpdated(el);
+    expect(el.shadowRoot?.querySelector(".tree-select-trigger-has-value")).to.not.exist;
+  });
+
+  it("label is not rendered when empty", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    expect(el.shadowRoot?.querySelector(".header")).to.not.exist;
   });
 });

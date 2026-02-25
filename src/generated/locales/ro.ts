@@ -23,5 +23,8 @@
 'sbaace8219b5f4612': `Selectează tot`,
 'sc2b31c8d71636c74': str`Pagina ${0}`,
 'sf3ff78cc329d3528': `Anteriorul`,
+'s837243444fe86fab': str`(${0} selected)`,
+'s011cb4b34942843f': `No Result Found`,
+'sb4f1dffbb6be6302': `Clear`,
     };
   
