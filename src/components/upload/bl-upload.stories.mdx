@@ -65,6 +65,18 @@ export const DefaultButtonTemplate = (args)=> html`
 ${TemplateHeader({...args, header: 'Button-only', description: 'All layouts include a title, description, icon, and button as optional variants.', subHeader: 'Default State'})}
 ${UploadTemplate(args)}`
 
+export const DisabledHorizontalTemplate = (args)=> html`
+${TemplateHeader({...args, header: '', description: '', subHeader: 'Disabled State'})}
+${UploadTemplate(args)}`
+
+export const DisabledVerticalTemplate = (args)=> html`
+${TemplateHeader({...args, header: '', description: '', subHeader: 'Disabled State'})}
+${UploadTemplate(args)}`
+
+export const DisabledButtonTemplate = (args)=> html`
+${TemplateHeader({...args, header: '', description: '', subHeader: 'Disabled State'})}
+${UploadTemplate(args)}`
+
 export const UploadTemplate = (args) => html`
 <bl-upload
   variant='${ifDefined(args.variant)}'
@@ -266,6 +278,9 @@ There are three different layouts for the upload component: horizontal, vertical
   <Story name="Uploaded State" args={{ headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}
   </Story>
+  <Story name="Disabled Horizontal" args={{ headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png', disabled: true }}>
+     {DisabledHorizontalTemplate.bind()}
+  </Story>
 </Canvas>
 
 <Canvas>
@@ -275,6 +290,9 @@ There are three different layouts for the upload component: horizontal, vertical
   <Story name="Vertical Uploaded State" args={{ variant:'vertical', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}
   </Story>
+  <Story name="Disabled Vertical" args={{ variant: 'vertical', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png', disabled: true }}>
+     {DisabledVerticalTemplate.bind()}
+  </Story>
 </Canvas>
 
 <Canvas isColumn>
@@ -283,6 +301,9 @@ There are three different layouts for the upload component: horizontal, vertical
   </Story>
   <Story name="Button Uploaded State" args={{ variant:'button', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
      {UploadedTemplate.bind()}
+  </Story>
+  <Story name="Disabled Button" args={{ variant: 'button', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png', disabled: true }}>
+     {DisabledButtonTemplate.bind()}
   </Story>
 </Canvas>
 
@@ -358,135 +379,6 @@ upload.setFileStatus(fileId, 'error', 'Upload failed');
 // Update file progress (0-100)
 upload.setFileProgress(fileId, 50);
 ```
-
-## Callback Functions
-
-You can also use callback functions instead of events:
-
-```javascript
-const upload = document.querySelector('bl-upload');
-
-// Called when files are selected
-upload.onFilesSelected = (files) => {
-  console.log('Files selected:', files);
-
-  // Upload files to server
-  files.forEach(fileInfo => {
-    const formData = new FormData();
-    formData.append('file', fileInfo.file);
-    fetch('/api/upload', { method: 'POST', body: formData });
-  });
-};
-
-// Called when there's an error
-upload.onError = (errors) => {
-  console.log('Errors:', errors);
-  errors.forEach(err => {
-    alert(`Error with ${err.file.name}: ${err.message}`);
-  });
-};
-
-// Called when a file is removed
-upload.onFileRemoved = (file) => {
-  console.log('File removed:', file.name);
-};
-```
-
-### React/Vue Usage
-
-```jsx
-// React
-<BlUpload
-  onFilesSelected={(files) => handleUpload(files)}
-  onError={(errors) => handleErrors(errors)}
-  onFileRemoved={(file) => handleRemove(file)}
-  multiple
-/>
-```
-
-```vue
-<!-- Vue -->
-<bl-upload
-  :onFilesSelected="handleUpload"
-  :onError="handleErrors"
-  :onFileRemoved="handleRemove"
-  multiple
-/>
-```
-
-## Complete Example
-
-Here's a complete example with custom upload handling:
-
-```html
-<bl-upload
-  id="myUpload"
-  multiple
-  accept="image/*"
-  max-file-size="5242880"
-  max-files="5"
-  header-text="Upload Your Images"
-  description-text="PNG, JPG - Maximum 5MB"
-  button-text="Select Image"
-></bl-upload>
-
-<script>
-  const upload = document.getElementById('myUpload');
-
-  upload.addEventListener('bl-upload', async (event) => {
-    const files = event.detail.files;
-
-    for (const fileInfo of files) {
-      try {
-        // Set status to uploading
-        upload.setFileStatus(fileInfo.id, 'uploading');
-
-        // Create FormData for upload
-        const formData = new FormData();
-        formData.append('file', fileInfo.file);
-
-        // Upload with progress tracking
-        const xhr = new XMLHttpRequest();
-
-        xhr.upload.addEventListener('progress', (e) => {
-          if (e.lengthComputable) {
-            const progress = (e.loaded / e.total) * 100;
-            upload.setFileProgress(fileInfo.id, progress);
-          }
-        });
-
-        xhr.addEventListener('load', () => {
-          if (xhr.status === 200) {
-            upload.setFileStatus(fileInfo.id, 'success');
-          } else {
-            upload.setFileStatus(fileInfo.id, 'error', 'Upload failed');
-          }
-        });
-
-        xhr.addEventListener('error', () => {
-          upload.setFileStatus(fileInfo.id, 'error', 'Network error');
-        });
-
-        xhr.open('POST', '/api/upload');
-        xhr.send(formData);
-      } catch (error) {
-        upload.setFileStatus(fileInfo.id, 'error', error.message);
-      }
-    }
-  });
-
-  upload.addEventListener('bl-upload-error', (event) => {
-    event.detail.errors.forEach(error => {
-      console.error(`Error with ${error.file.name}: ${error.message}`);
-    });
-  });
-
-  upload.addEventListener('bl-file-remove', (event) => {
-    console.log('File removed:', event.detail.file.name);
-  });
-</script>
-```
-
 ## Reference
 
 <ArgsTable of="bl-upload" />

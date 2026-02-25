@@ -131,6 +131,10 @@ input[type="file"] {
   --bl-upload-width: 453px;
 }
 
+.button-wrapper {
+  display: inline-flex;
+}
+
 .upload-container.variant-button {
   padding: 0;
 }

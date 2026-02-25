@@ -598,7 +598,12 @@ export default class BlUpload extends LitElement {
 
     return html`
       ${variantLayout}
-      <bl-button variant="secondary" ?disabled=${this.disabled} @click=${this._handleButtonClick}>
+      <bl-button
+        variant="secondary"
+        icon="${this.variant === "button" ? "upload" : ""}"
+        ?disabled=${this.disabled}
+        @click=${this._handleButtonClick}
+      >
         ${this.buttonText}
       </bl-button>
     `;
