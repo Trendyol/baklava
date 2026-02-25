@@ -1,7 +1,7 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { localized, msg } from "@lit/localize";
+import { localized, msg, str } from "@lit/localize";
 import { setDirectionProperty } from "../../utilities/direction";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
@@ -201,7 +201,7 @@ export default class BlPagination extends LitElement {
         @click="${() => this._changePage(page)}"
         variant=${this.currentPage === page ? "primary" : "tertiary"}
         kind="neutral"
-        label="Page ${page}"
+        label=${msg(str`Page ${page}`, { desc: "bl-pagination: page number button" })}
         aria-current=${ifDefined(ariaCurrent)}
       >
         ${page}
@@ -218,7 +218,7 @@ export default class BlPagination extends LitElement {
           kind="neutral"
           icon="arrow_left"
           class="previous"
-          label="Previous"
+          label=${msg("Previous", { desc: "bl-pagination: previous page button" })}
           ?disabled=${this.currentPage === 1}
         ></bl-button>
         <ul class="page-list">
@@ -232,7 +232,7 @@ export default class BlPagination extends LitElement {
           kind="neutral"
           icon="arrow_right"
           class="next"
-          label="Next"
+          label=${msg("Next", { desc: "bl-pagination: next page button" })}
           ?disabled=${this.currentPage === this._getLastPage()}
         ></bl-button>
       </div>
