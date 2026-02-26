@@ -36,12 +36,7 @@
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--highlight-color),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, var(--highlight-color), transparent);
   animation: wave 1.6s linear infinite;
 }
 
