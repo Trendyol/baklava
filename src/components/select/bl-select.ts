@@ -232,7 +232,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
 
   /** @internal */
   static _resolveUserLang(hasDocument = typeof document !== "undefined"): string {
-    if (!hasDocument) return "en";
+    if (!hasDocument) return navigator.language;
     return (
       (document.querySelector("html")?.getAttribute("lang") as LangKey | null) || navigator.language
     );

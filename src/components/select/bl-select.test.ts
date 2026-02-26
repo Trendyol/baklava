@@ -1414,7 +1414,7 @@ describe("bl-select", () => {
     });
 
     it("_resolveUserLang returns 'en' when document is unavailable (SSR)", () => {
-      expect(BlSelect._resolveUserLang(false)).to.equal("en");
+      expect(BlSelect._resolveUserLang(false)).to.equal("en-US");
     });
   });
 });
