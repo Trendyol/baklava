@@ -231,8 +231,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   @event("bl-search") private _onBlSearch: EventDispatcher<string>;
 
   /** @internal */
-  static _resolveUserLang(hasDocument = typeof document !== "undefined"): string {
-    if (!hasDocument) return navigator.language;
+  static _resolveUserLang(hasDocument = typeof document !== "undefined") {
+    if (!hasDocument) return "en";
     return (
       (document.querySelector("html")?.getAttribute("lang") as LangKey | null) || navigator.language
     );
