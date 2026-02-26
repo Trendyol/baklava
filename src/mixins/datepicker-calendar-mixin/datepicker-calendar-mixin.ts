@@ -4,6 +4,12 @@ import { CalendarType, DayValues } from "../../components/calendar/bl-calendar.t
 import { stringToDateArray } from "../../utilities/string-to-date-converter";
 
 export default class DatepickerCalendarMixin extends LitElement {
+  /** @internal */
+  static _resolveLocale(hasDocument = typeof document !== "undefined"): string {
+    if (!hasDocument) return "en-EN";
+    return document.documentElement.lang || "en-EN";
+  }
+
   /**
    * Defines the calendar types, available types are single, multiple and range
    */
@@ -18,7 +24,7 @@ export default class DatepickerCalendarMixin extends LitElement {
    * Defines the calendar language
    */
   @property()
-  locale: string = document.documentElement.lang || "en-EN";
+  locale: string = DatepickerCalendarMixin._resolveLocale();
 
   /**
    * Enables month and year only selection mode

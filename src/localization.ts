@@ -14,7 +14,11 @@ export const { getLocale, setLocale } = configureLocalization({
   loadLocale: locale => Promise.resolve(localeModules[locale as keyof typeof localeModules]),
 });
 
+const isServer = typeof document === "undefined";
+
 export const init = async () => {
+  if (isServer) return;
+
   const html = document.querySelector("html");
   const htmlLang = html?.getAttribute("lang") as LangKey | null;
 
@@ -22,7 +26,6 @@ export const init = async () => {
     await setLocale(htmlLang);
   }
 
-  // Add event listener for 'lang' attribute changes
   const langAttributeChangeListener = (mutations: MutationRecord[]) => {
     mutations.forEach(mutation => {
       if (mutation.attributeName === "lang") {
@@ -35,13 +38,11 @@ export const init = async () => {
     });
   };
 
-  // Check if MutationObserver is supported
   if (typeof MutationObserver !== "undefined") {
     const observer = new MutationObserver(langAttributeChangeListener);
 
     observer.observe(html as Node, { attributes: true });
   } else {
-    // Fallback to DOMAttrModified for older browsers
     html?.addEventListener("DOMAttrModified", e =>
       langAttributeChangeListener([e as unknown as MutationRecord])
     );

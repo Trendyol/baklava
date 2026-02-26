@@ -1370,4 +1370,51 @@ describe("bl-select", () => {
       expect(el.opened).to.be.false;
     });
   });
+
+  describe("userLang SSR guard", () => {
+    it("should set userLang from document lang or navigator.language in browser", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select>
+        <bl-select-option value="1">Option 1</bl-select-option>
+      </bl-select>`);
+
+      const host = el as unknown as { userLang: string };
+      const htmlLang = document.querySelector("html")?.getAttribute("lang");
+      const expected = htmlLang || navigator.language;
+
+      expect(host.userLang).to.equal(expected);
+    });
+
+    it("should use userLang for locale-specific search filtering", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select search-bar>
+        <bl-select-option value="1">Apple</bl-select-option>
+        <bl-select-option value="2">Banana</bl-select-option>
+      </bl-select>`);
+
+      el.open();
+      await elementUpdated(el);
+      const searchInput = el.shadowRoot?.querySelector<HTMLInputElement>(".search-bar-input");
+
+      searchInput!.value = "apple";
+      searchInput?.dispatchEvent(new InputEvent("input", { bubbles: true }));
+      await elementUpdated(el);
+
+      const options = el.querySelectorAll<BlSelectOption>("bl-select-option");
+      const visibleOptions = Array.from(options).filter(o => !o.hidden);
+
+      expect(visibleOptions.length).to.equal(1);
+      expect(visibleOptions[0].value).to.equal("1");
+    });
+
+    it("_resolveUserLang returns lang from document in browser", () => {
+      const result = BlSelect._resolveUserLang();
+      const htmlLang = document.querySelector("html")?.getAttribute("lang");
+      const expected = htmlLang || navigator.language;
+
+      expect(result).to.equal(expected);
+    });
+
+    it("_resolveUserLang returns 'en' when document is unavailable (SSR)", () => {
+      expect(BlSelect._resolveUserLang(false)).to.equal("en");
+    });
+  });
 });

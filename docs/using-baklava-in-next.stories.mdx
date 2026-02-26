@@ -4,7 +4,7 @@ import { Meta } from '@storybook/blocks';
 
 # Using Baklava With Next
 
-Because Baklava uses static CDN and Next uses SSR, they are not compatible by default. We have 2 options. We can wait for the CDN to load before rendering the page, or we can force baklava to use Client Side Rendering.
+Baklava is a web component library built with Lit. Since web components rely on browser APIs like `customElements` and `document`, they require special handling in Next.js SSR environments.
 
 ## Preparation
 
@@ -28,17 +28,15 @@ Include Baklava library from CDN to your project's `<head>` section (in `layout.
 />
 ```
 
+## Next.js App Router (Recommended)
 
-## Using without SSR
-
-Create a custom component for the baklava component you will use
+### Step 1: Create a client-side wrapper component
 
 ```jsx
-"use client"; // This is a client-side component
+"use client";
 
-import { BlButton } from "@trendyol/baklava/dist/baklava-react"; // Import the component from the library
+import { BlButton } from "@trendyol/baklava/dist/baklava-react";
 
-// Create a new component that uses the library component
 const Button = (props: React.ComponentProps<typeof BlButton>) => (
   <BlButton {...props}>Click me!</BlButton>
 );
@@ -46,20 +44,27 @@ const Button = (props: React.ComponentProps<typeof BlButton>) => (
 export default Button;
 ```
 
-In the page, import the component using `dynamic` with ssr off.
+### Step 2: Use dynamic import with SSR disabled
 
 ```jsx
+import dynamic from "next/dynamic";
+
 const Button = dynamic(() => import("@/components/Button"), { ssr: false });
+
+export default function Page() {
+  return <Button />;
+}
 ```
 
-Or you can export the component as dynamic to avoid type errors.
+### Alternative: Export as dynamic directly
+
+You can combine both steps into a single file to avoid type errors:
 
 ```jsx
-
 "use client";
 
-import dynamic from 'next/dynamic';
-import type { ComponentProps } from 'react';
+import dynamic from "next/dynamic";
+import type { ComponentProps } from "react";
 import { BlButton } from "@trendyol/baklava/dist/baklava-react";
 
 type ButtonProps = ComponentProps<typeof BlButton>;
@@ -68,48 +73,62 @@ const Button = (props: ButtonProps) => (
   <BlButton {...props}>Click me!</BlButton>
 );
 
-const DynamicButton = dynamic<ButtonProps>(() =>
-  Promise.resolve(Button)
-);
+const DynamicButton = dynamic<ButtonProps>(() => Promise.resolve(Button));
 
 export default DynamicButton;
 ```
 
 [Here is the demo repository](https://github.com/trendyol/baklava/tree/next/examples/next-app-router-ssr). You can also preview it live with [StackBlitz](https://stackblitz.com/github/trendyol/baklava/tree/next/examples/next-app-router-ssr).
 
-## Using with SSR
+## Next.js Pages Router
 
-We will use a workaround in order to wait for CDN to be loaded. In `_app.tsx`, add a 0ms latency for the `<Component />`.
+In `_app.tsx`, wait for client-side hydration before rendering the page:
 
 ```jsx
+import { useEffect, useState } from "react";
+
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
-  setTimeout(() => {
-    setIsLoaded(true);
-  }, 0);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
-  return isLoaded && <Component {...pageProps} />
+  if (!isClient) return null;
+
+  return <Component {...pageProps} />;
 }
 ```
 
-Then import components just like regular react.
+Then import components directly:
 
 ```jsx
-import { BlButton } from '@trendyol/baklava/dist/baklava-react';
+import { BlButton } from "@trendyol/baklava/dist/baklava-react";
 
 function Button() {
-  return <BlButton>Click Me</BlButton>
+  return <BlButton>Click Me</BlButton>;
 }
 ```
 
-### Testing with Jest
+## Why is `ssr: false` needed?
+
+Baklava components use `customElements.define()` and Shadow DOM, which are browser-only APIs. When Next.js tries to render these on the server:
+
+1. `customElements` is not available in Node.js
+2. Shadow DOM cannot be created on the server
+3. The server-rendered HTML will be empty, causing a white screen on refresh
+
+Using `dynamic(..., { ssr: false })` ensures Baklava components are only rendered on the client side.
+
+## Testing with Jest
 
 If you are using Server Side Rendering, you can mock Baklava components as JSX components in Jest.
 
 ```js
-jest.mock('@trendyol/baklava/dist/baklava-react', () => ({
-  ...jest.requireActual('@trendyol/baklava/dist/baklava-react'),
-  BlPagination: (props: any) => <div data-testId="current-page-mock">{props['current-page']}</div>,
+jest.mock("@trendyol/baklava/dist/baklava-react", () => ({
+  ...jest.requireActual("@trendyol/baklava/dist/baklava-react"),
+  BlPagination: (props: any) => (
+    <div data-testId="current-page-mock">{props["current-page"]}</div>
+  ),
 }));
 ```

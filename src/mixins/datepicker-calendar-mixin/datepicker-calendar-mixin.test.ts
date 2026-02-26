@@ -87,4 +87,25 @@ describe("DatepickerCalendarMixin", () => {
     element.maxDate = new Date("invalid date");
     expect(consoleSpy.calledWith("Invalid maxDate value.")).to.be.true;
   });
+
+  describe("_resolveLocale", () => {
+    it("should return document lang when available in browser", () => {
+      const result = DatepickerCalendarMixin._resolveLocale();
+      const expected = document.documentElement.lang || "en-EN";
+
+      expect(result).to.equal(expected);
+    });
+
+    it("should return 'en-EN' when document lang is empty", () => {
+      const origLang = document.documentElement.lang;
+
+      document.documentElement.lang = "";
+      expect(DatepickerCalendarMixin._resolveLocale()).to.equal("en-EN");
+      document.documentElement.lang = origLang;
+    });
+
+    it("should return 'en-EN' when document is unavailable (SSR)", () => {
+      expect(DatepickerCalendarMixin._resolveLocale(false)).to.equal("en-EN");
+    });
+  });
 });
