@@ -1,0 +1,168 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+
+<Meta
+  title="Components/Color Picker"
+  component="bl-color-picker"
+  argTypes={{
+    value: {
+      control: 'color'
+    },
+    format: {
+      options: ['hex', 'rgb'],
+      control: { type: 'select' }
+    },
+    disabled: {
+      control: 'boolean'
+    },
+  }}
+/>
+
+export const ColorPickerTemplate = (args) => html`<bl-color-picker
+  value=${ifDefined(args.value)}
+  format=${ifDefined(args.format)}
+  ?disabled=${args.disabled}
+  style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+  @bl-color-change=${args.onChange || (() => {})}
+></bl-color-picker>`;
+
+export const DefaultTemplate = () => html`
+  <bl-color-picker></bl-color-picker>
+`;
+
+export const FormatsTemplate = () => html`
+  <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+    <div>
+      <p style="margin: 0 0 8px; font-weight: 600;">HEX Format</p>
+      <bl-color-picker format="hex" value="#e74c3c"></bl-color-picker>
+    </div>
+    <div>
+      <p style="margin: 0 0 8px; font-weight: 600;">RGB Format</p>
+      <bl-color-picker format="rgb" value="#3498db"></bl-color-picker>
+    </div>
+  </div>
+`;
+
+export const ColorsTemplate = () => html`
+  <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+    <bl-color-picker value="#e74c3c"></bl-color-picker>
+    <bl-color-picker value="#2ecc71"></bl-color-picker>
+    <bl-color-picker value="#3498db"></bl-color-picker>
+  </div>
+`;
+
+export const DisabledTemplate = () => html`
+  <bl-color-picker disabled value="#9b59b6"></bl-color-picker>
+`;
+
+export const CustomWidthTemplate = () => html`
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    <div>
+      <p style="margin: 0 0 8px; font-weight: 600;">Compact (200px)</p>
+      <bl-color-picker style="--bl-color-picker-width: 200px" value="#e67e22"></bl-color-picker>
+    </div>
+    <div>
+      <p style="margin: 0 0 8px; font-weight: 600;">Wide (360px)</p>
+      <bl-color-picker style="--bl-color-picker-width: 360px" value="#1abc9c"></bl-color-picker>
+    </div>
+  </div>
+`;
+
+export const EventTemplate = () => {
+  const handleChange = (e) => {
+    const output = e.target.parentElement.querySelector('.output');
+    if (output) output.textContent = e.detail;
+  };
+
+  return html`
+    <div style="display: flex; align-items: flex-start; gap: 24px;">
+      <bl-color-picker value="#f39c12" @bl-color-change=${handleChange}></bl-color-picker>
+      <div style="padding: 16px; border: 1px solid var(--bl-color-neutral-lighter); border-radius: 8px;">
+        <p style="margin: 0 0 8px; font-weight: 600;">Selected Color</p>
+        <code class="output" style="font-size: 14px;">#f39c12</code>
+      </div>
+    </div>
+  `;
+};
+
+# Color Picker
+
+Color Picker component allows users to select colors through an interactive visual interface. It provides a color area for saturation and brightness selection, a hue slider, and text inputs for precise color values.
+
+## Basic Usage
+
+The simplest usage with default values. Click and drag on the color area to select saturation and brightness. Use the hue slider below to change the base color.
+
+<Canvas>
+  <Story name="Default" args={{ value: '#ff0000' }}>
+    {ColorPickerTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Display Formats
+
+Color Picker supports two display formats: **HEX** and **RGB**. Click the format label below the input to toggle between them.
+
+<Canvas>
+  <Story name="Formats">
+    {FormatsTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Preset Colors
+
+You can initialize the color picker with different color values.
+
+<Canvas>
+  <Story name="Colors">
+    {ColorsTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Disabled State
+
+When disabled, the color picker becomes non-interactive and visually dimmed.
+
+<Canvas>
+  <Story name="Disabled">
+    {DisabledTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Custom Width
+
+The picker width can be customized using the `--bl-color-picker-width` CSS custom property.
+
+<Canvas>
+  <Story name="Custom Width">
+    {CustomWidthTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Event Handling
+
+The `bl-color-change` event fires whenever the color value changes. The event detail contains the hex color string.
+
+<Canvas>
+  <Story name="Event Handling">
+    {EventTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Keyboard Navigation
+
+The Color Picker supports full keyboard navigation:
+
+| Area | Key | Action |
+|------|-----|--------|
+| Color Area | `Arrow Left/Right` | Adjust saturation |
+| Color Area | `Arrow Up/Down` | Adjust brightness |
+| Hue Slider | `Arrow Left/Right` | Adjust hue |
+| All | `Shift + Arrow` | Larger step (10x) |
+| Inputs | `Tab` | Navigate between inputs |
+
+## Reference
+
+<ArgsTable of="bl-color-picker" />

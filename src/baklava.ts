@@ -6,6 +6,7 @@ export { default as BlBadge } from "./components/badge/bl-badge";
 export { default as BlButton } from "./components/button/bl-button";
 export { default as BlCalendar } from "./components/calendar/bl-calendar";
 export { default as BlCheckboxGroup } from "./components/checkbox-group/bl-checkbox-group";
+export { default as BlColorPicker } from "./components/color-picker/bl-color-picker";
 export { default as BlCheckbox } from "./components/checkbox-group/checkbox/bl-checkbox";
 export { default as BlDatePicker } from "./components/datepicker/bl-datepicker";
 export { default as BlDialog } from "./components/dialog/bl-dialog";

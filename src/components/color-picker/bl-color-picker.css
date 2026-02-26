@@ -1,0 +1,201 @@
+:host {
+  display: inline-block;
+  font-family: var(--bl-font-family);
+}
+
+:host([disabled]) {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.color-picker {
+  width: var(--bl-color-picker-width, 280px);
+  background: var(--bl-color-neutral-full);
+  border: 1px solid var(--bl-color-neutral-lighter);
+  border-radius: var(--bl-border-radius-l);
+  padding: var(--bl-size-m);
+  display: flex;
+  flex-direction: column;
+  gap: var(--bl-size-m);
+  box-shadow: 0 4px 24px rgb(0 0 0 / 8%);
+}
+
+/* ── Color Area ── */
+
+.color-area {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 3;
+  border-radius: var(--bl-border-radius-l);
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 6%);
+}
+
+.color-area::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, #fff, rgb(255 255 255 / 0%));
+  pointer-events: none;
+}
+
+.color-area::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, #000);
+  pointer-events: none;
+}
+
+.area-thumb {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--bl-border-radius-circle);
+  border: 2.5px solid var(--bl-color-neutral-full);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 12%), 0 2px 8px rgb(0 0 0 / 25%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: var(--bl-index-base);
+  transition: box-shadow 0.15s ease;
+}
+
+/* ── Hue Slider ── */
+
+.hue-slider {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  border-radius: var(--bl-border-radius-pill);
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 6%);
+}
+
+.slider-thumb {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--bl-border-radius-circle);
+  border: 2.5px solid var(--bl-color-neutral-full);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 12%), 0 2px 8px rgb(0 0 0 / 25%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.hue-slider:active .slider-thumb {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 4px 12px rgb(0 0 0 / 30%);
+}
+
+.color-area:active .area-thumb {
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 4px 12px rgb(0 0 0 / 30%);
+}
+
+/* ── Input Section ── */
+
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bl-size-3xs);
+  padding-top: var(--bl-size-2xs);
+  border-top: 1px solid var(--bl-color-neutral-lightest);
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: var(--bl-size-2xs);
+}
+
+.color-preview {
+  width: var(--bl-size-2xl);
+  height: var(--bl-size-2xl);
+  min-width: var(--bl-size-2xl);
+  border-radius: var(--bl-border-radius-circle);
+  border: 1px solid var(--bl-color-neutral-lighter);
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / 8%);
+}
+
+.input-row > bl-input.hex-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.rgb-inputs {
+  display: flex;
+  flex: 1;
+  gap: var(--bl-size-3xs);
+}
+
+.rgb-inputs bl-input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Label Row ── */
+
+.label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--bl-size-2xs);
+}
+
+.label-row .spacer {
+  width: var(--bl-size-2xl);
+  min-width: var(--bl-size-2xl);
+}
+
+.format-label {
+  flex: 1;
+  font: var(--bl-font-caption);
+  color: var(--bl-color-neutral-dark);
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  transition: color 0.15s ease;
+  letter-spacing: 0.3px;
+}
+
+.format-label:hover {
+  color: var(--bl-color-primary);
+}
+
+.rgb-labels {
+  display: flex;
+  flex: 1;
+  gap: var(--bl-size-3xs);
+}
+
+.rgb-labels span {
+  flex: 1;
+  font: var(--bl-font-caption);
+  color: var(--bl-color-neutral-dark);
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s ease;
+}
+
+.rgb-labels:hover span {
+  color: var(--bl-color-primary);
+}
+
+/* ── Focus Visible ── */
+
+.color-area:focus-visible {
+  outline: 2px solid var(--bl-color-primary);
+  outline-offset: 2px;
+}
+
+.hue-slider:focus-visible {
+  outline: 2px solid var(--bl-color-primary);
+  outline-offset: 3px;
+}
