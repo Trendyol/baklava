@@ -670,7 +670,7 @@ export default class BlTreeSelect extends LitElement {
           .indeterminate=${indeterminate}
           @bl-checkbox-change=${(e: CustomEvent<boolean>) => this._handleSelectAll(e.detail)}
         >
-          ${this.selectAllText || msg("Select All", { desc: "bl-tree-select: select all text" })}
+          ${this.selectAllText || msg("Select All", { desc: "bl-select: select all text" })}
           ${count > 0
             ? html`<span class="select-all-count"
                 >${msg(str`(${count} selected)`, { desc: "bl-tree-select: selected count" })}</span

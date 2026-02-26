@@ -72,6 +72,22 @@
   <target>صفحة <x id="0" equiv-text="${page}"/></target>
   <note from="lit-localize">bl-pagination: page number button</note>
 </trans-unit>
+<trans-unit id="sb4f1dffbb6be6302">
+  <source>Clear</source>
+  <note from="lit-localize">bl-tree-select: clear selection button</note>
+</trans-unit>
+<trans-unit id="s011cb4b34942843f">
+  <source>No Result Found</source>
+  <note from="lit-localize">bl-tree-select: search no result text</note>
+</trans-unit>
+<trans-unit id="sffa721bb6aa3128d">
+  <source>Search...</source>
+  <note from="lit-localize">bl-tree-select: search placeholder</note>
+</trans-unit>
+<trans-unit id="s837243444fe86fab">
+  <source>(<x id="0" equiv-text="${count}"/> selected)</source>
+  <note from="lit-localize">bl-tree-select: selected count</note>
+</trans-unit>
 </body>
 </file>
 </xliff>
