@@ -61,9 +61,9 @@ interface TreeNode {
 | `value` | `string \| string[] \| null` | Selected value(s). Single: one string; multiple: array of strings | `null` |
 | `is-multiple` | `boolean` | Multiple selection with checkboxes and Select All; when false, single selection (leaf-only) | `true` |
 | `view-select-all` | `boolean` | Show "Select All" row (only when `is-multiple`) | `false` |
-| `select-all-text` | `string` | Text for Select All row | `"Select All"` |
-| `search-placeholder` | `string` | Placeholder for search inside dropdown | `""` |
-| `empty-result-text` | `string` | Message when search has no results | `"Sonuç Bulunamadı."` |
+| `select-all-text` | `string` | Text for Select All row | `""` (localized fallback: `"Select All"`) |
+| `search-placeholder` | `string` | Placeholder for search inside dropdown | `""` (localized fallback: `"Search..."`) |
+| `empty-result-text` | `string` | Message when search has no results | `undefined` (localized fallback: `"No Result Found"`) |
 | `disabled` | `boolean` | Disables the component | `false` |
 | `required` | `boolean` | Marks the field as required | `false` |
 

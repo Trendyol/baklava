@@ -1416,6 +1416,18 @@ describe("bl-tree-select", () => {
     expect(input?.placeholder).to.equal("Search...");
   });
 
+  it("placeholder falls back to localized default when open and no searchPlaceholder or placeholder", async () => {
+    const el = await fixture<BlTreeSelect>(
+      html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`
+    );
+
+    el.open();
+    await elementUpdated(el);
+    const input = getSearchInput(el);
+
+    expect(input?.placeholder).to.equal("Search...");
+  });
+
   it("updated resets _focusedIndex when _open changes", async () => {
     const el = await fixture<BlTreeSelect>(
       html`<bl-tree-select .items=${sampleTree}></bl-tree-select>`

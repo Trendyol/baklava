@@ -695,9 +695,11 @@ export default class BlTreeSelect extends LitElement {
 
   render(): TemplateResult {
     const displayText = this._getDisplayText();
-    const inputPlaceholder = this._open
-      ? this.searchPlaceholder || this.placeholder || undefined
-      : displayText || this.placeholder || undefined;
+    const searchPh =
+      this.searchPlaceholder ||
+      this.placeholder ||
+      msg("Search...", { desc: "bl-tree-select: search placeholder" });
+    const inputPlaceholder = this._open ? searchPh : displayText || this.placeholder || undefined;
 
     return html`
       <div
