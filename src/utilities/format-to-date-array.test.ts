@@ -36,4 +36,25 @@ describe("normalizeValue", () => {
 
     expect(result).to.deep.equal([]);
   });
+
+  it("should return an empty array when string contains invalid dates", () => {
+    const input = "invalid-date,not-a-date";
+    const result = formatToDateArray(input);
+
+    expect(result).to.deep.equal([]);
+  });
+
+  it("should filter out invalid dates and return valid ones from string", () => {
+    const input = "2023-10-10,invalid-date,2023-10-11";
+    const expected = [new Date("2023-10-10"), new Date("2023-10-11")];
+    const result = formatToDateArray(input);
+
+    expect(result).to.deep.equal(expected);
+  });
+
+  it("should return empty array for non-array, non-date, non-string values", () => {
+    const result = formatToDateArray({} as never);
+
+    expect(result).to.deep.equal([]);
+  });
 });

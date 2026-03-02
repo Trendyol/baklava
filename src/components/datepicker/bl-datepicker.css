@@ -13,6 +13,10 @@
   display: grid;
 }
 
+:host([disabled]) .datepicker-content {
+  pointer-events: none;
+}
+
 .datepicker-input {
   width: var(--bl-datepicker-input-width, auto);
   white-space: nowrap;
