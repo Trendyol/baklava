@@ -383,10 +383,10 @@ export default class BlCalendar extends DatepickerCalendarMixin {
     if (changedProperties.has("value")) {
       const dates = formatToDateArray(this._value);
 
-      if (!dates?.length) {
+      if (!dates || !Array.isArray(dates) || dates.length === 0) {
         this.handleClearSelectedDates();
       } else {
-        dates?.forEach(date => {
+        dates.forEach(date => {
           this.handleDate(date);
         });
       }

@@ -47,7 +47,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   /**
    * Sets datepicker to disabled
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   disabled: boolean;
   /**
    * Defines help text to datepicker input for users

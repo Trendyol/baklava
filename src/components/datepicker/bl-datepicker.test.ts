@@ -404,4 +404,47 @@ describe("BlDatepicker", () => {
       expect(element._calendarEl._dates).to.deep.equal([]);
     });
   });
+
+  describe("Disabled State Behavior", () => {
+    beforeEach(async () => {
+      element = await fixture<BlDatePicker>(html`
+        <bl-datepicker type="single" locale="en" disabled></bl-datepicker>`);
+
+      element._calendarEl._dates = [new Date(2024, 0, 15)];
+      element.setDatePickerInput();
+      await element.updateComplete;
+    });
+
+    it("should reflect disabled attribute on host", async () => {
+      expect(element.hasAttribute("disabled")).to.be.true;
+    });
+
+    it("should apply pointer-events none CSS when disabled", async () => {
+      const datepickerContent = element.shadowRoot?.querySelector(".datepicker-content") as HTMLElement;
+      const styles = window.getComputedStyle(datepickerContent);
+
+      expect(styles.pointerEvents).to.equal("none");
+    });
+
+    it("should have disabled clear button when disabled", async () => {
+      const clearButton = element.shadowRoot?.querySelector("bl-button") as BlButton;
+
+      expect(clearButton).to.exist;
+      expect(clearButton.disabled).to.be.true;
+    });
+
+    it("should have disabled input when disabled", async () => {
+      expect(element._inputEl?.hasAttribute("disabled")).to.be.true;
+    });
+
+    it("should not open popover on input click when disabled", async () => {
+      element._popoverEl.hide();
+      await element.updateComplete;
+
+      element._inputEl?.click();
+      await element.updateComplete;
+
+      expect(element._popoverEl.visible).to.be.false;
+    });
+  });
 });
