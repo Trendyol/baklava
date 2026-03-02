@@ -47,7 +47,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   /**
    * Sets datepicker to disabled
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   disabled: boolean;
   /**
    * Defines help text to datepicker input for users
@@ -153,16 +153,12 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   clearDatepicker() {
-    if (this.disabled) return;
-
     this._calendarEl.handleClearSelectedDates();
     this._inputValue = "";
     this._floatingDateCount = 0;
   }
 
   openPopover() {
-    if (this.disabled) return;
-
     this._popoverEl.target = this._inputEl;
     this._popoverEl.show();
   }
@@ -172,8 +168,6 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   _togglePopover() {
-    if (this.disabled) return;
-
     this._popoverEl.visible ? this.closePopover() : this.openPopover();
   }
 
