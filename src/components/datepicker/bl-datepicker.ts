@@ -153,12 +153,16 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   clearDatepicker() {
+    if (this.disabled) return;
+
     this._calendarEl.handleClearSelectedDates();
     this._inputValue = "";
     this._floatingDateCount = 0;
   }
 
   openPopover() {
+    if (this.disabled) return;
+
     this._popoverEl.target = this._inputEl;
     this._popoverEl.show();
   }
@@ -168,6 +172,8 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   }
 
   _togglePopover() {
+    if (this.disabled) return;
+
     this._popoverEl.visible ? this.closePopover() : this.openPopover();
   }
 

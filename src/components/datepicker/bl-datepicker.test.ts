@@ -404,4 +404,69 @@ describe("BlDatepicker", () => {
       expect(element._calendarEl._dates).to.deep.equal([]);
     });
   });
+
+  describe("Disabled State Behavior", () => {
+    beforeEach(async () => {
+      element = await fixture<BlDatePicker>(html`
+        <bl-datepicker type="single" locale="en" disabled></bl-datepicker>`);
+
+      element._calendarEl._dates = [new Date(2024, 0, 15)];
+      element.setDatePickerInput();
+      await element.updateComplete;
+    });
+
+    it("should not clear datepicker when disabled", async () => {
+      const initialValue = element._inputValue;
+      const initialDates = [...element._calendarEl._dates];
+
+      element.clearDatepicker();
+      await element.updateComplete;
+
+      expect(element._inputValue).to.equal(initialValue);
+      expect(element._calendarEl._dates).to.deep.equal(initialDates);
+    });
+
+    it("should not open popover when disabled", async () => {
+      element._popoverEl.hide();
+      await element.updateComplete;
+
+      element.openPopover();
+      await element.updateComplete;
+
+      expect(element._popoverEl.visible).to.be.false;
+    });
+
+    it("should not toggle popover when disabled", async () => {
+      element._popoverEl.hide();
+      await element.updateComplete;
+
+      element._togglePopover();
+      await element.updateComplete;
+
+      expect(element._popoverEl.visible).to.be.false;
+    });
+
+    it("should not clear dates via clear button when disabled", async () => {
+      const initialDates = [...element._calendarEl._dates];
+      const clearButton = element.shadowRoot?.querySelector("bl-button") as BlButton;
+
+      expect(clearButton).to.exist;
+      expect(clearButton.disabled).to.be.true;
+
+      clearButton?.click();
+      await element.updateComplete;
+
+      expect(element._calendarEl._dates).to.deep.equal(initialDates);
+    });
+
+    it("should not open popover on input click when disabled", async () => {
+      element._popoverEl.hide();
+      await element.updateComplete;
+
+      element._inputEl?.click();
+      await element.updateComplete;
+
+      expect(element._popoverEl.visible).to.be.false;
+    });
+  });
 });
