@@ -1,5 +1,5 @@
 import { html, LitElement, TemplateResult } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import { CSSResultGroup } from "lit/development";
 import { msg } from "@lit/localize";
 import "../../icon/bl-icon";
@@ -25,8 +25,13 @@ export default class BlTableBody extends LitElement {
     return this.closest<BlTable>(blTableTag);
   }
 
-  private get hasTableRows() {
-    return this.querySelector("bl-table-row") !== null;
+  @state()
+  private hasTableRows = false;
+
+  private _mutationObserver: MutationObserver | null = null;
+
+  private _checkTableRows() {
+    this.hasTableRows = this.querySelector("bl-table-row") !== null;
   }
 
   connectedCallback(): void {
@@ -34,6 +39,16 @@ export default class BlTableBody extends LitElement {
     if (!this._table) {
       console.warn("bl-table-body is designed to be used inside a bl-table", this);
     }
+
+    this._checkTableRows();
+    this._mutationObserver = new MutationObserver(() => this._checkTableRows());
+    this._mutationObserver.observe(this, { childList: true });
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this._mutationObserver?.disconnect();
+    this._mutationObserver = null;
   }
 
   render(): TemplateResult {
