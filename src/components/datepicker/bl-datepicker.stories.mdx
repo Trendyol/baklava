@@ -28,10 +28,11 @@ export const DatepickerTemplate = (args) => html`
     locale=${ifDefined(args.locale)}
     value=${ifDefined(args.value)}
     style=${ifDefined(args.style)}
-    disabled-dates=${ifDefined(args.disabledDates)}
+    .disabledDates=${args.disabledDates}
+    ?disabled=${args.disabled}
     ?month-year-only=${args.monthYearOnly}
     @bl-datepicker-change=${(e) => {
-      action('bl-datepicker-change')(e)
+      action('bl-datepicker-change')(e.detail)
     }}>${unsafeHTML(args.content)}
   </bl-datepicker>`
 
@@ -116,8 +117,28 @@ You can set dates which you want to disable from Datepicker.
   <Story name="Disabled Dates" args={{
     type: 'multiple',
     label: 'Disabled Dates',
-    placeholder: 'Set disabled dates',
-    disabledDates: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2)
+    placeholder: 'Select dates (some disabled)',
+    disabledDates: [
+      new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2),
+      new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 5),
+      new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 8)
+    ]
+  }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Disabled Datepicker
+
+You can disable the entire datepicker to prevent any interaction. The selected date will still be visible.
+
+<Canvas>
+  <Story name="Disabled Datepicker" args={{
+    type: 'single',
+    label: 'Disabled Datepicker',
+    placeholder: 'Select a date',
+    value: new Date(),
+    disabled: true
   }}>
     {Template.bind({})}
   </Story>
