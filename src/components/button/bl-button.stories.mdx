@@ -69,7 +69,6 @@ export const SingleButtonTemplate = (args) => html`<bl-button
     style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
       >${unsafeHTML(args.content)}</bl-button>`
 
-
 export const FocusStateTemplate = (args) => {
   const accessibilityStyles = {
     '--bl-color-primary': '#803C00',
@@ -141,14 +140,12 @@ We have 3 variants for each button: **Primary**, **Secondary** and **Tertiary**.
 
 ### Primary Buttons
 
+Primary buttons are used for main actions of the screens. Like a submit button in a form or main button of a dialog.It can has 4 different "kind"s. `default`, `neutral`, `success` and `danger`.
 Primary buttons are used for main actions of the screens. Like a submit button in a form or main button of a dialog.
 
 <Canvas>
   <Story name="Primary Buttons" args={{ content: 'Primary Button' }}>
-    {(args) => SingleButtonTemplate({
-      ...args,
-      styles: { '--bl-color-primary': '#803C00', '--bl-color-primary-highlight': '#6B3410', '--bl-color-neutral-full': '#F2F2F2', 'font-weight': '600' }
-    })}
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
@@ -157,12 +154,8 @@ Primary buttons are used for main actions of the screens. Like a submit button i
 Secondary buttons represent the important actions in the app. But not the primary ones. They work with all the kinds.
 
 <Canvas>
-  <Story name="Secondary Buttons" args={{ content: 'Secondary Button' }}>
-    {(args) => SingleButtonTemplate({
-      ...args,
-      variant: 'secondary',
-      styles: { '--bl-color-primary': '#803C00', '--bl-color-primary-highlight': '#6B3410', '--bl-color-neutral-full': '#F2F2F2', 'font-weight': '600' }
-    })}
+  <Story name="Secondary Buttons" args={{ variant:'secondary', content: 'Secondary button' }}>
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
@@ -171,17 +164,8 @@ Secondary buttons represent the important actions in the app. But not the primar
 Tertiary buttons are typically used for less important actions which also have all the kinds.
 
 <Canvas>
-  <Story name="Tertiary Buttons" args={{ content: 'Tertiary Button' }}>
-    {(args) => SingleButtonTemplate({
-      ...args,
-      variant: 'tertiary',
-      styles: {
-        '--bl-color-primary': '#803C00',
-        '--bl-color-primary-highlight': '#6B3410',
-        '--bl-color-neutral-full': '#F2F2F2',
-        'font-weight': '600'
-      }
-    })}
+  <Story name="Tertiary Buttons" args={{ variant:'tertiary', content: 'Tertiary button' }}>
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
@@ -193,14 +177,14 @@ Our icons are defined to be left of the default slot.
 To be able to use icon with button, you should give the name of icon to `icon` attribute.
 
 <Canvas>
-  <Story name="Icon Buttons" args={{ content: 'Save', icon: 'info', styles: { '--bl-color-primary': '#803C00', '--bl-color-primary-highlight': '#6B3410', '--bl-color-neutral-full': '#F2F2F2', 'font-weight': '600' } }}>
-    {SingleButtonTemplate.bind({})}
+  <Story name="Icon Buttons" args={{ content: 'Save', icon: 'info' }}>
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
 <Canvas>
-  <Story name="Tertiary Buttons With Icon" args={{ href: "https://trendyol.com", content: 'Save', variant: 'tertiary', icon: 'info', styles: { '--bl-color-primary': '#803C00', '--bl-color-primary-highlight': '#6B3410', '--bl-color-neutral-full': '#F2F2F2', 'font-weight': '600' } }}>
-    {SingleButtonTemplate.bind({})}
+  <Story name="Tertiary Buttons With Icon" args={{href: "https://trendyol.com", content: 'Save', variant:'tertiary', icon: 'info' }}>
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
@@ -209,8 +193,8 @@ To be able to use icon with button, you should give the name of icon to `icon` a
 Icon Only Buttons commonly used for toggle actions. (Ex.: add item to your favorites.)
 
 <Canvas>
-  <Story name="Icon Only Buttons" args={{ content: '', label: 'Save', icon: 'info', styles: { '--bl-color-primary': '#803C00', '--bl-color-primary-highlight': '#6B3410', '--bl-color-neutral-full': '#F2F2F2', 'font-weight': '600' } }}>
-    {SingleButtonTemplate.bind({})}
+  <Story name="Icon Only Buttons" args={{ content: '', label: 'Save', icon: 'info' }}>
+    {ButtonTypes.bind({})}
   </Story>
 </Canvas>
 
@@ -232,7 +216,7 @@ By default our buttons are `inline-block`. If you want to make it a block level 
   </Story>
 </Canvas>
 
-If button has a limited width and a long text that can not fit in a single line, text will be automatically cropped with three dot at the end.
+If button has a limited width and a long text that can not fit in a single line, text will be automatically truncated with three dot at the end.
 
 <Canvas>
   <Story name="Automatic Clipping Text" args={{ content: 'A very long text content', icon: 'info', styles: { '--bl-button-display': 'block', 'max-width': '150px' } }}>
@@ -352,70 +336,6 @@ The button component supports RTL (Right-to-Left) text direction. You can enable
     `}
   </Story>
 </Canvas>
-
-Here's a vanilla JavaScript and HTML example of how to use RTL support:
-
-```html
-<!-- index.html -->
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Baklava Button RTL Example</title>
-  <!-- Import Baklava's CSS and JavaScript -->
-  <script type="module" src="path/to/baklava.js"></script>
-  <style>
-    .container {
-      margin: 20px;
-    }
-    .button-container {
-      display: flex;
-      gap: 16px;
-      margin-top: 20px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <button onclick="toggleDirection()">Toggle RTL/LTR</button>
-
-    <div class="button-container">
-      <!-- LTR Example -->
-      <div>
-        <h3>LTR Buttons</h3>
-        <bl-button icon="arrow_right">Next</bl-button>
-        <bl-button icon="settings">Settings</bl-button>
-      </div>
-
-      <!-- RTL Example -->
-      <div dir="rtl">
-        <h3>RTL Buttons</h3>
-        <bl-button icon="arrow_left">التالي</bl-button>
-        <bl-button icon="settings">الإعدادات</bl-button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const toggleDirection = () => {
-      const rtlContainer = document.querySelector('[dir="rtl"]');
-      rtlContainer.dir = rtlContainer.dir === 'rtl' ? 'ltr' : 'rtl';
-    };
-
-    const createButton = (isRTL) => {
-      const container = document.createElement('div');
-      if (isRTL) container.dir = 'rtl';
-
-      const button = document.createElement('bl-button');
-      button.icon = isRTL ? 'arrow_left' : 'arrow_right';
-      button.textContent = isRTL ? 'التالي' : 'Next';
-
-      container.appendChild(button);
-      document.body.appendChild(container);
-    };
-  </script>
-</body>
-</html>
-```
 
 ## Focus State
 
