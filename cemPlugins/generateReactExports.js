@@ -2,7 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join as pathJoin } from "node:path";
 import { pascalCase } from "pascal-case";
 import { format } from "prettier";
-import { resolveFilePath } from "./utils/resolveFilePath.js";
+import { resolveImportPath } from "./utils/resolveFilePath.js";
 import { resolveParsedType } from "./utils/resolveParsedType.js";
 
 const prettierConfig = JSON.parse(readFileSync(".prettierrc.json", "utf-8"));
@@ -26,16 +26,17 @@ export function generateReactExports() {
         throw new Error("Component not found!");
       }
 
-      const componentsCode = components
+      const resolved = components
         .map(([el, path]) => resolveComponent(el, path))
-        .filter(c => !!c[0])
-        .join("\n");
+        .filter(c => !!c);
+
+      const importStatements = resolved.map(c => c.importStatement).join("\n");
+      const componentBlocks = resolved.map(c => c.componentCode).join("\n");
 
       const code = `import React from "react";
 import { type EventName, createComponent } from "@lit-labs/react";
-
-type Constructor<T> = { new (): T };
-${componentsCode}`;
+${importStatements}
+${componentBlocks}`;
 
       const formattedCode = format(code, Object.assign(prettierConfig, { parser: "typescript" }));
       const outputPath = "./src";
@@ -48,28 +49,31 @@ ${componentsCode}`;
 /**
  * @param el {import("custom-elements-manifest").MixinDeclaration}
  * @param path string
- * @return string
+ * @return {{importStatement: string, componentCode: string} | null}
  */
 function resolveComponent(el, path) {
-  const resolvedPath = resolveFilePath(path, "default", "./");
+  if (!el) return null;
+
+  const importPath = resolveImportPath(path, "./");
+  const elementImportName = `${el.name}Element`;
   const { exportCodes, fieldCodes } = resolveEvents(el.events, el.name);
 
-  return `
-export type ${el.name} = ${resolvedPath};
+  const importStatement = `import ${elementImportName} from "${importPath}";`;
+
+  const componentCode = `
+export type ${el.name} = ${elementImportName};
 ${exportCodes}
 
 ${el.jsDoc || ""}
-export const ${el.name} = React.lazy(() =>
-  customElements.whenDefined("${el.tagName}").then(() => ({
-    default: createComponent({
-      react: React,
-      displayName: "${el.name}",
-      tagName: "${el.tagName}",
-      elementClass: customElements.get("${el.tagName}") as Constructor<${resolvedPath}>,
-      ${fieldCodes ? `events: {${fieldCodes}}` : ""}
-    })
-  }))
-);`;
+export const ${el.name} = createComponent({
+  react: React,
+  displayName: "${el.name}",
+  tagName: "${el.tagName}",
+  elementClass: ${elementImportName},
+  ${fieldCodes ? `events: {${fieldCodes}}` : ""}
+});`;
+
+  return { importStatement, componentCode };
 }
 
 /**
