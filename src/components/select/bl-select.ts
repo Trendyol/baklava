@@ -844,6 +844,8 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
    * @param option BlSelectOption reference to be registered
    */
   registerOption(option: BlSelectOption<ValueType>) {
+    if (this._connectedOptions.includes(option)) return;
+
     this._connectedOptions.push(option);
 
     if (option.selected) {
@@ -866,7 +868,11 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
    * @param option BlSelectOption reference to be unregistered
    */
   unregisterOption(option: BlSelectOption<ValueType>) {
-    this._connectedOptions.splice(this._connectedOptions.indexOf(option), 1);
+    const index = this._connectedOptions.indexOf(option);
+
+    if (index === -1) return;
+
+    this._connectedOptions.splice(index, 1);
   }
 }
 
