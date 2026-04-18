@@ -1315,6 +1315,39 @@ describe("bl-select", () => {
     });
   });
 
+  describe("option registration", () => {
+    it("should not register the same option twice", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select>
+        <bl-select-option value="1">Option 1</bl-select-option>
+        <bl-select-option value="2">Option 2</bl-select-option>
+      </bl-select>`);
+
+      const option = el.options[0];
+
+      expect(el.options.length).to.equal(2);
+
+      el.registerOption(option);
+
+      expect(el.options.length).to.equal(2);
+    });
+
+    it("should not remove wrong option when unregistering an option not in the list", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select>
+        <bl-select-option value="1">Option 1</bl-select-option>
+        <bl-select-option value="2">Option 2</bl-select-option>
+      </bl-select>`);
+
+      expect(el.options.length).to.equal(2);
+
+      const orphanOption = document.createElement("bl-select-option") as BlSelectOption;
+
+      orphanOption.value = "3";
+      el.unregisterOption(orphanOption);
+
+      expect(el.options.length).to.equal(2);
+    });
+  });
+
   describe("dropdown icon behavior", () => {
     it("should toggle popover when closed dropdown icon is clicked", async () => {
       const el = await fixture<BlSelect>(html`<bl-select>
