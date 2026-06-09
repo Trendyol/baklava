@@ -25,6 +25,11 @@
   background-color: var(--background-color);
   font: var(--bl-font-title-3-regular);
   color: var(--bl-color-neutral-darker);
+
+  /* Top layer (native popover) overrides UA defaults so floating-ui left/top win */
+  margin: 0;
+  inset: auto;
+  overflow: visible;
 }
 
 .popover:not(.visible) {
