@@ -160,7 +160,7 @@ export default class BlPopover extends LitElement {
       visible: this._visible,
     });
 
-    return html` <div class=${classes}>
+    return html` <div class=${classes} popover="manual">
       <slot id="popover" aria-live=${this._visible ? "polite" : "off"}></slot>
       <div class="arrow" aria-hidden="true"></div>
     </div>`;
