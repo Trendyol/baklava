@@ -269,4 +269,14 @@ describe("bl-popover", () => {
     expect(popoverEl.matches(":popover-open")).to.be.false;
     expect(el.visible).to.be.false;
   });
+
+  it("should not throw and should clean up when disconnected while open", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover>Popover Content</bl-popover>`);
+
+    el.show();
+    await elementUpdated(el);
+
+    expect(() => el.remove()).to.not.throw();
+    expect(el.isConnected).to.be.false;
+  });
 });
