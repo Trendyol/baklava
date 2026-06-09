@@ -26,7 +26,7 @@
   font: var(--bl-font-title-3-regular);
   color: var(--bl-color-neutral-darker);
 
-  /* Top layer (native popover) overrides UA defaults so floating-ui left/top win */
+  /* UA [popover] sets inset:0; margin:auto; overflow:auto — reset so floating-ui's left/top position wins and the arrow isn't clipped */
   margin: 0;
   inset: auto;
   overflow: visible;
