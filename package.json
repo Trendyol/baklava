@@ -63,7 +63,7 @@
     "lit"
   ],
   "dependencies": {
-    "@floating-ui/dom": "^1.2.3",
+    "@floating-ui/dom": "^1.7.6",
     "@fontsource-variable/rubik": "^5.0.2",
     "@lit-labs/react": "^2.0.3",
     "@lit/localize": "^0.12.1",

@@ -1,4 +1,4 @@
-import { assert, fixture, expect, html, elementUpdated } from "@open-wc/testing";
+import { assert, aTimeout, fixture, expect, html, elementUpdated } from "@open-wc/testing";
 import BlPopover from "./bl-popover";
 import type typeOfBlPopover from "./bl-popover";
 import type typeOfBlButton from "../button/bl-button";
@@ -278,5 +278,34 @@ describe("bl-popover", () => {
 
     expect(() => el.remove()).to.not.throw();
     expect(el.isConnected).to.be.false;
+  });
+
+  it("should position near its target even inside a transformed (stacking-context) ancestor", async () => {
+    // A `transform` on an ancestor establishes the containing block for the
+    // popover even when it is promoted to the top layer. floating-ui must still
+    // place the popover next to its target, not at the viewport origin (0,0).
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div style="transform: translateZ(0); overflow: auto; padding: 250px;">
+        <bl-button id="transformed-target">Trigger</bl-button>
+        <bl-popover target="transformed-target" placement="bottom">Popover Content</bl-popover>
+      </div>
+    `);
+
+    const popoverEl = wrapper.querySelector<BlPopover>("bl-popover")!;
+    const target = wrapper.querySelector<HTMLElement>("#transformed-target")!;
+    const popoverDiv = popoverEl.shadowRoot!.querySelector<HTMLElement>(".popover")!;
+
+    popoverEl.target = target;
+    popoverEl.show();
+    await elementUpdated(popoverEl);
+    // Let floating-ui's async computePosition / autoUpdate run.
+    await aTimeout(50);
+
+    const targetRect = target.getBoundingClientRect();
+    const popoverRect = popoverDiv.getBoundingClientRect();
+
+    // The popover must be rendered close to its target, not at the viewport origin.
+    expect(popoverRect.top).to.be.greaterThan(targetRect.top);
+    expect(Math.abs(popoverRect.top - targetRect.bottom)).to.be.lessThan(100);
   });
 });
