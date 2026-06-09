@@ -108,6 +108,7 @@ Be cautious about using this component. Consider using semantically more releava
 * Popovers tries to keep themself inside viewport. For example: If you place it to bottom of an element and if there is not enough space to show it below, it automatically flips to the top of the element.
 * Popovers can be closed with `Escape` key.
 * Popovers close themself if user clicks outside of it and its target element.
+* Popovers render in the browser [top layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer) (via the native [Popover API](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API)), so they are never clipped by an ancestor's `overflow` and never trapped behind sibling content by an ancestor stacking context (e.g. an ancestor with `transform`, `filter`, `opacity` or `z-index`). The `--bl-popover-position` setting and `z-index` only affect the fallback path on browsers without Popover API support.
 
 ## Basic Usage
 
