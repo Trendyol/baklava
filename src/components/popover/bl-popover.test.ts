@@ -16,7 +16,7 @@ describe("bl-popover", () => {
 
     assert.shadowDom.equal(
       el,
-      `<div class="popover">
+      `<div class="popover" popover="manual">
       <slot id="popover" aria-live="off"></slot>
       <div class="arrow" aria-hidden="true"></div>
     </div>`
