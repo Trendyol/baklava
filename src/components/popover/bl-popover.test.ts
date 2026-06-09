@@ -236,4 +236,37 @@ describe("bl-popover", () => {
       expect(popoverEl.visible).to.true;
     });
   });
+
+  it("should put the popover into the top layer when shown (supported browsers)", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover>Popover Content</bl-popover>`);
+    const popoverEl = el.shadowRoot!.querySelector<HTMLElement>(".popover")!;
+
+    // Skip assertion on browsers without Popover API support.
+    if (!("popover" in HTMLElement.prototype)) {
+      return;
+    }
+
+    el.show();
+    await elementUpdated(el);
+
+    expect(popoverEl.matches(":popover-open")).to.be.true;
+    expect(el.visible).to.be.true;
+  });
+
+  it("should remove the popover from the top layer when hidden (supported browsers)", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover>Popover Content</bl-popover>`);
+    const popoverEl = el.shadowRoot!.querySelector<HTMLElement>(".popover")!;
+
+    if (!("popover" in HTMLElement.prototype)) {
+      return;
+    }
+
+    el.show();
+    await elementUpdated(el);
+    el.hide();
+    await elementUpdated(el);
+
+    expect(popoverEl.matches(":popover-open")).to.be.false;
+    expect(el.visible).to.be.false;
+  });
 });
