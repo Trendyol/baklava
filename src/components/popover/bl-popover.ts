@@ -17,6 +17,9 @@ import { getTarget } from "../../utilities/elements";
 import { event, EventDispatcher } from "../../utilities/event";
 import style from "./bl-popover.css";
 
+const supportsPopoverApi = (): boolean =>
+  typeof HTMLElement !== "undefined" && "popover" in HTMLElement.prototype;
+
 export type Placement =
   | "top-start"
   | "top"
@@ -136,6 +139,10 @@ export default class BlPopover extends LitElement {
   show() {
     this._visible = true;
 
+    if (supportsPopoverApi() && this._popover && !this._popover.matches(":popover-open")) {
+      this._popover.showPopover();
+    }
+
     this.setPopover();
     this.onBlPopoverShow("");
     document.addEventListener("click", this._handleClickOutside);
@@ -148,6 +155,11 @@ export default class BlPopover extends LitElement {
    */
   hide() {
     this._visible = false;
+
+    if (supportsPopoverApi() && this._popover && this._popover.matches(":popover-open")) {
+      this._popover.hidePopover();
+    }
+
     document.removeEventListener("click", this._handleClickOutside);
     document.removeEventListener("keydown", this._handleKeydownEvent);
     document.removeEventListener("bl-popover-show", this._handlePopoverShowEvent);
@@ -160,7 +172,7 @@ export default class BlPopover extends LitElement {
       visible: this._visible,
     });
 
-    return html` <div class=${classes}>
+    return html` <div class=${classes} popover="manual">
       <slot id="popover" aria-live=${this._visible ? "polite" : "off"}></slot>
       <div class="arrow" aria-hidden="true"></div>
     </div>`;
