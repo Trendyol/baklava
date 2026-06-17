@@ -20,7 +20,7 @@ import { Calendar, CalendarDay, CalendarView } from "./bl-calendar.types";
 /**
  * @tag bl-calendar
  * @summary Baklava Calendar component
- **/
+ */
 @customElement("bl-calendar")
 @localized()
 export default class BlCalendar extends DatepickerCalendarMixin {

@@ -3,6 +3,9 @@ import { property } from "lit/decorators.js";
 import { CalendarType, DayValues } from "../../components/calendar/bl-calendar.types";
 import { stringToDateArray } from "../../utilities/string-to-date-converter";
 
+/**
+ * @summary Mixin that provides shared calendar/datepicker functionality
+ */
 export default class DatepickerCalendarMixin extends LitElement {
   /**
    * Defines the calendar types, available types are single, multiple and range
@@ -102,6 +105,9 @@ export default class DatepickerCalendarMixin extends LitElement {
     }
   }
 
+  /**
+   * Sets the selected date value(s)
+   */
   @property({ attribute: "value", reflect: true })
   set value(value: string | Date | Date[]) {
     const oldValue = this._value;

@@ -42,6 +42,8 @@ export type InputSize = "small" | "medium" | "large";
  * @tag bl-input
  * @summary Baklava Input component
  *
+ * @slot icon - Slot for custom icon content
+ *
  * @cssproperty [--bl-input-padding-start] Sets the padding start
  * @cssproperty [--bl-input-padding-end] Sets the padding end
  */

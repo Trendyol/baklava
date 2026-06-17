@@ -13,7 +13,9 @@ export const blChangeEventName = "bl-checkbox-group-change";
 
 /**
  * @tag bl-checkbox-group
- * @summary Baklava Button component
+ * @summary Baklava Checkbox Group component
+ *
+ * @slot - Default slot for bl-checkbox elements
  *
  * @cssproperty [--bl-checkbox-direction=row] Can be used for showing checkbox options as columns instead of rows. Options are `row` or `column`
  */

@@ -1,0 +1,84 @@
+<style>
+  /* Baklava Book Button in Header */
+  .baklava-book-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    margin-right: 10px;
+    background: linear-gradient(135deg, #f27a1a 0%, #ff9f4a 100%);
+    color: white !important;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(242, 122, 26, 0.3);
+  }
+  
+  .baklava-book-btn:hover {
+    background: linear-gradient(135deg, #e06a10 0%, #f27a1a 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(242, 122, 26, 0.4);
+  }
+  
+  .baklava-book-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+</style>
+
+<script>
+  // Add Baklava Book button to Storybook header
+  function addBaklavaBookButton() {
+    const toolbar = document.querySelector('.os-content > div > div');
+    const header = document.querySelector('[class*="sidebar-header"]');
+    const menuBar = document.querySelector('div[role="main"] > div > div:first-child');
+    
+    // Try to find the right toolbar location
+    const possibleContainers = [
+      document.querySelector('div[class*="css-"] > div[class*="css-"]'),
+      document.querySelector('header'),
+      document.querySelector('[id="storybook-explorer-menu"]')?.parentElement
+    ];
+    
+    // Check if button already exists
+    if (document.querySelector('.baklava-book-btn')) return;
+    
+    // Create button
+    const btn = document.createElement('a');
+    // Production'da /book/, development'ta localhost:3000
+    btn.href = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '/book/';
+    btn.target = '_blank';
+    btn.className = 'baklava-book-btn';
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+      </svg>
+      Baklava Book
+    `;
+    
+    // Insert after sidebar header text
+    setTimeout(() => {
+      const sidebarHeader = document.querySelector('a[title="Baklava Design System"]');
+      if (sidebarHeader && sidebarHeader.parentElement) {
+        sidebarHeader.parentElement.style.display = 'flex';
+        sidebarHeader.parentElement.style.alignItems = 'center';
+        sidebarHeader.parentElement.style.gap = '12px';
+        sidebarHeader.parentElement.style.flexWrap = 'wrap';
+        sidebarHeader.parentElement.appendChild(btn);
+      }
+    }, 500);
+  }
+  
+  // Run when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addBaklavaBookButton);
+  } else {
+    addBaklavaBookButton();
+  }
+  
+  // Also run after a delay to ensure Storybook is fully loaded
+  setTimeout(addBaklavaBookButton, 1000);
+  setTimeout(addBaklavaBookButton, 2000);
+</script>

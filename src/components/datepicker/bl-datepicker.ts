@@ -14,8 +14,10 @@ import style from "./bl-datepicker.css";
  * @tag bl-datepicker
  * @summary Baklava DatePicker component
  *
+ * @slot icon - Slot for custom icon content in the input
+ *
  * @cssproperty [--bl-datepicker-input-width] - Sets the width of datepicker input
- **/
+ */
 @customElement("bl-datepicker")
 export default class BlDatepicker extends DatepickerCalendarMixin {
   /**

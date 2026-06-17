@@ -4,6 +4,12 @@ import { CSSResultGroup } from "lit/development";
 import { BlAccordion } from "../../baklava";
 import style from "./bl-accordion-group.css";
 
+/**
+ * @tag bl-accordion-group
+ * @summary Baklava Accordion Group component
+ *
+ * @slot - Default slot for bl-accordion elements
+ */
 @customElement("bl-accordion-group")
 export default class BlAccordionGroup extends LitElement {
   /**
