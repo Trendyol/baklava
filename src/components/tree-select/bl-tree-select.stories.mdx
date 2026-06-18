@@ -1,0 +1,309 @@
+import { Meta, Canvas, Story, ArgsTable } from "@storybook/addon-docs";
+import { html } from "lit";
+import { centeredLayout } from "../../utilities/chromatic-decorators";
+
+<Meta
+  title="Components/Tree Select"
+  component="bl-tree-select"
+  parameters={{
+    chromatic: { viewports: [400, 800] },
+  }}
+  decorators={[centeredLayout]}
+  argTypes={{
+    label: { control: "text" },
+    placeholder: { control: "text" },
+    isMultiple: { control: "boolean" },
+    viewSelectAll: { control: "boolean" },
+    selectAllText: { control: "text" },
+    emptyResultText: { control: "text" },
+    disabled: { control: "boolean" },
+    required: { control: "boolean" },
+  }}
+/>
+
+export const sampleTree = [
+  {
+    value: "parent-1",
+    label: "Parent node",
+    count: 5,
+    children: [
+      {
+        value: "child-1",
+        label: "Child node one",
+        count: 4,
+        children: [
+          { value: "sibling-1", label: "Sibling node one" },
+          { value: "sibling-2", label: "Sibling node two" },
+          {
+            value: "sibling-tree",
+            label: "Sibling node tree",
+            count: 2,
+            children: [
+              { value: "leaf-1", label: "Leaf node one" },
+              { value: "leaf-2", label: "Leaf node two" },
+              { value: "sibling-4", label: "Sibling node four" },
+            ],
+          },
+        ],
+      },
+      { value: "child-2", label: "Child node two", count: 24 },
+      { value: "child-tree", label: "Child node tree", count: 24 },
+    ],
+  },
+  {
+    value: "parent-2",
+    label: "Parent node",
+    count: 8,
+    children: [],
+  },
+  {
+    value: "parent-3",
+    label: "Parent node",
+    count: 64,
+    children: [],
+  },
+  {
+    value: "parent-4",
+    label: "Parent node",
+    count: 32,
+    children: [],
+  },
+  {
+    value: "parent-5",
+    label: "Parent node",
+    count: 6,
+    children: [],
+  },
+];
+
+export const DefaultTemplate = (args) => html`
+  <bl-tree-select
+    label=${args.label}
+    placeholder=${args.placeholder}
+    .items=${args.items ?? sampleTree}
+    .value=${args.value}
+    .isMultiple=${args.isMultiple}
+    ?view-select-all=${args.viewSelectAll}
+    select-all-text=${args.selectAllText || "Select All"}
+    empty-result-text=${args.emptyResultText ?? "Sonuç Bulunamadı."}
+    ?disabled=${args.disabled}
+    ?required=${args.required}
+  ></bl-tree-select>
+`;
+
+# Tree Select
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/1125)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/design/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=26640-5823&p=f&t=FjujjxTaCNkGYHd4-0)</bl-badge>
+
+The Tree Select component allows for selection within hierarchical data structures (such as a category tree). Users can filter by typing in the search box with the autocomplete feature and can make single or multiple selections from the results list. This component is particularly used in areas requiring category selection, product classification, and nested taxonomy.
+
+## Anatomy
+
+It supports single- and multi-select patterns, “Select All” headers, item counts, and indeterminate states for partially-selected branches.
+
+### Input Field
+
+- The autocomplete dropdown becomes active when typing begins.
+- As text is entered, results are displayed with a path representation (e.g., Clothing / Suit).
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      label: "Kategori",
+      placeholder: "Kategori girin",
+      isMultiple: true,
+      viewSelectAll: true,
+      required: true,
+      selectAllText: "Select All",
+    }}
+  >
+    {DefaultTemplate.bind()}
+  </Story>
+</Canvas>
+
+### Dropdown Panel
+
+- Displays the hierarchical structure.
+- Each level can be expanded with a clickable (>) icon.
+- When a subcategory is selected, the parent categories become disabled or enter a half-selected state.
+- Minimum width is 312 px. Widths above this can be used.
+
+<Canvas>
+  <Story
+    name="Dropdown Panel"
+    args={{
+      label: "Kategori",
+      placeholder: "Kategori girin",
+      isMultiple: true,
+      viewSelectAll: true,
+      required: true,
+      selectAllText: "Select All",
+    }}
+  >
+    {DefaultTemplate.bind()}
+  </Story>
+</Canvas>
+
+### Focused / Typing (autocomplete)
+
+When the user types in the input, the dropdown shows a filtered list of category paths. The matching part of each path is highlighted in orange. Keyboard focus is on the first suggestion; use ↑/↓ to move, Enter or click to select.
+
+<Canvas>
+  <Story
+    name="Focused Typing"
+    args={{
+      label: "Kategori",
+      placeholder: "Kategori seçin",
+      isMultiple: true,
+      viewSelectAll: true,
+      selectAllText: "Select All",
+      required: true,
+    }}
+  >
+    {DefaultTemplate.bind()}
+  </Story>
+</Canvas>
+
+### Focused
+
+Keyboard focus lands on a node (or Select All), with a visible focus ring. Use the panel’s keyboard shortcuts:
+
+- **↑ / ↓** — Move between visible items
+- **←** — Collapse expanded node
+- **→** — Expand collapsed node
+- **Space / Enter** — Toggle selection
+
+<Canvas>
+  <Story
+    name="Focused"
+    args={{
+      label: "Kategori",
+      placeholder: "Kategori seçin",
+      isMultiple: true,
+      viewSelectAll: true,
+      selectAllText: "Select All",
+      required: true,
+    }}
+  >
+    {DefaultTemplate.bind()}
+  </Story>
+</Canvas>
+
+### Selected
+
+One or more items have been selected. The input shows the selection and a clear (X) button to remove it.
+
+<Canvas>
+  <Story
+    name="Selected"
+    args={{
+      label: "Kategori",
+      placeholder: "Kategori girin",
+      isMultiple: true,
+      viewSelectAll: true,
+      selectAllText: "Select All",
+      required: true,
+      value: ["child-1", "sibling-2", "parent-2"],
+    }}
+  >
+    {DefaultTemplate.bind()}
+  </Story>
+</Canvas>
+
+### Empty
+
+When the search has no matching results, an empty state message is shown with an orange border (e.g. type a term that does not match any category).
+
+<Canvas>
+  <Story
+    name="Empty"
+    args={{
+      label: "Label",
+      placeholder: "Kategori seçin",
+      isMultiple: true,
+      emptyResultText: "Sonuç Bulunamadı.",
+      items: [],
+    }}
+  >
+    {DefaultTemplate.bind()}
+  </Story>
+</Canvas>
+
+### Disabled
+
+The component is dimmed, controls are inactive, and the cursor shows not-allowed.
+
+<Canvas>
+  <Story
+    name="Disabled"
+    args={{
+      label: "Label",
+      placeholder: "Select item",
+      isMultiple: false,
+      disabled: true,
+      value: "sibling-1",
+    }}
+  >
+    {DefaultTemplate.bind()}
+  </Story>
+</Canvas>
+
+### Selected State (multiple)
+
+The selected items are displayed within the input.
+
+<Canvas>
+  <Story
+    name="Selected State"
+    args={{
+      label: "Kategori",
+      placeholder: "Kategori girin",
+      isMultiple: true,
+      viewSelectAll: true,
+      selectAllText: "Select All",
+      required: true,
+      value: ["child-1", "sibling-2", "parent-2"],
+    }}
+  >
+    {DefaultTemplate.bind()}
+  </Story>
+</Canvas>
+
+### Single select
+
+When `isMultiple` is false, the tree has no checkboxes and no "Select All". Click a row to select that single item; the selected row is highlighted and its label is shown in the input.
+
+<Canvas>
+  <Story
+    name="Single select"
+    args={{
+      label: "Label",
+      placeholder: "Select item",
+      isMultiple: false,
+    }}
+  >
+    {DefaultTemplate.bind()}
+  </Story>
+</Canvas>
+
+### Single – Selected State
+
+Single mode with a default selected item (e.g. "Sibling node one" highlighted in the dropdown).
+
+<Canvas>
+  <Story
+    name="Single Selected State"
+    args={{
+      label: "Label",
+      placeholder: "Select item",
+      isMultiple: false,
+      value: "sibling-1",
+    }}
+  >
+    {DefaultTemplate.bind()}
+  </Story>
+</Canvas>
+
+<ArgsTable of="bl-tree-select" />
