@@ -94,7 +94,7 @@
     "@storybook/manager-api": "7.4.3",
     "@storybook/testing-library": "^0.2.2",
     "@storybook/web-components": "7.4.3",
-    "@storybook/web-components-vite": "^7.4.3",
+    "@storybook/web-components-vite": "^10.3.5",
     "@trendyol/baklava-icons": "^1.0.0",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/estree": "1.0.0",
