@@ -2,9 +2,12 @@ name: Release
 
 on:
   workflow_call:
-    secrets:
-      TRENDYOL_JS_NPM_TOKEN:
-        required: true
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
 
 jobs:
   release:
@@ -17,7 +20,7 @@ jobs:
       - name: Set Node env
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 24.10.0
       - name: Install dependencies
         run: npm ci
       - name: Create env file with release config
@@ -32,7 +35,6 @@ jobs:
           name: build-output
           path: dist/
       - name: Publish
-        run: npx semantic-release@20
+        run: npm run release
         env:
-          NPM_TOKEN: ${{ secrets.TRENDYOL_JS_NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

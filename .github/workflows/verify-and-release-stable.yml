@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+
 jobs:
   verify:
     uses: trendyol/baklava/.github/workflows/verify.yml@next
@@ -16,4 +22,8 @@ jobs:
   release:
     uses: trendyol/baklava/.github/workflows/release.yml@next
     needs: verify
-    secrets: inherit
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
