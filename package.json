@@ -73,9 +73,6 @@
     "element-internals-polyfill": "^1.2.3",
     "lit": "^2.8.0"
   },
-  "engines": {
-    "node": ">=18"
-  },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
     "@commitlint/config-conventional": "^16.2.4",
