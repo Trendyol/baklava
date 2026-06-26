@@ -1,7 +1,10 @@
 name: Release
 
 on:
-  workflow_call:
+  push:
+    branches:
+      - main
+      - next
 
 permissions:
   contents: write
@@ -10,8 +13,18 @@ permissions:
   id-token: write
 
 jobs:
+  verify:
+    uses: ./.github/workflows/verify.yml
+    secrets: inherit
+
   release:
+    needs: verify
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -21,6 +34,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 24.10.0
+          registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: npm ci
       - name: Create env file with release config
@@ -38,3 +52,19 @@ jobs:
         run: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  storybook:
+    needs: verify
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/publish-storybook.yml
+    secrets: inherit
+
+  chromatic:
+    needs: verify
+    if: github.ref == 'refs/heads/next'
+    uses: ./.github/workflows/publish-chromatic.yml
+    secrets: inherit
