@@ -13,7 +13,10 @@
     "dist/"
   ],
   "homepage": "https://baklava.design",
-  "repository": "github:Trendyol/baklava",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Trendyol/baklava.git"
+  },
   "bugs": {
     "url": "https://github.com/Trendyol/baklava/issues"
   },
