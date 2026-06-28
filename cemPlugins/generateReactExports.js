@@ -2,7 +2,6 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join as pathJoin } from "node:path";
 import { pascalCase } from "pascal-case";
 import { format } from "prettier";
-import { resolveFilePath } from "./utils/resolveFilePath.js";
 import { resolveParsedType } from "./utils/resolveParsedType.js";
 
 const prettierConfig = JSON.parse(readFileSync(".prettierrc.json", "utf-8"));
@@ -26,16 +25,19 @@ export function generateReactExports() {
         throw new Error("Component not found!");
       }
 
-      const componentsCode = components
+      const resolved = components
         .map(([el, path]) => resolveComponent(el, path))
-        .filter(c => !!c[0])
-        .join("\n");
+        .filter(c => !!c);
+
+      const importLines = resolved.map(c => c.importCode).join("\n");
+      const componentLines = resolved.map(c => c.componentCode).join("\n");
 
       const code = `import React from "react";
-import { createComponent } from "@lit-labs/react";
+import { type EventName, createComponent } from "@lit-labs/react";
+${importLines}
 
 type Constructor<T> = { new (): T };
-${componentsCode}`;
+${componentLines}`;
 
       const formattedCode = format(code, Object.assign(prettierConfig, { parser: "typescript" }));
       const outputPath = "./src";
@@ -46,30 +48,45 @@ ${componentsCode}`;
 }
 
 /**
+ * Derives the static ES import path from the CEM module path.
+ * e.g. "src/components/button/bl-button.ts" -> "./components/button/bl-button"
+ *
+ * @param {string} modPath
+ * @returns {string}
+ */
+function toImportPath(modPath) {
+  return modPath.replace(/^src\//, "./").replace(/\.ts$/, "");
+}
+
+/**
  * @param el {import("custom-elements-manifest").MixinDeclaration}
- * @param path string
- * @return string
+ * @param path {string}
+ * @return {{ importCode: string, componentCode: string } | null}
  */
 function resolveComponent(el, path) {
-  const resolvedPath = resolveFilePath(path, "default", "./");
+  if (!el) return null;
+
+  const importPath = toImportPath(path);
+  // Use a suffixed alias to avoid collision with the exported const name.
+  const elementAlias = `${el.name}Element`;
   const { exportCodes, fieldCodes } = resolveEvents(el.events, el.name);
 
-  return `
-export type ${el.name} = ${resolvedPath};
+  const importCode = `import ${elementAlias} from "${importPath}";`;
+
+  const componentCode = `
+export type ${el.name} = InstanceType<typeof ${elementAlias}>;
 ${exportCodes}
 
 ${el.jsDoc || ""}
-export const ${el.name} = React.lazy(() =>
-  customElements.whenDefined("${el.tagName}").then(() => ({
-    default: createComponent({
-      react: React,
-      displayName: "${el.name}",
-      tagName: "${el.tagName}",
-      elementClass: customElements.get("${el.name}") as Constructor<${resolvedPath}>,
-      ${fieldCodes ? `events: {${fieldCodes}}` : ""}
-    })
-  }))
-);`;
+export const ${el.name} = createComponent({
+  react: React,
+  displayName: "${el.name}",
+  tagName: "${el.tagName}",
+  elementClass: ${elementAlias} as unknown as Constructor<InstanceType<typeof ${elementAlias}>>,
+  ${fieldCodes ? `events: {${fieldCodes}}` : ""}
+});`;
+
+  return { importCode, componentCode };
 }
 
 /**
@@ -91,6 +108,7 @@ function resolveEvents(events, componentName) {
     const resolvedEventType = resolveParsedType(event.parsedType.text, "./") ?? "any";
 
     exportCodes.push(`export type ${exportedEventName} = CustomEvent<${resolvedEventType}>;`);
+    fieldCodes.push(`${reactEventName}: "${event.name}" as EventName<${exportedEventName}>`);
   }
 
   return { exportCodes: exportCodes.join("\n"), fieldCodes: fieldCodes.join("\n,") };
