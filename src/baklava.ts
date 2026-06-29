@@ -25,6 +25,7 @@ export { default as BlRadioGroup } from "./components/radio-group/bl-radio-group
 export { default as BlRadio } from "./components/radio-group/radio/bl-radio";
 export { default as BlSelect } from "./components/select/bl-select";
 export { default as BlSelectOption } from "./components/select/option/bl-select-option";
+export { default as BlSlider } from "./components/slider/bl-slider";
 export { default as BlSpinner } from "./components/spinner/bl-spinner";
 export { default as BlSplitButton } from "./components/split-button/bl-split-button";
 export { default as BlStepper } from "./components/stepper/bl-stepper";
