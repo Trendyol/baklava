@@ -1,0 +1,58 @@
+:host {
+  display: block;
+}
+
+.skeleton {
+  --bg-color: var(--bl-skeleton-bg-color, var(--bl-color-neutral-lightest));
+  --highlight-color: var(--bl-skeleton-highlight-color, var(--bl-color-neutral-full));
+  --radius: var(--bl-skeleton-radius, var(--bl-border-radius-s));
+
+  background-color: var(--bg-color);
+  border-radius: var(--radius);
+  width: 100%;
+  height: var(--bl-size-m);
+  overflow: hidden;
+  position: relative;
+}
+
+:host([variant="circle"]) .skeleton {
+  --radius: var(--bl-border-radius-circle);
+
+  width: var(--bl-size-3xl);
+  height: var(--bl-size-3xl);
+}
+
+:host([variant="text"]) .skeleton {
+  height: var(--bl-size-xs);
+  border-radius: var(--bl-border-radius-xs);
+}
+
+:host([effect="pulse"]) .skeleton {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+:host([effect="wave"]) .skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, var(--highlight-color), transparent);
+  animation: wave 1.6s linear infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes wave {
+  100% {
+    transform: translateX(100%);
+  }
+}

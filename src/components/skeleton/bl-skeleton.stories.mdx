@@ -1,0 +1,172 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
+
+<Meta
+  title="Components/Skeleton"
+  component="bl-skeleton"
+  argTypes={{
+    variant: {
+      options: ['rect', 'circle', 'text'],
+      control: { type: 'select' }
+    },
+    effect: {
+      options: ['pulse', 'wave', 'none'],
+      control: { type: 'select' }
+    },
+    width: {
+      control: 'text'
+    },
+    height: {
+      control: 'text'
+    },
+  }}
+/>
+
+export const SkeletonTemplate = (args) => html`<bl-skeleton
+  variant=${ifDefined(args.variant)}
+  effect=${ifDefined(args.effect)}
+  width=${ifDefined(args.width)}
+  height=${ifDefined(args.height)}
+  style=${ifDefined(args.styles ? styleMap(args.styles) : undefined)}
+></bl-skeleton>`;
+
+export const VariantTemplate = () => html`
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+    <div>
+      <p style="margin: 0 0 8px; font-weight: 600;">Rect (Default)</p>
+      <bl-skeleton></bl-skeleton>
+    </div>
+    <div>
+      <p style="margin: 0 0 8px; font-weight: 600;">Circle</p>
+      <bl-skeleton variant="circle"></bl-skeleton>
+    </div>
+    <div>
+      <p style="margin: 0 0 8px; font-weight: 600;">Text</p>
+      <bl-skeleton variant="text"></bl-skeleton>
+      <bl-skeleton variant="text" style="margin-top: 8px;" width="80%"></bl-skeleton>
+      <bl-skeleton variant="text" style="margin-top: 8px;" width="60%"></bl-skeleton>
+    </div>
+  </div>
+`;
+
+export const EffectTemplate = () => html`
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+    <div>
+      <p style="margin: 0 0 8px; font-weight: 600;">Pulse (Default)</p>
+      <bl-skeleton effect="pulse"></bl-skeleton>
+    </div>
+    <div>
+      <p style="margin: 0 0 8px; font-weight: 600;">Wave</p>
+      <bl-skeleton effect="wave"></bl-skeleton>
+    </div>
+    <div>
+      <p style="margin: 0 0 8px; font-weight: 600;">None</p>
+      <bl-skeleton effect="none"></bl-skeleton>
+    </div>
+  </div>
+`;
+
+export const CustomSizeTemplate = () => html`
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 600px;">
+    <bl-skeleton width="200px" height="20px"></bl-skeleton>
+    <bl-skeleton width="100%" height="40px"></bl-skeleton>
+    <bl-skeleton width="300px" height="120px"></bl-skeleton>
+    <bl-skeleton variant="circle" width="64px" height="64px"></bl-skeleton>
+  </div>
+`;
+
+export const CardTemplate = () => html`
+  <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+    <div style="width: 300px; padding: 16px; border: 1px solid var(--bl-color-neutral-lighter); border-radius: 8px;">
+      <bl-skeleton width="100%" height="160px" style="margin-bottom: 16px;"></bl-skeleton>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <bl-skeleton variant="circle" width="40px" height="40px"></bl-skeleton>
+        <div style="flex: 1;">
+          <bl-skeleton variant="text" width="60%"></bl-skeleton>
+          <bl-skeleton variant="text" width="40%" style="margin-top: 8px;"></bl-skeleton>
+        </div>
+      </div>
+      <bl-skeleton variant="text"></bl-skeleton>
+      <bl-skeleton variant="text" width="90%" style="margin-top: 8px;"></bl-skeleton>
+      <bl-skeleton variant="text" width="70%" style="margin-top: 8px;"></bl-skeleton>
+    </div>
+    <div style="width: 300px; padding: 16px; border: 1px solid var(--bl-color-neutral-lighter); border-radius: 8px;">
+      <bl-skeleton width="100%" height="160px" effect="wave" style="margin-bottom: 16px;"></bl-skeleton>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <bl-skeleton variant="circle" width="40px" height="40px" effect="wave"></bl-skeleton>
+        <div style="flex: 1;">
+          <bl-skeleton variant="text" width="60%" effect="wave"></bl-skeleton>
+          <bl-skeleton variant="text" width="40%" effect="wave" style="margin-top: 8px;"></bl-skeleton>
+        </div>
+      </div>
+      <bl-skeleton variant="text" effect="wave"></bl-skeleton>
+      <bl-skeleton variant="text" width="90%" effect="wave" style="margin-top: 8px;"></bl-skeleton>
+      <bl-skeleton variant="text" width="70%" effect="wave" style="margin-top: 8px;"></bl-skeleton>
+    </div>
+  </div>
+`;
+
+# Skeleton
+
+Skeleton component provides a placeholder preview of content before data is loaded. It reduces the perceived loading time and provides a better user experience.
+
+## Variants
+
+Skeleton has 3 variants: `rect` (default), `circle`, and `text`.
+
+- **rect** — General-purpose rectangular placeholder. Use for images, cards, and content blocks.
+- **circle** — Circular placeholder. Use for avatars and profile pictures.
+- **text** — Thin line placeholder. Use for text content and paragraphs.
+
+<Canvas>
+  <Story name="Variants">
+    {VariantTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Animation Effects
+
+Skeleton supports 3 animation effects: `pulse` (default), `wave`, and `none`.
+
+<Canvas>
+  <Story name="Effects">
+    {EffectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Custom Sizes
+
+You can set custom `width` and `height` properties to control the skeleton dimensions.
+
+<Canvas>
+  <Story name="Custom Sizes">
+    {CustomSizeTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Card Loading Example
+
+Combine multiple skeleton elements to create realistic loading placeholders for complex layouts.
+
+<Canvas>
+  <Story name="Card Loading">
+    {CardTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Customizing Colors
+
+You can customize the skeleton appearance using CSS custom properties:
+
+```css
+bl-skeleton {
+  --bl-skeleton-bg-color: #e0e0e0;
+  --bl-skeleton-highlight-color: #f5f5f5;
+}
+```
+
+## Reference
+
+<ArgsTable of="bl-skeleton" />
