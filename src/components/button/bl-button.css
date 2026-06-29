@@ -82,10 +82,12 @@
   inset: -4px;
 }
 
+:host .button bl-icon,
 :host ::slotted(bl-icon) {
   font-size: var(--icon-size);
 }
 
+:host([loading]) .button bl-icon,
 :host([loading]) ::slotted(bl-icon) {
   display: none;
 }
