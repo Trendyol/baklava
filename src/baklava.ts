@@ -43,3 +43,5 @@ export { default as BlTag } from "./components/tag/bl-tag";
 export { default as BlTextarea } from "./components/textarea/bl-textarea";
 export { default as BlTooltip } from "./components/tooltip/bl-tooltip";
 export { getIconPath, setIconPath } from "./utilities/asset-paths";
+export { getLocale, setLocale } from "./localization";
+export type { LangKey } from "./localization";

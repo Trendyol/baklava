@@ -4,6 +4,12 @@ import { getMiddleOfElement } from "../../utilities/elements";
 import type typeOfBlPopover from "../popover/bl-popover";
 import type typeOfBlTooltip from "./bl-tooltip";
 import BlTooltip from "./bl-tooltip";
+import "../table/bl-table";
+import "../table/table-header/bl-table-header";
+import "../table/table-header-cell/bl-table-header-cell";
+import "../table/table-body/bl-table-body";
+import "../table/table-row/bl-table-row";
+import "../table/table-cell/bl-table-cell";
 
 describe("bl-tooltip", () => {
   it("should be defined tooltip instance", () => {
@@ -237,5 +243,48 @@ describe("bl-tooltip", () => {
     });
 
     expect(ev).to.be.eq(null);
+  });
+
+  it("should render tooltip in the top layer so it is not clipped by table rows (#1049)", async () => {
+    const el = await fixture(html`
+      <bl-table>
+        <bl-table-header>
+          <bl-table-row>
+            <bl-table-header-cell>Col</bl-table-header-cell>
+          </bl-table-row>
+        </bl-table-header>
+        <bl-table-body>
+          <bl-table-row>
+            <bl-table-cell>
+              <bl-tooltip>
+                <button slot="tooltip-trigger" id="trigger">Hover</button>
+                Tooltip content that must stay on top
+              </bl-tooltip>
+            </bl-table-cell>
+          </bl-table-row>
+          <bl-table-row>
+            <bl-table-cell>Second row opaque cell</bl-table-cell>
+          </bl-table-row>
+        </bl-table-body>
+      </bl-table>
+    `);
+
+    const tooltipEl = el.querySelector<typeOfBlTooltip>("bl-tooltip")!;
+    const popoverEl = tooltipEl
+      .shadowRoot!.querySelector("bl-popover")!
+      .shadowRoot!.querySelector<HTMLElement>(".popover")!;
+    const trigger = el.querySelector<HTMLButtonElement>("#trigger")!;
+
+    const { x, y } = getMiddleOfElement(trigger);
+
+    await sendMouse({ type: "move", position: [x, y] });
+    await elementUpdated(tooltipEl);
+
+    expect(tooltipEl.visible).to.be.true;
+
+    // On browsers with Popover API, the tooltip is promoted to the top layer.
+    if ("popover" in HTMLElement.prototype) {
+      expect(popoverEl.matches(":popover-open")).to.be.true;
+    }
   });
 });

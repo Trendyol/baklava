@@ -35,7 +35,6 @@ header {
   justify-content: space-between;
   align-items: baseline;
   gap: var(--bl-size-2xs);
-  background-color: white;
 }
 
 header .header-buttons {

@@ -13,7 +13,10 @@
     "dist/"
   ],
   "homepage": "https://baklava.design",
-  "repository": "github:Trendyol/baklava",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Trendyol/baklava.git"
+  },
   "bugs": {
     "url": "https://github.com/Trendyol/baklava/issues"
   },
@@ -55,7 +58,8 @@
     "test:debug": "web-test-runner --coverage --watch --debug",
     "test:headless": "web-test-runner --coverage --watch --debug --headless",
     "localize:extract": "lit-localize extract",
-    "localize:build": "lit-localize build"
+    "localize:build": "lit-localize build",
+    "release": "semantic-release"
   },
   "keywords": [
     "web-components",
@@ -63,7 +67,7 @@
     "lit"
   ],
   "dependencies": {
-    "@floating-ui/dom": "^1.2.3",
+    "@floating-ui/dom": "^1.7.6",
     "@fontsource-variable/rubik": "^5.0.2",
     "@lit-labs/react": "^2.0.3",
     "@lit/localize": "^0.12.1",
@@ -71,9 +75,6 @@
     "@open-wc/form-helpers": "^0.2.2",
     "element-internals-polyfill": "^1.2.3",
     "lit": "^2.8.0"
-  },
-  "engines": {
-    "node": ">=18"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
@@ -91,6 +92,7 @@
     "@storybook/addon-mdx-gfm": "^7.4.3",
     "@storybook/addon-viewport": "^7.4.3",
     "@storybook/jest": "^0.2.2",
+    "@storybook/manager-api": "7.4.3",
     "@storybook/testing-library": "^0.2.2",
     "@storybook/web-components": "7.4.3",
     "@storybook/web-components-vite": "^7.4.3",
@@ -132,6 +134,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup-plugin-lit-css": "^4.0.0",
+    "semantic-release": "^25.0.5",
     "sinon": "^16.0.0",
     "storybook": "7.4.3",
     "stylelint": "^15.10.2",

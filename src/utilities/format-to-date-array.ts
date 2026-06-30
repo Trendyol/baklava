@@ -8,7 +8,8 @@ export function formatToDateArray(value: string | Date | Date[] | undefined): Da
     return stringToDateArray(value);
   } else if (value instanceof Date) {
     return [value];
-  } else {
+  } else if (Array.isArray(value)) {
     return value;
   }
+  return [];
 }

@@ -168,6 +168,38 @@ describe("bl-button", () => {
       );
     });
   });
+
+  describe("Icon size", () => {
+    it("should apply --icon-size to default slot icon on small button", async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button size="small" icon="info"></bl-button>`
+      );
+      const icon = el.shadowRoot?.querySelector("bl-icon");
+
+      expect(icon).to.exist;
+      expect(getComputedStyle(icon!).fontSize).to.equal("14px");
+    });
+
+    it("should apply --icon-size to slotted icon on small button", async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button size="small" label="icon-button"
+          ><bl-icon name="info" slot="icon"></bl-icon
+        ></bl-button>`
+      );
+      const icon = el.querySelector('bl-icon[slot="icon"]');
+
+      expect(icon).to.exist;
+      expect(getComputedStyle(icon!).fontSize).to.equal("14px");
+    });
+
+    it("should apply --icon-size to default slot icon on medium button", async () => {
+      const el = await fixture<typeOfBlButton>(html`<bl-button icon="info">Button</bl-button>`);
+      const icon = el.shadowRoot?.querySelector("bl-icon");
+
+      expect(icon).to.exist;
+      expect(getComputedStyle(icon!).fontSize).to.equal("16px");
+    });
+  });
   describe("Events", () => {
     it("fires bl-click event on click", async () => {
       const el = await fixture<typeOfBlButton>(html`<bl-button>button</bl-button>`);

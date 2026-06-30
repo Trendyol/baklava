@@ -1,12 +1,17 @@
 import { configureLocalization } from "@lit/localize";
 import { allLocales, sourceLocale, targetLocales } from "./generated/locale-codes";
+import * as ar from "./generated/locales/ar";
+import * as ro from "./generated/locales/ro";
+import * as tr from "./generated/locales/tr";
 
 export type LangKey = (typeof allLocales)[number];
 
-const { setLocale } = configureLocalization({
+const localeModules = { ar, ro, tr };
+
+export const { getLocale, setLocale } = configureLocalization({
   sourceLocale,
   targetLocales,
-  loadLocale: locale => import(`/locales/${locale}.js`),
+  loadLocale: locale => Promise.resolve(localeModules[locale as keyof typeof localeModules]),
 });
 
 export const init = async () => {

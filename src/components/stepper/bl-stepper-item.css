@@ -79,13 +79,13 @@
 }
 
 .connector {
-  background-color: #afbbca;
+  background-color: var(--bl-color-neutral-lighter);
   transition: background-color 0.2s ease;
   flex-shrink: 0;
 }
 
 .connector.completed {
-  background-color: #6e7787;
+  background-color: var(--bl-color-neutral-dark);
 }
 
 .stepper-item.direction-horizontal .connector {

@@ -1,4 +1,4 @@
-import { assert, fixture, expect, html, elementUpdated } from "@open-wc/testing";
+import { assert, aTimeout, fixture, expect, html, elementUpdated } from "@open-wc/testing";
 import BlPopover from "./bl-popover";
 import type typeOfBlPopover from "./bl-popover";
 import type typeOfBlButton from "../button/bl-button";
@@ -16,7 +16,7 @@ describe("bl-popover", () => {
 
     assert.shadowDom.equal(
       el,
-      `<div class="popover">
+      `<div class="popover" popover="manual">
       <slot id="popover" aria-live="off"></slot>
       <div class="arrow" aria-hidden="true"></div>
     </div>`
@@ -235,5 +235,77 @@ describe("bl-popover", () => {
       expect(popoverEl2.visible).to.true;
       expect(popoverEl.visible).to.true;
     });
+  });
+
+  it("should put the popover into the top layer when shown (supported browsers)", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover>Popover Content</bl-popover>`);
+    const popoverEl = el.shadowRoot!.querySelector<HTMLElement>(".popover")!;
+
+    // Skip assertion on browsers without Popover API support.
+    if (!("popover" in HTMLElement.prototype)) {
+      return;
+    }
+
+    el.show();
+    await elementUpdated(el);
+
+    expect(popoverEl.matches(":popover-open")).to.be.true;
+    expect(el.visible).to.be.true;
+  });
+
+  it("should remove the popover from the top layer when hidden (supported browsers)", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover>Popover Content</bl-popover>`);
+    const popoverEl = el.shadowRoot!.querySelector<HTMLElement>(".popover")!;
+
+    if (!("popover" in HTMLElement.prototype)) {
+      return;
+    }
+
+    el.show();
+    await elementUpdated(el);
+    el.hide();
+    await elementUpdated(el);
+
+    expect(popoverEl.matches(":popover-open")).to.be.false;
+    expect(el.visible).to.be.false;
+  });
+
+  it("should not throw and should clean up when disconnected while open", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover>Popover Content</bl-popover>`);
+
+    el.show();
+    await elementUpdated(el);
+
+    expect(() => el.remove()).to.not.throw();
+    expect(el.isConnected).to.be.false;
+  });
+
+  it("should position near its target even inside a transformed (stacking-context) ancestor", async () => {
+    // A `transform` on an ancestor establishes the containing block for the
+    // popover even when it is promoted to the top layer. floating-ui must still
+    // place the popover next to its target, not at the viewport origin (0,0).
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div style="transform: translateZ(0); overflow: auto; padding: 250px;">
+        <bl-button id="transformed-target">Trigger</bl-button>
+        <bl-popover target="transformed-target" placement="bottom">Popover Content</bl-popover>
+      </div>
+    `);
+
+    const popoverEl = wrapper.querySelector<BlPopover>("bl-popover")!;
+    const target = wrapper.querySelector<HTMLElement>("#transformed-target")!;
+    const popoverDiv = popoverEl.shadowRoot!.querySelector<HTMLElement>(".popover")!;
+
+    popoverEl.target = target;
+    popoverEl.show();
+    await elementUpdated(popoverEl);
+    // Let floating-ui's async computePosition / autoUpdate run.
+    await aTimeout(50);
+
+    const targetRect = target.getBoundingClientRect();
+    const popoverRect = popoverDiv.getBoundingClientRect();
+
+    // The popover must be rendered close to its target, not at the viewport origin.
+    expect(popoverRect.top).to.be.greaterThan(targetRect.top);
+    expect(Math.abs(popoverRect.top - targetRect.bottom)).to.be.lessThan(100);
   });
 });

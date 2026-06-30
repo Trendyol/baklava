@@ -1,4 +1,11 @@
-import { addons } from '@storybook/addons';
-import baklavaTheme from './baklava-theme';
+import { addons } from "@storybook/manager-api";
+import { lightTheme } from "./baklava-theme";
 
-addons.setConfig({ theme: baklavaTheme });
+// Static light theme for Storybook UI
+// Dark mode only affects the iframe preview, not the sidebar/toolbar
+addons.setConfig({
+  theme: lightTheme,
+  sidebar: {
+    showRoots: true,
+  },
+});
