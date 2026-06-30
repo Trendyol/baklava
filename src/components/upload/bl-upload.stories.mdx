@@ -1,0 +1,384 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/addon-docs";
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
+
+<Meta
+  title="Components/Upload"
+  component="bl-upload"
+  argTypes={{
+    variant: {
+      control: { type: 'select' },
+      options: ['horizontal', 'vertical', 'button'],
+    },
+    accept: {
+      control: 'text',
+    },
+    multiple: {
+      control: 'boolean',
+    },
+    maxFileSize: {
+      control: 'number',
+    },
+    maxFiles: {
+      control: 'number',
+    },
+    headerText: {
+      control: 'text',
+    },
+    descriptionText: {
+      control: 'text',
+    },
+    buttonText: {
+      control: 'text',
+    },
+    disabled: {
+      control: 'boolean',
+    },
+    showFileList: {
+      control: 'boolean',
+    },
+    autoUpload: {
+      control: 'boolean',
+    },
+  }}
+/>
+
+export const TemplateHeader = (args) => html`
+<div style='margin-bottom: 20px'>
+  <div style='display: flex; flex-direction: column;gap: 8px;'>
+    <span style='font-size: 20px; font-weight: 400;'>${ifDefined(args.header)}</span>
+    <span style='font-size: 16px; font-weight: 400;'>${ifDefined(args.description)}</span>
+    <span style='font-size: 18px; font-weight: 400;margin-top: 12px;'>${ifDefined(args.subHeader)}</span>
+  </div>
+</div>
+`
+
+export const DefaultHorizontalTemplate = (args)=> html`
+${TemplateHeader({...args, header: 'Horizontal', description: 'All layouts include a title, description, icon, and button as optional variants.', subHeader: 'Default State'})}
+${UploadTemplate(args)}`
+
+export const DefaultVerticalTemplate = (args)=> html`
+${TemplateHeader({...args, header: 'Vertical', description: 'All layouts include a title, description, icon, and button as optional variants.', subHeader: 'Default State'})}
+${UploadTemplate(args)}`
+
+export const DefaultButtonTemplate = (args)=> html`
+${TemplateHeader({...args, header: 'Button-only', description: 'All layouts include a title, description, icon, and button as optional variants.', subHeader: 'Default State'})}
+${UploadTemplate(args)}`
+
+export const DisabledHorizontalTemplate = (args)=> html`
+${TemplateHeader({...args, header: '', description: '', subHeader: 'Disabled State'})}
+${UploadTemplate(args)}`
+
+export const DisabledVerticalTemplate = (args)=> html`
+${TemplateHeader({...args, header: '', description: '', subHeader: 'Disabled State'})}
+${UploadTemplate(args)}`
+
+export const DisabledButtonTemplate = (args)=> html`
+${TemplateHeader({...args, header: '', description: '', subHeader: 'Disabled State'})}
+${UploadTemplate(args)}`
+
+export const UploadTemplate = (args) => html`
+<bl-upload
+  variant='${ifDefined(args.variant)}'
+  accept='${ifDefined(args.accept)}'
+  ?multiple='${args.multiple}'
+  max-file-size='${ifDefined(args.maxFileSize)}'
+  max-files='${ifDefined(args.maxFiles)}'
+  header-text='${ifDefined(args.headerText)}'
+  description-text='${ifDefined(args.descriptionText)}'
+  button-text='${ifDefined(args.buttonText)}'
+  ?disabled='${args.disabled}'
+  ?show-file-list='${args.showFileList}'
+  ?auto-upload='${args.autoUpload}'
+></bl-upload>`
+
+export const animateProgress = (upload, fileId, targetProgress, willFail, errorMessage) => {
+  let progress = 0;
+  const step = Math.random() * 15 + 10;
+
+  const interval = setInterval(() => {
+    progress += step + Math.random() * 8;
+    if (progress >= targetProgress) {
+      progress = targetProgress;
+      clearInterval(interval);
+
+      const newStatus = willFail ? 'error' : 'success';
+      const newErrorMessage = willFail ? errorMessage : undefined;
+      upload._fileItems = upload._fileItems.map(f => {
+        if (f.id === fileId) {
+          return { ...f, progress: 100, status: newStatus, errorMessage: newErrorMessage };
+        }
+        return f;
+      });
+      upload.requestUpdate();
+    } else {
+      upload._fileItems = upload._fileItems.map(f => {
+        if (f.id === fileId) {
+          return { ...f, progress };
+        }
+        return f;
+      });
+      upload.requestUpdate();
+    }
+  }, 150);
+};
+
+export const ErrorTemplate = (args) => {
+  const uploadId = 'upload-error-demo';
+
+  setTimeout(() => {
+    const upload = document.getElementById(uploadId);
+    if (upload && (!upload._fileItems || upload._fileItems.length === 0)) {
+      const mockFiles = [
+        {
+          file: new File([''], 'document.xlsx', { type: 'application/vnd.ms-excel' }),
+          id: 'file-error-format',
+          name: 'document.xlsx',
+          size: 45000,
+          type: 'application/vnd.ms-excel',
+          status: 'uploading',
+          progress: 0,
+        },
+        {
+          file: new File([''], 'large-image.png', { type: 'image/png' }),
+          id: 'file-error-size',
+          name: 'large-image.png',
+          size: 15000000,
+          type: 'image/png',
+          status: 'uploading',
+          progress: 0,
+        },
+        {
+          file: new File([''], 'video.mp4', { type: 'video/mp4' }),
+          id: 'file-error-video',
+          name: 'video.mp4',
+          size: 8500000,
+          type: 'video/mp4',
+          status: 'uploading',
+          progress: 0,
+        },
+      ];
+      upload._fileItems = mockFiles;
+      upload.requestUpdate();
+
+      setTimeout(() => { animateProgress(upload, 'file-error-format', 100, true, 'Invalid file format, file format must be .jpg, .jpeg, .png.'); }, 100);
+      setTimeout(() => { animateProgress(upload, 'file-error-size', 100, true, 'File size too large: 14.31 MB (Maximum: 10 MB)'); }, 300);
+      setTimeout(() => { animateProgress(upload, 'file-error-video', 100, true, 'Invalid file format, file format must be .jpg, .jpeg, .png.'); }, 500);
+    }
+  }, 100);
+
+  return html`
+${TemplateHeader({...args, header: '', description: '', subHeader: 'Error State'})}
+<bl-upload
+  id='${uploadId}'
+  variant='${ifDefined(args.variant)}'
+  accept='${ifDefined(args.accept)}'
+  ?multiple='${args.multiple}'
+  max-file-size='${ifDefined(args.maxFileSize)}'
+  max-files='${ifDefined(args.maxFiles)}'
+  header-text='${ifDefined(args.headerText)}'
+  description-text='${ifDefined(args.descriptionText)}'
+  button-text='${ifDefined(args.buttonText)}'
+  ?disabled='${args.disabled}'
+  ?show-file-list='${args.showFileList}'
+  ?auto-upload='${args.autoUpload}'
+></bl-upload>
+`;
+}
+
+export const UploadedTemplate = (args) => {
+  const variantName = args.variant || 'horizontal';
+  const uploadId = 'upload-uploaded-' + variantName;
+  const successId = 'file-success-' + variantName;
+  const errorId = 'file-error-' + variantName;
+  const loadingId = 'file-loading-' + variantName;
+
+  setTimeout(() => {
+    const upload = document.getElementById(uploadId);
+    if (upload && (!upload._fileItems || upload._fileItems.length === 0)) {
+      const mockFiles = [
+        {
+          file: new File([''], 'sample-image.png', { type: 'image/png' }),
+          id: successId,
+          name: 'sample-image.png',
+          size: 245000,
+          type: 'image/png',
+          status: 'uploading',
+          progress: 0,
+        },
+        {
+          file: new File([''], 'file.hec', { type: '' }),
+          id: errorId,
+          name: 'file.hec',
+          size: 120000,
+          type: '',
+          status: 'uploading',
+          progress: 0,
+        },
+        {
+          file: new File([''], 'image2.jpg', { type: 'image/jpeg' }),
+          id: loadingId,
+          name: 'image2.jpg',
+          size: 890000,
+          type: 'image/jpeg',
+          status: 'uploading',
+          progress: 5,
+        },
+      ];
+      upload._fileItems = mockFiles;
+      upload.requestUpdate();
+
+      setTimeout(() => { animateProgress(upload, successId, 100, false, null); }, 100);
+      setTimeout(() => { animateProgress(upload, errorId, 100, true, 'Invalid file format, file format must be .jpg, .jpeg, .png.'); }, 300);
+    }
+  }, 100);
+
+  return html`
+${TemplateHeader({...args, header: '', description: '', subHeader: 'Uploaded State'})}
+<bl-upload
+  id='${uploadId}'
+  variant='${ifDefined(args.variant)}'
+  accept='${ifDefined(args.accept)}'
+  ?multiple='${args.multiple}'
+  max-file-size='${ifDefined(args.maxFileSize)}'
+  max-files='${ifDefined(args.maxFiles)}'
+  header-text='${ifDefined(args.headerText)}'
+  description-text='${ifDefined(args.descriptionText)}'
+  button-text='${ifDefined(args.buttonText)}'
+  ?disabled='${args.disabled}'
+  ?show-file-list='${args.showFileList}'
+  ?auto-upload='${args.autoUpload}'
+></bl-upload>
+`;
+}
+
+# Upload
+
+<bl-badge icon="document">[ADR](https://github.com/Trendyol/baklava/issues/1126)</bl-badge>
+<bl-badge icon="puzzle">[Figma](https://www.figma.com/design/RrcLH0mWpIUy4vwuTlDeKN/Baklava-Design-Guide?node-id=30165-23095&t=2KatC0pHP0MvvtaW-1)</bl-badge>
+
+Upload components are used for selecting and uploading files.
+
+## Usage
+
+- Clicking the "Select File" button and choosing a local file, or dragging the file into the component area, initiates the upload process.
+- You can cancel the upload while the file is being transferred.
+- Once the file is successfully uploaded, it will be shown with a green icon indicating approval.
+- If there are any technical or formatting issues, a warning icon will appear, accompanied by a caption explaining the problem.
+- If you encounter any issues, you can refresh the file by clicking the "Reload" icon.
+
+## Upload Components Types
+
+There are three different layouts for the upload component: horizontal, vertical, and button-only.
+
+<Canvas>
+  <Story name="Default State" args={{ headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
+     {DefaultHorizontalTemplate.bind()}
+  </Story>
+  <Story name="Uploaded State" args={{ headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
+     {UploadedTemplate.bind()}
+  </Story>
+  <Story name="Disabled Horizontal" args={{ headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png', disabled: true }}>
+     {DisabledHorizontalTemplate.bind()}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Default Vertical State"  args={{ variant:'vertical', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
+    {DefaultVerticalTemplate.bind()}
+  </Story>
+  <Story name="Vertical Uploaded State" args={{ variant:'vertical', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
+     {UploadedTemplate.bind()}
+  </Story>
+  <Story name="Disabled Vertical" args={{ variant: 'vertical', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png', disabled: true }}>
+     {DisabledVerticalTemplate.bind()}
+  </Story>
+</Canvas>
+
+<Canvas isColumn>
+  <Story name="Default Button State"  args={{ variant:'button', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png' }}>
+    {DefaultButtonTemplate.bind()}
+  </Story>
+  <Story name="Button Uploaded State" args={{ variant:'button', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', showFileList: true, multiple: true, accept: '.jpg,.jpeg,.png' }}>
+     {UploadedTemplate.bind()}
+  </Story>
+  <Story name="Disabled Button" args={{ variant: 'button', headerText: 'Select / Drop File', descriptionText: 'JPG, JPEG, PNG, Minimum 860x574', buttonText: 'Select File', accept: '.jpg,.jpeg,.png', disabled: true }}>
+     {DisabledButtonTemplate.bind()}
+  </Story>
+</Canvas>
+
+## Single vs Multiple File Upload
+
+Upload component supports both single and multiple file selection modes.
+
+### Single File Upload
+
+When `multiple` is not set or set to `false`, only one file can be uploaded at a time. Selecting a new file replaces the previous one.
+
+<Canvas>
+  <Story name="Single File Upload" args={{ headerText: 'Select / Drop File', descriptionText: 'You can upload only 1 file', buttonText: 'Select File', showFileList: true, multiple: false, accept: '.jpg,.jpeg,.png' }}>
+     {UploadTemplate.bind()}
+  </Story>
+</Canvas>
+
+### Multiple File Upload
+
+When `multiple` is set to `true`, users can select and upload multiple files. You can limit the number of files with `max-files` attribute.
+
+<Canvas>
+  <Story name="Multiple File Upload" args={{ headerText: 'Select / Drop Files', descriptionText: 'You can upload multiple files (Maximum 5)', buttonText: 'Select Files', showFileList: true, multiple: true, maxFiles: 5, accept: '.jpg,.jpeg,.png' }}>
+     {UploadTemplate.bind()}
+  </Story>
+</Canvas>
+
+## Events
+
+The upload component emits several events for handling file operations:
+
+```javascript
+const upload = document.querySelector('bl-upload');
+
+// Fires when files are successfully selected
+upload.addEventListener('bl-upload', (event) => {
+  console.log('Files uploaded:', event.detail.files);
+  // event.detail.files contains: [{ file, id, name, size, type }, ...]
+});
+
+// Fires when there's an error with file selection
+upload.addEventListener('bl-upload-error', (event) => {
+  console.log('Upload errors:', event.detail.errors);
+  // event.detail.errors contains: [{ file, error, message }, ...]
+});
+
+// Fires when a file is removed
+upload.addEventListener('bl-file-remove', (event) => {
+  console.log('File removed:', event.detail.file);
+});
+```
+
+## Programmatic API
+
+The upload component provides methods to control files programmatically:
+
+```javascript
+const upload = document.querySelector('bl-upload');
+
+// Get all uploaded files
+const files = upload.files;
+
+// Clear all files
+upload.clearFiles();
+
+// Remove a specific file by id
+upload.removeFile(fileId);
+
+// Update file status programmatically
+upload.setFileStatus(fileId, 'success');
+upload.setFileStatus(fileId, 'error', 'Upload failed');
+
+// Update file progress (0-100)
+upload.setFileProgress(fileId, 50);
+```
+## Reference
+
+<ArgsTable of="bl-upload" />
