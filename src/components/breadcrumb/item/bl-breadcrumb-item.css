@@ -1,0 +1,22 @@
+:host {
+  display: inline;
+
+  --bl-link-text-decoration: underline;
+  --bl-link-hover-text-decoration: none;
+}
+
+:host([last]) {
+  --bl-breadcrumb-item-color: var(--bl-color-neutral-light);
+  --bl-link-color: var(--bl-color-neutral-light);
+  --bl-link-hover-color: var(--bl-color-neutral-light);
+  --bl-link-active-color: var(--bl-color-neutral-light);
+}
+
+:host([last]) .breadcrumb-text {
+  color: var(--bl-breadcrumb-item-color);
+}
+
+.breadcrumb-text {
+  font: var(--bl-font-title-4-regular);
+  color: var(--bl-breadcrumb-item-color, var(--bl-color-neutral-dark));
+}

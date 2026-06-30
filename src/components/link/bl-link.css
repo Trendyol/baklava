@@ -8,6 +8,8 @@
   --color: var(--bl-link-color, var(--bl-color-primary));
   --hover-color: var(--bl-link-hover-color, var(--bl-color-primary-highlight));
   --active-color: var(--bl-link-active-color, var(--bl-color-primary-highlight));
+  --text-decoration: var(--bl-link-text-decoration, none);
+  --hover-text-decoration: var(--bl-link-hover-text-decoration, none);
 
   /* Base styles */
   display: inline-flex;
@@ -17,11 +19,12 @@
   outline: none;
   position: relative;
   font-family: var(--bl-font-family);
+  text-decoration: var(--text-decoration);
 }
 
 /* States */
 .link:hover {
-  text-decoration: none;
+  text-decoration: var(--hover-text-decoration);
   color: var(--hover-color);
 }
 
