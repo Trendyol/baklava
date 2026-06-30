@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { setDirectionProperty } from "../../utilities/direction";
 import { event, EventDispatcher } from "../../utilities/event";
+import "../spinner/bl-spinner";
 import style from "./bl-switch.css";
 
 export const blSwitchTag = "bl-switch";
@@ -34,12 +35,18 @@ export default class BlSwitch extends LitElement {
   disabled? = false;
 
   /**
+   * Sets the loading state for switch
+   */
+  @property({ type: Boolean, reflect: true })
+  loading = false;
+
+  /**
    * Fires whenever user toggles the switch
    */
   @event("bl-switch-toggle") private onToggle: EventDispatcher<boolean>;
 
   toggle() {
-    if (this.disabled) return;
+    if (this.disabled || this.loading) return;
 
     this.checked = !this.checked;
     this.onToggle(this.checked);
@@ -61,6 +68,7 @@ export default class BlSwitch extends LitElement {
   render(): TemplateResult {
     const ariaLabel =
       this.ariaLabel ?? this.attributes.getNamedItem("aria-label")?.value ?? undefined;
+    const isDisabled = this.disabled || this.loading;
 
     return html`
       <label @click=${this.toggle}>
@@ -69,11 +77,13 @@ export default class BlSwitch extends LitElement {
           class="switch"
           role="switch"
           aria-checked=${this.checked}
-          aria-readonly=${!!this.disabled}
+          aria-readonly=${!!isDisabled}
+          aria-busy=${this.loading}
           @keydown=${this.handleKeyDown}
           aria-label=${ifDefined(ariaLabel)}
           tabindex="0"
         >
+          ${this.loading ? html`<bl-spinner class="loading-spinner" size="12px"></bl-spinner>` : ""}
         </span>
       </label>
     `;
