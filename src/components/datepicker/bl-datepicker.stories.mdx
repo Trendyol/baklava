@@ -28,6 +28,7 @@ export const DatepickerTemplate = (args) => html`
     locale=${ifDefined(args.locale)}
     value=${ifDefined(args.value)}
     style=${ifDefined(args.style)}
+    error=${ifDefined(args.error)}
     .disabledDates=${args.disabledDates}
     ?disabled=${args.disabled}
     ?month-year-only=${args.monthYearOnly}
