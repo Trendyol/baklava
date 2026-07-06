@@ -122,6 +122,13 @@ describe("BlDatepicker", () => {
     expect(input?.getAttribute("help-text")).to.equal("Please select a valid date.");
   });
 
+  it("should pass error prop to inner bl-input", async () => {
+    element.error = "This field is required.";
+    await element.updateComplete;
+
+    expect(element._inputEl?.error).to.equal("This field is required.");
+  });
+
   it("should close the popover after timeout", async () => {
     element._inputEl?.click();
     await element.updateComplete;
