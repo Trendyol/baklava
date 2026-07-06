@@ -85,7 +85,6 @@
 }
 
 .connector.completed {
-  /* Figma: neutral/darker (#273142) */
   background-color: var(--bl-color-neutral-darker);
 }
 

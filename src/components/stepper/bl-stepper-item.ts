@@ -223,8 +223,6 @@ export default class BlStepperItem extends LitElement {
       </div>
     `;
 
-    // Connectors are rendered in two halves: trailing of current step + leading of next step.
-    // For the active step, the segment to the next step should NOT look completed.
     const leadingConnectorState =
       this.variant === "success" || this.variant === "active" ? "completed" : "default";
     const trailingConnectorState = this.variant === "success" ? "completed" : "default";
