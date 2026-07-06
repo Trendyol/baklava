@@ -85,24 +85,25 @@
 }
 
 .connector.completed {
-  background-color: var(--bl-color-neutral-dark);
+  /* Figma: neutral/darker (#273142) */
+  background-color: var(--bl-color-neutral-darker);
 }
 
 .stepper-item.direction-horizontal .connector {
-  height: 2px;
+  height: 1px;
   flex: 1 1 auto;
   min-width: 48px;
 }
 
 .connector-placeholder {
-  height: 2px;
+  height: 1px;
   flex: 1 1 auto;
   min-width: 48px;
   visibility: hidden;
 }
 
 .stepper-item.direction-vertical .connector {
-  width: 2px;
+  width: 1px;
   flex: 1 1 auto;
   min-height: 16px;
 }
@@ -208,11 +209,11 @@
 }
 
 .stepper-item.variant-hover .stepper-title {
-  color: var(--text-color-active);
+  color: var(--hover-color);
 }
 
 .stepper-item.variant-hover .stepper-description {
-  color: var(--description-color-active);
+  color: var(--description-color-default);
 }
 
 .stepper-item.variant-success .stepper-title {

@@ -223,15 +223,18 @@ export default class BlStepperItem extends LitElement {
       </div>
     `;
 
-    const connectorState =
+    // Connectors are rendered in two halves: trailing of current step + leading of next step.
+    // For the active step, the segment to the next step should NOT look completed.
+    const leadingConnectorState =
       this.variant === "success" || this.variant === "active" ? "completed" : "default";
+    const trailingConnectorState = this.variant === "success" ? "completed" : "default";
 
     const stepIndicator = html`
       <div class="connector-wrap">
         ${this.direction === "horizontal"
           ? html`
               ${this.showLeadingConnector
-                ? html`<div class="connector connector-leading ${connectorState}"></div>`
+                ? html`<div class="connector connector-leading ${leadingConnectorState}"></div>`
                 : html`<div class="connector-placeholder"></div>`}
               <div class="stepper-indicator">
                 ${this.shouldShowIcon
@@ -241,12 +244,12 @@ export default class BlStepperItem extends LitElement {
                   : ""}
               </div>
               ${this.showTrailingConnector
-                ? html`<div class="connector connector-trailing ${connectorState}"></div>`
+                ? html`<div class="connector connector-trailing ${trailingConnectorState}"></div>`
                 : html`<div class="connector-placeholder"></div>`}
             `
           : html`
               ${this.showLeadingConnector
-                ? html`<div class="connector connector-leading ${connectorState}"></div>`
+                ? html`<div class="connector connector-leading ${leadingConnectorState}"></div>`
                 : ""}
               <div class="stepper-indicator">
                 ${this.shouldShowIcon
@@ -256,7 +259,7 @@ export default class BlStepperItem extends LitElement {
                   : ""}
               </div>
               ${this.showTrailingConnector
-                ? html`<div class="connector connector-trailing ${connectorState}"></div>`
+                ? html`<div class="connector connector-trailing ${trailingConnectorState}"></div>`
                 : ""}
             `}
       </div>
