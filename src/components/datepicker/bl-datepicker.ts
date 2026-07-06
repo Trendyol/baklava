@@ -56,6 +56,12 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
   helpText: string;
 
   /**
+   * Sets input error state
+   */
+  @property({ reflect: true, type: String })
+  error: string;
+
+  /**
    * Custom function to render day cells in the calendar.
    * It receives the date as an argument and should return a TemplateResult.
    */
@@ -274,6 +280,7 @@ export default class BlDatepicker extends DatepickerCalendarMixin {
           aria-labelledby="label"
           @click=${this._togglePopover}
           help-text=${this.helpText}
+          error=${this.error}
           ?disabled=${this.disabled}
           .size=${this.size}
           .labelFixed=${this.labelFixed}
