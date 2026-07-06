@@ -507,7 +507,7 @@ describe("bl-stepper-item", () => {
     expect(leadingConnector).to.exist;
     expect(trailingConnector).to.exist;
     expect(leadingConnector?.classList.contains("completed")).to.be.true;
-    expect(trailingConnector?.classList.contains("completed")).to.be.true;
+    expect(trailingConnector?.classList.contains("completed")).to.be.false;
 
     el.variant = "success";
     await elementUpdated(el);
@@ -520,6 +520,59 @@ describe("bl-stepper-item", () => {
 
     expect(leadingConnector?.classList.contains("completed")).to.be.false;
     expect(trailingConnector?.classList.contains("completed")).to.be.false;
+  });
+
+  it("does not render trailing connector as completed when variant is active", async () => {
+    const el = await fixture<BlStepperItem>(html`
+      <bl-stepper-item variant="active"></bl-stepper-item>
+    `);
+
+    el.showLeadingConnector = true;
+    el.showTrailingConnector = true;
+    await elementUpdated(el);
+
+    const leadingConnector = el.shadowRoot!.querySelector(".connector-leading");
+    const trailingConnector = el.shadowRoot!.querySelector(".connector-trailing");
+
+    expect(leadingConnector?.classList.contains("completed")).to.be.true;
+    expect(trailingConnector?.classList.contains("completed")).to.be.false;
+  });
+
+  it("renders both connectors as completed when variant is success", async () => {
+    const el = await fixture<BlStepperItem>(html`
+      <bl-stepper-item variant="success"></bl-stepper-item>
+    `);
+
+    el.showLeadingConnector = true;
+    el.showTrailingConnector = true;
+    await elementUpdated(el);
+
+    const leadingConnector = el.shadowRoot!.querySelector(".connector-leading");
+    const trailingConnector = el.shadowRoot!.querySelector(".connector-trailing");
+
+    expect(leadingConnector?.classList.contains("completed")).to.be.true;
+    expect(trailingConnector?.classList.contains("completed")).to.be.true;
+  });
+
+  it("renders connectors with 1px thickness", async () => {
+    const el = await fixture<BlStepperItem>(html`<bl-stepper-item></bl-stepper-item>`);
+
+    el.showLeadingConnector = true;
+    el.showTrailingConnector = false;
+    await elementUpdated(el);
+
+    const horizontalConnector = el.shadowRoot!.querySelector(".connector-leading") as HTMLElement;
+
+    expect(horizontalConnector).to.exist;
+    expect(getComputedStyle(horizontalConnector).height).to.equal("1px");
+
+    el.direction = "vertical";
+    await elementUpdated(el);
+
+    const verticalConnector = el.shadowRoot!.querySelector(".connector-leading") as HTMLElement;
+
+    expect(verticalConnector).to.exist;
+    expect(getComputedStyle(verticalConnector).width).to.equal("1px");
   });
 
   it("renders icon in vertical layout", async () => {
