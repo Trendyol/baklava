@@ -76,6 +76,36 @@ describe("bl-input", () => {
     expect(label?.innerText).to.equal(labelText);
   });
 
+  it("should show required asterisk when required-indicator is set", async () => {
+    const el = await fixture<BlInput>(
+      html`<bl-input label="Test Label" required required-indicator></bl-input>`
+    );
+    const label = el.shadowRoot?.querySelector("label");
+    const afterContent = label ? getComputedStyle(label, "::after").content : "";
+
+    expect(afterContent).to.equal('"*"');
+  });
+
+  it("should not show required asterisk when required-indicator is not set", async () => {
+    const el = await fixture<BlInput>(
+      html`<bl-input label="Test Label" required></bl-input>`
+    );
+    const label = el.shadowRoot?.querySelector("label");
+    const afterContent = label ? getComputedStyle(label, "::after").content : "";
+
+    expect(afterContent).to.be.oneOf(["none", ""]);
+  });
+
+  it("should show required asterisk in legend when required-indicator is set", async () => {
+    const el = await fixture<BlInput>(
+      html`<bl-input label="Test Label" required required-indicator></bl-input>`
+    );
+    const legendSpan = el.shadowRoot?.querySelector("legend span");
+    const afterContent = legendSpan ? getComputedStyle(legendSpan, "::after").content : "";
+
+    expect(afterContent).to.equal('"*"');
+  });
+
   it("should set help text", async () => {
     const helpText = "Some help text";
     const el = await fixture<BlInput>(html`<bl-input help-text="${helpText}"></bl-input>`);

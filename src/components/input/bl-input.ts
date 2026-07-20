@@ -95,6 +95,12 @@ export default class BlInput extends FormControlMixin(LitElement) {
   required = false;
 
   /**
+   * Shows a red asterisk (*) next to the label to indicate the field is required.
+   */
+  @property({ type: Boolean, attribute: "required-indicator", reflect: true })
+  requiredIndicator = false;
+
+  /**
    * Sets minimum length of the input
    */
   @property({ type: Number, reflect: true })
