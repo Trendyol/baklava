@@ -172,25 +172,6 @@ If you want to use always it on top of the input, then you can use `label-fixed`
   </Story>
 </Canvas>
 
-## Required Indicator
-
-When you use the `required` attribute together with `required-indicator`, a red asterisk (*) is displayed next to the label to visually indicate that the field is mandatory.
-
-<Canvas isColumn>
-  <Story name="Required Indicator with Inline Label"
-         args={{ label: 'User Name', placeholder: 'Enter Your Name', required: true, requiredIndicator: true }}>
-    {SingleInputTemplate.bind({})}
-  </Story>
-  <Story name="Required Indicator with Fixed Label"
-         args={{ label: 'User Name', labelFixed: true, placeholder: 'Enter Your Name', required: true, requiredIndicator: true }}>
-    {SingleInputTemplate.bind({})}
-  </Story>
-  <Story name="Required Without Indicator"
-         args={{ label: 'User Name', placeholder: 'Enter Your Name', required: true }}>
-    {SingleInputTemplate.bind({})}
-  </Story>
-</Canvas>
-
 Input component will cut-out long labels those doesn't width of input, with ellipsis char.
 
 <Canvas isColumn>
@@ -306,6 +287,25 @@ If you want to use a different validation than all validations, you can do this 
   <Story name="Custom Validation"
          args={{ type: 'text', label: 'User Name', error: 'I am custom validation' }}
   >
+    {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Required Indicator
+
+When you use the `required` attribute together with `required-indicator`, a red asterisk (*) is displayed next to the label to visually indicate that the field is mandatory.
+
+<Canvas isColumn>
+  <Story name="Required Indicator with Inline Label"
+         args={{ label: 'User Name', placeholder: 'Enter Your Name', required: true, requiredIndicator: true }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Required Indicator with Fixed Label"
+         args={{ label: 'User Name', labelFixed: true, placeholder: 'Enter Your Name', required: true, requiredIndicator: true }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Required Without Indicator"
+         args={{ label: 'User Name', placeholder: 'Enter Your Name', required: true }}>
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
