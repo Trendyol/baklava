@@ -86,6 +86,12 @@
   --background-color: var(--autofill-bg-color);
 }
 
+:host([required]) label::after,
+:host([required]) .input-wrapper legend span::after {
+  content: "*";
+  color: var(--bl-color-danger);
+}
+
 .input-wrapper legend,
 label {
   padding: 0;
