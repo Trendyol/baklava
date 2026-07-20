@@ -33,6 +33,9 @@ import { extraPadding } from '../../utilities/chromatic-decorators';
     required: {
       control: 'boolean',
     },
+    requiredIndicator: {
+      control: 'boolean',
+    },
     minlength: {
       control: 'text',
       type: 'number'
@@ -96,6 +99,7 @@ export const SingleInputTemplate = (args) => html`<bl-input
     value='${ifDefined(args.value)}'
     ?loading=${ifDefined(args.loading)}
     ?required='${args.required}'
+    ?required-indicator='${args.requiredIndicator}'
     ?disabled='${args.disabled}'
     ?readonly='${args.readonly}'
     ?label-fixed='${args.labelFixed}'
@@ -164,6 +168,25 @@ If you want to use always it on top of the input, then you can use `label-fixed`
     {SingleInputTemplate.bind({})}
   </Story>
   <Story name="Input with value" args={{ label: 'Your name', placeholder: 'Name Surname', value: 'Random User' }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Required Indicator
+
+When you use the `required` attribute together with `required-indicator`, a red asterisk (*) is displayed next to the label to visually indicate that the field is mandatory.
+
+<Canvas isColumn>
+  <Story name="Required Indicator with Inline Label"
+         args={{ label: 'User Name', placeholder: 'Enter Your Name', required: true, requiredIndicator: true }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Required Indicator with Fixed Label"
+         args={{ label: 'User Name', labelFixed: true, placeholder: 'Enter Your Name', required: true, requiredIndicator: true }}>
+    {SingleInputTemplate.bind({})}
+  </Story>
+  <Story name="Required Without Indicator"
+         args={{ label: 'User Name', placeholder: 'Enter Your Name', required: true }}>
     {SingleInputTemplate.bind({})}
   </Story>
 </Canvas>
