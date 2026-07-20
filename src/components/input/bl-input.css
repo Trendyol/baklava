@@ -86,8 +86,8 @@
   --background-color: var(--autofill-bg-color);
 }
 
-:host([required]) label::after,
-:host([required]) .input-wrapper legend span::after {
+:host([required-indicator]) label::after,
+:host([required-indicator]) .input-wrapper legend span::after {
   content: "*";
   color: var(--bl-color-danger);
 }
