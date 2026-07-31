@@ -10,7 +10,7 @@ fieldset {
 
 legend {
   font: var(--bl-font-title-3-medium);
-  color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-text-primary);
 }
 
 .options {
@@ -36,7 +36,7 @@ legend {
 
 .invalid-text {
   display: none;
-  color: var(--bl-color-danger);
+  color: var(--bl-color-text-danger);
 }
 
 .dirty.invalid .hint {

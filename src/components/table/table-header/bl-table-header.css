@@ -20,5 +20,5 @@
   inset-inline-start: 0;
   inset-inline-end: 0;
   height: 1px;
-  background: var(--bl-color-neutral-lighter);
+  background: var(--bl-color-border-primary);
 }

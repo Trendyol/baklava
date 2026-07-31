@@ -5,9 +5,9 @@
 }
 
 .wrapper {
-  --border-color: var(--bl-color-neutral-lighter);
-  --icon-color: var(--bl-color-neutral-light);
-  --text-color: var(--bl-color-neutral-darker);
+  --border-color: var(--bl-color-border-primary);
+  --icon-color: var(--bl-color-foreground-placeholder);
+  --text-color: var(--bl-color-text-primary);
   --height: var(--bl-size-2xl);
   --input-font: var(--bl-font-body-text-2);
   --line-height: var(--bl-font-body-text-2-line-height);
@@ -15,9 +15,9 @@
   --icon-gap: var(--bl-size-4xs);
   --padding-vertical: calc((var(--height) - var(--line-height)) / 2);
   --padding-horizontal: var(--bl-size-xs);
-  --autofill-bg-color: var(--bl-color-primary-contrast);
+  --autofill-bg-color: var(--bl-color-background-brand);
   --label-padding: var(--bl-size-2xs);
-  --background-color: var(--bl-color-neutral-full);
+  --background-color: var(--bl-color-background-primary);
 
   display: grid;
   position: relative;
@@ -25,13 +25,13 @@
 }
 
 .wrapper:focus-within {
-  --border-color: var(--bl-color-primary);
-  --icon-color: var(--bl-color-primary);
+  --border-color: var(--bl-color-border-brand);
+  --icon-color: var(--bl-color-foreground-brand);
 }
 
 .wrapper.dirty.invalid {
-  --border-color: var(--bl-color-danger);
-  --icon-color: var(--bl-color-danger);
+  --border-color: var(--bl-color-border-danger);
+  --icon-color: var(--bl-color-foreground-danger);
 }
 
 :host([size="large"]) .wrapper {
@@ -74,8 +74,8 @@
 :host([disabled]) .wrapper {
   cursor: not-allowed;
 
-  --background-color: var(--bl-color-neutral-lightest);
-  --text-color: var(--bl-color-neutral-light);
+  --background-color: var(--bl-color-background-disabled);
+  --text-color: var(--bl-color-text-disabled);
 }
 
 .wrapper:has(input:autofill) {
@@ -89,7 +89,7 @@
 :host([required-indicator]) label::after,
 :host([required-indicator]) .input-wrapper legend span::after {
   content: "*";
-  color: var(--bl-color-danger);
+  color: var(--bl-color-text-danger);
 }
 
 .input-wrapper legend,
@@ -109,7 +109,7 @@ label {
   inset-inline-start: var(--bl-input-padding-start, var(--padding-horizontal));
   inset-inline-end: var(--bl-input-padding-end, var(--padding-horizontal));
   pointer-events: none;
-  color: var(--bl-color-neutral-light);
+  color: var(--bl-color-text-placeholder);
 }
 
 .has-icon label {
@@ -242,8 +242,8 @@ bl-icon[name="eye_on"] {
 }
 
 ::placeholder {
-  color: var(--bl-color-neutral-light);
-  -webkit-text-fill-color: var(--bl-color-neutral-light);
+  color: var(--bl-color-text-placeholder);
+  -webkit-text-fill-color: var(--bl-color-text-placeholder);
 }
 
 :host([label]) ::placeholder {
@@ -254,8 +254,8 @@ bl-icon[name="eye_on"] {
 
 :host([label-fixed]) ::placeholder,
 :host :focus-within ::placeholder {
-  color: var(--bl-color-neutral-light);
-  -webkit-text-fill-color: var(--bl-color-neutral-light);
+  color: var(--bl-color-text-placeholder);
+  -webkit-text-fill-color: var(--bl-color-text-placeholder);
 }
 
 :host([label-fixed]) label {
@@ -264,7 +264,7 @@ bl-icon[name="eye_on"] {
   transform: none;
   pointer-events: initial;
   font: var(--bl-font-caption);
-  color: var(--bl-color-neutral-dark);
+  color: var(--bl-color-text-secondary);
   padding: 0;
 }
 
@@ -283,7 +283,7 @@ bl-icon[name="eye_on"] {
   );
   transform: translateY(-50%);
   font: var(--bl-font-caption);
-  color: var(--bl-color-neutral-dark);
+  color: var(--bl-color-text-secondary);
   padding: 0 var(--label-padding);
   pointer-events: initial;
   z-index: var(--bl-index-base);
@@ -303,11 +303,11 @@ bl-icon[name="eye_on"] {
 .dirty.invalid label,
 .invalid-text,
 .error-icon {
-  color: var(--bl-color-danger);
+  color: var(--bl-color-text-danger);
 }
 
 .help-text {
-  color: var(--bl-color-neutral-dark);
+  color: var(--bl-color-text-secondary);
 }
 
 :host([help-text]) .hint,
@@ -331,7 +331,7 @@ bl-icon[name="eye_on"] {
   display: block;
   height: 1rem;
   width: 1px;
-  background-color: var(--bl-color-neutral-lighter);
+  background-color: var(--bl-color-border-primary);
 }
 
 slot[name="icon"] bl-icon {

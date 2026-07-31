@@ -39,8 +39,8 @@ export type Placement =
  * @summary Baklava Popover component
  *
  * @cssproperty [--bl-popover-arrow-display=none] - Sets the display of popovers arrow. Set as `block` to make arrow visible.
- * @cssproperty [--bl-popover-background-color=--bl-color-neutral-full] - Sets the background color of popover.
- * @cssproperty [--bl-popover-border-color=--bl-color-primary-highlight] - Sets the border color of popover.
+ * @cssproperty [--bl-popover-background-color=--bl-color-background-primary] - Sets the background color of popover.
+ * @cssproperty [--bl-popover-border-color=--bl-color-border-primary-hover] - Sets the border color of popover.
  * @cssproperty [--bl-popover-border-size=1px] - Sets the border size of popover. You can set it to `0px` to not have a border (if you use a custom background color). Always use with a length unit.
  * @cssproperty [--bl-popover-padding=--bl-size-m] - Sets the padding of popover.
  * @cssproperty [--bl-popbover-border-radius=--bl-size-3xs] - Sets the border radius of popover.

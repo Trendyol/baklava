@@ -38,15 +38,15 @@ export default class BlDropdown extends LitElement {
 ## CSS Implementation
 ```css
 :host([kind="neutral"]) bl-popover {
-  --bl-popover-border-color: var(--bl-color-neutral-darker);
+  --bl-popover-border-color: var(--bl-color-border-neutral);
 }
 
 :host([kind="success"]) bl-popover {
-  --bl-popover-border-color: var(--bl-color-success);
+  --bl-popover-border-color: var(--bl-color-border-success);
 }
 
 :host([kind="danger"]) bl-popover {
-  --bl-popover-border-color: var(--bl-color-danger);
+  --bl-popover-border-color: var(--bl-color-border-danger);
 }
 ```
 

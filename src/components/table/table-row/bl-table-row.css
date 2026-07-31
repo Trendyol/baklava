@@ -4,18 +4,18 @@
 
 :host([checked]),
 :host([checked]) ::slotted(bl-table-cell) {
-  background-color: var(--bl-color-primary-contrast);
+  background-color: var(--bl-color-background-brand);
 }
 
 :host([disabled]),
 :host([disabled]) ::slotted(bl-table-cell) {
-  background-color: var(--bl-color-neutral-lightest);
-  color: var(--bl-color-neutral-light);
+  background-color: var(--bl-color-background-disabled);
+  color: var(--bl-color-text-disabled);
 }
 
 :host(:not([checked], [disabled]):hover),
 :host(:not([checked], [disabled]):hover) ::slotted(bl-table-cell) {
-  background-color: var(--bl-color-tertiary-background);
+  background-color: var(--bl-color-background-tertiary);
 }
 
 :host ::slotted(*:first-child) {

@@ -10,7 +10,7 @@
 label {
   display: flex;
   gap: var(--bl-size-2xs);
-  color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-text-primary);
   font: var(--bl-font-title-3);
   cursor: pointer;
   user-select: none;
@@ -33,7 +33,7 @@ input[type="checkbox"] {
   outline: none;
   margin: 0;
   box-sizing: border-box;
-  border: 1px solid var(--bl-color-neutral-lighter);
+  border: 1px solid var(--bl-color-border-primary);
   border-radius: var(--bl-border-radius-xs);
   width: var(--bl-size-m);
   height: var(--bl-size-m);
@@ -55,20 +55,20 @@ input[type="checkbox"] {
   min-height: var(--bl-size-m);
   max-width: var(--bl-size-m);
   max-height: var(--bl-size-m);
-  border: 1px solid var(--bl-color-neutral-lighter);
+  border: 1px solid var(--bl-color-border-primary);
   border-radius: var(--bl-border-radius-xs);
-  color: var(--bl-color-neutral-full);
+  color: var(--bl-color-foreground-primary-on-color);
   font-size: var(--bl-font-size-2xs);
-  background-color: var(--bl-color-neutral-full);
+  background-color: var(--bl-color-background-primary);
 }
 
 .required-suffix {
-  color: var(--bl-color-danger);
+  color: var(--bl-color-text-danger);
   margin-inline-start: calc(var(--bl-size-2xs) * -1);
 }
 
 .dirty.invalid .check-mark {
-  border-color: var(--bl-color-danger);
+  border-color: var(--bl-color-border-danger);
 }
 
 .hint {
@@ -87,7 +87,7 @@ input[type="checkbox"] {
 
 .invalid-text {
   display: none;
-  color: var(--bl-color-danger);
+  color: var(--bl-color-text-danger);
 }
 
 .dirty.invalid .invalid-text {
@@ -96,11 +96,11 @@ input[type="checkbox"] {
 
 :host([checked]) .label,
 :host(:hover) .label {
-  color: var(--bl-color-primary);
+  color: var(--bl-color-text-brand);
 }
 
 :host(:is([checked], [indeterminate])) .check-mark {
-  background-color: var(--bl-color-primary);
+  background-color: var(--bl-color-foreground-brand);
   border: none;
 }
 
@@ -111,14 +111,14 @@ input[type="checkbox"] {
 
 :host([disabled]) .check-mark,
 :host([disabled]) .label {
-  color: var(--bl-color-neutral-light);
-  border: 1px solid var(--bl-color-neutral-lighter);
+  color: var(--bl-color-text-disabled);
+  border: 1px solid var(--bl-color-border-disabled);
 }
 
 :host([disabled]) .check-mark {
-  background-color: var(--bl-color-neutral-lightest);
+  background-color: var(--bl-color-background-disabled);
 }
 
 :host(:not([disabled])) input:focus-visible + .check-mark {
-  box-shadow: 0 0 0 1px white, 0 0 0 3px var(--bl-color-primary);
+  box-shadow: 0 0 0 1px white, 0 0 0 3px var(--bl-color-border-brand);
 }

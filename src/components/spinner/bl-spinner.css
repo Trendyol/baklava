@@ -17,7 +17,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(39 49 66 / 70%);
+  background-color: rgb(41 46 50 / 70%);
   z-index: 10;
 }
 

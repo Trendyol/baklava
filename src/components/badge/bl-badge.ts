@@ -10,8 +10,8 @@ export type BadgeSize = "small" | "medium" | "large";
  * @tag bl-badge
  * @summary Baklava Badge component
  *
- * @cssproperty [--bl-badge-bg-color=--bl-color-primary-contrast] Sets the background color of badge
- * @cssproperty [--bl-badge-color=--bl-color-primary] Sets the color of badge
+ * @cssproperty [--bl-badge-bg-color=--bl-color-background-brand] Sets the background color of badge
+ * @cssproperty [--bl-badge-color=--bl-color-text-brand] Sets the color of badge
  */
 
 @customElement("bl-badge")

@@ -119,8 +119,8 @@ import { BlButton } from "@trendyol/baklava/dist/baklava-react";
 
 function MyComponent() {
   const buttonStyle = {
-    "--bl-color-primary": "purple",
-    "--bl-color-primary-highlight": "rebeccapurple",
+    "--bl-color-foreground-brand": "purple",
+    "--bl-color-foreground-brand-hover": "rebeccapurple",
   }
 
   return (
@@ -139,7 +139,7 @@ import styled from "styled-components"
 
 const Wrapper = styled.div`
    .button-class {
-     --bl-color-primary: purple;
+     --bl-color-foreground-brand: purple;
    }
 
    .tooltip-class {

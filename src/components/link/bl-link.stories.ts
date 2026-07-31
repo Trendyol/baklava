@@ -46,10 +46,10 @@ const meta: Meta<LinkArgs> = {
             "</p>" +
 
             "<div class=\"bl-docs-links\" style=\"display: flex; gap: var(--bl-size-2xs); margin-top: var(--bl-size-m);\">" +
-              "<bl-badge icon=\"document\" style=\"--bl-badge-background: var(--bl-color-surface-hover)\">" +
+              "<bl-badge icon=\"document\" style=\"--bl-badge-background: var(--bl-color-background-tertiary)\">" +
                 "<bl-link variant='inline' href='" + ADR_LINK + "' target='_blank'>ADR</bl-link>" +
               "</bl-badge>" +
-              "<bl-badge icon=\"puzzle\" style=\"--bl-badge-background: var(--bl-color-surface-hover)\">" +
+              "<bl-badge icon=\"puzzle\" style=\"--bl-badge-background: var(--bl-color-background-tertiary)\">" +
                 "<bl-link variant='inline' href='" + FIGMA_LINK + "' target='_blank'>Figma</bl-link>" +
               "</bl-badge>" +
             "</div>" +
@@ -314,17 +314,17 @@ export const CustomInlineColors: Story = {
       ${LinkTemplate({
         href: "/",
         content: "Success Link",
-        customStyles: "--bl-link-color: var(--bl-color-success); --bl-link-hover-color: var(--bl-color-success-highlight); --bl-link-active-color: var(--bl-color-success-highlight);"
+        customStyles: "--bl-link-color: var(--bl-color-text-success); --bl-link-hover-color: var(--bl-color-text-success-hover); --bl-link-active-color: var(--bl-color-text-success-hover);"
       })}
       ${LinkTemplate({
         href: "/",
         content: "Warning Link",
-        customStyles: "--bl-link-color: var(--bl-color-warning); --bl-link-hover-color: var(--bl-color-warning-highlight); --bl-link-active-color: var(--bl-color-warning-highlight);"
+        customStyles: "--bl-link-color: var(--bl-color-text-warning); --bl-link-hover-color: var(--bl-color-text-warning-hover); --bl-link-active-color: var(--bl-color-text-warning-hover);"
       })}
       ${LinkTemplate({
         href: "/",
         content: "Danger Link",
-        customStyles: "--bl-link-color: var(--bl-color-danger); --bl-link-hover-color: var(--bl-color-danger-highlight); --bl-link-active-color: var(--bl-color-danger-highlight);"
+        customStyles: "--bl-link-color: var(--bl-color-text-danger); --bl-link-hover-color: var(--bl-color-text-danger-hover); --bl-link-active-color: var(--bl-color-text-danger-hover);"
       })}
     </div>
   `,

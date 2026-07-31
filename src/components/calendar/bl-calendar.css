@@ -11,7 +11,7 @@
   gap: var(--bl-size-m);
   border-radius: var(--bl-border-radius-s);
   width: fit-content;
-  background: var(--bl-color-neutral-full);
+  background: var(--bl-color-background-primary);
 }
 
 .calendar-header {
@@ -35,7 +35,7 @@
 }
 
 .header-text-hover {
-  background: var(--bl-color-neutral-lightest);
+  background: var(--bl-color-background-tertiary);
   border-radius: var(--bl-border-radius-s);
 }
 
@@ -70,54 +70,54 @@
 }
 
 .day.today-day {
-  --bl-color-neutral-darker: var(--bl-color-primary);
-  --bl-color-neutral-darkest: var(--bl-color-primary);
+  --bl-color-foreground-primary: var(--bl-color-foreground-brand);
+  --bl-color-foreground-primary-hover: var(--bl-color-foreground-brand);
 }
 
 .day.other-month-day {
-  --bl-color-neutral-darker: var(--bl-color-neutral-dark);
+  --bl-color-foreground-primary: var(--bl-color-foreground-secondary);
 }
 
 .day.other-month-day.selected-day {
-  --bl-color-neutral-darker: var(--bl-color-neutral-full);
+  --bl-color-foreground-primary: var(--bl-color-foreground-primary-on-color);
 }
 
 .day.selected-day {
-  background: var(--bl-color-primary);
+  background: var(--bl-color-foreground-brand);
   border-radius: 50%;
 
-  --bl-button-focus-border-color: var(--bl-color-primary);
-  --bl-color-neutral-darker: var(--bl-color-neutral-full);
+  --bl-button-focus-border-color: var(--bl-color-border-brand);
+  --bl-color-foreground-primary: var(--bl-color-foreground-primary-on-color);
 }
 
 .range-day {
-  background: var(--bl-color-primary-contrast);
+  background: var(--bl-color-background-brand);
 
-  --bl-color-neutral-lightest: var(--bl-color-primary-contrast);
+  --bl-color-background-tertiary: var(--bl-color-background-brand);
 }
 
 .range-end-day,
 .range-start-day,
 .selected-day {
-  --bl-color-neutral-lightest: var(--bl-color-primary);
-  --bl-color-neutral-darker: var(--bl-color-neutral-full);
-  --bl-color-neutral-darkest: var(--bl-color-neutral-full) !important;
+  --bl-color-background-tertiary: var(--bl-color-foreground-brand);
+  --bl-color-foreground-primary: var(--bl-color-foreground-primary-on-color);
+  --bl-color-foreground-primary-hover: var(--bl-color-foreground-primary-on-color) !important;
 }
 
 .range-start-day {
-  background: var(--bl-color-primary-contrast);
+  background: var(--bl-color-background-brand);
   border-start-start-radius: 50%;
   border-end-start-radius: 50%;
 }
 
 .range-end-day {
-  background: var(--bl-color-primary-contrast);
+  background: var(--bl-color-background-brand);
   border-start-end-radius: 50%;
   border-end-end-radius: 50%;
 }
 
 .weekday-text {
-  color: var(--bl-color-neutral-dark);
+  color: var(--bl-color-text-secondary);
   text-align: center;
   padding: var(--bl-size-2xs) 0;
   width: 40px;

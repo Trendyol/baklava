@@ -17,7 +17,7 @@ span {
 
   /* TODO: use predefined animation duration once it is ready */
   --animation-duration: var(--bl-switch-animation-duration, 300ms);
-  --switch-color: var(--bl-switch-color-off, var(--bl-color-neutral-lighter));
+  --switch-color: var(--bl-switch-color-off, var(--bl-color-border-primary));
 
   background-color: var(--switch-color);
   border-radius: var(--bl-border-radius-pill);
@@ -44,7 +44,7 @@ span {
 label {
   display: flex;
   gap: var(--bl-size-2xs);
-  color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-text-primary);
   font: var(--bl-font-title-3);
   cursor: pointer;
   user-select: none;
@@ -58,17 +58,17 @@ label {
 }
 
 :host([disabled]) .label {
-  color: var(--bl-color-neutral-light);
-  border: 1px solid var(--bl-color-neutral-lighter);
+  color: var(--bl-color-text-disabled);
+  border: 1px solid var(--bl-color-border-disabled);
 }
 
 :host([checked]) .label,
 :host(:hover) .label {
-  color: var(--bl-color-primary);
+  color: var(--bl-color-text-brand);
 }
 
 :host([checked]) .switch {
-  --switch-color: var(--bl-switch-color-on, var(--bl-switch-color, var(--bl-color-primary)));
+  --switch-color: var(--bl-switch-color-on, var(--bl-switch-color, var(--bl-color-foreground-brand)));
 }
 
 :host([checked]) .switch::before {
