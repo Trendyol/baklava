@@ -68,7 +68,10 @@ label {
 }
 
 :host([checked]) .switch {
-  --switch-color: var(--bl-switch-color-on, var(--bl-switch-color, var(--bl-color-foreground-brand)));
+  --switch-color: var(
+    --bl-switch-color-on,
+    var(--bl-switch-color, var(--bl-color-foreground-brand))
+  );
 }
 
 :host([checked]) .switch::before {

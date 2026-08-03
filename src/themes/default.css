@@ -92,8 +92,8 @@
   --bl-color-accent-950: #190033;
 
   /* Primitive Colors - Base */
-  --bl-color-base-white: #ffffff;
-  --bl-color-base-black: #000000;
+  --bl-color-base-white: #fff;
+  --bl-color-base-black: #000;
 }
 
 :root,
