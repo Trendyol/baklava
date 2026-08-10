@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delete confirmation — destructive-confirm (naive baseline)</title>
+  <style>
+    /* minimal page styling so the dialog is centered and the background is dimmed */
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      color: #263238;
+      background: #f5f7fa;
+    }
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 27, 42, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <!-- Demo trigger: in a real app this would be a delete action -->
+  <button id="open" style="margin:2rem">Delete item</button>
+
+  <!-- Confirmation popup that blocks the background -->
+  <div class="backdrop">
+    <bl-dialog open caption="Delete this item?" description="This action cannot be undone. The item will be permanently removed.">
+      <p>Are you sure you want to permanently delete this item?</p>
+      <bl-button class="confirm danger" kind="danger">Delete</bl-button>
+      <bl-button class="cancel" kind="neutral">Cancel</bl-button>
+    </bl-dialog>
+  </div>
+
+  <script>
+    // keep the dialog centered and let the cancel button close it
+    document.getElementById('open').addEventListener('click', () => {
+      const dlg = document.querySelector('bl-dialog');
+      if (dlg) dlg.open = true;
+    });
+    const cancel = document.querySelector('.cancel');
+    if (cancel) {
+      cancel.addEventListener('click', () => {
+        const dlg = document.querySelector('bl-dialog');
+        if (dlg) dlg.open = false;
+      });
+    }
+  </script>
+</body>
+</html>

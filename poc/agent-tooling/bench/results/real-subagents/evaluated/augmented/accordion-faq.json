@@ -5,7 +5,7 @@
   "category": "content",
   "complexity": "moderate",
   "prompt": "Build an FAQ section where the user clicks a question and it expands to reveal the answer below it. Several questions should be grouped together.",
-  "response": "<bl-accordion-group>\n  <bl-accordion caption=\"How do I reset my password?\">\n    Open Settings and choose Security to reset your password.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I change my email address?\">\n    Go to Profile and update your email address there.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I delete my account?\">\n    Contact support to request account deletion.\n  </bl-accordion>\n  <bl-accordion caption=\"Is my data safe?\">\n    Yes, your data is encrypted at rest and in transit.\n  </bl-accordion>\n</bl-accordion-group>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 93,
@@ -28,6 +28,123 @@
       "codeQuality": 90,
       "maintainability": 100,
       "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-accordion-group>\n  <bl-accordion caption=\"How do I reset my password?\">\n    Open Settings and choose Security to reset your password.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I change my email address?\">\n    Go to Profile and update your email address there.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I delete my account?\">\n    Contact support to request account deletion.\n  </bl-accordion>\n  <bl-accordion caption=\"Is my data safe?\">\n    Yes, your data is encrypted at rest and in transit.\n  </bl-accordion>\n</bl-accordion-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Frequently Asked Questions</title>\n  </head>\n  <body>\n    <h1>Frequently Asked Questions</h1>\n\n    <bl-accordion-group multiple>\n      <bl-accordion caption=\"How do I create an account?\">\n        Click the \"Sign up\" button in the top-right corner, fill in your email\n        address and a password, then press Enter to submit. You will receive a\n        confirmation email to verify your account.\n      </bl-accordion>\n\n      <bl-accordion caption=\"How can I reset my password?\">\n        Use the \"Forgot password\" link on the login form. We will email you a\n        secure reset link that expires after 24 hours. Follow the link and\n        choose a new password.\n      </bl-accordion>\n\n      <bl-accordion caption=\"Which payment methods do you accept?\">\n        We accept major credit and debit cards, as well as popular digital\n        wallets. During checkout you will see the full list of supported\n        payment methods for your region.\n      </bl-accordion>\n\n      <bl-accordion caption=\"What is your return policy?\">\n        Returns are accepted within 30 days of delivery as long as the product\n        is in its original condition. Contact support to start a return and get\n        a prepaid shipping label.\n      </bl-accordion>\n    </bl-accordion-group>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>FAQ — Baklava accordion</title>\n  <link rel=\"stylesheet\" href=\"https://cdn.trendyol.com/baklava/latest/baklava.css\">\n  <style>\n    body { font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif; margin: 0; padding: 32px; background: #fff; color: #1f2328; }\n    .page { max-width: 720px; margin: 0 auto; }\n    h1 { font-size: 22px; margin: 0 0 20px; }\n  </style>\n</head>\n<body>\n  <main class=\"page\">\n    <h1>Frequently Asked Questions</h1>\n\n    <bl-accordion-group multiple>\n      <bl-accordion caption=\"How do I reset my password?\">\n        <p>Go to the login page and select “Forgot password”. We will email you a secure reset link that expires in 30 minutes.</p>\n      </bl-accordion>\n\n      <bl-accordion caption=\"How is shipping calculated?\">\n        <p>Shipping is calculated at checkout based on your delivery address and the total weight of the items in your cart.</p>\n      </bl-accordion>\n\n      <bl-accordion caption=\"Can I return an item?\">\n        <p>Yes. You have 14 days from delivery to request a return from your order history. Refunds are issued to the original payment method.</p>\n      </bl-accordion>\n    </bl-accordion-group>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

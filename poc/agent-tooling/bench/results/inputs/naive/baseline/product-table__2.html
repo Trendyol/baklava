@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Catalog</title>
+</head>
+<body>
+  <main>
+    <h1>Product Catalog</h1>
+    <bl-table>
+      <bl-table-header>
+        <bl-table-row>
+          <bl-table-cell>Product</bl-table-cell>
+          <bl-table-cell>Category</bl-table-cell>
+          <bl-table-cell>Price</bl-table-cell>
+          <bl-table-cell>Status</bl-table-cell>
+          <bl-table-cell>Actions</bl-table-cell>
+        </bl-table-row>
+      </bl-table-header>
+      <bl-table-body>
+        <bl-table-row>
+          <bl-table-cell>Wireless Mouse</bl-table-cell>
+          <bl-table-cell>Accessories</bl-table-cell>
+          <bl-table-cell>$29.99</bl-table-cell>
+          <bl-table-cell><bl-badge variant="success">In Stock</bl-badge></bl-table-cell>
+          <bl-table-cell><bl-button>Edit</bl-button></bl-table-cell>
+        </bl-table-row>
+        <bl-table-row>
+          <bl-table-cell>Mechanical Keyboard</bl-table-cell>
+          <bl-table-cell>Accessories</bl-table-cell>
+          <bl-table-cell>$89.00</bl-table-cell>
+          <bl-table-cell><bl-badge variant="neutral">Low Stock</bl-badge></bl-table-cell>
+          <bl-table-cell><bl-button>Edit</bl-button></bl-table-cell>
+        </bl-table-row>
+        <bl-table-row>
+          <bl-table-cell>4K Monitor</bl-table-cell>
+          <bl-table-cell>Displays</bl-table-cell>
+          <bl-table-cell>$349.00</bl-table-cell>
+          <bl-table-cell><bl-badge variant="success">Popular</bl-badge></bl-table-cell>
+          <bl-table-cell><bl-button>Edit</bl-button></bl-table-cell>
+        </bl-table-row>
+        <bl-table-row>
+          <bl-table-cell>USB-C Hub</bl-table-cell>
+          <bl-table-cell>Accessories</bl-table-cell>
+          <bl-table-cell>$45.50</bl-table-cell>
+          <bl-table-cell><bl-badge variant="neutral">In Stock</bl-badge></bl-table-cell>
+          <bl-table-cell><bl-button>Edit</bl-button></bl-table-cell>
+        </bl-table-row>
+        <bl-table-row>
+          <bl-table-cell>Webcam HD</bl-table-cell>
+          <bl-table-cell>Devices</bl-table-cell>
+          <bl-table-cell>$69.99</bl-table-cell>
+          <bl-table-cell><bl-badge variant="success">Popular</bl-badge></bl-table-cell>
+          <bl-table-cell><bl-button>Edit</bl-button></bl-table-cell>
+        </bl-table-row>
+      </bl-table-body>
+    </bl-table>
+
+    <bl-pagination total="5" page-size="5" current="1"></bl-pagination>
+  </main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 32px; color: #1f2937; }
+    .topbar { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+    .cart { position: relative; display: inline-flex; align-items: center; }
+    .cart bl-badge { position: absolute; top: -10px; right: -14px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="cart" aria-label="Cart with 2 items">
+      <bl-icon name="cart"></bl-icon>
+      <bl-badge>2</bl-badge>
+    </div>
+    <strong>Checkout</strong>
+  </header>
+
+  <bl-stepper direction="horizontal" usage="non-clickable">
+    <bl-stepper-item variant="active" title="Cart" description="Review your items"></bl-stepper-item>
+    <bl-stepper-item variant="default" title="Shipping" description="Enter shipping address"></bl-stepper-item>
+    <bl-stepper-item variant="default" title="Payment" description="Pay securely"></bl-stepper-item>
+  </bl-stepper>
+</body>
+</html>

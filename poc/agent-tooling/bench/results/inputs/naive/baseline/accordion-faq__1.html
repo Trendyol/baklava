@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAQ</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+    .faq { margin-bottom: 3rem; }
+    .faq h2 { margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <main class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <bl-accordion-group>
+      <bl-accordion open>
+        <h3 slot="header">How do I get started?</h3>
+        <p>Create an account, choose a plan, and follow the onboarding guide in your dashboard.</p>
+      </bl-accordion>
+      <bl-accordion>
+        <h3 slot="header">Which payment methods are supported?</h3>
+        <p>We accept all major credit cards, PayPal, and bank transfers in supported regions.</p>
+      </bl-accordion>
+      <bl-accordion>
+        <h3 slot="header">Can I cancel anytime?</h3>
+        <p>Yes. You can cancel from Settings at any time; your plan stays active until the end of the billing period.</p>
+      </bl-accordion>
+      <bl-accordion>
+        <h3 slot="header">Do you offer refunds?</h3>
+        <p>We provide a 14-day money-back guarantee on annual plans, no questions asked.</p>
+      </bl-accordion>
+    </bl-accordion-group>
+  </main>
+</body>
+</html>

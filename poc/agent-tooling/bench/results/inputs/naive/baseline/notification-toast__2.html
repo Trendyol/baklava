@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Save Confirmation Toast</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 24px;
+    }
+    .toast-host {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Profile</h1>
+    <p>Your changes have been saved successfully.</p>
+  </main>
+
+  <div class="toast-host">
+    <bl-notification>
+      <bl-notification-card type="success">
+        <span slot="title">Saved</span>
+        <span slot="description">Your changes were saved successfully.</span>
+        <bl-button slot="action" kind="default" size="small">Dismiss</bl-button>
+      </bl-notification-card>
+    </bl-notification>
+  </div>
+</body>
+</html>

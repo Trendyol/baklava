@@ -5,7 +5,7 @@
   "category": "forms",
   "complexity": "moderate",
   "prompt": "Build a settings screen with a list of options the user can turn on and off, plus a dropdown to pick a language and a small hint text explaining each option.",
-  "response": "<bl-switch checked>Enable notifications</bl-switch>\n<bl-switch checked>Dark mode</bl-switch>\n<bl-switch>Reduce motion</bl-switch>\n<bl-select label=\"Language\" help-text=\"Choose your preferred language.\" placeholder=\"Select a language\">\n  <bl-select-option value=\"en\" label=\"English\">English</bl-select-option>\n  <bl-select-option value=\"de\" label=\"Deutsch\">Deutsch</bl-select-option>\n  <bl-select-option value=\"tr\" label=\"Türkçe\">Türkçe</bl-select-option>\n</bl-select>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 93,
@@ -30,6 +30,142 @@
       "codeQuality": 90,
       "maintainability": 100,
       "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-switch checked>Enable notifications</bl-switch>\n<bl-switch checked>Dark mode</bl-switch>\n<bl-switch>Reduce motion</bl-switch>\n<bl-select label=\"Language\" help-text=\"Choose your preferred language.\" placeholder=\"Select a language\">\n  <bl-select-option value=\"en\" label=\"English\">English</bl-select-option>\n  <bl-select-option value=\"de\" label=\"Deutsch\">Deutsch</bl-select-option>\n  <bl-select-option value=\"tr\" label=\"Türkçe\">Türkçe</bl-select-option>\n</bl-select>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Settings</title>\n</head>\n<body>\n  <form class=\"settings\" id=\"settings\">\n    <h1>Settings</h1>\n\n    <p id=\"notifications-hint\" class=\"hint\">Turn push notifications and alerts on or off.</p>\n    <label class=\"setting\">Notifications<bl-switch name=\"notifications\" checked></bl-switch></label>\n\n    <p class=\"hint\">Choose whether to receive a daily summary email.</p>\n    <label class=\"setting\">Email summary<bl-switch name=\"email-summary\" checked></bl-switch></label>\n\n    <p class=\"hint\">Allow anonymous usage statistics to help improve the product.</p>\n    <label class=\"setting\">Usage analytics<bl-switch name=\"analytics\"></bl-switch></label>\n\n    <label class=\"setting\">Interface language</label>\n    <bl-select\n      name=\"language\"\n      label=\"Language\"\n      value=\"en\"\n      help-text=\"Language used for the interface and notifications.\"\n    >\n      <bl-select-option value=\"en\" selected>English</bl-select-option>\n      <bl-select-option value=\"tr\">Türkçe</bl-select-option>\n      <bl-select-option value=\"de\">Deutsch</bl-select-option>\n    </bl-select>\n  </form>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 88,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-switch> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-switch> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-switch> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          }
+        ],
+        "scores": {
+          "correctness": 94,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 81,
+          "maintainability": 88,
+          "overall": 88
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Settings</title>\n  </head>\n  <body>\n    <h1>Settings</h1>\n\n    <section aria-label=\"Notification preferences\">\n      <h2>Notifications</h2>\n\n      <bl-switch checked>\n        <span>Email notifications</span>\n      </bl-switch>\n      <p>Get an email when someone replies to your comments.</p>\n\n      <bl-switch>\n        <span>Push notifications</span>\n      </bl-switch>\n      <p>Receive push notifications on your mobile device.</p>\n\n      <bl-switch>\n        <span>Weekly digest</span>\n      </bl-switch>\n      <p>Receive a summary of activity every Monday morning.</p>\n    </section>\n\n    <section aria-label=\"Language preference\">\n      <h2>Language</h2>\n      <bl-select label=\"Language\" help-text=\"Choose the language used across the app.\" placeholder=\"Select a language\">\n        <bl-select-option value=\"en\">English</bl-select-option>\n        <bl-select-option value=\"tr\">Türkçe</bl-select-option>\n        <bl-select-option value=\"de\">Deutsch</bl-select-option>\n        <bl-select-option value=\"fr\">Français</bl-select-option>\n      </bl-select>\n    </section>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 97,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 99,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 97
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 98,
+        "std": 2.8,
+        "min": 94,
+        "max": 100,
+        "sem": 1.6
+      },
+      "accessibility": {
+        "mean": 86,
+        "std": 9.4,
+        "min": 79,
+        "max": 99,
+        "sem": 5.4
+      },
+      "efficiency": {
+        "mean": 88,
+        "std": 0,
+        "min": 88,
+        "max": 88,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 87,
+        "std": 4.2,
+        "min": 81,
+        "max": 90,
+        "sem": 2.4
+      },
+      "maintainability": {
+        "mean": 96,
+        "std": 5.7,
+        "min": 88,
+        "max": 100,
+        "sem": 3.3
+      },
+      "overall": {
+        "mean": 93,
+        "std": 3.7,
+        "min": 88,
+        "max": 97,
+        "sem": 2.1
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 1.4,
+      "min": 0,
+      "max": 3,
+      "sem": 0.8
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

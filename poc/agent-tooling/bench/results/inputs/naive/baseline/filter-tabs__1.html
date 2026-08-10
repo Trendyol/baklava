@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Views</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 2rem;
+      color: #1c1c1c;
+    }
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .page-header h1 {
+      font-size: 1.4rem;
+      margin: 0;
+    }
+    .panel p {
+      margin: 0.5rem 0;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <h1>Catalog</h1>
+    <!-- small icon button with a tooltip explaining what it does -->
+    <bl-button icon="info" aria-label="About this view"></bl-button>
+    <bl-tooltip>
+      <span slot="content">Shows information about the current view.</span>
+    </bl-tooltip>
+  </div>
+
+  <bl-tab-group>
+    <bl-tab id="tab-overview" panel="panel-overview" active>Overview</bl-tab>
+    <bl-tab id="tab-grid" panel="panel-grid">Grid</bl-tab>
+    <bl-tab id="tab-list" panel="panel-list">List</bl-tab>
+
+    <bl-tab-panel name="panel-overview">
+      <div class="panel">
+        <p>Here is a quick overview of your products, sales, and recent activity.</p>
+        <p>Overview panels summarize the most important numbers for you.</p>
+      </div>
+    </bl-tab-panel>
+    <bl-tab-panel name="panel-grid">
+      <div class="panel">
+        <p>Grid view shows products laid out in a responsive grid.</p>
+        <p>Each card displays the product image, title, and price.</p>
+      </div>
+    </bl-tab-panel>
+    <bl-tab-panel name="panel-list">
+      <div class="panel">
+        <p>List view shows products as rows with columns for name, stock, and price.</p>
+        <p>You can sort and filter from this view.</p>
+      </div>
+    </bl-tab-panel>
+  </bl-tab-group>
+
+  <script type="module">
+    const tabGroup = document.querySelector('bl-tab-group');
+    const tabs = Array.from(tabGroup.querySelectorAll('bl-tab'));
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => t.removeAttribute('active'));
+        tab.setAttribute('active', '');
+      });
+    });
+  </script>
+</body>
+</html>

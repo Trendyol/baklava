@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: system-ui, sans-serif; background: #f4f5f7; }
+    .card { width: 100%; max-width: 360px; padding: 28px; background: #fff; border-radius: 12px; box-shadow: 0 6px 24px rgba(0,0,0,.08); }
+    .card h1 { margin: 0 0 4px; font-size: 20px; }
+    .card p { margin: 0 0 20px; color: #6b7280; font-size: 14px; }
+    bl-input { width: 100%; }
+    bl-input + bl-input { margin-top: 16px; }
+    bl-button { width: 100%; margin-top: 24px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Sign in</h1>
+    <p>Enter your credentials to continue.</p>
+    <form id="login-form" novalidate onsubmit="handleSubmit(event)">
+      <bl-input
+        name="email"
+        type="email"
+        label="Email address"
+        placeholder="you@example.com"
+        autocomplete="email"
+        required></bl-input>
+
+      <bl-input
+        name="password"
+        type="password"
+        label="Password"
+        placeholder="••••••••"
+        autocomplete="current-password"
+        required></bl-input>
+
+      <bl-button type="submit" variant="primary" label="Sign in"></bl-button>
+    </form>
+  </div>
+
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      const form = event.target;
+      // Let the browser run native form validation on the required inputs.
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      const data = new FormData(form);
+      // In a real app this would POST /login. Log for the demo.
+      console.log('Signing in with', Object.fromEntries(data.entries()));
+    }
+  </script>
+</body>
+</html>

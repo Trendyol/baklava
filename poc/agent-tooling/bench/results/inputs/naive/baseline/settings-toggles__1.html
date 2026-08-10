@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 560px;
+      margin: 40px auto;
+      padding: 0 16px;
+      color: #1f2430;
+    }
+    h1 { font-size: 22px; margin-bottom: 4px; }
+    .section {
+      border: 1px solid #e4e7ee;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 20px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f2f6;
+    }
+    .row:last-child { border-bottom: none; }
+    .row-label { display: flex; flex-direction: column; }
+    .row-label strong { font-size: 15px; }
+    .hint { font-size: 13px; color: #6b7180; margin-top: 2px; }
+    .language {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .language label { font-size: 15px; font-weight: 600; }
+    bl-select { max-width: 260px; }
+  </style>
+</head>
+<body>
+  <h1>Settings</h1>
+
+  <section class="section">
+    <div class="row">
+      <div class="row-label">
+        <strong>Email notifications</strong>
+        <span class="hint">Receive emails about account activity.</span>
+      </div>
+      <bl-switch check>true</bl-switch>
+    </div>
+
+    <div class="row">
+      <div class="row-label">
+        <strong>Sound effects</strong>
+        <span class="hint">Play sounds for actions and alerts.</span>
+      </div>
+      <bl-switch>false</bl-switch>
+    </div>
+
+    <div class="row">
+      <div class="row-label">
+        <strong>Autosave</strong>
+        <span class="hint">Save your changes automatically as you type.</span>
+      </div>
+      <bl-switch check>true</bl-switch>
+    </div>
+
+    <div class="row">
+      <div class="row-label">
+        <strong>Dark theme</strong>
+        <span class="hint">Use a dark color scheme across the app.</span>
+      </div>
+      <bl-switch>false</bl-switch>
+    </div>
+  </section>
+
+  <div class="language">
+    <label for="lang">Language</label>
+    <bl-select id="lang" value="en">
+      <bl-select-option value="en">English</bl-select-option>
+      <bl-select-option value="tr">Türkçe</bl-select-option>
+      <bl-select-option value="de">Deutsch</bl-select-option>
+      <bl-select-option value="fr">Français</bl-select-option>
+    </bl-select>
+    <span class="hint">The language used throughout the interface.</span>
+  </div>
+</body>
+</html>

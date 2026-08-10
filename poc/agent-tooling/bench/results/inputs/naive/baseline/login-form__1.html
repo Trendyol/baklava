@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f6f8;
+      }
+      .login-card {
+        width: 100%;
+        max-width: 360px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      }
+      .login-card h1 {
+        font-size: 20px;
+        margin: 0 0 16px;
+        text-align: center;
+      }
+      .field {
+        margin-bottom: 14px;
+      }
+      .field label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+      .submit {
+        width: 100%;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="login-card" id="login-form">
+      <h1>Sign in</h1>
+      <div class="field">
+        <label for="email">Email address</label>
+        <bl-input id="email" type="email" name="email" placeholder="you@example.com" required></bl-input>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <bl-input id="password" type="password" name="password" placeholder="Your password" required></bl-input>
+      </div>
+      <bl-button class="submit" type="submit" variant="primary">Sign in</bl-button>
+    </form>
+
+    <script>
+      document.getElementById('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        if (email && password) {
+          alert(`Signed in as ${email}`);
+        }
+      });
+    </script>
+  </body>
+</html>

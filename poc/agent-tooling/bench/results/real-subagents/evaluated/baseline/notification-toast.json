@@ -5,7 +5,7 @@
   "category": "feedback",
   "complexity": "simple",
   "prompt": "After saving, briefly show a small message box in the corner of the screen letting the user know it worked, with a way to dismiss it.",
-  "response": "<bl-notification>\n  <bl-notification-card>\n    <span>Saved successfully</span>\n    <bl-button size=\"small\">Dismiss</bl-button>\n  </bl-notification-card>\n</bl-notification>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 93,
@@ -30,6 +30,149 @@
       "codeQuality": 90,
       "maintainability": 100,
       "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-notification>\n  <bl-notification-card>\n    <span>Saved successfully</span>\n    <bl-button size=\"small\">Dismiss</bl-button>\n  </bl-notification-card>\n</bl-notification>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Save Confirmation</title>\n    <style>\n      body {\n        font-family: system-ui, sans-serif;\n        margin: 0;\n        padding: 24px;\n        min-height: 100vh;\n        box-sizing: border-box;\n      }\n      .toast-wrapper {\n        position: fixed;\n        top: 16px;\n        right: 16px;\n        z-index: 1000;\n      }\n      .save-btn {\n        padding: 10px 18px;\n        font-size: 14px;\n        border-radius: 6px;\n        border: 1px solid #ccc;\n        background: #2563eb;\n        color: #fff;\n        cursor: pointer;\n      }\n    </style>\n  </head>\n  <body>\n    <button type=\"button\" class=\"save-btn\" id=\"save\">Save</button>\n\n    <div class=\"toast-wrapper\" id=\"toastHost\">\n      <bl-notification open>\n        <bl-notification-card>\n          <span slot=\"icon\">✓</span>\n          <strong>Saved</strong>\n          <p>Your changes were saved successfully.</p>\n          <bl-button slot=\"action\" variant=\"tertiary\" id=\"dismiss\">Dismiss</bl-button>\n        </bl-notification-card>\n      </bl-notification>\n    </div>\n\n    <script>\n      const toast = document.querySelector('bl-notification');\n      const saveBtn = document.getElementById('save');\n      const dismiss = document.getElementById('dismiss');\n\n      function showToast() {\n        toast.setAttribute('open', '');\n      }\n      function hideToast() {\n        toast.removeAttribute('open');\n      }\n\n      saveBtn.addEventListener('click', showToast);\n      dismiss.addEventListener('click', hideToast);\n    </script>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-notification> attr \"open\" not part of API",
+            "codeSnippet": "open"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 79,
+          "efficiency": 85,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 89
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Save Confirmation Toast</title>\n  <style>\n    body {\n      font-family: system-ui, sans-serif;\n      margin: 0;\n      padding: 24px;\n    }\n    .toast-host {\n      position: fixed;\n      top: 24px;\n      right: 24px;\n      z-index: 10;\n    }\n  </style>\n</head>\n<body>\n  <main>\n    <h1>Profile</h1>\n    <p>Your changes have been saved successfully.</p>\n  </main>\n\n  <div class=\"toast-host\">\n    <bl-notification>\n      <bl-notification-card type=\"success\">\n        <span slot=\"title\">Saved</span>\n        <span slot=\"description\">Your changes were saved successfully.</span>\n        <bl-button slot=\"action\" kind=\"default\" size=\"small\">Dismiss</bl-button>\n      </bl-notification-card>\n    </bl-notification>\n  </div>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-notification-card> attr \"type\" not part of API",
+            "codeSnippet": "type"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 79,
+          "efficiency": 85,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 89
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 97,
+        "std": 1.9,
+        "min": 96,
+        "max": 100,
+        "sem": 1.1
+      },
+      "accessibility": {
+        "mean": 79,
+        "std": 0,
+        "min": 79,
+        "max": 79,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 86,
+        "std": 1.4,
+        "min": 85,
+        "max": 88,
+        "sem": 0.8
+      },
+      "codeQuality": {
+        "mean": 86,
+        "std": 2.8,
+        "min": 84,
+        "max": 90,
+        "sem": 1.6
+      },
+      "maintainability": {
+        "mean": 95,
+        "std": 3.8,
+        "min": 92,
+        "max": 100,
+        "sem": 2.2
+      },
+      "overall": {
+        "mean": 90,
+        "std": 1.9,
+        "min": 89,
+        "max": 93,
+        "sem": 1.1
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0.9,
+      "min": 0,
+      "max": 2,
+      "sem": 0.5
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

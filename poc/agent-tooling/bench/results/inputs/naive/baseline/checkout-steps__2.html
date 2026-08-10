@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <style>
+    .checkout { max-width: 720px; margin: 48px auto; padding: 0 24px; font-family: system-ui, sans-serif; }
+    .topbar { position: relative; display: flex; align-items: center; margin-bottom: 32px; }
+    .cart { margin-left: auto; position: relative; display: inline-flex; }
+    .cart-icon { width: 32px; height: 32px; }
+  </style>
+</head>
+<body>
+  <main class="checkout">
+    <div class="topbar">
+      <h1 class="sr-only">Checkout</h1>
+      <div class="cart">
+        <button class="cart-button" type="button" aria-label="Cart with 2 items">
+          <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <bl-badge variant="danger">2</bl-badge>
+        </button>
+      </div>
+    </div>
+
+    <bl-stepper>
+      <bl-stepper-item label="Cart" active></bl-stepper-item>
+      <bl-stepper-item label="Shipping"></bl-stepper-item>
+      <bl-stepper-item label="Payment"></bl-stepper-item>
+    </bl-stepper>
+
+    <section class="current-step" aria-live="polite">
+      <h2>Your cart</h2>
+      <p>Review the items in your cart before continuing to shipping.</p>
+    </section>
+  </main>
+</body>
+</html>

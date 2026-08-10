@@ -153,6 +153,18 @@ node poc/agent-tooling/bench/src/cli.mjs evaluate --iteration <id> --persona adv
 The n=3 adversarial result: baseline overall **79 (95% CI 75–83)** vs tooled **91
 (95% CI 90–92)** — the CIs do **not** overlap, so the +12 delta is not noise.
 
+Deepseek naive was also brought to n=3 (48 tasks): baseline **87 (95% CI 84–90)** vs
+tooled **92 (95% CI 91–93)**, escape hatches 22→4 — a smaller but still non-overlapping
+tooling gain under the gentler naive persona.
+
+### Multi-model
+
+The `evaluate --model <label>` flag already tags every run. A second model is exercised
+by producing its own before/after inputs under a separate folder (e.g.
+`inputs/naive-composer/`) and evaluating it as its own iteration, so each model gets its
+own comparison and the scorecard can group by model. A `cursor/composer-2.5:slow` run on
+the naive battery is kept under `bench/results/naive-composer/`.
+
 ## Validation
 
 ```bash

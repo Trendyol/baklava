@@ -5,7 +5,7 @@
   "category": "overlays",
   "complexity": "complex",
   "prompt": "When the user tries to delete something, show a popup in the middle of the page that blocks the background and asks them to confirm, with a clearly dangerous button to confirm deletion and a safe one to cancel.",
-  "response": "<bl-dialog open caption=\"Delete product\" critical>\n  <p>Are you sure you want to permanently delete this product? This action cannot be undone.</p>\n  <bl-button slot=\"secondary-action\" variant=\"secondary\">Cancel</bl-button>\n  <bl-button slot=\"primary-action\" variant=\"primary\" kind=\"danger\">Delete</bl-button>\n</bl-dialog>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 93,
@@ -28,6 +28,130 @@
       "codeQuality": 90,
       "maintainability": 100,
       "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-dialog open caption=\"Delete product\" critical>\n  <p>Are you sure you want to permanently delete this product? This action cannot be undone.</p>\n  <bl-button slot=\"secondary-action\" variant=\"secondary\">Cancel</bl-button>\n  <bl-button slot=\"primary-action\" variant=\"primary\" kind=\"danger\">Delete</bl-button>\n</bl-dialog>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Delete confirmation</title>\n  <style>\n    body {\n      font-family: system-ui, sans-serif;\n      margin: 0;\n      padding: 3rem;\n      background: #f4f5f7;\n    }\n  </style>\n</head>\n<body>\n  <bl-dialog open critical caption=\"Delete project?\">\n    This will permanently delete the project and all of its data. This action cannot be undone.\n    <bl-button slot=\"primary-action\" kind=\"danger\" autofocus>Delete</bl-button>\n    <bl-button slot=\"secondary-action\" kind=\"neutral\">Cancel</bl-button>\n  </bl-dialog>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Delete project</title>\n  </head>\n  <body style=\"font-family: system-ui, sans-serif; padding: 2rem\">\n    <bl-button id=\"open-delete\">Delete project</bl-button>\n\n    <bl-dialog id=\"delete-dialog\" open caption=\"Delete project?\" critical>\n      <p>This action cannot be undone. The project and all of its data will be permanently deleted.</p>\n      <bl-button slot=\"primary-action\" kind=\"danger\" id=\"confirm-delete\">Delete</bl-button>\n      <bl-button slot=\"secondary-action\" variant=\"secondary\" id=\"cancel-delete\">Cancel</bl-button>\n      <bl-button slot=\"tertiary-action\" variant=\"tertiary\" id=\"close-delete\">Close</bl-button>\n    </bl-dialog>\n\n    <script>\n      const dialog = document.getElementById('delete-dialog');\n      const openBtn = document.getElementById('open-delete');\n      const confirmBtn = document.getElementById('confirm-delete');\n      const cancelBtn = document.getElementById('cancel-delete');\n      const closeBtn = document.getElementById('close-delete');\n\n      openBtn.addEventListener('click', () => {\n        dialog.open = true;\n      });\n      confirmBtn.addEventListener('click', () => {\n        // simulated destructive action\n        dialog.open = false;\n      });\n      cancelBtn.addEventListener('click', () => {\n        dialog.open = false;\n      });\n      closeBtn.addEventListener('click', () => {\n        dialog.open = false;\n      });\n    </script>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 90,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 1 inline style=",
+            "codeSnippet": "style="
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 87,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 90
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 99,
+        "std": 0.9,
+        "min": 98,
+        "max": 100,
+        "sem": 0.5
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 90,
+        "std": 2.4,
+        "min": 87,
+        "max": 92,
+        "sem": 1.4
+      },
+      "codeQuality": {
+        "mean": 89,
+        "std": 1.4,
+        "min": 87,
+        "max": 90,
+        "sem": 0.8
+      },
+      "maintainability": {
+        "mean": 99,
+        "std": 1.9,
+        "min": 96,
+        "max": 100,
+        "sem": 1.1
+      },
+      "overall": {
+        "mean": 92,
+        "std": 1.4,
+        "min": 90,
+        "max": 93,
+        "sem": 0.8
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0.5,
+      "min": 0,
+      "max": 1,
+      "sem": 0.3
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

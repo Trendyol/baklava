@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Save Confirmation</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 24px;
+        min-height: 100vh;
+        box-sizing: border-box;
+      }
+      .toast-wrapper {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 1000;
+      }
+      .save-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background: #2563eb;
+        color: #fff;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <button type="button" class="save-btn" id="save">Save</button>
+
+    <div class="toast-wrapper" id="toastHost">
+      <bl-notification open>
+        <bl-notification-card>
+          <span slot="icon">✓</span>
+          <strong>Saved</strong>
+          <p>Your changes were saved successfully.</p>
+          <bl-button slot="action" variant="tertiary" id="dismiss">Dismiss</bl-button>
+        </bl-notification-card>
+      </bl-notification>
+    </div>
+
+    <script>
+      const toast = document.querySelector('bl-notification');
+      const saveBtn = document.getElementById('save');
+      const dismiss = document.getElementById('dismiss');
+
+      function showToast() {
+        toast.setAttribute('open', '');
+      }
+      function hideToast() {
+        toast.removeAttribute('open');
+      }
+
+      saveBtn.addEventListener('click', showToast);
+      dismiss.addEventListener('click', hideToast);
+    </script>
+  </body>
+</html>

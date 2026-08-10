@@ -5,7 +5,7 @@
   "category": "overlays",
   "complexity": "complex",
   "prompt": "When the user tries to delete something, show a popup in the middle of the page that blocks the background and asks them to confirm, with a clearly dangerous button to confirm deletion and a safe one to cancel.",
-  "response": "<div class=\"overlay\">\n  <div class=\"modal\">\n    <h3>Delete product</h3>\n    <p>Are you sure you want to permanently delete this product? This action cannot be undone.</p>\n    <div class=\"actions\">\n      <button type=\"button\">Cancel</button>\n      <button type=\"button\" class=\"danger\">Delete</button>\n    </div>\n  </div>\n</div>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 86,
@@ -35,6 +35,165 @@
       "codeQuality": 87,
       "maintainability": 96,
       "overall": 86
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<div class=\"overlay\">\n  <div class=\"modal\">\n    <h3>Delete product</h3>\n    <p>Are you sure you want to permanently delete this product? This action cannot be undone.</p>\n    <div class=\"actions\">\n      <button type=\"button\">Cancel</button>\n      <button type=\"button\" class=\"danger\">Delete</button>\n    </div>\n  </div>\n</div>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 86,
+        "missed": [
+          "bl-dialog",
+          "bl-button"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 3 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 88,
+          "accessibility": 70,
+          "efficiency": 91,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 86
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Delete confirmation — destructive-confirm (naive baseline)</title>\n  <style>\n    /* minimal page styling so the dialog is centered and the background is dimmed */\n    body {\n      margin: 0;\n      font-family: system-ui, sans-serif;\n      color: #263238;\n      background: #f5f7fa;\n    }\n    .backdrop {\n      position: fixed;\n      inset: 0;\n      background: rgba(13, 27, 42, 0.55);\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      z-index: 10;\n    }\n  </style>\n</head>\n<body>\n  <!-- Demo trigger: in a real app this would be a delete action -->\n  <button id=\"open\" style=\"margin:2rem\">Delete item</button>\n\n  <!-- Confirmation popup that blocks the background -->\n  <div class=\"backdrop\">\n    <bl-dialog open caption=\"Delete this item?\" description=\"This action cannot be undone. The item will be permanently removed.\">\n      <p>Are you sure you want to permanently delete this item?</p>\n      <bl-button class=\"confirm danger\" kind=\"danger\">Delete</bl-button>\n      <bl-button class=\"cancel\" kind=\"neutral\">Cancel</bl-button>\n    </bl-dialog>\n  </div>\n\n  <script>\n    // keep the dialog centered and let the cancel button close it\n    document.getElementById('open').addEventListener('click', () => {\n      const dlg = document.querySelector('bl-dialog');\n      if (dlg) dlg.open = true;\n    });\n    const cancel = document.querySelector('.cancel');\n    if (cancel) {\n      cancel.addEventListener('click', () => {\n        const dlg = document.querySelector('bl-dialog');\n        if (dlg) dlg.open = false;\n      });\n    }\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 87,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-dialog> attr \"description\" not part of API",
+            "codeSnippet": "description"
+          },
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 1 inline style=",
+            "codeSnippet": "style="
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 94,
+          "accessibility": 76,
+          "efficiency": 84,
+          "codeQuality": 81,
+          "maintainability": 88,
+          "overall": 87
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Delete Confirmation</title>\n  <style>\n    body {\n      font-family: system-ui, sans-serif;\n      display: grid;\n      place-items: center;\n      min-height: 100vh;\n      margin: 0;\n      background: #f4f5f7;\n    }\n    .page-card {\n      width: 360px;\n      padding: 24px;\n      border-radius: 12px;\n      background: #fff;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"page-card\">\n    <h2>Delete this item?</h2>\n    <bl-dialog open kind=\"danger\" caption=\"Delete confirmation\">\n      <p>This action cannot be undone. Are you sure you want to permanently delete this item?</p>\n      <bl-button kind=\"danger\" slot=\"footer\">Delete</bl-button>\n      <bl-button variant=\"secondary\" slot=\"footer\">Cancel</bl-button>\n    </bl-dialog>\n  </div>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-dialog> attr \"kind\" not part of API",
+            "codeSnippet": "kind"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 76,
+          "efficiency": 89,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 89
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 93,
+        "std": 3.4,
+        "min": 88,
+        "max": 96,
+        "sem": 2
+      },
+      "accessibility": {
+        "mean": 74,
+        "std": 2.8,
+        "min": 70,
+        "max": 76,
+        "sem": 1.6
+      },
+      "efficiency": {
+        "mean": 88,
+        "std": 2.9,
+        "min": 84,
+        "max": 91,
+        "sem": 1.7
+      },
+      "codeQuality": {
+        "mean": 84,
+        "std": 2.4,
+        "min": 81,
+        "max": 87,
+        "sem": 1.4
+      },
+      "maintainability": {
+        "mean": 92,
+        "std": 3.3,
+        "min": 88,
+        "max": 96,
+        "sem": 1.9
+      },
+      "overall": {
+        "mean": 87,
+        "std": 1.2,
+        "min": 86,
+        "max": 89,
+        "sem": 0.7
+      }
+    },
+    "escapeHatches": {
+      "mean": 2,
+      "std": 0.8,
+      "min": 1,
+      "max": 3,
+      "sem": 0.5
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Save Confirmation Toast</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    .page { max-width: 640px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1>Edit profile</h1>
+    <p>Make your changes, then press the save button. A success toast appears in the corner and can be dismissed.</p>
+    <bl-button type="submit" id="save-btn">Save changes</bl-button>
+  </main>
+
+  <bl-notification id="toast" duration="7">
+    <bl-notification-card
+      variant="success"
+      caption="Saved successfully"
+      icon="true"
+    >
+      <span>Your changes were saved.</span>
+    </bl-notification-card>
+  </bl-notification>
+
+  <script type="module">
+    const card = document.querySelector('bl-notification-card');
+    const btn = document.getElementById('save-btn');
+    btn.addEventListener('bl-click', () => {
+      card.setAttribute('closed', 'false');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings</title>
+</head>
+<body>
+  <h1>Settings</h1>
+
+  <section aria-label="Preferences">
+    <div class="setting">
+      <div class="setting-row">
+        <label for="notif">Email notifications</label>
+        <bl-switch id="notif" checked></bl-switch>
+      </div>
+      <p class="hint">Receive an email when something changes in your account.</p>
+    </div>
+
+    <div class="setting">
+      <div class="setting-row">
+        <label for="marketing">Marketing emails</label>
+        <bl-switch id="marketing"></bl-switch>
+      </div>
+      <p class="hint">Occasional updates about new features and offers.</p>
+    </div>
+
+    <div class="setting">
+      <div class="setting-row">
+        <label for="night">Dark mode</label>
+        <bl-switch id="night"></bl-switch>
+      </div>
+      <p class="hint">Use a darker color scheme across the interface.</p>
+    </div>
+
+    <div class="setting">
+      <div class="setting-row">
+        <label for="lang">Language</label>
+        <bl-select id="lang" label="Language">
+          <option value="en">English</option>
+          <option value="tr">Türkçe</option>
+          <option value="de">Deutsch</option>
+        </bl-select>
+      </div>
+      <p class="hint">Choose the language used for menus and messages.</p>
+    </div>
+  </section>
+</body>
+</html>

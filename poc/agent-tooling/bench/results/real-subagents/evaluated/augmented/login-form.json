@@ -5,7 +5,7 @@
   "category": "forms",
   "complexity": "moderate",
   "prompt": "Build a login page. There should be a field for the email address, a field for the password that hides what is typed, and a prominent button at the end to submit the whole thing when the user presses Enter.",
-  "response": "<form>\n  <bl-input name=\"email\" type=\"email\" label=\"Email address\" autocomplete=\"email\" required></bl-input>\n  <bl-input name=\"password\" type=\"password\" label=\"Password\" autocomplete=\"current-password\" required></bl-input>\n  <bl-button type=\"submit\" variant=\"primary\">Log in</bl-button>\n</form>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 93,
@@ -28,6 +28,137 @@
       "codeQuality": 90,
       "maintainability": 100,
       "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<form>\n  <bl-input name=\"email\" type=\"email\" label=\"Email address\" autocomplete=\"email\" required></bl-input>\n  <bl-input name=\"password\" type=\"password\" label=\"Password\" autocomplete=\"current-password\" required></bl-input>\n  <bl-button type=\"submit\" variant=\"primary\">Log in</bl-button>\n</form>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Login</title>\n  <style>\n    body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: system-ui, sans-serif; background: #f4f5f7; }\n    .card { width: 100%; max-width: 360px; padding: 28px; background: #fff; border-radius: 12px; box-shadow: 0 6px 24px rgba(0,0,0,.08); }\n    .card h1 { margin: 0 0 4px; font-size: 20px; }\n    .card p { margin: 0 0 20px; color: #6b7280; font-size: 14px; }\n    bl-input { width: 100%; }\n    bl-input + bl-input { margin-top: 16px; }\n    bl-button { width: 100%; margin-top: 24px; }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <h1>Sign in</h1>\n    <p>Enter your credentials to continue.</p>\n    <form id=\"login-form\" novalidate onsubmit=\"handleSubmit(event)\">\n      <bl-input\n        name=\"email\"\n        type=\"email\"\n        label=\"Email address\"\n        placeholder=\"you@example.com\"\n        autocomplete=\"email\"\n        required></bl-input>\n\n      <bl-input\n        name=\"password\"\n        type=\"password\"\n        label=\"Password\"\n        placeholder=\"••••••••\"\n        autocomplete=\"current-password\"\n        required></bl-input>\n\n      <bl-button type=\"submit\" variant=\"primary\" label=\"Sign in\"></bl-button>\n    </form>\n  </div>\n\n  <script>\n    function handleSubmit(event) {\n      event.preventDefault();\n      const form = event.target;\n      // Let the browser run native form validation on the required inputs.\n      if (!form.checkValidity()) {\n        form.reportValidity();\n        return;\n      }\n      const data = new FormData(form);\n      // In a real app this would POST /login. Log for the demo.\n      console.log('Signing in with', Object.fromEntries(data.entries()));\n    }\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 89,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Login</title>\n  <style>\n    body {\n      margin: 0;\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      min-height: 100vh;\n      font-family: system-ui, sans-serif;\n      background: #fafafa;\n    }\n    .login-card {\n      width: 100%;\n      max-width: 380px;\n      padding: 2rem;\n      background: #fff;\n      border: 1px solid #e5e7eb;\n      border-radius: 12px;\n      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);\n    }\n    h1 {\n      margin: 0 0 1.25rem;\n      font-size: 1.5rem;\n    }\n    .field {\n      margin-bottom: 1rem;\n    }\n    bl-input {\n      width: 100%;\n    }\n    .submit {\n      margin-top: 0.25rem;\n    }\n    bl-button {\n      width: 100%;\n    }\n  </style>\n</head>\n<body>\n  <form class=\"login-card\" id=\"login-form\">\n    <h1>Sign in</h1>\n\n    <div class=\"field\">\n      <bl-input\n        name=\"email\"\n        type=\"email\"\n        label=\"Email address\"\n        placeholder=\"you@example.com\"\n        autocomplete=\"email\"\n        required></bl-input>\n    </div>\n\n    <div class=\"field\">\n      <bl-input\n        name=\"password\"\n        type=\"password\"\n        label=\"Password\"\n        placeholder=\"••••••••\"\n        autocomplete=\"current-password\"\n        required></bl-input>\n    </div>\n\n    <div class=\"submit\">\n      <bl-button type=\"submit\" variant=\"primary\" label=\"Sign in\"></bl-button>\n    </div>\n  </form>\n\n  <script>\n    const form = document.getElementById('login-form');\n    // bl-input is a custom element; sync values on submit.\n    form.addEventListener('submit', (event) => {\n      event.preventDefault();\n      const [email] = form.querySelectorAll('bl-input[name=\"email\"]');\n      const [password] = form.querySelectorAll('bl-input[name=\"password\"]');\n      const payload = {\n        email: email ? email.value : '',\n        password: password ? password.value : '',\n      };\n      console.log('login submitted', payload);\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 90,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 3 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 83,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 90
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 99,
+        "std": 0.9,
+        "min": 98,
+        "max": 100,
+        "sem": 0.5
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 88,
+        "std": 3.7,
+        "min": 83,
+        "max": 92,
+        "sem": 2.2
+      },
+      "codeQuality": {
+        "mean": 88,
+        "std": 1.4,
+        "min": 87,
+        "max": 90,
+        "sem": 0.8
+      },
+      "maintainability": {
+        "mean": 97,
+        "std": 1.9,
+        "min": 96,
+        "max": 100,
+        "sem": 1.1
+      },
+      "overall": {
+        "mean": 91,
+        "std": 1.2,
+        "min": 90,
+        "max": 93,
+        "sem": 0.7
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0.5,
+      "min": 0,
+      "max": 1,
+      "sem": 0.3
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

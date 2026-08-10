@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Views</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 2rem auto;
+      max-width: 720px;
+      padding: 0 1rem;
+    }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .spacer { flex: 1; }
+  </style>
+</head>
+<body>
+  <h1>Product Views</h1>
+
+  <bl-tab-group>
+    <bl-tab slot="nav" panel="overview">Overview</bl-tab>
+    <bl-tab slot="nav" panel="details">Details</bl-tab>
+    <bl-tab slot="nav" panel="reviews">Reviews</bl-tab>
+
+    <bl-tab-panel name="overview">
+      <h2>Overview</h2>
+      <p>High-level summary of the product and its key specs.</p>
+    </bl-tab-panel>
+
+    <bl-tab-panel name="details">
+      <h2>Details</h2>
+      <p>Full technical specification of the product.</p>
+    </bl-tab-panel>
+
+    <bl-tab-panel name="reviews">
+      <h2>Reviews</h2>
+      <p>Customer reviews for the product.</p>
+    </bl-tab-panel>
+  </bl-tab-group>
+
+  <div class="toolbar">
+    <span class="spacer"></span>
+    <bl-button
+      id="helpBtn"
+      icon="question"
+      aria-label="Help"
+      variant="primary"
+      kind="default"
+    ></bl-button>
+    <bl-tooltip for="helpBtn">Need a hand? Open the help guide.</bl-tooltip>
+  </div>
+</body>
+</html>

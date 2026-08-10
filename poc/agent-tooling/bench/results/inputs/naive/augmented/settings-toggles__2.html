@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Settings</title>
+  </head>
+  <body>
+    <h1>Settings</h1>
+
+    <section aria-label="Notification preferences">
+      <h2>Notifications</h2>
+
+      <bl-switch checked>
+        <span>Email notifications</span>
+      </bl-switch>
+      <p>Get an email when someone replies to your comments.</p>
+
+      <bl-switch>
+        <span>Push notifications</span>
+      </bl-switch>
+      <p>Receive push notifications on your mobile device.</p>
+
+      <bl-switch>
+        <span>Weekly digest</span>
+      </bl-switch>
+      <p>Receive a summary of activity every Monday morning.</p>
+    </section>
+
+    <section aria-label="Language preference">
+      <h2>Language</h2>
+      <bl-select label="Language" help-text="Choose the language used across the app." placeholder="Select a language">
+        <bl-select-option value="en">English</bl-select-option>
+        <bl-select-option value="tr">Türkçe</bl-select-option>
+        <bl-select-option value="de">Deutsch</bl-select-option>
+        <bl-select-option value="fr">Français</bl-select-option>
+      </bl-select>
+    </section>
+  </body>
+</html>

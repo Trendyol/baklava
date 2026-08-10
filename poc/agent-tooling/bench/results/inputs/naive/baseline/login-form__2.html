@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #f5f6f8; }
+    .login-shell { display: flex; justify-content: center; padding: 64px 16px; }
+    .login-card { background: #fff; border: 1px solid #e4e6eb; border-radius: 12px; padding: 32px; width: 100%; max-width: 380px; box-shadow: 0 4px 16px rgba(0,0,0,.06); }
+    .login-card h1 { margin: 0 0 4px; font-size: 22px; }
+    .login-card p.sub { margin: 0 0 24px; color: #5f6368; font-size: 14px; }
+    .field { margin-bottom: 16px; }
+    .field label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; }
+    .field bl-input { width: 100%; }
+    .login-actions { margin-top: 24px; }
+    .login-actions bl-button { width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="login-shell">
+    <div class="login-card">
+      <h1>Welcome back</h1>
+      <p class="sub">Enter your details to sign in to your account.</p>
+
+      <form id="login" novalidate>
+        <div class="field">
+          <label for="email">Email address</label>
+          <bl-input id="email" type="email" placeholder="you@example.com" required></bl-input>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <bl-input id="password" type="password" placeholder="Your password" required></bl-input>
+        </div>
+        <div class="login-actions">
+          <bl-button type="submit" variant="primary">Sign in</bl-button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('login');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+
+    function submitLogin() {
+      if (!email.value || !password.value) {
+        email.invalid = !email.value;
+        password.invalid = !password.value;
+        return;
+      }
+      // demo only: in a real app this posts to the auth endpoint
+      console.log('submitting login for', email.value);
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitLogin();
+    });
+  </script>
+</body>
+</html>

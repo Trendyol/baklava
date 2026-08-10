@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Catalog</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; color: #1a1a1a; }
+    h1 { font-size: 1.4rem; margin-bottom: 1rem; }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Products</h1>
+
+  <bl-table selected="[]">
+    <bl-table-header slot="table-header" sticky>
+      <span>Name</span>
+      <span>Category</span>
+      <span>Price</span>
+      <span>Status</span>
+      <span>Actions</span>
+    </bl-table-header>
+
+    <bl-table-body>
+      <bl-table-row>
+        <bl-table-cell>Ergonomic Chair</bl-table-cell>
+        <bl-table-cell>Furniture</bl-table-cell>
+        <bl-table-cell>$129.00</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell><bl-button variant="secondary" size="small">View</bl-button></bl-table-cell>
+      </bl-table-row>
+
+      <bl-table-row>
+        <bl-table-cell>Standing Desk</bl-table-cell>
+        <bl-table-cell>Furniture</bl-table-cell>
+        <bl-table-cell>$349.00</bl-table-cell>
+        <bl-table-cell>In stock</bl-table-cell>
+        <bl-table-cell><bl-button variant="secondary" size="small">View</bl-button></bl-table-cell>
+      </bl-table-row>
+
+      <bl-table-row>
+        <bl-table-cell>USB-C Cable 2m</bl-table-cell>
+        <bl-table-cell>Electronics</bl-table-cell>
+        <bl-table-cell>$18.99</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell><bl-button variant="secondary" size="small">View</bl-button></bl-table-cell>
+      </bl-table-row>
+
+      <bl-table-row>
+        <bl-table-cell>Desk Lamp</bl-table-cell>
+        <bl-table-cell>Lighting</bl-table-cell>
+        <bl-table-cell>$42.50</bl-table-cell>
+        <bl-table-cell>In stock</bl-table-cell>
+        <bl-table-cell><bl-button variant="secondary" size="small">View</bl-button></bl-table-cell>
+      </bl-table-row>
+
+      <bl-table-row>
+        <bl-table-cell>Wireless Mouse</bl-table-cell>
+        <bl-table-cell>Electronics</bl-table-cell>
+        <bl-table-cell>$29.99</bl-table-cell>
+        <bl-table-cell>Low stock</bl-table-cell>
+        <bl-table-cell><bl-button variant="secondary" size="small">View</bl-button></bl-table-cell>
+      </bl-table-row>
+    </bl-table-body>
+  </bl-table>
+
+  <div class="toolbar">
+    <p style="font-size: 0.85rem; color: #555;">Showing 20 of 120 products</p>
+    <bl-pagination current-page="1" total-items="120" items-per-page="10"></bl-pagination>
+  </div>
+</body>
+</html>

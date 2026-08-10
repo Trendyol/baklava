@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product Catalog</title>
+</head>
+<body>
+  <h1>Product Catalog</h1>
+
+  <!-- Tried to guess Baklava's table web components. -->
+  <bl-table>
+    <bl-table-header>
+      <bl-table-row>
+        <bl-table-cell>Name</bl-table-cell>
+        <bl-table-cell>Price</bl-table-cell>
+        <bl-table-cell>Status</bl-table-cell>
+        <bl-table-cell>Action</bl-table-cell>
+      </bl-table-row>
+    </bl-table-header>
+    <bl-table-body>
+      <bl-table-row>
+        <bl-table-cell>Wireless Mouse</bl-table-cell>
+        <bl-table-cell>$29</bl-table-cell>
+        <bl-table-cell><bl-badge>Popular</bl-badge></bl-table-cell>
+        <bl-table-cell><bl-button>Buy</bl-button></bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Mechanical Keyboard</bl-table-cell>
+        <bl-table-cell>$89</bl-table-cell>
+        <bl-table-cell><bl-badge>Popular</bl-badge></bl-table-cell>
+        <bl-table-cell><bl-button>Buy</bl-button></bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>27" Monitor</bl-table-cell>
+        <bl-table-cell>$249</bl-table-cell>
+        <bl-table-cell><bl-badge>In stock</bl-badge></bl-table-cell>
+        <bl-table-cell><bl-button>Buy</bl-button></bl-table-cell>
+      </bl-table-row>
+    </bl-table-body>
+  </bl-table>
+
+  <bl-pagination total="3" current="1"></bl-pagination>
+</body>
+</html>

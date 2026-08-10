@@ -1,6 +1,6 @@
 # Baklava Agent-Friendly PoC — Before / After Benchmark
 
-Iteration: `real-subagents` · 2026-08-10T12:05:31.017Z · System: Baklava
+Iteration: `real-subagents` · 2026-08-10T12:18:33.637Z · System: Baklava
 
 > This benchmark measures whether giving the agent the **Baklava agent CLI / tooling**
 > (augmented / after) improves component correctness vs. an agent working from raw
@@ -9,27 +9,29 @@ Iteration: `real-subagents` · 2026-08-10T12:05:31.017Z · System: Baklava
 ## Baseline (before — no tooling)
 
   | Success rate | 100% |
-  | Overall | 88 |
-  | Correctness | 94 |
-  | Accessibility | 79 |
-  | Efficiency | 83 |
-  | Code quality | 85 |
-  | Maintainability | 93 |
+  | Overall | 87 |
+  | Overall (95% CI) | 84–90 |
+  | Correctness | 93 |
+  | Accessibility | 82 |
+  | Efficiency | 80 |
+  | Code quality | 82 |
+  | Maintainability | 89 |
   | Hallucinated tags | 0 |
-  | Escape hatches | 14 |
+  | Escape hatches | 22 |
   | Unique components used | 21 |
 
 ## Augmented (after — with Baklava agent tooling)
 
   | Success rate | 100% |
-  | Overall | 93 |
-  | Correctness | 99 |
-  | Accessibility | 81 |
-  | Efficiency | 86 |
-  | Code quality | 90 |
-  | Maintainability | 100 |
+  | Overall | 92 |
+  | Overall (95% CI) | 91–93 |
+  | Correctness | 98 |
+  | Accessibility | 83 |
+  | Efficiency | 84 |
+  | Code quality | 89 |
+  | Maintainability | 98 |
   | Hallucinated tags | 0 |
-  | Escape hatches | 0 |
+  | Escape hatches | 4 |
   | Unique components used | 25 |
 
 ## Delta (after − before)
@@ -39,12 +41,12 @@ Iteration: `real-subagents` · 2026-08-10T12:05:31.017Z · System: Baklava
   | successRate | 0 |
   | avgOverall | +5 |
   | dim.correctness | +5 |
-  | dim.accessibility | +2 |
-  | dim.efficiency | +3 |
-  | dim.codeQuality | +5 |
-  | dim.maintainability | +7 |
+  | dim.accessibility | +1 |
+  | dim.efficiency | +4 |
+  | dim.codeQuality | +7 |
+  | dim.maintainability | +9 |
   | dim.overall | +5 |
   | totalHallucinations | 0 |
-  | totalEscapeHatches | -14 |
+  | totalEscapeHatches | -18 |
 
 _Machine-readable data: `compare.json`. Per-prompt scores: `evaluated/{arm}/*.json`._
