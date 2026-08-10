@@ -18,12 +18,12 @@ import path from 'node:path';
 
 const REPO = path.resolve(fileURLToPath(new URL('../../../../', import.meta.url)));
 const BENCH = path.join(REPO, 'tools', 'agent-tooling', 'bench');
-const ARMS = ['baseline', 'aiagent', 'augmented'];
+const ARMS = ['baseline', 'mcp-only', 'augmented'];
 
 // Human-readable arm labels for reports.
 const ARM_LABELS = {
   baseline: 'Baseline (no tooling)',
-  aiagent: 'AI Agent (MCP only)',
+  'mcp-only': 'Agent (MCP only)',
   augmented: 'Augmented (MCP + CLI)',
 };
 
@@ -209,7 +209,7 @@ function doCompare({ iteration, persona, model }) {
   const render = {};
   for (const a of ARMS) render[a] = readRender(a);
 
-  // 3-step ladder deltas: baseline -> aiagent -> augmented, plus total.
+  // 3-step ladder deltas: baseline -> mcp-only -> augmented, plus total.
   const deltaFor = (from, to) => {
     const b = arms[from], a = arms[to];
     if (!b || !a) return null;
@@ -221,8 +221,8 @@ function doCompare({ iteration, persona, model }) {
     return d;
   };
   const ladder = [
-    { from: 'baseline', to: 'aiagent', delta: deltaFor('baseline', 'aiagent') },
-    { from: 'aiagent', to: 'augmented', delta: deltaFor('aiagent', 'augmented') },
+    { from: 'baseline', to: 'mcp-only', delta: deltaFor('baseline', 'mcp-only') },
+    { from: 'mcp-only', to: 'augmented', delta: deltaFor('mcp-only', 'augmented') },
     { from: 'baseline', to: 'augmented', delta: deltaFor('baseline', 'augmented') },
   ];
 
@@ -275,22 +275,22 @@ function doSensitivity({ iteration }) {
     : null;
 
   const before = scoresFor('baseline');
-  const aiagent = scoresFor('aiagent');
+  const mcpOnly = scoresFor('mcp-only');
   const after = scoresFor('augmented');
   const variants = Object.entries(WEIGHT_VARIANTS).map(([name, w]) => ({
     variant: name,
     baseline: aggOverall(before, w),
-    aiagent: aggOverall(aiagent, w),
+    'mcp-only': aggOverall(mcpOnly, w),
     augmented: aggOverall(after, w),
-    'baseline→aiagent': aggOverall(before, w) != null && aggOverall(aiagent, w) != null ? aggOverall(aiagent, w) - aggOverall(before, w) : null,
-    'aiagent→augmented': aggOverall(aiagent, w) != null && aggOverall(after, w) != null ? aggOverall(after, w) - aggOverall(aiagent, w) : null,
+    'baseline→mcp-only': aggOverall(before, w) != null && aggOverall(mcpOnly, w) != null ? aggOverall(mcpOnly, w) - aggOverall(before, w) : null,
+    'mcp-only→augmented': aggOverall(mcpOnly, w) != null && aggOverall(after, w) != null ? aggOverall(after, w) - aggOverall(mcpOnly, w) : null,
   }));
   const pairDeltas = (fromKey, toKey) => variants.map((v) => v[`${fromKey}→${toKey}`]).filter((d) => d != null);
   const out = {
     iteration, variants,
     deltaRange: {
-      'baseline→aiagent': (() => { const d = pairDeltas('baseline', 'aiagent'); return d.length ? { min: Math.min(...d), max: Math.max(...d) } : null; })(),
-      'aiagent→augmented': (() => { const d = pairDeltas('aiagent', 'augmented'); return d.length ? { min: Math.min(...d), max: Math.max(...d) } : null; })(),
+      'baseline→mcp-only': (() => { const d = pairDeltas('baseline', 'mcp-only'); return d.length ? { min: Math.min(...d), max: Math.max(...d) } : null; })(),
+      'mcp-only→augmented': (() => { const d = pairDeltas('mcp-only', 'augmented'); return d.length ? { min: Math.min(...d), max: Math.max(...d) } : null; })(),
     },
   };
   writeFileSync(path.join(base, 'sensitivity.json'), JSON.stringify(out, null, 2));
@@ -299,14 +299,14 @@ function doSensitivity({ iteration }) {
     `Iteration: \`${iteration}\``,
     ``,
     `> Recomputes overall with several weight vectors. If the step-wise tooling delta`,
-    `> (baseline→aiagent→augmented) stays clearly positive across all variants, the`,
+    `> (baseline→mcp-only→augmented) stays clearly positive across all variants, the`,
     `> conclusion is robust to rubric weighting.`,
     ``,
-    '| Variant | Baseline | AI-Agent (MCP) | Augmented (MCP+CLI) | Δ base→aiagent | Δ aiagent→augmented |',
+    '| Variant | Baseline | Agent (MCP) | Augmented (MCP+CLI) | Δ base→mcp | Δ mcp→aug |',
     '|---|---|---|---|---|---|',
-    ...out.variants.map((v) => `| ${v.variant} | ${v.baseline ?? '—'} | ${v.aiagent ?? '—'} | ${v.augmented ?? '—'} | ${fmtDelta(v['baseline→aiagent'])} | ${fmtDelta(v['aiagent→augmented'])} |`),
+    ...out.variants.map((v) => `| ${v.variant} | ${v.baseline ?? '—'} | ${v['mcp-only'] ?? '—'} | ${v.augmented ?? '—'} | ${fmtDelta(v['baseline→mcp-only'])} | ${fmtDelta(v['mcp-only→augmented'])} |`),
     ``,
-    `Step-delta ranges: baseline→aiagent **${fmtRange(out.deltaRange['baseline→aiagent'])}**, aiagent→augmented **${fmtRange(out.deltaRange['aiagent→augmented'])}**`,
+    `Step-delta ranges: baseline→mcp-only **${fmtRange(out.deltaRange['baseline→mcp-only'])}**, mcp-only→augmented **${fmtRange(out.deltaRange['mcp-only→augmented'])}**`,
   ];
   writeFileSync(path.join(base, 'sensitivity.md'), lines.join('\n'));
   console.log(lines.join('\n'));
@@ -327,7 +327,10 @@ function doScorecard({ persona, model, markdown }) {
       if (model && c.model !== model) continue;
       const agg = (x) => (x ? { overall: x.avgOverall, dims: x.dimensions || {}, hall: x.totalHallucinations, esc: x.totalEscapeHatches, succ: x.successRate } : null);
       const arms = {};
-      for (const a of ['baseline', 'aiagent', 'augmented']) arms[a] = agg((c.arms || {})[a]);
+      for (const a of ['baseline', 'mcp-only', 'augmented']) arms[a] = agg((c.arms || {})[a]);
+      // Back-compat: legacy 2-arm compare.json has before/after aliases only.
+      if (!arms.baseline) arms.baseline = agg(c.before);
+      if (!arms.augmented) arms.augmented = agg(c.after);
       rows.push({ iteration: it, persona: c.persona || 'naive', model: c.model || 'unknown', timestamp: c.timestamp, arms, before: arms.baseline, after: arms.augmented, delta: c.delta });
     }
   }
@@ -346,12 +349,12 @@ function renderScorecard(sc) {
     '# Baklava Agent-Tooling — Rolling Scorecard',
     `> Generated ${sc.updatedAt} · aggregates all committed benchmark iterations.`,
     '',
-    '| Iteration | Persona | Model | Base | AI-Agent (MCP) | Augmented (MCP+CLI) | Δ base→aug | Base esc | Aug esc |',
+    '| Iteration | Persona | Model | Base | Agent (MCP) | Augmented (MCP+CLI) | Δ base→aug | Base esc | Aug esc |',
     '|---|---|---|---|---|---|---|---|---|',
   ];
   const body = sc.generations.map((r) => {
     const d = (r.delta && r.delta.avgOverall != null) ? r.delta.avgOverall : null;
-    return `| ${r.iteration} | ${r.persona} | ${r.model} | ${r.arms.baseline?.overall ?? '—'} | ${r.arms.aiagent?.overall ?? '—'} | ${r.arms.augmented?.overall ?? '—'} | ${d > 0 ? '+' : ''}${d ?? '—'} | ${r.arms.baseline?.esc ?? '—'} | ${r.arms.augmented?.esc ?? '—'} |`;
+    return `| ${r.iteration} | ${r.persona} | ${r.model} | ${r.arms.baseline?.overall ?? '—'} | ${r.arms['mcp-only']?.overall ?? '—'} | ${r.arms.augmented?.overall ?? '—'} | ${d > 0 ? '+' : ''}${d ?? '—'} | ${r.arms.baseline?.esc ?? '—'} | ${r.arms.augmented?.esc ?? '—'} |`;
   });
   return [...head, ...body, '', '_Machine-readable: `scorecard.json`._'].join('\n');
 }
@@ -391,7 +394,7 @@ function renderMarkdown(c) {
         `> Non-deterministic model judgment, kept separate from the deterministic rubric above.`,
         ``,
         `### Baseline judge`, ``, jrows(c.judge.baseline), ``,
-        `### AI-Agent (MCP) judge`, ``, jrows(c.judge.aiagent), ``,
+        `### Agent (MCP) judge`, ``, jrows(c.judge['mcp-only']), ``,
         `### Augmented judge`, ``, jrows(c.judge.augmented), ``,
       ]
     : [];
@@ -411,7 +414,7 @@ function renderMarkdown(c) {
         `> plus basic accessibility probes. Kept separate from the static rubric.`,
         ``,
         `### Baseline render`, ``, rrow(c.render.baseline), ``,
-        `### AI-Agent (MCP) render`, ``, rrow(c.render.aiagent), ``,
+        `### Agent (MCP) render`, ``, rrow(c.render['mcp-only']), ``,
         `### Augmented render`, ``, rrow(c.render.augmented), ``,
       ]
     : [];
@@ -421,16 +424,16 @@ function renderMarkdown(c) {
     `Iteration: \`${c.iteration}\` · ${c.timestamp} · System: ${c.system}`,
     ``,
     `> Three-condition benchmark of whether giving the agent tooling improves component`,
-    `> correctness: **baseline** (no tooling, raw knowledge), **AI-Agent** (MCP only), and`, 
+    `> correctness: **baseline** (no tooling, raw knowledge), **Agent (MCP)** only, and`, 
     `> **augmented** (MCP + CLI).`,
     ``,
     `## Baseline (no tooling)`,
     ``,
     rows('baseline', c.arms?.baseline || c.before),
     ``,
-    `## AI Agent (MCP only)`,
+    `## Agent (MCP only)`,
     ``,
-    rows('aiagent', c.arms?.aiagent),
+    rows('mcp-only', c.arms?.['mcp-only']),
     ``,
     `## Augmented (MCP + CLI)`,
     ``,
@@ -461,7 +464,7 @@ function doMockGenerate() {
     mkdirSync(dir, { recursive: true });
     for (const p of prompts) {
       const code = arm === 'augmented' ? mockAugmented(p)
-        : arm === 'aiagent' ? mockAiAgent(p)
+        : arm === 'mcp-only' ? mockAiAgent(p)
         : mockBaseline(p);
       writeFileSync(path.join(dir, `${p.id}.html`), code);
     }
