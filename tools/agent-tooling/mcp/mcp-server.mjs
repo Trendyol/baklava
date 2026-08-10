@@ -17,10 +17,12 @@
 //   component_build ({prompt})      -> rank components for a plain-language prompt
 //   component_examples ({name})     -> real usage examples from a story
 //   component_source ({name})       -> full component source (for customization)
+//   validate_output ({html})        -> lint an HTML string against the real API
 import { loadCem, publicComponents, componentDetail } from '../cli/lib/cem.mjs';
 import { renderComponentDense, renderComponentBrief } from '../cli/lib/dense.mjs';
 import { rankComponents, renderBuildResults } from '../cli/lib/search.mjs';
 import { extractExamples, renderExamples } from '../cli/lib/examples.mjs';
+import { loadIndex, extractBlTags, extractAttributePairs, parseEnumValues, extractNestingViolations } from '../bench/src/evaluate.mjs';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -34,6 +36,7 @@ const TOOLS = [
   { name: 'component_build', description: 'Given a plain-language prompt, rank which Baklava components to use (Astryx "build" style discovery).', inputSchema: { type: 'object', properties: { prompt: { type: 'string' } }, required: ['prompt'] } },
   { name: 'component_examples', description: 'Print real usage examples for a component from its Storybook story.', inputSchema: { type: 'object', properties: { name: { type: 'string' } }, required: ['name'] } },
   { name: 'component_source', description: 'Print the full source of a component for deep customization.', inputSchema: { type: 'object', properties: { name: { type: 'string' } }, required: ['name'] } },
+  { name: 'validate_output', description: 'Lint an HTML string against the real Baklava API: unknown tags, invalid enum values, unknown attributes, nesting, inline styles, wrapper divs. Returns a JSON report with critical/acceptable findings.', inputSchema: { type: 'object', properties: { html: { type: 'string' } }, required: ['html'] } },
 ];
 
 function load() {
@@ -89,6 +92,47 @@ function callTool(name, args = {}, classes) {
       const cls = findComponent(classes, args.name);
       if (!cls) return { text: `Unknown component "${args.name}".`, error: true };
       return { text: resolveSource(cls.tagName), data: { tag: cls.tagName } };
+    }
+    case 'validate_output': {
+      const html = args.html || '';
+      const { index } = loadIndex();
+      const findings = [];
+      const universal = new Set(['class', 'id', 'style', 'slot', 'role']);
+      for (const t of extractBlTags(html)) {
+        if (!index.has(t)) {
+          findings.push({ severity: 'critical', type: 'unknown-tag', detail: `Unknown tag <${t}> (not in the library)` });
+          continue;
+        }
+        const detail = index.get(t);
+        const known = new Set([...detail.attributes.map((a) => a.attribute ?? a.name), ...detail.properties.map((p) => p.attribute ?? p.name)]);
+        const typeByKey = new Map();
+        for (const a of [...(detail.attributes || []), ...(detail.properties || [])]) {
+          const k = a.attribute || a.name;
+          if (k) typeByKey.set(k, a.type);
+        }
+        for (const { name: attr, value } of extractAttributePairs(html, t)) {
+          if (attr === t || attr.startsWith('data-') || attr.startsWith('aria-')) continue;
+          if (!known.has(attr) && !universal.has(attr)) {
+            findings.push({ severity: 'acceptable', type: 'unknown-attr', detail: `<${t}> attr "${attr}" not part of API` });
+            continue;
+          }
+          const allowed = parseEnumValues(typeByKey.get(attr));
+          if (allowed && value && !allowed.has(value)) {
+            findings.push({ severity: 'critical', type: 'bad-value', detail: `<${t}> ${attr}="${value}" invalid (allowed: ${[...allowed].join(' | ')})` });
+          }
+        }
+      }
+      for (const v of extractNestingViolations(html)) findings.push({ severity: 'acceptable', type: 'nesting', detail: v });
+      if ((html.match(/\bstyle=/gi) || []).length) findings.push({ severity: 'acceptable', type: 'inline-style', detail: 'inline style= present (use CSS vars / classes instead)' });
+      if ((html.match(/<div[\s>]/gi) || []).length) findings.push({ severity: 'acceptable', type: 'wrapper-div', detail: 'wrapper <div> present — prefer Baklava layout components' });
+      const report = {
+        ok: findings.length === 0,
+        count: findings.length,
+        critical: findings.filter((f) => f.severity === 'critical').length,
+        acceptable: findings.filter((f) => f.severity === 'acceptable').length,
+        findings,
+      };
+      return { text: JSON.stringify(report, null, 2), data: report };
     }
     default:
       return { text: `Unknown tool ${name}`, error: true };
