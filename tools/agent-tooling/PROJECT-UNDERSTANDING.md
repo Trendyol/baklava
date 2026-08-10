@@ -5,8 +5,6 @@
 >
 > Bileşen bazlı detaylı API referansı: [`COMPONENT-REFERENCE.md`](./COMPONENT-REFERENCE.md)
 > (repo'daki `dist/custom-elements.json` manifest'inden üretildi, 43 bileşenin attribute/event/slot/css-property listesi).
->
-> Karar haritası (biletler): [`wayfinder/`](./wayfinder/)
 
 ---
 
@@ -335,6 +333,6 @@ CDN veya import sonrası kendi CSS'inle `--bl-*` override et; koyu tema için `d
 
 ## 15. POC'ye Bağlantı
 
-Bu dokümantasyon, POC çalışmasının context temelidir. POC'nin **konusu** henüz net değil —
-`wayfinder/tickets/01-poc-konusunu-netlestir.md` biletinde kullanıcıyla netleştirilmesi gerekir.
-Konu belirlenince bu doküman + `COMPONENT-REFERENCE.md` rehberliğinde `poc/` altında POC bulguları eklenir.
+Bu dokümantasyon, POC çalışmasının context temelidir. POC'nin **konusu** neydi:
+**Baklava'yı agent'lar için kullanılabilir kılan bir araç katmanı (CLI + geliştirilmiş MCP) + before/after benchmark** —
+bu yetenekler `tools/agent-tooling/` altında hayata geçirildi (bkz. `AGENTS-TOOLING.md`).

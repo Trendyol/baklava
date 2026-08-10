@@ -1,14 +1,14 @@
 // Self-test for the Baklava agent-tooling PoC.
 // Runs the CLI commands and the benchmark (mock mode) and asserts expected
-// behaviour. Exit code 0 = pass. Run:  node poc/agent-tooling/self-test.mjs
+// behaviour. Exit code 0 = pass. Run:  node tools/agent-tooling/self-test.mjs
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { existsSync, readFileSync, rmSync, mkdirSync } from 'node:fs';
 
 const REPO = path.resolve(fileURLToPath(new URL('../../', import.meta.url)));
-const CLI = path.join(REPO, 'poc', 'agent-tooling', 'cli', 'bin', 'baklava.mjs');
-const BENCH = path.join(REPO, 'poc', 'agent-tooling', 'bench', 'src', 'cli.mjs');
+const CLI = path.join(REPO, 'tools', 'agent-tooling', 'cli', 'bin', 'baklava.mjs');
+const BENCH = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'src', 'cli.mjs');
 
 let failures = 0;
 function check(label, cond, extra = '') {
@@ -64,36 +64,36 @@ check('bad output not success (hallucinated tag)', bad.success === false, JSON.s
 check('bad output flagged hallucination', bad.failureMode === 'hallucination');
 
 // committed real before/after results must exist
-const cmpPath = path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'real-subagents', 'compare.json');
+const cmpPath = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'real-subagents', 'compare.json');
 check('committed real-subagents compare.json exists', existsSync(cmpPath));
 const cmp = JSON.parse(readFileSync(cmpPath, 'utf8'));
 check('real-subagents has before/after/delta', cmp.before && cmp.after && cmp.delta);
 check('after overall > before overall', cmp.after.avgOverall > cmp.before.avgOverall);
 
 // adversarial persona run + optional LLM-judge layer
-const advPath = path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'compare.json');
+const advPath = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'compare.json');
 check('committed adversarial-subagents compare.json exists', existsSync(advPath));
 const adv = JSON.parse(readFileSync(advPath, 'utf8'));
 check('adversarial after overall > before', adv.after && adv.before && adv.after.avgOverall > adv.before.avgOverall);
 check('adversarial baseline has hallucination gaps (before esc > after esc)', (adv.before.totalEscapeHatches || 0) > (adv.after.totalEscapeHatches || 0));
 check('adversarial LLM-judge data present (augmented)', existsSync(
-  path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'judge', 'augmented', 'login-form.json')));
+  path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'judge', 'augmented', 'login-form.json')));
 
 // Step 1: headless-render layer
 check('adversarial render aggregate exists (baseline)', existsSync(
-  path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'render', 'baseline.aggregate.json')));
-const rb = JSON.parse(readFileSync(path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'render', 'baseline.aggregate.json'), 'utf8'));
+  path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'render', 'baseline.aggregate.json')));
+const rb = JSON.parse(readFileSync(path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'render', 'baseline.aggregate.json'), 'utf8'));
 check('render recorded results', rb && rb.nLoaded > 0);
 
 // Step 2: sensitivity analysis
 check('sensitivity.json exists', existsSync(
-  path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'sensitivity.json')));
-const sen = JSON.parse(readFileSync(path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'sensitivity.json'), 'utf8'));
+  path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'sensitivity.json')));
+const sen = JSON.parse(readFileSync(path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'sensitivity.json'), 'utf8'));
 check('sensitivity delta is positive across all weight variants',
   Array.isArray(sen.variants) && sen.variants.length >= 3 && sen.variants.every((v) => v.delta > 0));
 
 // Step 3: multi-sample + error bars (adversarial should have >=2 samples/prompt)
-const probe = JSON.parse(readFileSync(path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'evaluated', 'augmented', 'product-table.json'), 'utf8'));
+const probe = JSON.parse(readFileSync(path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'evaluated', 'augmented', 'product-table.json'), 'utf8'));
 check('multi-sample: per-prompt n>=3 and aggregate recorded', probe.n >= 3 && probe.aggregate && probe.aggregate.scores);
 check('error bars: compare has non-null 95% CI for both arms',
   adv.before && adv.after && adv.before.overallCI && adv.after.overallCI);
@@ -101,7 +101,7 @@ check('error bars: augmented CI floor > baseline CI ceiling (no overlap)',
   adv.after.overallCI[0] > adv.before.overallCI[1]);
 
 // rolling scorecard exists & aggregates iterations
-const scPath = path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'scorecard.json');
+const scPath = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'scorecard.json');
 check('rolling scorecard.json exists', existsSync(scPath));
 const sc = JSON.parse(readFileSync(scPath, 'utf8'));
 check('scorecard aggregates >=2 iterations', Array.isArray(sc.generations) && sc.generations.length >= 2);
@@ -110,7 +110,7 @@ check('scorecard aggregates >=2 iterations', Array.isArray(sc.generations) && sc
 const personas = ['naive', 'experienced', 'adversarial'];
 for (const p of personas) {
   const file = p === 'naive' ? 'prompts.json' : `${p}.json`;
-  check(`persona battery ${p} exists`, existsSync(path.join(REPO, 'poc', 'agent-tooling', 'bench', 'prompts', file)));
+  check(`persona battery ${p} exists`, existsSync(path.join(REPO, 'tools', 'agent-tooling', 'bench', 'prompts', file)));
 }
 
 console.log(failures === 0 ? '\nALL CHECKS PASSED' : `\n${failures} CHECK(S) FAILED`);

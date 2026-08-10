@@ -3,12 +3,12 @@
 // design system for coding agents (models Astryx's `astryx` CLI).
 //
 // Usage:
-//   node poc/agent-tooling/cli/bin/baklava.mjs help
-//   node poc/agent-tooling/cli/bin/baklava.mjs components
-//   node poc/agent-tooling/cli/bin/baklava.mjs component<NAME> [--dense|--props|--source|--example]
-//   node poc/agent-tooling/cli/bin/baklava.mjs build "<prompt>"
-//   node poc/agent-tooling/cli/bin/baklava.mjs swizzle<NAME>
-//   node poc/agent-tooling/cli/bin/baklava.mjs docs
+//   node tools/agent-tooling/cli/bin/baklava.mjs help
+//   node tools/agent-tooling/cli/bin/baklava.mjs components
+//   node tools/agent-tooling/cli/bin/baklava.mjs component<NAME> [--dense|--props|--source|--example]
+//   node tools/agent-tooling/cli/bin/baklava.mjs build "<prompt>"
+//   node tools/agent-tooling/cli/bin/baklava.mjs swizzle<NAME>
+//   node tools/agent-tooling/cli/bin/baklava.mjs docs
 //   ... --json  # machine-readable output envelope for MCP/agent consumers
 import { loadCem, publicComponents, componentDetail } from '../lib/cem.mjs';
 import { renderComponentDense, renderComponentBrief } from '../lib/dense.mjs';
@@ -143,12 +143,12 @@ async function main() {
       break;
     }
     case 'docs': {
-      const docsDir = path.join(REPO_ROOT, 'poc');
+      const docsDir = path.join(REPO_ROOT, 'tools', 'agent-tooling');
       const { readdirSync } = await import('node:fs');
       let files = [];
       try { files = readdirSync(docsDir).filter((f) => f.endsWith('.md')); } catch { /* ignore */ }
       data = { docs: files };
-      if (!opts.json) data.text = ['PoC documentation:', ...files.map((f) => `  poc/${f}`)].join('\n');
+      if (!opts.json) data.text = ['Agent-tooling docs:', ...files.map((f) => `  tools/agent-tooling/${f}`)].join('\n');
       break;
     }
     default:

@@ -9,7 +9,7 @@
 // transport). Compatible with clients such as Claude Desktop / VS Code / MCP
 // inspectors that launch a process and speak MCP over stdio.
 //
-// Run:  node poc/agent-tooling/mcp/mcp-server.mjs
+// Run:  node tools/agent-tooling/mcp/mcp-server.mjs
 //
 // Tools:
 //   list_components                 -> dense catalog of all bl-* components

@@ -8,7 +8,7 @@ Agent-friendly access to the Baklava design system, modeled on Meta's Astryx
 Layout:
 
 ```
-poc/agent-tooling/
+tools/agent-tooling/
   cli/                 Baklava agent CLI (dependency-free, CEM-backed)
     bin/baklava.mjs    executable entry
     lib/cem.mjs        loads dist/custom-elements.json (source of truth)
@@ -44,7 +44,7 @@ From the Astryx blog/CLI:
 Run from the baklava repo root:
 
 ```bash
-CLI=poc/agent-tooling/cli/bin/baklava.mjs
+CLI=tools/agent-tooling/cli/bin/baklava.mjs
 node $CLI help
 node $CLI components
 node $CLI component button --dense        # token-efficient API dump
@@ -66,17 +66,17 @@ are evaluated against the real CEM on rubric dimensions.
 ```bash
 # 1) Generate agent outputs (real LLM) — see README "Generating real outputs",
 #    or for a deterministic demo without an LLM:
-node poc/agent-tooling/bench/src/cli.mjs generate --mock
+node tools/agent-tooling/bench/src/cli.mjs generate --mock
 
 # 2) Evaluate generated outputs (deterministic); --persona naive|experienced|adversarial,
 #    --model <label> tags the run so the rolling scorecard can group by model/persona:
-node poc/agent-tooling/bench/src/cli.mjs evaluate --iteration <id> --persona <persona> --model <model>
+node tools/agent-tooling/bench/src/cli.mjs evaluate --iteration <id> --persona <persona> --model <model>
 
 # 3) Produce before/after comparison (JSON + Markdown):
-node poc/agent-tooling/bench/src/cli.mjs compare --iteration <id> --persona <persona> --model <model>
+node tools/agent-tooling/bench/src/cli.mjs compare --iteration <id> --persona <persona> --model <model>
 
 # 4) Rolling / nightly scorecard across all committed iterations (Astryx-style):
-node poc/agent-tooling/bench/src/cli.mjs scorecard [--persona p] [--model m] [--markdown]
+node tools/agent-tooling/bench/src/cli.mjs scorecard [--persona p] [--model m] [--markdown]
 ```
 
 Inputs are stored per persona under `bench/results/inputs/<persona>/<arm>/<promptId>.html`, so
@@ -114,7 +114,7 @@ a11y probes (unlabeled interactives/images).
 
 ```bash
 # requires a Chrome at CHROME_PATH (or the default macOS path)
-node poc/agent-tooling/bench/src/cli.mjs render --iteration <id> --persona <p>
+node tools/agent-tooling/bench/src/cli.mjs render --iteration <id> --persona <p>
 ```
 
 Render aggregates are merged into `compare` as a separate "Headless Render" section.
@@ -135,7 +135,7 @@ A `sensitivity` command recomputes overall under several weight vectors so the
 conclusion can't be an artifact of one weighting:
 
 ```bash
-node poc/agent-tooling/bench/src/cli.mjs sensitivity --iteration adversarial-subagents
+node tools/agent-tooling/bench/src/cli.mjs sensitivity --iteration adversarial-subagents
 ```
 
 → tooling delta is +11..+17 across all variants: the win is robust to rubric weighting.
@@ -147,7 +147,7 @@ samples with mean/std and a 95% CI. The adversarial run now ships n=3 per cell (
 tasks total).
 
 ```bash
-node poc/agent-tooling/bench/src/cli.mjs evaluate --iteration <id> --persona adversarial --model <m>
+node tools/agent-tooling/bench/src/cli.mjs evaluate --iteration <id> --persona adversarial --model <m>
 ```
 
 The n=3 adversarial result: baseline overall **79 (95% CI 75–83)** vs tooled **91
@@ -195,7 +195,7 @@ non-overlapping deltas above (adversarial +12, naive +5) are the honed, reproduc
 ## Validation
 
 ```bash
-node poc/agent-tooling/self-test.mjs   # exit 0 = all checks pass
+node tools/agent-tooling/self-test.mjs   # exit 0 = all checks pass
 ```
 
 The self-test exercises the CLI commands and the deterministic evaluator, and

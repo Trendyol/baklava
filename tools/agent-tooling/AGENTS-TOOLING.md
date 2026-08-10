@@ -12,7 +12,7 @@ component API. **Always consult it before writing a Baklava component.**
 From the repo root:
 
 ```bash
-CLI=poc/agent-tooling/cli/bin/baklava.mjs
+CLI=tools/agent-tooling/cli/bin/baklava.mjs
 
 # discover what exists and what a prompt maps to
 node $CLI build "a login form with email and password"
@@ -40,7 +40,7 @@ Rules for agents:
 
 ```bash
 # launches a stdio MCP server exposing the tools below
-node poc/agent-tooling/mcp/mcp-server.mjs
+node tools/agent-tooling/mcp/mcp-server.mjs
 ```
 
 Tools: `list_components`, `get_component`, `component_build`,
@@ -68,12 +68,12 @@ Steps:
    `bench/results/inputs/` and evaluated into `bench/results/real-subagents/`.
    Any LLM agent can be used as long as it follows the task contract below.
 2. **Evaluate** (deterministic):
-   `node poc/agent-tooling/bench/src/cli.mjs evaluate --iteration <id>`
+   `node tools/agent-tooling/bench/src/cli.mjs evaluate --iteration <id>`
 3. **Compare** (before/after → `compare.json` + `compare.md`):
-   `node poc/agent-tooling/bench/src/cli.mjs compare --iteration <id>`
+   `node tools/agent-tooling/bench/src/cli.mjs compare --iteration <id>`
 
 Deterministic demo without an LLM:
-`node poc/agent-tooling/bench/src/cli.mjs generate --mock`
+`node tools/agent-tooling/bench/src/cli.mjs generate --mock`
 
 ### Agent task contract
 
@@ -85,7 +85,7 @@ Deterministic demo without an LLM:
 
 **Augmented arm task:**
 > You build frontend HTML with Baklava. You have the agent CLI: run
-> `node poc/agent-tooling/cli/bin/baklava.mjs build "<prompt>"` then
+> `node tools/agent-tooling/cli/bin/baklava.mjs build "<prompt>"` then
 > `component <Name> --dense` for each candidate. Use ONLY real components and real
 > attributes/events shown by the CLI. Output only a self-contained HTML fragment.
 
