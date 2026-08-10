@@ -162,8 +162,28 @@ tooling gain under the gentler naive persona.
 The `evaluate --model <label>` flag already tags every run. A second model is exercised
 by producing its own before/after inputs under a separate folder (e.g.
 `inputs/naive-composer/`) and evaluating it as its own iteration, so each model gets its
-own comparison and the scorecard can group by model. A `cursor/composer-2.5:slow` run on
-the naive battery is kept under `bench/results/naive-composer/`.
+own comparison and the scorecard can group by model.
+
+**Measured second-model attempt (composer).** We attempted to run `cursor/composer-2.5`
+as a companion model on the naive battery through the subagent bridge, in three
+configurations — `:slow`, default `fast`, and `fast` with `context:"fresh"`. None produced
+a usable dataset:
+
+- **0 HTML files were ever written.** "Completed" children returned planning/scratchpad
+text instead of writing the file; one child failed with *"completed without making edits"*.
+- **Children hang for many minutes** between model calls. The harness forces composer to
+`thinking high`, so each call takes minutes; after 10+ min a single-task probe was still
+idle for 8 min with no output.
+- One child received **contaminated context** (the parent session's prior deepseek
+completion notification instead of its own task) and answered that instead. `context:"fresh"`
+did not fix the hang.
+
+**Conclusion (earned by measurement):** the composer subagent bridge is not reliable
+enough to generate benchmark inputs in this environment, so there is no paired composer
+before/after dataset for a rigorous cross-model comparison. The `--model` flag and
+per-model input folders keep the harness *ready* for any model whose bridge writes files
+reliably; composer itself is documented here as an impractical path rather than misreported
+as a result.
 
 ## Validation
 
