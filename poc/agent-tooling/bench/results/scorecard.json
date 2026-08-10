@@ -1,52 +1,6 @@
 {
   "generations": [
     {
-      "iteration": "real-subagents",
-      "persona": "naive",
-      "model": "mlplatform/deepseek-v4-flash-0731",
-      "timestamp": "2026-08-10T12:05:31.017Z",
-      "before": {
-        "overall": 88,
-        "dims": {
-          "correctness": 94,
-          "accessibility": 79,
-          "efficiency": 83,
-          "codeQuality": 85,
-          "maintainability": 93,
-          "overall": 88
-        },
-        "hall": 0,
-        "esc": 14,
-        "succ": 100
-      },
-      "after": {
-        "overall": 93,
-        "dims": {
-          "correctness": 99,
-          "accessibility": 81,
-          "efficiency": 86,
-          "codeQuality": 90,
-          "maintainability": 100,
-          "overall": 93
-        },
-        "hall": 0,
-        "esc": 0,
-        "succ": 100
-      },
-      "delta": {
-        "successRate": 0,
-        "avgOverall": 5,
-        "dim.correctness": 5,
-        "dim.accessibility": 2,
-        "dim.efficiency": 3,
-        "dim.codeQuality": 5,
-        "dim.maintainability": 7,
-        "dim.overall": 5,
-        "totalHallucinations": 0,
-        "totalEscapeHatches": -14
-      }
-    },
-    {
       "iteration": "adversarial-subagents",
       "persona": "adversarial",
       "model": "mlplatform/deepseek-v4-flash-0731",
@@ -91,7 +45,53 @@
         "totalHallucinations": -3,
         "totalEscapeHatches": -18
       }
+    },
+    {
+      "iteration": "real-subagents",
+      "persona": "naive",
+      "model": "mlplatform/deepseek-v4-flash-0731",
+      "timestamp": "2026-08-10T12:18:33.637Z",
+      "before": {
+        "overall": 87,
+        "dims": {
+          "correctness": 93,
+          "accessibility": 82,
+          "efficiency": 80,
+          "codeQuality": 82,
+          "maintainability": 89,
+          "overall": 87
+        },
+        "hall": 0,
+        "esc": 22,
+        "succ": 100
+      },
+      "after": {
+        "overall": 92,
+        "dims": {
+          "correctness": 98,
+          "accessibility": 83,
+          "efficiency": 84,
+          "codeQuality": 89,
+          "maintainability": 98,
+          "overall": 92
+        },
+        "hall": 0,
+        "esc": 4,
+        "succ": 100
+      },
+      "delta": {
+        "successRate": 0,
+        "avgOverall": 5,
+        "dim.correctness": 5,
+        "dim.accessibility": 1,
+        "dim.efficiency": 4,
+        "dim.codeQuality": 7,
+        "dim.maintainability": 9,
+        "dim.overall": 5,
+        "totalHallucinations": 0,
+        "totalEscapeHatches": -18
+      }
     }
   ],
-  "updatedAt": "2026-08-10T12:09:17.400Z"
+  "updatedAt": "2026-08-10T12:40:33.871Z"
 }
