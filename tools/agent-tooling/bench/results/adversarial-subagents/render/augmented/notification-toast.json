@@ -2,7 +2,7 @@
   "id": "notification-toast",
   "arm": "augmented",
   "file": "adversarial/augmented/notification-toast.html.html",
-  "url": "http://127.0.0.1:51018/.poc-render-tmp/adversarial-augmented-notification-toast.html",
+  "url": "http://127.0.0.1:51018/.agent-render-tmp/adversarial-augmented-notification-toast.html",
   "loaded": true,
   "exceptions": [
     "Uncaught"

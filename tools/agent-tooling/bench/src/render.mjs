@@ -206,7 +206,7 @@ export async function renderDirectory({ iteration, persona = 'naive', arm }) {
   const fs = await import('node:fs');
   const fileURLToPath2 = (await import('node:url')).fileURLToPath;
   const resultsBase = pathMod.join(
-    pathMod.resolve('.'), 'poc', 'agent-tooling', 'bench', 'results',
+    pathMod.resolve('.'), 'tools', 'agent-tooling', 'bench', 'results',
   );
   const inputsDir = pathMod.join(resultsBase, 'inputs', persona, arm);
   const outDir = pathMod.join(resultsBase, iteration, 'render', arm);
@@ -217,7 +217,7 @@ export async function renderDirectory({ iteration, persona = 'naive', arm }) {
 
   // Serve the repo root so /dist/baklava.js + chunk imports resolve.
   const repoRoot = pathMod.resolve('.');
-  const tmpDir = pathMod.join(repoRoot, '.poc-render-tmp');
+  const tmpDir = pathMod.join(repoRoot, '.agent-render-tmp');
   fs.mkdirSync(tmpDir, { recursive: true });
   const srv = startServer(repoRoot);
   const port = await srv.port;
@@ -235,7 +235,7 @@ export async function renderDirectory({ iteration, persona = 'naive', arm }) {
       }
       const tmp = pathMod.join(tmpDir, `${persona}-${arm}-${id}.html`);
       fs.writeFileSync(tmp, html);
-      const url = `http://127.0.0.1:${port}/.poc-render-tmp/${persona}-${arm}-${id}.html`;
+      const url = `http://127.0.0.1:${port}/.agent-render-tmp/${persona}-${arm}-${id}.html`;
       try {
         const metrics = await renderFile(url, chrome.wsUrl);
         out[id] = { id, arm, file: `${persona}/${arm}/${f}.html`, url, ...metrics };

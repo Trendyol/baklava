@@ -2,7 +2,7 @@
   "id": "login-form",
   "arm": "baseline",
   "file": "adversarial/baseline/login-form.html.html",
-  "url": "http://127.0.0.1:50934/.poc-render-tmp/adversarial-baseline-login-form.html",
+  "url": "http://127.0.0.1:50934/.agent-render-tmp/adversarial-baseline-login-form.html",
   "loaded": true,
   "exceptions": [],
   "consoleErrors": [],

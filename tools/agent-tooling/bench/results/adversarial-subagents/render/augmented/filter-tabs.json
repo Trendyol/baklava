@@ -2,7 +2,7 @@
   "id": "filter-tabs",
   "arm": "augmented",
   "file": "adversarial/augmented/filter-tabs.html.html",
-  "url": "http://127.0.0.1:51018/.poc-render-tmp/adversarial-augmented-filter-tabs.html",
+  "url": "http://127.0.0.1:51018/.agent-render-tmp/adversarial-augmented-filter-tabs.html",
   "loaded": true,
   "exceptions": [],
   "consoleErrors": [],

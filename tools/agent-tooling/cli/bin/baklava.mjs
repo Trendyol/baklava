@@ -51,7 +51,7 @@ Commands:
   build "<prompt>"             Rank components for a plain-language prompt.
   example <name>               Print usage examples for a component.
   swizzle <name>               Print full component source for customization.
-  docs                         List PoC/reference documentation files.
+  docs                         List agent-tooling/reference documentation files.
 
 Global options:
   --json                       Emit a machine-readable JSON envelope on stdout.

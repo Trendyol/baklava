@@ -2,7 +2,7 @@
   "id": "product-table",
   "arm": "baseline",
   "file": "adversarial/baseline/product-table.html.html",
-  "url": "http://127.0.0.1:50934/.poc-render-tmp/adversarial-baseline-product-table.html",
+  "url": "http://127.0.0.1:50934/.agent-render-tmp/adversarial-baseline-product-table.html",
   "loaded": true,
   "exceptions": [
     "Uncaught"

@@ -2,7 +2,7 @@
   "id": "notification-toast",
   "arm": "baseline",
   "file": "adversarial/baseline/notification-toast.html.html",
-  "url": "http://127.0.0.1:50934/.poc-render-tmp/adversarial-baseline-notification-toast.html",
+  "url": "http://127.0.0.1:50934/.agent-render-tmp/adversarial-baseline-notification-toast.html",
   "loaded": true,
   "exceptions": [
     "Uncaught"

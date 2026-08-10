@@ -2,7 +2,7 @@
   "id": "login-form",
   "arm": "augmented",
   "file": "adversarial/augmented/login-form.html.html",
-  "url": "http://127.0.0.1:51018/.poc-render-tmp/adversarial-augmented-login-form.html",
+  "url": "http://127.0.0.1:51018/.agent-render-tmp/adversarial-augmented-login-form.html",
   "loaded": true,
   "exceptions": [
     "Uncaught"

@@ -1,6 +1,6 @@
 // Dependency-free MCP (Model Context Protocol) server exposing Baklava to agents.
 //
-// This is the "improved MCP" deliverable of the PoC: whereas the legacy
+// This is the "improved MCP" deliverable of the agent tooling: whereas the legacy
 // baklava-mcp-server fetched .mdx docs from GitHub over HTTP, this server reads
 // the LOCAL generated custom-elements.json (single source of truth) and emits
 // dense, token-efficient component data through tools an agent can call.

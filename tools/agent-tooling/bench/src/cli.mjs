@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const REPO = path.resolve(fileURLToPath(new URL('../../../../', import.meta.url)));
-const BENCH = path.join(REPO, 'poc', 'agent-tooling', 'bench');
+const BENCH = path.join(REPO, 'tools', 'agent-tooling', 'bench');
 const ARMS = ['baseline', 'augmented'];
 
 function args() {
@@ -396,7 +396,7 @@ function renderMarkdown(c) {
       ]
     : [];
   return [
-    `# Baklava Agent-Friendly PoC — Before / After Benchmark`,
+    `# Baklava Agent-Friendly Tooling — Before / After Benchmark`,
     ``,
     `Iteration: \`${c.iteration}\` · ${c.timestamp} · System: ${c.system}`,
     ``,

@@ -1,4 +1,4 @@
-// Self-test for the Baklava agent-tooling PoC.
+// Self-test for the Baklava agent-tooling.
 // Runs the CLI commands and the benchmark (mock mode) and asserts expected
 // behaviour. Exit code 0 = pass. Run:  node tools/agent-tooling/self-test.mjs
 import { execFileSync } from 'node:child_process';

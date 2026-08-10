@@ -2,7 +2,7 @@
   "id": "destructive-confirm",
   "arm": "baseline",
   "file": "adversarial/baseline/destructive-confirm.html.html",
-  "url": "http://127.0.0.1:50934/.poc-render-tmp/adversarial-baseline-destructive-confirm.html",
+  "url": "http://127.0.0.1:50934/.agent-render-tmp/adversarial-baseline-destructive-confirm.html",
   "loaded": true,
   "exceptions": [],
   "consoleErrors": [

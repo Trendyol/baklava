@@ -1,7 +1,8 @@
-# Baklava — Proje Anlama Dokümantasyonu (POC Context)
+# Baklava — Proje Anlama Dokümantasyonu
 
-> **Amaç**: POC'ye başlamadan önce `@trendyol/baklava` tasarım sistemini **%100 anlamak**.
-> Bu doküman tüm bileşenleri ve her operasyonu kapsar; POC'ye giriş context'i olarak kullanılır.
+> **Amaç**: Baklava'yı agent'lar için kullanılabilir kılan araç katmanına (CLI + MCP +
+> benchmark) giriş yapmadan önce `@trendyol/baklava` tasarım sistemini **%100 anlamak**.
+> Bu doküman tüm bileşenleri ve her operasyonu kapsar; agent tooling'in context'i olarak kullanılır.
 >
 > Bileşen bazlı detaylı API referansı: [`COMPONENT-REFERENCE.md`](./COMPONENT-REFERENCE.md)
 > (repo'daki `dist/custom-elements.json` manifest'inden üretildi, 43 bileşenin attribute/event/slot/css-property listesi).
@@ -331,8 +332,8 @@ CDN veya import sonrası kendi CSS'inle `--bl-*` override et; koyu tema için `d
 
 ---
 
-## 15. POC'ye Bağlantı
+## 15. Agent Tooling'e Bağlantı
 
-Bu dokümantasyon, POC çalışmasının context temelidir. POC'nin **konusu** neydi:
+Bu dokümantasyon, benchmark çalışmasının context temelidir. Çalışmanın **konusu**:
 **Baklava'yı agent'lar için kullanılabilir kılan bir araç katmanı (CLI + geliştirilmiş MCP) + before/after benchmark** —
 bu yetenekler `tools/agent-tooling/` altında hayata geçirildi (bkz. `AGENTS-TOOLING.md`).

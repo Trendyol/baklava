@@ -1,4 +1,4 @@
-# Baklava Agent-Friendly PoC — Before / After Benchmark
+# Baklava Agent-Friendly Tooling — Before / After Benchmark
 
 Iteration: `real-subagents` · 2026-08-10T12:18:33.637Z · System: Baklava
 

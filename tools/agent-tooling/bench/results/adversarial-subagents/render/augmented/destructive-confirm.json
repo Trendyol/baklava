@@ -2,7 +2,7 @@
   "id": "destructive-confirm",
   "arm": "augmented",
   "file": "adversarial/augmented/destructive-confirm.html.html",
-  "url": "http://127.0.0.1:51018/.poc-render-tmp/adversarial-augmented-destructive-confirm.html",
+  "url": "http://127.0.0.1:51018/.agent-render-tmp/adversarial-augmented-destructive-confirm.html",
   "loaded": true,
   "exceptions": [],
   "consoleErrors": [

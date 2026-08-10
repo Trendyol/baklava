@@ -2,7 +2,7 @@
   "id": "accordion-faq",
   "arm": "baseline",
   "file": "adversarial/baseline/accordion-faq.html.html",
-  "url": "http://127.0.0.1:50934/.poc-render-tmp/adversarial-baseline-accordion-faq.html",
+  "url": "http://127.0.0.1:50934/.agent-render-tmp/adversarial-baseline-accordion-faq.html",
   "loaded": true,
   "exceptions": [],
   "consoleErrors": [

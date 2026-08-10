@@ -63,7 +63,7 @@ Steps:
    - `augmented/` — the agent is given the prompt AND the CLI, and is required
      to run `component <name> --dense` / `example <name>` before writing code,
      producing exact-API HTML.
-   In this PoC, the agent outputs were produced by real coding **subagents**
+   In this benchmark, the agent outputs were produced by real coding **subagents**
    (one per arm/prompt) following this contract; they are committed under
    `bench/results/inputs/` and evaluated into `bench/results/real-subagents/`.
    Any LLM agent can be used as long as it follows the task contract below.

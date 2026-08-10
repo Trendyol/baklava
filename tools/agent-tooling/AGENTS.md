@@ -6,7 +6,7 @@
 >
 > - Proje anlama (tam): [`PROJECT-UNDERSTANDING.md`](./PROJECT-UNDERSTANDING.md)
 > - 43 bileşenin attribute/event/slot/css referansı: [`COMPONENT-REFERENCE.md`](./COMPONENT-REFERENCE.md)
-> - **Agent-friendly tooling POC** (CLI + MCP + before/after benchmark):
+> - **Agent-friendly tooling** (CLI + MCP + before/after benchmark):
 >   [`AGENT-TOOLING/`](./agent-tooling/) — bileşen kullanırken `component <name> --dense`
 >   ile gerçek API'yi doğrula; ölçüm için [`AGENTS-TOOLING.md`](./agent-tooling/AGENTS-TOOLING.md).
 

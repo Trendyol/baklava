@@ -10,7 +10,7 @@ import path from 'node:path';
 import { readFileSync, existsSync } from 'node:fs';
 
 const REPO_ROOT = path.resolve(fileURLToPath(new URL('../../../../', import.meta.url)));
-const PROMPT_DIR = path.join(REPO_ROOT, 'poc', 'agent-tooling', 'bench', 'prompts');
+const PROMPT_DIR = path.join(REPO_ROOT, 'tools', 'agent-tooling', 'bench', 'prompts');
 const PERSONAS = ['naive', 'experienced', 'adversarial'];
 
 // Backwards-compatible: prompts.json is the canonical naive battery.

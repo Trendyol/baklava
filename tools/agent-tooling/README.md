@@ -1,7 +1,7 @@
-# Baklava Agent-Tooling — PoC
+# Baklava Agent-Tooling
 
 Agent-friendly access to the Baklava design system, modeled on Meta's Astryx
-("built for people and agents"). The PoC makes Baklava's **CLI** and
+("built for people and agents"). This tooling makes Baklava's **CLI** and
 **components** genuinely usable by coding agents, and includes a
 **before/after benchmark harness** that measures the tooling's effect.
 
@@ -22,7 +22,7 @@ tools/agent-tooling/
     src/evaluate.mjs       deterministic rubric evaluator (vs real CEM)
     src/cli.mjs            evaluate / compare / scorecard / generate --mock
     results/               before/after data (inputs, evaluated, judge, compare.*, scorecard.*)
-  mcp/                 enhanced MCP server PoC (CEM-backed, token-efficient)
+  mcp/                 enhanced MCP server (CEM-backed, token-efficient)
 ```
 
 ## Why this way (Astryx methodology)
