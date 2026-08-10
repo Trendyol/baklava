@@ -1,0 +1,21 @@
+<bl-tab-group>
+  <bl-tab slot="tabs" name="overview">Overview</bl-tab>
+  <bl-tab slot="tabs" name="features">Features</bl-tab>
+  <bl-tab slot="tabs" name="help">Help</bl-tab>
+  <bl-tab-panel tab="overview">
+    <h3>Overview</h3>
+    <p>This view gives you a high-level summary of the current page and its key state.</p>
+  </bl-tab-panel>
+  <bl-tab-panel tab="features">
+    <h3>Features</h3>
+    <p>Explore the main capabilities available in this workspace and how you can use them.</p>
+  </bl-tab-panel>
+  <bl-tab-panel tab="help">
+    <h3>Help</h3>
+    <p>This is the help view for the current page. If you are unsure what something does, move your pointer over the info button below.</p>
+    <bl-tooltip placement="top">
+      <bl-button slot="tooltip-trigger" icon="info" size="small" aria-label="More information">Info</bl-button>
+      <p>Use the tabs above to switch between the different views of the page.</p>
+    </bl-tooltip>
+  </bl-tab-panel>
+</bl-tab-group>

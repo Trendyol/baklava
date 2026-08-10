@@ -1,0 +1,14 @@
+<bl-button id="saveBtn" variant="primary" icon="check">Save</bl-button>
+
+<bl-notification></bl-notification>
+
+<script>
+  const notif = document.querySelector('bl-notification');
+  document.getElementById('saveBtn').addEventListener('bl-click', () => {
+    notif.addNotification({
+      variant: 'success',
+      caption: 'Changes saved successfully',
+      duration: 5,
+    });
+  });
+</script>

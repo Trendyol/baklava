@@ -1,0 +1,160 @@
+{
+  "id": "notification-toast",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "feedback",
+  "complexity": "simple",
+  "prompt": "After saving, briefly show a small message box in the corner of the screen letting the user know it worked, with a way to dismiss it.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-notification",
+      "bl-notification-card"
+    ],
+    "componentsExpected": [
+      "bl-notification",
+      "bl-notification-card",
+      "bl-button"
+    ],
+    "missed": [
+      "bl-button"
+    ],
+    "escapeHatches": [],
+    "failureMode": "missing_components",
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 95,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 91
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-notification no-animation>\n  <bl-notification-card variant=\"success\" caption=\"Your changes were saved successfully\" icon=\"check\">\n  </bl-notification-card>\n</bl-notification>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-button"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-button id=\"saveBtn\" variant=\"primary\" icon=\"check\">Save</bl-button>\n\n<bl-notification></bl-notification>\n\n<script>\n  const notif = document.querySelector('bl-notification');\n  document.getElementById('saveBtn').addEventListener('bl-click', () => {\n    notif.addNotification({\n      variant: 'success',\n      caption: 'Changes saved successfully',\n      duration: 5,\n    });\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-notification-card"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<bl-notification></bl-notification>\n\n<script>\n  document.querySelector('bl-notification').addNotification({\n    caption: 'Saved',\n    description: 'Your changes have been saved successfully.',\n    variant: 'success',\n    duration: 5,\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [
+          "bl-notification-card",
+          "bl-button"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 90,
+          "accessibility": 73,
+          "efficiency": 96,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 89
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 93,
+        "std": 2.4,
+        "min": 90,
+        "max": 95,
+        "sem": 1.4
+      },
+      "accessibility": {
+        "mean": 75,
+        "std": 1.4,
+        "min": 73,
+        "max": 76,
+        "sem": 0.8
+      },
+      "efficiency": {
+        "mean": 93,
+        "std": 1.9,
+        "min": 92,
+        "max": 96,
+        "sem": 1.1
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 90,
+        "std": 0.9,
+        "min": 89,
+        "max": 91,
+        "sem": 0.5
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

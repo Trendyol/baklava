@@ -1,0 +1,56 @@
+<main>
+  <h2>Settings</h2>
+
+  <section>
+    <h3>Language</h3>
+    <p>Choose the interface language used across the app.</p>
+    <bl-select
+      label="Language"
+      name="language"
+      value="en"
+      help-text="Applied to the whole application.">
+      <bl-select-option value="en" label="English">English</bl-select-option>
+      <bl-select-option value="tr" label="Türkçe">Türkçe</bl-select-option>
+      <bl-select-option value="de" label="Deutsch">Deutsch</bl-select-option>
+    </bl-select>
+  </section>
+
+  <section>
+    <h3>Notifications</h3>
+    <p>Decide how the app should reach you.</p>
+    <ul>
+      <li>
+        <bl-switch checked>Email alerts
+          <span class="hint">Get updates about your account and security.</span>
+        </bl-switch>
+      </li>
+      <li>
+        <bl-switch>Push notifications
+          <span class="hint">Instant alerts on this device.</span>
+        </bl-switch>
+      </li>
+      <li>
+        <bl-switch checked>Weekly digest
+          <span class="hint">A short summary delivered every Monday.</span>
+        </bl-switch>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>Appearance</h3>
+    <p>Customize how the app looks and behaves.</p>
+    <ul>
+      <li>
+        <bl-switch>Dark mode
+          <span class="hint">Reduce glare in low-light environments.</span>
+        </bl-switch>
+      </li>
+      <li>
+        <bl-switch checked>Reduce motion
+          <span class="hint">Minimize animations across the app.</span>
+        </bl-switch>
+      </li>
+    </ul>
+  </section>
+</main>

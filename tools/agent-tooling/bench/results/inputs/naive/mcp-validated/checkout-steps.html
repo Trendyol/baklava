@@ -1,0 +1,13 @@
+<style>
+  .cart-indicator { position: relative; display: inline-block; }
+  .cart-count { position: absolute; top: -8px; right: -10px; }
+</style>
+<bl-stepper direction="horizontal" type="number">
+  <bl-stepper-item id="cart" title="Cart" description="Review items" variant="active"></bl-stepper-item>
+  <bl-stepper-item id="shipping" title="Shipping" description="Enter address"></bl-stepper-item>
+  <bl-stepper-item id="payment" title="Payment" description="Pay now"></bl-stepper-item>
+</bl-stepper>
+<span class="cart-indicator">
+  <bl-icon name="shopping_cart"></bl-icon>
+  <bl-badge class="cart-count" size="small">2</bl-badge>
+</span>

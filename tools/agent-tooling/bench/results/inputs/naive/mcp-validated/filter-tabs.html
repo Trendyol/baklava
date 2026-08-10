@@ -1,0 +1,24 @@
+<bl-tab-group>
+  <bl-tab slot="tabs" name="overview" caption="Overview"></bl-tab>
+  <bl-tab slot="tabs" name="details" caption="Details"></bl-tab>
+  <bl-tab slot="tabs" name="activity" caption="Activity"></bl-tab>
+
+  <bl-tab-panel tab="overview">
+    <h3>Overview</h3>
+    <p>Here you see the main summary of the current view.</p>
+  </bl-tab-panel>
+
+  <bl-tab-panel tab="details">
+    <h3>Details</h3>
+    <p>In this panel you can inspect the fine-grained details.</p>
+    <bl-tooltip placement="right">
+      <bl-button slot="tooltip-trigger" icon="info" variant="tertiary" size="small" label="Help"></bl-button>
+      <span>More details about this view are shown here.</span>
+    </bl-tooltip>
+  </bl-tab-panel>
+
+  <bl-tab-panel tab="activity">
+    <h3>Activity</h3>
+    <p>Recent activity events appear in this tab.</p>
+  </bl-tab-panel>
+</bl-tab-group>

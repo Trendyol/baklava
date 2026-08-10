@@ -1,0 +1,150 @@
+{
+  "id": "login-form",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Build a login page. There should be a field for the email address, a field for the password that hides what is typed, and a prominent button at the end to submit the whole thing when the user presses Enter.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-input",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-input",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-input name=\"email\" type=\"email\" label=\"Email address\" placeholder=\"you@example.com\" required size=\"medium\"></bl-input>\n<bl-input name=\"password\" type=\"password\" label=\"Password\" placeholder=\"Enter your password\" required size=\"medium\"></bl-input>\n<bl-button type=\"submit\" variant=\"primary\" size=\"medium\">Sign in</bl-button>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<form id=\"loginForm\" class=\"login-form\">\n  <bl-input\n    name=\"email\"\n    type=\"email\"\n    label=\"Email address\"\n    placeholder=\"you@example.com\"\n    autocomplete=\"email\"\n    required\n  ></bl-input>\n\n  <bl-input\n    name=\"password\"\n    type=\"password\"\n    label=\"Password\"\n    placeholder=\"Enter your password\"\n    autocomplete=\"current-password\"\n    required\n  ></bl-input>\n\n  <bl-button type=\"submit\" variant=\"primary\">Sign in</bl-button>\n</form>\n\n<script>\n  const loginForm = document.getElementById('loginForm');\n  loginForm.addEventListener('submit', (event) => {\n    event.preventDefault();\n    const email = loginForm.querySelector('bl-input[name=\"email\"]');\n    const password = loginForm.querySelector('bl-input[name=\"password\"]');\n    const valid = email.validity?.valid !== false && password.validity?.valid !== false;\n    if (!valid) return;\n    // Submit the login request here.\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<form class=\"login-form\">\n  <bl-input\n    type=\"email\"\n    name=\"email\"\n    label=\"Email address\"\n    placeholder=\"you@example.com\"\n    required\n    autocomplete=\"email\"\n  >\n  </bl-input>\n  <bl-input\n    type=\"password\"\n    name=\"password\"\n    label=\"Password\"\n    placeholder=\"Enter your password\"\n    required\n    autocomplete=\"current-password\"\n  >\n  </bl-input>\n  <bl-button type=\"submit\" variant=\"primary\" size=\"large\" label=\"Sign in\">\n  </bl-button>\n</form>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "id": "product-table",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "data-view",
+  "complexity": "complex",
+  "prompt": "Show a catalog of products in a grid with column headers, rows that have an action button per row, and controls at the bottom to jump between pages of results. Add a small badge on some rows to mark a product as popular.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-cell",
+      "bl-table-body",
+      "bl-table-row",
+      "bl-badge",
+      "bl-button",
+      "bl-pagination"
+    ],
+    "componentsExpected": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-body",
+      "bl-table-row",
+      "bl-table-cell",
+      "bl-pagination",
+      "bl-button",
+      "bl-badge"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 94,
+      "efficiency": 68,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<style>\n  .grid-badge { --bl-badge-bg-color: var(--bl-color-danger); --bl-badge-color: white; }\n</style>\n<bl-table>\n  <bl-table-header sticky>\n    <bl-table-cell>Product</bl-table-cell>\n    <bl-table-cell>Price</bl-table-cell>\n    <bl-table-cell>Status</bl-table-cell>\n    <bl-table-cell>Action</bl-table-cell>\n  </bl-table-header>\n  <bl-table-body>\n    <bl-table-row>\n      <bl-table-cell>Cappuccino Machine</bl-table-cell>\n      <bl-table-cell>$89.00</bl-table-cell>\n      <bl-table-cell><bl-badge size=\"small\">In stock</bl-badge></bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" label=\"View\" variant=\"secondary\"></bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row>\n      <bl-table-cell>Espresso Beans (1kg)</bl-table-cell>\n      <bl-table-cell>$24.50</bl-table-cell>\n      <bl-table-cell><bl-badge size=\"small\">In stock</bl-badge></bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" label=\"View\" variant=\"secondary\"></bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row>\n      <bl-table-cell>Pour-Over Kettle</bl-table-cell>\n      <bl-table-cell>$59.00</bl-table-cell>\n      <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" label=\"View\" variant=\"secondary\"></bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row>\n      <bl-table-cell>French Press</bl-table-cell>\n      <bl-table-cell>$34.00</bl-table-cell>\n      <bl-table-cell><bl-badge size=\"small\">Out of stock</bl-badge></bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" label=\"View\" variant=\"secondary\"></bl-button></bl-table-cell>\n    </bl-table-row>\n  </bl-table-body>\n</bl-table>\n\n<bl-pagination id=\"catalog-pagination\" current-page=\"1\" total-items=\"124\" items-per-page=\"10\"></bl-pagination>\n\n<script>\n  const pagination = document.getElementById('catalog-pagination');\n  pagination.addEventListener('bl-change', (event) => {\n    const { selectedPage } = event.detail;\n    console.log(`Loading page ${selectedPage}...`);\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 94,
+          "efficiency": 68,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<section>\n  <h2>Product Catalog</h2>\n  <bl-table>\n    <bl-table-header sticky>\n      <bl-table-row>\n        <bl-table-header-cell>Product</bl-table-header-cell>\n        <bl-table-header-cell sort-key=\"category\">Category</bl-table-header-cell>\n        <bl-table-header-cell sort-key=\"price\">Price</bl-table-header-cell>\n        <bl-table-header-cell>Status</bl-table-header-cell>\n        <bl-table-header-cell>Actions</bl-table-header-cell>\n      </bl-table-row>\n    </bl-table-header>\n    <bl-table-body>\n      <bl-table-row>\n        <bl-table-cell>Ergonomic Chair</bl-table-cell>\n        <bl-table-cell>Furniture</bl-table-cell>\n        <bl-table-cell>$249</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button label=\"View\"></bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n        <bl-table-cell>Electronics</bl-table-cell>\n        <bl-table-cell>$129</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button label=\"View\"></bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Wireless Mouse</bl-table-cell>\n        <bl-table-cell>Electronics</bl-table-cell>\n        <bl-table-cell>$59</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell><bl-button label=\"View\"></bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Standing Desk</bl-table-cell>\n        <bl-table-cell>Furniture</bl-table-cell>\n        <bl-table-cell>$499</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button label=\"View\"></bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Desk Lamp</bl-table-cell>\n        <bl-table-cell>Lighting</bl-table-cell>\n        <bl-table-cell>$45</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell><bl-button label=\"View\"></bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Laptop Stand</bl-table-cell>\n        <bl-table-cell>Accessories</bl-table-cell>\n        <bl-table-cell>$79</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell><bl-button label=\"View\"></bl-button></bl-table-cell>\n      </bl-table-row>\n    </bl-table-body>\n  </bl-table>\n\n  <bl-pagination\n    current-page=\"1\"\n    total-items=\"250\"\n    items-per-page=\"10\"\n    has-select=\"true\"\n    select-label=\"Items per page\"\n    has-jumper=\"true\"\n    jumper-label=\"Go to page\"\n  ></bl-pagination>\n\n  <script>\n    const pagination = document.querySelector('bl-pagination');\n    pagination.addEventListener('bl-change', (e) => {\n      const { selectedPage } = e.detail;\n      console.log('Page changed to', selectedPage);\n    });\n    const table = document.querySelector('bl-table');\n    table.addEventListener('bl-row-select', (e) => {\n      console.log('Selected rows', e.detail);\n    });\n  </script>\n</section>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 97,
+          "efficiency": 64,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<bl-table>\n  <bl-table-header>\n    <bl-table-row>\n      <bl-table-header-cell sort-key=\"name\">Product</bl-table-header-cell>\n      <bl-table-header-cell sort-key=\"price\">Price</bl-table-header-cell>\n      <bl-table-header-cell>Status</bl-table-header-cell>\n      <bl-table-header-cell>Actions</bl-table-header-cell>\n    </bl-table-row>\n  </bl-table-header>\n  <bl-table-body>\n    <bl-table-row selection-key=\"p1\">\n      <bl-table-cell>Wireless Mouse</bl-table-cell>\n      <bl-table-cell>$24</bl-table-cell>\n      <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row selection-key=\"p2\">\n      <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n      <bl-table-cell>$89</bl-table-cell>\n      <bl-table-cell>&nbsp;</bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row selection-key=\"p3\">\n      <bl-table-cell>4K Monitor</bl-table-cell>\n      <bl-table-cell>$299</bl-table-cell>\n      <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row selection-key=\"p4\">\n      <bl-table-cell>USB-C Hub</bl-table-cell>\n      <bl-table-cell>$45</bl-table-cell>\n      <bl-table-cell>&nbsp;</bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row selection-key=\"p5\">\n      <bl-table-cell>Webcam</bl-table-cell>\n      <bl-table-cell>$59</bl-table-cell>\n      <bl-table-cell>&nbsp;</bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row selection-key=\"p6\">\n      <bl-table-cell>Laptop Stand</bl-table-cell>\n      <bl-table-cell>$34</bl-table-cell>\n      <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n  </bl-table-body>\n</bl-table>\n<bl-pagination\n  current-page=\"1\"\n  total-items=\"42\"\n  items-per-page=\"6\"\n  has-jumper=\"true\"\n  jumper-label=\"Go to page\"\n  has-select=\"true\"\n  select-label=\"Items per page\"\n></bl-pagination>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 97,
+          "efficiency": 64,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 96,
+        "std": 1.4,
+        "min": 94,
+        "max": 97,
+        "sem": 0.8
+      },
+      "efficiency": {
+        "mean": 65,
+        "std": 1.9,
+        "min": 64,
+        "max": 68,
+        "sem": 1.1
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

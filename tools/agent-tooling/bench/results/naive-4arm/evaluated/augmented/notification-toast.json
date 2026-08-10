@@ -1,0 +1,159 @@
+{
+  "id": "notification-toast",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "feedback",
+  "complexity": "simple",
+  "prompt": "After saving, briefly show a small message box in the corner of the screen letting the user know it worked, with a way to dismiss it.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-notification",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-notification",
+      "bl-notification-card",
+      "bl-button"
+    ],
+    "missed": [
+      "bl-notification-card"
+    ],
+    "escapeHatches": [],
+    "failureMode": "missing_components",
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 95,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 91
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Save with notification toast</title>\n  </head>\n  <body>\n    <bl-notification id=\"toasts\"></bl-notification>\n\n    <bl-button id=\"save-btn\" variant=\"primary\">Save</bl-button>\n\n    <script>\n      const toasts = document.getElementById('toasts');\n      const saveBtn = document.getElementById('save-btn');\n\n      saveBtn.addEventListener('bl-click', () => {\n        // Blaze: push a toast for this corner-stacked notification container.\n        // It auto-dismisses after `duration` seconds and has a close button.\n        toasts.addNotification({\n          caption: 'Saved',\n          description: 'Your changes have been saved successfully.',\n          icon: true,\n          variant: 'success',\n          duration: 5,\n        });\n      });\n    </script>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-notification-card"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-button id=\"save\" variant=\"primary\">Save</bl-button>\n<bl-notification id=\"toasts\"></bl-notification>\n<script>\n  const save = document.getElementById(\"save\");\n  const toasts = document.getElementById(\"toasts\");\n\n  save.addEventListener(\"bl-click\", () => {\n    toasts.addNotification({\n      description: \"Changes saved successfully.\",\n      variant: \"success\",\n      duration: 3,\n    });\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-notification-card"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<bl-button id=\"save\" variant=\"primary\">Save</bl-button>\n<bl-notification id=\"notif\" no-animation duration=\"7\"></bl-notification>\n\n<script type=\"module\">\n  const notif = document.getElementById('notif');\n  const save = document.getElementById('save');\n\n  function onSaved() {\n    notif.addNotification({\n      caption: 'Saved',\n      description: 'Your changes were saved successfully.',\n      variant: 'success',\n      icon: true,\n      duration: 7\n    });\n  }\n\n  save.addEventListener('bl-click', () => {\n    // Simulate a save then surface the success toaster in the corner.\n    onSaved();\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-notification-card"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 95,
+        "std": 0,
+        "min": 95,
+        "max": 95,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 91,
+        "std": 0,
+        "min": 91,
+        "max": 91,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

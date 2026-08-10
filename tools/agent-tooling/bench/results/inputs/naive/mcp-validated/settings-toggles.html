@@ -1,0 +1,24 @@
+<h2>Settings</h2>
+
+<bl-switch id="notifications">Email notifications</bl-switch>
+<p>Get notified when someone replies to your posts.</p>
+
+<bl-switch id="darkMode" checked>Dark mode</bl-switch>
+<p>Use a dark color scheme across the whole app.</p>
+
+<bl-switch id="twoFactor" disabled>Two-factor authentication</bl-switch>
+<p>Require a second verification step when you sign in.</p>
+
+<bl-select name="language" label="Language" placeholder="Choose a language" help-text="The language used across the app.">
+  <bl-select-option value="en" label="English"></bl-select-option>
+  <bl-select-option value="tr" label="Turkish"></bl-select-option>
+  <bl-select-option value="de" label="German"></bl-select-option>
+</bl-select>
+
+<script>
+  document.querySelectorAll('bl-switch').forEach((sw) => {
+    sw.addEventListener('bl-switch-toggle', (e) => {
+      console.log(`${sw.id} -> ${e.detail}`);
+    });
+  });
+</script>

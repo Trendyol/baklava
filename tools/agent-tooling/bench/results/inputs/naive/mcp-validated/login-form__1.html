@@ -1,0 +1,33 @@
+<form id="loginForm" class="login-form">
+  <bl-input
+    name="email"
+    type="email"
+    label="Email address"
+    placeholder="you@example.com"
+    autocomplete="email"
+    required
+  ></bl-input>
+
+  <bl-input
+    name="password"
+    type="password"
+    label="Password"
+    placeholder="Enter your password"
+    autocomplete="current-password"
+    required
+  ></bl-input>
+
+  <bl-button type="submit" variant="primary">Sign in</bl-button>
+</form>
+
+<script>
+  const loginForm = document.getElementById('loginForm');
+  loginForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const email = loginForm.querySelector('bl-input[name="email"]');
+    const password = loginForm.querySelector('bl-input[name="password"]');
+    const valid = email.validity?.valid !== false && password.validity?.valid !== false;
+    if (!valid) return;
+    // Submit the login request here.
+  });
+</script>

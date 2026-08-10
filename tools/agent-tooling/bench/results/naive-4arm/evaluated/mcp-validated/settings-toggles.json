@@ -1,0 +1,152 @@
+{
+  "id": "settings-toggles",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Build a settings screen with a list of options the user can turn on and off, plus a dropdown to pick a language and a small hint text explaining each option.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "componentsExpected": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 79,
+      "efficiency": 88,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<h2>Settings</h2>\n\n<bl-switch id=\"notifications\">Email notifications</bl-switch>\n<p>Get notified when someone replies to your posts.</p>\n\n<bl-switch id=\"darkMode\" checked>Dark mode</bl-switch>\n<p>Use a dark color scheme across the whole app.</p>\n\n<bl-switch id=\"twoFactor\" disabled>Two-factor authentication</bl-switch>\n<p>Require a second verification step when you sign in.</p>\n\n<bl-select name=\"language\" label=\"Language\" placeholder=\"Choose a language\" help-text=\"The language used across the app.\">\n  <bl-select-option value=\"en\" label=\"English\"></bl-select-option>\n  <bl-select-option value=\"tr\" label=\"Turkish\"></bl-select-option>\n  <bl-select-option value=\"de\" label=\"German\"></bl-select-option>\n</bl-select>\n\n<script>\n  document.querySelectorAll('bl-switch').forEach((sw) => {\n    sw.addEventListener('bl-switch-toggle', (e) => {\n      console.log(`${sw.id} -> ${e.detail}`);\n    });\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-switch checked>\n  Email notifications\n</bl-switch>\n<p>Get an email whenever someone mentions you in a comment.</p>\n\n<bl-switch checked>\n  Dark mode\n</bl-switch>\n<p>Use a darker color scheme across the whole app to reduce eye strain.</p>\n\n<bl-switch>\n  Two-factor authentication\n</bl-switch>\n<p>Add an extra layer of security to your account sign-in process.</p>\n\n<bl-switch>\n  Weekly digest\n</bl-switch>\n<p>Receive a summary of your activity and highlights every Monday morning.</p>\n\n<bl-select label=\"Language\" value=\"en\" help-text=\"Choose the language shown on this device.\">\n  <bl-select-option value=\"en\" label=\"English\"></bl-select-option>\n  <bl-select-option value=\"tr\" label=\"Türkçe\"></bl-select-option>\n  <bl-select-option value=\"de\" label=\"Deutsch\"></bl-select-option>\n</bl-select>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<main>\n  <h2>Settings</h2>\n\n  <section>\n    <h3>Language</h3>\n    <p>Choose the interface language used across the app.</p>\n    <bl-select\n      label=\"Language\"\n      name=\"language\"\n      value=\"en\"\n      help-text=\"Applied to the whole application.\">\n      <bl-select-option value=\"en\" label=\"English\">English</bl-select-option>\n      <bl-select-option value=\"tr\" label=\"Türkçe\">Türkçe</bl-select-option>\n      <bl-select-option value=\"de\" label=\"Deutsch\">Deutsch</bl-select-option>\n    </bl-select>\n  </section>\n\n  <section>\n    <h3>Notifications</h3>\n    <p>Decide how the app should reach you.</p>\n    <ul>\n      <li>\n        <bl-switch checked>Email alerts\n          <span class=\"hint\">Get updates about your account and security.</span>\n        </bl-switch>\n      </li>\n      <li>\n        <bl-switch>Push notifications\n          <span class=\"hint\">Instant alerts on this device.</span>\n        </bl-switch>\n      </li>\n      <li>\n        <bl-switch checked>Weekly digest\n          <span class=\"hint\">A short summary delivered every Monday.</span>\n        </bl-switch>\n      </li>\n    </ul>\n  </section>\n\n  <section>\n    <h3>Appearance</h3>\n    <p>Customize how the app looks and behaves.</p>\n    <ul>\n      <li>\n        <bl-switch>Dark mode\n          <span class=\"hint\">Reduce glare in low-light environments.</span>\n        </bl-switch>\n      </li>\n      <li>\n        <bl-switch checked>Reduce motion\n          <span class=\"hint\">Minimize animations across the app.</span>\n        </bl-switch>\n      </li>\n    </ul>\n  </section>\n</main>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 79,
+        "std": 0,
+        "min": 79,
+        "max": 79,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 88,
+        "std": 0,
+        "min": 88,
+        "max": 88,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

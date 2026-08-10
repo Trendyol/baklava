@@ -1,0 +1,163 @@
+{
+  "id": "product-table",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "data-view",
+  "complexity": "complex",
+  "prompt": "Show a catalog of products in a grid with column headers, rows that have an action button per row, and controls at the bottom to jump between pages of results. Add a small badge on some rows to mark a product as popular.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-row",
+      "bl-table-header-cell",
+      "bl-table-body",
+      "bl-table-cell",
+      "bl-badge",
+      "bl-button",
+      "bl-pagination"
+    ],
+    "componentsExpected": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-body",
+      "bl-table-row",
+      "bl-table-cell",
+      "bl-pagination",
+      "bl-button",
+      "bl-badge"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 97,
+      "efficiency": 64,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<template>\n  <bl-table>\n    <bl-table-header>\n      <bl-table-row>\n        <bl-table-header-cell>Product</bl-table-header-cell>\n        <bl-table-header-cell>Category</bl-table-header-cell>\n        <bl-table-header-cell>Price</bl-table-header-cell>\n        <bl-table-header-cell>Status</bl-table-header-cell>\n        <bl-table-header-cell>Action</bl-table-header-cell>\n      </bl-table-row>\n    </bl-table-header>\n    <bl-table-body>\n      <bl-table-row>\n        <bl-table-cell>Wireless Headphones</bl-table-cell>\n        <bl-table-cell>Electronics</bl-table-cell>\n        <bl-table-cell>$89.99</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\" variant=\"primary\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n        <bl-table-cell>Electronics</bl-table-cell>\n        <bl-table-cell>$129.00</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Espresso Machine</bl-table-cell>\n        <bl-table-cell>Home &amp; Kitchen</bl-table-cell>\n        <bl-table-cell>$249.50</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\" variant=\"primary\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Running Shoes</bl-table-cell>\n        <bl-table-cell>Fitness</bl-table-cell>\n        <bl-table-cell>$74.25</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Smart Watch</bl-table-cell>\n        <bl-table-cell>Electronics</bl-table-cell>\n        <bl-table-cell>$199.00</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\" variant=\"primary\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Yoga Mat</bl-table-cell>\n        <bl-table-cell>Fitness</bl-table-cell>\n        <bl-table-cell>$29.99</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n    </bl-table-body>\n  </bl-table>\n  <bl-pagination current-page=\"1\" total-items=\"40\" items-per-page=\"10\"></bl-pagination>\n</template>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 97,
+          "efficiency": 64,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-table sortable selectable>\n  <bl-table-header sticky>\n    <bl-table-row>\n      <bl-table-header-cell>Product</bl-table-header-cell>\n      <bl-table-header-cell>Category</bl-table-header-cell>\n      <bl-table-header-cell>Price</bl-table-header-cell>\n      <bl-table-header-cell>Stock</bl-table-header-cell>\n      <bl-table-header-cell>Action</bl-table-header-cell>\n    </bl-table-row>\n  </bl-table-header>\n  <bl-table-body>\n    <bl-table-row>\n      <bl-table-cell>Wireless Mouse <bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n      <bl-table-cell>Accessories</bl-table-cell>\n      <bl-table-cell>$25.99</bl-table-cell>\n      <bl-table-cell>In stock</bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row>\n      <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n      <bl-table-cell>Accessories</bl-table-cell>\n      <bl-table-cell>$89.00</bl-table-cell>\n      <bl-table-cell>In stock</bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row>\n      <bl-table-cell>4K Monitor</bl-table-cell>\n      <bl-table-cell>Displays</bl-table-cell>\n      <bl-table-cell>$349.00</bl-table-cell>\n      <bl-table-cell>Low</bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row>\n      <bl-table-cell>USB-C Hub <bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n      <bl-table-cell>Accessories</bl-table-cell>\n      <bl-table-cell>$42.50</bl-table-cell>\n      <bl-table-cell>In stock</bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row>\n      <bl-table-cell>Laptop Stand</bl-table-cell>\n      <bl-table-cell>Office</bl-table-cell>\n      <bl-table-cell>$35.00</bl-table-cell>\n      <bl-table-cell>Out of stock</bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"secondary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n  </bl-table-body>\n</bl-table>\n<bl-pagination total-items=\"50\" current-page=\"1\" items-per-page=\"10\"></bl-pagination>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 97,
+          "efficiency": 64,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<bl-table sortable>\n  <bl-table-header sticky>\n    <bl-table-row>\n      <bl-table-header-cell sort-key=\"product\">Product</bl-table-header-cell>\n      <bl-table-header-cell sort-key=\"category\">Category</bl-table-header-cell>\n      <bl-table-header-cell sort-key=\"price\">Price</bl-table-header-cell>\n      <bl-table-header-cell>Status</bl-table-header-cell>\n      <bl-table-header-cell>Actions</bl-table-header-cell>\n    </bl-table-row>\n  </bl-table-header>\n  <bl-table-body>\n    <bl-table-row>\n      <bl-table-cell>Wireless Headphones</bl-table-cell>\n      <bl-table-cell>Audio</bl-table-cell>\n      <bl-table-cell>$129.00</bl-table-cell>\n      <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n      <bl-table-cell><bl-button variant=\"secondary\" size=\"small\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row>\n      <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n      <bl-table-cell>Peripherals</bl-table-cell>\n      <bl-table-cell>$89.00</bl-table-cell>\n      <bl-table-cell></bl-table-cell>\n      <bl-table-cell><bl-button variant=\"secondary\" size=\"small\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row>\n      <bl-table-cell>4K Monitor</bl-table-cell>\n      <bl-table-cell>Displays</bl-table-cell>\n      <bl-table-cell>$399.00</bl-table-cell>\n      <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n      <bl-table-cell><bl-button variant=\"secondary\" size=\"small\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row>\n      <bl-table-cell>USB-C Hub</bl-table-cell>\n      <bl-table-cell>Accessories</bl-table-cell>\n      <bl-table-cell>$49.00</bl-table-cell>\n      <bl-table-cell></bl-table-cell>\n      <bl-table-cell><bl-button variant=\"secondary\" size=\"small\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row>\n      <bl-table-cell>Webcam</bl-table-cell>\n      <bl-table-cell>Peripherals</bl-table-cell>\n      <bl-table-cell>$75.00</bl-table-cell>\n      <bl-table-cell></bl-table-cell>\n      <bl-table-cell><bl-button variant=\"secondary\" size=\"small\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n  </bl-table-body>\n</bl-table>\n<bl-pagination current-page=\"1\" total-items=\"1500\" items-per-page=\"10\" has-jumper=\"true\" jumper-label=\"Go to page\" has-select=\"true\" select-label=\"Per page\"></bl-pagination>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 97,
+          "efficiency": 64,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 97,
+        "std": 0,
+        "min": 97,
+        "max": 97,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 64,
+        "std": 0,
+        "min": 64,
+        "max": 64,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

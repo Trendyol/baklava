@@ -1,0 +1,191 @@
+{
+  "id": "settings-toggles",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Build a settings screen with a list of options the user can turn on and off, plus a dropdown to pick a language and a small hint text explaining each option.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 90,
+    "componentsUsed": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "componentsExpected": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 2 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 98,
+      "accessibility": 79,
+      "efficiency": 82,
+      "codeQuality": 87,
+      "maintainability": 96,
+      "overall": 90
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<section class=\"settings\">\n  <h2>Settings</h2>\n  <p class=\"page-hint\">Adjust your preferences below.</p>\n\n  <div class=\"options\">\n    <label class=\"option-item\">\n      <bl-switch id=\"notifications\"></bl-switch>\n      <span class=\"option-text\">\n        <span class=\"option-title\">Email notifications</span>\n        <span class=\"option-hint\">Get an email for every new message.</span>\n      </span>\n    </label>\n\n    <label class=\"option-item\">\n      <bl-switch id=\"dark-mode\"></bl-switch>\n      <span class=\"option-text\">\n        <span class=\"option-title\">Dark mode</span>\n        <span class=\"option-hint\">Use a dark color scheme across the app.</span>\n      </span>\n    </label>\n\n    <label class=\"option-item\">\n      <bl-switch id=\"autosave\"></bl-switch>\n      <span class=\"option-text\">\n        <span class=\"option-title\">Autosave</span>\n        <span class=\"option-hint\">Save your changes automatically as you type.</span>\n      </span>\n    </label>\n  </div>\n\n  <div class=\"language-row\">\n    <bl-select id=\"language\" label=\"Language\" help-text=\"Choose the language used for the interface.\" placeholder=\"Select a language\">\n      <bl-select-option value=\"en\">English</bl-select-option>\n      <bl-select-option value=\"tr\">Türkçe</bl-select-option>\n      <bl-select-option value=\"de\">Deutsch</bl-select-option>\n      <bl-select-option value=\"fr\">Français</bl-select-option>\n    </bl-select>\n    <span class=\"option-hint language-hint\">The selected language applies to the whole site.</span>\n  </div>\n</section>\n\n<style>\n  .settings {\n    font-family: var(--bl-font-family, sans-serif);\n    max-width: 560px;\n    margin: 0 auto;\n    padding: 24px;\n    color: var(--bl-color-text, #1a2433);\n  }\n  .settings h2 { margin: 0 0 4px; }\n  .page-hint { color: var(--bl-color-text-secondary, #5b6572); margin: 0 0 24px; }\n  .options { display: flex; flex-direction: column; gap: 18px; margin-bottom: 28px; }\n  .option-item { display: flex; align-items: center; gap: 14px; }\n  .option-text { display: flex; flex-direction: column; gap: 2px; }\n  .option-title { font-weight: 600; }\n  .option-hint { font-size: 13px; color: var(--bl-color-text-secondary, #5b6572); }\n  .language-row { display: flex; flex-direction: column; gap: 6px; max-width: 280px; }\n  .language-hint { margin: 0; }\n</style>\n\n<script type=\"module\">\n  const switches = document.querySelectorAll('bl-switch');\n  for (const el of switches) {\n    el.addEventListener('bl-switch-toggle', (e) => {\n      console.log(`${el.id} -> ${e.detail}`);\n    });\n  }\n\n  const language = document.querySelector('#language');\n  if (language) {\n    language.addEventListener('bl-select', (e) => {\n      console.log(`language changed -> ${e.detail}`);\n    });\n  }\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 90,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 79,
+          "efficiency": 82,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 90
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Settings</title>\n</head>\n<body>\n  <form class=\"settings\" id=\"settings\">\n    <h1>Settings</h1>\n\n    <p class=\"hint\">Turn push notifications and reminder alerts on or off.</p>\n    <label class=\"setting\">Notifications<bl-switch name=\"notifications\" checked></bl-switch></label>\n\n    <p class=\"hint\">Receive a short daily summary of your activity.</p>\n    <label class=\"setting\">Daily email summary<bl-switch name=\"email-summary\" checked></bl-switch></label>\n\n    <p class=\"hint\">Allow anonymous usage data to help improve the product.</p>\n    <label class=\"setting\">Usage analytics<bl-switch name=\"analytics\"></bl-switch></label>\n\n    <p class=\"hint\">Enable public profile visibility.</p>\n    <label class=\"setting\">Public profile<bl-switch name=\"public-profile\" checked></bl-switch></label>\n\n    <label class=\"setting\">Interface language</label>\n    <bl-select\n      name=\"language\"\n      label=\"Language\"\n      value=\"en\"\n      help-text=\"Language used for the interface and notifications.\"\n    >\n      <bl-select-option value=\"en\" selected>English</bl-select-option>\n      <bl-select-option value=\"tr\">Türkçe</bl-select-option>\n      <bl-select-option value=\"de\">Deutsch</bl-select-option>\n      <bl-select-option value=\"fr\">Français</bl-select-option>\n    </bl-select>\n\n    <output id=\"out\" aria-live=\"polite\"></output>\n  </form>\n\n  <style>\n    body { font-family: system-ui, sans-serif; margin: 2rem; color: #1f2937; }\n    .settings { max-width: 28rem; display: grid; gap: 1rem; }\n    h1 { font-size: 1.4rem; margin: 0 0 0.5rem; }\n    .setting { display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-weight: 500; }\n    .hint { margin: 0; font-size: 0.85rem; color: #6b7280; }\n    .hint + .setting { margin-top: 0.35rem; }\n    #out { margin-top: 1rem; font-size: 0.85rem; color: #374151; }\n  </style>\n\n  <script type=\"module\">\n    const output = () => {\n      const switches = [...document.querySelectorAll('.settings bl-switch')];\n      const selected = document.querySelector('.settings bl-select');\n      const lang = selected.selectedOptions?.[0]?.value || selected.value || '';\n      const on = switches.filter((s) => s.checked).map((s) => s.name).join(', ') || 'none';\n      document.getElementById('out').textContent = `Switches on: ${on}. Language: ${lang}.`;\n    };\n\n    document.querySelectorAll('.settings bl-switch').forEach((s) => {\n      s.addEventListener('bl-switch-toggle', output);\n    });\n    document.querySelector('.settings bl-select').addEventListener('bl-select', output);\n    output();\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 86,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-switch> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-switch> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-switch> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-switch> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          }
+        ],
+        "scores": {
+          "correctness": 92,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 78,
+          "maintainability": 84,
+          "overall": 86
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!-- Settings screen: toggles + language dropdown + per-option hint text (built with Baklava bl-* components, MCP-verified) -->\n<section class=\"settings-panel\">\n  <bl-switch>Enable notifications</bl-switch>\n  <p class=\"hint\">Get a notification when something important happens.</p>\n\n  <bl-switch checked>Dark mode</bl-switch>\n  <p class=\"hint\">Use a darker color scheme to reduce eye strain.</p>\n\n  <bl-switch>Email summaries</bl-switch>\n  <p class=\"hint\">Receive a weekly summary of your activity.</p>\n\n  <bl-switch disabled>Auto-save</bl-switch>\n  <p class=\"hint\">This option is currently locked by your administrator.</p>\n\n  <bl-select label=\"Language\" placeholder=\"Choose a language\" value=\"en\">\n    <bl-select-option value=\"en\">English</bl-select-option>\n    <bl-select-option value=\"tr\">Türkçe</bl-select-option>\n    <bl-select-option value=\"de\">Deutsch</bl-select-option>\n    <bl-select-option value=\"fr\">Français</bl-select-option>\n  </bl-select>\n  <p class=\"hint\">Choose the language used across the interface.</p>\n</section>\n\n<script>\n  // Listen to bl-switch-toggle CustomEvents (real Baklava events, confirmed via MCP).\n  document.querySelectorAll('bl-switch').forEach((sw) => {\n    sw.addEventListener('bl-switch-toggle', (e) => {\n      console.log(`Toggled to: ${e.detail ? 'on' : 'off'}`);\n    });\n  });\n  // bl-select fires a CustomEvent on option click; hook in below.\n  document.querySelector('bl-select')?.addEventListener('bl-select-option', (e) => {\n    console.log(`Language selected: ${e.detail}`);\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 97,
+        "std": 3.4,
+        "min": 92,
+        "max": 100,
+        "sem": 2
+      },
+      "accessibility": {
+        "mean": 79,
+        "std": 0,
+        "min": 79,
+        "max": 79,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 86,
+        "std": 2.8,
+        "min": 82,
+        "max": 88,
+        "sem": 1.6
+      },
+      "codeQuality": {
+        "mean": 85,
+        "std": 5.1,
+        "min": 78,
+        "max": 90,
+        "sem": 2.9
+      },
+      "maintainability": {
+        "mean": 93,
+        "std": 6.8,
+        "min": 84,
+        "max": 100,
+        "sem": 3.9
+      },
+      "overall": {
+        "mean": 90,
+        "std": 2.9,
+        "min": 86,
+        "max": 93,
+        "sem": 1.7
+      }
+    },
+    "escapeHatches": {
+      "mean": 2,
+      "std": 1.7,
+      "min": 0,
+      "max": 4,
+      "sem": 1
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

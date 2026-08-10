@@ -1,0 +1,164 @@
+{
+  "id": "filter-tabs",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "navigation",
+  "complexity": "moderate",
+  "prompt": "Build a tabbed interface to switch between different views of the same page, with a couple of tabs and their content panels. Add a tooltip on a small icon button explaining it.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-tooltip",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-icon",
+      "bl-tooltip"
+    ],
+    "missed": [
+      "bl-icon"
+    ],
+    "escapeHatches": [],
+    "failureMode": "missing_components",
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 95,
+      "accessibility": 85,
+      "efficiency": 80,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 91
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-tab-group>\n  <bl-tab slot=\"tabs\" name=\"overview\">Overview</bl-tab>\n  <bl-tab slot=\"tabs\" name=\"analytics\">Analytics</bl-tab>\n  <bl-tab slot=\"tabs\" name=\"settings\">Settings</bl-tab>\n\n  <bl-tab-panel tab=\"overview\">\n    <h2>Overview</h2>\n    <p>Summary of your account activity and key metrics.</p>\n  </bl-tab-panel>\n\n  <bl-tab-panel tab=\"analytics\">\n    <h2>Analytics</h2>\n    <p>Detailed analytics and reports for this page.</p>\n  </bl-tab-panel>\n\n  <bl-tab-panel tab=\"settings\">\n    <h2>Settings</h2>\n    <p>Configure your preferences here.</p>\n    <bl-tooltip placement=\"top\">\n      <bl-button slot=\"tooltip-trigger\" size=\"small\" icon=\"info\">Help</bl-button>\n      <span>Shows help about the settings options on this tab.</span>\n    </bl-tooltip>\n  </bl-tab-panel>\n</bl-tab-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 85,
+          "efficiency": 80,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-tab-group>\n  <bl-tab name=\"all\" slot=\"tabs\">All</bl-tab>\n  <bl-tab name=\"active\" slot=\"tabs\">Active</bl-tab>\n  <bl-tab name=\"archived\" slot=\"tabs\">Archived</bl-tab>\n\n  <bl-tab-panel tab=\"all\">\n    <h3>All items</h3>\n    <p>Everything in this workspace, newest first.</p>\n  </bl-tab-panel>\n\n  <bl-tab-panel tab=\"active\">\n    <h3>Active items</h3>\n    <p>Items that are currently in progress.</p>\n  </bl-tab-panel>\n\n  <bl-tab-panel tab=\"archived\">\n    <h3>Archived items</h3>\n    <p>Closed and archived items.</p>\n  </bl-tab-panel>\n</bl-tab-group>\n\n<bl-tooltip placement=\"top\">\n  <bl-button slot=\"tooltip-trigger\" icon=\"info\" variant=\"tertiary\" size=\"small\" aria-label=\"Filter help\">Help</bl-button>\n  Filters show only matching items. Click a tab to switch the view.\n</bl-tooltip>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 95,
+          "efficiency": 80,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<bl-tab-group>\n  <bl-tab name=\"overview\" slot=\"tabs\">Overview</bl-tab>\n  <bl-tab name=\"details\" slot=\"tabs\" selected>Details</bl-tab>\n  <bl-tab name=\"settings\" slot=\"tabs\">Settings</bl-tab>\n  <bl-tab-panel tab=\"overview\">\n    <p>Here is a summary of the current view, including recent activity and key numbers at a glance.</p>\n  </bl-tab-panel>\n  <bl-tab-panel tab=\"details\">\n    <p>This panel shows detailed information about the selected item, its attributes and metadata.</p>\n  </bl-tab-panel>\n  <bl-tab-panel tab=\"settings\">\n    <p>Use this panel to adjust preferences that control how this view behaves.</p>\n  </bl-tab-panel>\n</bl-tab-group>\n<bl-tooltip placement=\"top\">\n  <span slot=\"tooltip-trigger\">\n    <bl-button size=\"small\" icon=\"info\" aria-label=\"More information about tabs\"></bl-button>\n  </span>\n  <span>Tabs let you switch between different views of the same page.</span>\n</bl-tooltip>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 95,
+          "efficiency": 80,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 95,
+        "std": 0,
+        "min": 95,
+        "max": 95,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 92,
+        "std": 4.7,
+        "min": 85,
+        "max": 95,
+        "sem": 2.7
+      },
+      "efficiency": {
+        "mean": 80,
+        "std": 0,
+        "min": 80,
+        "max": 80,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 92,
+        "std": 0.9,
+        "min": 91,
+        "max": 93,
+        "sem": 0.5
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

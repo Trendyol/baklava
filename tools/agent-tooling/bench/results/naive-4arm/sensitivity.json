@@ -1,0 +1,78 @@
+{
+  "iteration": "naive-4arm",
+  "variants": [
+    {
+      "variant": "base",
+      "baseline": 88,
+      "mcp-only": 91,
+      "mcp-validated": 93,
+      "augmented": 93,
+      "baseline→mcp-only": 3,
+      "mcp-only→mcp-validated": 2,
+      "mcp-validated→augmented": 0,
+      "mcp-only→augmented": 2
+    },
+    {
+      "variant": "equal",
+      "baseline": 87,
+      "mcp-only": 90,
+      "mcp-validated": 91,
+      "augmented": 91,
+      "baseline→mcp-only": 3,
+      "mcp-only→mcp-validated": 1,
+      "mcp-validated→augmented": 0,
+      "mcp-only→augmented": 1
+    },
+    {
+      "variant": "correctnessDominant",
+      "baseline": 90,
+      "mcp-only": 93,
+      "mcp-validated": 94,
+      "augmented": 94,
+      "baseline→mcp-only": 3,
+      "mcp-only→mcp-validated": 1,
+      "mcp-validated→augmented": 0,
+      "mcp-only→augmented": 1
+    },
+    {
+      "variant": "accessibilityDominant",
+      "baseline": 85,
+      "mcp-only": 88,
+      "mcp-validated": 88,
+      "augmented": 89,
+      "baseline→mcp-only": 3,
+      "mcp-only→mcp-validated": 0,
+      "mcp-validated→augmented": 1,
+      "mcp-only→augmented": 1
+    },
+    {
+      "variant": "maintainabilityDominant",
+      "baseline": 89,
+      "mcp-only": 92,
+      "mcp-validated": 93,
+      "augmented": 94,
+      "baseline→mcp-only": 3,
+      "mcp-only→mcp-validated": 1,
+      "mcp-validated→augmented": 1,
+      "mcp-only→augmented": 2
+    }
+  ],
+  "deltaRange": {
+    "baseline→mcp-only": {
+      "min": 3,
+      "max": 3
+    },
+    "mcp-only→mcp-validated": {
+      "min": 0,
+      "max": 2
+    },
+    "mcp-validated→augmented": {
+      "min": 0,
+      "max": 1
+    },
+    "mcp-only→augmented": {
+      "min": 1,
+      "max": 2
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<bl-tab-group>
+  <bl-tab name="overview" slot="tabs">Overview</bl-tab>
+  <bl-tab name="details" slot="tabs">Details</bl-tab>
+  <bl-tab-panel tab="overview">
+    <p>This is the overview view. It shows a summary of the selected item.</p>
+  </bl-tab-panel>
+  <bl-tab-panel tab="details">
+    <p>This is the details view. It lists the full specifications of the item.</p>
+  </bl-tab-panel>
+</bl-tab-group>
+
+<bl-tooltip placement="top">
+  <bl-button slot="tooltip-trigger" icon="info">How to use</bl-button>
+  <span>Switch between the tabs above to see different views.</span>
+</bl-tooltip>

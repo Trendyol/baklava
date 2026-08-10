@@ -1,0 +1,194 @@
+{
+  "id": "settings-toggles",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Build a settings screen with a list of options the user can turn on and off, plus a dropdown to pick a language and a small hint text explaining each option.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 89,
+    "componentsUsed": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "componentsExpected": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 5 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 98,
+      "accessibility": 79,
+      "efficiency": 73,
+      "codeQuality": 87,
+      "maintainability": 96,
+      "overall": 89
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<div class=\"settings\">\n  <div class=\"setting-row\">\n    <bl-switch>Enable notifications</bl-switch>\n    <p class=\"hint\">Get a notification when something happens.</p>\n  </div>\n  <div class=\"setting-row\">\n    <bl-switch checked>Dark mode</bl-switch>\n    <p class=\"hint\">Use a darker color scheme.</p>\n  </div>\n  <div class=\"setting-row\">\n    <bl-switch>Auto-save</bl-switch>\n    <p class=\"hint\">Save changes automatically.</p>\n  </div>\n  <div class=\"setting-row\">\n    <label>Language</label>\n    <bl-select placeholder=\"Choose language\">\n      <bl-select-option value=\"en\">English</bl-select-option>\n      <bl-select-option value=\"de\">Deutsch</bl-select-option>\n      <bl-select-option value=\"tr\">Türkçe</bl-select-option>\n    </bl-select>\n    <p class=\"hint\">Language used across the interface.</p>\n  </div>\n</div>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 5 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 79,
+          "efficiency": 73,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 89
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Settings</title>\n  <style>\n    body {\n      font-family: system-ui, sans-serif;\n      max-width: 560px;\n      margin: 40px auto;\n      padding: 0 16px;\n      color: #1f2430;\n    }\n    h1 { font-size: 22px; margin-bottom: 4px; }\n    .section {\n      border: 1px solid #e4e7ee;\n      border-radius: 10px;\n      padding: 16px;\n      margin-top: 20px;\n    }\n    .row {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      padding: 10px 0;\n      border-bottom: 1px solid #f0f2f6;\n    }\n    .row:last-child { border-bottom: none; }\n    .row-label { display: flex; flex-direction: column; }\n    .row-label strong { font-size: 15px; }\n    .hint { font-size: 13px; color: #6b7180; margin-top: 2px; }\n    .language {\n      margin-top: 20px;\n      display: flex;\n      flex-direction: column;\n      gap: 6px;\n    }\n    .language label { font-size: 15px; font-weight: 600; }\n    bl-select { max-width: 260px; }\n  </style>\n</head>\n<body>\n  <h1>Settings</h1>\n\n  <section class=\"section\">\n    <div class=\"row\">\n      <div class=\"row-label\">\n        <strong>Email notifications</strong>\n        <span class=\"hint\">Receive emails about account activity.</span>\n      </div>\n      <bl-switch check>true</bl-switch>\n    </div>\n\n    <div class=\"row\">\n      <div class=\"row-label\">\n        <strong>Sound effects</strong>\n        <span class=\"hint\">Play sounds for actions and alerts.</span>\n      </div>\n      <bl-switch>false</bl-switch>\n    </div>\n\n    <div class=\"row\">\n      <div class=\"row-label\">\n        <strong>Autosave</strong>\n        <span class=\"hint\">Save your changes automatically as you type.</span>\n      </div>\n      <bl-switch check>true</bl-switch>\n    </div>\n\n    <div class=\"row\">\n      <div class=\"row-label\">\n        <strong>Dark theme</strong>\n        <span class=\"hint\">Use a dark color scheme across the app.</span>\n      </div>\n      <bl-switch>false</bl-switch>\n    </div>\n  </section>\n\n  <div class=\"language\">\n    <label for=\"lang\">Language</label>\n    <bl-select id=\"lang\" value=\"en\">\n      <bl-select-option value=\"en\">English</bl-select-option>\n      <bl-select-option value=\"tr\">Türkçe</bl-select-option>\n      <bl-select-option value=\"de\">Deutsch</bl-select-option>\n      <bl-select-option value=\"fr\">Français</bl-select-option>\n    </bl-select>\n    <span class=\"hint\">The language used throughout the interface.</span>\n  </div>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 84,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-switch> attr \"check\" not part of API",
+            "codeSnippet": "check"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-switch> attr \"check\" not part of API",
+            "codeSnippet": "check"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 9 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 94,
+          "accessibility": 79,
+          "efficiency": 61,
+          "codeQuality": 81,
+          "maintainability": 88,
+          "overall": 84
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Settings</title>\n</head>\n<body>\n  <h1>Settings</h1>\n\n  <section aria-label=\"Preferences\">\n    <div class=\"setting\">\n      <div class=\"setting-row\">\n        <label for=\"notif\">Email notifications</label>\n        <bl-switch id=\"notif\" checked></bl-switch>\n      </div>\n      <p class=\"hint\">Receive an email when something changes in your account.</p>\n    </div>\n\n    <div class=\"setting\">\n      <div class=\"setting-row\">\n        <label for=\"marketing\">Marketing emails</label>\n        <bl-switch id=\"marketing\"></bl-switch>\n      </div>\n      <p class=\"hint\">Occasional updates about new features and offers.</p>\n    </div>\n\n    <div class=\"setting\">\n      <div class=\"setting-row\">\n        <label for=\"night\">Dark mode</label>\n        <bl-switch id=\"night\"></bl-switch>\n      </div>\n      <p class=\"hint\">Use a darker color scheme across the interface.</p>\n    </div>\n\n    <div class=\"setting\">\n      <div class=\"setting-row\">\n        <label for=\"lang\">Language</label>\n        <bl-select id=\"lang\" label=\"Language\">\n          <option value=\"en\">English</option>\n          <option value=\"tr\">Türkçe</option>\n          <option value=\"de\">Deutsch</option>\n        </bl-select>\n      </div>\n      <p class=\"hint\">Choose the language used for menus and messages.</p>\n    </div>\n  </section>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 88,
+        "missed": [
+          "bl-select-option"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 8 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 93,
+          "accessibility": 86,
+          "efficiency": 68,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 88
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 95,
+        "std": 2.2,
+        "min": 93,
+        "max": 98,
+        "sem": 1.2
+      },
+      "accessibility": {
+        "mean": 81,
+        "std": 3.3,
+        "min": 79,
+        "max": 86,
+        "sem": 1.9
+      },
+      "efficiency": {
+        "mean": 67,
+        "std": 4.9,
+        "min": 61,
+        "max": 73,
+        "sem": 2.8
+      },
+      "codeQuality": {
+        "mean": 85,
+        "std": 2.8,
+        "min": 81,
+        "max": 87,
+        "sem": 1.6
+      },
+      "maintainability": {
+        "mean": 93,
+        "std": 3.8,
+        "min": 88,
+        "max": 96,
+        "sem": 2.2
+      },
+      "overall": {
+        "mean": 87,
+        "std": 2.2,
+        "min": 84,
+        "max": 89,
+        "sem": 1.2
+      }
+    },
+    "escapeHatches": {
+      "mean": 2,
+      "std": 0.9,
+      "min": 1,
+      "max": 3,
+      "sem": 0.5
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

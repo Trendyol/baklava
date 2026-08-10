@@ -1,0 +1,164 @@
+{
+  "id": "filter-tabs",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "navigation",
+  "complexity": "moderate",
+  "prompt": "Build a tabbed interface to switch between different views of the same page, with a couple of tabs and their content panels. Add a tooltip on a small icon button explaining it.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-tooltip",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-icon",
+      "bl-tooltip"
+    ],
+    "missed": [
+      "bl-icon"
+    ],
+    "escapeHatches": [],
+    "failureMode": "missing_components",
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 95,
+      "accessibility": 85,
+      "efficiency": 80,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 91
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-tab-group>\n  <bl-tab slot=\"tabs\" name=\"overview\" caption=\"Overview\"></bl-tab>\n  <bl-tab slot=\"tabs\" name=\"details\" caption=\"Details\"></bl-tab>\n  <bl-tab slot=\"tabs\" name=\"activity\" caption=\"Activity\"></bl-tab>\n\n  <bl-tab-panel tab=\"overview\">\n    <h3>Overview</h3>\n    <p>Here you see the main summary of the current view.</p>\n  </bl-tab-panel>\n\n  <bl-tab-panel tab=\"details\">\n    <h3>Details</h3>\n    <p>In this panel you can inspect the fine-grained details.</p>\n    <bl-tooltip placement=\"right\">\n      <bl-button slot=\"tooltip-trigger\" icon=\"info\" variant=\"tertiary\" size=\"small\" label=\"Help\"></bl-button>\n      <span>More details about this view are shown here.</span>\n    </bl-tooltip>\n  </bl-tab-panel>\n\n  <bl-tab-panel tab=\"activity\">\n    <h3>Activity</h3>\n    <p>Recent activity events appear in this tab.</p>\n  </bl-tab-panel>\n</bl-tab-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 85,
+          "efficiency": 80,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-tab-group>\n  <bl-tab name=\"overview\" slot=\"tabs\">Overview</bl-tab>\n  <bl-tab name=\"details\" slot=\"tabs\">Details</bl-tab>\n  <bl-tab-panel tab=\"overview\">\n    <p>This is the overview view. It shows a summary of the selected item.</p>\n  </bl-tab-panel>\n  <bl-tab-panel tab=\"details\">\n    <p>This is the details view. It lists the full specifications of the item.</p>\n  </bl-tab-panel>\n</bl-tab-group>\n\n<bl-tooltip placement=\"top\">\n  <bl-button slot=\"tooltip-trigger\" icon=\"info\">How to use</bl-button>\n  <span>Switch between the tabs above to see different views.</span>\n</bl-tooltip>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 85,
+          "efficiency": 80,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<bl-tab-group>\n  <bl-tab slot=\"tabs\" name=\"overview\">Overview</bl-tab>\n  <bl-tab slot=\"tabs\" name=\"features\">Features</bl-tab>\n  <bl-tab slot=\"tabs\" name=\"help\">Help</bl-tab>\n  <bl-tab-panel tab=\"overview\">\n    <h3>Overview</h3>\n    <p>This view gives you a high-level summary of the current page and its key state.</p>\n  </bl-tab-panel>\n  <bl-tab-panel tab=\"features\">\n    <h3>Features</h3>\n    <p>Explore the main capabilities available in this workspace and how you can use them.</p>\n  </bl-tab-panel>\n  <bl-tab-panel tab=\"help\">\n    <h3>Help</h3>\n    <p>This is the help view for the current page. If you are unsure what something does, move your pointer over the info button below.</p>\n    <bl-tooltip placement=\"top\">\n      <bl-button slot=\"tooltip-trigger\" icon=\"info\" size=\"small\" aria-label=\"More information\">Info</bl-button>\n      <p>Use the tabs above to switch between the different views of the page.</p>\n    </bl-tooltip>\n  </bl-tab-panel>\n</bl-tab-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 95,
+          "efficiency": 80,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 95,
+        "std": 0,
+        "min": 95,
+        "max": 95,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 88,
+        "std": 4.7,
+        "min": 85,
+        "max": 95,
+        "sem": 2.7
+      },
+      "efficiency": {
+        "mean": 80,
+        "std": 0,
+        "min": 80,
+        "max": 80,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 92,
+        "std": 0.9,
+        "min": 91,
+        "max": 93,
+        "sem": 0.5
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

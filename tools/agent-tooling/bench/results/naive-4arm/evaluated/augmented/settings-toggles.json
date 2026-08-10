@@ -1,0 +1,152 @@
+{
+  "id": "settings-toggles",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Build a settings screen with a list of options the user can turn on and off, plus a dropdown to pick a language and a small hint text explaining each option.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 95,
+    "componentsUsed": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "componentsExpected": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 89,
+      "efficiency": 88,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 95
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Settings</title>\n  </head>\n  <body>\n    <section class=\"settings\" aria-label=\"Settings\">\n      <h2>Settings</h2>\n\n      <h3>Notifications</h3>\n      <bl-switch checked>Email notifications <span class=\"hint\">Receive an email when something happens.</span></bl-switch>\n\n      <bl-switch>Push notifications</bl-switch>\n\n      <h3>Privacy</h3>\n      <bl-switch checked>Share usage data anonymously</bl-switch>\n\n      <h3>Preferences</h3>\n      <bl-select name=\"language\" label=\"Language\" help-text=\"Choose the language used across this app.\">\n        <bl-select-option value=\"en\">English</bl-select-option>\n        <bl-select-option value=\"tr\">Türkçe</bl-select-option>\n        <bl-select-option value=\"de\">Deutsch</bl-select-option>\n      </bl-select>\n    </section>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 95,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 89,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 95
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<section aria-label=\"Settings\">\n  <h2>Settings</h2>\n\n  <bl-select label=\"Language\" value=\"en\" help-text=\"Choose your preferred language.\">\n    <bl-select-option value=\"en\" label=\"English\"></bl-select-option>\n    <bl-select-option value=\"tr\" label=\"Türkçe\"></bl-select-option>\n    <bl-select-option value=\"de\" label=\"Deutsch\"></bl-select-option>\n  </bl-select>\n\n  <ul>\n    <li>\n      <bl-switch>Email notifications</bl-switch>\n      <p class=\"hint\">Receive email updates about your account.</p>\n    </li>\n    <li>\n      <bl-switch>Dark mode</bl-switch>\n      <p class=\"hint\">Use a dark color scheme throughout the app.</p>\n    </li>\n    <li>\n      <bl-switch>Auto-play videos</bl-switch>\n      <p class=\"hint\">Play videos automatically when you open them.</p>\n    </li>\n  </ul>\n</section>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 95,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 89,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 95
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Settings</title>\n  </head>\n  <body>\n    <ul class=\"settings-list\">\n      <li>\n        <bl-switch checked>Email notifications</bl-switch>\n        <p class=\"hint\">Send updates about your account activity.</p>\n      </li>\n      <li>\n        <bl-switch>Weekly digest</bl-switch>\n        <p class=\"hint\">A summary of new features every Monday.</p>\n      </li>\n      <li>\n        <bl-switch>Two-factor authentication</bl-switch>\n        <p class=\"hint\">Add an extra security layer when signing in.</p>\n      </li>\n      <li>\n        <bl-select label=\"Language\" help-text=\"Choose your preferred language.\" placeholder=\"Select a language\">\n          <bl-select-option value=\"en\" label=\"English\">English</bl-select-option>\n          <bl-select-option value=\"tr\" label=\"Türkçe\">Türkçe</bl-select-option>\n          <bl-select-option value=\"de\" label=\"Deutsch\">Deutsch</bl-select-option>\n        </bl-select>\n      </li>\n    </ul>\n\n    <script>\n      const switches = document.querySelectorAll('bl-switch');\n      switches.forEach((s) => {\n        s.addEventListener('bl-switch-toggle', (e) => {\n          const name = s.textContent.trim();\n          s.setAttribute('data-state', e.detail.toString());\n        });\n      });\n      const select = document.querySelector('bl-select');\n      select.addEventListener('bl-blur', (e) => {\n        select.setAttribute('data-language', String(e.detail ?? ''));\n      });\n    </script>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 86,
+        "std": 4.7,
+        "min": 79,
+        "max": 89,
+        "sem": 2.7
+      },
+      "efficiency": {
+        "mean": 88,
+        "std": 0,
+        "min": 88,
+        "max": 88,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 94,
+        "std": 0.9,
+        "min": 93,
+        "max": 95,
+        "sem": 0.5
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}
