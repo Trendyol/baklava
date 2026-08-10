@@ -165,9 +165,8 @@ by producing its own before/after inputs under a separate folder (e.g.
 own comparison and the scorecard can group by model.
 
 **Measured second-model attempt (composer).** We attempted to run `cursor/composer-2.5`
-as a companion model on the naive battery through the subagent bridge, in three
-configurations — `:slow`, default `fast`, and `fast` with `context:"fresh"`. None produced
-a usable dataset:
+as a companion model on the naive battery, through both the subagent bridge and (as a
+follow-up) the `pi-cursor-sdk` direct route. Neither produced a usable dataset:
 
 - **0 HTML files were ever written.** "Completed" children returned planning/scratchpad
 text instead of writing the file; one child failed with *"completed without making edits"*.
@@ -178,12 +177,20 @@ idle for 8 min with no output.
 completion notification instead of its own task) and answered that instead. `context:"fresh"`
 did not fix the hang.
 
-**Conclusion (earned by measurement):** the composer subagent bridge is not reliable
-enough to generate benchmark inputs in this environment, so there is no paired composer
-before/after dataset for a rigorous cross-model comparison. The `--model` flag and
-per-model input folders keep the harness *ready* for any model whose bridge writes files
-reliably; composer itself is documented here as an impractical path rather than misreported
-as a result.
+**SDK-direct follow-up.** The direct route `pi --model cursor/composer-2.5 --thinking low
+--mode json` *can* write valid `bl-*` HTML files, but it is too slow and flaky for a 16-task
+battery: the agent aggressively explores the repo (15+ `read`, 10+ `find` per task even
+when told not to), `thinking high` is forced and slow, and individual tasks routinely hit a
+5–7 min ceiling with no file written (only an occasional early run completed). The `cursor`
+account also has **no remaining budget** for most other models (`gemini-2.5-flash` returns
+explicit "out of usage" errors; `cursor/auto` returns empty zero-token turns).
+
+**Conclusion (earned by measurement):** the cross-model composer comparison is **deferred**.
+The harness (`--model` flag + per-model input folders) is verified *ready* for any funded,
+fast file-writing model, but neither the budget-starved `cursor` account nor the slow,
+exploration-heavy `composer-2.5` route can produce a reliable paired dataset in this
+environment today. The deliverable benchmark is therefore **deepseek-only**: the two
+non-overlapping deltas above (adversarial +12, naive +5) are the honed, reproducible result.
 
 ## Validation
 
