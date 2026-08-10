@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #f7f7f8;
+      color: #1d1d1f;
+    }
+    .settings-card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #e4e4e7;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .settings-card h1 {
+      font-size: 20px;
+      margin: 0 0 16px;
+    }
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0;
+    }
+    .setting-label {
+      display: flex;
+      flex-direction: column;
+    }
+    .setting-label .name {
+      font-weight: 600;
+    }
+    .setting-label .helper {
+      font-size: 13px;
+      color: #71717a;
+      margin-top: 2px;
+    }
+    .setting-row + .setting-row {
+      border-top: 1px solid #f0f0f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="settings-card">
+    <h1>Settings</h1>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+
+      <div class="setting-row">
+        <div class="setting-label">
+          <span class="name">Email notifications</span>
+          <span class="helper">Receive a summary of new activity</span>
+        </div>
+        <bl-switch checked></bl-switch>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-label">
+          <span class="name">Push notifications</span>
+          <span class="helper">Alerts for important updates</span>
+        </div>
+        <bl-switch checked></bl-switch>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-label">
+          <span class="name">Dark mode</span>
+          <span class="helper">Use a dark color theme</span>
+        </div>
+        <bl-switch></bl-switch>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-label">
+          <span class="name">Language</span>
+          <span class="helper">Preferred display language</span>
+        </div>
+        <bl-select value="en">
+          <bl-option value="en">English</bl-option>
+          <bl-option value="tr">Türkçe</bl-option>
+          <bl-option value="de">Deutsch</bl-option>
+        </bl-select>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

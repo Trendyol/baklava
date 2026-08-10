@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products — DataTable</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 40px; color: #1a1a2e; }
+    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .header h1 { margin: 0; font-size: 24px; }
+    .summary { color: #555; font-size: 13px; margin-top: 4px; }
+  </style>
+  <script type="module" src="/dist/baklava.js"></script>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>Products</h1>
+      <div class="summary">Manage your catalog — popular items are highlighted.</div>
+    </div>
+    <bl-button variant="secondary">Export</bl-button>
+  </div>
+
+  <bl-table selectable sortable>
+    <bl-table-header sticky>
+      <bl-table-row>
+        <bl-table-header-cell sortable sort-key="name">Product</bl-table-header-cell>
+        <bl-table-header-cell sort-key="category">Category</bl-table-header-cell>
+        <bl-table-header-cell sortable sort-key="price">Price</bl-table-header-cell>
+        <bl-table-header-cell sort-key="stock">Stock</bl-table-header-cell>
+        <bl-table-header-cell>Popular</bl-table-header-cell>
+        <bl-table-header-cell>Actions</bl-table-header-cell>
+      </bl-table-row>
+    </bl-table-header>
+    <bl-table-body>
+      <bl-table-row selection-key="row-1">
+        <bl-table-cell>Wingback Oak Chair</bl-table-cell>
+        <bl-table-cell>Furniture</bl-table-cell>
+        <bl-table-cell>$249.00</bl-table-cell>
+        <bl-table-cell>34</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="tertiary" size="small" icon="edit">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger" icon="trash">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row selection-key="row-2">
+        <bl-table-cell>Blush Linen Armchair</bl-table-cell>
+        <bl-table-cell>Furniture</bl-table-cell>
+        <bl-table-cell>$389.00</bl-table-cell>
+        <bl-table-cell>12</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="tertiary" size="small" icon="edit">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger" icon="trash">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row selection-key="row-3">
+        <bl-table-cell>Ceramic Table Lamp</bl-table-cell>
+        <bl-table-cell>Lighting</bl-table-cell>
+        <bl-table-cell>$129.00</bl-table-cell>
+        <bl-table-cell>58</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="tertiary" size="small" icon="edit">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger" icon="trash">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row selection-key="row-4">
+        <bl-table-cell>Oak Coffee Table</bl-table-cell>
+        <bl-table-cell>Furniture</bl-table-cell>
+        <bl-table-cell>$315.00</bl-table-cell>
+        <bl-table-cell>7</bl-table-cell>
+        <bl-table-cell>-</bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="tertiary" size="small" icon="edit">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger" icon="trash">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row selection-key="row-5">
+        <bl-table-cell>Velvet Ottoman</bl-table-cell>
+        <bl-table-cell>Furniture</bl-table-cell>
+        <bl-table-cell>$189.00</bl-table-cell>
+        <bl-table-cell>22</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="tertiary" size="small" icon="edit">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger" icon="trash">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row selection-key="row-6">
+        <bl-table-cell>Stoneware Dinner Set</bl-table-cell>
+        <bl-table-cell>Kitchen</bl-table-cell>
+        <bl-table-cell>$142.00</bl-table-cell>
+        <bl-table-cell>40</bl-table-cell>
+        <bl-table-cell>-</bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="tertiary" size="small" icon="edit">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger" icon="trash">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row selection-key="row-7">
+        <bl-table-cell>Rattan Pendant Light</bl-table-cell>
+        <bl-table-cell>Lighting</bl-table-cell>
+        <bl-table-cell>$96.00</bl-table-cell>
+        <bl-table-cell>18</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="tertiary" size="small" icon="edit">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger" icon="trash">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row selection-key="row-8">
+        <bl-table-cell>Marble Serving Board</bl-table-cell>
+        <bl-table-cell>Kitchen</bl-table-cell>
+        <bl-table-cell>$74.00</bl-table-cell>
+        <bl-table-cell>65</bl-table-cell>
+        <bl-table-cell>-</bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="tertiary" size="small" icon="edit">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger" icon="trash">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row selection-key="row-9">
+        <bl-table-cell>Linen Throw Blanket</bl-table-cell>
+        <bl-table-cell>Textiles</bl-table-cell>
+        <bl-table-cell>$59.00</bl-table-cell>
+        <bl-table-cell>29</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="tertiary" size="small" icon="edit">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger" icon="trash">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row selection-key="row-10">
+        <bl-table-cell>Glass Carafe</bl-table-cell>
+        <bl-table-cell>Kitchen</bl-table-cell>
+        <bl-table-cell>$48.00</bl-table-cell>
+        <bl-table-cell>51</bl-table-cell>
+        <bl-table-cell>-</bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="tertiary" size="small" icon="edit">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger" icon="trash">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+    </bl-table-body>
+  </bl-table>
+
+  <bl-pagination current-page="1" total-items="100" items-per-page="10"></bl-pagination>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Settings</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        padding: 24px;
+        background: #fafafa;
+      }
+      .settings-list {
+        max-width: 520px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 20px 24px;
+      }
+      .setting-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .helper {
+        font-size: 13px;
+        color: #666;
+        margin: 0;
+      }
+      .language-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 16px;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Settings</h1>
+
+    <div class="settings-list">
+      <!-- Material-Switch style toggles (real bl-switch, label via default slot) -->
+      <div class="setting-item">
+        <bl-switch id="notifications" checked>Enable notifications</bl-switch>
+        <p class="helper">Get notified about new activity.</p>
+      </div>
+
+      <div class="setting-item">
+        <bl-switch id="email">Email digest</bl-switch>
+        <p class="helper">Receive a weekly summary of your activity.</p>
+      </div>
+
+      <div class="setting-item">
+        <bl-switch id="analytics">Usage analytics</bl-switch>
+        <p class="helper">Help us improve by sharing anonymous usage data.</p>
+      </div>
+
+      <!-- Language select (real bl-select + bl-select-option, helperText via help-text) -->
+      <div class="setting-item">
+        <div class="language-row">
+          <bl-select id="language" label="Language" placeholder="Select a language" help-text="Choose your display language." size="medium">
+            <bl-select-option value="tr" label="Türkçe"></bl-select-option>
+            <bl-select-option value="en" label="English" selected></bl-select-option>
+            <bl-select-option value="de" label="Deutsch"></bl-select-option>
+            <bl-select-option value="fr" label="Français"></bl-select-option>
+          </bl-select>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      // Wire real bl-* events (no-op example wiring so interactions are live).
+      document.querySelectorAll('bl-switch').forEach((sw) => {
+        sw.addEventListener('bl-switch-toggle', (e) => {
+          e.target.setAttribute('aria-checked', String(e.detail === true));
+        });
+      });
+      document.querySelector('#language')?.addEventListener('bl-select', (e) => {
+        const val = Array.isArray(e.detail) ? e.detail[0]?.value : e.detail?.value;
+        console.log('language changed:', val);
+      });
+    </script>
+  </body>
+</html>

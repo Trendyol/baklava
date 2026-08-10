@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
+  <style>
+    .login {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 400px;
+      margin: 8vh auto 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .login__title {
+      margin: 0 0 4px;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <form class="login" id="login-form" novalidate>
+    <h1 class="login__title">Welcome back</h1>
+
+    <bl-input
+      type="email"
+      name="email"
+      label="Email"
+      placeholder="you@example.com"
+      autocomplete="email"
+      required
+    ></bl-input>
+
+    <bl-input
+      type="password"
+      name="password"
+      label="Password"
+      autocomplete="current-password"
+      required
+    ></bl-input>
+
+    <bl-button type="submit" variant="primary" size="large">Sign in</bl-button>
+  </form>
+
+  <script>
+    const form = document.getElementById('login-form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const email = form.querySelector('bl-input[name="email"]');
+      const password = form.querySelector('bl-input[name="password"]');
+      const valid = form.reportValidity();
+      if (valid) {
+        console.log('Log in as', email && email.value, 'with', password && password.value);
+      }
+    });
+  </script>
+</body>
+</html>

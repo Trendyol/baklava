@@ -11,6 +11,7 @@
 // Real LLM outputs are produced by actually running agents (see README). This
 // CLI's evaluate + compare are fully deterministic and rerunnable on any inputs.
 import { evaluate, loadPrompts, PERSONAS } from './evaluate.mjs';
+import { renderDirectory, aggregateRender } from './render.mjs';
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -36,15 +37,37 @@ function args() {
 
 function loadInputs(arm, persona = 'naive') {
   // inputs are stored per persona (Astryx-style per-config environments).
+  // Multi-sample support: `<id>.html` is sample 0, `<id>__<n>.html` is sample n.
   const dir = path.join(BENCH, 'results', 'inputs', persona, arm);
   const out = {};
   if (!existsSync(dir)) return out;
   for (const f of readdirSync(dir)) {
     if (!f.endsWith('.html')) continue;
-    const id = f.replace(/\.html$/, '');
-    out[id] = readFileSync(path.join(dir, f), 'utf8');
+    const base = f.replace(/\.html$/, '');
+    const m = base.match(/^(.*)__(\d+)$/);
+    const id = m ? m[1] : base;
+    const n = m ? Number(m[2]) : 0;
+    (out[id] = out[id] || []).push({ n, code: readFileSync(path.join(dir, f), 'utf8') });
   }
+  for (const id of Object.keys(out)) out[id].sort((a, b) => a.n - b.n);
   return out;
+}
+
+/** Simple descriptive stats for a numeric array (error-bar support). */
+function stats(arr) {
+  if (!arr.length) return { mean: 0, std: 0, min: 0, max: 0, sem: 0 };
+  const mean = arr.reduce((a, b) => a + b, 0) / arr.length;
+  const std = Math.sqrt(arr.reduce((a, b) => a + (b - mean) ** 2, 0) / arr.length);
+  return { mean: Math.round(mean), std: Math.round(std * 10) / 10, min: Math.min(...arr), max: Math.max(...arr), sem: mean ? Math.round((std / Math.sqrt(arr.length)) * 10) / 10 : 0 };
+}
+
+async function doRender({ iteration, persona = 'naive', arm = 'all' }) {
+  const arms = arm === 'all' || !arm ? ARMS : [arm];
+  const out = {};
+  for (const a of arms) {
+    out[a] = await renderDirectory({ iteration, persona, arm: a });
+  }
+  console.log(JSON.stringify(out, null, 2));
 }
 
 async function doEvaluate({ iteration, arm, persona, model }) {
@@ -56,10 +79,17 @@ async function doEvaluate({ iteration, arm, persona, model }) {
   for (const a of armList) {
     const inputs = loadInputs(a, persona);
     const results = {};
-    for (const [id, code] of Object.entries(inputs)) {
+    const dimKeys = ['correctness', 'accessibility', 'efficiency', 'codeQuality', 'maintainability', 'overall'];
+    for (const [id, samples] of Object.entries(inputs)) {
       const prompt = byPrompt[id];
       if (!prompt) continue;
-      const ev = evaluate(code, prompt.expectedComponents);
+      const evals = samples.map((s) => evaluate(s.code, prompt.expectedComponents));
+      const dimStats = {};
+      for (const k of dimKeys) dimStats[k] = stats(evals.map((e) => e.scores[k] ?? e.overall));
+      const escStats = stats(evals.map((e) => e.escapeHatches.length));
+      const hallStats = stats(evals.map((e) => e.escapeHatches.filter((h) => h.type === 'hallucination').length));
+      const succMean = Math.round(((evals.filter((e) => e.success).length) / evals.length) * 100);
+      const ev0 = evals[0];
       results[id] = {
         id,
         persona: persona || 'naive',
@@ -67,18 +97,20 @@ async function doEvaluate({ iteration, arm, persona, model }) {
         category: prompt.category,
         complexity: prompt.complexity,
         prompt: prompt.prompt,
-        response: code,
+        n: evals.length,
         evaluation: {
-          success: ev.success,
-          overall: ev.overall,
-          componentsUsed: ev.componentsUsed,
-          componentsExpected: ev.componentsExpected,
-          missed: ev.missed,
-          escapeHatches: ev.escapeHatches,
-          failureMode: ev.failureMode,
-          confusionSignals: ev.confusionSignals,
-          scores: ev.scores,
+          success: ev0.success,
+          overall: ev0.overall,
+          componentsUsed: ev0.componentsUsed,
+          componentsExpected: ev0.componentsExpected,
+          missed: ev0.missed,
+          escapeHatches: ev0.escapeHatches,
+          failureMode: ev0.failureMode,
+          confusionSignals: ev0.confusionSignals,
+          scores: ev0.scores,
         },
+        samples: evals.map((e, i) => ({ sample: samples[i].n || i + 1, response: samples[i].code, evaluation: { success: e.success, overall: e.overall, missed: e.missed, escapeHatches: e.escapeHatches, scores: e.scores } })),
+        aggregate: { successRate: succMean, scores: dimStats, escapeHatches: escStats, hallucinations: hallStats },
       };
     }
     const outDir = path.join(BENCH, 'results', iteration, 'evaluated', a);
@@ -95,26 +127,31 @@ async function doEvaluate({ iteration, arm, persona, model }) {
 
 function aggregate(results) {
   const keys = ['correctness', 'accessibility', 'efficiency', 'codeQuality', 'maintainability', 'overall'];
-  const dims = Object.fromEntries(keys.map((k) => [k, 0]));
-  let n = 0, packed = 0, hall = 0, escape = 0;
+  // each prompt contributes its mean dimension scores (across samples)
+  const perPromptMean = (r, k) => r.aggregate?.scores?.[k]?.mean ?? r.evaluation?.scores?.[k] ?? r.evaluation?.scores?.overall ?? 0;
+  const dims = {};
+  for (const k of keys) dims[k] = stats(Object.values(results).map((r) => perPromptMean(r, k)));
+  const n = Object.keys(results).length;
+  let packed = 0, hall = 0, escape = 0;
   const allUsed = new Set();
   for (const r of Object.values(results)) {
-    const s = r.evaluation;
-    keys.forEach((k) => (dims[k] += s.scores[k] ?? s.scores.overall));
-    n++;
-    if (s.success) packed++;
-    hall += s.escapeHatches.filter((e) => e.type === 'hallucination').length;
-    escape += s.escapeHatches.length;
-    s.componentsUsed.forEach((c) => allUsed.add(c));
+    packed += r.aggregate?.successRate ?? (r.evaluation?.success ? 100 : 0);
+    hall += r.aggregate?.hallucinations?.mean ?? r.evaluation?.escapeHatches?.filter((e) => e.type === 'hallucination').length ?? 0;
+    escape += r.aggregate?.escapeHatches?.mean ?? r.evaluation?.escapeHatches?.length ?? 0;
+    (r.evaluation?.componentsUsed || []).forEach((c) => allUsed.add(c));
   }
-  Object.keys(dims).forEach((k) => (dims[k] = Math.round(dims[k] / Math.max(1, n))));
+  const overall = dims.overall;
   return {
     n,
-    successRate: n ? Math.round((packed / n) * 100) : 0,
-    avgOverall: dims.overall,
-    dimensions: { ...dims },
-    totalHallucinations: hall,
-    totalEscapeHatches: escape,
+    successRate: n ? Math.round(packed / n) : 0,
+    avgOverall: overall.mean,
+    overallStd: overall.std,
+    overallCI: overall.sem ? [Math.max(0, Math.round(overall.mean - 1.96 * overall.sem)), Math.min(100, Math.round(overall.mean + 1.96 * overall.sem))] : null,
+    dimensions: Object.fromEntries(keys.map((k) => [k, dims[k].mean])),
+    dimStd: Object.fromEntries(keys.map((k) => [k, dims[k].std])),
+    dimensionErrBars: Object.fromEntries(keys.map((k) => [k, dims[k].sem ? { lo: Math.max(0, Math.round(dims[k].mean - 1.96 * dims[k].sem)), hi: Math.min(100, Math.round(dims[k].mean + 1.96 * dims[k].sem)) } : null])),
+    totalHallucinations: Math.round(hall),
+    totalEscapeHatches: Math.round(escape),
     uniqueComponentsUsed: [...allUsed].sort(),
   };
 }
@@ -169,6 +206,15 @@ function doCompare({ iteration, persona, model }) {
     delta.totalEscapeHatches = (after.totalEscapeHatches ?? 0) - (before.totalEscapeHatches ?? 0);
   }
 
+  // Optional headless-render layer: if the iteration was rendered,
+  // merge the browser-observed aggregates (kept separate, like judge).
+  const readRender = (a) => {
+    const f = path.join(base, 'render', `${a}.aggregate.json`);
+    return existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')) : null;
+  };
+  const renderBefore = readRender('baseline');
+  const renderAfter = readRender('augmented');
+
   const compare = {
     iteration,
     persona,
@@ -179,6 +225,7 @@ function doCompare({ iteration, persona, model }) {
     after,
     delta,
     judge: { before: judgeBefore, after: judgeAfter },
+    render: { before: renderBefore, after: renderAfter },
   };
   writeFileSync(path.join(base, 'compare.json'), JSON.stringify(compare, null, 2));
   writeFileSync(path.join(base, 'compare.md'), renderMarkdown(compare));
@@ -188,6 +235,67 @@ function doCompare({ iteration, persona, model }) {
 // Rolling / nightly scorecard (Astryx-style ledger across iterations).
 // Aggregates every iteration's compare.json into one table, optionally filtered
 // by persona/arm, and writes scorecard.json + scorecard.md.
+// Weight-duyarlılık analizi: rubrik ağırlıkları değişince before/after hikâyesi
+// değişiyor mu? Farklı ağırlık vektörleriyle overall 'i yeniden hesaplayıp
+// delta'nın kararlılık aralığını raporlar (makine-okunur + markdown).
+const WEIGHT_VARIANTS = {
+  base: [0.40, 0.20, 0.13, 0.13, 0.14],
+  equal: [0.20, 0.20, 0.20, 0.20, 0.20],
+  correctnessDominant: [0.55, 0.15, 0.10, 0.10, 0.10],
+  accessibilityDominant: [0.25, 0.45, 0.10, 0.10, 0.10],
+  maintainabilityDominant: [0.25, 0.15, 0.15, 0.15, 0.30],
+};
+
+function doSensitivity({ iteration }) {
+  const base = path.join(BENCH, 'results', iteration);
+  const scoresFor = (arm) => {
+    const dir = path.join(base, 'evaluated', arm);
+    const out = [];
+    if (!existsSync(dir)) return out;
+    for (const f of readdirSync(dir)) {
+      if (!f.endsWith('.json')) continue;
+      const s = JSON.parse(readFileSync(path.join(dir, f), 'utf8')).evaluation.scores;
+      out.push(s);
+    }
+    return out;
+  };
+  const dims = ['correctness', 'accessibility', 'efficiency', 'codeQuality', 'maintainability'];
+  const overall = (s, w) =>
+    Math.round(dims.reduce((sum, d, i) => sum + (s[d] ?? 0) * w[i], 0));
+  const aggOverall = (rows, w) => rows.length
+    ? Math.round(rows.reduce((sum, r) => sum + overall(r, w), 0) / rows.length)
+    : null;
+
+  const before = scoresFor('baseline');
+  const after = scoresFor('augmented');
+  const variants = Object.entries(WEIGHT_VARIANTS).map(([name, w]) => {
+    const b = aggOverall(before, w);
+    const a = aggOverall(after, w);
+    return { variant: name, before: b, after: a, delta: a != null && b != null ? a - b : null };
+  });
+  const deltas = variants.map((v) => v.delta).filter((d) => d != null);
+  const out = {
+    iteration, variants,
+    deltaRange: deltas.length ? { min: Math.min(...deltas), max: Math.max(...deltas) } : null,
+  };
+  writeFileSync(path.join(base, 'sensitivity.json'), JSON.stringify(out, null, 2));
+  const lines = [
+    `# Sensitivity — rubric weights vs before/after delta`,
+    `Iteration: \`${iteration}\``,
+    ``,
+    `> Recomputes overall with several weight vectors. If the tooling delta stays`,
+    `> clearly positive across all variants, the conclusion is robust to rubric weighting.`,
+    ``,
+    '| Variant | Before overall | After overall | Δ |',
+    '|---|---|---|---|',
+    ...out.variants.map((v) => `| ${v.variant} | ${v.before ?? '—'} | ${v.after ?? '—'} | ${v.delta != null && v.delta > 0 ? '+' : ''}${v.delta ?? '—'} |`),
+    ``,
+    `Delta range across variants: **${out.deltaRange ? `${out.deltaRange.min} .. ${out.deltaRange.max}` : '—'}**`,
+  ];
+  writeFileSync(path.join(base, 'sensitivity.md'), lines.join('\n'));
+  console.log(lines.join('\n'));
+}
+
 function doScorecard({ persona, model, markdown }) {
   const resultsDir = path.join(BENCH, 'results');
   const rows = [];
@@ -237,6 +345,7 @@ function renderMarkdown(c) {
     return [
       `  | Success rate | ${agg.successRate}% |`,
       `  | Overall | ${agg.avgOverall} |`,
+      (agg.overallCI ? `  | Overall (95% CI) | ${agg.overallCI[0]}–${agg.overallCI[1]} |` : '  | Overall (95% CI) | — |'),
       `  | Correctness | ${d.correctness} |`,
       `  | Accessibility | ${d.accessibility} |`,
       `  | Efficiency | ${d.efficiency} |`,
@@ -267,6 +376,25 @@ function renderMarkdown(c) {
         `### Augmented judge`, ``, jrows(c.judge.after), ``,
       ]
     : [];
+  const rrow = (r) => r ? [
+    `  | Clean load rate | ${r.cleanLoadRate}% (${r.nLoaded}/${r.nTotal}) |`,
+    `  | Runtime exceptions | ${r.totalExceptions} |`,
+    `  | Console errors | ${r.totalConsoleErrors} |`,
+    `  | Unupgraded custom elements | ${r.totalUnupgradedCustomElements} |`,
+    `  | Unlabeled interactive controls | ${r.totalUnlabeledInteractives} |`,
+    `  | Unlabeled images | ${r.totalUnlabeledImages} |`,
+  ].join('\n') : '  (no render data)';
+  const renderSection = (c.render && (c.render.before || c.render.after))
+    ? [
+        `## Headless Render (real browser — Step 1 layer)`,
+        ``,
+        `> Browser-observed: did the code load/run without errors and upgrade its custom elements,`,
+        `> plus basic accessibility probes. Kept separate from the static rubric.`,
+        ``,
+        `### Baseline render`, ``, rrow(c.render.before), ``,
+        `### Augmented render`, ``, rrow(c.render.after), ``,
+      ]
+    : [];
   return [
     `# Baklava Agent-Friendly PoC — Before / After Benchmark`,
     ``,
@@ -291,6 +419,7 @@ function renderMarkdown(c) {
     deltaRows || '  (no data)',
     ``,
     ...judgeSection,
+    ...renderSection,
     `_Machine-readable data: \`compare.json\`. Per-prompt scores: \`evaluated/{arm}/*.json\`._`,
   ].join('\n');
 }
@@ -330,12 +459,14 @@ function mockBaseline(p) {
 (async () => {
   const a = args();
   if (a.cmd === 'evaluate') await doEvaluate(a);
+  else if (a.cmd === 'render') await doRender(a);
   else if (a.cmd === 'compare') doCompare(a);
   else if (a.cmd === 'scorecard') doScorecard(a);
+  else if (a.cmd === 'sensitivity') doSensitivity(a);
   else if (a.cmd === 'generate' && a.mock) doMockGenerate();
   else {
     console.error(
-      `usage: node bench/src/cli.mjs <evaluate|compare|scorecard|generate --mock> [--iteration id] [--arm ...] [--persona ${PERSONAS.join('|')}] [--model name] [--markdown]`,
+      `usage: node bench/src/cli.mjs <evaluate|render|compare|scorecard|sensitivity|generate --mock> [--iteration id] [--arm ...] [--persona ${PERSONAS.join('|')}] [--model name] [--markdown]`,
     );
     process.exit(1);
   }

@@ -104,6 +104,55 @@ A committed naive real run (16 agent tasks: 8 prompts × 2 arms) lives under
 persona — prompts baiting escape toward MUI/Bootstrap/Tailwind) lives under
 `bench/results/adversarial-subagents/` and ships with LLM-judge data.
 
+### Step 1 — Headless render layer (real browser)
+
+The static rubric only reads source. The optional render layer actually loads each
+generated page in headless Chrome (dependency-free CDP, injects the real Baklava
+`dist/baklava.js` bundle over a local HTTP server) and records what the browser
+observes: runtime exceptions, console errors, custom-element upgrade rate, and basic
+a11y probes (unlabeled interactives/images).
+
+```bash
+# requires a Chrome at CHROME_PATH (or the default macOS path)
+node poc/agent-tooling/bench/src/cli.mjs render --iteration <id> --persona <p>
+```
+
+Render aggregates are merged into `compare` as a separate "Headless Render" section.
+The adversarial run shows the tooling prevents *browser-verified* hallucination:
+baseline has 6 unupgraded elements (`bl-accordion-item`, `bl-option` — tags that do
+not exist in the library), while the tooled arm upgrades 100% of its 82 elements.
+
+### Step 2 — Attr-value, nesting checks + sensitivity analysis
+
+Since the CEM exposes `type` as a closed string union (`"primary" | "secondary" | …`),
+the rubric now validates **attribute values** (e.g. `variant="red"` is a critical
+`wrong_value`) and checks **nesting** against known parent–child contracts
+(`bl-table-cell` inside `bl-table`, `bl-tab-panel` inside `bl-tab-group`, …). This
+tightened the adversarial delta from +8 to +14 (baseline drops because of real
+invalid-enum and nesting errors the old rubric missed).
+
+A `sensitivity` command recomputes overall under several weight vectors so the
+conclusion can't be an artifact of one weighting:
+
+```bash
+node poc/agent-tooling/bench/src/cli.mjs sensitivity --iteration adversarial-subagents
+```
+
+→ tooling delta is +11..+17 across all variants: the win is robust to rubric weighting.
+
+### Step 3 — Multi-sample runs + error bars
+
+Store extra samples as `<id>__<n>.html` next to `<id>.html`; the runner aggregates over
+samples with mean/std and a 95% CI. The adversarial run now ships n=3 per cell (48
+tasks total).
+
+```bash
+node poc/agent-tooling/bench/src/cli.mjs evaluate --iteration <id> --persona adversarial --model <m>
+```
+
+The n=3 adversarial result: baseline overall **79 (95% CI 75–83)** vs tooled **91
+(95% CI 90–92)** — the CIs do **not** overlap, so the +12 delta is not noise.
+
 ## Validation
 
 ```bash

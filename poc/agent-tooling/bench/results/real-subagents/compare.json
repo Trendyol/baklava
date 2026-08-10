@@ -2,22 +2,22 @@
   "iteration": "real-subagents",
   "persona": "naive",
   "model": "mlplatform/deepseek-v4-flash-0731",
-  "timestamp": "2026-08-10T11:43:44.111Z",
+  "timestamp": "2026-08-10T12:05:31.017Z",
   "system": "Baklava",
   "before": {
     "n": 8,
     "successRate": 100,
-    "avgOverall": 89,
+    "avgOverall": 88,
     "dimensions": {
-      "correctness": 95,
+      "correctness": 94,
       "accessibility": 79,
       "efficiency": 83,
-      "codeQuality": 86,
-      "maintainability": 94,
-      "overall": 89
+      "codeQuality": 85,
+      "maintainability": 93,
+      "overall": 88
     },
     "totalHallucinations": 0,
-    "totalEscapeHatches": 12,
+    "totalEscapeHatches": 14,
     "uniqueComponentsUsed": [
       "bl-accordion",
       "bl-accordion-group",
@@ -86,14 +86,22 @@
   },
   "delta": {
     "successRate": 0,
-    "avgOverall": 4,
-    "dim.correctness": 4,
+    "avgOverall": 5,
+    "dim.correctness": 5,
     "dim.accessibility": 2,
     "dim.efficiency": 3,
-    "dim.codeQuality": 4,
-    "dim.maintainability": 6,
-    "dim.overall": 4,
+    "dim.codeQuality": 5,
+    "dim.maintainability": 7,
+    "dim.overall": 5,
     "totalHallucinations": 0,
-    "totalEscapeHatches": -12
+    "totalEscapeHatches": -14
+  },
+  "judge": {
+    "before": null,
+    "after": null
+  },
+  "render": {
+    "before": null,
+    "after": null
   }
 }

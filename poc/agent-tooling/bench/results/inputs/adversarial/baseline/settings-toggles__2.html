@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings</title>
+  <style>
+    .space-y-3 > * + * { margin-top: 0.75rem; }
+    .setting { display: flex; flex-direction: column; gap: 0.25rem; }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; }
+    .helper-text { font-size: 0.8rem; color: #666; }
+    label { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <main class="space-y-3">
+    <section class="setting">
+      <div class="setting-row">
+        <label for="notif-switch">Push notifications</label>
+        <bl-switch id="notif-switch"></bl-switch>
+      </div>
+      <p class="helper-text">Get notified about important account activity.</p>
+    </section>
+
+    <section class="setting">
+      <div class="setting-row">
+        <label for="email-switch">Email updates</label>
+        <bl-switch id="email-switch"></bl-switch>
+      </div>
+      <p class="helper-text">Receive weekly product and security updates.</p>
+    </section>
+
+    <section class="setting">
+      <div class="setting-row">
+        <label for="theme-switch">Dark mode</label>
+        <bl-switch id="theme-switch"></bl-switch>
+      </div>
+      <p class="helper-text">Reduce glare with a darker color scheme.</p>
+    </section>
+
+    <section class="setting">
+      <div class="setting-row">
+        <label for="lang-select">Language</label>
+        <bl-select id="lang-select">
+          <bl-option value="en">English</bl-option>
+          <bl-option value="tr">Türkçe</bl-option>
+          <bl-option value="de">Deutsch</bl-option>
+        </bl-select>
+      </div>
+      <p class="helper-text">Choose the display language for this account.</p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — Accordion</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 44rem; padding: 0 1rem; color: #1c1c1c; }
+    h1 { font-size: 1.5rem; }
+    .faq-group { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Frequently Asked Questions</h1>
+
+  <div class="faq-group">
+    <bl-accordion-item open>
+      <h2 slot="summary">How do I reset my password?</h2>
+      <p>Click "Forgot password" on the login screen and follow the email link to set a new one.</p>
+    </bl-accordion-item>
+
+    <bl-accordion-item>
+      <h2 slot="summary">Can I use Baklava with React?</h2>
+      <p>Yes. You can wrap the bl-* custom elements in React components or use them directly in JSX.</p>
+    </bl-accordion-item>
+
+    <bl-accordion-item>
+      <h2 slot="summary">Is there a free tier?</h2>
+      <p>We offer a free tier with core features. Paid plans unlock advanced tooling and support.</p>
+    </bl-accordion-item>
+  </div>
+
+  <script>
+    // Expand/collapse each item on click of its summary.
+    document.querySelectorAll('bl-accordion-item').forEach(function (item) {
+      const summary = item.querySelector('[slot="summary"]');
+      if (summary) {
+        summary.addEventListener('click', function () {
+          item.toggleAttribute('open', !item.hasAttribute('open'));
+        });
+      }
+    });
+  </script>
+</body>
+</html>

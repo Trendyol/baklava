@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; background: #f5f5f7; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.08); padding: 32px; width: 100%; max-width: 360px; }
+    .card h1 { font-size: 1.25rem; margin: 0 0 4px; }
+    .card p.sub { color: #666; margin: 0 0 20px; font-size: .875rem; }
+    .flex { display: flex; flex-direction: column; gap: 16px; }
+    .field label { display: block; font-size: .8125rem; font-weight: 600; margin-bottom: 4px; color: #333; }
+    .field input { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: .9375rem; }
+    .field input:focus { outline: 2px solid #2563eb; outline-offset: 1px; }
+    .cta { width: 100%; background: #2563eb; color: #fff; border: 0; border-radius: 8px; padding: 11px 12px; font-size: .9375rem; font-weight: 600; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Welcome back</h1>
+    <p class="sub">Sign in to continue</p>
+    <form class="flex" onsubmit="event.preventDefault();">
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required>
+      </div>
+      <button class="cta" type="submit">Sign in</button>
+    </form>
+  </div>
+</body>
+</html>

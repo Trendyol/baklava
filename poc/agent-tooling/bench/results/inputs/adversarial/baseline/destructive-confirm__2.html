@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delete confirmation</title>
+  <style>
+    body { font-family: system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+  <!-- Ant Design Modal.confirm style: overlay + confirm/cancel -->
+  <div class="overlay">
+    <bl-dialog class="confirm">
+      <span slot="header">Delete this item?</span>
+      <p>This action cannot be undone. The item will be permanently removed.</p>
+      <div slot="footer">
+        <bl-button kind="default">Cancel</bl-button>
+        <bl-button kind="danger">Delete</bl-button>
+      </div>
+    </bl-dialog>
+  </div>
+</body>
+</html>

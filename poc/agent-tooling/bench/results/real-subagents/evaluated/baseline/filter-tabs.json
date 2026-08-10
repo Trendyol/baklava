@@ -8,7 +8,7 @@
   "response": "<div class=\"content-tabs\">\n  <bl-tab caption=\"Overview\" selected></bl-tab>\n  <bl-tab caption=\"Details\"></bl-tab>\n  <bl-tab caption=\"Activity\"></bl-tab>\n  <bl-tab-panel>\n    <p>Overview content goes here.</p>\n  </bl-tab-panel>\n  <bl-tab-panel>\n    <p>Details content goes here.</p>\n  </bl-tab-panel>\n  <bl-tab-panel>\n    <p>Activity content goes here.</p>\n  </bl-tab-panel>\n  <bl-tooltip>\n    <bl-icon name=\"info\"></bl-icon>\n    <span slot=\"tooltip\">Shows additional information about this page.</span>\n  </bl-tooltip>\n</div>\n",
   "evaluation": {
     "success": true,
-    "overall": 89,
+    "overall": 85,
     "componentsUsed": [
       "bl-tab",
       "bl-tab-panel",
@@ -27,6 +27,18 @@
     ],
     "escapeHatches": [
       {
+        "type": "nesting",
+        "severity": "acceptable",
+        "detail": "<bl-tab> not nested inside bl-tab-group",
+        "codeSnippet": "<bl-tab> not nested inside bl-tab-group"
+      },
+      {
+        "type": "nesting",
+        "severity": "acceptable",
+        "detail": "<bl-tab-panel> not nested inside bl-tab-group",
+        "codeSnippet": "<bl-tab-panel> not nested inside bl-tab-group"
+      },
+      {
         "type": "wrapper_div",
         "severity": "acceptable",
         "detail": "used 1 layout div(s)",
@@ -34,14 +46,17 @@
       }
     ],
     "failureMode": "missing_components",
-    "confusionSignals": [],
+    "confusionSignals": [
+      "<bl-tab> not nested inside bl-tab-group",
+      "<bl-tab-panel> not nested inside bl-tab-group"
+    ],
     "scores": {
-      "correctness": 93,
+      "correctness": 89,
       "accessibility": 82,
       "efficiency": 81,
-      "codeQuality": 87,
-      "maintainability": 96,
-      "overall": 89
+      "codeQuality": 81,
+      "maintainability": 88,
+      "overall": 85
     }
   }
 }

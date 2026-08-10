@@ -1,6 +1,6 @@
 # Baklava Agent-Friendly PoC — Before / After Benchmark
 
-Iteration: `real-subagents` · 2026-08-10T11:43:44.111Z · System: Baklava
+Iteration: `real-subagents` · 2026-08-10T12:05:31.017Z · System: Baklava
 
 > This benchmark measures whether giving the agent the **Baklava agent CLI / tooling**
 > (augmented / after) improves component correctness vs. an agent working from raw
@@ -9,14 +9,14 @@ Iteration: `real-subagents` · 2026-08-10T11:43:44.111Z · System: Baklava
 ## Baseline (before — no tooling)
 
   | Success rate | 100% |
-  | Overall | 89 |
-  | Correctness | 95 |
+  | Overall | 88 |
+  | Correctness | 94 |
   | Accessibility | 79 |
   | Efficiency | 83 |
-  | Code quality | 86 |
-  | Maintainability | 94 |
+  | Code quality | 85 |
+  | Maintainability | 93 |
   | Hallucinated tags | 0 |
-  | Escape hatches | 12 |
+  | Escape hatches | 14 |
   | Unique components used | 21 |
 
 ## Augmented (after — with Baklava agent tooling)
@@ -37,14 +37,14 @@ Iteration: `real-subagents` · 2026-08-10T11:43:44.111Z · System: Baklava
 | Metric | Δ |
 |---|---|
   | successRate | 0 |
-  | avgOverall | +4 |
-  | dim.correctness | +4 |
+  | avgOverall | +5 |
+  | dim.correctness | +5 |
   | dim.accessibility | +2 |
   | dim.efficiency | +3 |
-  | dim.codeQuality | +4 |
-  | dim.maintainability | +6 |
-  | dim.overall | +4 |
+  | dim.codeQuality | +5 |
+  | dim.maintainability | +7 |
+  | dim.overall | +5 |
   | totalHallucinations | 0 |
-  | totalEscapeHatches | -12 |
+  | totalEscapeHatches | -14 |
 
 _Machine-readable data: `compare.json`. Per-prompt scores: `evaluated/{arm}/*.json`._

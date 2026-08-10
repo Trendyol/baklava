@@ -1,0 +1,20 @@
+{
+  "id": "notification-toast",
+  "arm": "augmented",
+  "file": "adversarial/augmented/notification-toast.html.html",
+  "url": "http://127.0.0.1:51018/.poc-render-tmp/adversarial-augmented-notification-toast.html",
+  "loaded": true,
+  "exceptions": [
+    "Uncaught"
+  ],
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_NAME_NOT_RESOLVED",
+    "Failed to load resource: the server responded with a status of 404 ()"
+  ],
+  "blElementCount": 4,
+  "upgradedCount": 4,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}

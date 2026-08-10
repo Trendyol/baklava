@@ -1,0 +1,17 @@
+{
+  "id": "notification-toast",
+  "arm": "baseline",
+  "file": "adversarial/baseline/notification-toast.html.html",
+  "url": "http://127.0.0.1:50934/.poc-render-tmp/adversarial-baseline-notification-toast.html",
+  "loaded": true,
+  "exceptions": [
+    "Uncaught"
+  ],
+  "consoleErrors": [],
+  "blElementCount": 0,
+  "upgradedCount": 0,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": false
+}

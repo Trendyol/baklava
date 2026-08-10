@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Saved — toast</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    .toast-wrap { max-width: 360px; }
+    .bx-toast { display: block; box-shadow: 0 4px 12px rgba(0,0,0,.18); border-radius: 6px; overflow: hidden; }
+    .bx-toast-header { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .6rem .9rem; background: #e8f5e9; color: #1b5e20; font-weight: 600; }
+    .bx-toast-body { padding: .9rem; color: #263238; font-size: .95rem; }
+    .bx-btn-close { border: none; background: transparent; cursor: pointer; font-size: 1rem; line-height: 1; color: inherit; }
+  </style>
+</head>
+<body>
+  <div class="toast-wrap">
+    <bl-toast class="bx-toast" open dismissible>
+      <bl-toast-header class="bx-toast-header">
+        <span><bl-icon name="check" variant="success"></bl-icon> Saved successfully</span>
+        <bl-button class="bx-btn-close" aria-label="Close toast" variant="icon">×</bl-button>
+      </bl-toast-header>
+      <bl-toast-body class="bx-toast-body">
+        Your changes have been saved. This toast will disappear shortly or you may close it manually.
+      </bl-toast-body>
+    </bl-toast>
+  </div>
+</body>
+</html>

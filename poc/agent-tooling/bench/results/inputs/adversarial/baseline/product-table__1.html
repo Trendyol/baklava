@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products</title>
+</head>
+<body>
+  <main>
+    <h1>Products</h1>
+    <bl-table>
+      <bl-table-header>
+        <bl-table-cell>Name</bl-table-cell>
+        <bl-table-cell>Category</bl-table-cell>
+        <bl-table-cell>Price</bl-table-cell>
+        <bl-table-cell>Status</bl-table-cell>
+        <bl-table-cell>Actions</bl-table-cell>
+      </bl-table-header>
+      <bl-table-body>
+        <bl-table-row>
+          <bl-table-cell>Aurora Desk</bl-table-cell>
+          <bl-table-cell>Furniture</bl-table-cell>
+          <bl-table-cell>$420</bl-table-cell>
+          <bl-table-cell><bl-badge variant="success">In stock</bl-badge></bl-table-cell>
+          <bl-table-cell>
+            <bl-button>View</bl-button>
+            <bl-button>Edit</bl-button>
+          </bl-table-cell>
+        </bl-table-row>
+        <bl-table-row>
+          <bl-table-cell>Pulse Lamp</bl-table-cell>
+          <bl-table-cell>Lighting</bl-table-cell>
+          <bl-table-cell>$89</bl-table-cell>
+          <bl-table-cell><bl-badge variant="success">In stock</bl-badge></bl-table-cell>
+          <bl-table-cell>
+            <bl-button>View</bl-button>
+            <bl-button>Edit</bl-button>
+          </bl-table-cell>
+        </bl-table-row>
+        <bl-table-row>
+          <bl-table-cell>Bloom Chair</bl-table-cell>
+          <bl-table-cell>Furniture</bl-table-cell>
+          <bl-table-cell>$260</bl-table-cell>
+          <bl-table-cell><bl-badge variant="warning">Low stock</bl-badge></bl-table-cell>
+          <bl-table-cell>
+            <bl-button>View</bl-button>
+            <bl-button>Edit</bl-button>
+          </bl-table-cell>
+        </bl-table-row>
+        <bl-table-row>
+          <bl-table-cell>Nimbus Mat</bl-table-cell>
+          <bl-table-cell>Accessories</bl-table-cell>
+          <bl-table-cell>$45</bl-table-cell>
+          <bl-table-cell><bl-badge variant="success">In stock</bl-badge></bl-table-cell>
+          <bl-table-cell>
+            <bl-button>View</bl-button>
+            <bl-button>Edit</bl-button>
+          </bl-table-cell>
+        </bl-table-row>
+        <bl-table-row>
+          <bl-table-cell>Halo Shelf</bl-table-cell>
+          <bl-table-cell>Storage</bl-table-cell>
+          <bl-table-cell>$175</bl-table-cell>
+          <bl-table-cell><bl-badge variant="danger">Out of stock</bl-badge></bl-table-cell>
+          <bl-table-cell>
+            <bl-button>View</bl-button>
+            <bl-button>Edit</bl-button>
+          </bl-table-cell>
+        </bl-table-row>
+      </bl-table-body>
+    </bl-table>
+    <bl-pagination total="5" size="10"></bl-pagination>
+  </main>
+</body>
+</html>

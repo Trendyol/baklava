@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product Grid</title>
+</head>
+<body>
+  <h1>Products</h1>
+
+  <bl-table>
+    <bl-table-header sticky>
+      <bl-table-row>
+        <bl-table-header-cell>Product</bl-table-header-cell>
+        <bl-table-header-cell>Category</bl-table-header-cell>
+        <bl-table-header-cell>Price</bl-table-header-cell>
+        <bl-table-header-cell>Status</bl-table-header-cell>
+        <bl-table-header-cell>Actions</bl-table-header-cell>
+      </bl-table-row>
+    </bl-table-header>
+    <bl-table-body>
+      <bl-table-row>
+        <bl-table-cell>Wireless Mouse</bl-table-cell>
+        <bl-table-cell>Accessories</bl-table-cell>
+        <bl-table-cell>$24.99</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="secondary" size="small">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Mechanical Keyboard</bl-table-cell>
+        <bl-table-cell>Accessories</bl-table-cell>
+        <bl-table-cell>$89.00</bl-table-cell>
+        <bl-table-cell></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="secondary" size="small">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>4K Monitor</bl-table-cell>
+        <bl-table-cell>Displays</bl-table-cell>
+        <bl-table-cell>$329.99</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="secondary" size="small">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>USB-C Hub</bl-table-cell>
+        <bl-table-cell>Accessories</bl-table-cell>
+        <bl-table-cell>$49.50</bl-table-cell>
+        <bl-table-cell></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="secondary" size="small">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Noise-Cancelling Headphones</bl-table-cell>
+        <bl-table-cell>Audio</bl-table-cell>
+        <bl-table-cell>$199.00</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="secondary" size="small">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>HDMI Cable</bl-table-cell>
+        <bl-table-cell>Cables</bl-table-cell>
+        <bl-table-cell>$12.99</bl-table-cell>
+        <bl-table-cell></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="secondary" size="small">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Webcam</bl-table-cell>
+        <bl-table-cell>Displays</bl-table-cell>
+        <bl-table-cell>$59.99</bl-table-cell>
+        <bl-table-cell></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="secondary" size="small">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Laptop Stand</bl-table-cell>
+        <bl-table-cell>Accessories</bl-table-cell>
+        <bl-table-cell>$39.99</bl-table-cell>
+        <bl-table-cell></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="secondary" size="small">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Portable SSD</bl-table-cell>
+        <bl-table-cell>Storage</bl-table-cell>
+        <bl-table-cell>$119.00</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="secondary" size="small">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Ergonomic Chair</bl-table-cell>
+        <bl-table-cell>Furniture</bl-table-cell>
+        <bl-table-cell>$249.00</bl-table-cell>
+        <bl-table-cell></bl-table-cell>
+        <bl-table-cell>
+          <bl-button variant="secondary" size="small">Edit</bl-button>
+          <bl-button variant="tertiary" size="small" kind="danger">Delete</bl-button>
+        </bl-table-cell>
+      </bl-table-row>
+    </bl-table-body>
+  </bl-table>
+
+  <bl-pagination
+    total-items="10"
+    items-per-page="10"
+    current-page="1"
+    has-jumper
+  ></bl-pagination>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Save Confirmation Toast</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    .demo-heading { margin: 0; font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+  <h1 class="demo-heading">Save changes</h1>
+
+  <!-- The controller host that renders dismissible toast cards. -->
+  <bl-notification no-animation></bl-notification>
+
+  <bl-button id="save-btn" variant="primary">Save changes</bl-button>
+
+  <script type="module">
+    const notification = document.querySelector('bl-notification');
+    const saveBtn = document.querySelector('bl-button#save-btn');
+
+    function showSavedToast() {
+      notification.addNotification({
+        caption: 'Success',
+        description: 'Your changes have been saved successfully.',
+        variant: 'success',
+        permanent: true,
+      });
+    }
+
+    saveBtn.addEventListener('bl-click', () => showSavedToast());
+
+    // Demonstrate the toast immediately on load.
+    showSavedToast();
+  </script>
+</body>
+</html>

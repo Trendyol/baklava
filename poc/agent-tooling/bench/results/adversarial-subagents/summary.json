@@ -7,18 +7,57 @@
       "count": 8,
       "aggregate": {
         "n": 8,
-        "successRate": 63,
-        "avgOverall": 82,
+        "successRate": 67,
+        "avgOverall": 79,
+        "overallStd": 6.3,
+        "overallCI": [
+          75,
+          83
+        ],
         "dimensions": {
-          "correctness": 81,
-          "accessibility": 77,
-          "efficiency": 83,
-          "codeQuality": 80,
-          "maintainability": 89,
-          "overall": 82
+          "correctness": 77,
+          "accessibility": 82,
+          "efficiency": 82,
+          "codeQuality": 75,
+          "maintainability": 83,
+          "overall": 79
         },
-        "totalHallucinations": 2,
-        "totalEscapeHatches": 19,
+        "dimStd": {
+          "correctness": 11.3,
+          "accessibility": 5.4,
+          "efficiency": 6.4,
+          "codeQuality": 6.8,
+          "maintainability": 6.6,
+          "overall": 6.3
+        },
+        "dimensionErrBars": {
+          "correctness": {
+            "lo": 69,
+            "hi": 85
+          },
+          "accessibility": {
+            "lo": 78,
+            "hi": 86
+          },
+          "efficiency": {
+            "lo": 77,
+            "hi": 87
+          },
+          "codeQuality": {
+            "lo": 70,
+            "hi": 80
+          },
+          "maintainability": {
+            "lo": 78,
+            "hi": 88
+          },
+          "overall": {
+            "lo": 75,
+            "hi": 83
+          }
+        },
+        "totalHallucinations": 3,
+        "totalEscapeHatches": 27,
         "uniqueComponentsUsed": [
           "bl-accordion",
           "bl-badge",
@@ -42,17 +81,56 @@
       "aggregate": {
         "n": 8,
         "successRate": 100,
-        "avgOverall": 90,
+        "avgOverall": 91,
+        "overallStd": 1.6,
+        "overallCI": [
+          90,
+          92
+        ],
         "dimensions": {
           "correctness": 98,
-          "accessibility": 85,
-          "efficiency": 73,
+          "accessibility": 84,
+          "efficiency": 75,
           "codeQuality": 87,
           "maintainability": 96,
-          "overall": 90
+          "overall": 91
+        },
+        "dimStd": {
+          "correctness": 1.5,
+          "accessibility": 7.7,
+          "efficiency": 16.4,
+          "codeQuality": 1.6,
+          "maintainability": 2.1,
+          "overall": 1.6
+        },
+        "dimensionErrBars": {
+          "correctness": {
+            "lo": 97,
+            "hi": 99
+          },
+          "accessibility": {
+            "lo": 79,
+            "hi": 89
+          },
+          "efficiency": {
+            "lo": 64,
+            "hi": 86
+          },
+          "codeQuality": {
+            "lo": 86,
+            "hi": 88
+          },
+          "maintainability": {
+            "lo": 94,
+            "hi": 98
+          },
+          "overall": {
+            "lo": 90,
+            "hi": 92
+          }
         },
         "totalHallucinations": 0,
-        "totalEscapeHatches": 8,
+        "totalEscapeHatches": 9,
         "uniqueComponentsUsed": [
           "bl-accordion",
           "bl-accordion-group",

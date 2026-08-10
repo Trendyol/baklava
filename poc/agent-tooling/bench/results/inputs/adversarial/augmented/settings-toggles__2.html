@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Settings</title>
+  </head>
+  <body>
+    <main style="max-width: 480px; margin: 0 auto; padding: 1.5rem;">
+      <h2>Settings</h2>
+
+      <section aria-label="Notifications">
+        <h3>Notifications</h3>
+        <div style="margin: 0.75rem 0;">
+          <bl-switch id="email">Email alerts</bl-switch>
+          <p style="margin: 0.25rem 0 0; color: #666;">Notify me at my inbox for new messages.</p>
+        </div>
+        <div style="margin: 0.75rem 0;">
+          <bl-switch id="push" checked>Push notifications</bl-switch>
+          <p style="margin: 0.25rem 0 0; color: #666;">Send a push alert on important updates.</p>
+        </div>
+      </section>
+
+      <section aria-label="Preferences">
+        <h3>Preferences</h3>
+        <div style="margin: 0.75rem 0;">
+          <bl-select
+            id="lang"
+            name="language"
+            label="Language"
+            help-text="Choose the language used across the app."
+            placeholder="Select a language"
+          >
+            <bl-select-option value="en" label="English"></bl-select-option>
+            <bl-select-option value="tr" label="Türkçe"></bl-select-option>
+            <bl-select-option value="de" label="Deutsch" selected></bl-select-option>
+          </bl-select>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

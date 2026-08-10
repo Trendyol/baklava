@@ -5,7 +5,7 @@
   "category": "content",
   "complexity": "moderate",
   "prompt": "FAQ with Bootstrap `accordion-item` collapses grouped inside an `accordion` — clicking a question expands the answer.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>FAQ — Frequently Asked Questions</title>\n  <style>\n    body {\n      font-family: system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;\n      background: #f7f8fa;\n      margin: 0;\n      padding: 2rem;\n      color: #1f2933;\n    }\n    .faq {\n      max-width: 720px;\n      margin: 0 auto;\n    }\n    .faq h1 {\n      font-size: 1.75rem;\n      margin-bottom: 0.25rem;\n    }\n    .faq .subtitle {\n      color: #5b6472;\n      margin-top: 0;\n      margin-bottom: 2rem;\n    }\n  </style>\n</head>\n<body>\n  <main class=\"faq\">\n    <h1>Frequently Asked Questions</h1>\n    <p class=\"subtitle\">Click a question to expand the answer.</p>\n\n    <bl-accordion-group>\n      <bl-accordion caption=\"How do I create an account?\" icon=\"info\">\n        You can create an account by clicking the \"Sign up\" button in the top\n        right corner and following the instructions on the registration form.\n      </bl-accordion>\n\n      <bl-accordion caption=\"Can I change my delivery address later?\" icon=\"info\">\n        Yes. Go to your profile, open the Addresses section, and add or edit a\n        billing or shipping address. The change applies to future orders.\n      </bl-accordion>\n\n      <bl-accordion caption=\"How long does shipping take?\" icon=\"info\">\n        Standard shipping takes 3 to 5 business days. Express shipping is\n        available at checkout and usually arrives within 1 to 2 business days.\n      </bl-accordion>\n\n      <bl-accordion caption=\"What is the return policy?\" icon=\"info\">\n        Items can be returned within 30 days of delivery as long as they are\n        unused and in their original packaging. See the Returns page for details.\n      </bl-accordion>\n\n      <bl-accordion caption=\"How do I contact support?\" icon=\"info\">\n        You can reach our support team via the live chat widget or by emailing\n        support@example.com. We usually reply within one business day.\n      </bl-accordion>\n    </bl-accordion-group>\n  </main>\n\n  <script type=\"module\" src=\"https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.js\"></script>\n</body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 93,
@@ -28,6 +28,123 @@
       "codeQuality": 90,
       "maintainability": 100,
       "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>FAQ — Frequently Asked Questions</title>\n  <style>\n    body {\n      font-family: system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;\n      background: #f7f8fa;\n      margin: 0;\n      padding: 2rem;\n      color: #1f2933;\n    }\n    .faq {\n      max-width: 720px;\n      margin: 0 auto;\n    }\n    .faq h1 {\n      font-size: 1.75rem;\n      margin-bottom: 0.25rem;\n    }\n    .faq .subtitle {\n      color: #5b6472;\n      margin-top: 0;\n      margin-bottom: 2rem;\n    }\n  </style>\n</head>\n<body>\n  <main class=\"faq\">\n    <h1>Frequently Asked Questions</h1>\n    <p class=\"subtitle\">Click a question to expand the answer.</p>\n\n    <bl-accordion-group>\n      <bl-accordion caption=\"How do I create an account?\" icon=\"info\">\n        You can create an account by clicking the \"Sign up\" button in the top\n        right corner and following the instructions on the registration form.\n      </bl-accordion>\n\n      <bl-accordion caption=\"Can I change my delivery address later?\" icon=\"info\">\n        Yes. Go to your profile, open the Addresses section, and add or edit a\n        billing or shipping address. The change applies to future orders.\n      </bl-accordion>\n\n      <bl-accordion caption=\"How long does shipping take?\" icon=\"info\">\n        Standard shipping takes 3 to 5 business days. Express shipping is\n        available at checkout and usually arrives within 1 to 2 business days.\n      </bl-accordion>\n\n      <bl-accordion caption=\"What is the return policy?\" icon=\"info\">\n        Items can be returned within 30 days of delivery as long as they are\n        unused and in their original packaging. See the Returns page for details.\n      </bl-accordion>\n\n      <bl-accordion caption=\"How do I contact support?\" icon=\"info\">\n        You can reach our support team via the live chat widget or by emailing\n        support@example.com. We usually reply within one business day.\n      </bl-accordion>\n    </bl-accordion-group>\n  </main>\n\n  <script type=\"module\" src=\"https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.js\"></script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>FAQ — Baklava Accordion</title>\n  <style>\n    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color: #1c1c1c; }\n    main { max-width: 720px; margin: 2rem auto; padding: 0 1rem; }\n    h1 { font-size: 1.5rem; margin-bottom: 1.25rem; }\n    bl-accordion-group { display: block; border: 1px solid #e3e3e3; border-radius: 8px; }\n    p { margin: 0 0 0.75rem; line-height: 1.5; }\n  </style>\n</head>\n<body>\n  <main>\n    <h1>Frequently Asked Questions</h1>\n    <bl-accordion-group>\n      <bl-accordion caption=\"How do I reset my password?\">\n        <p>\n          On the sign-in page click \"Forgot password\", enter the email associated with your\n          account, and follow the reset link we send you. The link expires after 30 minutes.\n        </p>\n      </bl-accordion>\n      <bl-accordion caption=\"Which payment methods are supported?\">\n        <p>\n          We currently support credit and debit cards (Visa, Mastercard, Amex), bank\n          transfers, and digital wallets such as Paypal and Apple Pay.\n        </p>\n      </bl-accordion>\n      <bl-accordion caption=\"What is your return policy?\">\n        <p>\n          You may return unused items within 30 days of delivery for a full refund. The item\n          must be in its original packaging with all tags attached.\n        </p>\n      </bl-accordion>\n      <bl-accordion caption=\"How long does shipping take?\">\n        <p>\n          Standard shipping takes 3–5 business days. Express shipping arrives within 1–2\n          business days. Tracking is emailed as soon as your order ships.\n        </p>\n      </bl-accordion>\n    </bl-accordion-group>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Baklava FAQ</title>\n  </head>\n  <body>\n    <main>\n      <h1>Frequently Asked Questions</h1>\n      <bl-accordion-group>\n        <bl-accordion caption=\"When will my order ship?\">\n          Orders placed before 14:00 ship the same business day. You will receive a tracking\n          number by email once the shipment is handed to the carrier.\n        </bl-accordion>\n        <bl-accordion caption=\"What is the return policy?\">\n          You have 30 days from delivery to return any item in its original condition. Refunds\n          are issued to the original payment method within 5 business days.\n        </bl-accordion>\n        <bl-accordion caption=\"Do you ship internationally?\">\n          Yes, we ship to over 40 countries. Duties and taxes are calculated at checkout and\n          are not included in the displayed price.\n        </bl-accordion>\n      </bl-accordion-group>\n    </main>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

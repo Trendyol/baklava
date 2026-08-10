@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Filter Tabs</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 24px;
+      color: #1a1a1a;
+    }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .icon-btn {
+      border: 1px solid #d0d0d0;
+      background: #fff;
+      border-radius: 6px;
+      padding: 6px 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <bl-tab-group>
+      <bl-tab label="All">All</bl-tab>
+      <bl-tab label="Active">Active</bl-tab>
+      <bl-tab label="Archived">Archived</bl-tab>
+    </bl-tab-group>
+    <bl-tooltip content="Filter and manage the currently visible items">
+      <button class="icon-btn" title="Filter options" aria-label="Filter options">⚙</button>
+    </bl-tooltip>
+  </div>
+
+  <div class="panes">
+    <bl-tab-panel>Showing all items.</bl-tab-panel>
+    <bl-tab-panel>Showing only active items.</bl-tab-panel>
+    <bl-tab-panel>Showing archived items.</bl-tab-panel>
+  </div>
+</body>
+</html>

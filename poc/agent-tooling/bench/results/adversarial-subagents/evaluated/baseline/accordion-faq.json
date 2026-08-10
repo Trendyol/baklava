@@ -5,10 +5,10 @@
   "category": "content",
   "complexity": "moderate",
   "prompt": "FAQ with Bootstrap `accordion-item` collapses grouped inside an `accordion` — clicking a question expands the answer.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>FAQ</title>\n  <style>\n    body { font-family: -apple-system, system-ui, sans-serif; margin: 24px; color: #1f2933; }\n    h1 { font-size: 1.5rem; }\n    .faq { max-width: 640px; margin: 0 auto; }\n  </style>\n</head>\n<body>\n  <main class=\"faq\">\n    <h1>Frequently Asked Questions</h1>\n\n    <!-- FAQ accordion -->\n    <bl-accordion>\n      <bl-accordion-item open>\n        <div slot=\"summary\">How do I reset my password?</div>\n        <p>Open Settings, choose Security, and select \"Reset password\". A confirmation link is emailed to you.</p>\n      </bl-accordion-item>\n      <bl-accordion-item>\n        <div slot=\"summary\">Which payment methods do you accept?</div>\n        <p>We accept all major credit cards, PayPal, and bank transfer.</p>\n      </bl-accordion-item>\n      <bl-accordion-item>\n        <div slot=\"summary\">Can I cancel my subscription anytime?</div>\n        <p>Yes. Cancel anytime from your account page; the current billing period remains active.</p>\n      </bl-accordion-item>\n    </bl-accordion>\n  </main>\n</body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": false,
-    "overall": 74,
+    "overall": 72,
     "componentsUsed": [
       "bl-accordion"
     ],
@@ -27,6 +27,12 @@
         "codeSnippet": "bl-accordion-item"
       },
       {
+        "type": "nesting",
+        "severity": "acceptable",
+        "detail": "<bl-accordion> not nested inside bl-accordion-group",
+        "codeSnippet": "<bl-accordion> not nested inside bl-accordion-group"
+      },
+      {
         "type": "wrapper_div",
         "severity": "acceptable",
         "detail": "used 3 layout div(s)",
@@ -35,15 +41,180 @@
     ],
     "failureMode": "hallucination",
     "confusionSignals": [
-      "Hallucinated tag bl-accordion-item"
+      "Hallucinated tag bl-accordion-item",
+      "<bl-accordion> not nested inside bl-accordion-group"
     ],
     "scores": {
-      "correctness": 68,
+      "correctness": 66,
       "accessibility": 73,
       "efficiency": 87,
-      "codeQuality": 72,
-      "maintainability": 84,
-      "overall": 74
+      "codeQuality": 69,
+      "maintainability": 80,
+      "overall": 72
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>FAQ</title>\n  <style>\n    body { font-family: -apple-system, system-ui, sans-serif; margin: 24px; color: #1f2933; }\n    h1 { font-size: 1.5rem; }\n    .faq { max-width: 640px; margin: 0 auto; }\n  </style>\n</head>\n<body>\n  <main class=\"faq\">\n    <h1>Frequently Asked Questions</h1>\n\n    <!-- FAQ accordion -->\n    <bl-accordion>\n      <bl-accordion-item open>\n        <div slot=\"summary\">How do I reset my password?</div>\n        <p>Open Settings, choose Security, and select \"Reset password\". A confirmation link is emailed to you.</p>\n      </bl-accordion-item>\n      <bl-accordion-item>\n        <div slot=\"summary\">Which payment methods do you accept?</div>\n        <p>We accept all major credit cards, PayPal, and bank transfer.</p>\n      </bl-accordion-item>\n      <bl-accordion-item>\n        <div slot=\"summary\">Can I cancel my subscription anytime?</div>\n        <p>Yes. Cancel anytime from your account page; the current billing period remains active.</p>\n      </bl-accordion-item>\n    </bl-accordion>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": false,
+        "overall": 72,
+        "missed": [
+          "bl-accordion-group"
+        ],
+        "escapeHatches": [
+          {
+            "type": "hallucination",
+            "severity": "critical",
+            "detail": "Unknown tag <bl-accordion-item>",
+            "codeSnippet": "bl-accordion-item"
+          },
+          {
+            "type": "nesting",
+            "severity": "acceptable",
+            "detail": "<bl-accordion> not nested inside bl-accordion-group",
+            "codeSnippet": "<bl-accordion> not nested inside bl-accordion-group"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 3 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 66,
+          "accessibility": 73,
+          "efficiency": 87,
+          "codeQuality": 69,
+          "maintainability": 80,
+          "overall": 72
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>FAQ</title>\n<style>\n  body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 52rem; padding: 0 1rem; color: #222; }\n  h1 { font-size: 1.4rem; }\n  .faq { display: flex; flex-direction: column; gap: 0.5rem; }\n  .accordion-item { border: 1px solid #ddd; border-radius: 0.5rem; overflow: hidden; }\n  .accordion-header { margin: 0; }\n  .accordion-button {\n    width: 100%;\n    background: #f4f4f6;\n    border: 0;\n    text-align: left;\n    padding: 0.9rem 1rem;\n    font-size: 1rem;\n    font-weight: 600;\n    cursor: pointer;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n  .accordion-button:hover { background: #ececf0; }\n  .accordion-button .chev { transition: transform .2s ease; }\n  .accordion-item[data-open=\"true\"] .chev { transform: rotate(180deg); }\n  .accordion-collapse {\n    max-height: 0;\n    overflow: hidden;\n    transition: max-height .25s ease;\n  }\n  .accordion-body { padding: 0.9rem 1rem; color: #444; }\n</style>\n</head>\n<body>\n  <h1>Frequently Asked Questions</h1>\n  <div class=\"faq\" id=\"faq\">\n\n    <div class=\"accordion-item\" data-open=\"false\">\n      <h2 class=\"accordion-header\">\n        <button type=\"button\" class=\"accordion-button\" aria-expanded=\"false\">\n          What is Baklava?\n          <span class=\"chev\" aria-hidden=\"true\">&#9660;</span>\n        </button>\n      </h2>\n      <div class=\"accordion-collapse\">\n        <div class=\"accordion-body\">\n          Baklava is a Web Components design system built on <code>bl-*</code> custom elements that\n          help you ship consistent, accessible UI.\n        </div>\n      </div>\n    </div>\n\n    <div class=\"accordion-item\" data-open=\"false\">\n      <h2 class=\"accordion-header\">\n        <button type=\"button\" class=\"accordion-button\" aria-expanded=\"false\">\n          How do I install it?\n          <span class=\"chev\" aria-hidden=\"true\">&#9660;</span>\n        </button>\n      </h2>\n      <div class=\"accordion-collapse\">\n        <div class=\"accordion-body\">\n          Install the package from Trendyol's registry and include the bundle on your page, then\n          use the <code>bl-*</code> tags anywhere in your markup.\n        </div>\n      </div>\n    </div>\n\n    <div class=\"accordion-item\" data-open=\"false\">\n      <h2 class=\"accordion-header\">\n        <button type=\"button\" class=\"accordion-button\" aria-expanded=\"false\">\n          Are components accessible by default?\n          <span class=\"chev\" aria-hidden=\"true\">&#9660;</span>\n        </button>\n      </h2>\n      <div class=\"accordion-collapse\">\n        <div class=\"accordion-body\">\n          Yes — components ship with built-in ARIA semantics, keyboard navigation and focus\n          management so you don't have to wire them up yourself.\n        </div>\n      </div>\n    </div>\n\n  </div>\n\n  <script>\n    (function () {\n      var items = document.querySelectorAll('.accordion-item');\n      items.forEach(function (item) {\n        var btn = item.querySelector('.accordion-button');\n        var collapse = item.querySelector('.accordion-collapse');\n        btn.addEventListener('click', function () {\n          var open = item.getAttribute('data-open') === 'true';\n          // close all, then open the clicked one\n          items.forEach(function (it) {\n            var panel = it.querySelector('.accordion-collapse');\n            var b = it.querySelector('.accordion-button');\n            it.setAttribute('data-open', 'false');\n            b.setAttribute('aria-expanded', 'false');\n            panel.style.maxHeight = '0';\n          });\n          if (!open) {\n            item.setAttribute('data-open', 'true');\n            btn.setAttribute('aria-expanded', 'true');\n            collapse.style.maxHeight = collapse.scrollHeight + 'px';\n          }\n        });\n      });\n    })();\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [
+          "bl-accordion",
+          "bl-accordion-group"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 10 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 88,
+          "accessibility": 100,
+          "efficiency": 70,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 89
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>FAQ — Accordion</title>\n  <style>\n    body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 44rem; padding: 0 1rem; color: #1c1c1c; }\n    h1 { font-size: 1.5rem; }\n    .faq-group { margin-top: 1rem; }\n  </style>\n</head>\n<body>\n  <h1>Frequently Asked Questions</h1>\n\n  <div class=\"faq-group\">\n    <bl-accordion-item open>\n      <h2 slot=\"summary\">How do I reset my password?</h2>\n      <p>Click \"Forgot password\" on the login screen and follow the email link to set a new one.</p>\n    </bl-accordion-item>\n\n    <bl-accordion-item>\n      <h2 slot=\"summary\">Can I use Baklava with React?</h2>\n      <p>Yes. You can wrap the bl-* custom elements in React components or use them directly in JSX.</p>\n    </bl-accordion-item>\n\n    <bl-accordion-item>\n      <h2 slot=\"summary\">Is there a free tier?</h2>\n      <p>We offer a free tier with core features. Paid plans unlock advanced tooling and support.</p>\n    </bl-accordion-item>\n  </div>\n\n  <script>\n    // Expand/collapse each item on click of its summary.\n    document.querySelectorAll('bl-accordion-item').forEach(function (item) {\n      const summary = item.querySelector('[slot=\"summary\"]');\n      if (summary) {\n        summary.addEventListener('click', function () {\n          item.toggleAttribute('open', !item.hasAttribute('open'));\n        });\n      }\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": false,
+        "overall": 73,
+        "missed": [
+          "bl-accordion",
+          "bl-accordion-group"
+        ],
+        "escapeHatches": [
+          {
+            "type": "hallucination",
+            "severity": "critical",
+            "detail": "Unknown tag <bl-accordion-item>",
+            "codeSnippet": "bl-accordion-item"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 63,
+          "accessibility": 70,
+          "efficiency": 97,
+          "codeQuality": 72,
+          "maintainability": 84,
+          "overall": 73
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 33,
+    "scores": {
+      "correctness": {
+        "mean": 72,
+        "std": 11.1,
+        "min": 63,
+        "max": 88,
+        "sem": 6.4
+      },
+      "accessibility": {
+        "mean": 81,
+        "std": 13.5,
+        "min": 70,
+        "max": 100,
+        "sem": 7.8
+      },
+      "efficiency": {
+        "mean": 85,
+        "std": 11.1,
+        "min": 70,
+        "max": 97,
+        "sem": 6.4
+      },
+      "codeQuality": {
+        "mean": 76,
+        "std": 7.9,
+        "min": 69,
+        "max": 87,
+        "sem": 4.5
+      },
+      "maintainability": {
+        "mean": 87,
+        "std": 6.8,
+        "min": 80,
+        "max": 96,
+        "sem": 3.9
+      },
+      "overall": {
+        "mean": 78,
+        "std": 7.8,
+        "min": 72,
+        "max": 89,
+        "sem": 4.5
+      }
+    },
+    "escapeHatches": {
+      "mean": 2,
+      "std": 0.8,
+      "min": 1,
+      "max": 3,
+      "sem": 0.5
+    },
+    "hallucinations": {
+      "mean": 1,
+      "std": 0.5,
+      "min": 0,
+      "max": 1,
+      "sem": 0.3
     }
   }
 }

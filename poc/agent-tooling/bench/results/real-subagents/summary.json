@@ -8,17 +8,17 @@
       "aggregate": {
         "n": 8,
         "successRate": 100,
-        "avgOverall": 89,
+        "avgOverall": 88,
         "dimensions": {
-          "correctness": 95,
+          "correctness": 94,
           "accessibility": 79,
           "efficiency": 83,
-          "codeQuality": 86,
-          "maintainability": 94,
-          "overall": 89
+          "codeQuality": 85,
+          "maintainability": 93,
+          "overall": 88
         },
         "totalHallucinations": 0,
-        "totalEscapeHatches": 12,
+        "totalEscapeHatches": 14,
         "uniqueComponentsUsed": [
           "bl-accordion",
           "bl-accordion-group",

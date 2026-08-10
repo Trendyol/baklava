@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAQ — Baklava Accordion</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color: #1c1c1c; }
+    main { max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.5rem; margin-bottom: 1.25rem; }
+    bl-accordion-group { display: block; border: 1px solid #e3e3e3; border-radius: 8px; }
+    p { margin: 0 0 0.75rem; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Frequently Asked Questions</h1>
+    <bl-accordion-group>
+      <bl-accordion caption="How do I reset my password?">
+        <p>
+          On the sign-in page click "Forgot password", enter the email associated with your
+          account, and follow the reset link we send you. The link expires after 30 minutes.
+        </p>
+      </bl-accordion>
+      <bl-accordion caption="Which payment methods are supported?">
+        <p>
+          We currently support credit and debit cards (Visa, Mastercard, Amex), bank
+          transfers, and digital wallets such as Paypal and Apple Pay.
+        </p>
+      </bl-accordion>
+      <bl-accordion caption="What is your return policy?">
+        <p>
+          You may return unused items within 30 days of delivery for a full refund. The item
+          must be in its original packaging with all tags attached.
+        </p>
+      </bl-accordion>
+      <bl-accordion caption="How long does shipping take?">
+        <p>
+          Standard shipping takes 3–5 business days. Express shipping arrives within 1–2
+          business days. Tracking is emailed as soon as your order ships.
+        </p>
+      </bl-accordion>
+    </bl-accordion-group>
+  </main>
+</body>
+</html>

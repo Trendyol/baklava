@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Products</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; color: #1f2937; }
+    h1 { font-size: 20px; margin: 0 0 16px; }
+    .toolbar { margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Products</h1>
+  <div class="toolbar">
+    <bl-table>
+      <bl-table-header>
+        <bl-table-cell>Product</bl-table-cell>
+        <bl-table-cell>Category</bl-table-cell>
+        <bl-table-cell>Price</bl-table-cell>
+        <bl-table-cell>Status</bl-table-cell>
+        <bl-table-cell>Actions</bl-table-cell>
+      </bl-table-header>
+      <bl-table-body>
+        <bl-table-row class="popular">
+          <bl-table-cell>Wireless Mouse</bl-table-cell>
+          <bl-table-cell>Accessories</bl-table-cell>
+          <bl-table-cell>$29.99</bl-table-cell>
+          <bl-table-cell><bl-badge variant="success">Popular</bl-badge></bl-table-cell>
+          <bl-table-cell><bl-button>View</bl-button> <bl-button>Edit</bl-button></bl-table-cell>
+        </bl-table-row>
+        <bl-table-row>
+          <bl-table-cell>Mechanical Keyboard</bl-table-cell>
+          <bl-table-cell>Accessories</bl-table-cell>
+          <bl-table-cell>$79.00</bl-table-cell>
+          <bl-table-cell><bl-badge>In stock</bl-badge></bl-table-cell>
+          <bl-table-cell><bl-button>View</bl-button> <bl-button>Edit</bl-button></bl-table-cell>
+        </bl-table-row>
+        <bl-table-row class="popular">
+          <bl-table-cell>USB-C Hub</bl-table-cell>
+          <bl-table-cell>Cables</bl-table-cell>
+          <bl-table-cell>$49.50</bl-table-cell>
+          <bl-table-cell><bl-badge variant="success">Popular</bl-badge></bl-table-cell>
+          <bl-table-cell><bl-button>View</bl-button> <bl-button>Edit</bl-button></bl-table-cell>
+        </bl-table-row>
+        <bl-table-row>
+          <bl-table-cell>4K Monitor</bl-table-cell>
+          <bl-table-cell>Displays</bl-table-cell>
+          <bl-table-cell>$329.00</bl-table-cell>
+          <bl-table-cell><bl-badge>In stock</bl-badge></bl-table-cell>
+          <bl-table-cell><bl-button>View</bl-button> <bl-button>Edit</bl-button></bl-table-cell>
+        </bl-table-row>
+      </bl-table-body>
+    </bl-table>
+  </div>
+  <bl-pagination total="4" size="8" current="1"></bl-pagination>
+</body>
+</html>

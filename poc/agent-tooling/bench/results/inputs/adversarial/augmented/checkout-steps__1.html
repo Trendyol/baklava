@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Checkout — Cart, Shipping, Payment</title>
+  </head>
+  <body>
+    <main style="font-family: system-ui, sans-serif; max-width: 720px; margin: 24px auto; padding: 0 16px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <h1 style="font-size: 20px; margin: 0;">Checkout</h1>
+
+        <!-- Cart entry: a cart glyph with a count-of-2 badge over it -->
+        <div style="position: relative; display: inline-flex; align-items: center;" aria-label="Shopping cart with 2 items">
+          <span role="img" aria-label="Cart" style="font-size: 24px;">🛒</span>
+          <bl-badge size="small" style="position: absolute; top: -8px; right: -10px;">2</bl-badge>
+        </div>
+      </div>
+
+      <!-- Progress stepper: cart (active), shipping, payment -->
+      <bl-stepper aria-label="Checkout progress">
+        <bl-stepper-item variant="active" title="Cart" description="Review your items"></bl-stepper-item>
+        <bl-stepper-item title="Shipping" description="Delivery details"></bl-stepper-item>
+        <bl-stepper-item title="Payment" description="Pay securely"></bl-stepper-item>
+      </bl-stepper>
+    </main>
+  </body>
+</html>

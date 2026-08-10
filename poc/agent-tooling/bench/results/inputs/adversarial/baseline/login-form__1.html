@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; background: #f5f5f5; }
+    .login-wrap { display: flex; flex-direction: column; gap: 16px; max-width: 360px; margin: 80px auto; padding: 24px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    p { color: #666; margin: 0 0 8px; font-size: 14px; }
+    label { font-size: 13px; margin-top: 8px; }
+    bl-input { width: 100%; }
+    button { margin-top: 16px; padding: 10px 16px; background: #0057ff; color: #fff; border: none; border-radius: 6px; font-size: 15px; cursor: pointer; }
+    button:hover { background: #0043c4; }
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+    <h1>Sign in</h1>
+    <p>Enter your credentials to continue.</p>
+
+    <label for="email">Email address</label>
+    <bl-input id="email" name="email" type="email" placeholder="you@example.com" required></bl-input>
+
+    <label for="password">Password</label>
+    <bl-input id="password" name="password" type="password" placeholder="••••••••" required></bl-input>
+
+    <button id="login">Sign in</button>
+  </div>
+
+  <script>
+    const form = document.querySelector('.login-wrap');
+    const btn = document.getElementById('login');
+    const enter = (e) => {
+      if (e.key === 'Enter') submit();
+    };
+    const submit = () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      console.log('submitting', { email, password });
+    };
+    form.addEventListener('keydown', (e) => enter(e));
+    btn.addEventListener('click', submit);
+  </script>
+</body>
+</html>

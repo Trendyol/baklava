@@ -5,7 +5,7 @@
   "category": "forms",
   "complexity": "moderate",
   "prompt": "Do a settings screen with Material Switch toggles for each option and a language Select, each with small helperText underneath. Use `space-y-3` between them.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Settings</title>\n</head>\n<body>\n  <main style=\"max-width: 560px; margin: 32px auto; font-family: system-ui, sans-serif;\">\n    <h1>Settings</h1>\n\n    <section aria-labelledby=\"notifications-title\" style=\"margin-bottom: 24px;\">\n      <h2 id=\"notifications-title\">Notifications</h2>\n\n      <div style=\"margin-bottom: 8px;\">\n        <bl-switch>Email notifications</bl-switch>\n        <small style=\"display: block; color: #6b7280;\">Receive a summary of account activity by email.</small>\n      </div>\n\n      <div style=\"margin-bottom: 8px;\">\n        <bl-switch checked>Push notifications</bl-switch>\n        <small style=\"display: block; color: #6b7280;\">Get real-time alerts on your devices.</small>\n      </div>\n\n      <div style=\"margin-bottom: 8px;\">\n        <bl-switch>Weekly digest</bl-switch>\n        <small style=\"display: block; color: #6b7280;\">A weekly roundup of your projects and updates.</small>\n      </div>\n    </section>\n\n    <section aria-labelledby=\"language-title\" style=\"margin-bottom: 24px;\">\n      <h2 id=\"language-title\">Preferences</h2>\n      <bl-select label=\"Language\" placeholder=\"Choose a language\" help-text=\"Select the language used across the product.\" style=\"width: 220px;\">\n        <bl-select-option value=\"en\" label=\"English\">English</bl-select-option>\n        <bl-select-option value=\"tr\" label=\"Türkçe\">Türkçe</bl-select-option>\n        <bl-select-option value=\"de\" label=\"Deutsch\">Deutsch</bl-select-option>\n      </bl-select>\n    </section>\n  </main>\n</body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 86,
@@ -43,6 +43,156 @@
       "codeQuality": 84,
       "maintainability": 92,
       "overall": 86
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Settings</title>\n</head>\n<body>\n  <main style=\"max-width: 560px; margin: 32px auto; font-family: system-ui, sans-serif;\">\n    <h1>Settings</h1>\n\n    <section aria-labelledby=\"notifications-title\" style=\"margin-bottom: 24px;\">\n      <h2 id=\"notifications-title\">Notifications</h2>\n\n      <div style=\"margin-bottom: 8px;\">\n        <bl-switch>Email notifications</bl-switch>\n        <small style=\"display: block; color: #6b7280;\">Receive a summary of account activity by email.</small>\n      </div>\n\n      <div style=\"margin-bottom: 8px;\">\n        <bl-switch checked>Push notifications</bl-switch>\n        <small style=\"display: block; color: #6b7280;\">Get real-time alerts on your devices.</small>\n      </div>\n\n      <div style=\"margin-bottom: 8px;\">\n        <bl-switch>Weekly digest</bl-switch>\n        <small style=\"display: block; color: #6b7280;\">A weekly roundup of your projects and updates.</small>\n      </div>\n    </section>\n\n    <section aria-labelledby=\"language-title\" style=\"margin-bottom: 24px;\">\n      <h2 id=\"language-title\">Preferences</h2>\n      <bl-select label=\"Language\" placeholder=\"Choose a language\" help-text=\"Select the language used across the product.\" style=\"width: 220px;\">\n        <bl-select-option value=\"en\" label=\"English\">English</bl-select-option>\n        <bl-select-option value=\"tr\" label=\"Türkçe\">Türkçe</bl-select-option>\n        <bl-select-option value=\"de\" label=\"Deutsch\">Deutsch</bl-select-option>\n      </bl-select>\n    </section>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 86,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 10 inline style=",
+            "codeSnippet": "style="
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 3 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 99,
+          "efficiency": 29,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 86
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Settings</title>\n    <style>\n      body {\n        font-family: system-ui, -apple-system, sans-serif;\n        padding: 24px;\n        background: #fafafa;\n      }\n      .settings-list {\n        max-width: 520px;\n        display: flex;\n        flex-direction: column;\n        gap: 20px;\n        background: #fff;\n        border: 1px solid #e5e5e5;\n        border-radius: 8px;\n        padding: 20px 24px;\n      }\n      .setting-item {\n        display: flex;\n        flex-direction: column;\n        gap: 4px;\n      }\n      .helper {\n        font-size: 13px;\n        color: #666;\n        margin: 0;\n      }\n      .language-row {\n        display: flex;\n        align-items: flex-end;\n        gap: 16px;\n        justify-content: space-between;\n      }\n    </style>\n  </head>\n  <body>\n    <h1>Settings</h1>\n\n    <div class=\"settings-list\">\n      <!-- Material-Switch style toggles (real bl-switch, label via default slot) -->\n      <div class=\"setting-item\">\n        <bl-switch id=\"notifications\" checked>Enable notifications</bl-switch>\n        <p class=\"helper\">Get notified about new activity.</p>\n      </div>\n\n      <div class=\"setting-item\">\n        <bl-switch id=\"email\">Email digest</bl-switch>\n        <p class=\"helper\">Receive a weekly summary of your activity.</p>\n      </div>\n\n      <div class=\"setting-item\">\n        <bl-switch id=\"analytics\">Usage analytics</bl-switch>\n        <p class=\"helper\">Help us improve by sharing anonymous usage data.</p>\n      </div>\n\n      <!-- Language select (real bl-select + bl-select-option, helperText via help-text) -->\n      <div class=\"setting-item\">\n        <div class=\"language-row\">\n          <bl-select id=\"language\" label=\"Language\" placeholder=\"Select a language\" help-text=\"Choose your display language.\" size=\"medium\">\n            <bl-select-option value=\"tr\" label=\"Türkçe\"></bl-select-option>\n            <bl-select-option value=\"en\" label=\"English\" selected></bl-select-option>\n            <bl-select-option value=\"de\" label=\"Deutsch\"></bl-select-option>\n            <bl-select-option value=\"fr\" label=\"Français\"></bl-select-option>\n          </bl-select>\n        </div>\n      </div>\n    </div>\n\n    <script type=\"module\">\n      // Wire real bl-* events (no-op example wiring so interactions are live).\n      document.querySelectorAll('bl-switch').forEach((sw) => {\n        sw.addEventListener('bl-switch-toggle', (e) => {\n          e.target.setAttribute('aria-checked', String(e.detail === true));\n        });\n      });\n      document.querySelector('#language')?.addEventListener('bl-select', (e) => {\n        const val = Array.isArray(e.detail) ? e.detail[0]?.value : e.detail?.value;\n        console.log('language changed:', val);\n      });\n    </script>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 6 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 79,
+          "efficiency": 70,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 89
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <title>Settings</title>\n  </head>\n  <body>\n    <main style=\"max-width: 480px; margin: 0 auto; padding: 1.5rem;\">\n      <h2>Settings</h2>\n\n      <section aria-label=\"Notifications\">\n        <h3>Notifications</h3>\n        <div style=\"margin: 0.75rem 0;\">\n          <bl-switch id=\"email\">Email alerts</bl-switch>\n          <p style=\"margin: 0.25rem 0 0; color: #666;\">Notify me at my inbox for new messages.</p>\n        </div>\n        <div style=\"margin: 0.75rem 0;\">\n          <bl-switch id=\"push\" checked>Push notifications</bl-switch>\n          <p style=\"margin: 0.25rem 0 0; color: #666;\">Send a push alert on important updates.</p>\n        </div>\n      </section>\n\n      <section aria-label=\"Preferences\">\n        <h3>Preferences</h3>\n        <div style=\"margin: 0.75rem 0;\">\n          <bl-select\n            id=\"lang\"\n            name=\"language\"\n            label=\"Language\"\n            help-text=\"Choose the language used across the app.\"\n            placeholder=\"Select a language\"\n          >\n            <bl-select-option value=\"en\" label=\"English\"></bl-select-option>\n            <bl-select-option value=\"tr\" label=\"Türkçe\"></bl-select-option>\n            <bl-select-option value=\"de\" label=\"Deutsch\" selected></bl-select-option>\n          </bl-select>\n        </div>\n      </section>\n    </main>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 88,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 6 inline style=",
+            "codeSnippet": "style="
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 3 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 99,
+          "efficiency": 49,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 88
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 97,
+        "std": 0.9,
+        "min": 96,
+        "max": 98,
+        "sem": 0.5
+      },
+      "accessibility": {
+        "mean": 92,
+        "std": 9.4,
+        "min": 79,
+        "max": 99,
+        "sem": 5.4
+      },
+      "efficiency": {
+        "mean": 49,
+        "std": 16.7,
+        "min": 29,
+        "max": 70,
+        "sem": 9.7
+      },
+      "codeQuality": {
+        "mean": 85,
+        "std": 1.4,
+        "min": 84,
+        "max": 87,
+        "sem": 0.8
+      },
+      "maintainability": {
+        "mean": 93,
+        "std": 1.9,
+        "min": 92,
+        "max": 96,
+        "sem": 1.1
+      },
+      "overall": {
+        "mean": 88,
+        "std": 1.2,
+        "min": 86,
+        "max": 89,
+        "sem": 0.7
+      }
+    },
+    "escapeHatches": {
+      "mean": 2,
+      "std": 0.5,
+      "min": 1,
+      "max": 2,
+      "sem": 0.3
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

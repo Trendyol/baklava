@@ -1,0 +1,39 @@
+{
+  "iteration": "adversarial-subagents",
+  "variants": [
+    {
+      "variant": "base",
+      "before": 76,
+      "after": 90,
+      "delta": 14
+    },
+    {
+      "variant": "equal",
+      "before": 77,
+      "after": 88,
+      "delta": 11
+    },
+    {
+      "variant": "correctnessDominant",
+      "before": 75,
+      "after": 92,
+      "delta": 17
+    },
+    {
+      "variant": "accessibilityDominant",
+      "before": 77,
+      "after": 88,
+      "delta": 11
+    },
+    {
+      "variant": "maintainabilityDominant",
+      "before": 77,
+      "after": 90,
+      "delta": 13
+    }
+  ],
+  "deltaRange": {
+    "min": 11,
+    "max": 17
+  }
+}

@@ -5,7 +5,7 @@
   "category": "navigation",
   "complexity": "moderate",
   "prompt": "Tabs like shadcn Tabs that switch panes, and a Radix Tooltip or a `title` attribute on a small icon button explaining what it does.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Product Dashboard — Tabs</title>\n  <style>\n    body {\n      font-family: system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;\n      margin: 0;\n      padding: 2rem;\n      background: #f6f7fb;\n      color: #1a1f36;\n    }\n    .card {\n      background: #fff;\n      border: 1px solid #e4e7f0;\n      border-radius: 10px;\n      padding: 1.5rem;\n      max-width: 640px;\n      margin: 0 auto;\n      box-shadow: 0 2px 6px rgba(20, 30, 60, 0.04);\n    }\n    .toolbar {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      margin-bottom: 0.75rem;\n    }\n    .toolbar h2 {\n      margin: 0;\n      font-size: 1.1rem;\n      font-weight: 600;\n    }\n    bl-tab-panel h3 {\n      margin-top: 0.25rem;\n    }\n  </style>\n</head>\n<body>\n  <main class=\"card\">\n    <div class=\"toolbar\">\n      <h2>Product Dashboard</h2>\n      <!-- Radix-style tooltip on a small icon button -->\n      <bl-tooltip placement=\"top\">\n        <bl-button slot=\"tooltip-trigger\" size=\"small\" icon=\"info\">Help</bl-button>\n        <span slot=\"tooltip\">Switches between product views. More help is available in the docs.</span>\n      </bl-tooltip>\n    </div>\n\n    <bl-tab-group>\n      <bl-tab slot=\"tabs\" name=\"overview\">Overview</bl-tab>\n      <bl-tab slot=\"tabs\" name=\"details\">Details</bl-tab>\n      <bl-tab slot=\"tabs\" name=\"settings\">Settings</bl-tab>\n\n      <bl-tab-panel tab=\"overview\">\n        <h3>Overview</h3>\n        <p>Key metrics for your product at a glance.</p>\n      </bl-tab-panel>\n\n      <bl-tab-panel tab=\"details\">\n        <h3>Details</h3>\n        <p>Full specification and inventory details.</p>\n      </bl-tab-panel>\n\n      <bl-tab-panel tab=\"settings\">\n        <h3>Settings</h3>\n        <p>Configure alerts and preferences.</p>\n      </bl-tab-panel>\n    </bl-tab-group>\n  </main>\n</body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 91,
@@ -40,6 +40,156 @@
       "codeQuality": 87,
       "maintainability": 96,
       "overall": 91
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Product Dashboard — Tabs</title>\n  <style>\n    body {\n      font-family: system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;\n      margin: 0;\n      padding: 2rem;\n      background: #f6f7fb;\n      color: #1a1f36;\n    }\n    .card {\n      background: #fff;\n      border: 1px solid #e4e7f0;\n      border-radius: 10px;\n      padding: 1.5rem;\n      max-width: 640px;\n      margin: 0 auto;\n      box-shadow: 0 2px 6px rgba(20, 30, 60, 0.04);\n    }\n    .toolbar {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      margin-bottom: 0.75rem;\n    }\n    .toolbar h2 {\n      margin: 0;\n      font-size: 1.1rem;\n      font-weight: 600;\n    }\n    bl-tab-panel h3 {\n      margin-top: 0.25rem;\n    }\n  </style>\n</head>\n<body>\n  <main class=\"card\">\n    <div class=\"toolbar\">\n      <h2>Product Dashboard</h2>\n      <!-- Radix-style tooltip on a small icon button -->\n      <bl-tooltip placement=\"top\">\n        <bl-button slot=\"tooltip-trigger\" size=\"small\" icon=\"info\">Help</bl-button>\n        <span slot=\"tooltip\">Switches between product views. More help is available in the docs.</span>\n      </bl-tooltip>\n    </div>\n\n    <bl-tab-group>\n      <bl-tab slot=\"tabs\" name=\"overview\">Overview</bl-tab>\n      <bl-tab slot=\"tabs\" name=\"details\">Details</bl-tab>\n      <bl-tab slot=\"tabs\" name=\"settings\">Settings</bl-tab>\n\n      <bl-tab-panel tab=\"overview\">\n        <h3>Overview</h3>\n        <p>Key metrics for your product at a glance.</p>\n      </bl-tab-panel>\n\n      <bl-tab-panel tab=\"details\">\n        <h3>Details</h3>\n        <p>Full specification and inventory details.</p>\n      </bl-tab-panel>\n\n      <bl-tab-panel tab=\"settings\">\n        <h3>Settings</h3>\n        <p>Configure alerts and preferences.</p>\n      </bl-tab-panel>\n    </bl-tab-group>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 85,
+          "efficiency": 77,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Filter Tabs</title>\n  <script type=\"module\" src=\"/dist/baklava.js\"></script>\n</head>\n<body>\n  <main style=\"max-width: 680px; margin: 2rem auto; padding: 0 1rem;\">\n    <h1>Filter Tabs</h1>\n\n    <!-- Tabs that switch panes -->\n    <bl-tab-group>\n      <bl-tab name=\"overview\" slot=\"tabs\" caption=\"Overview\">Overview</bl-tab>\n      <bl-tab name=\"filters\" slot=\"tabs\" caption=\"Filters\">Filters</bl-tab>\n      <bl-tab name=\"history\" slot=\"tabs\" caption=\"History\">History</bl-tab>\n\n      <bl-tab-panel tab=\"overview\">\n        <p>Overview: a summary of the current view.</p>\n      </bl-tab-panel>\n      <bl-tab-panel tab=\"filters\">\n        <p>Filters: refine the list by category or status.</p>\n      </bl-tab-panel>\n      <bl-tab-panel tab=\"history\">\n        <p>History: shows your recent activity.</p>\n      </bl-tab-panel>\n    </bl-tab-group>\n\n    <!-- Icon button with a tooltip explaining what it does -->\n    <div style=\"margin-top: 2rem;\">\n      <bl-tooltip placement=\"top\">\n        <bl-button slot=\"tooltip-trigger\" icon=\"info\" variant=\"tertiary\" aria-label=\"About these tabs\">About</bl-button>\n        <span>Switch between these panes with the tabs above.</span>\n      </bl-tooltip>\n    </div>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 90,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 2 inline style=",
+            "codeSnippet": "style="
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 95,
+          "efficiency": 67,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 90
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Filter Tabs</title>\n  <style>\n    body { font-family: var(--bl-font-family, system-ui, sans-serif); margin: 0; padding: 24px; color: var(--bl-color-neutral-900, #1f2430); }\n    .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }\n    .toolbar h1 { font-size: 20px; margin: 0; }\n    .panel-content { padding-top: 16px; }\n  </style>\n</head>\n<body>\n  <div class=\"toolbar\">\n    <h1>Filtered views</h1>\n    <bl-tooltip placement=\"right\">\n      <bl-button slot=\"tooltip-trigger\" icon=\"info\" size=\"small\" variant=\"tertiary\" label=\"Filter help\">Help</bl-button>\n      <p style=\"margin:0\">These tabs switch between the filtered product views: Active, Archived and Favorites.</p>\n    </bl-tooltip>\n  </div>\n\n  <bl-tab-group>\n    <bl-tab name=\"active\" slot=\"tabs\" selected>Active</bl-tab>\n    <bl-tab name=\"archived\" slot=\"tabs\">Archived</bl-tab>\n    <bl-tab name=\"favorites\" slot=\"tabs\">Favorites</bl-tab>\n\n    <bl-tab-panel tab=\"active\">\n      <div class=\"panel-content\">\n        <p>Products currently on sale. This is the default view.</p>\n      </div>\n    </bl-tab-panel>\n\n    <bl-tab-panel tab=\"archived\">\n      <div class=\"panel-content\">\n        <p>Products that have been paused or removed from the storefront.</p>\n      </div>\n    </bl-tab-panel>\n\n    <bl-tab-panel tab=\"favorites\">\n      <div class=\"panel-content\">\n        <p>Products you have marked as favorites for quick access.</p>\n      </div>\n    </bl-tab-panel>\n  </bl-tab-group>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 87,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 1 inline style=",
+            "codeSnippet": "style="
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 4 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 85,
+          "efficiency": 63,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 87
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 97,
+        "std": 0.9,
+        "min": 96,
+        "max": 98,
+        "sem": 0.5
+      },
+      "accessibility": {
+        "mean": 88,
+        "std": 4.7,
+        "min": 85,
+        "max": 95,
+        "sem": 2.7
+      },
+      "efficiency": {
+        "mean": 69,
+        "std": 5.9,
+        "min": 63,
+        "max": 77,
+        "sem": 3.4
+      },
+      "codeQuality": {
+        "mean": 85,
+        "std": 1.4,
+        "min": 84,
+        "max": 87,
+        "sem": 0.8
+      },
+      "maintainability": {
+        "mean": 93,
+        "std": 1.9,
+        "min": 92,
+        "max": 96,
+        "sem": 1.1
+      },
+      "overall": {
+        "mean": 89,
+        "std": 1.7,
+        "min": 87,
+        "max": 91,
+        "sem": 1
+      }
+    },
+    "escapeHatches": {
+      "mean": 2,
+      "std": 0.5,
+      "min": 1,
+      "max": 2,
+      "sem": 0.3
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

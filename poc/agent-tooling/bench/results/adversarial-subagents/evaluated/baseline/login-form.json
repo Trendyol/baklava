@@ -5,7 +5,7 @@
   "category": "forms",
   "complexity": "moderate",
   "prompt": "I want a login page like MUI — a TextField-styled email and password with `flex flex-col gap-4` spacing, and a firm primary CTA button that submits on Enter.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Sign In</title>\n  <style>\n    /* Scope layout/spacing only; component visuals come from the bl-* custom elements. */\n    .login-wrap {\n      display: flex;\n      flex-direction: column;\n      gap: 1rem;\n      max-width: 360px;\n      margin: 10vh auto;\n      padding: 1.5rem;\n      border: 1px solid var(--bl-color-border, #e2e8f0);\n      border-radius: 8px;\n      background: var(--bl-color-surface, #fff);\n    }\n    .login-wrap h1 {\n      font-size: 1.25rem;\n      margin: 0 0 0.25rem;\n    }\n  </style>\n</head>\n<body>\n  <main>\n    <form class=\"login-wrap\" onsubmit=\"return handleLogin(event)\">\n      <h1>Welcome back</h1>\n\n      <label for=\"email\">Email address</label>\n      <bl-input\n        id=\"email\"\n        type=\"email\"\n        placeholder=\"you@example.com\"\n        autocomplete=\"email\"\n        required\n      ></bl-input>\n\n      <label for=\"password\">Password</label>\n      <bl-input\n        id=\"password\"\n        type=\"password\"\n        placeholder=\"••••••••\"\n        autocomplete=\"current-password\"\n        required\n      ></bl-input>\n\n      <bl-button type=\"submit\" variant=\"primary\">Sign in</bl-button>\n\n      <p class=\"login-wrap__hint\" aria-live=\"polite\" id=\"status\"></p>\n    </form>\n  </main>\n\n  <script>\n    // Submit on Enter is native to <form> + submit button; we just surface status.\n    function handleLogin(e) {\n      e.preventDefault();\n      const email = document.getElementById('email').value;\n      const status = document.getElementById('status');\n      if (!email) {\n        status.textContent = 'Please enter your email address.';\n        return false;\n      }\n      status.textContent = 'Signing you in…';\n      return false;\n    }\n  </script>\n</body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 93,
@@ -28,6 +28,142 @@
       "codeQuality": 90,
       "maintainability": 100,
       "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Sign In</title>\n  <style>\n    /* Scope layout/spacing only; component visuals come from the bl-* custom elements. */\n    .login-wrap {\n      display: flex;\n      flex-direction: column;\n      gap: 1rem;\n      max-width: 360px;\n      margin: 10vh auto;\n      padding: 1.5rem;\n      border: 1px solid var(--bl-color-border, #e2e8f0);\n      border-radius: 8px;\n      background: var(--bl-color-surface, #fff);\n    }\n    .login-wrap h1 {\n      font-size: 1.25rem;\n      margin: 0 0 0.25rem;\n    }\n  </style>\n</head>\n<body>\n  <main>\n    <form class=\"login-wrap\" onsubmit=\"return handleLogin(event)\">\n      <h1>Welcome back</h1>\n\n      <label for=\"email\">Email address</label>\n      <bl-input\n        id=\"email\"\n        type=\"email\"\n        placeholder=\"you@example.com\"\n        autocomplete=\"email\"\n        required\n      ></bl-input>\n\n      <label for=\"password\">Password</label>\n      <bl-input\n        id=\"password\"\n        type=\"password\"\n        placeholder=\"••••••••\"\n        autocomplete=\"current-password\"\n        required\n      ></bl-input>\n\n      <bl-button type=\"submit\" variant=\"primary\">Sign in</bl-button>\n\n      <p class=\"login-wrap__hint\" aria-live=\"polite\" id=\"status\"></p>\n    </form>\n  </main>\n\n  <script>\n    // Submit on Enter is native to <form> + submit button; we just surface status.\n    function handleLogin(e) {\n      e.preventDefault();\n      const email = document.getElementById('email').value;\n      const status = document.getElementById('status');\n      if (!email) {\n        status.textContent = 'Please enter your email address.';\n        return false;\n      }\n      status.textContent = 'Signing you in…';\n      return false;\n    }\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Login</title>\n  <style>\n    body { margin: 0; font-family: system-ui, sans-serif; background: #f5f5f5; }\n    .login-wrap { display: flex; flex-direction: column; gap: 16px; max-width: 360px; margin: 80px auto; padding: 24px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.12); }\n    h1 { font-size: 20px; margin: 0 0 4px; }\n    p { color: #666; margin: 0 0 8px; font-size: 14px; }\n    label { font-size: 13px; margin-top: 8px; }\n    bl-input { width: 100%; }\n    button { margin-top: 16px; padding: 10px 16px; background: #0057ff; color: #fff; border: none; border-radius: 6px; font-size: 15px; cursor: pointer; }\n    button:hover { background: #0043c4; }\n  </style>\n</head>\n<body>\n  <div class=\"login-wrap\">\n    <h1>Sign in</h1>\n    <p>Enter your credentials to continue.</p>\n\n    <label for=\"email\">Email address</label>\n    <bl-input id=\"email\" name=\"email\" type=\"email\" placeholder=\"you@example.com\" required></bl-input>\n\n    <label for=\"password\">Password</label>\n    <bl-input id=\"password\" name=\"password\" type=\"password\" placeholder=\"••••••••\" required></bl-input>\n\n    <button id=\"login\">Sign in</button>\n  </div>\n\n  <script>\n    const form = document.querySelector('.login-wrap');\n    const btn = document.getElementById('login');\n    const enter = (e) => {\n      if (e.key === 'Enter') submit();\n    };\n    const submit = () => {\n      const email = document.getElementById('email').value;\n      const password = document.getElementById('password').value;\n      console.log('submitting', { email, password });\n    };\n    form.addEventListener('keydown', (e) => enter(e));\n    btn.addEventListener('click', submit);\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [
+          "bl-button"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 93,
+          "accessibility": 73,
+          "efficiency": 93,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 89
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Login</title>\n  <style>\n    body { font-family: system-ui, -apple-system, sans-serif; background: #f5f5f7; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }\n    .card { background: #fff; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.08); padding: 32px; width: 100%; max-width: 360px; }\n    .card h1 { font-size: 1.25rem; margin: 0 0 4px; }\n    .card p.sub { color: #666; margin: 0 0 20px; font-size: .875rem; }\n    .flex { display: flex; flex-direction: column; gap: 16px; }\n    .field label { display: block; font-size: .8125rem; font-weight: 600; margin-bottom: 4px; color: #333; }\n    .field input { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: .9375rem; }\n    .field input:focus { outline: 2px solid #2563eb; outline-offset: 1px; }\n    .cta { width: 100%; background: #2563eb; color: #fff; border: 0; border-radius: 8px; padding: 11px 12px; font-size: .9375rem; font-weight: 600; cursor: pointer; }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <h1>Welcome back</h1>\n    <p class=\"sub\">Sign in to continue</p>\n    <form class=\"flex\" onsubmit=\"event.preventDefault();\">\n      <div class=\"field\">\n        <label for=\"email\">Email</label>\n        <input id=\"email\" name=\"email\" type=\"email\" required>\n      </div>\n      <div class=\"field\">\n        <label for=\"password\">Password</label>\n        <input id=\"password\" name=\"password\" type=\"password\" required>\n      </div>\n      <button class=\"cta\" type=\"submit\">Sign in</button>\n    </form>\n  </div>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 86,
+        "missed": [
+          "bl-input",
+          "bl-button"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 3 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 88,
+          "accessibility": 70,
+          "efficiency": 91,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 86
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 94,
+        "std": 4.9,
+        "min": 88,
+        "max": 100,
+        "sem": 2.8
+      },
+      "accessibility": {
+        "mean": 73,
+        "std": 2.4,
+        "min": 70,
+        "max": 76,
+        "sem": 1.4
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0.8,
+        "min": 91,
+        "max": 93,
+        "sem": 0.5
+      },
+      "codeQuality": {
+        "mean": 88,
+        "std": 1.4,
+        "min": 87,
+        "max": 90,
+        "sem": 0.8
+      },
+      "maintainability": {
+        "mean": 97,
+        "std": 1.9,
+        "min": 96,
+        "max": 100,
+        "sem": 1.1
+      },
+      "overall": {
+        "mean": 89,
+        "std": 2.9,
+        "min": 86,
+        "max": 93,
+        "sem": 1.7
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0.5,
+      "min": 0,
+      "max": 1,
+      "sem": 0.3
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

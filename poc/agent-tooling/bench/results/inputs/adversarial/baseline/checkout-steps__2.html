@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Checkout</title>
+    <style>
+      body { font-family: -apple-system, system-ui, sans-serif; margin: 2rem; }
+      .stepper { list-style: none; display: flex; gap: 1.5rem; padding: 0; margin-bottom: 2rem; }
+      .stepper li { display: flex; align-items: center; gap: 0.4rem; }
+      .stepper .dot { width: 1.1rem; height: 1.1rem; border-radius: 50%; background: #ccc; color: #fff; font-size: 0.7rem; display: inline-flex; align-items: center; justify-content: center; }
+      .stepper li.active .dot { background: #2a7de1; }
+      .cart-badge { position: relative; display: inline-block; margin-top: 1rem; }
+      .cart-badge .badge-pill { position: absolute; top: -8px; right: -12px; background: #dc3545; color: #fff; border-radius: 999px; padding: 0 0.4rem; font-size: 0.75rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Checkout</h1>
+
+    <!-- Step indicator -->
+    <bl-stepper>
+      <bl-stepper-item>Cart</bl-stepper-item>
+      <bl-stepper-item>Shipping</bl-stepper-item>
+      <bl-stepper-item>Payment</bl-stepper-item>
+    </bl-stepper>
+
+    <!-- Cart icon with count badge -->
+    <div class="cart-badge">
+      <span aria-hidden="true">🛒</span>
+      <span class="badge-pill">2</span>
+    </div>
+
+    <section>
+      <h2>Your cart</h2>
+      <p>You have <strong>2</strong> items in your cart. Continue to shipping when ready.</p>
+      <bl-button variant="primary">Continue to Shipping</bl-button>
+    </section>
+  </body>
+</html>

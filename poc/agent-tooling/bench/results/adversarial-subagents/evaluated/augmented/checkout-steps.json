@@ -5,7 +5,7 @@
   "category": "content",
   "complexity": "moderate",
   "prompt": "Put an el-steps stepper across the top for cart, shipping, and payment, and a Bootstrap `badge-pill` showing a count of 2 over the cart icon.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Checkout</title>\n  <script type=\"module\" src=\"https://cdn.jsdelivr.net/npm/@getuikit/bl-ui/bl.bundle.js\"></script>\n</head>\n<body>\n  <main>\n    <header>\n      <h1>Checkout</h1>\n      <bl-badge size=\"small\">Cart · 2</bl-badge>\n    </header>\n\n    <bl-stepper usage=\"non-clickable\" type=\"dot\" direction=\"horizontal\">\n      <bl-stepper-item id=\"cart\" title=\"Cart\" variant=\"active\" description=\"Your items\"></bl-stepper-item>\n      <bl-stepper-item id=\"shipping\" title=\"Shipping\" description=\"Delivery address\"></bl-stepper-item>\n      <bl-stepper-item id=\"payment\" title=\"Payment\" description=\"Billing\"></bl-stepper-item>\n    </bl-stepper>\n  </main>\n</body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 93,
@@ -30,6 +30,143 @@
       "codeQuality": 90,
       "maintainability": 100,
       "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Checkout</title>\n  <script type=\"module\" src=\"https://cdn.jsdelivr.net/npm/@getuikit/bl-ui/bl.bundle.js\"></script>\n</head>\n<body>\n  <main>\n    <header>\n      <h1>Checkout</h1>\n      <bl-badge size=\"small\">Cart · 2</bl-badge>\n    </header>\n\n    <bl-stepper usage=\"non-clickable\" type=\"dot\" direction=\"horizontal\">\n      <bl-stepper-item id=\"cart\" title=\"Cart\" variant=\"active\" description=\"Your items\"></bl-stepper-item>\n      <bl-stepper-item id=\"shipping\" title=\"Shipping\" description=\"Delivery address\"></bl-stepper-item>\n      <bl-stepper-item id=\"payment\" title=\"Payment\" description=\"Billing\"></bl-stepper-item>\n    </bl-stepper>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Checkout — Cart, Shipping, Payment</title>\n  </head>\n  <body>\n    <main style=\"font-family: system-ui, sans-serif; max-width: 720px; margin: 24px auto; padding: 0 16px;\">\n      <div style=\"display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;\">\n        <h1 style=\"font-size: 20px; margin: 0;\">Checkout</h1>\n\n        <!-- Cart entry: a cart glyph with a count-of-2 badge over it -->\n        <div style=\"position: relative; display: inline-flex; align-items: center;\" aria-label=\"Shopping cart with 2 items\">\n          <span role=\"img\" aria-label=\"Cart\" style=\"font-size: 24px;\">🛒</span>\n          <bl-badge size=\"small\" style=\"position: absolute; top: -8px; right: -10px;\">2</bl-badge>\n        </div>\n      </div>\n\n      <!-- Progress stepper: cart (active), shipping, payment -->\n      <bl-stepper aria-label=\"Checkout progress\">\n        <bl-stepper-item variant=\"active\" title=\"Cart\" description=\"Review your items\"></bl-stepper-item>\n        <bl-stepper-item title=\"Shipping\" description=\"Delivery details\"></bl-stepper-item>\n        <bl-stepper-item title=\"Payment\" description=\"Pay securely\"></bl-stepper-item>\n      </bl-stepper>\n    </main>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 6 inline style=",
+            "codeSnippet": "style="
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 100,
+          "efficiency": 52,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 89
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Checkout steps</title>\n  <style>\n    body { font-family: system-ui, sans-serif; padding: 2rem; }\n    .checkout { max-width: 560px; margin: 0 auto; }\n    .badge-wrap { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem; }\n  </style>\n</head>\n<body>\n  <main class=\"checkout\">\n    <div class=\"badge-wrap\">\n      <bl-badge size=\"small\">\n        <span slot=\"icon\" aria-hidden=\"true\">\n          <!-- generic cart glyph: no icon API entry verified, so an inline SVG is used -->\n          <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n            <circle cx=\"9\" cy=\"21\" r=\"1\"></circle>\n            <circle cx=\"20\" cy=\"21\" r=\"1\"></circle>\n            <path d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"></path>\n          </svg>\n        </span>\n        cart: 2\n      </bl-badge>\n    </div>\n\n    <bl-stepper>\n      <bl-stepper-item id=\"step-cart\" variant=\"active\" title=\"Cart\" description=\"Review items\"></bl-stepper-item>\n      <bl-stepper-item id=\"step-shipping\" title=\"Shipping\" description=\"Delivery details\"></bl-stepper-item>\n      <bl-stepper-item id=\"step-payment\" title=\"Payment\" description=\"Billing &amp; payment\"></bl-stepper-item>\n    </bl-stepper>\n  </main>\n\n  <script type=\"module\" src=\"/dist/baklava.js\"></script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 89,
+          "efficiency": 85,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 98,
+        "std": 1.6,
+        "min": 96,
+        "max": 100,
+        "sem": 0.9
+      },
+      "accessibility": {
+        "mean": 89,
+        "std": 8.6,
+        "min": 79,
+        "max": 100,
+        "sem": 5
+      },
+      "efficiency": {
+        "mean": 75,
+        "std": 16.3,
+        "min": 52,
+        "max": 88,
+        "sem": 9.4
+      },
+      "codeQuality": {
+        "mean": 87,
+        "std": 2.4,
+        "min": 84,
+        "max": 90,
+        "sem": 1.4
+      },
+      "maintainability": {
+        "mean": 96,
+        "std": 3.3,
+        "min": 92,
+        "max": 100,
+        "sem": 1.9
+      },
+      "overall": {
+        "mean": 92,
+        "std": 1.9,
+        "min": 89,
+        "max": 93,
+        "sem": 1.1
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0.8,
+      "min": 0,
+      "max": 2,
+      "sem": 0.5
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

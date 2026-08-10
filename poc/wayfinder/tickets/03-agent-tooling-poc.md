@@ -54,3 +54,11 @@ belgeli; değerlendirici tam deterministik.
 - **Adversarial real subagent run** (`adversarial-subagents`, 16 tasks): success rate 63%->100%, Correctness 81->98, Escape hatches 19->8, Hallucinated 2->0 (baseline escapes to MUI/Bootstrap/Tailwind; tooled arm stays on the real API).
 - **Optional LLM-judge layer** (separate fresh-context judge agents, Astryx principle): adversarial baseline judge 46->82 overall; merged into compare as a distinct section.
 - Inputs are stored per persona (`inputs/<persona>/<arm>/`) so runs never clobber each other.
+
+## Update 2 — improvement pass (3 steps, all landed)
+
+1. **Headless render layer** (`render` cmd, dependency-free CDP + real Baklava bundle over a local HTTP server): browser-verified evidence. Baseline renders 6 unupgraded elements (`bl-accordion-item`, `bl-option` — tags not in the library); augmented upgrades 100% of 82 elements. Merged into compare as a separate section.
+2. **Attr-value + nesting + sensitivity**: rubric now validates enum values (from CEM `type` unions) and parent-child nesting; `sensitivity` recomputes overall under 5 weight vectors — delta stays +11..+17, robust to weighting. Stricter rubric tightened adversarial delta +8 -> +14.
+3. **Multi-sample + error bars**: n=3 per cell (48 adversarial tasks). Baseline overall 79 (95% CI 75-83) vs tooled 91 (95% CI 90-92) — non-overlapping CIs, so the +12 delta is not noise.
+
+self-test: ALL CHECKS PASSED.

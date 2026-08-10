@@ -4,19 +4,19 @@
       "iteration": "real-subagents",
       "persona": "naive",
       "model": "mlplatform/deepseek-v4-flash-0731",
-      "timestamp": "2026-08-10T11:43:44.111Z",
+      "timestamp": "2026-08-10T12:05:31.017Z",
       "before": {
-        "overall": 89,
+        "overall": 88,
         "dims": {
-          "correctness": 95,
+          "correctness": 94,
           "accessibility": 79,
           "efficiency": 83,
-          "codeQuality": 86,
-          "maintainability": 94,
-          "overall": 89
+          "codeQuality": 85,
+          "maintainability": 93,
+          "overall": 88
         },
         "hall": 0,
-        "esc": 12,
+        "esc": 14,
         "succ": 100
       },
       "after": {
@@ -35,63 +35,63 @@
       },
       "delta": {
         "successRate": 0,
-        "avgOverall": 4,
-        "dim.correctness": 4,
+        "avgOverall": 5,
+        "dim.correctness": 5,
         "dim.accessibility": 2,
         "dim.efficiency": 3,
-        "dim.codeQuality": 4,
-        "dim.maintainability": 6,
-        "dim.overall": 4,
+        "dim.codeQuality": 5,
+        "dim.maintainability": 7,
+        "dim.overall": 5,
         "totalHallucinations": 0,
-        "totalEscapeHatches": -12
+        "totalEscapeHatches": -14
       }
     },
     {
       "iteration": "adversarial-subagents",
       "persona": "adversarial",
       "model": "mlplatform/deepseek-v4-flash-0731",
-      "timestamp": "2026-08-10T11:46:14.560Z",
+      "timestamp": "2026-08-10T12:08:45.664Z",
       "before": {
-        "overall": 82,
+        "overall": 79,
         "dims": {
-          "correctness": 81,
-          "accessibility": 77,
-          "efficiency": 83,
-          "codeQuality": 80,
-          "maintainability": 89,
-          "overall": 82
+          "correctness": 77,
+          "accessibility": 82,
+          "efficiency": 82,
+          "codeQuality": 75,
+          "maintainability": 83,
+          "overall": 79
         },
-        "hall": 2,
-        "esc": 19,
-        "succ": 63
+        "hall": 3,
+        "esc": 27,
+        "succ": 67
       },
       "after": {
-        "overall": 90,
+        "overall": 91,
         "dims": {
           "correctness": 98,
-          "accessibility": 85,
-          "efficiency": 73,
+          "accessibility": 84,
+          "efficiency": 75,
           "codeQuality": 87,
           "maintainability": 96,
-          "overall": 90
+          "overall": 91
         },
         "hall": 0,
-        "esc": 8,
+        "esc": 9,
         "succ": 100
       },
       "delta": {
-        "successRate": 37,
-        "avgOverall": 8,
-        "dim.correctness": 17,
-        "dim.accessibility": 8,
-        "dim.efficiency": -10,
-        "dim.codeQuality": 7,
-        "dim.maintainability": 7,
-        "dim.overall": 8,
-        "totalHallucinations": -2,
-        "totalEscapeHatches": -11
+        "successRate": 33,
+        "avgOverall": 12,
+        "dim.correctness": 21,
+        "dim.accessibility": 2,
+        "dim.efficiency": -7,
+        "dim.codeQuality": 12,
+        "dim.maintainability": 13,
+        "dim.overall": 12,
+        "totalHallucinations": -3,
+        "totalEscapeHatches": -18
       }
     }
   ],
-  "updatedAt": "2026-08-10T11:46:14.619Z"
+  "updatedAt": "2026-08-10T12:09:17.400Z"
 }

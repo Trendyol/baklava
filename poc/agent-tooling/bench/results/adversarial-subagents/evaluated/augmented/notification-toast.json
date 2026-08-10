@@ -5,7 +5,7 @@
   "category": "feedback",
   "complexity": "simple",
   "prompt": "After saving, pop a Bootstrap-style toast like `toast` with a `toast-header` success label and a close button so it can be dismissed.",
-  "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Save confirmation toast — Baklava</title>\n    <!-- Baklava Web Components design system -->\n    <script type=\"module\">\n      import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.esm.js';\n      defineCustomElements();\n    </script>\n    <style>\n      body { font-family: system-ui, sans-serif; padding: 2rem; }\n      .toolbar { display: flex; gap: 0.5rem; align-items: center; }\n      .hidden { display: none; }\n    </style>\n  </head>\n  <body>\n    <!-- Trigger: saving the document pops the confirmation toast -->\n    <div class=\"toolbar\">\n      <bl-button id=\"save-btn\" variant=\"primary\" type=\"submit\">Save changes</bl-button>\n    </div>\n\n    <!-- Toast container: a saved-confirmation toast, dismissible via its close button -->\n    <bl-notification id=\"toast\" duration=\"7\">\n      <bl-notification-card variant=\"success\" caption=\"Saved\" icon>\n        Your changes were saved successfully.\n        <bl-button slot=\"primary-action\" kind=\"success\" @bl-click=\"this.closest('bl-notification-card').closed = true\">\n          Undo\n        </bl-button>\n      </bl-notification-card>\n    </bl-notification>\n\n    <script>\n      const saveBtn = document.getElementById('save-btn');\n      const toast = document.getElementById('toast');\n      // Position the toast fixed to the bottom-right corner, as a toast does.\n      if (toast) toast.style.position = 'fixed';\n      if (toast) toast.style.bottom = '1rem';\n      if (toast) toast.style.right = '1rem';\n      if (toast) toast.style.zIndex = '999';\n      saveBtn.addEventListener('bl-click', () => {\n        if (toast) {\n          toast.classList.remove('hidden');\n          // Ensure the card shows once more (declarative card renders on first connect).\n          const card = toast.querySelector('bl-notification-card');\n          if (card) card.closed = false;\n        }\n      });\n    </script>\n  </body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 89,
@@ -45,6 +45,140 @@
       "codeQuality": 84,
       "maintainability": 92,
       "overall": 89
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Save confirmation toast — Baklava</title>\n    <!-- Baklava Web Components design system -->\n    <script type=\"module\">\n      import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.esm.js';\n      defineCustomElements();\n    </script>\n    <style>\n      body { font-family: system-ui, sans-serif; padding: 2rem; }\n      .toolbar { display: flex; gap: 0.5rem; align-items: center; }\n      .hidden { display: none; }\n    </style>\n  </head>\n  <body>\n    <!-- Trigger: saving the document pops the confirmation toast -->\n    <div class=\"toolbar\">\n      <bl-button id=\"save-btn\" variant=\"primary\" type=\"submit\">Save changes</bl-button>\n    </div>\n\n    <!-- Toast container: a saved-confirmation toast, dismissible via its close button -->\n    <bl-notification id=\"toast\" duration=\"7\">\n      <bl-notification-card variant=\"success\" caption=\"Saved\" icon>\n        Your changes were saved successfully.\n        <bl-button slot=\"primary-action\" kind=\"success\" @bl-click=\"this.closest('bl-notification-card').closed = true\">\n          Undo\n        </bl-button>\n      </bl-notification-card>\n    </bl-notification>\n\n    <script>\n      const saveBtn = document.getElementById('save-btn');\n      const toast = document.getElementById('toast');\n      // Position the toast fixed to the bottom-right corner, as a toast does.\n      if (toast) toast.style.position = 'fixed';\n      if (toast) toast.style.bottom = '1rem';\n      if (toast) toast.style.right = '1rem';\n      if (toast) toast.style.zIndex = '999';\n      saveBtn.addEventListener('bl-click', () => {\n        if (toast) {\n          toast.classList.remove('hidden');\n          // Ensure the card shows once more (declarative card renders on first connect).\n          const card = toast.querySelector('bl-notification-card');\n          if (card) card.closed = false;\n        }\n      });\n    </script>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-button> attr \"true\" not part of API",
+            "codeSnippet": "true"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 79,
+          "efficiency": 85,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 89
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Save confirmation toast</title>\n  <style>\n    :host, body { margin: 0; font-family: system-ui, sans-serif; }\n    main { max-width: 26rem; margin: 4rem auto; padding: 0 1rem; }\n    h1 { font-size: 1.25rem; margin: 0 0 1rem; }\n    bl-notification { position: fixed; inset-block-start: 1rem; inset-inline-end: 1rem; }\n  </style>\n</head>\n<body>\n  <main>\n    <h1>Settings</h1>\n    <p>Make a change, then save to see the confirmation toast.</p>\n    <bl-button id=\"save-btn\" variant=\"primary\">Save changes</bl-button>\n    <bl-notification id=\"toasts\"></bl-notification>\n  </main>\n\n  <script type=\"module\">\n    const toasts = document.getElementById('toasts');\n    const saveBtn = document.getElementById('save-btn');\n\n    function showSavedToast() {\n      toasts.addNotification({\n        caption: 'Saved successfully',\n        variant: 'success',\n        duration: 7,\n      });\n    }\n\n    saveBtn.addEventListener('bl-click', showSavedToast);\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-notification-card"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Save Confirmation Toast</title>\n  <style>\n    body {\n      font-family: system-ui, sans-serif;\n      padding: 2rem;\n      display: flex;\n      flex-direction: column;\n      gap: 1.5rem;\n      align-items: flex-start;\n    }\n    .demo-heading { margin: 0; font-size: 1.1rem; }\n  </style>\n</head>\n<body>\n  <h1 class=\"demo-heading\">Save changes</h1>\n\n  <!-- The controller host that renders dismissible toast cards. -->\n  <bl-notification no-animation></bl-notification>\n\n  <bl-button id=\"save-btn\" variant=\"primary\">Save changes</bl-button>\n\n  <script type=\"module\">\n    const notification = document.querySelector('bl-notification');\n    const saveBtn = document.querySelector('bl-button#save-btn');\n\n    function showSavedToast() {\n      notification.addNotification({\n        caption: 'Success',\n        description: 'Your changes have been saved successfully.',\n        variant: 'success',\n        permanent: true,\n      });\n    }\n\n    saveBtn.addEventListener('bl-click', () => showSavedToast());\n\n    // Demonstrate the toast immediately on load.\n    showSavedToast();\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-notification-card"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 95,
+        "std": 0.5,
+        "min": 95,
+        "max": 96,
+        "sem": 0.3
+      },
+      "accessibility": {
+        "mean": 77,
+        "std": 1.4,
+        "min": 76,
+        "max": 79,
+        "sem": 0.8
+      },
+      "efficiency": {
+        "mean": 90,
+        "std": 3.3,
+        "min": 85,
+        "max": 92,
+        "sem": 1.9
+      },
+      "codeQuality": {
+        "mean": 88,
+        "std": 2.8,
+        "min": 84,
+        "max": 90,
+        "sem": 1.6
+      },
+      "maintainability": {
+        "mean": 97,
+        "std": 3.8,
+        "min": 92,
+        "max": 100,
+        "sem": 2.2
+      },
+      "overall": {
+        "mean": 90,
+        "std": 0.9,
+        "min": 89,
+        "max": 91,
+        "sem": 0.5
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0.9,
+      "min": 0,
+      "max": 2,
+      "sem": 0.5
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

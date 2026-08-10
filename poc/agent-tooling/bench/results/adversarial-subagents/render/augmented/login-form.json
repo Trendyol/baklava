@@ -1,0 +1,19 @@
+{
+  "id": "login-form",
+  "arm": "augmented",
+  "file": "adversarial/augmented/login-form.html.html",
+  "url": "http://127.0.0.1:51018/.poc-render-tmp/adversarial-augmented-login-form.html",
+  "loaded": true,
+  "exceptions": [
+    "Uncaught"
+  ],
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_NAME_NOT_RESOLVED"
+  ],
+  "blElementCount": 3,
+  "upgradedCount": 3,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}

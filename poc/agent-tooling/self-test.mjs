@@ -79,6 +79,27 @@ check('adversarial baseline has hallucination gaps (before esc > after esc)', (a
 check('adversarial LLM-judge data present (augmented)', existsSync(
   path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'judge', 'augmented', 'login-form.json')));
 
+// Step 1: headless-render layer
+check('adversarial render aggregate exists (baseline)', existsSync(
+  path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'render', 'baseline.aggregate.json')));
+const rb = JSON.parse(readFileSync(path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'render', 'baseline.aggregate.json'), 'utf8'));
+check('render recorded results', rb && rb.nLoaded > 0);
+
+// Step 2: sensitivity analysis
+check('sensitivity.json exists', existsSync(
+  path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'sensitivity.json')));
+const sen = JSON.parse(readFileSync(path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'sensitivity.json'), 'utf8'));
+check('sensitivity delta is positive across all weight variants',
+  Array.isArray(sen.variants) && sen.variants.length >= 3 && sen.variants.every((v) => v.delta > 0));
+
+// Step 3: multi-sample + error bars (adversarial should have >=2 samples/prompt)
+const probe = JSON.parse(readFileSync(path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'evaluated', 'augmented', 'product-table.json'), 'utf8'));
+check('multi-sample: per-prompt n>=3 and aggregate recorded', probe.n >= 3 && probe.aggregate && probe.aggregate.scores);
+check('error bars: compare has non-null 95% CI for both arms',
+  adv.before && adv.after && adv.before.overallCI && adv.after.overallCI);
+check('error bars: augmented CI floor > baseline CI ceiling (no overlap)',
+  adv.after.overallCI[0] > adv.before.overallCI[1]);
+
 // rolling scorecard exists & aggregates iterations
 const scPath = path.join(REPO, 'poc', 'agent-tooling', 'bench', 'results', 'scorecard.json');
 check('rolling scorecard.json exists', existsSync(scPath));

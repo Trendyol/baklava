@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Filter Tabs</title>
+  <style>
+    body { font-family: var(--bl-font-family, system-ui, sans-serif); margin: 0; padding: 24px; color: var(--bl-color-neutral-900, #1f2430); }
+    .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .toolbar h1 { font-size: 20px; margin: 0; }
+    .panel-content { padding-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <h1>Filtered views</h1>
+    <bl-tooltip placement="right">
+      <bl-button slot="tooltip-trigger" icon="info" size="small" variant="tertiary" label="Filter help">Help</bl-button>
+      <p style="margin:0">These tabs switch between the filtered product views: Active, Archived and Favorites.</p>
+    </bl-tooltip>
+  </div>
+
+  <bl-tab-group>
+    <bl-tab name="active" slot="tabs" selected>Active</bl-tab>
+    <bl-tab name="archived" slot="tabs">Archived</bl-tab>
+    <bl-tab name="favorites" slot="tabs">Favorites</bl-tab>
+
+    <bl-tab-panel tab="active">
+      <div class="panel-content">
+        <p>Products currently on sale. This is the default view.</p>
+      </div>
+    </bl-tab-panel>
+
+    <bl-tab-panel tab="archived">
+      <div class="panel-content">
+        <p>Products that have been paused or removed from the storefront.</p>
+      </div>
+    </bl-tab-panel>
+
+    <bl-tab-panel tab="favorites">
+      <div class="panel-content">
+        <p>Products you have marked as favorites for quick access.</p>
+      </div>
+    </bl-tab-panel>
+  </bl-tab-group>
+</body>
+</html>

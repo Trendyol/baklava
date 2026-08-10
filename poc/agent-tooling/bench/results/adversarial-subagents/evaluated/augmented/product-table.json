@@ -5,7 +5,7 @@
   "category": "data-view",
   "complexity": "complex",
   "prompt": "Show my products in a grid like a shadcn DataTable with columns and row-action buttons, Tailwind `badge` styling to mark popular rows, and pagination controls at the bottom.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Product Catalog</title>\n  <style>\n    body { margin: 0; font-family: system-ui, sans-serif; background: #fafafa; color: #1d1d1d; }\n    .page { max-width: 960px; margin: 0 auto; padding: 32px 24px; }\n    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }\n    .page-title { margin: 0; font-size: 22px; font-weight: 600; }\n    .table-wrap { background: #fff; border: 1px solid #e6e6e6; border-radius: 8px; overflow: hidden; }\n    .pagination-wrap { background: #fff; border: 1px solid #e6e6e6; border-top: 0; border-radius: 0 0 8px 8px; padding: 12px 16px; }\n  </style>\n</head>\n<body>\n  <main class=\"page\">\n    <div class=\"page-header\">\n      <h1 class=\"page-title\">Product Catalog</h1>\n      <bl-button variant=\"primary\">Add Product</bl-button>\n    </div>\n\n    <div class=\"table-wrap\">\n      <bl-table>\n        <bl-table-header sticky>\n          <bl-table-row>\n            <bl-table-header-cell>Product</bl-table-header-cell>\n            <bl-table-header-cell>Category</bl-table-header-cell>\n            <bl-table-header-cell>Price</bl-table-header-cell>\n            <bl-table-header-cell>Status</bl-table-header-cell>\n            <bl-table-header-cell>Actions</bl-table-header-cell>\n          </bl-table-row>\n        </bl-table-header>\n        <bl-table-body>\n          <bl-table-row>\n            <bl-table-cell>Wireless Headphones</bl-table-cell>\n            <bl-table-cell>Audio</bl-table-cell>\n            <bl-table-cell>$89.00</bl-table-cell>\n            <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n          <bl-table-row>\n            <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n            <bl-table-cell>Accessories</bl-table-cell>\n            <bl-table-cell>$129.00</bl-table-cell>\n            <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n          <bl-table-row>\n            <bl-table-cell>USB-C Hub</bl-table-cell>\n            <bl-table-cell>Accessories</bl-table-cell>\n            <bl-table-cell>$49.00</bl-table-cell>\n            <bl-table-cell>—</bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n          <bl-table-row>\n            <bl-table-cell>4K Monitor 27\"</bl-table-cell>\n            <bl-table-cell>Displays</bl-table-cell>\n            <bl-table-cell>$349.00</bl-table-cell>\n            <bl-table-cell>—</bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n        </bl-table-body>\n      </bl-table>\n    </div>\n\n    <div class=\"pagination-wrap\">\n      <bl-pagination current-page=\"1\" total-items=\"24\" items-per-page=\"10\"></bl-pagination>\n    </div>\n  </main>\n</body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 86,
@@ -54,6 +54,143 @@
       "codeQuality": 84,
       "maintainability": 92,
       "overall": 86
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Product Catalog</title>\n  <style>\n    body { margin: 0; font-family: system-ui, sans-serif; background: #fafafa; color: #1d1d1d; }\n    .page { max-width: 960px; margin: 0 auto; padding: 32px 24px; }\n    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }\n    .page-title { margin: 0; font-size: 22px; font-weight: 600; }\n    .table-wrap { background: #fff; border: 1px solid #e6e6e6; border-radius: 8px; overflow: hidden; }\n    .pagination-wrap { background: #fff; border: 1px solid #e6e6e6; border-top: 0; border-radius: 0 0 8px 8px; padding: 12px 16px; }\n  </style>\n</head>\n<body>\n  <main class=\"page\">\n    <div class=\"page-header\">\n      <h1 class=\"page-title\">Product Catalog</h1>\n      <bl-button variant=\"primary\">Add Product</bl-button>\n    </div>\n\n    <div class=\"table-wrap\">\n      <bl-table>\n        <bl-table-header sticky>\n          <bl-table-row>\n            <bl-table-header-cell>Product</bl-table-header-cell>\n            <bl-table-header-cell>Category</bl-table-header-cell>\n            <bl-table-header-cell>Price</bl-table-header-cell>\n            <bl-table-header-cell>Status</bl-table-header-cell>\n            <bl-table-header-cell>Actions</bl-table-header-cell>\n          </bl-table-row>\n        </bl-table-header>\n        <bl-table-body>\n          <bl-table-row>\n            <bl-table-cell>Wireless Headphones</bl-table-cell>\n            <bl-table-cell>Audio</bl-table-cell>\n            <bl-table-cell>$89.00</bl-table-cell>\n            <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n          <bl-table-row>\n            <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n            <bl-table-cell>Accessories</bl-table-cell>\n            <bl-table-cell>$129.00</bl-table-cell>\n            <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n          <bl-table-row>\n            <bl-table-cell>USB-C Hub</bl-table-cell>\n            <bl-table-cell>Accessories</bl-table-cell>\n            <bl-table-cell>$49.00</bl-table-cell>\n            <bl-table-cell>—</bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n          <bl-table-row>\n            <bl-table-cell>4K Monitor 27\"</bl-table-cell>\n            <bl-table-cell>Displays</bl-table-cell>\n            <bl-table-cell>$349.00</bl-table-cell>\n            <bl-table-cell>—</bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n        </bl-table-body>\n      </bl-table>\n    </div>\n\n    <div class=\"pagination-wrap\">\n      <bl-pagination current-page=\"1\" total-items=\"24\" items-per-page=\"10\"></bl-pagination>\n    </div>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 86,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 4 inline style=",
+            "codeSnippet": "style="
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 3 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 97,
+          "efficiency": 35,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 86
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Products — DataTable</title>\n  <style>\n    body { font-family: system-ui, sans-serif; margin: 40px; color: #1a1a2e; }\n    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }\n    .header h1 { margin: 0; font-size: 24px; }\n    .summary { color: #555; font-size: 13px; margin-top: 4px; }\n  </style>\n  <script type=\"module\" src=\"/dist/baklava.js\"></script>\n</head>\n<body>\n  <div class=\"header\">\n    <div>\n      <h1>Products</h1>\n      <div class=\"summary\">Manage your catalog — popular items are highlighted.</div>\n    </div>\n    <bl-button variant=\"secondary\">Export</bl-button>\n  </div>\n\n  <bl-table selectable sortable>\n    <bl-table-header sticky>\n      <bl-table-row>\n        <bl-table-header-cell sortable sort-key=\"name\">Product</bl-table-header-cell>\n        <bl-table-header-cell sort-key=\"category\">Category</bl-table-header-cell>\n        <bl-table-header-cell sortable sort-key=\"price\">Price</bl-table-header-cell>\n        <bl-table-header-cell sort-key=\"stock\">Stock</bl-table-header-cell>\n        <bl-table-header-cell>Popular</bl-table-header-cell>\n        <bl-table-header-cell>Actions</bl-table-header-cell>\n      </bl-table-row>\n    </bl-table-header>\n    <bl-table-body>\n      <bl-table-row selection-key=\"row-1\">\n        <bl-table-cell>Wingback Oak Chair</bl-table-cell>\n        <bl-table-cell>Furniture</bl-table-cell>\n        <bl-table-cell>$249.00</bl-table-cell>\n        <bl-table-cell>34</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"tertiary\" size=\"small\" icon=\"edit\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\" icon=\"trash\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row selection-key=\"row-2\">\n        <bl-table-cell>Blush Linen Armchair</bl-table-cell>\n        <bl-table-cell>Furniture</bl-table-cell>\n        <bl-table-cell>$389.00</bl-table-cell>\n        <bl-table-cell>12</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"tertiary\" size=\"small\" icon=\"edit\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\" icon=\"trash\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row selection-key=\"row-3\">\n        <bl-table-cell>Ceramic Table Lamp</bl-table-cell>\n        <bl-table-cell>Lighting</bl-table-cell>\n        <bl-table-cell>$129.00</bl-table-cell>\n        <bl-table-cell>58</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"tertiary\" size=\"small\" icon=\"edit\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\" icon=\"trash\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row selection-key=\"row-4\">\n        <bl-table-cell>Oak Coffee Table</bl-table-cell>\n        <bl-table-cell>Furniture</bl-table-cell>\n        <bl-table-cell>$315.00</bl-table-cell>\n        <bl-table-cell>7</bl-table-cell>\n        <bl-table-cell>-</bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"tertiary\" size=\"small\" icon=\"edit\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\" icon=\"trash\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row selection-key=\"row-5\">\n        <bl-table-cell>Velvet Ottoman</bl-table-cell>\n        <bl-table-cell>Furniture</bl-table-cell>\n        <bl-table-cell>$189.00</bl-table-cell>\n        <bl-table-cell>22</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"tertiary\" size=\"small\" icon=\"edit\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\" icon=\"trash\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row selection-key=\"row-6\">\n        <bl-table-cell>Stoneware Dinner Set</bl-table-cell>\n        <bl-table-cell>Kitchen</bl-table-cell>\n        <bl-table-cell>$142.00</bl-table-cell>\n        <bl-table-cell>40</bl-table-cell>\n        <bl-table-cell>-</bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"tertiary\" size=\"small\" icon=\"edit\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\" icon=\"trash\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row selection-key=\"row-7\">\n        <bl-table-cell>Rattan Pendant Light</bl-table-cell>\n        <bl-table-cell>Lighting</bl-table-cell>\n        <bl-table-cell>$96.00</bl-table-cell>\n        <bl-table-cell>18</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"tertiary\" size=\"small\" icon=\"edit\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\" icon=\"trash\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row selection-key=\"row-8\">\n        <bl-table-cell>Marble Serving Board</bl-table-cell>\n        <bl-table-cell>Kitchen</bl-table-cell>\n        <bl-table-cell>$74.00</bl-table-cell>\n        <bl-table-cell>65</bl-table-cell>\n        <bl-table-cell>-</bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"tertiary\" size=\"small\" icon=\"edit\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\" icon=\"trash\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row selection-key=\"row-9\">\n        <bl-table-cell>Linen Throw Blanket</bl-table-cell>\n        <bl-table-cell>Textiles</bl-table-cell>\n        <bl-table-cell>$59.00</bl-table-cell>\n        <bl-table-cell>29</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"tertiary\" size=\"small\" icon=\"edit\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\" icon=\"trash\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row selection-key=\"row-10\">\n        <bl-table-cell>Glass Carafe</bl-table-cell>\n        <bl-table-cell>Kitchen</bl-table-cell>\n        <bl-table-cell>$48.00</bl-table-cell>\n        <bl-table-cell>51</bl-table-cell>\n        <bl-table-cell>-</bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"tertiary\" size=\"small\" icon=\"edit\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\" icon=\"trash\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n    </bl-table-body>\n  </bl-table>\n\n  <bl-pagination current-page=\"1\" total-items=\"100\" items-per-page=\"10\"></bl-pagination>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 3 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 97,
+          "efficiency": 55,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Product Grid</title>\n</head>\n<body>\n  <h1>Products</h1>\n\n  <bl-table>\n    <bl-table-header sticky>\n      <bl-table-row>\n        <bl-table-header-cell>Product</bl-table-header-cell>\n        <bl-table-header-cell>Category</bl-table-header-cell>\n        <bl-table-header-cell>Price</bl-table-header-cell>\n        <bl-table-header-cell>Status</bl-table-header-cell>\n        <bl-table-header-cell>Actions</bl-table-header-cell>\n      </bl-table-row>\n    </bl-table-header>\n    <bl-table-body>\n      <bl-table-row>\n        <bl-table-cell>Wireless Mouse</bl-table-cell>\n        <bl-table-cell>Accessories</bl-table-cell>\n        <bl-table-cell>$24.99</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n        <bl-table-cell>Accessories</bl-table-cell>\n        <bl-table-cell>$89.00</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>4K Monitor</bl-table-cell>\n        <bl-table-cell>Displays</bl-table-cell>\n        <bl-table-cell>$329.99</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>USB-C Hub</bl-table-cell>\n        <bl-table-cell>Accessories</bl-table-cell>\n        <bl-table-cell>$49.50</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Noise-Cancelling Headphones</bl-table-cell>\n        <bl-table-cell>Audio</bl-table-cell>\n        <bl-table-cell>$199.00</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>HDMI Cable</bl-table-cell>\n        <bl-table-cell>Cables</bl-table-cell>\n        <bl-table-cell>$12.99</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Webcam</bl-table-cell>\n        <bl-table-cell>Displays</bl-table-cell>\n        <bl-table-cell>$59.99</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Laptop Stand</bl-table-cell>\n        <bl-table-cell>Accessories</bl-table-cell>\n        <bl-table-cell>$39.99</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Portable SSD</bl-table-cell>\n        <bl-table-cell>Storage</bl-table-cell>\n        <bl-table-cell>$119.00</bl-table-cell>\n        <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Ergonomic Chair</bl-table-cell>\n        <bl-table-cell>Furniture</bl-table-cell>\n        <bl-table-cell>$249.00</bl-table-cell>\n        <bl-table-cell></bl-table-cell>\n        <bl-table-cell>\n          <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n          <bl-button variant=\"tertiary\" size=\"small\" kind=\"danger\">Delete</bl-button>\n        </bl-table-cell>\n      </bl-table-row>\n    </bl-table-body>\n  </bl-table>\n\n  <bl-pagination\n    total-items=\"10\"\n    items-per-page=\"10\"\n    current-page=\"1\"\n    has-jumper\n  ></bl-pagination>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 97,
+          "efficiency": 64,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 98,
+        "std": 1.6,
+        "min": 96,
+        "max": 100,
+        "sem": 0.9
+      },
+      "accessibility": {
+        "mean": 97,
+        "std": 0,
+        "min": 97,
+        "max": 97,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 51,
+        "std": 12.1,
+        "min": 35,
+        "max": 64,
+        "sem": 7
+      },
+      "codeQuality": {
+        "mean": 87,
+        "std": 2.4,
+        "min": 84,
+        "max": 90,
+        "sem": 1.4
+      },
+      "maintainability": {
+        "mean": 96,
+        "std": 3.3,
+        "min": 92,
+        "max": 100,
+        "sem": 1.9
+      },
+      "overall": {
+        "mean": 90,
+        "std": 2.9,
+        "min": 86,
+        "max": 93,
+        "sem": 1.7
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0.8,
+      "min": 0,
+      "max": 2,
+      "sem": 0.5
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

@@ -5,7 +5,7 @@
   "category": "feedback",
   "complexity": "simple",
   "prompt": "After saving, pop a Bootstrap-style toast like `toast` with a `toast-header` success label and a close button so it can be dismissed.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <title>Save Notification Toast</title>\n  <style>\n    :root { font-family: system-ui, sans-serif; }\n    body { padding: 24px; }\n    .stack { max-width: 360px; margin-bottom: 16px; }\n  </style>\n</head>\n<body>\n  <my-toast id=\"saveToast\" type=\"success\">\n    <span slot=\"header\">Saved</span>\n    <p>Your changes have been saved successfully.</p>\n  </my-toast>\n\n  <my-button variant=\"primary\" onclick=\"document.getElementById('saveToast').show()\">\n    Save\n  </my-button>\n\n  <script>\n    customElements.define('my-toast', class extends HTMLElement {\n      connectedCallback() {\n        const type = this.getAttribute('type') || 'success';\n        this.innerHTML = `\n          <div class=\"toast\">\n            <div class=\"toast-header\">\n              <strong>${this.querySelector('[slot=header]')?.textContent || 'Notification'}</strong>\n              <button class=\"close\" aria-label=\"Close\" type=\"button\">×</button>\n            </div>\n            <div class=\"toast-body\"></div>\n          </div>\n        `;\n        const body = this.querySelector('.toast-body');\n        body.appendChild(this.querySelector('p'));\n        this.querySelector('.close').addEventListener('click', () => this.hide());\n        this.hidden = true;\n      }\n      show() { this.hidden = false; }\n      hide() { this.hidden = true; }\n    });\n\n    customElements.define('my-button', class extends HTMLElement {\n      connectedCallback() {\n        this.setAttribute('role', 'button');\n        this.setAttribute('tabindex', '0');\n        this.style.cssText = 'padding:8px 16px;';\n      }\n    });\n  </script>\n</body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 86,
@@ -37,6 +37,205 @@
       "codeQuality": 87,
       "maintainability": 96,
       "overall": 86
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <title>Save Notification Toast</title>\n  <style>\n    :root { font-family: system-ui, sans-serif; }\n    body { padding: 24px; }\n    .stack { max-width: 360px; margin-bottom: 16px; }\n  </style>\n</head>\n<body>\n  <my-toast id=\"saveToast\" type=\"success\">\n    <span slot=\"header\">Saved</span>\n    <p>Your changes have been saved successfully.</p>\n  </my-toast>\n\n  <my-button variant=\"primary\" onclick=\"document.getElementById('saveToast').show()\">\n    Save\n  </my-button>\n\n  <script>\n    customElements.define('my-toast', class extends HTMLElement {\n      connectedCallback() {\n        const type = this.getAttribute('type') || 'success';\n        this.innerHTML = `\n          <div class=\"toast\">\n            <div class=\"toast-header\">\n              <strong>${this.querySelector('[slot=header]')?.textContent || 'Notification'}</strong>\n              <button class=\"close\" aria-label=\"Close\" type=\"button\">×</button>\n            </div>\n            <div class=\"toast-body\"></div>\n          </div>\n        `;\n        const body = this.querySelector('.toast-body');\n        body.appendChild(this.querySelector('p'));\n        this.querySelector('.close').addEventListener('click', () => this.hide());\n        this.hidden = true;\n      }\n      show() { this.hidden = false; }\n      hide() { this.hidden = true; }\n    });\n\n    customElements.define('my-button', class extends HTMLElement {\n      connectedCallback() {\n        this.setAttribute('role', 'button');\n        this.setAttribute('tabindex', '0');\n        this.style.cssText = 'padding:8px 16px;';\n      }\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 86,
+        "missed": [
+          "bl-notification",
+          "bl-notification-card",
+          "bl-button"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 3 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 83,
+          "accessibility": 80,
+          "efficiency": 91,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 86
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Saved — toast</title>\n  <style>\n    body { font-family: system-ui, sans-serif; margin: 2rem; }\n    .toast-wrap { max-width: 360px; }\n    .bx-toast { display: block; box-shadow: 0 4px 12px rgba(0,0,0,.18); border-radius: 6px; overflow: hidden; }\n    .bx-toast-header { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .6rem .9rem; background: #e8f5e9; color: #1b5e20; font-weight: 600; }\n    .bx-toast-body { padding: .9rem; color: #263238; font-size: .95rem; }\n    .bx-btn-close { border: none; background: transparent; cursor: pointer; font-size: 1rem; line-height: 1; color: inherit; }\n  </style>\n</head>\n<body>\n  <div class=\"toast-wrap\">\n    <bl-toast class=\"bx-toast\" open dismissible>\n      <bl-toast-header class=\"bx-toast-header\">\n        <span><bl-icon name=\"check\" variant=\"success\"></bl-icon> Saved successfully</span>\n        <bl-button class=\"bx-btn-close\" aria-label=\"Close toast\" variant=\"icon\">×</bl-button>\n      </bl-toast-header>\n      <bl-toast-body class=\"bx-toast-body\">\n        Your changes have been saved. This toast will disappear shortly or you may close it manually.\n      </bl-toast-body>\n    </bl-toast>\n  </div>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": false,
+        "overall": 38,
+        "missed": [
+          "bl-notification",
+          "bl-notification-card"
+        ],
+        "escapeHatches": [
+          {
+            "type": "hallucination",
+            "severity": "critical",
+            "detail": "Unknown tag <bl-toast>",
+            "codeSnippet": "bl-toast"
+          },
+          {
+            "type": "hallucination",
+            "severity": "critical",
+            "detail": "Unknown tag <bl-toast-header>",
+            "codeSnippet": "bl-toast-header"
+          },
+          {
+            "type": "hallucination",
+            "severity": "critical",
+            "detail": "Unknown tag <bl-toast-body>",
+            "codeSnippet": "bl-toast-body"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-icon> attr \"variant\" not part of API",
+            "codeSnippet": "variant"
+          },
+          {
+            "type": "wrong_value",
+            "severity": "critical",
+            "detail": "<bl-button> variant=\"icon\" is not a valid value (allowed: primary | secondary | tertiary)",
+            "codeSnippet": "variant=\"icon\""
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 0,
+          "accessibility": 86,
+          "efficiency": 89,
+          "codeQuality": 24,
+          "maintainability": 44,
+          "overall": 38
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Saved Notification Toast</title>\n  <style>\n    body {\n      font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n      background: #f4f6f9;\n      display: flex;\n      justify-content: center;\n      padding-top: 60px;\n      margin: 0;\n    }\n    .toast-wrap {\n      position: fixed;\n      right: 24px;\n      top: 24px;\n      width: 360px;\n      max-width: calc(100vw - 48px);\n    }\n  </style>\n</head>\n<body>\n  <div class=\"toast-wrap\" id=\"toastWrap\">\n    <bl-notification type=\"success\" variant=\"toast\" open id=\"toast\">\n      <bl-notification-card dismissible>\n        <span slot=\"title\">Saved successfully</span>\n        <span slot=\"description\">Your changes have been saved.</span>\n        <bl-button slot=\"action\" size=\"small\" variant=\"primary\" id=\"closeBtn\">Close</bl-button>\n      </bl-notification-card>\n    </bl-notification>\n  </div>\n\n  <script>\n    const closeBtn = document.getElementById('closeBtn');\n    const toast = document.getElementById('toast');\n    closeBtn.addEventListener('click', () => {\n      toast.setAttribute('open', 'false');\n      toast.hidden = true;\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 84,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-notification> attr \"type\" not part of API",
+            "codeSnippet": "type"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-notification> attr \"variant\" not part of API",
+            "codeSnippet": "variant"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-notification> attr \"open\" not part of API",
+            "codeSnippet": "open"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-notification-card> attr \"dismissible\" not part of API",
+            "codeSnippet": "dismissible"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 90,
+          "accessibility": 79,
+          "efficiency": 85,
+          "codeQuality": 75,
+          "maintainability": 80,
+          "overall": 84
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 67,
+    "scores": {
+      "correctness": {
+        "mean": 58,
+        "std": 40.9,
+        "min": 0,
+        "max": 90,
+        "sem": 23.6
+      },
+      "accessibility": {
+        "mean": 82,
+        "std": 3.1,
+        "min": 79,
+        "max": 86,
+        "sem": 1.8
+      },
+      "efficiency": {
+        "mean": 88,
+        "std": 2.5,
+        "min": 85,
+        "max": 91,
+        "sem": 1.4
+      },
+      "codeQuality": {
+        "mean": 62,
+        "std": 27.3,
+        "min": 24,
+        "max": 87,
+        "sem": 15.8
+      },
+      "maintainability": {
+        "mean": 73,
+        "std": 21.7,
+        "min": 44,
+        "max": 96,
+        "sem": 12.6
+      },
+      "overall": {
+        "mean": 69,
+        "std": 22.2,
+        "min": 38,
+        "max": 86,
+        "sem": 12.8
+      }
+    },
+    "escapeHatches": {
+      "mean": 4,
+      "std": 2.2,
+      "min": 1,
+      "max": 6,
+      "sem": 1.2
+    },
+    "hallucinations": {
+      "mean": 1,
+      "std": 1.4,
+      "min": 0,
+      "max": 3,
+      "sem": 0.8
     }
   }
 }

@@ -55,6 +55,99 @@ export function extractBlTags(code) {
   return [...tags];
 }
 
+/** Extract attribute name/value pairs used on a given bl- tag. */
+export function extractAttributePairs(code, tag) {
+  const attrs = [];
+  const re = new RegExp(`<${tag}(?=[\\s/>])([^>]*)>`, 'gi');
+  let m;
+  while ((m = re.exec(code))) {
+    const open = m[1];
+    const attrRe = /\s+([a-z][\w-]*)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([\w.\-\/$:{}\@#]+)))?/gi;
+    let a;
+    while ((a = attrRe.exec(open))) {
+      const name = a[1];
+      if (/^(bl-|class|id|style|slot|\?|@)$/.test(name)) continue;
+      if (name.startsWith('\?') || name.startsWith('@')) continue;
+      const value = a[2] ?? a[3] ?? a[4] ?? '';
+      attrs.push({ name, value });
+    }
+  }
+  return attrs;
+}
+
+/**
+ * Derive allowed string-literal values from a CEM type union such as
+ * '"primary" | "secondary" | "tertiary"'. Returns a Set of allowed values,
+ * or null when the type is not a closed string enum (so we skip validation).
+ */
+export function parseEnumValues(typeStr) {
+  if (!typeStr) return null;
+  const strs = [...typeStr.matchAll(/"([^"]+)"/g)].map((x) => x[1]);
+  if (!strs.length) return null;
+  // Only treat it as a strict enum if the union is made of literals + maybe boolean.
+  const allowed = new Set(strs);
+  const nonLiteral = typeStr.replace(/"[^"]*"/g, '').replace(/\s*\|\s*/g, '').trim();
+  if (nonLiteral && nonLiteral !== 'boolean') return null;
+  if (nonLiteral === 'boolean') { allowed.add('true'); allowed.add('false'); allowed.add(''); }
+  return allowed;
+}
+
+// Parent-child structural rules checked in generated code.
+const NESTING_RULES = {
+  'bl-table-header': 'bl-table',
+  'bl-table-body': 'bl-table',
+  'bl-table-row': 'bl-table',
+  'bl-table-cell': 'bl-table',
+  'bl-tab': 'bl-tab-group',
+  'bl-tab-panel': 'bl-tab-group',
+  'bl-stepper-item': 'bl-stepper',
+  'bl-select-option': 'bl-select',
+  'bl-notification-card': 'bl-notification',
+  'bl-accordion': 'bl-accordion-group',
+};
+
+/** Lightweight stack parse of bl-* nesting; returns orphan children. */
+export function extractNestingViolations(code) {
+  const tokenRe = /<\/?(bl-[a-z0-9-]+)(?=[\s/>])|(<\/?bl-[a-z0-9-]+\s*\/?>)/gi;
+  // Simpler robust tokenizer: match open/close tags (attrs may contain '>', handle via scan).
+  const violations = [];
+  const stack = [];
+  const tagRe = /<\/?bl-[a-z0-9-]+/gi;
+  let m;
+  const tokens = [];
+  while ((m = tagRe.exec(code))) {
+    const raw = m[0];
+    const closing = raw[1] === '/';
+    if (closing) { tokens.push({ close: true, name: raw.slice(2).toLowerCase() }); continue; }
+    // determine self-closing by skipping to matching '>' unless inside quotes
+    let i = m.index + raw.length;
+    let selfClose = false;
+    const seg = code.slice(i);
+    let j = 0; let quote = null;
+    for (; j < seg.length; j++) {
+      const ch = seg[j];
+      if (quote) { if (ch === quote) quote = null; continue; }
+      if (ch === '"' || ch === "'") { quote = ch; continue; }
+      if (ch === '>') break;
+    }
+    if (seg[j - 1] === '/') selfClose = true;
+    tokens.push({ close: false, name: raw.slice(1).toLowerCase(), selfClose });
+  }
+  for (const t of tokens) {
+    if (t.close) {
+      const idx = stack.lastIndexOf(t.name);
+      if (idx >= 0) stack.splice(idx, 1);
+      continue;
+    }
+    const required = NESTING_RULES[t.name];
+    if (required && !stack.includes(required)) {
+      violations.push(`<${t.name}> not nested inside ${required}`);
+    }
+    if (!t.selfClose) stack.push(t.name);
+  }
+  return [...new Set(violations)];
+}
+
 /** Extract attributes used on a given bl- tag. Skips quoted values so words inside
  * attribute strings are not misread as attributes. */
 export function extractAttributesForTag(code, tag) {
@@ -108,25 +201,44 @@ export function evaluate(code, expectedComponents) {
   const usedSet = new Set(componentsUsed);
   const missed = componentsExpected.filter((c) => !usedSet.has(c));
 
-  // Attribute violations: real tags with unknown attributes.
+  // Attribute violations: real tags with unknown attributes, plus invalid
+  // enum values (wrong_values) validated against the CEM type union.
   for (const t of tagsUsed) {
     if (!realTags.has(t)) continue;
     const detail = index.get(t);
     const known = new Set([
-      ...detail.attributes.map((a) => a.attribute),
-      ...detail.properties.map((p) => p.name),
+      ...detail.attributes.map((a) => a.attribute ?? a.name),
+      ...detail.properties.map((p) => p.attribute ?? p.name),
     ]);
+    const typeByKey = new Map();
+    for (const a of [...(detail.attributes || []), ...(detail.properties || [])]) {
+      const key = a.attribute || a.name;
+      if (key) typeByKey.set(key, a.type);
+    }
     // universal HTML attrs tolerated
     const universal = new Set(['class', 'id', 'style', 'slot', 'aria-label', 'aria-hidden', 'role', 'data-*']);
-    for (const attr of extractAttributesForTag(code, t)) {
+    for (const { name: attr, value } of extractAttributePairs(code, t)) {
       if (attr === t) continue;
       if (attr.startsWith('data-')) continue;
       if (attr.startsWith('aria-')) continue;
       if (!known.has(attr) && !universal.has(attr)) {
         escapeHatches.push({ type: 'wrong_component', severity: 'acceptable', detail: `<${t}> attr "${attr}" not part of API`, codeSnippet: attr });
         confusionSignals.push(`Unknown attr ${attr} on ${t}`);
+        continue;
+      }
+      // Validate enum values derived from the CEM type union.
+      const allowed = parseEnumValues(typeByKey.get(attr));
+      if (allowed && value && !allowed.has(value)) {
+        escapeHatches.push({ type: 'wrong_value', severity: 'critical', detail: `<${t}> ${attr}="${value}" is not a valid value (allowed: ${[...allowed].join(' | ')})`, codeSnippet: `${attr}="${value}"` });
+        confusionSignals.push(`Invalid ${attr} value "${value}" on ${t}`);
       }
     }
+  }
+
+  // Structural / nesting violations against known parent-child contracts.
+  for (const v of extractNestingViolations(code)) {
+    escapeHatches.push({ type: 'nesting', severity: 'acceptable', detail: v, codeSnippet: v });
+    confusionSignals.push(v);
   }
 
   // Styling escape hatches.

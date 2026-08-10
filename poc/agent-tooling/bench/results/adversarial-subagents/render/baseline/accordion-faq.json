@@ -1,0 +1,21 @@
+{
+  "id": "accordion-faq",
+  "arm": "baseline",
+  "file": "adversarial/baseline/accordion-faq.html.html",
+  "url": "http://127.0.0.1:50934/.poc-render-tmp/adversarial-baseline-accordion-faq.html",
+  "loaded": true,
+  "exceptions": [],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "blElementCount": 4,
+  "upgradedCount": 1,
+  "unupgraded": [
+    "bl-accordion-item",
+    "bl-accordion-item",
+    "bl-accordion-item"
+  ],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}

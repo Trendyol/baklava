@@ -5,10 +5,10 @@
   "category": "navigation",
   "complexity": "moderate",
   "prompt": "Tabs like shadcn Tabs that switch panes, and a Radix Tooltip or a `title` attribute on a small icon button explaining what it does.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Filter Tabs</title>\n  <style>\n    body {\n      font-family: system-ui, -apple-system, sans-serif;\n      margin: 0;\n      padding: 2rem;\n      background: #f5f5f5;\n      color: #1a1a1a;\n    }\n    .container {\n      max-width: 640px;\n      margin: 0 auto;\n      background: #fff;\n      border: 1px solid #e5e5e5;\n      border-radius: 8px;\n      padding: 1.5rem;\n    }\n    .toolbar {\n      display: flex;\n      justify-content: flex-end;\n      margin-bottom: 1rem;\n    }\n    h2 {\n      margin-top: 0;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"toolbar\">\n      <bl-tooltip content=\"Refresh the current view\">\n        <bl-button square icon=\"refresh\"></bl-button>\n      </bl-tooltip>\n    </div>\n\n    <bl-tab-group>\n      <bl-tab slot=\"nav\" panel=\"all\">All</bl-tab>\n      <bl-tab slot=\"nav\" panel=\"active\">Active</bl-tab>\n      <bl-tab slot=\"nav\" panel=\"archived\">Archived</bl-tab>\n\n      <bl-tab-panel name=\"all\">\n        <p>Showing all items across every category.</p>\n        <ul>\n          <li>Item one</li>\n          <li>Item two</li>\n          <li>Item three</li>\n        </ul>\n      </bl-tab-panel>\n\n      <bl-tab-panel name=\"active\">\n        <p>Showing only active items.</p>\n        <ul>\n          <li>Active item A</li>\n          <li>Active item B</li>\n        </ul>\n      </bl-tab-panel>\n\n      <bl-tab-panel name=\"archived\">\n        <p>Showing archived items.</p>\n        <ul>\n          <li>Archived item X</li>\n        </ul>\n      </bl-tab-panel>\n    </bl-tab-group>\n  </div>\n</body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
-    "overall": 84,
+    "overall": 77,
     "componentsUsed": [
       "bl-tooltip",
       "bl-button",
@@ -45,6 +45,30 @@
       {
         "type": "wrong_component",
         "severity": "acceptable",
+        "detail": "<bl-tab> attr \"panel\" not part of API",
+        "codeSnippet": "panel"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-tab> attr \"panel\" not part of API",
+        "codeSnippet": "panel"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-tab-panel> attr \"name\" not part of API",
+        "codeSnippet": "name"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-tab-panel> attr \"name\" not part of API",
+        "codeSnippet": "name"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
         "detail": "<bl-tab-panel> attr \"name\" not part of API",
         "codeSnippet": "name"
       },
@@ -60,15 +84,243 @@
       "Unknown attr content on bl-tooltip",
       "Unknown attr square on bl-button",
       "Unknown attr panel on bl-tab",
+      "Unknown attr panel on bl-tab",
+      "Unknown attr panel on bl-tab",
+      "Unknown attr name on bl-tab-panel",
+      "Unknown attr name on bl-tab-panel",
       "Unknown attr name on bl-tab-panel"
     ],
     "scores": {
-      "correctness": 90,
+      "correctness": 82,
       "accessibility": 85,
       "efficiency": 74,
-      "codeQuality": 75,
-      "maintainability": 80,
-      "overall": 84
+      "codeQuality": 63,
+      "maintainability": 64,
+      "overall": 77
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Filter Tabs</title>\n  <style>\n    body {\n      font-family: system-ui, -apple-system, sans-serif;\n      margin: 0;\n      padding: 2rem;\n      background: #f5f5f5;\n      color: #1a1a1a;\n    }\n    .container {\n      max-width: 640px;\n      margin: 0 auto;\n      background: #fff;\n      border: 1px solid #e5e5e5;\n      border-radius: 8px;\n      padding: 1.5rem;\n    }\n    .toolbar {\n      display: flex;\n      justify-content: flex-end;\n      margin-bottom: 1rem;\n    }\n    h2 {\n      margin-top: 0;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"toolbar\">\n      <bl-tooltip content=\"Refresh the current view\">\n        <bl-button square icon=\"refresh\"></bl-button>\n      </bl-tooltip>\n    </div>\n\n    <bl-tab-group>\n      <bl-tab slot=\"nav\" panel=\"all\">All</bl-tab>\n      <bl-tab slot=\"nav\" panel=\"active\">Active</bl-tab>\n      <bl-tab slot=\"nav\" panel=\"archived\">Archived</bl-tab>\n\n      <bl-tab-panel name=\"all\">\n        <p>Showing all items across every category.</p>\n        <ul>\n          <li>Item one</li>\n          <li>Item two</li>\n          <li>Item three</li>\n        </ul>\n      </bl-tab-panel>\n\n      <bl-tab-panel name=\"active\">\n        <p>Showing only active items.</p>\n        <ul>\n          <li>Active item A</li>\n          <li>Active item B</li>\n        </ul>\n      </bl-tab-panel>\n\n      <bl-tab-panel name=\"archived\">\n        <p>Showing archived items.</p>\n        <ul>\n          <li>Archived item X</li>\n        </ul>\n      </bl-tab-panel>\n    </bl-tab-group>\n  </div>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 77,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tooltip> attr \"content\" not part of API",
+            "codeSnippet": "content"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-button> attr \"square\" not part of API",
+            "codeSnippet": "square"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"panel\" not part of API",
+            "codeSnippet": "panel"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"panel\" not part of API",
+            "codeSnippet": "panel"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"panel\" not part of API",
+            "codeSnippet": "panel"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab-panel> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab-panel> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab-panel> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 82,
+          "accessibility": 85,
+          "efficiency": 74,
+          "codeQuality": 63,
+          "maintainability": 64,
+          "overall": 77
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Filter Tabs</title>\n  <style>\n    body {\n      font-family: system-ui, -apple-system, sans-serif;\n      margin: 0;\n      padding: 24px;\n      background: #fafafa;\n      color: #1f2933;\n    }\n    .toolbar {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      margin-bottom: 16px;\n    }\n    .icon-btn {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      width: 34px;\n      height: 34px;\n      border: 1px solid #d3dbe4;\n      border-radius: 8px;\n      background: #fff;\n      cursor: pointer;\n      position: relative;\n    }\n    .icon-btn svg {\n      width: 18px;\n      height: 18px;\n    }\n    .tab-panel {\n      padding: 16px;\n      background: #fff;\n      border: 1px solid #e4e9ef;\n      border-radius: 8px;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"toolbar\">\n    <h1>Filter Projects</h1>\n    <button class=\"icon-btn\" title=\"Open filter settings\" aria-label=\"Open filter settings\">\n      <!-- gear icon -->\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n        <circle cx=\"12\" cy=\"12\" r=\"3\"></circle>\n        <path d=\"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z\"></path>\n      </svg>\n    </button>\n  </div>\n\n  <bl-tab-group>\n    <bl-tab slot=\"nav-header\" active>\n      <span>All</span>\n    </bl-tab>\n    <bl-tab slot=\"nav-header\">\n      <span>Active</span>\n    </bl-tab>\n    <bl-tab slot=\"nav-header\">\n      <span>Archived</span>\n    </bl-tab>\n\n    <bl-tab-panel>\n      <div class=\"tab-panel\"><p>All projects (42).</p></div>\n    </bl-tab-panel>\n    <bl-tab-panel>\n      <div class=\"tab-panel\"><p>Active projects (18).</p></div>\n    </bl-tab-panel>\n    <bl-tab-panel>\n      <div class=\"tab-panel\"><p>Archived projects (24).</p></div>\n    </bl-tab-panel>\n  </bl-tab-group>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 88,
+        "missed": [
+          "bl-tooltip"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"active\" not part of API",
+            "codeSnippet": "active"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 4 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 91,
+          "accessibility": 89,
+          "efficiency": 76,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 88
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Filter Tabs</title>\n  <style>\n    body {\n      font-family: system-ui, sans-serif;\n      margin: 24px;\n      color: #1a1a1a;\n    }\n    .toolbar {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      margin-bottom: 12px;\n    }\n    .icon-btn {\n      border: 1px solid #d0d0d0;\n      background: #fff;\n      border-radius: 6px;\n      padding: 6px 8px;\n      cursor: pointer;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"toolbar\">\n    <bl-tab-group>\n      <bl-tab label=\"All\">All</bl-tab>\n      <bl-tab label=\"Active\">Active</bl-tab>\n      <bl-tab label=\"Archived\">Archived</bl-tab>\n    </bl-tab-group>\n    <bl-tooltip content=\"Filter and manage the currently visible items\">\n      <button class=\"icon-btn\" title=\"Filter options\" aria-label=\"Filter options\">⚙</button>\n    </bl-tooltip>\n  </div>\n\n  <div class=\"panes\">\n    <bl-tab-panel>Showing all items.</bl-tab-panel>\n    <bl-tab-panel>Showing only active items.</bl-tab-panel>\n    <bl-tab-panel>Showing archived items.</bl-tab-panel>\n  </div>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 84,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"label\" not part of API",
+            "codeSnippet": "label"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"label\" not part of API",
+            "codeSnippet": "label"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"label\" not part of API",
+            "codeSnippet": "label"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tooltip> attr \"content\" not part of API",
+            "codeSnippet": "content"
+          },
+          {
+            "type": "nesting",
+            "severity": "acceptable",
+            "detail": "<bl-tab-panel> not nested inside bl-tab-group",
+            "codeSnippet": "<bl-tab-panel> not nested inside bl-tab-group"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 88,
+          "accessibility": 92,
+          "efficiency": 78,
+          "codeQuality": 72,
+          "maintainability": 76,
+          "overall": 84
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 87,
+        "std": 3.7,
+        "min": 82,
+        "max": 91,
+        "sem": 2.2
+      },
+      "accessibility": {
+        "mean": 89,
+        "std": 2.9,
+        "min": 85,
+        "max": 92,
+        "sem": 1.7
+      },
+      "efficiency": {
+        "mean": 76,
+        "std": 1.6,
+        "min": 74,
+        "max": 78,
+        "sem": 0.9
+      },
+      "codeQuality": {
+        "mean": 73,
+        "std": 8.6,
+        "min": 63,
+        "max": 84,
+        "sem": 5
+      },
+      "maintainability": {
+        "mean": 77,
+        "std": 11.5,
+        "min": 64,
+        "max": 92,
+        "sem": 6.6
+      },
+      "overall": {
+        "mean": 83,
+        "std": 4.5,
+        "min": 77,
+        "max": 88,
+        "sem": 2.6
+      }
+    },
+    "escapeHatches": {
+      "mean": 6,
+      "std": 2.9,
+      "min": 2,
+      "max": 9,
+      "sem": 1.7
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

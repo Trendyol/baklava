@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Save confirmation toast</title>
+  <style>
+    :host, body { margin: 0; font-family: system-ui, sans-serif; }
+    main { max-width: 26rem; margin: 4rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.25rem; margin: 0 0 1rem; }
+    bl-notification { position: fixed; inset-block-start: 1rem; inset-inline-end: 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Settings</h1>
+    <p>Make a change, then save to see the confirmation toast.</p>
+    <bl-button id="save-btn" variant="primary">Save changes</bl-button>
+    <bl-notification id="toasts"></bl-notification>
+  </main>
+
+  <script type="module">
+    const toasts = document.getElementById('toasts');
+    const saveBtn = document.getElementById('save-btn');
+
+    function showSavedToast() {
+      toasts.addNotification({
+        caption: 'Saved successfully',
+        variant: 'success',
+        duration: 7,
+      });
+    }
+
+    saveBtn.addEventListener('bl-click', showSavedToast);
+  </script>
+</body>
+</html>

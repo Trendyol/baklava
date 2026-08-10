@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saved Notification Toast</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      padding-top: 60px;
+      margin: 0;
+    }
+    .toast-wrap {
+      position: fixed;
+      right: 24px;
+      top: 24px;
+      width: 360px;
+      max-width: calc(100vw - 48px);
+    }
+  </style>
+</head>
+<body>
+  <div class="toast-wrap" id="toastWrap">
+    <bl-notification type="success" variant="toast" open id="toast">
+      <bl-notification-card dismissible>
+        <span slot="title">Saved successfully</span>
+        <span slot="description">Your changes have been saved.</span>
+        <bl-button slot="action" size="small" variant="primary" id="closeBtn">Close</bl-button>
+      </bl-notification-card>
+    </bl-notification>
+  </div>
+
+  <script>
+    const closeBtn = document.getElementById('closeBtn');
+    const toast = document.getElementById('toast');
+    closeBtn.addEventListener('click', () => {
+      toast.setAttribute('open', 'false');
+      toast.hidden = true;
+    });
+  </script>
+</body>
+</html>

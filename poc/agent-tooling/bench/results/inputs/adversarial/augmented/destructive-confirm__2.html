@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delete confirmation</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; background: #f4f5f7; }
+    .backdrop-block { min-height: 60vh; }
+  </style>
+</head>
+<body>
+  <div class="backdrop-block"></div>
+
+  <bl-dialog open caption="Delete account?" critical>
+    <p>Are you sure you want to permanently delete your account? This action cannot be undone.</p>
+    <bl-button slot="primary-action" kind="danger" variant="primary">Delete account</bl-button>
+    <bl-button slot="secondary-action" kind="neutral" variant="secondary">Cancel</bl-button>
+  </bl-dialog>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # Baklava Agent-Friendly PoC — Before / After Benchmark
 
-Iteration: `adversarial-subagents` · 2026-08-10T11:48:32.401Z · System: Baklava
+Iteration: `adversarial-subagents` · 2026-08-10T12:08:45.664Z · System: Baklava
 
 > This benchmark measures whether giving the agent the **Baklava agent CLI / tooling**
 > (augmented / after) improves component correctness vs. an agent working from raw
@@ -8,44 +8,46 @@ Iteration: `adversarial-subagents` · 2026-08-10T11:48:32.401Z · System: Baklav
 
 ## Baseline (before — no tooling)
 
-  | Success rate | 63% |
-  | Overall | 82 |
-  | Correctness | 81 |
-  | Accessibility | 77 |
-  | Efficiency | 83 |
-  | Code quality | 80 |
-  | Maintainability | 89 |
-  | Hallucinated tags | 2 |
-  | Escape hatches | 19 |
+  | Success rate | 67% |
+  | Overall | 79 |
+  | Overall (95% CI) | 75–83 |
+  | Correctness | 77 |
+  | Accessibility | 82 |
+  | Efficiency | 82 |
+  | Code quality | 75 |
+  | Maintainability | 83 |
+  | Hallucinated tags | 3 |
+  | Escape hatches | 27 |
   | Unique components used | 14 |
 
 ## Augmented (after — with Baklava agent tooling)
 
   | Success rate | 100% |
-  | Overall | 90 |
+  | Overall | 91 |
+  | Overall (95% CI) | 90–92 |
   | Correctness | 98 |
-  | Accessibility | 85 |
-  | Efficiency | 73 |
+  | Accessibility | 84 |
+  | Efficiency | 75 |
   | Code quality | 87 |
   | Maintainability | 96 |
   | Hallucinated tags | 0 |
-  | Escape hatches | 8 |
+  | Escape hatches | 9 |
   | Unique components used | 24 |
 
 ## Delta (after − before)
 
 | Metric | Δ |
 |---|---|
-  | successRate | +37 |
-  | avgOverall | +8 |
-  | dim.correctness | +17 |
-  | dim.accessibility | +8 |
-  | dim.efficiency | -10 |
-  | dim.codeQuality | +7 |
-  | dim.maintainability | +7 |
-  | dim.overall | +8 |
-  | totalHallucinations | -2 |
-  | totalEscapeHatches | -11 |
+  | successRate | +33 |
+  | avgOverall | +12 |
+  | dim.correctness | +21 |
+  | dim.accessibility | +2 |
+  | dim.efficiency | -7 |
+  | dim.codeQuality | +12 |
+  | dim.maintainability | +13 |
+  | dim.overall | +12 |
+  | totalHallucinations | -3 |
+  | totalEscapeHatches | -18 |
 
 ## LLM Judge (separate fresh-context agent — optional holistic layer)
 
@@ -70,5 +72,28 @@ Iteration: `adversarial-subagents` · 2026-08-10T11:48:32.401Z · System: Baklav
   | Code quality | 83 |
   | Efficiency | 85 |
   | Maintainability | 84 |
+
+## Headless Render (real browser — Step 1 layer)
+
+> Browser-observed: did the code load/run without errors and upgrade its custom elements,
+> plus basic accessibility probes. Kept separate from the static rubric.
+
+### Baseline render
+
+  | Clean load rate | 100% (8/8) |
+  | Runtime exceptions | 2 |
+  | Console errors | 4 |
+  | Unupgraded custom elements | 6 |
+  | Unlabeled interactive controls | 1 |
+  | Unlabeled images | 0 |
+
+### Augmented render
+
+  | Clean load rate | 100% (8/8) |
+  | Runtime exceptions | 2 |
+  | Console errors | 8 |
+  | Unupgraded custom elements | 0 |
+  | Unlabeled interactive controls | 0 |
+  | Unlabeled images | 0 |
 
 _Machine-readable data: `compare.json`. Per-prompt scores: `evaluated/{arm}/*.json`._

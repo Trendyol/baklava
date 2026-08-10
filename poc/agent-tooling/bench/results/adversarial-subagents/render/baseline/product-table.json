@@ -1,0 +1,19 @@
+{
+  "id": "product-table",
+  "arm": "baseline",
+  "file": "adversarial/baseline/product-table.html.html",
+  "url": "http://127.0.0.1:50934/.poc-render-tmp/adversarial-baseline-product-table.html",
+  "loaded": true,
+  "exceptions": [
+    "Uncaught"
+  ],
+  "consoleErrors": [],
+  "blElementCount": 0,
+  "upgradedCount": 0,
+  "unupgraded": [],
+  "unlabeledInteractives": [
+    "input"
+  ],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": false
+}

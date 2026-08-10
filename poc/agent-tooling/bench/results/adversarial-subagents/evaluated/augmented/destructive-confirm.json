@@ -5,7 +5,7 @@
   "category": "overlays",
   "complexity": "complex",
   "prompt": "Make a delete confirm like Ant Design's Modal.confirm — an overlay that blocks the background, with a red danger button to confirm and a grey cancel button.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Delete Confirmation</title>\n  <script type=\"module\">\n    // Baklava web components are registered on the page scope by the bundler.\n    // The component elements below are driven by the real bl-* API.\n  </script>\n</head>\n<body>\n  <main>\n    <bl-dialog open critical caption=\"Delete this item?\">\n      <p>\n        This action cannot be undone. The item and all of its associated data\n        will be permanently removed.\n      </p>\n      <bl-button slot=\"primary-action\" kind=\"danger\" label=\"Delete\" autofocus></bl-button>\n      <bl-button slot=\"secondary-action\" variant=\"secondary\" label=\"Cancel\"></bl-button>\n    </bl-dialog>\n  </main>\n</body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 93,
@@ -28,6 +28,137 @@
       "codeQuality": 90,
       "maintainability": 100,
       "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Delete Confirmation</title>\n  <script type=\"module\">\n    // Baklava web components are registered on the page scope by the bundler.\n    // The component elements below are driven by the real bl-* API.\n  </script>\n</head>\n<body>\n  <main>\n    <bl-dialog open critical caption=\"Delete this item?\">\n      <p>\n        This action cannot be undone. The item and all of its associated data\n        will be permanently removed.\n      </p>\n      <bl-button slot=\"primary-action\" kind=\"danger\" label=\"Delete\" autofocus></bl-button>\n      <bl-button slot=\"secondary-action\" variant=\"secondary\" label=\"Cancel\"></bl-button>\n    </bl-dialog>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Delete confirmation — Baklava</title>\n    <script type=\"module\" src=\"/dist/baklava.js\"></script>\n  </head>\n  <body>\n    <bl-dialog open critical caption=\"Delete customer?\">\n      <p>\n        You are about to permanently delete the customer <strong>Acme Corp</strong>.\n        All associated data will be lost and this action cannot be undone.\n      </p>\n      <div slot=\"primary-action\">\n        <bl-button variant=\"primary\" kind=\"danger\">Delete</bl-button>\n      </div>\n      <div slot=\"secondary-action\">\n        <bl-button variant=\"secondary\">Cancel</bl-button>\n      </div>\n    </bl-dialog>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 90,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 86,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 90
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Delete confirmation</title>\n  <style>\n    body { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; background: #f4f5f7; }\n    .backdrop-block { min-height: 60vh; }\n  </style>\n</head>\n<body>\n  <div class=\"backdrop-block\"></div>\n\n  <bl-dialog open caption=\"Delete account?\" critical>\n    <p>Are you sure you want to permanently delete your account? This action cannot be undone.</p>\n    <bl-button slot=\"primary-action\" kind=\"danger\" variant=\"primary\">Delete account</bl-button>\n    <bl-button slot=\"secondary-action\" kind=\"neutral\" variant=\"secondary\">Cancel</bl-button>\n  </bl-dialog>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 89,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 91
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 99,
+        "std": 0.9,
+        "min": 98,
+        "max": 100,
+        "sem": 0.5
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 89,
+        "std": 2.4,
+        "min": 86,
+        "max": 92,
+        "sem": 1.4
+      },
+      "codeQuality": {
+        "mean": 88,
+        "std": 1.4,
+        "min": 87,
+        "max": 90,
+        "sem": 0.8
+      },
+      "maintainability": {
+        "mean": 97,
+        "std": 1.9,
+        "min": 96,
+        "max": 100,
+        "sem": 1.1
+      },
+      "overall": {
+        "mean": 91,
+        "std": 1.2,
+        "min": 90,
+        "max": 93,
+        "sem": 0.7
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0.5,
+      "min": 0,
+      "max": 1,
+      "sem": 0.3
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

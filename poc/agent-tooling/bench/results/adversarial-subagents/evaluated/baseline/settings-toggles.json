@@ -5,7 +5,7 @@
   "category": "forms",
   "complexity": "moderate",
   "prompt": "Do a settings screen with Material Switch toggles for each option and a language Select, each with small helperText underneath. Use `space-y-3` between them.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Settings</title>\n</head>\n<body>\n  <main class=\"settings\">\n    <h1>Settings</h1>\n\n    <section class=\"settings-group\">\n      <h2>Preferences</h2>\n\n      <div class=\"setting-row\">\n        <label for=\"notifications\">Email notifications</label>\n        <bl-switch id=\"notifications\"></bl-switch>\n        <p class=\"helper-text\">Receive an email for every activity in your account.</p>\n      </div>\n\n      <div class=\"setting-row\">\n        <label for=\"nightmode\">Night mode</label>\n        <bl-switch id=\"nightmode\"></bl-switch>\n        <p class=\"helper-text\">Reduce glare with a dark colour scheme.</p>\n      </div>\n\n      <div class=\"setting-row\">\n        <label for=\"autosave\">Auto-save</label>\n        <bl-switch id=\"autosave\"></bl-switch>\n        <p class=\"helper-text\">Save your changes automatically while editing.</p>\n      </div>\n\n      <div class=\"setting-row\">\n        <label for=\"lang\">Language</label>\n        <bl-select id=\"lang\">\n          <bl-option value=\"en\">English</bl-option>\n          <bl-option value=\"tr\">Turkish</bl-option>\n          <bl-option value=\"de\">German</bl-option>\n        </bl-select>\n        <p class=\"helper-text\">Choose the language used across the interface.</p>\n      </div>\n    </section>\n  </main>\n</body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": false,
     "overall": 74,
@@ -46,6 +46,174 @@
       "codeQuality": 72,
       "maintainability": 84,
       "overall": 74
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Settings</title>\n</head>\n<body>\n  <main class=\"settings\">\n    <h1>Settings</h1>\n\n    <section class=\"settings-group\">\n      <h2>Preferences</h2>\n\n      <div class=\"setting-row\">\n        <label for=\"notifications\">Email notifications</label>\n        <bl-switch id=\"notifications\"></bl-switch>\n        <p class=\"helper-text\">Receive an email for every activity in your account.</p>\n      </div>\n\n      <div class=\"setting-row\">\n        <label for=\"nightmode\">Night mode</label>\n        <bl-switch id=\"nightmode\"></bl-switch>\n        <p class=\"helper-text\">Reduce glare with a dark colour scheme.</p>\n      </div>\n\n      <div class=\"setting-row\">\n        <label for=\"autosave\">Auto-save</label>\n        <bl-switch id=\"autosave\"></bl-switch>\n        <p class=\"helper-text\">Save your changes automatically while editing.</p>\n      </div>\n\n      <div class=\"setting-row\">\n        <label for=\"lang\">Language</label>\n        <bl-select id=\"lang\">\n          <bl-option value=\"en\">English</bl-option>\n          <bl-option value=\"tr\">Turkish</bl-option>\n          <bl-option value=\"de\">German</bl-option>\n        </bl-select>\n        <p class=\"helper-text\">Choose the language used across the interface.</p>\n      </div>\n    </section>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": false,
+        "overall": 74,
+        "missed": [
+          "bl-select-option"
+        ],
+        "escapeHatches": [
+          {
+            "type": "hallucination",
+            "severity": "critical",
+            "detail": "Unknown tag <bl-option>",
+            "codeSnippet": "bl-option"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 4 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 68,
+          "accessibility": 76,
+          "efficiency": 80,
+          "codeQuality": 72,
+          "maintainability": 84,
+          "overall": 74
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Settings</title>\n  <style>\n    body {\n      font-family: sans-serif;\n      margin: 0;\n      padding: 24px;\n      background: #f7f7f8;\n      color: #1d1d1f;\n    }\n    .settings-card {\n      max-width: 480px;\n      margin: 0 auto;\n      background: #fff;\n      border: 1px solid #e4e4e7;\n      border-radius: 8px;\n      padding: 20px;\n    }\n    .settings-card h1 {\n      font-size: 20px;\n      margin: 0 0 16px;\n    }\n    .setting-row {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      padding: 10px 0;\n    }\n    .setting-label {\n      display: flex;\n      flex-direction: column;\n    }\n    .setting-label .name {\n      font-weight: 600;\n    }\n    .setting-label .helper {\n      font-size: 13px;\n      color: #71717a;\n      margin-top: 2px;\n    }\n    .setting-row + .setting-row {\n      border-top: 1px solid #f0f0f2;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"settings-card\">\n    <h1>Settings</h1>\n\n    <div style=\"display:flex;flex-direction:column;gap:12px\">\n\n      <div class=\"setting-row\">\n        <div class=\"setting-label\">\n          <span class=\"name\">Email notifications</span>\n          <span class=\"helper\">Receive a summary of new activity</span>\n        </div>\n        <bl-switch checked></bl-switch>\n      </div>\n\n      <div class=\"setting-row\">\n        <div class=\"setting-label\">\n          <span class=\"name\">Push notifications</span>\n          <span class=\"helper\">Alerts for important updates</span>\n        </div>\n        <bl-switch checked></bl-switch>\n      </div>\n\n      <div class=\"setting-row\">\n        <div class=\"setting-label\">\n          <span class=\"name\">Dark mode</span>\n          <span class=\"helper\">Use a dark color theme</span>\n        </div>\n        <bl-switch></bl-switch>\n      </div>\n\n      <div class=\"setting-row\">\n        <div class=\"setting-label\">\n          <span class=\"name\">Language</span>\n          <span class=\"helper\">Preferred display language</span>\n        </div>\n        <bl-select value=\"en\">\n          <bl-option value=\"en\">English</bl-option>\n          <bl-option value=\"tr\">Türkçe</bl-option>\n          <bl-option value=\"de\">Deutsch</bl-option>\n        </bl-select>\n      </div>\n\n    </div>\n  </div>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": false,
+        "overall": 69,
+        "missed": [
+          "bl-select-option"
+        ],
+        "escapeHatches": [
+          {
+            "type": "hallucination",
+            "severity": "critical",
+            "detail": "Unknown tag <bl-option>",
+            "codeSnippet": "bl-option"
+          },
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 1 inline style=",
+            "codeSnippet": "style="
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 10 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 66,
+          "accessibility": 76,
+          "efficiency": 57,
+          "codeQuality": 69,
+          "maintainability": 80,
+          "overall": 69
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Settings</title>\n  <style>\n    .space-y-3 > * + * { margin-top: 0.75rem; }\n    .setting { display: flex; flex-direction: column; gap: 0.25rem; }\n    .setting-row { display: flex; align-items: center; justify-content: space-between; }\n    .helper-text { font-size: 0.8rem; color: #666; }\n    label { font-weight: 600; }\n  </style>\n</head>\n<body>\n  <main class=\"space-y-3\">\n    <section class=\"setting\">\n      <div class=\"setting-row\">\n        <label for=\"notif-switch\">Push notifications</label>\n        <bl-switch id=\"notif-switch\"></bl-switch>\n      </div>\n      <p class=\"helper-text\">Get notified about important account activity.</p>\n    </section>\n\n    <section class=\"setting\">\n      <div class=\"setting-row\">\n        <label for=\"email-switch\">Email updates</label>\n        <bl-switch id=\"email-switch\"></bl-switch>\n      </div>\n      <p class=\"helper-text\">Receive weekly product and security updates.</p>\n    </section>\n\n    <section class=\"setting\">\n      <div class=\"setting-row\">\n        <label for=\"theme-switch\">Dark mode</label>\n        <bl-switch id=\"theme-switch\"></bl-switch>\n      </div>\n      <p class=\"helper-text\">Reduce glare with a darker color scheme.</p>\n    </section>\n\n    <section class=\"setting\">\n      <div class=\"setting-row\">\n        <label for=\"lang-select\">Language</label>\n        <bl-select id=\"lang-select\">\n          <bl-option value=\"en\">English</bl-option>\n          <bl-option value=\"tr\">Türkçe</bl-option>\n          <bl-option value=\"de\">Deutsch</bl-option>\n        </bl-select>\n      </div>\n      <p class=\"helper-text\">Choose the display language for this account.</p>\n    </section>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": false,
+        "overall": 74,
+        "missed": [
+          "bl-select-option"
+        ],
+        "escapeHatches": [
+          {
+            "type": "hallucination",
+            "severity": "critical",
+            "detail": "Unknown tag <bl-option>",
+            "codeSnippet": "bl-option"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 4 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 68,
+          "accessibility": 76,
+          "efficiency": 80,
+          "codeQuality": 72,
+          "maintainability": 84,
+          "overall": 74
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 0,
+    "scores": {
+      "correctness": {
+        "mean": 67,
+        "std": 0.9,
+        "min": 66,
+        "max": 68,
+        "sem": 0.5
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 72,
+        "std": 10.8,
+        "min": 57,
+        "max": 80,
+        "sem": 6.3
+      },
+      "codeQuality": {
+        "mean": 71,
+        "std": 1.4,
+        "min": 69,
+        "max": 72,
+        "sem": 0.8
+      },
+      "maintainability": {
+        "mean": 83,
+        "std": 1.9,
+        "min": 80,
+        "max": 84,
+        "sem": 1.1
+      },
+      "overall": {
+        "mean": 72,
+        "std": 2.4,
+        "min": 69,
+        "max": 74,
+        "sem": 1.4
+      }
+    },
+    "escapeHatches": {
+      "mean": 2,
+      "std": 0.5,
+      "min": 2,
+      "max": 3,
+      "sem": 0.3
+    },
+    "hallucinations": {
+      "mean": 1,
+      "std": 0,
+      "min": 1,
+      "max": 1,
+      "sem": 0
     }
   }
 }

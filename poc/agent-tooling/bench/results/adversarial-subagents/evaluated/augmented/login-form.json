@@ -5,7 +5,7 @@
   "category": "forms",
   "complexity": "moderate",
   "prompt": "I want a login page like MUI — a TextField-styled email and password with `flex flex-col gap-4` spacing, and a firm primary CTA button that submits on Enter.",
-  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Sign in</title>\n    <link rel=\"stylesheet\" href=\"https://cdn.baklava.design/1.x/baklava.css\" />\n    <style>\n      /* MUI-like centered card layout (spacing implemented in plain CSS, no Tailwind). */\n      .page {\n        min-height: 100vh;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        background: #fafafa;\n        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;\n      }\n      .card {\n        width: 360px;\n        background: #fff;\n        border: 1px solid #e0e0e0;\n        border-radius: 12px;\n        padding: 32px 24px;\n        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n      }\n      .card h1 {\n        margin: 0 0 24px;\n        font-size: 20px;\n        font-weight: 600;\n        color: #1a1a1a;\n      }\n      .field {\n        margin-bottom: 20px; /* gap-4 equivalence */\n      }\n      .actions {\n        margin-top: 28px;\n      }\n      .error {\n        margin-top: 12px;\n        color: #b00020;\n        font-size: 14px;\n        min-height: 20px;\n      }\n    </style>\n  </head>\n  <body>\n    <main class=\"page\">\n      <section class=\"card\" aria-labelledby=\"login-title\">\n        <h1 id=\"login-title\">Sign in</h1>\n        <form id=\"login-form\" novalidate>\n          <div class=\"field\">\n            <bl-input\n              name=\"email\"\n              type=\"email\"\n              label=\"Email\"\n              placeholder=\"you@example.com\"\n              autocomplete=\"email\"\n              required\n            ></bl-input>\n          </div>\n          <div class=\"field\">\n            <bl-input\n              name=\"password\"\n              type=\"password\"\n              label=\"Password\"\n              placeholder=\"••••••••\"\n              autocomplete=\"current-password\"\n              minlength=\"8\"\n              required\n            ></bl-input>\n          </div>\n          <div class=\"actions\">\n            <bl-button type=\"submit\" variant=\"primary\" label=\"Sign in\"></bl-button>\n          </div>\n        </form>\n        <p class=\"error\" id=\"form-error\" role=\"alert\" hidden></p>\n      </section>\n    </main>\n\n    <script type=\"module\">\n      import '@baklava/components/baklava.js';\n\n      const form = document.getElementById('login-form');\n      const email = form.querySelector('bl-input[name=\"email\"]');\n      const password = form.querySelector('bl-input[name=\"password\"]');\n      const error = document.getElementById('form-error');\n\n      // Prevent the page from refreshing and surface validation feedback.\n      form.addEventListener('submit', (event) => {\n        event.preventDefault();\n        const valid = email.reportValidity() && password.reportValidity();\n        if (!valid) {\n          error.textContent = 'Please check your email and password.';\n          error.hidden = false;\n          return;\n        }\n        error.hidden = true;\n        // Demo only: log, don't send credentials anywhere.\n        console.log('Sign-in submitted for', email.value);\n      });\n    </script>\n  </body>\n</html>\n",
+  "n": 3,
   "evaluation": {
     "success": true,
     "overall": 92,
@@ -35,6 +35,137 @@
       "codeQuality": 87,
       "maintainability": 96,
       "overall": 92
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Sign in</title>\n    <link rel=\"stylesheet\" href=\"https://cdn.baklava.design/1.x/baklava.css\" />\n    <style>\n      /* MUI-like centered card layout (spacing implemented in plain CSS, no Tailwind). */\n      .page {\n        min-height: 100vh;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        background: #fafafa;\n        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;\n      }\n      .card {\n        width: 360px;\n        background: #fff;\n        border: 1px solid #e0e0e0;\n        border-radius: 12px;\n        padding: 32px 24px;\n        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n      }\n      .card h1 {\n        margin: 0 0 24px;\n        font-size: 20px;\n        font-weight: 600;\n        color: #1a1a1a;\n      }\n      .field {\n        margin-bottom: 20px; /* gap-4 equivalence */\n      }\n      .actions {\n        margin-top: 28px;\n      }\n      .error {\n        margin-top: 12px;\n        color: #b00020;\n        font-size: 14px;\n        min-height: 20px;\n      }\n    </style>\n  </head>\n  <body>\n    <main class=\"page\">\n      <section class=\"card\" aria-labelledby=\"login-title\">\n        <h1 id=\"login-title\">Sign in</h1>\n        <form id=\"login-form\" novalidate>\n          <div class=\"field\">\n            <bl-input\n              name=\"email\"\n              type=\"email\"\n              label=\"Email\"\n              placeholder=\"you@example.com\"\n              autocomplete=\"email\"\n              required\n            ></bl-input>\n          </div>\n          <div class=\"field\">\n            <bl-input\n              name=\"password\"\n              type=\"password\"\n              label=\"Password\"\n              placeholder=\"••••••••\"\n              autocomplete=\"current-password\"\n              minlength=\"8\"\n              required\n            ></bl-input>\n          </div>\n          <div class=\"actions\">\n            <bl-button type=\"submit\" variant=\"primary\" label=\"Sign in\"></bl-button>\n          </div>\n        </form>\n        <p class=\"error\" id=\"form-error\" role=\"alert\" hidden></p>\n      </section>\n    </main>\n\n    <script type=\"module\">\n      import '@baklava/components/baklava.js';\n\n      const form = document.getElementById('login-form');\n      const email = form.querySelector('bl-input[name=\"email\"]');\n      const password = form.querySelector('bl-input[name=\"password\"]');\n      const error = document.getElementById('form-error');\n\n      // Prevent the page from refreshing and surface validation feedback.\n      form.addEventListener('submit', (event) => {\n        event.preventDefault();\n        const valid = email.reportValidity() && password.reportValidity();\n        if (!valid) {\n          error.textContent = 'Please check your email and password.';\n          error.hidden = false;\n          return;\n        }\n        error.hidden = true;\n        // Demo only: log, don't send credentials anywhere.\n        console.log('Sign-in submitted for', email.value);\n      });\n    </script>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 92,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 3 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 86,
+          "efficiency": 83,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 92
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Login</title>\n  <style>\n    .login {\n      display: flex;\n      flex-direction: column;\n      gap: 20px;\n      width: 100%;\n      max-width: 400px;\n      margin: 8vh auto 0;\n      font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n    }\n    .login__title {\n      margin: 0 0 4px;\n      font-size: 1.5rem;\n      font-weight: 600;\n      text-align: center;\n    }\n  </style>\n</head>\n<body>\n  <form class=\"login\" id=\"login-form\" novalidate>\n    <h1 class=\"login__title\">Welcome back</h1>\n\n    <bl-input\n      type=\"email\"\n      name=\"email\"\n      label=\"Email\"\n      placeholder=\"you@example.com\"\n      autocomplete=\"email\"\n      required\n    ></bl-input>\n\n    <bl-input\n      type=\"password\"\n      name=\"password\"\n      label=\"Password\"\n      autocomplete=\"current-password\"\n      required\n    ></bl-input>\n\n    <bl-button type=\"submit\" variant=\"primary\" size=\"large\">Sign in</bl-button>\n  </form>\n\n  <script>\n    const form = document.getElementById('login-form');\n    form.addEventListener('submit', (event) => {\n      event.preventDefault();\n      const email = form.querySelector('bl-input[name=\"email\"]');\n      const password = form.querySelector('bl-input[name=\"password\"]');\n      const valid = form.reportValidity();\n      if (valid) {\n        console.log('Log in as', email && email.value, 'with', password && password.value);\n      }\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Login</title>\n</head>\n<body>\n  <form id=\"login-form\" style=\"display:flex; flex-direction:column; gap:1rem; max-width:24rem;\">\n    <bl-input type=\"email\" label=\"Email\" name=\"email\" placeholder=\"you@example.com\" autocomplete=\"email\" required></bl-input>\n    <bl-input type=\"password\" label=\"Password\" name=\"password\" placeholder=\"••••••••\" autocomplete=\"current-password\" required></bl-input>\n    <bl-button type=\"submit\" variant=\"primary\" size=\"medium\">Sign in</bl-button>\n  </form>\n  <script>\n    const form = document.querySelector('#login-form');\n    form.addEventListener('submit', (e) => {\n      const inputs = form.querySelectorAll('bl-input');\n      inputs.forEach((input) => input.reportValidity && input.reportValidity());\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 90,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 1 inline style=",
+            "codeSnippet": "style="
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 87,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 90
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 99,
+        "std": 0.9,
+        "min": 98,
+        "max": 100,
+        "sem": 0.5
+      },
+      "accessibility": {
+        "mean": 79,
+        "std": 4.7,
+        "min": 76,
+        "max": 86,
+        "sem": 2.7
+      },
+      "efficiency": {
+        "mean": 87,
+        "std": 3.7,
+        "min": 83,
+        "max": 92,
+        "sem": 2.1
+      },
+      "codeQuality": {
+        "mean": 88,
+        "std": 1.4,
+        "min": 87,
+        "max": 90,
+        "sem": 0.8
+      },
+      "maintainability": {
+        "mean": 97,
+        "std": 1.9,
+        "min": 96,
+        "max": 100,
+        "sem": 1.1
+      },
+      "overall": {
+        "mean": 92,
+        "std": 1.2,
+        "min": 90,
+        "max": 93,
+        "sem": 0.7
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0.5,
+      "min": 0,
+      "max": 1,
+      "sem": 0.3
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
     }
   }
 }

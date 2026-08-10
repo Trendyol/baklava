@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout steps</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 2rem; }
+    .checkout { max-width: 560px; margin: 0 auto; }
+    .badge-wrap { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem; }
+  </style>
+</head>
+<body>
+  <main class="checkout">
+    <div class="badge-wrap">
+      <bl-badge size="small">
+        <span slot="icon" aria-hidden="true">
+          <!-- generic cart glyph: no icon API entry verified, so an inline SVG is used -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+        </span>
+        cart: 2
+      </bl-badge>
+    </div>
+
+    <bl-stepper>
+      <bl-stepper-item id="step-cart" variant="active" title="Cart" description="Review items"></bl-stepper-item>
+      <bl-stepper-item id="step-shipping" title="Shipping" description="Delivery details"></bl-stepper-item>
+      <bl-stepper-item id="step-payment" title="Payment" description="Billing &amp; payment"></bl-stepper-item>
+    </bl-stepper>
+  </main>
+
+  <script type="module" src="/dist/baklava.js"></script>
+</body>
+</html>

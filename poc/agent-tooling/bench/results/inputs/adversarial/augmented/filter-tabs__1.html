@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Filter Tabs</title>
+  <script type="module" src="/dist/baklava.js"></script>
+</head>
+<body>
+  <main style="max-width: 680px; margin: 2rem auto; padding: 0 1rem;">
+    <h1>Filter Tabs</h1>
+
+    <!-- Tabs that switch panes -->
+    <bl-tab-group>
+      <bl-tab name="overview" slot="tabs" caption="Overview">Overview</bl-tab>
+      <bl-tab name="filters" slot="tabs" caption="Filters">Filters</bl-tab>
+      <bl-tab name="history" slot="tabs" caption="History">History</bl-tab>
+
+      <bl-tab-panel tab="overview">
+        <p>Overview: a summary of the current view.</p>
+      </bl-tab-panel>
+      <bl-tab-panel tab="filters">
+        <p>Filters: refine the list by category or status.</p>
+      </bl-tab-panel>
+      <bl-tab-panel tab="history">
+        <p>History: shows your recent activity.</p>
+      </bl-tab-panel>
+    </bl-tab-group>
+
+    <!-- Icon button with a tooltip explaining what it does -->
+    <div style="margin-top: 2rem;">
+      <bl-tooltip placement="top">
+        <bl-button slot="tooltip-trigger" icon="info" variant="tertiary" aria-label="About these tabs">About</bl-button>
+        <span>Switch between these panes with the tabs above.</span>
+      </bl-tooltip>
+    </div>
+  </main>
+</body>
+</html>

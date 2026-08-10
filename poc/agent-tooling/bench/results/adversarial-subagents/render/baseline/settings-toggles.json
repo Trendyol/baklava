@@ -1,0 +1,19 @@
+{
+  "id": "settings-toggles",
+  "arm": "baseline",
+  "file": "adversarial/baseline/settings-toggles.html.html",
+  "url": "http://127.0.0.1:50934/.poc-render-tmp/adversarial-baseline-settings-toggles.html",
+  "loaded": true,
+  "exceptions": [],
+  "consoleErrors": [],
+  "blElementCount": 7,
+  "upgradedCount": 4,
+  "unupgraded": [
+    "bl-option",
+    "bl-option",
+    "bl-option"
+  ],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}

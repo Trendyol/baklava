@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter Tabs</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #fafafa;
+      color: #1f2933;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid #d3dbe4;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      position: relative;
+    }
+    .icon-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    .tab-panel {
+      padding: 16px;
+      background: #fff;
+      border: 1px solid #e4e9ef;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <h1>Filter Projects</h1>
+    <button class="icon-btn" title="Open filter settings" aria-label="Open filter settings">
+      <!-- gear icon -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+    </button>
+  </div>
+
+  <bl-tab-group>
+    <bl-tab slot="nav-header" active>
+      <span>All</span>
+    </bl-tab>
+    <bl-tab slot="nav-header">
+      <span>Active</span>
+    </bl-tab>
+    <bl-tab slot="nav-header">
+      <span>Archived</span>
+    </bl-tab>
+
+    <bl-tab-panel>
+      <div class="tab-panel"><p>All projects (42).</p></div>
+    </bl-tab-panel>
+    <bl-tab-panel>
+      <div class="tab-panel"><p>Active projects (18).</p></div>
+    </bl-tab-panel>
+    <bl-tab-panel>
+      <div class="tab-panel"><p>Archived projects (24).</p></div>
+    </bl-tab-panel>
+  </bl-tab-group>
+</body>
+</html>

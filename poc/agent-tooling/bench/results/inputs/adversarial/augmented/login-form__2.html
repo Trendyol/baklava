@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
+</head>
+<body>
+  <form id="login-form" style="display:flex; flex-direction:column; gap:1rem; max-width:24rem;">
+    <bl-input type="email" label="Email" name="email" placeholder="you@example.com" autocomplete="email" required></bl-input>
+    <bl-input type="password" label="Password" name="password" placeholder="••••••••" autocomplete="current-password" required></bl-input>
+    <bl-button type="submit" variant="primary" size="medium">Sign in</bl-button>
+  </form>
+  <script>
+    const form = document.querySelector('#login-form');
+    form.addEventListener('submit', (e) => {
+      const inputs = form.querySelectorAll('bl-input');
+      inputs.forEach((input) => input.reportValidity && input.reportValidity());
+    });
+  </script>
+</body>
+</html>

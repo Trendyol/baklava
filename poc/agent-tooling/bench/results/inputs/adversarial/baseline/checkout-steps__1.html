@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout Steps</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 24px; background: #f7f7f8; color: #1c1c1e; }
+    .checkout-wrap { max-width: 720px; margin: 0 auto; }
+    .stepper-area { background: #fff; border: 1px solid #e4e4e7; border-radius: 12px; padding: 20px 24px; }
+    .cart-bar { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 16px; }
+    .cart-icon { position: relative; display: inline-flex; }
+    .badge-pill { position: absolute; top: -8px; right: -10px; background: #dc2626; color: #fff; font-size: 11px; font-weight: 700; border-radius: 999px; padding: 2px 7px; }
+  </style>
+</head>
+<body>
+  <div class="checkout-wrap">
+    <div class="cart-bar">
+      <span class="cart-icon" aria-label="Cart with 2 items">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="badge-pill">2</span>
+      </span>
+    </div>
+
+    <div class="stepper-area">
+      <bl-stepper current="1">
+        <bl-stepper-item active>Cart</bl-stepper-item>
+        <bl-stepper-item>Shipping</bl-stepper-item>
+        <bl-stepper-item>Payment</bl-stepper-item>
+      </bl-stepper>
+    </div>
+  </div>
+</body>
+</html>

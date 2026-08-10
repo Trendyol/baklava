@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Delete confirmation — Baklava</title>
+    <script type="module" src="/dist/baklava.js"></script>
+  </head>
+  <body>
+    <bl-dialog open critical caption="Delete customer?">
+      <p>
+        You are about to permanently delete the customer <strong>Acme Corp</strong>.
+        All associated data will be lost and this action cannot be undone.
+      </p>
+      <div slot="primary-action">
+        <bl-button variant="primary" kind="danger">Delete</bl-button>
+      </div>
+      <div slot="secondary-action">
+        <bl-button variant="secondary">Cancel</bl-button>
+      </div>
+    </bl-dialog>
+  </body>
+</html>

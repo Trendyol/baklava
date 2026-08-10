@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 52rem; padding: 0 1rem; color: #222; }
+  h1 { font-size: 1.4rem; }
+  .faq { display: flex; flex-direction: column; gap: 0.5rem; }
+  .accordion-item { border: 1px solid #ddd; border-radius: 0.5rem; overflow: hidden; }
+  .accordion-header { margin: 0; }
+  .accordion-button {
+    width: 100%;
+    background: #f4f4f6;
+    border: 0;
+    text-align: left;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .accordion-button:hover { background: #ececf0; }
+  .accordion-button .chev { transition: transform .2s ease; }
+  .accordion-item[data-open="true"] .chev { transform: rotate(180deg); }
+  .accordion-collapse {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s ease;
+  }
+  .accordion-body { padding: 0.9rem 1rem; color: #444; }
+</style>
+</head>
+<body>
+  <h1>Frequently Asked Questions</h1>
+  <div class="faq" id="faq">
+
+    <div class="accordion-item" data-open="false">
+      <h2 class="accordion-header">
+        <button type="button" class="accordion-button" aria-expanded="false">
+          What is Baklava?
+          <span class="chev" aria-hidden="true">&#9660;</span>
+        </button>
+      </h2>
+      <div class="accordion-collapse">
+        <div class="accordion-body">
+          Baklava is a Web Components design system built on <code>bl-*</code> custom elements that
+          help you ship consistent, accessible UI.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item" data-open="false">
+      <h2 class="accordion-header">
+        <button type="button" class="accordion-button" aria-expanded="false">
+          How do I install it?
+          <span class="chev" aria-hidden="true">&#9660;</span>
+        </button>
+      </h2>
+      <div class="accordion-collapse">
+        <div class="accordion-body">
+          Install the package from Trendyol's registry and include the bundle on your page, then
+          use the <code>bl-*</code> tags anywhere in your markup.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item" data-open="false">
+      <h2 class="accordion-header">
+        <button type="button" class="accordion-button" aria-expanded="false">
+          Are components accessible by default?
+          <span class="chev" aria-hidden="true">&#9660;</span>
+        </button>
+      </h2>
+      <div class="accordion-collapse">
+        <div class="accordion-body">
+          Yes — components ship with built-in ARIA semantics, keyboard navigation and focus
+          management so you don't have to wire them up yourself.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var items = document.querySelectorAll('.accordion-item');
+      items.forEach(function (item) {
+        var btn = item.querySelector('.accordion-button');
+        var collapse = item.querySelector('.accordion-collapse');
+        btn.addEventListener('click', function () {
+          var open = item.getAttribute('data-open') === 'true';
+          // close all, then open the clicked one
+          items.forEach(function (it) {
+            var panel = it.querySelector('.accordion-collapse');
+            var b = it.querySelector('.accordion-button');
+            it.setAttribute('data-open', 'false');
+            b.setAttribute('aria-expanded', 'false');
+            panel.style.maxHeight = '0';
+          });
+          if (!open) {
+            item.setAttribute('data-open', 'true');
+            btn.setAttribute('aria-expanded', 'true');
+            collapse.style.maxHeight = collapse.scrollHeight + 'px';
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

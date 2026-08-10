@@ -1,0 +1,17 @@
+{
+  "id": "product-table",
+  "arm": "augmented",
+  "file": "adversarial/augmented/product-table.html.html",
+  "url": "http://127.0.0.1:51018/.poc-render-tmp/adversarial-augmented-product-table.html",
+  "loaded": true,
+  "exceptions": [],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 ()"
+  ],
+  "blElementCount": 45,
+  "upgradedCount": 45,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}
