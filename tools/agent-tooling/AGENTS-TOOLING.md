@@ -89,8 +89,16 @@ Deterministic demo without an LLM:
 **Augmented arm task:**
 > You build frontend HTML with Baklava. You have the agent CLI: run
 > `node tools/agent-tooling/cli/bin/baklava.mjs build "<prompt>"` then
-> `component <Name> --dense` for each candidate. Use ONLY real components and real
-> attributes/events shown by the CLI. Output only a self-contained HTML fragment.
+> `component <Name> --dense` for each candidate. Write your HTML, then run
+> `validate <file>.html` and **iterate until it reports clean** — fix every flagged
+> unknown tag/attr, invalid enum value, nesting, wrapper `<div>` and inline style.
+> Use ONLY real components and real attributes/events shown by the CLI. Output only
+> a self-contained HTML fragment.
+
+The `validate` feedback loop is the CLI's edge over the MCP-only arm: MCP is
+query-only (it can tell you the real API, but cannot check the file you produced),
+whereas `validate` lints the generated file against the same CEM so the agent can
+fix issues before the output is measured.
 
 **MCP-only arm task:**
 > You build frontend HTML with Baklava. You learn the component API ONLY through the

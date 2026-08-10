@@ -4,7 +4,7 @@
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { existsSync, readFileSync, rmSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
 
 const REPO = path.resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const CLI = path.join(REPO, 'tools', 'agent-tooling', 'cli', 'bin', 'baklava.mjs');
@@ -20,6 +20,15 @@ function run(cmd, args) {
   return execFileSync(process.execPath, [cmd, ...args], { cwd: REPO, encoding: 'utf8' });
 }
 
+// Run the CLI and return { code, out }; non-zero exit is captured, not thrown.
+function runRC(cmd, args) {
+  try {
+    return { code: 0, out: run(cmd, args) };
+  } catch (e) {
+    return { code: e.status ?? 1, out: (e.stdout || '') + (e.stderr || '') };
+  }
+}
+
 console.log('CLI checks');
 let out = run(CLI, ['component', 'button', '--dense']);
 check('component button --dense lists attributes', out.includes('Attributes:') && out.includes('bl-button'));
@@ -28,6 +37,16 @@ check('  ...real event bl-click', out.includes('bl-click'));
 
 out = run(CLI, ['component', 'input', '--example']);
 check('component input --example returns usage', out.includes('Usage examples') || out.includes('No usage example'));
+
+// validate command: lint a generated HTML file against the real API
+const vBad = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', '__validate_test.html');
+writeFileSync(vBad, '<bl-button variant="red"></bl-button>\n<bl-form></bl-form>');
+const vRes = runRC(CLI, ['validate', vBad]);
+check('validate flags critical API errors (non-zero exit)', vRes.code >= 1 && /invalid|Unknown tag/i.test(vRes.out), `code=${vRes.code}`);
+rmSync(vBad, { force: true });
+const vGood = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'inputs', 'naive', 'augmented', 'login-form.html');
+const vClean = runRC(CLI, ['validate', vGood]);
+check('validate returns clean (zero exit) for real API-correct output', vClean.code === 0);
 
 out = run(CLI, ['build', 'a login form with email and password']);
 check('build recommends bl-input', out.includes('bl-input'));

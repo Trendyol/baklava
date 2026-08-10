@@ -51,6 +51,7 @@ node $CLI component button --dense        # token-efficient API dump
 node $CLI component input --props
 node $CLI component input --example        # real usage examples from the story
 node $CLI build "a login form with email and password"
+node $CLI validate my/component.html        # lint a generated file against the real API
 node $CLI swizzle button                    # full source for customization
 node $CLI component select --json          # machine-readable envelope
 ```

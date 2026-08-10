@@ -14,6 +14,13 @@ import { loadCem, publicComponents, componentDetail } from '../lib/cem.mjs';
 import { renderComponentDense, renderComponentBrief } from '../lib/dense.mjs';
 import { rankComponents, renderBuildResults } from '../lib/search.mjs';
 import { extractExamples, renderExamples } from '../lib/examples.mjs';
+import {
+  loadIndex,
+  extractBlTags,
+  extractAttributePairs,
+  parseEnumValues,
+  extractNestingViolations,
+} from '../../bench/src/evaluate.mjs';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -49,6 +56,7 @@ Commands:
       --source                 Print component source (.ts).
       --example                Print usage examples from the story.
   build "<prompt>"             Rank components for a plain-language prompt.
+  validate <file.html>        Lint a generated HTML file against the real API; exit non-zero if errors.
   example <name>               Print usage examples for a component.
   swizzle <name>               Print full component source for customization.
   docs                         List agent-tooling/reference documentation files.
@@ -72,6 +80,7 @@ async function main() {
   const { classes } = loadCem();
 
   let data = null;
+  let exitCode = 0;
 
   switch (cmd) {
     case 'help':
@@ -142,6 +151,27 @@ async function main() {
       if (!opts.json) data.text = renderBuildResults(ranked);
       break;
     }
+    case 'validate': {
+      const file = arg || positional[1] || '';
+      if (!file) return fail(1, 'ERR_NO_FILE', 'Expected a file to validate: baklava validate build/settings-toggles.html');
+      const abs = path.resolve(file);
+      if (!existsSync(abs)) return fail(1, 'ERR_NO_FILE', `File not found: ${file}`);
+      const code = readFileSync(abs, 'utf8');
+      const report = validateAgainstApi(code, file);
+      data = report;
+      const summary = report.critical + report.acceptable === 0
+        ? `✓ ${file}: clean — no API errors detected.`
+        : `✗ ${file}: ${report.critical} critical + ${report.acceptable} acceptable issue(s). Fix them and re-run validate.`;
+      if (!opts.json) {
+        const lines = [summary];
+        if (report.findings.length) lines.push('', ...report.findings.map((f) => `- [${f.severity}] ${f.detail}`));
+        data.text = lines.join('\n');
+      }
+      // Non-zero exit when the generated file has any fixable issue, so the
+      // agent can iterate until validate returns clean. Never blocks on json.
+      if (!opts.json && report.critical + report.acceptable > 0) exitCode = 1;
+      break;
+    }
     case 'docs': {
       const docsDir = path.join(REPO_ROOT, 'tools', 'agent-tooling');
       const { readdirSync } = await import('node:fs');
@@ -160,7 +190,63 @@ async function main() {
   } else {
     console.log(data.text ?? JSON.stringify(data, null, 2));
   }
-  return 0;
+  return exitCode;
+}
+
+// Lint a generated HTML file against the real CEM, mirroring the benchmark
+// evaluator's checks so that "validate passes" means "no rubric escape hatches".
+// Reuses the evaluator's helpers so the CLI and the benchmark never drift.
+function validateAgainstApi(code, file) {
+  const { index } = loadIndex();
+  const realTags = new Set(index.keys());
+  const tagsUsed = extractBlTags(code);
+  const findings = [];
+  const universal = new Set(['class', 'id', 'style', 'slot', 'role']);
+
+  for (const t of tagsUsed) {
+    if (!realTags.has(t)) {
+      findings.push({ severity: 'critical', type: 'unknown-tag', detail: `Unknown tag <${t}> (not in the library)` });
+      continue;
+    }
+    const detail = index.get(t);
+    const known = new Set([
+      ...detail.attributes.map((a) => a.attribute ?? a.name),
+      ...detail.properties.map((p) => p.attribute ?? p.name),
+    ]);
+    const typeByKey = new Map();
+    for (const a of [...(detail.attributes || []), ...(detail.properties || [])]) {
+      const key = a.attribute || a.name;
+      if (key) typeByKey.set(key, a.type);
+    }
+    for (const { name: attr, value } of extractAttributePairs(code, t)) {
+      if (attr === t || attr.startsWith('data-') || attr.startsWith('aria-')) continue;
+      if (!known.has(attr) && !universal.has(attr)) {
+        findings.push({ severity: 'acceptable', type: 'unknown-attr', detail: `<${t}> attr "${attr}" not part of API` });
+        continue;
+      }
+      const allowed = parseEnumValues(typeByKey.get(attr));
+      if (allowed && value && !allowed.has(value)) {
+        findings.push({ severity: 'critical', type: 'bad-value', detail: `<${t}> ${attr}="${value}" invalid (allowed: ${[...allowed].join(' | ')})` });
+      }
+    }
+  }
+
+  for (const v of extractNestingViolations(code)) {
+    findings.push({ severity: 'acceptable', type: 'nesting', detail: v });
+  }
+  const inlineStyleCount = (code.match(/\bstyle=/gi) || []).length;
+  if (inlineStyleCount > 0) {
+    findings.push({ severity: 'acceptable', type: 'inline-style', detail: `${inlineStyleCount} inline style= (use CSS vars / classes instead)` });
+  }
+  const divCount = (code.match(/<div[\s>]/gi) || []).length;
+  if (divCount > 0) {
+    findings.push({ severity: 'acceptable', type: 'wrapper-div', detail: `${divCount} wrapper <div>(s) — prefer Baklava layout components` });
+  }
+
+  const critical = findings.filter((f) => f.severity === 'critical').length;
+  const acceptable = findings.filter((f) => f.severity === 'acceptable').length;
+  const tagsValid = tagsUsed.filter((t) => realTags.has(t)).length;
+  return { file, tagsUsed: tagsUsed.length, tagsValid, critical, acceptable, findings };
 }
 
 function resolveSource(tag) {
