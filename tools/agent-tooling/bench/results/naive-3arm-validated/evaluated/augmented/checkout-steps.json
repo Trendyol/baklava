@@ -1,0 +1,152 @@
+{
+  "id": "checkout-steps",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "Build a multi-step checkout indicator at the top showing the current step: cart, shipping, then payment. Show a badge over a cart icon to signal the cart has two items.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-stepper",
+      "bl-stepper-item",
+      "bl-badge"
+    ],
+    "componentsExpected": [
+      "bl-stepper",
+      "bl-stepper-item",
+      "bl-badge"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 79,
+      "efficiency": 88,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<h3>Checkout</h3>\n<bl-stepper id=\"checkout-stepper\" direction=\"horizontal\" type=\"dot\" usage=\"non-clickable\">\n  <bl-stepper-item id=\"step-cart\" variant=\"success\" title=\"Cart\" description=\"Items added\"></bl-stepper-item>\n  <bl-stepper-item id=\"step-shipping\" variant=\"active\" title=\"Shipping\" description=\"Current step\"></bl-stepper-item>\n  <bl-stepper-item id=\"step-payment\" title=\"Payment\" description=\"Up next\"></bl-stepper-item>\n</bl-stepper>\n<h3>Your cart</h3>\n<bl-badge size=\"large\">2 items</bl-badge>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-stepper type=\"number\" direction=\"horizontal\">\n  <bl-stepper-item variant=\"active\" title=\"Cart\" description=\"2 items\"></bl-stepper-item>\n  <bl-stepper-item title=\"Shipping\" description=\"Address\"></bl-stepper-item>\n  <bl-stepper-item title=\"Payment\" description=\"Checkout\"></bl-stepper-item>\n</bl-stepper>\n<bl-badge icon=\"shopping_bag\">2</bl-badge>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<style>\n  .checkout { max-width: 640px; margin-block: 8px; }\n  .cart { position: relative; display: inline-flex; align-items: center; margin-bottom: 16px; }\n  .cart bl-icon { font-size: 24px; }\n  .cart bl-badge { position: absolute; top: -8px; right: -10px; }\n</style>\n\n<section class=\"checkout\">\n  <span class=\"cart\">\n    <bl-icon name=\"cart\"></bl-icon>\n    <bl-badge size=\"small\">2</bl-badge>\n  </span>\n\n  <bl-stepper type=\"icon\" direction=\"horizontal\" usage=\"clickable\">\n    <bl-stepper-item variant=\"active\" title=\"Cart\" description=\"2 items\" icon=\"cart\"></bl-stepper-item>\n    <bl-stepper-item title=\"Shipping\" description=\"Delivery address\" icon=\"truck\"></bl-stepper-item>\n    <bl-stepper-item title=\"Payment\" description=\"Card details\" icon=\"credit-card\"></bl-stepper-item>\n  </bl-stepper>\n</section>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 82,
+          "efficiency": 84,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 80,
+        "std": 1.4,
+        "min": 79,
+        "max": 82,
+        "sem": 0.8
+      },
+      "efficiency": {
+        "mean": 87,
+        "std": 1.9,
+        "min": 84,
+        "max": 88,
+        "sem": 1.1
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

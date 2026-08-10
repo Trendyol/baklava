@@ -1,0 +1,13 @@
+{
+  "id": "settings-toggles",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 98,
+    "accessibility": 92,
+    "efficiency": 90,
+    "codeQuality": 93,
+    "maintainability": 95,
+    "overall": 92
+  },
+  "verdict": "Clean, fully real implementation. Uses only genuine Baklava API verified in the CEM: bl-switch with checked, bl-select with name/label/help-text, and bl-select-option with value (correct camelCase tag, no hallucinated bl-option). Default slots and hint text via span in the switch label and help-text on the select are all real. No wrapper divs, inline styles, or hand-rolled native controls; each toggle and the dropdown are real components carrying proper labels."
+}

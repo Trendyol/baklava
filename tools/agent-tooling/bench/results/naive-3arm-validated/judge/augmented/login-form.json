@@ -1,0 +1,13 @@
+{
+  "id": "login-form",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 98,
+    "accessibility": 95,
+    "efficiency": 95,
+    "codeQuality": 95,
+    "maintainability": 95,
+    "overall": 96
+  },
+  "verdict": "Clean, fully real implementation with no hallucinated members. Uses bl-input for email and password (type email/password both valid enum values; autocomplete email/current-password and required are real attributes; .value/.error are real JS properties) and bl-button with type submit, label, and variant primary (a real enum value; .label/.disabled are real properties). No hand-rolled native controls, no inline styles, no wrapper divs. Password input hides typed text and the prominent submit button inside the real <form> fires the submit handler; the requested login UI is fully implemented."
+}

@@ -1,33 +1,6 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Checkout</title>
-  <style>
-    body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 2rem; color: #1a1a1a; }
-    .checkout-header { display: flex; align-items: center; gap: 1rem; justify-content: space-between; max-width: 900px; margin: 0 auto; }
-    .stepper-wrap { flex: 1; }
-  </style>
-</head>
-<body>
-  <div class="checkout-header">
-    <div class="stepper-wrap">
-      <bl-stepper type="dot" direction="horizontal" active-step="1">
-        <bl-stepper-item id="cart" title="Cart" description="Your items"></bl-stepper-item>
-        <bl-stepper-item id="shipping" title="Shipping" description="Delivery details" variant="active"></bl-stepper-item>
-        <bl-stepper-item id="payment" title="Payment" description="Billing info"></bl-stepper-item>
-      </bl-stepper>
-    </div>
-    <div class="cart-icon">
-      <bl-badge size="medium">2</bl-badge>
-      <span role="img" aria-label="Cart">🛒</span>
-    </div>
-  </div>
-
-  <main style="max-width: 900px; margin: 2rem auto">
-    <h1>Shipping</h1>
-    <p>Enter your delivery details to continue to payment.</p>
-  </main>
-</body>
-</html>
+<bl-stepper type="number" direction="horizontal">
+  <bl-stepper-item variant="active" title="Cart" description="2 items"></bl-stepper-item>
+  <bl-stepper-item title="Shipping" description="Address"></bl-stepper-item>
+  <bl-stepper-item title="Payment" description="Checkout"></bl-stepper-item>
+</bl-stepper>
+<bl-badge icon="shopping_bag">2</bl-badge>

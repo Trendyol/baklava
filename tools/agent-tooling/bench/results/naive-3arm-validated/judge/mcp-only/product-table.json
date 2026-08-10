@@ -1,0 +1,13 @@
+{
+  "id": "product-table",
+  "arm": "mcp-only",
+  "scores": {
+    "correctness": 98,
+    "accessibility": 88,
+    "efficiency": 92,
+    "codeQuality": 90,
+    "maintainability": 92,
+    "overall": 94
+  },
+  "verdict": "Fully authentic Baklava usage with zero API hallucinations: every tag (bl-table, bl-table-header sticky, bl-table-body, bl-table-row, bl-table-cell, bl-badge size=small, bl-button variant=secondary size=small label, bl-pagination) and every attribute/event verified real via the MCP server, including the real bl-change event with its selectedPage detail for the pagination. Implements the requested grid with column headers, per-row action button, bottom pagination controls, and a 'Popular' badge on one row; badge CSS uses the real --bl-badge-bg-color/--bl-badge-color custom properties. Only minor nit: the per-row action buttons are presentational placeholders with no click handler wired."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "notification-toast",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 98,
+    "accessibility": 90,
+    "efficiency": 92,
+    "codeQuality": 95,
+    "maintainability": 95,
+    "overall": 94
+  },
+  "verdict": "Clean, fully real implementation. Uses only genuine Baklava API: bl-notification (real component) driven through its real .addNotification({...}) method with valid options (variant 'success', icon true, duration 5 — all verified against bl-notification-card), and a bl-button with real variant='primary' and the real bl-click event. No hand-rolled native controls, wrapper divs, or inline styles; auto-dismiss (duration) plus the card's close behavior satisfies the dismissal requirement."
+}

@@ -114,6 +114,18 @@ check('naive-3arm per-prompt n>=3 for the mcp-only arm', (() => {
 check('naive-3arm judge data present across all arms', ['baseline', 'mcp-only', 'augmented'].every((a) =>
   existsSync(path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'naive-3arm', 'judge', a, 'login-form.json'))));
 
+// validate-feedback iteration: augmented should improve over the no-validate run
+const v2Path = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'naive-3arm-validated', 'evaluated', 'augmented', 'summary.json');
+const v2 = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'naive-3arm-validated', 'evaluated', 'augmented', 'product-table.json');
+check('validate iteration exists with augmented outputs', existsSync(v2Path) || existsSync(v2));
+const c1 = three.arms.augmented; // no-validate augmented (naive-3arm)
+const c2Path = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'naive-3arm-validated', 'compare.json');
+check('validate iteration compare.json exists', existsSync(c2Path));
+const c2 = JSON.parse(readFileSync(c2Path, 'utf8'));
+check('validate delta: augmented improves and escape hatches drop to 0',
+  c2.arms && c2.arms.augmented && c2.arms.augmented.avgOverall >= c1.avgOverall && c2.arms.augmented.totalEscapeHatches <= c1.totalEscapeHatches && c2.arms.augmented.totalEscapeHatches === 0,
+  JSON.stringify({ before: c1.avgOverall, after: c2.arms.augmented.avgOverall }));
+
 // adversarial persona run + optional LLM-judge layer
 const advPath = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'compare.json');
 check('committed adversarial-subagents compare.json exists', existsSync(advPath));

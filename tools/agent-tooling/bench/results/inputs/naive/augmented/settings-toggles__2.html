@@ -2,39 +2,43 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Settings</title>
   </head>
   <body>
-    <h1>Settings</h1>
+    <ul class="settings-list">
+      <li>
+        <bl-switch checked>Email notifications</bl-switch>
+        <p class="hint">Send updates about your account activity.</p>
+      </li>
+      <li>
+        <bl-switch>Weekly digest</bl-switch>
+        <p class="hint">A summary of new features every Monday.</p>
+      </li>
+      <li>
+        <bl-switch>Two-factor authentication</bl-switch>
+        <p class="hint">Add an extra security layer when signing in.</p>
+      </li>
+      <li>
+        <bl-select label="Language" help-text="Choose your preferred language." placeholder="Select a language">
+          <bl-select-option value="en" label="English">English</bl-select-option>
+          <bl-select-option value="tr" label="Türkçe">Türkçe</bl-select-option>
+          <bl-select-option value="de" label="Deutsch">Deutsch</bl-select-option>
+        </bl-select>
+      </li>
+    </ul>
 
-    <section aria-label="Notification preferences">
-      <h2>Notifications</h2>
-
-      <bl-switch checked>
-        <span>Email notifications</span>
-      </bl-switch>
-      <p>Get an email when someone replies to your comments.</p>
-
-      <bl-switch>
-        <span>Push notifications</span>
-      </bl-switch>
-      <p>Receive push notifications on your mobile device.</p>
-
-      <bl-switch>
-        <span>Weekly digest</span>
-      </bl-switch>
-      <p>Receive a summary of activity every Monday morning.</p>
-    </section>
-
-    <section aria-label="Language preference">
-      <h2>Language</h2>
-      <bl-select label="Language" help-text="Choose the language used across the app." placeholder="Select a language">
-        <bl-select-option value="en">English</bl-select-option>
-        <bl-select-option value="tr">Türkçe</bl-select-option>
-        <bl-select-option value="de">Deutsch</bl-select-option>
-        <bl-select-option value="fr">Français</bl-select-option>
-      </bl-select>
-    </section>
+    <script>
+      const switches = document.querySelectorAll('bl-switch');
+      switches.forEach((s) => {
+        s.addEventListener('bl-switch-toggle', (e) => {
+          const name = s.textContent.trim();
+          s.setAttribute('data-state', e.detail.toString());
+        });
+      });
+      const select = document.querySelector('bl-select');
+      select.addEventListener('bl-blur', (e) => {
+        select.setAttribute('data-language', String(e.detail ?? ''));
+      });
+    </script>
   </body>
 </html>

@@ -1,0 +1,13 @@
+{
+  "id": "filter-tabs",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 96,
+    "accessibility": 88,
+    "efficiency": 90,
+    "codeQuality": 93,
+    "maintainability": 95,
+    "overall": 92
+  },
+  "verdict": "Clean, fully real implementation. Uses genuine Baklava API end to end: <bl-tab-group> with <bl-tab slot=\"tabs\" name=...> and <bl-tab-panel tab=...> (slots and the tab/name/tab attributes all match the CEM), plus a <bl-tooltip placement=\"top\"> whose <bl-button slot=\"tooltip-trigger\" size=\"small\" icon=\"info\"> trigger and default-slot content use the real tooltip-trigger slot and valid button attrs. Correct nesting (bl-tab / bl-tab-panel inside bl-tab-group), no wrapper <div>, no inline styles, no hallucinated members."
+}

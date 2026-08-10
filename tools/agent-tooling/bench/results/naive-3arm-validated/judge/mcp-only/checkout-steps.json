@@ -1,0 +1,13 @@
+{
+  "id": "checkout-steps",
+  "arm": "mcp-only",
+  "scores": {
+    "correctness": 95,
+    "accessibility": 90,
+    "efficiency": 92,
+    "codeQuality": 90,
+    "maintainability": 90,
+    "overall": 92
+  },
+  "verdict": "Uses only real components: bl-stepper type='number'/'horizontal'/'non-clickable', bl-stepper-item variant='active'/'default', bl-badge size='small', and bl-icon — all confirmed by the MCP API, with no hallucinated attributes, slots or events. The bl-stepper-change listener is the real event and the badge over the cart icon correctly shows '2'. Minor nit only: the code comment claims bl-stepper-change is a CustomEvent<string>, whereas the real detail is {activeStep,totalSteps}, but the handler is untyped so this is harmless. Requested cart/shipping/payment checkout indicator is fully implemented."
+}

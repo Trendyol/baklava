@@ -1,0 +1,150 @@
+{
+  "id": "accordion-faq",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "Build an FAQ section where the user clicks a question and it expands to reveal the answer below it. Several questions should be grouped together.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-accordion-group",
+      "bl-accordion"
+    ],
+    "componentsExpected": [
+      "bl-accordion",
+      "bl-accordion-group"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-accordion-group>\n  <bl-accordion caption=\"What is Baklava?\" icon=\"info\">\n    Baklava is a web-component design system for building accessible user interfaces.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I install it?\" icon=\"info\">\n    Install the package and import the component bundle into your application entry point.\n  </bl-accordion>\n  <bl-accordion caption=\"Is it framework agnostic?\" icon=\"info\">\n    Yes. Because Baklava ships as custom elements, it works with any framework or with no framework at all.\n  </bl-accordion>\n</bl-accordion-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-accordion-group multiple>\n  <bl-accordion caption=\"How do I create an account?\" icon=\"info\">\n    Click &quot;Sign up&quot; in the top bar, enter your email and a password, then verify your email from the confirmation message we send you.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I reset my password?\" icon=\"info\">\n    On the sign-in screen choose &quot;Forgot password&quot;. We will email you a secure reset link that expires in 30 minutes.\n  </bl-accordion>\n  <bl-accordion caption=\"Is my payment information safe?\" icon=\"info\">\n    Yes. Payment details are encrypted in transit and at rest, and we never store your full card number on our servers.\n  </bl-accordion>\n  <bl-accordion caption=\"Can I cancel my subscription anytime?\" icon=\"info\">\n    Absolutely. You can cancel from Billing &amp; Plans at any time, and you keep access until the end of the current billing period.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I contact support?\" icon=\"info\">\n    Open the chat bubble at the bottom right or email support@example.com. Our team replies within one business day.\n  </bl-accordion>\n</bl-accordion-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<bl-accordion-group>\n  <bl-accordion caption=\"What is Baklava?\">\n    Baklava is a web-component design system built with the Open Web Components stack.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I install it?\" open>\n    Install the package with your favorite package manager and import the components you need.\n  </bl-accordion>\n  <bl-accordion caption=\"Does Baklava support TypeScript?\">\n    Yes. All Baklava components ship with full TypeScript definitions and a custom-elements manifest.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I get support?\">\n    Join the community channel and ask a question; maintainers and users are happy to help.\n  </bl-accordion>\n</bl-accordion-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

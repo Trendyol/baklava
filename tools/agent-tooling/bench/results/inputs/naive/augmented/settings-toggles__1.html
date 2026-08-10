@@ -1,34 +1,24 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Settings</title>
-</head>
-<body>
-  <form class="settings" id="settings">
-    <h1>Settings</h1>
+<section aria-label="Settings">
+  <h2>Settings</h2>
 
-    <p id="notifications-hint" class="hint">Turn push notifications and alerts on or off.</p>
-    <label class="setting">Notifications<bl-switch name="notifications" checked></bl-switch></label>
+  <bl-select label="Language" value="en" help-text="Choose your preferred language.">
+    <bl-select-option value="en" label="English"></bl-select-option>
+    <bl-select-option value="tr" label="Türkçe"></bl-select-option>
+    <bl-select-option value="de" label="Deutsch"></bl-select-option>
+  </bl-select>
 
-    <p class="hint">Choose whether to receive a daily summary email.</p>
-    <label class="setting">Email summary<bl-switch name="email-summary" checked></bl-switch></label>
-
-    <p class="hint">Allow anonymous usage statistics to help improve the product.</p>
-    <label class="setting">Usage analytics<bl-switch name="analytics"></bl-switch></label>
-
-    <label class="setting">Interface language</label>
-    <bl-select
-      name="language"
-      label="Language"
-      value="en"
-      help-text="Language used for the interface and notifications."
-    >
-      <bl-select-option value="en" selected>English</bl-select-option>
-      <bl-select-option value="tr">Türkçe</bl-select-option>
-      <bl-select-option value="de">Deutsch</bl-select-option>
-    </bl-select>
-  </form>
-</body>
-</html>
+  <ul>
+    <li>
+      <bl-switch>Email notifications</bl-switch>
+      <p class="hint">Receive email updates about your account.</p>
+    </li>
+    <li>
+      <bl-switch>Dark mode</bl-switch>
+      <p class="hint">Use a dark color scheme throughout the app.</p>
+    </li>
+    <li>
+      <bl-switch>Auto-play videos</bl-switch>
+      <p class="hint">Play videos automatically when you open them.</p>
+    </li>
+  </ul>
+</section>

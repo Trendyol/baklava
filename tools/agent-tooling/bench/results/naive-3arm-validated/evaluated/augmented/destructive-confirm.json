@@ -1,0 +1,150 @@
+{
+  "id": "destructive-confirm",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "overlays",
+  "complexity": "complex",
+  "prompt": "When the user tries to delete something, show a popup in the middle of the page that blocks the background and asks them to confirm, with a clearly dangerous button to confirm deletion and a safe one to cancel.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-dialog",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-dialog",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-dialog open critical caption=\"Delete this item?\">\n  <p>Are you sure you want to permanently delete this item? This action cannot be undone.</p>\n  <bl-button slot=\"secondary-action\" variant=\"secondary\" label=\"Cancel\"></bl-button>\n  <bl-button slot=\"primary-action\" variant=\"primary\" kind=\"danger\" label=\"Delete\"></bl-button>\n</bl-dialog>\n\n<script>\n  const dialog = document.querySelector('bl-dialog');\n  const [cancelBtn, deleteBtn] = dialog.querySelectorAll('bl-button[slot]');\n\n  cancelBtn?.addEventListener('bl-click', () => { dialog.open = false; });\n\n  deleteBtn?.addEventListener('bl-click', () => {\n    // Delete action placeholder: the item would be removed here.\n    dialog.open = false;\n  });\n\n  // Close via the dialog's built-in backdrop / Escape / close button.\n  dialog?.addEventListener('bl-dialog-request-close', (event) => {\n    // Allow close on cancel/backdrop/Escape; block nothing so users can leave.\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-dialog id=\"confirmDialog\" open caption=\"Confirm deletion\" critical>\n  <p>This item will be permanently removed. This action cannot be undone.</p>\n  <bl-button slot=\"primary-action\" kind=\"danger\" label=\"Delete item\"></bl-button>\n  <bl-button slot=\"secondary-action\" variant=\"tertiary\" label=\"Cancel\"></bl-button>\n</bl-dialog>\n\n<bl-button id=\"deleteTrigger\" kind=\"danger\" label=\"Delete item\"></bl-button>\n\n<script>\n  const dialog = document.querySelector('#confirmDialog');\n  document.querySelector('#deleteTrigger').addEventListener('bl-click', () => {\n    dialog.setAttribute('open', '');\n  });\n  document.querySelector('[slot=\"secondary-action\"]').addEventListener('bl-click', () => {\n    dialog.removeAttribute('open');\n  });\n  document.querySelector('[slot=\"primary-action\"]').addEventListener('bl-click', () => {\n    dialog.removeAttribute('open');\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<bl-dialog open critical caption=\"Delete item?\">\n  <p slot=\"\">\n    This action is irreversible. The item will be permanently removed and cannot be recovered.\n  </p>\n  <bl-button slot=\"secondary-action\" variant=\"secondary\" @bl-click=\"close()\">Cancel</bl-button>\n  <bl-button slot=\"primary-action\" kind=\"danger\" @bl-click=\"confirmDelete()\">Delete</bl-button>\n</bl-dialog>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

@@ -1,40 +1,7 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Delete project</title>
-  </head>
-  <body style="font-family: system-ui, sans-serif; padding: 2rem">
-    <bl-button id="open-delete">Delete project</bl-button>
-
-    <bl-dialog id="delete-dialog" open caption="Delete project?" critical>
-      <p>This action cannot be undone. The project and all of its data will be permanently deleted.</p>
-      <bl-button slot="primary-action" kind="danger" id="confirm-delete">Delete</bl-button>
-      <bl-button slot="secondary-action" variant="secondary" id="cancel-delete">Cancel</bl-button>
-      <bl-button slot="tertiary-action" variant="tertiary" id="close-delete">Close</bl-button>
-    </bl-dialog>
-
-    <script>
-      const dialog = document.getElementById('delete-dialog');
-      const openBtn = document.getElementById('open-delete');
-      const confirmBtn = document.getElementById('confirm-delete');
-      const cancelBtn = document.getElementById('cancel-delete');
-      const closeBtn = document.getElementById('close-delete');
-
-      openBtn.addEventListener('click', () => {
-        dialog.open = true;
-      });
-      confirmBtn.addEventListener('click', () => {
-        // simulated destructive action
-        dialog.open = false;
-      });
-      cancelBtn.addEventListener('click', () => {
-        dialog.open = false;
-      });
-      closeBtn.addEventListener('click', () => {
-        dialog.open = false;
-      });
-    </script>
-  </body>
-</html>
+<bl-dialog open critical caption="Delete item?">
+  <p slot="">
+    This action is irreversible. The item will be permanently removed and cannot be recovered.
+  </p>
+  <bl-button slot="secondary-action" variant="secondary" @bl-click="close()">Cancel</bl-button>
+  <bl-button slot="primary-action" kind="danger" @bl-click="confirmDelete()">Delete</bl-button>
+</bl-dialog>

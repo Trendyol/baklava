@@ -1,0 +1,13 @@
+{
+  "id": "checkout-steps",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 95,
+    "accessibility": 86,
+    "efficiency": 90,
+    "codeQuality": 92,
+    "maintainability": 93,
+    "overall": 91
+  },
+  "verdict": "Fully real API usage, no hallucinations. bl-stepper uses only real attributes (direction='horizontal', type='dot', usage='non-clickable' — all valid enum values), all three bl-stepper-item tags use real attributes with valid variants ('success', 'active', default) and are correctly nested inside bl-stepper. bl-badge size='large' is real and holds the count in its default slot. Minor nit: the prompt asks for the badge 'over a cart icon', and the output shows a text badge ('2 items') without an icon, which fully conveys the cart count but lands slightly short of the literal wording."
+}

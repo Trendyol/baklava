@@ -1,0 +1,13 @@
+{
+  "id": "product-table",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 100,
+    "accessibility": 90,
+    "efficiency": 95,
+    "codeQuality": 98,
+    "maintainability": 98,
+    "overall": 96
+  },
+  "verdict": "Clean, fully-real implementation verified against the CEM. Uses bl-table/bl-table-header/bl-table-header-cell/bl-table-body/bl-table-row/bl-table-cell with correct parent-child nesting, bl-badge size='small' to mark the 'Popular' rows, bl-button variant='secondary' size='small' as the per-row action, and bl-pagination (current-page/total-items/items-per-page) for paging. Every tag, attribute and enum value is genuine (e.g. bl-button variant secondary, bl-badge size small, bl-pagination items-per-page are all real); no hallucinated members, no hand-rolled native divs/buttons, and it fully matches the requested product catalog with column headers, a row action button, popular badges, and page controls."
+}

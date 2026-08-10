@@ -243,7 +243,97 @@
         "totalHallucinations": 0,
         "totalEscapeHatches": -18
       }
+    },
+    {
+      "iteration": "naive-3arm-validated",
+      "persona": "naive",
+      "model": "deepseek-v4-flash-0731",
+      "timestamp": "2026-08-10T14:59:12.231Z",
+      "arms": {
+        "baseline": {
+          "overall": 87,
+          "dims": {
+            "correctness": 93,
+            "accessibility": 82,
+            "efficiency": 80,
+            "codeQuality": 82,
+            "maintainability": 89,
+            "overall": 87
+          },
+          "hall": 0,
+          "esc": 22,
+          "succ": 100
+        },
+        "mcp-only": {
+          "overall": 91,
+          "dims": {
+            "correctness": 97,
+            "accessibility": 82,
+            "efficiency": 82,
+            "codeQuality": 88,
+            "maintainability": 97,
+            "overall": 91
+          },
+          "hall": 0,
+          "esc": 7,
+          "succ": 100
+        },
+        "augmented": {
+          "overall": 93,
+          "dims": {
+            "correctness": 99,
+            "accessibility": 82,
+            "efficiency": 86,
+            "codeQuality": 90,
+            "maintainability": 100,
+            "overall": 93
+          },
+          "hall": 0,
+          "esc": 0,
+          "succ": 100
+        }
+      },
+      "before": {
+        "overall": 87,
+        "dims": {
+          "correctness": 93,
+          "accessibility": 82,
+          "efficiency": 80,
+          "codeQuality": 82,
+          "maintainability": 89,
+          "overall": 87
+        },
+        "hall": 0,
+        "esc": 22,
+        "succ": 100
+      },
+      "after": {
+        "overall": 93,
+        "dims": {
+          "correctness": 99,
+          "accessibility": 82,
+          "efficiency": 86,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        },
+        "hall": 0,
+        "esc": 0,
+        "succ": 100
+      },
+      "delta": {
+        "successRate": 0,
+        "avgOverall": 6,
+        "dim.correctness": 6,
+        "dim.accessibility": 0,
+        "dim.efficiency": 6,
+        "dim.codeQuality": 8,
+        "dim.maintainability": 11,
+        "dim.overall": 6,
+        "totalHallucinations": 0,
+        "totalEscapeHatches": -22
+      }
     }
   ],
-  "updatedAt": "2026-08-10T14:42:11.992Z"
+  "updatedAt": "2026-08-10T15:00:12.116Z"
 }

@@ -1,8 +1,28 @@
-<bl-switch checked>Enable notifications</bl-switch>
-<bl-switch checked>Dark mode</bl-switch>
-<bl-switch>Reduce motion</bl-switch>
-<bl-select label="Language" help-text="Choose your preferred language." placeholder="Select a language">
-  <bl-select-option value="en" label="English">English</bl-select-option>
-  <bl-select-option value="de" label="Deutsch">Deutsch</bl-select-option>
-  <bl-select-option value="tr" label="Türkçe">Türkçe</bl-select-option>
-</bl-select>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Settings</title>
+  </head>
+  <body>
+    <section class="settings" aria-label="Settings">
+      <h2>Settings</h2>
+
+      <h3>Notifications</h3>
+      <bl-switch checked>Email notifications <span class="hint">Receive an email when something happens.</span></bl-switch>
+
+      <bl-switch>Push notifications</bl-switch>
+
+      <h3>Privacy</h3>
+      <bl-switch checked>Share usage data anonymously</bl-switch>
+
+      <h3>Preferences</h3>
+      <bl-select name="language" label="Language" help-text="Choose the language used across this app.">
+        <bl-select-option value="en">English</bl-select-option>
+        <bl-select-option value="tr">Türkçe</bl-select-option>
+        <bl-select-option value="de">Deutsch</bl-select-option>
+      </bl-select>
+    </section>
+  </body>
+</html>

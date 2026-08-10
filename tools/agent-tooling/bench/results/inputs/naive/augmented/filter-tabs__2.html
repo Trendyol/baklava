@@ -1,36 +1,20 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Filter &amp; Views</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-  <body>
-    <main>
-      <h1>Products</h1>
-
-      <bl-tab-group>
-        <bl-tab name="overview" slot="tabs">Overview</bl-tab>
-        <bl-tab name="details" slot="tabs">Details</bl-tab>
-        <bl-tab name="activity" slot="tabs">Activity</bl-tab>
-
-        <bl-tab-panel tab="overview">
-          <p>Summary of the product and its status.</p>
-        </bl-tab-panel>
-        <bl-tab-panel tab="details">
-          <p>Specifications, pricing and dimensions.</p>
-        </bl-tab-panel>
-        <bl-tab-panel tab="activity">
-          <p>Recent updates and change history.</p>
-        </bl-tab-panel>
-      </bl-tab-group>
-
-      <bl-tooltip placement="top">
-        <bl-button slot="tooltip-trigger" icon="info" size="small" label="About this page">
-          About
-        </bl-button>
-        Explains what this page contains.
-      </bl-tooltip>
-    </main>
-  </body>
-</html>
+<bl-tab-group>
+  <bl-tab name="overview" slot="tabs">Overview</bl-tab>
+  <bl-tab name="details" slot="tabs" selected>Details</bl-tab>
+  <bl-tab name="settings" slot="tabs">Settings</bl-tab>
+  <bl-tab-panel tab="overview">
+    <p>Here is a summary of the current view, including recent activity and key numbers at a glance.</p>
+  </bl-tab-panel>
+  <bl-tab-panel tab="details">
+    <p>This panel shows detailed information about the selected item, its attributes and metadata.</p>
+  </bl-tab-panel>
+  <bl-tab-panel tab="settings">
+    <p>Use this panel to adjust preferences that control how this view behaves.</p>
+  </bl-tab-panel>
+</bl-tab-group>
+<bl-tooltip placement="top">
+  <span slot="tooltip-trigger">
+    <bl-button size="small" icon="info" aria-label="More information about tabs"></bl-button>
+  </span>
+  <span>Tabs let you switch between different views of the same page.</span>
+</bl-tooltip>

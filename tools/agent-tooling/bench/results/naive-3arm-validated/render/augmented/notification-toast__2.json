@@ -1,0 +1,15 @@
+{
+  "id": "notification-toast__2",
+  "arm": "augmented",
+  "file": "naive/augmented/notification-toast__2.html.html",
+  "url": "http://127.0.0.1:54799/.agent-render-tmp/naive-augmented-notification-toast__2.html",
+  "loaded": true,
+  "exceptions": [],
+  "consoleErrors": [],
+  "blElementCount": 2,
+  "upgradedCount": 2,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}

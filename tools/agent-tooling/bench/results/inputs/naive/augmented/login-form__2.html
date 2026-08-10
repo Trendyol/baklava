@@ -1,88 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login</title>
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      font-family: system-ui, sans-serif;
-      background: #fafafa;
-    }
-    .login-card {
-      width: 100%;
-      max-width: 380px;
-      padding: 2rem;
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-    }
-    h1 {
-      margin: 0 0 1.25rem;
-      font-size: 1.5rem;
-    }
-    .field {
-      margin-bottom: 1rem;
-    }
-    bl-input {
-      width: 100%;
-    }
-    .submit {
-      margin-top: 0.25rem;
-    }
-    bl-button {
-      width: 100%;
-    }
-  </style>
-</head>
-<body>
-  <form class="login-card" id="login-form">
-    <h1>Sign in</h1>
-
-    <div class="field">
-      <bl-input
-        name="email"
-        type="email"
-        label="Email address"
-        placeholder="you@example.com"
-        autocomplete="email"
-        required></bl-input>
-    </div>
-
-    <div class="field">
-      <bl-input
-        name="password"
-        type="password"
-        label="Password"
-        placeholder="••••••••"
-        autocomplete="current-password"
-        required></bl-input>
-    </div>
-
-    <div class="submit">
-      <bl-button type="submit" variant="primary" label="Sign in"></bl-button>
-    </div>
-  </form>
-
-  <script>
-    const form = document.getElementById('login-form');
-    // bl-input is a custom element; sync values on submit.
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const [email] = form.querySelectorAll('bl-input[name="email"]');
-      const [password] = form.querySelectorAll('bl-input[name="password"]');
-      const payload = {
-        email: email ? email.value : '',
-        password: password ? password.value : '',
-      };
-      console.log('login submitted', payload);
-    });
-  </script>
-</body>
-</html>
+<form class="login-form" novalidate>
+  <bl-input
+    name="email"
+    type="email"
+    label="Email address"
+    placeholder="you@example.com"
+    autocomplete="email"
+    required
+  ></bl-input>
+  <bl-input
+    name="password"
+    type="password"
+    label="Password"
+    placeholder="Enter your password"
+    autocomplete="current-password"
+    required
+  ></bl-input>
+  <bl-button variant="primary" type="submit">Sign in</bl-button>
+</form>
+<script>
+  const form = document.querySelector('form.login-form');
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    console.log('signing in as', data.get('email'));
+  });
+</script>

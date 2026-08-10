@@ -1,0 +1,17 @@
+{
+  "id": "accordion-faq__1",
+  "arm": "augmented",
+  "file": "naive/augmented/accordion-faq__1.html.html",
+  "url": "http://127.0.0.1:54799/.agent-render-tmp/naive-augmented-accordion-faq__1.html",
+  "loaded": true,
+  "exceptions": [],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "blElementCount": 6,
+  "upgradedCount": 6,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}

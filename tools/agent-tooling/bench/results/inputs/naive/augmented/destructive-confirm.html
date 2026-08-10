@@ -1,5 +1,22 @@
-<bl-dialog open caption="Delete product" critical>
-  <p>Are you sure you want to permanently delete this product? This action cannot be undone.</p>
-  <bl-button slot="secondary-action" variant="secondary">Cancel</bl-button>
-  <bl-button slot="primary-action" variant="primary" kind="danger">Delete</bl-button>
+<bl-dialog open critical caption="Delete this item?">
+  <p>Are you sure you want to permanently delete this item? This action cannot be undone.</p>
+  <bl-button slot="secondary-action" variant="secondary" label="Cancel"></bl-button>
+  <bl-button slot="primary-action" variant="primary" kind="danger" label="Delete"></bl-button>
 </bl-dialog>
+
+<script>
+  const dialog = document.querySelector('bl-dialog');
+  const [cancelBtn, deleteBtn] = dialog.querySelectorAll('bl-button[slot]');
+
+  cancelBtn?.addEventListener('bl-click', () => { dialog.open = false; });
+
+  deleteBtn?.addEventListener('bl-click', () => {
+    // Delete action placeholder: the item would be removed here.
+    dialog.open = false;
+  });
+
+  // Close via the dialog's built-in backdrop / Escape / close button.
+  dialog?.addEventListener('bl-dialog-request-close', (event) => {
+    // Allow close on cancel/backdrop/Escape; block nothing so users can leave.
+  });
+</script>

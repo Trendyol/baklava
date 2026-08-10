@@ -1,52 +1,25 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Filter Tabs</title>
-  <script type="module" src="/dist/baklava.js"></script>
-  <style>
-    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #1f2430; }
-    .stack { display: grid; gap: 1.5rem; }
-    bl-tab-panel { padding: 1rem 0; }
-  </style>
-</head>
-<body>
-  <main class="stack">
-    <h1>Product Views</h1>
+<bl-tab-group>
+  <bl-tab name="all" slot="tabs">All</bl-tab>
+  <bl-tab name="active" slot="tabs">Active</bl-tab>
+  <bl-tab name="archived" slot="tabs">Archived</bl-tab>
 
-    <!-- Real Baklava tabs: bl-tab in the "tabs" slot, bl-tab-panel in the default slot -->
-    <bl-tab-group aria-label="Switch between product views">
-      <bl-tab slot="tabs" name="overview" caption="Overview"></bl-tab>
-      <bl-tab slot="tabs" name="details" caption="Details" selected></bl-tab>
-      <bl-tab slot="tabs" name="related" caption="Related"></bl-tab>
+  <bl-tab-panel tab="all">
+    <h3>All items</h3>
+    <p>Everything in this workspace, newest first.</p>
+  </bl-tab-panel>
 
-      <bl-tab-panel tab="overview">
-        <p>Overview panel content: key product information is summarized here.</p>
-      </bl-tab-panel>
-      <bl-tab-panel tab="details">
-        <ul>
-          <li>Technical specifications</li>
-          <li>Compatibility notes</li>
-          <li>Available variants</li>
-        </ul>
-      </bl-tab-panel>
-      <bl-tab-panel tab="related">
-        <p>Related products live in this panel.</p>
-      </bl-tab-panel>
-    </bl-tab-group>
+  <bl-tab-panel tab="active">
+    <h3>Active items</h3>
+    <p>Items that are currently in progress.</p>
+  </bl-tab-panel>
 
-    <!-- Small icon button with a real Baklava tooltip (trigger via slot) -->
-    <bl-tooltip placement="top">
-      Open settings
-      <bl-button
-        slot="tooltip-trigger"
-        variant="tertiary"
-        size="small"
-        icon="settings"
-        label="Settings"
-      ></bl-button>
-    </bl-tooltip>
-  </main>
-</body>
-</html>
+  <bl-tab-panel tab="archived">
+    <h3>Archived items</h3>
+    <p>Closed and archived items.</p>
+  </bl-tab-panel>
+</bl-tab-group>
+
+<bl-tooltip placement="top">
+  <bl-button slot="tooltip-trigger" icon="info" variant="tertiary" size="small" aria-label="Filter help">Help</bl-button>
+  Filters show only matching items. Click a tab to switch the view.
+</bl-tooltip>

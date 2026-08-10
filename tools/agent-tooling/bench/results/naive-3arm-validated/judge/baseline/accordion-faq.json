@@ -1,0 +1,13 @@
+{
+  "id": "accordion-faq",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 96,
+    "accessibility": 90,
+    "efficiency": 94,
+    "codeQuality": 93,
+    "maintainability": 93,
+    "overall": 93
+  },
+  "verdict": "Fully correct use of the real bl-accordion-group and bl-accordion: caption and open are real attributes, content is placed in the real default slot, and multiple accordions are grouped in the group's default slot as required. No hallucinated API members, no hand-rolled native controls, and the FAQ expand/collapse + grouping is faithfully implemented."
+}

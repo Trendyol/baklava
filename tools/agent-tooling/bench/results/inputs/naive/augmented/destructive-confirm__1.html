@@ -1,23 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Delete confirmation</title>
-  <style>
-    body {
-      font-family: system-ui, sans-serif;
-      margin: 0;
-      padding: 3rem;
-      background: #f4f5f7;
-    }
-  </style>
-</head>
-<body>
-  <bl-dialog open critical caption="Delete project?">
-    This will permanently delete the project and all of its data. This action cannot be undone.
-    <bl-button slot="primary-action" kind="danger" autofocus>Delete</bl-button>
-    <bl-button slot="secondary-action" kind="neutral">Cancel</bl-button>
-  </bl-dialog>
-</body>
-</html>
+<bl-dialog id="confirmDialog" open caption="Confirm deletion" critical>
+  <p>This item will be permanently removed. This action cannot be undone.</p>
+  <bl-button slot="primary-action" kind="danger" label="Delete item"></bl-button>
+  <bl-button slot="secondary-action" variant="tertiary" label="Cancel"></bl-button>
+</bl-dialog>
+
+<bl-button id="deleteTrigger" kind="danger" label="Delete item"></bl-button>
+
+<script>
+  const dialog = document.querySelector('#confirmDialog');
+  document.querySelector('#deleteTrigger').addEventListener('bl-click', () => {
+    dialog.setAttribute('open', '');
+  });
+  document.querySelector('[slot="secondary-action"]').addEventListener('bl-click', () => {
+    dialog.removeAttribute('open');
+  });
+  document.querySelector('[slot="primary-action"]').addEventListener('bl-click', () => {
+    dialog.removeAttribute('open');
+  });
+</script>

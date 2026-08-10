@@ -1,0 +1,15 @@
+{
+  "id": "product-table",
+  "arm": "baseline",
+  "file": "naive/baseline/product-table.html.html",
+  "url": "http://127.0.0.1:54521/.agent-render-tmp/naive-baseline-product-table.html",
+  "loaded": true,
+  "exceptions": [],
+  "consoleErrors": [],
+  "blElementCount": 29,
+  "upgradedCount": 29,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}

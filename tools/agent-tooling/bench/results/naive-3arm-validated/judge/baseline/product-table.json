@@ -1,0 +1,13 @@
+{
+  "id": "product-table",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 68,
+    "accessibility": 55,
+    "efficiency": 60,
+    "codeQuality": 65,
+    "maintainability": 70,
+    "overall": 65
+  },
+  "verdict": "Correctly uses the real bl-table/bl-table-header/bl-table-body/bl-table-row/bl-table-cell, bl-button (size='small' is real) and bl-pagination (current-page is real), and does implement the requested catalog with header rows, per-row action buttons, badges on some rows, and paging. However it uses several hallucinated or misnamed attributes that silently no-op: bl-table 'columns' is not a real attribute; bl-badge 'variant=\"warning\"' is invalid (real attrs are only size and icon); bl-pagination 'total' and 'size' should be 'total-items' and 'items-per-page'. These break column layout, badge styling and paging totals even though the markup shape is sound."
+}

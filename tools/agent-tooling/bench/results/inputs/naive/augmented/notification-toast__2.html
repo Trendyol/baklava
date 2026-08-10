@@ -1,37 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Save Confirmation Toast</title>
-  <style>
-    body { font-family: system-ui, sans-serif; margin: 2rem; }
-    .page { max-width: 640px; margin: 0 auto; }
-  </style>
-</head>
-<body>
-  <main class="page">
-    <h1>Edit profile</h1>
-    <p>Make your changes, then press the save button. A success toast appears in the corner and can be dismissed.</p>
-    <bl-button type="submit" id="save-btn">Save changes</bl-button>
-  </main>
+<bl-button id="save" variant="primary">Save</bl-button>
+<bl-notification id="notif" no-animation duration="7"></bl-notification>
 
-  <bl-notification id="toast" duration="7">
-    <bl-notification-card
-      variant="success"
-      caption="Saved successfully"
-      icon="true"
-    >
-      <span>Your changes were saved.</span>
-    </bl-notification-card>
-  </bl-notification>
+<script type="module">
+  const notif = document.getElementById('notif');
+  const save = document.getElementById('save');
 
-  <script type="module">
-    const card = document.querySelector('bl-notification-card');
-    const btn = document.getElementById('save-btn');
-    btn.addEventListener('bl-click', () => {
-      card.setAttribute('closed', 'false');
+  function onSaved() {
+    notif.addNotification({
+      caption: 'Saved',
+      description: 'Your changes were saved successfully.',
+      variant: 'success',
+      icon: true,
+      duration: 7
     });
-  </script>
-</body>
-</html>
+  }
+
+  save.addEventListener('bl-click', () => {
+    // Simulate a save then surface the success toaster in the corner.
+    onSaved();
+  });
+</script>

@@ -1,0 +1,13 @@
+{
+  "id": "login-form",
+  "arm": "mcp-only",
+  "scores": {
+    "correctness": 95,
+    "accessibility": 91,
+    "efficiency": 92,
+    "codeQuality": 92,
+    "maintainability": 90,
+    "overall": 92
+  },
+  "verdict": "Clean, fully real implementation. Uses only genuine Baklava API: bl-input with name/type('email'|'password')/label/placeholder/autocomplete('email'|'current-password')/required all verified in the CEM, and bl-button with variant='primary' and type='submit' (the only real button type). No hallucinated tags, attributes, slots, or events; no hand-rolled controls where bl-* components exist. Login UI (email + masked password + prominent submit + Enter) is implemented correctly. Minor nits: wraps bl-input in a native <label> in addition to the reflected label attribute (harmless, slight redundancy) and uses low-level reportValidity rather than Baklava's built-in form-styled validation."
+}

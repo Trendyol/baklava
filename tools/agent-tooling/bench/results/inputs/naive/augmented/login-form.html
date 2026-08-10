@@ -1,5 +1,37 @@
-<form>
-  <bl-input name="email" type="email" label="Email address" autocomplete="email" required></bl-input>
-  <bl-input name="password" type="password" label="Password" autocomplete="current-password" required></bl-input>
-  <bl-button type="submit" variant="primary">Log in</bl-button>
+<form class="login">
+  <h2>Sign in</h2>
+  <p>Enter your email and password to continue.</p>
+  <bl-input
+    name="email"
+    type="email"
+    label="Email address"
+    autocomplete="email"
+    required
+  ></bl-input>
+  <bl-input
+    name="password"
+    type="password"
+    label="Password"
+    autocomplete="current-password"
+    required
+  ></bl-input>
+  <bl-button type="submit" label="Sign in" variant="primary"></bl-button>
+
+  <script type="module">
+    const form = document.querySelector('.login');
+    const email = form.querySelector('bl-input[name="email"]');
+    const password = form.querySelector('bl-input[name="password"]');
+    const submit = form.querySelector('bl-button');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!email.value || !password.value) {
+        email.error = email.value ? '' : 'Email address is required';
+        password.error = password.value ? '' : 'Password is required';
+        return;
+      }
+      submit.disabled = true;
+      submit.label = 'Signing in…';
+    });
+  </script>
 </form>

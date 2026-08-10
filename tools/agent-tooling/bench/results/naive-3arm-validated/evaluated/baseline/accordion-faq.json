@@ -1,0 +1,150 @@
+{
+  "id": "accordion-faq",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "Build an FAQ section where the user clicks a question and it expands to reveal the answer below it. Several questions should be grouped together.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-accordion-group",
+      "bl-accordion"
+    ],
+    "componentsExpected": [
+      "bl-accordion",
+      "bl-accordion-group"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-accordion-group>\n  <bl-accordion caption=\"How do I reset my password?\" open>\n    <p>Go to Settings &gt; Security and choose \"Reset password\". A reset link will be sent to your email.</p>\n  </bl-accordion>\n  <bl-accordion caption=\"How do I change my email address?\">\n    <p>Open Profile and update your email, then confirm the new address via the verification email.</p>\n  </bl-accordion>\n  <bl-accordion caption=\"How do I delete my account?\">\n    <p>This action is permanent. Contact support to request account deletion.</p>\n  </bl-accordion>\n</bl-accordion-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>FAQ</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; color: #222; }\n    .faq { margin-bottom: 3rem; }\n    .faq h2 { margin-bottom: 0.5rem; }\n  </style>\n</head>\n<body>\n  <main class=\"faq\">\n    <h2>Frequently Asked Questions</h2>\n    <bl-accordion-group>\n      <bl-accordion open>\n        <h3 slot=\"header\">How do I get started?</h3>\n        <p>Create an account, choose a plan, and follow the onboarding guide in your dashboard.</p>\n      </bl-accordion>\n      <bl-accordion>\n        <h3 slot=\"header\">Which payment methods are supported?</h3>\n        <p>We accept all major credit cards, PayPal, and bank transfers in supported regions.</p>\n      </bl-accordion>\n      <bl-accordion>\n        <h3 slot=\"header\">Can I cancel anytime?</h3>\n        <p>Yes. You can cancel from Settings at any time; your plan stays active until the end of the billing period.</p>\n      </bl-accordion>\n      <bl-accordion>\n        <h3 slot=\"header\">Do you offer refunds?</h3>\n        <p>We provide a 14-day money-back guarantee on annual plans, no questions asked.</p>\n      </bl-accordion>\n    </bl-accordion-group>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>FAQ</title>\n  <style>\n    body { font-family: system-ui, sans-serif; margin: 0 auto; max-width: 720px; padding: 2rem; }\n    h1 { font-size: 1.5rem; }\n  </style>\n</head>\n<body>\n  <h1>Frequently Asked Questions</h1>\n\n  <bl-accordion-group>\n    <bl-accordion>\n      <h3>How does shipping work?</h3>\n      <p>We ship within 2–3 business days using standard carriers, tracked from pickup to delivery.</p>\n    </bl-accordion>\n\n    <bl-accordion>\n      <h3>Can I return an item?</h3>\n      <p>Yes, you have 30 days to return an item in its original condition for a full refund.</p>\n    </bl-accordion>\n\n    <bl-accordion>\n      <h3>Do you ship internationally?</h3>\n      <p>We currently ship to the United States, the EU, and the UK. Additional regions are on the way.</p>\n    </bl-accordion>\n\n    <bl-accordion>\n      <h3>How do I track my order?</h3>\n      <p>After dispatch you will receive a tracking link by email so you can follow your package.</p>\n    </bl-accordion>\n  </bl-accordion-group>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "accordion-faq",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 98,
+    "accessibility": 92,
+    "efficiency": 95,
+    "codeQuality": 95,
+    "maintainability": 96,
+    "overall": 95
+  },
+  "verdict": "Clean, fully real implementation. Uses only genuine Baklava API: bl-accordion-group (real, default slot for bl-accordion) correctly wraps three bl-accordion elements, each using the real caption (string) attribute and default content slot; icon=\"info\" is a valid BaklavaIcon reference. No hallucinated tags/attributes, no hand-rolled controls, and the FAQ grouping requirement is met. Only minor note: no explicit bl-toggle listener, which the basic expand/collapse handles internally, and icon value is not a strict enum so it is not machine-flagged."
+}

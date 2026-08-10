@@ -1,0 +1,15 @@
+{
+  "id": "checkout-steps__1",
+  "arm": "baseline",
+  "file": "naive/baseline/checkout-steps__1.html.html",
+  "url": "http://127.0.0.1:54521/.agent-render-tmp/naive-baseline-checkout-steps__1.html",
+  "loaded": true,
+  "exceptions": [],
+  "consoleErrors": [],
+  "blElementCount": 4,
+  "upgradedCount": 4,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}

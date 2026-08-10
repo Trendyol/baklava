@@ -1,0 +1,15 @@
+{
+  "id": "filter-tabs",
+  "arm": "mcp-only",
+  "file": "naive/mcp-only/filter-tabs.html.html",
+  "url": "http://127.0.0.1:54655/.agent-render-tmp/naive-mcp-only-filter-tabs.html",
+  "loaded": true,
+  "exceptions": [],
+  "consoleErrors": [],
+  "blElementCount": 9,
+  "upgradedCount": 9,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}

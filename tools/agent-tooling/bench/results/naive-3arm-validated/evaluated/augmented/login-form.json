@@ -1,0 +1,150 @@
+{
+  "id": "login-form",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Build a login page. There should be a field for the email address, a field for the password that hides what is typed, and a prominent button at the end to submit the whole thing when the user presses Enter.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-input",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-input",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<form class=\"login\">\n  <h2>Sign in</h2>\n  <p>Enter your email and password to continue.</p>\n  <bl-input\n    name=\"email\"\n    type=\"email\"\n    label=\"Email address\"\n    autocomplete=\"email\"\n    required\n  ></bl-input>\n  <bl-input\n    name=\"password\"\n    type=\"password\"\n    label=\"Password\"\n    autocomplete=\"current-password\"\n    required\n  ></bl-input>\n  <bl-button type=\"submit\" label=\"Sign in\" variant=\"primary\"></bl-button>\n\n  <script type=\"module\">\n    const form = document.querySelector('.login');\n    const email = form.querySelector('bl-input[name=\"email\"]');\n    const password = form.querySelector('bl-input[name=\"password\"]');\n    const submit = form.querySelector('bl-button');\n\n    form.addEventListener('submit', (e) => {\n      e.preventDefault();\n      if (!email.value || !password.value) {\n        email.error = email.value ? '' : 'Email address is required';\n        password.error = password.value ? '' : 'Password is required';\n        return;\n      }\n      submit.disabled = true;\n      submit.label = 'Signing in…';\n    });\n  </script>\n</form>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<form id=\"login-form\" class=\"login-form\">\n  <bl-input\n    name=\"email\"\n    type=\"email\"\n    label=\"Email address\"\n    placeholder=\"you@example.com\"\n    autocomplete=\"email\"\n    required\n  ></bl-input>\n  <bl-input\n    name=\"password\"\n    type=\"password\"\n    label=\"Password\"\n    placeholder=\"Enter your password\"\n    autocomplete=\"current-password\"\n    required\n  ></bl-input>\n  <bl-button\n    type=\"submit\"\n    variant=\"primary\"\n    size=\"large\"\n    label=\"Sign in\"\n  ></bl-button>\n</form>\n<script>\n  const form = document.querySelector('#login-form');\n  form.addEventListener('submit', (e) => {\n    e.preventDefault();\n    const data = new FormData(form);\n    console.log('login submitted:', data.get('email'), data.get('password'));\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<form class=\"login-form\" novalidate>\n  <bl-input\n    name=\"email\"\n    type=\"email\"\n    label=\"Email address\"\n    placeholder=\"you@example.com\"\n    autocomplete=\"email\"\n    required\n  ></bl-input>\n  <bl-input\n    name=\"password\"\n    type=\"password\"\n    label=\"Password\"\n    placeholder=\"Enter your password\"\n    autocomplete=\"current-password\"\n    required\n  ></bl-input>\n  <bl-button variant=\"primary\" type=\"submit\">Sign in</bl-button>\n</form>\n<script>\n  const form = document.querySelector('form.login-form');\n  form.addEventListener('submit', (event) => {\n    event.preventDefault();\n    const data = new FormData(form);\n    console.log('signing in as', data.get('email'));\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

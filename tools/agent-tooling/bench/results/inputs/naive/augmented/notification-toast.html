@@ -1,5 +1,30 @@
-<bl-notification>
-  <bl-notification-card variant="success" caption="Saved" icon>
-    Your changes were saved successfully.
-  </bl-notification-card>
-</bl-notification>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Save with notification toast</title>
+  </head>
+  <body>
+    <bl-notification id="toasts"></bl-notification>
+
+    <bl-button id="save-btn" variant="primary">Save</bl-button>
+
+    <script>
+      const toasts = document.getElementById('toasts');
+      const saveBtn = document.getElementById('save-btn');
+
+      saveBtn.addEventListener('bl-click', () => {
+        // Blaze: push a toast for this corner-stacked notification container.
+        // It auto-dismisses after `duration` seconds and has a close button.
+        toasts.addNotification({
+          caption: 'Saved',
+          description: 'Your changes have been saved successfully.',
+          icon: true,
+          variant: 'success',
+          duration: 5,
+        });
+      });
+    </script>
+  </body>
+</html>

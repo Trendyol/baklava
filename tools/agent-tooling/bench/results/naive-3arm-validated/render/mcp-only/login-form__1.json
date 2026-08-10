@@ -1,0 +1,15 @@
+{
+  "id": "login-form__1",
+  "arm": "mcp-only",
+  "file": "naive/mcp-only/login-form__1.html.html",
+  "url": "http://127.0.0.1:54655/.agent-render-tmp/naive-mcp-only-login-form__1.html",
+  "loaded": true,
+  "exceptions": [],
+  "consoleErrors": [],
+  "blElementCount": 3,
+  "upgradedCount": 3,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}

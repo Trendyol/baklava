@@ -1,0 +1,13 @@
+{
+  "id": "destructive-confirm",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 98,
+    "accessibility": 90,
+    "efficiency": 93,
+    "codeQuality": 93,
+    "maintainability": 95,
+    "overall": 94
+  },
+  "verdict": "Clean, fully real implementation verified against the CEM. Uses only genuine Baklava API: bl-dialog with real open/critical/caption attributes, content in the default slot, and the two real action slots primary-action (Delete) and secondary-action (Cancel); bl-button with real variant values (primary/secondary) and kind=\"danger\" for the destructive confirm action; listens to the real bl-click and bl-dialog-request-close events. No hallucinated tags, attributes, slots, or events. The modal correctly blocks the background and exposes a dangerous confirm plus a safe cancel."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "settings-toggles",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 82,
+    "accessibility": 72,
+    "efficiency": 76,
+    "codeQuality": 80,
+    "maintainability": 79,
+    "overall": 78
+  },
+  "verdict": "Uses only real components and valid attributes — bl-switch (checked), bl-select (placeholder), bl-select-option (value) all match the CEM API, with no hallucinated tags/attributes/events and the requested on/off options, language dropdown and per-option hints all present. The main weakness is that it hand-rolls a detached <label> and <p class=\"hint\"> around the select instead of using bl-select's native label and help-text attributes, so the label is not programmatically associated with the select (accessibility penalty) and the richer native API is left unused."
+}
