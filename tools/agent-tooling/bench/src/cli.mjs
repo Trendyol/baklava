@@ -18,7 +18,14 @@ import path from 'node:path';
 
 const REPO = path.resolve(fileURLToPath(new URL('../../../../', import.meta.url)));
 const BENCH = path.join(REPO, 'tools', 'agent-tooling', 'bench');
-const ARMS = ['baseline', 'augmented'];
+const ARMS = ['baseline', 'aiagent', 'augmented'];
+
+// Human-readable arm labels for reports.
+const ARM_LABELS = {
+  baseline: 'Baseline (no tooling)',
+  aiagent: 'AI Agent (MCP only)',
+  augmented: 'Augmented (MCP + CLI)',
+};
 
 function args() {
   const a = process.argv.slice(2);
@@ -168,10 +175,10 @@ function doCompare({ iteration, persona, model }) {
     }
     return aggregate(results);
   };
-  const before = readAgg('baseline');
-  const after = readAgg('augmented');
+  const arms = {};
+  for (const a of ARMS) arms[a] = readAgg(a);
 
-  // Optional Astryx-style LLM-judge layer: if judge/{arm}/*.json exist
+  // Optional Astryx-style LLM-judge layer per arm: if judge/{arm}/*.json exist
   // (produced by separate fresh-context judge subagents), merge their holistic
   // scores in. Judge scores are best-effort and not included in the deterministic
   // rubric deltas below.
@@ -191,41 +198,42 @@ function doCompare({ iteration, persona, model }) {
     for (const k of Object.keys(dims)) dims[k] = Math.round(dims[k] / n);
     return { n, scores: dims };
   };
-  const judgeBefore = readJudge('baseline');
-  const judgeAfter = readJudge('augmented');
+  const judge = {};
+  for (const a of ARMS) judge[a] = readJudge(a);
 
-  const delta = {};
-  if (before && after) {
-    for (const k of ['successRate', 'avgOverall']) {
-      delta[k] = (after[k] ?? 0) - (before[k] ?? 0);
-    }
-    for (const k of Object.keys(before.dimensions || {})) {
-      delta[`dim.${k}`] = (after.dimensions?.[k] ?? 0) - (before.dimensions?.[k] ?? 0);
-    }
-    delta.totalHallucinations = (after.totalHallucinations ?? 0) - (before.totalHallucinations ?? 0);
-    delta.totalEscapeHatches = (after.totalEscapeHatches ?? 0) - (before.totalEscapeHatches ?? 0);
-  }
-
-  // Optional headless-render layer: if the iteration was rendered,
-  // merge the browser-observed aggregates (kept separate, like judge).
+  // Optional headless-render layer per arm (kept separate, like judge).
   const readRender = (a) => {
     const f = path.join(base, 'render', `${a}.aggregate.json`);
     return existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')) : null;
   };
-  const renderBefore = readRender('baseline');
-  const renderAfter = readRender('augmented');
+  const render = {};
+  for (const a of ARMS) render[a] = readRender(a);
 
+  // 3-step ladder deltas: baseline -> aiagent -> augmented, plus total.
+  const deltaFor = (from, to) => {
+    const b = arms[from], a = arms[to];
+    if (!b || !a) return null;
+    const d = {};
+    for (const k of ['successRate', 'avgOverall']) d[k] = (a[k] ?? 0) - (b[k] ?? 0);
+    for (const k of Object.keys(b.dimensions || {})) d[`dim.${k}`] = (a.dimensions?.[k] ?? 0) - (b.dimensions?.[k] ?? 0);
+    d.totalHallucinations = (a.totalHallucinations ?? 0) - (b.totalHallucinations ?? 0);
+    d.totalEscapeHatches = (a.totalEscapeHatches ?? 0) - (b.totalEscapeHatches ?? 0);
+    return d;
+  };
+  const ladder = [
+    { from: 'baseline', to: 'aiagent', delta: deltaFor('baseline', 'aiagent') },
+    { from: 'aiagent', to: 'augmented', delta: deltaFor('aiagent', 'augmented') },
+    { from: 'baseline', to: 'augmented', delta: deltaFor('baseline', 'augmented') },
+  ];
+
+  // Back-compat aliases so the rolling scorecard keeps reading this compare.json.
   const compare = {
-    iteration,
-    persona,
-    model,
+    iteration, persona, model,
     timestamp: new Date().toISOString(),
     system: 'Baklava',
-    before,
-    after,
-    delta,
-    judge: { before: judgeBefore, after: judgeAfter },
-    render: { before: renderBefore, after: renderAfter },
+    arms, ladder, delta: deltaFor('baseline', 'augmented'),
+    before: arms.baseline, after: arms.augmented,
+    judge, render,
   };
   writeFileSync(path.join(base, 'compare.json'), JSON.stringify(compare, null, 2));
   writeFileSync(path.join(base, 'compare.md'), renderMarkdown(compare));
@@ -267,34 +275,45 @@ function doSensitivity({ iteration }) {
     : null;
 
   const before = scoresFor('baseline');
+  const aiagent = scoresFor('aiagent');
   const after = scoresFor('augmented');
-  const variants = Object.entries(WEIGHT_VARIANTS).map(([name, w]) => {
-    const b = aggOverall(before, w);
-    const a = aggOverall(after, w);
-    return { variant: name, before: b, after: a, delta: a != null && b != null ? a - b : null };
-  });
-  const deltas = variants.map((v) => v.delta).filter((d) => d != null);
+  const variants = Object.entries(WEIGHT_VARIANTS).map(([name, w]) => ({
+    variant: name,
+    baseline: aggOverall(before, w),
+    aiagent: aggOverall(aiagent, w),
+    augmented: aggOverall(after, w),
+    'baseline→aiagent': aggOverall(before, w) != null && aggOverall(aiagent, w) != null ? aggOverall(aiagent, w) - aggOverall(before, w) : null,
+    'aiagent→augmented': aggOverall(aiagent, w) != null && aggOverall(after, w) != null ? aggOverall(after, w) - aggOverall(aiagent, w) : null,
+  }));
+  const pairDeltas = (fromKey, toKey) => variants.map((v) => v[`${fromKey}→${toKey}`]).filter((d) => d != null);
   const out = {
     iteration, variants,
-    deltaRange: deltas.length ? { min: Math.min(...deltas), max: Math.max(...deltas) } : null,
+    deltaRange: {
+      'baseline→aiagent': (() => { const d = pairDeltas('baseline', 'aiagent'); return d.length ? { min: Math.min(...d), max: Math.max(...d) } : null; })(),
+      'aiagent→augmented': (() => { const d = pairDeltas('aiagent', 'augmented'); return d.length ? { min: Math.min(...d), max: Math.max(...d) } : null; })(),
+    },
   };
   writeFileSync(path.join(base, 'sensitivity.json'), JSON.stringify(out, null, 2));
   const lines = [
     `# Sensitivity — rubric weights vs before/after delta`,
     `Iteration: \`${iteration}\``,
     ``,
-    `> Recomputes overall with several weight vectors. If the tooling delta stays`,
-    `> clearly positive across all variants, the conclusion is robust to rubric weighting.`,
+    `> Recomputes overall with several weight vectors. If the step-wise tooling delta`,
+    `> (baseline→aiagent→augmented) stays clearly positive across all variants, the`,
+    `> conclusion is robust to rubric weighting.`,
     ``,
-    '| Variant | Before overall | After overall | Δ |',
-    '|---|---|---|---|',
-    ...out.variants.map((v) => `| ${v.variant} | ${v.before ?? '—'} | ${v.after ?? '—'} | ${v.delta != null && v.delta > 0 ? '+' : ''}${v.delta ?? '—'} |`),
+    '| Variant | Baseline | AI-Agent (MCP) | Augmented (MCP+CLI) | Δ base→aiagent | Δ aiagent→augmented |',
+    '|---|---|---|---|---|---|',
+    ...out.variants.map((v) => `| ${v.variant} | ${v.baseline ?? '—'} | ${v.aiagent ?? '—'} | ${v.augmented ?? '—'} | ${fmtDelta(v['baseline→aiagent'])} | ${fmtDelta(v['aiagent→augmented'])} |`),
     ``,
-    `Delta range across variants: **${out.deltaRange ? `${out.deltaRange.min} .. ${out.deltaRange.max}` : '—'}**`,
+    `Step-delta ranges: baseline→aiagent **${fmtRange(out.deltaRange['baseline→aiagent'])}**, aiagent→augmented **${fmtRange(out.deltaRange['aiagent→augmented'])}**`,
   ];
   writeFileSync(path.join(base, 'sensitivity.md'), lines.join('\n'));
   console.log(lines.join('\n'));
 }
+
+function fmtDelta(v) { return v != null ? (v > 0 ? '+' : '') + v : '—'; }
+function fmtRange(r) { return r ? `${r.min} .. ${r.max}` : '—'; }
 
 function doScorecard({ persona, model, markdown }) {
   const resultsDir = path.join(BENCH, 'results');
@@ -307,9 +326,9 @@ function doScorecard({ persona, model, markdown }) {
       if (persona && c.persona !== persona) continue;
       if (model && c.model !== model) continue;
       const agg = (x) => (x ? { overall: x.avgOverall, dims: x.dimensions || {}, hall: x.totalHallucinations, esc: x.totalEscapeHatches, succ: x.successRate } : null);
-      const before = agg(c.before);
-      const after = agg(c.after);
-      rows.push({ iteration: it, persona: c.persona || 'naive', model: c.model || 'unknown', timestamp: c.timestamp, before, after, delta: c.delta });
+      const arms = {};
+      for (const a of ['baseline', 'aiagent', 'augmented']) arms[a] = agg((c.arms || {})[a]);
+      rows.push({ iteration: it, persona: c.persona || 'naive', model: c.model || 'unknown', timestamp: c.timestamp, arms, before: arms.baseline, after: arms.augmented, delta: c.delta });
     }
   }
   rows.sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1));
@@ -325,15 +344,14 @@ function doScorecard({ persona, model, markdown }) {
 function renderScorecard(sc) {
   const head = [
     '# Baklava Agent-Tooling — Rolling Scorecard',
-    `> Generated ${sc.updatedAt} · aggregates all committed benchmark iterations.`, 
+    `> Generated ${sc.updatedAt} · aggregates all committed benchmark iterations.`,
     '',
-    '| Iteration | Persona | Model | Base Overall | Tooled Overall | Δ | Base succ | Tooled succ | Base esc | Tooled esc |',
-    '|---|---|---|---|---|---|---|---|---|---|',
+    '| Iteration | Persona | Model | Base | AI-Agent (MCP) | Augmented (MCP+CLI) | Δ base→aug | Base esc | Aug esc |',
+    '|---|---|---|---|---|---|---|---|---|',
   ];
   const body = sc.generations.map((r) => {
-    const b = r.before || {}; const a = r.after || {};
     const d = (r.delta && r.delta.avgOverall != null) ? r.delta.avgOverall : null;
-    return `| ${r.iteration} | ${r.persona} | ${r.model} | ${b.overall ?? '—'} | ${a.overall ?? '—'} | ${d > 0 ? '+' : ''}${d ?? '—'} | ${(b.succ ?? '—') + '%'} | ${(a.succ ?? '—') + '%'} | ${b.esc ?? '—'} | ${a.esc ?? '—'} |`;
+    return `| ${r.iteration} | ${r.persona} | ${r.model} | ${r.arms.baseline?.overall ?? '—'} | ${r.arms.aiagent?.overall ?? '—'} | ${r.arms.augmented?.overall ?? '—'} | ${d > 0 ? '+' : ''}${d ?? '—'} | ${r.arms.baseline?.esc ?? '—'} | ${r.arms.augmented?.esc ?? '—'} |`;
   });
   return [...head, ...body, '', '_Machine-readable: `scorecard.json`._'].join('\n');
 }
@@ -366,14 +384,15 @@ function renderMarkdown(c) {
       ['Code quality', s.codeQuality], ['Efficiency', s.efficiency], ['Maintainability', s.maintainability],
     ].map(([k, v]) => `  | ${k} | ${v} |`).join('\n');
   };
-  const judgeSection = (c.judge && (c.judge.before || c.judge.after))
+  const judgeSection = (c.judge && Object.values(c.judge).some(Boolean))
     ? [
         `## LLM Judge (separate fresh-context agent — optional holistic layer)`,
         ``,
         `> Non-deterministic model judgment, kept separate from the deterministic rubric above.`,
         ``,
-        `### Baseline judge`, ``, jrows(c.judge.before), ``,
-        `### Augmented judge`, ``, jrows(c.judge.after), ``,
+        `### Baseline judge`, ``, jrows(c.judge.baseline), ``,
+        `### AI-Agent (MCP) judge`, ``, jrows(c.judge.aiagent), ``,
+        `### Augmented judge`, ``, jrows(c.judge.augmented), ``,
       ]
     : [];
   const rrow = (r) => r ? [
@@ -384,15 +403,16 @@ function renderMarkdown(c) {
     `  | Unlabeled interactive controls | ${r.totalUnlabeledInteractives} |`,
     `  | Unlabeled images | ${r.totalUnlabeledImages} |`,
   ].join('\n') : '  (no render data)';
-  const renderSection = (c.render && (c.render.before || c.render.after))
+  const renderSection = (c.render && Object.values(c.render).some(Boolean))
     ? [
         `## Headless Render (real browser — Step 1 layer)`,
         ``,
         `> Browser-observed: did the code load/run without errors and upgrade its custom elements,`,
         `> plus basic accessibility probes. Kept separate from the static rubric.`,
         ``,
-        `### Baseline render`, ``, rrow(c.render.before), ``,
-        `### Augmented render`, ``, rrow(c.render.after), ``,
+        `### Baseline render`, ``, rrow(c.render.baseline), ``,
+        `### AI-Agent (MCP) render`, ``, rrow(c.render.aiagent), ``,
+        `### Augmented render`, ``, rrow(c.render.augmented), ``,
       ]
     : [];
   return [
@@ -400,23 +420,31 @@ function renderMarkdown(c) {
     ``,
     `Iteration: \`${c.iteration}\` · ${c.timestamp} · System: ${c.system}`,
     ``,
-    `> This benchmark measures whether giving the agent the **Baklava agent CLI / tooling**`,
-    `> (augmented / after) improves component correctness vs. an agent working from raw`,
-    `> knowledge only (baseline / before).`,
+    `> Three-condition benchmark of whether giving the agent tooling improves component`,
+    `> correctness: **baseline** (no tooling, raw knowledge), **AI-Agent** (MCP only), and`, 
+    `> **augmented** (MCP + CLI).`,
     ``,
-    `## Baseline (before — no tooling)`,
+    `## Baseline (no tooling)`,
     ``,
-    rows('before', c.before),
+    rows('baseline', c.arms?.baseline || c.before),
     ``,
-    `## Augmented (after — with Baklava agent tooling)`,
+    `## AI Agent (MCP only)`,
     ``,
-    rows('after', c.after),
+    rows('aiagent', c.arms?.aiagent),
     ``,
-    `## Delta (after − before)`,
+    `## Augmented (MCP + CLI)`,
     ``,
-    `| Metric | Δ |`,
-    `|---|---|`,
-    deltaRows || '  (no data)',
+    rows('augmented', c.arms?.augmented || c.after),
+    ``,
+    `## Step-wise deltas`,
+    ``,
+    `| Step | Δ overall | Δ succ | Δ esc | Δ halluc |`,
+    `|---|---|---|---|---|`,
+    ...((c.ladder || []).map((s) => {
+      const d = s.delta || {};
+      const f = (k) => (d[k] != null ? (d[k] > 0 ? '+' : '') + d[k] : '—');
+      return `| ${ARM_LABELS[s.from]} → ${ARM_LABELS[s.to]} | ${f('avgOverall')} | ${f('successRate')} | ${f('totalEscapeHatches')} | ${f('totalHallucinations')} |`;
+    })),
     ``,
     ...judgeSection,
     ...renderSection,
@@ -432,8 +460,8 @@ function doMockGenerate() {
     const dir = path.join(BENCH, 'results', 'inputs', persona, arm);
     mkdirSync(dir, { recursive: true });
     for (const p of prompts) {
-      const code = arm === 'augmented'
-        ? mockAugmented(p)
+      const code = arm === 'augmented' ? mockAugmented(p)
+        : arm === 'aiagent' ? mockAiAgent(p)
         : mockBaseline(p);
       writeFileSync(path.join(dir, `${p.id}.html`), code);
     }
@@ -444,6 +472,16 @@ function doMockGenerate() {
 function mockAugmented(p) {
   return p.expectedComponents
     .map((tag) => `<${tag} class="demo">${tag}</${tag}>`)
+    .join('\n');
+}
+
+function mockAiAgent(p) {
+  // Simulate an agent that only consults MCP summaries: mostly correct, but
+  // occasionally drifts on detail it didn't verify (imperfectly copied props).
+  return p.expectedComponents
+    .map((tag, i) => (i % 5 === 3
+      ? `<${tag} class="demo" guessed-prop="x">${tag}</${tag}>`
+      : `<${tag} class="demo">${tag}</${tag}>`))
     .join('\n');
 }
 
