@@ -1,0 +1,49 @@
+{
+  "id": "accordion-faq",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "FAQ with Bootstrap `accordion-item` collapses grouped inside an `accordion` — clicking a question expands the answer.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>FAQ</title>\n  <style>\n    body { font-family: -apple-system, system-ui, sans-serif; margin: 24px; color: #1f2933; }\n    h1 { font-size: 1.5rem; }\n    .faq { max-width: 640px; margin: 0 auto; }\n  </style>\n</head>\n<body>\n  <main class=\"faq\">\n    <h1>Frequently Asked Questions</h1>\n\n    <!-- FAQ accordion -->\n    <bl-accordion>\n      <bl-accordion-item open>\n        <div slot=\"summary\">How do I reset my password?</div>\n        <p>Open Settings, choose Security, and select \"Reset password\". A confirmation link is emailed to you.</p>\n      </bl-accordion-item>\n      <bl-accordion-item>\n        <div slot=\"summary\">Which payment methods do you accept?</div>\n        <p>We accept all major credit cards, PayPal, and bank transfer.</p>\n      </bl-accordion-item>\n      <bl-accordion-item>\n        <div slot=\"summary\">Can I cancel my subscription anytime?</div>\n        <p>Yes. Cancel anytime from your account page; the current billing period remains active.</p>\n      </bl-accordion-item>\n    </bl-accordion>\n  </main>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": false,
+    "overall": 74,
+    "componentsUsed": [
+      "bl-accordion"
+    ],
+    "componentsExpected": [
+      "bl-accordion",
+      "bl-accordion-group"
+    ],
+    "missed": [
+      "bl-accordion-group"
+    ],
+    "escapeHatches": [
+      {
+        "type": "hallucination",
+        "severity": "critical",
+        "detail": "Unknown tag <bl-accordion-item>",
+        "codeSnippet": "bl-accordion-item"
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 3 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": "hallucination",
+    "confusionSignals": [
+      "Hallucinated tag bl-accordion-item"
+    ],
+    "scores": {
+      "correctness": 68,
+      "accessibility": 73,
+      "efficiency": 87,
+      "codeQuality": 72,
+      "maintainability": 84,
+      "overall": 74
+    }
+  }
+}

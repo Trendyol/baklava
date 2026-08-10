@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product Catalog</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; color: #1f2937; }
+    h1 { font-size: 1.4rem; margin-bottom: 0.25rem; }
+    .sub { color: #6b7280; margin-bottom: 1.5rem; }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .toolbar input { padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; width: 260px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { text-align: left; padding: 0.75rem 1rem; border-bottom: 1px solid #e5e7eb; }
+    thead th { background: #f9fafb; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: #6b7280; }
+    .badge { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }
+    .badge.popular { background: #dcfce7; color: #166534; }
+    .row-actions { display: flex; gap: 0.5rem; }
+    .row-actions button { padding: 0.3rem 0.7rem; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; }
+    .pagination { display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; margin-top: 1rem; }
+    .pagination button { padding: 0.35rem 0.8rem; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; }
+    .pagination .active { background: #2563eb; color: #fff; border-color: #2563eb; }
+    .pagination span { color: #6b7280; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <h1>Product Catalog</h1>
+  <p class="sub">All products with stock and actions</p>
+
+  <div class="toolbar">
+    <input type="search" placeholder="Search products..." />
+    <button>Add product</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Wireless Headphones</td>
+        <td>Audio</td>
+        <td>$129.00</td>
+        <td>42</td>
+        <td><span class="badge popular">Popular</span></td>
+        <td class="row-actions">
+          <button>Edit</button>
+          <button>Delete</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Mechanical Keyboard</td>
+        <td>Peripherals</td>
+        <td>$89.00</td>
+        <td>17</td>
+        <td>-</td>
+        <td class="row-actions">
+          <button>Edit</button>
+          <button>Delete</button>
+        </td>
+      </tr>
+      <tr>
+        <td>4K Monitor</td>
+        <td>Displays</td>
+        <td>$349.00</td>
+        <td>8</td>
+        <td><span class="badge popular">Popular</span></td>
+        <td class="row-actions">
+          <button>Edit</button>
+          <button>Delete</button>
+        </td>
+      </tr>
+      <tr>
+        <td>USB-C Hub</td>
+        <td>Accessories</td>
+        <td>$59.00</td>
+        <td>136</td>
+        <td>-</td>
+        <td class="row-actions">
+          <button>Edit</button>
+          <button>Delete</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Ergonomic Mouse</td>
+        <td>Peripherals</td>
+        <td>$49.00</td>
+        <td>61</td>
+        <td>-</td>
+        <td class="row-actions">
+          <button>Edit</button>
+          <button>Delete</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Laptop Stand</td>
+        <td>Accessories</td>
+        <td>$39.00</td>
+        <td>22</td>
+        <td>-</td>
+        <td class="row-actions">
+          <button>Edit</button>
+          <button>Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button disabled>&laquo; Prev</button>
+    <button class="active">1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>Next &raquo;</button>
+    <span>Showing 1–6 of 48</span>
+  </div>
+</body>
+</html>

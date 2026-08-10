@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Save confirmation toast — Baklava</title>
+    <!-- Baklava Web Components design system -->
+    <script type="module">
+      import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.esm.js';
+      defineCustomElements();
+    </script>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 2rem; }
+      .toolbar { display: flex; gap: 0.5rem; align-items: center; }
+      .hidden { display: none; }
+    </style>
+  </head>
+  <body>
+    <!-- Trigger: saving the document pops the confirmation toast -->
+    <div class="toolbar">
+      <bl-button id="save-btn" variant="primary" type="submit">Save changes</bl-button>
+    </div>
+
+    <!-- Toast container: a saved-confirmation toast, dismissible via its close button -->
+    <bl-notification id="toast" duration="7">
+      <bl-notification-card variant="success" caption="Saved" icon>
+        Your changes were saved successfully.
+        <bl-button slot="primary-action" kind="success" @bl-click="this.closest('bl-notification-card').closed = true">
+          Undo
+        </bl-button>
+      </bl-notification-card>
+    </bl-notification>
+
+    <script>
+      const saveBtn = document.getElementById('save-btn');
+      const toast = document.getElementById('toast');
+      // Position the toast fixed to the bottom-right corner, as a toast does.
+      if (toast) toast.style.position = 'fixed';
+      if (toast) toast.style.bottom = '1rem';
+      if (toast) toast.style.right = '1rem';
+      if (toast) toast.style.zIndex = '999';
+      saveBtn.addEventListener('bl-click', () => {
+        if (toast) {
+          toast.classList.remove('hidden');
+          // Ensure the card shows once more (declarative card renders on first connect).
+          const card = toast.querySelector('bl-notification-card');
+          if (card) card.closed = false;
+        }
+      });
+    </script>
+  </body>
+</html>

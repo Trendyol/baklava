@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ</title>
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; margin: 24px; color: #1f2933; }
+    h1 { font-size: 1.5rem; }
+    .faq { max-width: 640px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <main class="faq">
+    <h1>Frequently Asked Questions</h1>
+
+    <!-- FAQ accordion -->
+    <bl-accordion>
+      <bl-accordion-item open>
+        <div slot="summary">How do I reset my password?</div>
+        <p>Open Settings, choose Security, and select "Reset password". A confirmation link is emailed to you.</p>
+      </bl-accordion-item>
+      <bl-accordion-item>
+        <div slot="summary">Which payment methods do you accept?</div>
+        <p>We accept all major credit cards, PayPal, and bank transfer.</p>
+      </bl-accordion-item>
+      <bl-accordion-item>
+        <div slot="summary">Can I cancel my subscription anytime?</div>
+        <p>Yes. Cancel anytime from your account page; the current billing period remains active.</p>
+      </bl-accordion-item>
+    </bl-accordion>
+  </main>
+</body>
+</html>

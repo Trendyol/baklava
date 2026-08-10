@@ -1,0 +1,61 @@
+{
+  "id": "destructive-confirm",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "overlays",
+  "complexity": "complex",
+  "prompt": "Make a delete confirm like Ant Design's Modal.confirm — an overlay that blocks the background, with a red danger button to confirm and a grey cancel button.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Delete Confirmation</title>\n  <style>\n    body {\n      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;\n      margin: 0;\n      background: #f5f6f8;\n      color: #1f2430;\n    }\n    main {\n      max-width: 720px;\n      margin: 48px auto;\n      padding: 24px;\n      background: #ffffff;\n      border-radius: 12px;\n      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);\n    }\n    .backdrop {\n      position: fixed;\n      inset: 0;\n      background: rgba(9, 12, 20, 0.45);\n      z-index: 100;\n    }\n    .danger {\n      background: #d92d20;\n      border: none;\n      color: #fff;\n    }\n  </style>\n</head>\n<body>\n  <main>\n    <h1>Project settings</h1>\n    <p>Deleting this project is permanent and cannot be undone.</p>\n\n    <button\n      id=\"openDialog\"\n      onclick=\"document.querySelector('bl-dialog').open = true\"\n      style=\"padding:10px 16px;border-radius:8px;cursor:pointer;background:#1f2430;color:#fff;border:none\"\n    >\n      Delete project\n    </button>\n    <p style=\"font-size:13px;color:#667085\">\n      Opens the confirmation overlay to confirm deletion.\n    </p>\n  </main>\n\n  <div class=\"backdrop\" id=\"backdrop\" style=\"display:none\"></div>\n\n  <bl-dialog\n    id=\"deleteDialog\"\n    open=\"false\"\n    caption=\"Delete project?\"\n    message=\"This will permanently delete the project and all of its data. This action cannot be undone.\"\n    style=\"position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:420px;background:#fff;border-radius:12px;z-index:120;padding:0;box-shadow:0 8px 30px rgba(0,0,0,0.25)\"\n  >\n    <span slot=\"content\">\n      <strong>Delete \"Acme Web Portal\"?</strong>\n      <p style=\"margin:8px 0 0;color:#667085\">\n        All files, deployments and history for this project will be removed permanently.\n      </p>\n    </span>\n    <span slot=\"footer\">\n      <bl-button\n        variant=\"cancel\"\n        onclick=\"document.querySelector('bl-dialog').open = false\"\n      >\n        Cancel\n      </bl-button>\n      <bl-button\n        variant=\"danger\"\n        onclick=\"alert('Project deleted'); document.querySelector('bl-dialog').open = false\"\n      >\n        Confirm delete\n      </bl-button>\n    </span>\n  </bl-dialog>\n\n  <script>\n    // Open/close the dialog overlay and toggle the blocking backdrop.\n    const dialog = document.getElementById('deleteDialog');\n    const backdrop = document.getElementById('backdrop');\n\n    function openDialog() {\n      dialog.open = true;\n      backdrop.style.display = 'block';\n    }\n\n    function closeDialog() {\n      dialog.open = false;\n      backdrop.style.display = 'none';\n    }\n\n    dialog.addEventListener('bl-open', openDialog);\n    dialog.addEventListener('bl-close', closeDialog);\n    backdrop.addEventListener('click', closeDialog);\n\n    document.getElementById('openDialog').addEventListener('click', openDialog);\n  </script>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 82,
+    "componentsUsed": [
+      "bl-dialog",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-dialog",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-dialog> attr \"message\" not part of API",
+        "codeSnippet": "message"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-button> attr \"onclick\" not part of API",
+        "codeSnippet": "onclick"
+      },
+      {
+        "type": "inline_style",
+        "severity": "acceptable",
+        "detail": "used 5 inline style=",
+        "codeSnippet": "style="
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 1 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [
+      "Unknown attr message on bl-dialog",
+      "Unknown attr onclick on bl-button"
+    ],
+    "scores": {
+      "correctness": 92,
+      "accessibility": 76,
+      "efficiency": 64,
+      "codeQuality": 78,
+      "maintainability": 84,
+      "overall": 82
+    }
+  }
+}

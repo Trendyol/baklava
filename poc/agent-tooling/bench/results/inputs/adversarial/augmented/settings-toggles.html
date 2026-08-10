@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings</title>
+</head>
+<body>
+  <main style="max-width: 560px; margin: 32px auto; font-family: system-ui, sans-serif;">
+    <h1>Settings</h1>
+
+    <section aria-labelledby="notifications-title" style="margin-bottom: 24px;">
+      <h2 id="notifications-title">Notifications</h2>
+
+      <div style="margin-bottom: 8px;">
+        <bl-switch>Email notifications</bl-switch>
+        <small style="display: block; color: #6b7280;">Receive a summary of account activity by email.</small>
+      </div>
+
+      <div style="margin-bottom: 8px;">
+        <bl-switch checked>Push notifications</bl-switch>
+        <small style="display: block; color: #6b7280;">Get real-time alerts on your devices.</small>
+      </div>
+
+      <div style="margin-bottom: 8px;">
+        <bl-switch>Weekly digest</bl-switch>
+        <small style="display: block; color: #6b7280;">A weekly roundup of your projects and updates.</small>
+      </div>
+    </section>
+
+    <section aria-labelledby="language-title" style="margin-bottom: 24px;">
+      <h2 id="language-title">Preferences</h2>
+      <bl-select label="Language" placeholder="Choose a language" help-text="Select the language used across the product." style="width: 220px;">
+        <bl-select-option value="en" label="English">English</bl-select-option>
+        <bl-select-option value="tr" label="Türkçe">Türkçe</bl-select-option>
+        <bl-select-option value="de" label="Deutsch">Deutsch</bl-select-option>
+      </bl-select>
+    </section>
+  </main>
+</body>
+</html>

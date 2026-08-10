@@ -1,0 +1,51 @@
+{
+  "id": "settings-toggles",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Do a settings screen with Material Switch toggles for each option and a language Select, each with small helperText underneath. Use `space-y-3` between them.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Settings</title>\n</head>\n<body>\n  <main class=\"settings\">\n    <h1>Settings</h1>\n\n    <section class=\"settings-group\">\n      <h2>Preferences</h2>\n\n      <div class=\"setting-row\">\n        <label for=\"notifications\">Email notifications</label>\n        <bl-switch id=\"notifications\"></bl-switch>\n        <p class=\"helper-text\">Receive an email for every activity in your account.</p>\n      </div>\n\n      <div class=\"setting-row\">\n        <label for=\"nightmode\">Night mode</label>\n        <bl-switch id=\"nightmode\"></bl-switch>\n        <p class=\"helper-text\">Reduce glare with a dark colour scheme.</p>\n      </div>\n\n      <div class=\"setting-row\">\n        <label for=\"autosave\">Auto-save</label>\n        <bl-switch id=\"autosave\"></bl-switch>\n        <p class=\"helper-text\">Save your changes automatically while editing.</p>\n      </div>\n\n      <div class=\"setting-row\">\n        <label for=\"lang\">Language</label>\n        <bl-select id=\"lang\">\n          <bl-option value=\"en\">English</bl-option>\n          <bl-option value=\"tr\">Turkish</bl-option>\n          <bl-option value=\"de\">German</bl-option>\n        </bl-select>\n        <p class=\"helper-text\">Choose the language used across the interface.</p>\n      </div>\n    </section>\n  </main>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": false,
+    "overall": 74,
+    "componentsUsed": [
+      "bl-switch",
+      "bl-select"
+    ],
+    "componentsExpected": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "missed": [
+      "bl-select-option"
+    ],
+    "escapeHatches": [
+      {
+        "type": "hallucination",
+        "severity": "critical",
+        "detail": "Unknown tag <bl-option>",
+        "codeSnippet": "bl-option"
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 4 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": "hallucination",
+    "confusionSignals": [
+      "Hallucinated tag bl-option"
+    ],
+    "scores": {
+      "correctness": 68,
+      "accessibility": 76,
+      "efficiency": 80,
+      "codeQuality": 72,
+      "maintainability": 84,
+      "overall": 74
+    }
+  }
+}

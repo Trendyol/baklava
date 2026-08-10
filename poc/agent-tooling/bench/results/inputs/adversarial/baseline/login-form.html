@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In</title>
+  <style>
+    /* Scope layout/spacing only; component visuals come from the bl-* custom elements. */
+    .login-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 360px;
+      margin: 10vh auto;
+      padding: 1.5rem;
+      border: 1px solid var(--bl-color-border, #e2e8f0);
+      border-radius: 8px;
+      background: var(--bl-color-surface, #fff);
+    }
+    .login-wrap h1 {
+      font-size: 1.25rem;
+      margin: 0 0 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <form class="login-wrap" onsubmit="return handleLogin(event)">
+      <h1>Welcome back</h1>
+
+      <label for="email">Email address</label>
+      <bl-input
+        id="email"
+        type="email"
+        placeholder="you@example.com"
+        autocomplete="email"
+        required
+      ></bl-input>
+
+      <label for="password">Password</label>
+      <bl-input
+        id="password"
+        type="password"
+        placeholder="••••••••"
+        autocomplete="current-password"
+        required
+      ></bl-input>
+
+      <bl-button type="submit" variant="primary">Sign in</bl-button>
+
+      <p class="login-wrap__hint" aria-live="polite" id="status"></p>
+    </form>
+  </main>
+
+  <script>
+    // Submit on Enter is native to <form> + submit button; we just surface status.
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const status = document.getElementById('status');
+      if (!email) {
+        status.textContent = 'Please enter your email address.';
+        return false;
+      }
+      status.textContent = 'Signing you in…';
+      return false;
+    }
+  </script>
+</body>
+</html>

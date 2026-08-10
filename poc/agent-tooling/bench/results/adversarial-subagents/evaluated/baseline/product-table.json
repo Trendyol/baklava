@@ -1,0 +1,52 @@
+{
+  "id": "product-table",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "data-view",
+  "complexity": "complex",
+  "prompt": "Show my products in a grid like a shadcn DataTable with columns and row-action buttons, Tailwind `badge` styling to mark popular rows, and pagination controls at the bottom.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Product Catalog</title>\n  <style>\n    body { font-family: system-ui, sans-serif; margin: 2rem; color: #1f2937; }\n    h1 { font-size: 1.4rem; margin-bottom: 0.25rem; }\n    .sub { color: #6b7280; margin-bottom: 1.5rem; }\n    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }\n    .toolbar input { padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; width: 260px; }\n    table { border-collapse: collapse; width: 100%; }\n    th, td { text-align: left; padding: 0.75rem 1rem; border-bottom: 1px solid #e5e7eb; }\n    thead th { background: #f9fafb; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: #6b7280; }\n    .badge { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }\n    .badge.popular { background: #dcfce7; color: #166534; }\n    .row-actions { display: flex; gap: 0.5rem; }\n    .row-actions button { padding: 0.3rem 0.7rem; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; }\n    .pagination { display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; margin-top: 1rem; }\n    .pagination button { padding: 0.35rem 0.8rem; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; }\n    .pagination .active { background: #2563eb; color: #fff; border-color: #2563eb; }\n    .pagination span { color: #6b7280; font-size: 0.85rem; }\n  </style>\n</head>\n<body>\n  <h1>Product Catalog</h1>\n  <p class=\"sub\">All products with stock and actions</p>\n\n  <div class=\"toolbar\">\n    <input type=\"search\" placeholder=\"Search products...\" />\n    <button>Add product</button>\n  </div>\n\n  <table>\n    <thead>\n      <tr>\n        <th>Product</th>\n        <th>Category</th>\n        <th>Price</th>\n        <th>Stock</th>\n        <th>Status</th>\n        <th>Actions</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td>Wireless Headphones</td>\n        <td>Audio</td>\n        <td>$129.00</td>\n        <td>42</td>\n        <td><span class=\"badge popular\">Popular</span></td>\n        <td class=\"row-actions\">\n          <button>Edit</button>\n          <button>Delete</button>\n        </td>\n      </tr>\n      <tr>\n        <td>Mechanical Keyboard</td>\n        <td>Peripherals</td>\n        <td>$89.00</td>\n        <td>17</td>\n        <td>-</td>\n        <td class=\"row-actions\">\n          <button>Edit</button>\n          <button>Delete</button>\n        </td>\n      </tr>\n      <tr>\n        <td>4K Monitor</td>\n        <td>Displays</td>\n        <td>$349.00</td>\n        <td>8</td>\n        <td><span class=\"badge popular\">Popular</span></td>\n        <td class=\"row-actions\">\n          <button>Edit</button>\n          <button>Delete</button>\n        </td>\n      </tr>\n      <tr>\n        <td>USB-C Hub</td>\n        <td>Accessories</td>\n        <td>$59.00</td>\n        <td>136</td>\n        <td>-</td>\n        <td class=\"row-actions\">\n          <button>Edit</button>\n          <button>Delete</button>\n        </td>\n      </tr>\n      <tr>\n        <td>Ergonomic Mouse</td>\n        <td>Peripherals</td>\n        <td>$49.00</td>\n        <td>61</td>\n        <td>-</td>\n        <td class=\"row-actions\">\n          <button>Edit</button>\n          <button>Delete</button>\n        </td>\n      </tr>\n      <tr>\n        <td>Laptop Stand</td>\n        <td>Accessories</td>\n        <td>$39.00</td>\n        <td>22</td>\n        <td>-</td>\n        <td class=\"row-actions\">\n          <button>Edit</button>\n          <button>Delete</button>\n        </td>\n      </tr>\n    </tbody>\n  </table>\n\n  <div class=\"pagination\">\n    <button disabled>&laquo; Prev</button>\n    <button class=\"active\">1</button>\n    <button>2</button>\n    <button>3</button>\n    <button>Next &raquo;</button>\n    <span>Showing 1–6 of 48</span>\n  </div>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": false,
+    "overall": 74,
+    "componentsUsed": [],
+    "componentsExpected": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-body",
+      "bl-table-row",
+      "bl-table-cell",
+      "bl-pagination",
+      "bl-button",
+      "bl-badge"
+    ],
+    "missed": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-body",
+      "bl-table-row",
+      "bl-table-cell",
+      "bl-pagination",
+      "bl-button",
+      "bl-badge"
+    ],
+    "escapeHatches": [
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 2 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": "missing_components",
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 58,
+      "accessibility": 70,
+      "efficiency": 94,
+      "codeQuality": 87,
+      "maintainability": 96,
+      "overall": 74
+    }
+  }
+}

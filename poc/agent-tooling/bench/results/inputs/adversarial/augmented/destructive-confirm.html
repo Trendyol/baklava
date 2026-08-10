@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delete Confirmation</title>
+  <script type="module">
+    // Baklava web components are registered on the page scope by the bundler.
+    // The component elements below are driven by the real bl-* API.
+  </script>
+</head>
+<body>
+  <main>
+    <bl-dialog open critical caption="Delete this item?">
+      <p>
+        This action cannot be undone. The item and all of its associated data
+        will be permanently removed.
+      </p>
+      <bl-button slot="primary-action" kind="danger" label="Delete" autofocus></bl-button>
+      <bl-button slot="secondary-action" variant="secondary" label="Cancel"></bl-button>
+    </bl-dialog>
+  </main>
+</body>
+</html>

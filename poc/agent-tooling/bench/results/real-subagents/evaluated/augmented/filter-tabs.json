@@ -1,0 +1,41 @@
+{
+  "id": "filter-tabs",
+  "persona": "naive",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "navigation",
+  "complexity": "moderate",
+  "prompt": "Build a tabbed interface to switch between different views of the same page, with a couple of tabs and their content panels. Add a tooltip on a small icon button explaining it.",
+  "response": "<bl-tab-group>\n  <bl-tab name=\"overview\" slot=\"tabs\">Overview</bl-tab>\n  <bl-tab name=\"details\" slot=\"tabs\">Details</bl-tab>\n  <bl-tab-panel tab=\"overview\">Overview of the product and its key highlights.</bl-tab-panel>\n  <bl-tab-panel tab=\"details\">Additional details, specifications and pricing.</bl-tab-panel>\n</bl-tab-group>\n<bl-tooltip placement=\"right\">\n  <bl-button slot=\"tooltip-trigger\" icon=\"info\" variant=\"tertiary\" size=\"small\" label=\"More info\"></bl-button>\n  This tabbed view lets you switch between the overview and the full details.\n</bl-tooltip>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-tooltip",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-icon",
+      "bl-tooltip"
+    ],
+    "missed": [
+      "bl-icon"
+    ],
+    "escapeHatches": [],
+    "failureMode": "missing_components",
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 95,
+      "accessibility": 85,
+      "efficiency": 80,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 91
+    }
+  }
+}

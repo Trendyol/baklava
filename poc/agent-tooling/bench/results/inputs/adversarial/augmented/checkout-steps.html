@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@getuikit/bl-ui/bl.bundle.js"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Checkout</h1>
+      <bl-badge size="small">Cart · 2</bl-badge>
+    </header>
+
+    <bl-stepper usage="non-clickable" type="dot" direction="horizontal">
+      <bl-stepper-item id="cart" title="Cart" variant="active" description="Your items"></bl-stepper-item>
+      <bl-stepper-item id="shipping" title="Shipping" description="Delivery address"></bl-stepper-item>
+      <bl-stepper-item id="payment" title="Payment" description="Billing"></bl-stepper-item>
+    </bl-stepper>
+  </main>
+</body>
+</html>

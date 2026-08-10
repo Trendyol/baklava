@@ -1,0 +1,13 @@
+{
+  "id": "notification-toast",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 32,
+    "accessibility": 40,
+    "efficiency": 55,
+    "codeQuality": 42,
+    "maintainability": 45,
+    "overall": 40
+  },
+  "verdict": "The file uses the correct real bl-* tags (bl-notification, bl-notification-card, bl-button) with valid attribute names, but the core toast mechanism is broken: bl-notification renders notifications exclusively from its internal state via addNotification() and never renders slotted children (confirmed in src/components/notification/bl-notification.ts), so the slotted bl-notification-card never appears; the Undo button's @bl-click is Lit syntax left inert in plain HTML; and direct manipulation of card.closed bypasses the correct close-request flow."
+}

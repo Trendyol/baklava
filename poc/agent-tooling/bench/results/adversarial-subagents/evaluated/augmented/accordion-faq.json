@@ -1,0 +1,33 @@
+{
+  "id": "accordion-faq",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "FAQ with Bootstrap `accordion-item` collapses grouped inside an `accordion` — clicking a question expands the answer.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>FAQ — Frequently Asked Questions</title>\n  <style>\n    body {\n      font-family: system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;\n      background: #f7f8fa;\n      margin: 0;\n      padding: 2rem;\n      color: #1f2933;\n    }\n    .faq {\n      max-width: 720px;\n      margin: 0 auto;\n    }\n    .faq h1 {\n      font-size: 1.75rem;\n      margin-bottom: 0.25rem;\n    }\n    .faq .subtitle {\n      color: #5b6472;\n      margin-top: 0;\n      margin-bottom: 2rem;\n    }\n  </style>\n</head>\n<body>\n  <main class=\"faq\">\n    <h1>Frequently Asked Questions</h1>\n    <p class=\"subtitle\">Click a question to expand the answer.</p>\n\n    <bl-accordion-group>\n      <bl-accordion caption=\"How do I create an account?\" icon=\"info\">\n        You can create an account by clicking the \"Sign up\" button in the top\n        right corner and following the instructions on the registration form.\n      </bl-accordion>\n\n      <bl-accordion caption=\"Can I change my delivery address later?\" icon=\"info\">\n        Yes. Go to your profile, open the Addresses section, and add or edit a\n        billing or shipping address. The change applies to future orders.\n      </bl-accordion>\n\n      <bl-accordion caption=\"How long does shipping take?\" icon=\"info\">\n        Standard shipping takes 3 to 5 business days. Express shipping is\n        available at checkout and usually arrives within 1 to 2 business days.\n      </bl-accordion>\n\n      <bl-accordion caption=\"What is the return policy?\" icon=\"info\">\n        Items can be returned within 30 days of delivery as long as they are\n        unused and in their original packaging. See the Returns page for details.\n      </bl-accordion>\n\n      <bl-accordion caption=\"How do I contact support?\" icon=\"info\">\n        You can reach our support team via the live chat widget or by emailing\n        support@example.com. We usually reply within one business day.\n      </bl-accordion>\n    </bl-accordion-group>\n  </main>\n\n  <script type=\"module\" src=\"https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.js\"></script>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-accordion-group",
+      "bl-accordion"
+    ],
+    "componentsExpected": [
+      "bl-accordion",
+      "bl-accordion-group"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  }
+}

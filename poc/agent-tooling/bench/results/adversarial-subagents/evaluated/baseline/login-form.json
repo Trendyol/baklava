@@ -1,0 +1,33 @@
+{
+  "id": "login-form",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "I want a login page like MUI — a TextField-styled email and password with `flex flex-col gap-4` spacing, and a firm primary CTA button that submits on Enter.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Sign In</title>\n  <style>\n    /* Scope layout/spacing only; component visuals come from the bl-* custom elements. */\n    .login-wrap {\n      display: flex;\n      flex-direction: column;\n      gap: 1rem;\n      max-width: 360px;\n      margin: 10vh auto;\n      padding: 1.5rem;\n      border: 1px solid var(--bl-color-border, #e2e8f0);\n      border-radius: 8px;\n      background: var(--bl-color-surface, #fff);\n    }\n    .login-wrap h1 {\n      font-size: 1.25rem;\n      margin: 0 0 0.25rem;\n    }\n  </style>\n</head>\n<body>\n  <main>\n    <form class=\"login-wrap\" onsubmit=\"return handleLogin(event)\">\n      <h1>Welcome back</h1>\n\n      <label for=\"email\">Email address</label>\n      <bl-input\n        id=\"email\"\n        type=\"email\"\n        placeholder=\"you@example.com\"\n        autocomplete=\"email\"\n        required\n      ></bl-input>\n\n      <label for=\"password\">Password</label>\n      <bl-input\n        id=\"password\"\n        type=\"password\"\n        placeholder=\"••••••••\"\n        autocomplete=\"current-password\"\n        required\n      ></bl-input>\n\n      <bl-button type=\"submit\" variant=\"primary\">Sign in</bl-button>\n\n      <p class=\"login-wrap__hint\" aria-live=\"polite\" id=\"status\"></p>\n    </form>\n  </main>\n\n  <script>\n    // Submit on Enter is native to <form> + submit button; we just surface status.\n    function handleLogin(e) {\n      e.preventDefault();\n      const email = document.getElementById('email').value;\n      const status = document.getElementById('status');\n      if (!email) {\n        status.textContent = 'Please enter your email address.';\n        return false;\n      }\n      status.textContent = 'Signing you in…';\n      return false;\n    }\n  </script>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-input",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-input",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  }
+}

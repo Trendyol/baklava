@@ -1,0 +1,40 @@
+{
+  "id": "login-form",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "I want a login page like MUI — a TextField-styled email and password with `flex flex-col gap-4` spacing, and a firm primary CTA button that submits on Enter.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Sign in</title>\n    <link rel=\"stylesheet\" href=\"https://cdn.baklava.design/1.x/baklava.css\" />\n    <style>\n      /* MUI-like centered card layout (spacing implemented in plain CSS, no Tailwind). */\n      .page {\n        min-height: 100vh;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        background: #fafafa;\n        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;\n      }\n      .card {\n        width: 360px;\n        background: #fff;\n        border: 1px solid #e0e0e0;\n        border-radius: 12px;\n        padding: 32px 24px;\n        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n      }\n      .card h1 {\n        margin: 0 0 24px;\n        font-size: 20px;\n        font-weight: 600;\n        color: #1a1a1a;\n      }\n      .field {\n        margin-bottom: 20px; /* gap-4 equivalence */\n      }\n      .actions {\n        margin-top: 28px;\n      }\n      .error {\n        margin-top: 12px;\n        color: #b00020;\n        font-size: 14px;\n        min-height: 20px;\n      }\n    </style>\n  </head>\n  <body>\n    <main class=\"page\">\n      <section class=\"card\" aria-labelledby=\"login-title\">\n        <h1 id=\"login-title\">Sign in</h1>\n        <form id=\"login-form\" novalidate>\n          <div class=\"field\">\n            <bl-input\n              name=\"email\"\n              type=\"email\"\n              label=\"Email\"\n              placeholder=\"you@example.com\"\n              autocomplete=\"email\"\n              required\n            ></bl-input>\n          </div>\n          <div class=\"field\">\n            <bl-input\n              name=\"password\"\n              type=\"password\"\n              label=\"Password\"\n              placeholder=\"••••••••\"\n              autocomplete=\"current-password\"\n              minlength=\"8\"\n              required\n            ></bl-input>\n          </div>\n          <div class=\"actions\">\n            <bl-button type=\"submit\" variant=\"primary\" label=\"Sign in\"></bl-button>\n          </div>\n        </form>\n        <p class=\"error\" id=\"form-error\" role=\"alert\" hidden></p>\n      </section>\n    </main>\n\n    <script type=\"module\">\n      import '@baklava/components/baklava.js';\n\n      const form = document.getElementById('login-form');\n      const email = form.querySelector('bl-input[name=\"email\"]');\n      const password = form.querySelector('bl-input[name=\"password\"]');\n      const error = document.getElementById('form-error');\n\n      // Prevent the page from refreshing and surface validation feedback.\n      form.addEventListener('submit', (event) => {\n        event.preventDefault();\n        const valid = email.reportValidity() && password.reportValidity();\n        if (!valid) {\n          error.textContent = 'Please check your email and password.';\n          error.hidden = false;\n          return;\n        }\n        error.hidden = true;\n        // Demo only: log, don't send credentials anywhere.\n        console.log('Sign-in submitted for', email.value);\n      });\n    </script>\n  </body>\n</html>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 92,
+    "componentsUsed": [
+      "bl-input",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-input",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 3 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 98,
+      "accessibility": 86,
+      "efficiency": 83,
+      "codeQuality": 87,
+      "maintainability": 96,
+      "overall": 92
+    }
+  }
+}

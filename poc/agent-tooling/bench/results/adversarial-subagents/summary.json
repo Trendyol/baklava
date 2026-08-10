@@ -1,0 +1,85 @@
+{
+  "iteration": "adversarial-subagents",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "arms": {
+    "baseline": {
+      "count": 8,
+      "aggregate": {
+        "n": 8,
+        "successRate": 63,
+        "avgOverall": 82,
+        "dimensions": {
+          "correctness": 81,
+          "accessibility": 77,
+          "efficiency": 83,
+          "codeQuality": 80,
+          "maintainability": 89,
+          "overall": 82
+        },
+        "totalHallucinations": 2,
+        "totalEscapeHatches": 19,
+        "uniqueComponentsUsed": [
+          "bl-accordion",
+          "bl-badge",
+          "bl-button",
+          "bl-dialog",
+          "bl-icon",
+          "bl-input",
+          "bl-select",
+          "bl-stepper",
+          "bl-stepper-item",
+          "bl-switch",
+          "bl-tab",
+          "bl-tab-group",
+          "bl-tab-panel",
+          "bl-tooltip"
+        ]
+      }
+    },
+    "augmented": {
+      "count": 8,
+      "aggregate": {
+        "n": 8,
+        "successRate": 100,
+        "avgOverall": 90,
+        "dimensions": {
+          "correctness": 98,
+          "accessibility": 85,
+          "efficiency": 73,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 90
+        },
+        "totalHallucinations": 0,
+        "totalEscapeHatches": 8,
+        "uniqueComponentsUsed": [
+          "bl-accordion",
+          "bl-accordion-group",
+          "bl-badge",
+          "bl-button",
+          "bl-dialog",
+          "bl-input",
+          "bl-notification",
+          "bl-notification-card",
+          "bl-pagination",
+          "bl-select",
+          "bl-select-option",
+          "bl-stepper",
+          "bl-stepper-item",
+          "bl-switch",
+          "bl-tab",
+          "bl-tab-group",
+          "bl-tab-panel",
+          "bl-table",
+          "bl-table-body",
+          "bl-table-cell",
+          "bl-table-header",
+          "bl-table-header-cell",
+          "bl-table-row",
+          "bl-tooltip"
+        ]
+      }
+    }
+  }
+}

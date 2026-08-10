@@ -1,0 +1,13 @@
+{
+  "id": "checkout-steps",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 35,
+    "accessibility": 40,
+    "efficiency": 70,
+    "codeQuality": 55,
+    "maintainability": 50,
+    "overall": 45
+  },
+  "verdict": "Uses real bl-* components but relies on several hallucinated attributes (current on bl-stepper, label/step on bl-stepper-item, variant=\"pill\" on bl-badge), so the API is not wired correctly; structure is clean and minimal otherwise."
+}

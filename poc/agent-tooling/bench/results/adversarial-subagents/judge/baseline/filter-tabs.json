@@ -1,0 +1,13 @@
+{
+  "id": "filter-tabs",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 25,
+    "accessibility": 40,
+    "efficiency": 70,
+    "codeQuality": 60,
+    "maintainability": 65,
+    "overall": 40
+  },
+  "verdict": "Uses real bl-* tags but with several incorrect APIs that break the tab/tooltip wiring: bl-tab must use slot=\"tabs\" (not slot=\"nav\"), bl-tab uses the name attribute (panel is not a real attribute) and bl-tab-panel links via its tab attribute (name is not a real attribute), while bl-tooltip has no content attribute (text belongs in the default slot) and the trigger must be slotted with slot=\"tooltip-trigger\"."
+}

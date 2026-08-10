@@ -1,0 +1,81 @@
+{
+  "id": "product-table",
+  "persona": "naive",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "data-view",
+  "complexity": "complex",
+  "prompt": "Show a catalog of products in a grid with column headers, rows that have an action button per row, and controls at the bottom to jump between pages of results. Add a small badge on some rows to mark a product as popular.",
+  "response": "<div class=\"catalog\">\n  <bl-table columns=\"name,price\" sortable>\n    <bl-table-header>\n      <bl-table-row>\n        <bl-table-cell>Product</bl-table-cell>\n        <bl-table-cell>Price</bl-table-cell>\n        <bl-table-cell>Status</bl-table-cell>\n        <bl-table-cell>Actions</bl-table-cell>\n      </bl-table-row>\n    </bl-table-header>\n    <bl-table-body>\n      <bl-table-row>\n        <bl-table-cell>Wireless Mouse</bl-table-cell>\n        <bl-table-cell>$24</bl-table-cell>\n        <bl-table-cell><bl-badge variant=\"warning\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n        <bl-table-cell>$89</bl-table-cell>\n        <bl-table-cell><bl-badge>Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>USB-C Hub</bl-table-cell>\n        <bl-table-cell>$45</bl-table-cell>\n        <bl-table-cell><span>—</span></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n    </bl-table-body>\n  </bl-table>\n  <bl-pagination current-page=\"1\" total=\"42\" size=\"10\"></bl-pagination>\n</div>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 84,
+    "componentsUsed": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-row",
+      "bl-table-cell",
+      "bl-table-body",
+      "bl-badge",
+      "bl-button",
+      "bl-pagination"
+    ],
+    "componentsExpected": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-body",
+      "bl-table-row",
+      "bl-table-cell",
+      "bl-pagination",
+      "bl-button",
+      "bl-badge"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-table> attr \"columns\" not part of API",
+        "codeSnippet": "columns"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-badge> attr \"variant\" not part of API",
+        "codeSnippet": "variant"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-pagination> attr \"total\" not part of API",
+        "codeSnippet": "total"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-pagination> attr \"size\" not part of API",
+        "codeSnippet": "size"
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 1 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [
+      "Unknown attr columns on bl-table",
+      "Unknown attr variant on bl-badge",
+      "Unknown attr total on bl-pagination",
+      "Unknown attr size on bl-pagination"
+    ],
+    "scores": {
+      "correctness": 90,
+      "accessibility": 94,
+      "efficiency": 65,
+      "codeQuality": 75,
+      "maintainability": 80,
+      "overall": 84
+    }
+  }
+}

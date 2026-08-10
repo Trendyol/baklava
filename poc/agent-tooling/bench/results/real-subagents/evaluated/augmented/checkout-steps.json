@@ -1,0 +1,36 @@
+{
+  "id": "checkout-steps",
+  "persona": "naive",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "Build a multi-step checkout indicator at the top showing the current step: cart, shipping, then payment. Show a badge over a cart icon to signal the cart has two items.",
+  "response": "<bl-stepper type=\"dot\" direction=\"horizontal\">\n  <bl-stepper-item variant=\"active\" title=\"Cart\"></bl-stepper-item>\n  <bl-stepper-item title=\"Shipping\"></bl-stepper-item>\n  <bl-stepper-item title=\"Payment\"></bl-stepper-item>\n</bl-stepper>\n<bl-badge size=\"small\">\n  <bl-icon slot=\"icon\" name=\"cart\"></bl-icon>\n  2\n</bl-badge>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-stepper",
+      "bl-stepper-item",
+      "bl-badge",
+      "bl-icon"
+    ],
+    "componentsExpected": [
+      "bl-stepper",
+      "bl-stepper-item",
+      "bl-badge"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 82,
+      "efficiency": 84,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  }
+}

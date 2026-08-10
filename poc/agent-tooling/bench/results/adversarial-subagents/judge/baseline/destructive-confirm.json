@@ -1,0 +1,13 @@
+{
+  "id": "destructive-confirm",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 30,
+    "accessibility": 58,
+    "efficiency": 42,
+    "codeQuality": 52,
+    "maintainability": 50,
+    "overall": 48
+  },
+  "verdict": "Uses the real bl-dialog and bl-button tags, but with several hallucinated API members: slot name 'footer' (real slots: primary-action/secondary-action/tertiary-action), slot name 'content' (content belongs in the default slot), button variants 'cancel' and 'danger' (real variants are primary/secondary/tertiary; destructive styling is kind='danger'), an unsupported 'message' attribute, and event names 'bl-open'/'bl-close' (real events are bl-dialog-open/bl-dialog-request-close/bl-dialog-close). As a result the dialog's own backdrop/Escape/focus-trapping is duplicated by a dead custom overlay whose listeners never fire, the action buttons land in the body content instead of the footer, both buttons render with default styling (no cancel/danger appearance), and open='false' as a present boolean attribute is truthy so the modal opens on page load."
+}

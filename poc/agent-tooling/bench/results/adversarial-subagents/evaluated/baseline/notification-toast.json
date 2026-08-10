@@ -1,0 +1,42 @@
+{
+  "id": "notification-toast",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "feedback",
+  "complexity": "simple",
+  "prompt": "After saving, pop a Bootstrap-style toast like `toast` with a `toast-header` success label and a close button so it can be dismissed.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <title>Save Notification Toast</title>\n  <style>\n    :root { font-family: system-ui, sans-serif; }\n    body { padding: 24px; }\n    .stack { max-width: 360px; margin-bottom: 16px; }\n  </style>\n</head>\n<body>\n  <my-toast id=\"saveToast\" type=\"success\">\n    <span slot=\"header\">Saved</span>\n    <p>Your changes have been saved successfully.</p>\n  </my-toast>\n\n  <my-button variant=\"primary\" onclick=\"document.getElementById('saveToast').show()\">\n    Save\n  </my-button>\n\n  <script>\n    customElements.define('my-toast', class extends HTMLElement {\n      connectedCallback() {\n        const type = this.getAttribute('type') || 'success';\n        this.innerHTML = `\n          <div class=\"toast\">\n            <div class=\"toast-header\">\n              <strong>${this.querySelector('[slot=header]')?.textContent || 'Notification'}</strong>\n              <button class=\"close\" aria-label=\"Close\" type=\"button\">×</button>\n            </div>\n            <div class=\"toast-body\"></div>\n          </div>\n        `;\n        const body = this.querySelector('.toast-body');\n        body.appendChild(this.querySelector('p'));\n        this.querySelector('.close').addEventListener('click', () => this.hide());\n        this.hidden = true;\n      }\n      show() { this.hidden = false; }\n      hide() { this.hidden = true; }\n    });\n\n    customElements.define('my-button', class extends HTMLElement {\n      connectedCallback() {\n        this.setAttribute('role', 'button');\n        this.setAttribute('tabindex', '0');\n        this.style.cssText = 'padding:8px 16px;';\n      }\n    });\n  </script>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 86,
+    "componentsUsed": [],
+    "componentsExpected": [
+      "bl-notification",
+      "bl-notification-card",
+      "bl-button"
+    ],
+    "missed": [
+      "bl-notification",
+      "bl-notification-card",
+      "bl-button"
+    ],
+    "escapeHatches": [
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 3 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": "missing_components",
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 83,
+      "accessibility": 80,
+      "efficiency": 91,
+      "codeQuality": 87,
+      "maintainability": 96,
+      "overall": 86
+    }
+  }
+}

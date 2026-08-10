@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout</title>
+</head>
+<body>
+  <header class="checkout-header">
+    <nav class="checkout-nav">
+      <span class="stepper-wrap">
+        <bl-stepper current="1">
+          <bl-stepper-item label="Cart" step="1"></bl-stepper-item>
+          <bl-stepper-item label="Shipping" step="2"></bl-stepper-item>
+          <bl-stepper-item label="Payment" step="3"></bl-stepper-item>
+        </bl-stepper>
+      </span>
+      <span class="cart-wrap" title="Cart">
+        <bl-icon name="cart"></bl-icon>
+        <bl-badge variant="pill">2</bl-badge>
+      </span>
+    </nav>
+  </header>
+</body>
+</html>

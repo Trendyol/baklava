@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings</title>
+</head>
+<body>
+  <main class="settings">
+    <h1>Settings</h1>
+
+    <section class="settings-group">
+      <h2>Preferences</h2>
+
+      <div class="setting-row">
+        <label for="notifications">Email notifications</label>
+        <bl-switch id="notifications"></bl-switch>
+        <p class="helper-text">Receive an email for every activity in your account.</p>
+      </div>
+
+      <div class="setting-row">
+        <label for="nightmode">Night mode</label>
+        <bl-switch id="nightmode"></bl-switch>
+        <p class="helper-text">Reduce glare with a dark colour scheme.</p>
+      </div>
+
+      <div class="setting-row">
+        <label for="autosave">Auto-save</label>
+        <bl-switch id="autosave"></bl-switch>
+        <p class="helper-text">Save your changes automatically while editing.</p>
+      </div>
+
+      <div class="setting-row">
+        <label for="lang">Language</label>
+        <bl-select id="lang">
+          <bl-option value="en">English</bl-option>
+          <bl-option value="tr">Turkish</bl-option>
+          <bl-option value="de">German</bl-option>
+        </bl-select>
+        <p class="helper-text">Choose the language used across the interface.</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

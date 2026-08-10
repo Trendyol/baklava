@@ -1,0 +1,40 @@
+{
+  "id": "login-form",
+  "persona": "naive",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Build a login page. There should be a field for the email address, a field for the password that hides what is typed, and a prominent button at the end to submit the whole thing when the user presses Enter.",
+  "response": "<div class=\"login-page\">\n  <h1>Sign in</h1>\n  <form onsubmit=\"return false;\">\n    <bl-input name=\"email\" type=\"email\" label=\"Email address\" required></bl-input>\n    <bl-input name=\"password\" type=\"password\" label=\"Password\" required></bl-input>\n    <bl-button type=\"submit\" class=\"primary submit-btn\">Log in</bl-button>\n  </form>\n</div>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-input",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-input",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 1 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 98,
+      "accessibility": 76,
+      "efficiency": 89,
+      "codeQuality": 87,
+      "maintainability": 96,
+      "overall": 91
+    }
+  }
+}

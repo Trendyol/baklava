@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "system": "Baklava",
+    "protocol": "one-shot",
+    "persona": "adversarial",
+    "note": "Prompts reference other frameworks (MUI, shadcn, Tailwind, Bootstrap, Ant Design) and blur the lines. expectedComponents are still the correct real Baklava bl-* tags — we measure whether the agent stays on the system under adversarial phrasing."
+  },
+  "prompts": [
+    {
+      "id": "login-form",
+      "category": "forms",
+      "complexity": "moderate",
+      "prompt": "I want a login page like MUI — a TextField-styled email and password with `flex flex-col gap-4` spacing, and a firm primary CTA button that submits on Enter.",
+      "expectedComponents": ["bl-input", "bl-button"]
+    },
+    {
+      "id": "settings-toggles",
+      "category": "forms",
+      "complexity": "moderate",
+      "prompt": "Do a settings screen with Material Switch toggles for each option and a language Select, each with small helperText underneath. Use `space-y-3` between them.",
+      "expectedComponents": ["bl-switch", "bl-select", "bl-select-option"]
+    },
+    {
+      "id": "product-table",
+      "category": "data-view",
+      "complexity": "complex",
+      "prompt": "Show my products in a grid like a shadcn DataTable with columns and row-action buttons, Tailwind `badge` styling to mark popular rows, and pagination controls at the bottom.",
+      "expectedComponents": ["bl-table", "bl-table-header", "bl-table-body", "bl-table-row", "bl-table-cell", "bl-pagination", "bl-button", "bl-badge"]
+    },
+    {
+      "id": "destructive-confirm",
+      "category": "overlays",
+      "complexity": "complex",
+      "prompt": "Make a delete confirm like Ant Design's Modal.confirm — an overlay that blocks the background, with a red danger button to confirm and a grey cancel button.",
+      "expectedComponents": ["bl-dialog", "bl-button"]
+    },
+    {
+      "id": "notification-toast",
+      "category": "feedback",
+      "complexity": "simple",
+      "prompt": "After saving, pop a Bootstrap-style toast like `toast` with a `toast-header` success label and a close button so it can be dismissed.",
+      "expectedComponents": ["bl-notification", "bl-notification-card", "bl-button"]
+    },
+    {
+      "id": "accordion-faq",
+      "category": "content",
+      "complexity": "moderate",
+      "prompt": "FAQ with Bootstrap `accordion-item` collapses grouped inside an `accordion` — clicking a question expands the answer.",
+      "expectedComponents": ["bl-accordion", "bl-accordion-group"]
+    },
+    {
+      "id": "checkout-steps",
+      "category": "content",
+      "complexity": "moderate",
+      "prompt": "Put an el-steps stepper across the top for cart, shipping, and payment, and a Bootstrap `badge-pill` showing a count of 2 over the cart icon.",
+      "expectedComponents": ["bl-stepper", "bl-stepper-item", "bl-badge"]
+    },
+    {
+      "id": "filter-tabs",
+      "category": "navigation",
+      "complexity": "moderate",
+      "prompt": "Tabs like shadcn Tabs that switch panes, and a Radix Tooltip or a `title` attribute on a small icon button explaining what it does.",
+      "expectedComponents": ["bl-tab-group", "bl-tab", "bl-tab-panel", "bl-tooltip"]
+    }
+  ]
+}

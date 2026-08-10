@@ -1,0 +1,45 @@
+{
+  "id": "filter-tabs",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "navigation",
+  "complexity": "moderate",
+  "prompt": "Tabs like shadcn Tabs that switch panes, and a Radix Tooltip or a `title` attribute on a small icon button explaining what it does.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Product Dashboard — Tabs</title>\n  <style>\n    body {\n      font-family: system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif;\n      margin: 0;\n      padding: 2rem;\n      background: #f6f7fb;\n      color: #1a1f36;\n    }\n    .card {\n      background: #fff;\n      border: 1px solid #e4e7f0;\n      border-radius: 10px;\n      padding: 1.5rem;\n      max-width: 640px;\n      margin: 0 auto;\n      box-shadow: 0 2px 6px rgba(20, 30, 60, 0.04);\n    }\n    .toolbar {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      margin-bottom: 0.75rem;\n    }\n    .toolbar h2 {\n      margin: 0;\n      font-size: 1.1rem;\n      font-weight: 600;\n    }\n    bl-tab-panel h3 {\n      margin-top: 0.25rem;\n    }\n  </style>\n</head>\n<body>\n  <main class=\"card\">\n    <div class=\"toolbar\">\n      <h2>Product Dashboard</h2>\n      <!-- Radix-style tooltip on a small icon button -->\n      <bl-tooltip placement=\"top\">\n        <bl-button slot=\"tooltip-trigger\" size=\"small\" icon=\"info\">Help</bl-button>\n        <span slot=\"tooltip\">Switches between product views. More help is available in the docs.</span>\n      </bl-tooltip>\n    </div>\n\n    <bl-tab-group>\n      <bl-tab slot=\"tabs\" name=\"overview\">Overview</bl-tab>\n      <bl-tab slot=\"tabs\" name=\"details\">Details</bl-tab>\n      <bl-tab slot=\"tabs\" name=\"settings\">Settings</bl-tab>\n\n      <bl-tab-panel tab=\"overview\">\n        <h3>Overview</h3>\n        <p>Key metrics for your product at a glance.</p>\n      </bl-tab-panel>\n\n      <bl-tab-panel tab=\"details\">\n        <h3>Details</h3>\n        <p>Full specification and inventory details.</p>\n      </bl-tab-panel>\n\n      <bl-tab-panel tab=\"settings\">\n        <h3>Settings</h3>\n        <p>Configure alerts and preferences.</p>\n      </bl-tab-panel>\n    </bl-tab-group>\n  </main>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-tooltip",
+      "bl-button",
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel"
+    ],
+    "componentsExpected": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-tooltip"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 1 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 98,
+      "accessibility": 85,
+      "efficiency": 77,
+      "codeQuality": 87,
+      "maintainability": 96,
+      "overall": 91
+    }
+  }
+}

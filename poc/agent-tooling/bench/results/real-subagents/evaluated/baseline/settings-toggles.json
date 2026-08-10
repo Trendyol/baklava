@@ -1,0 +1,42 @@
+{
+  "id": "settings-toggles",
+  "persona": "naive",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Build a settings screen with a list of options the user can turn on and off, plus a dropdown to pick a language and a small hint text explaining each option.",
+  "response": "<div class=\"settings\">\n  <div class=\"setting-row\">\n    <bl-switch>Enable notifications</bl-switch>\n    <p class=\"hint\">Get a notification when something happens.</p>\n  </div>\n  <div class=\"setting-row\">\n    <bl-switch checked>Dark mode</bl-switch>\n    <p class=\"hint\">Use a darker color scheme.</p>\n  </div>\n  <div class=\"setting-row\">\n    <bl-switch>Auto-save</bl-switch>\n    <p class=\"hint\">Save changes automatically.</p>\n  </div>\n  <div class=\"setting-row\">\n    <label>Language</label>\n    <bl-select placeholder=\"Choose language\">\n      <bl-select-option value=\"en\">English</bl-select-option>\n      <bl-select-option value=\"de\">Deutsch</bl-select-option>\n      <bl-select-option value=\"tr\">Türkçe</bl-select-option>\n    </bl-select>\n    <p class=\"hint\">Language used across the interface.</p>\n  </div>\n</div>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 89,
+    "componentsUsed": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "componentsExpected": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 5 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 98,
+      "accessibility": 79,
+      "efficiency": 73,
+      "codeQuality": 87,
+      "maintainability": 96,
+      "overall": 89
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "filter-tabs",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 72,
+    "accessibility": 82,
+    "efficiency": 90,
+    "codeQuality": 85,
+    "maintainability": 88,
+    "overall": 79
+  },
+  "verdict": "Correctly uses real bl-* components and attributes (bl-tab-group with slot=\"tabs\" + default panels slot, bl-tab name, bl-tab-panel tab, bl-tooltip placement + tooltip-trigger slot, bl-button size/icon) which match the actual Baklava API; the single defect is a hallucinated slot=\"tooltip\" on the tooltip content span, which should live in the default slot, so the tooltip help text will not be slotted and the popover renders empty."
+}

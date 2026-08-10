@@ -1,0 +1,66 @@
+{
+  "id": "checkout-steps",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "Put an el-steps stepper across the top for cart, shipping, and payment, and a Bootstrap `badge-pill` showing a count of 2 over the cart icon.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Checkout</title>\n</head>\n<body>\n  <header class=\"checkout-header\">\n    <nav class=\"checkout-nav\">\n      <span class=\"stepper-wrap\">\n        <bl-stepper current=\"1\">\n          <bl-stepper-item label=\"Cart\" step=\"1\"></bl-stepper-item>\n          <bl-stepper-item label=\"Shipping\" step=\"2\"></bl-stepper-item>\n          <bl-stepper-item label=\"Payment\" step=\"3\"></bl-stepper-item>\n        </bl-stepper>\n      </span>\n      <span class=\"cart-wrap\" title=\"Cart\">\n        <bl-icon name=\"cart\"></bl-icon>\n        <bl-badge variant=\"pill\">2</bl-badge>\n      </span>\n    </nav>\n  </header>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 86,
+    "componentsUsed": [
+      "bl-stepper",
+      "bl-stepper-item",
+      "bl-icon",
+      "bl-badge"
+    ],
+    "componentsExpected": [
+      "bl-stepper",
+      "bl-stepper-item",
+      "bl-badge"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-stepper> attr \"current\" not part of API",
+        "codeSnippet": "current"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-stepper-item> attr \"label\" not part of API",
+        "codeSnippet": "label"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-stepper-item> attr \"step\" not part of API",
+        "codeSnippet": "step"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-badge> attr \"variant\" not part of API",
+        "codeSnippet": "variant"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [
+      "Unknown attr current on bl-stepper",
+      "Unknown attr label on bl-stepper-item",
+      "Unknown attr step on bl-stepper-item",
+      "Unknown attr variant on bl-badge"
+    ],
+    "scores": {
+      "correctness": 92,
+      "accessibility": 82,
+      "efficiency": 84,
+      "codeQuality": 78,
+      "maintainability": 84,
+      "overall": 86
+    }
+  }
+}

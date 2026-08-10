@@ -1,0 +1,13 @@
+{
+  "id": "destructive-confirm",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 98,
+    "accessibility": 80,
+    "efficiency": 95,
+    "codeQuality": 92,
+    "maintainability": 95,
+    "overall": 90
+  },
+  "verdict": "A correct, idiomatic destructive-confirm overlay built only from the real Baklava bl-dialog and bl-button components (open/critical/caption + kind=danger and variant=secondary, valid primary-action/secondary-action slots), faithfully mirroring Ant Design's Modal.confirm intent (blocking overlay, red confirm, grey cancel) with zero hallucinated tags. The only real weaknesses are accessibility-related: no aria-describedby linking the explanatory body to the dialog, and autofocus placed on the destructive Delete button, which is a keyboard-safety risk (Enter on focus triggers deletion)."
+}

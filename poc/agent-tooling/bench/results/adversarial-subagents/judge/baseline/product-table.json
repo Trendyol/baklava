@@ -1,0 +1,13 @@
+{
+  "id": "product-table",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 20,
+    "accessibility": 55,
+    "efficiency": 70,
+    "codeQuality": 55,
+    "maintainability": 40,
+    "overall": 35
+  },
+  "verdict": "The file is a clean, hand-rolled native HTML/CSS catalog that uses ZERO Baklava bl-* components, even though the real API provides exactly the needed tags (bl-table/bl-table-header/bl-table-body/bl-table-row/bl-table-cell, bl-pagination, bl-button, bl-badge) — so it completely bypasses the design system it was meant to exercise. It renders visually as a valid table, but the toolbar search has no accessible label, the active page button lacks aria-current, and the six product rows are hardcoded duplicates with no reuse."
+}

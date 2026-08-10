@@ -1,0 +1,35 @@
+{
+  "id": "settings-toggles",
+  "persona": "naive",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Build a settings screen with a list of options the user can turn on and off, plus a dropdown to pick a language and a small hint text explaining each option.",
+  "response": "<bl-switch checked>Enable notifications</bl-switch>\n<bl-switch checked>Dark mode</bl-switch>\n<bl-switch>Reduce motion</bl-switch>\n<bl-select label=\"Language\" help-text=\"Choose your preferred language.\" placeholder=\"Select a language\">\n  <bl-select-option value=\"en\" label=\"English\">English</bl-select-option>\n  <bl-select-option value=\"de\" label=\"Deutsch\">Deutsch</bl-select-option>\n  <bl-select-option value=\"tr\" label=\"Türkçe\">Türkçe</bl-select-option>\n</bl-select>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "componentsExpected": [
+      "bl-switch",
+      "bl-select",
+      "bl-select-option"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 79,
+      "efficiency": 88,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  }
+}

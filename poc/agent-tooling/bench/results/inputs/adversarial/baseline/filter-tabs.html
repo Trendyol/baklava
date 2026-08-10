@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Filter Tabs</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: #f5f5f5;
+      color: #1a1a1a;
+    }
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="toolbar">
+      <bl-tooltip content="Refresh the current view">
+        <bl-button square icon="refresh"></bl-button>
+      </bl-tooltip>
+    </div>
+
+    <bl-tab-group>
+      <bl-tab slot="nav" panel="all">All</bl-tab>
+      <bl-tab slot="nav" panel="active">Active</bl-tab>
+      <bl-tab slot="nav" panel="archived">Archived</bl-tab>
+
+      <bl-tab-panel name="all">
+        <p>Showing all items across every category.</p>
+        <ul>
+          <li>Item one</li>
+          <li>Item two</li>
+          <li>Item three</li>
+        </ul>
+      </bl-tab-panel>
+
+      <bl-tab-panel name="active">
+        <p>Showing only active items.</p>
+        <ul>
+          <li>Active item A</li>
+          <li>Active item B</li>
+        </ul>
+      </bl-tab-panel>
+
+      <bl-tab-panel name="archived">
+        <p>Showing archived items.</p>
+        <ul>
+          <li>Archived item X</li>
+        </ul>
+      </bl-tab-panel>
+    </bl-tab-group>
+  </div>
+</body>
+</html>

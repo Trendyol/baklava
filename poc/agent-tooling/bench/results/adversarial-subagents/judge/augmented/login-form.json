@@ -1,0 +1,13 @@
+{
+  "id": "login-form",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 95,
+    "accessibility": 88,
+    "efficiency": 92,
+    "codeQuality": 90,
+    "maintainability": 90,
+    "overall": 91
+  },
+  "verdict": "A correct, idiomatic sign-in form built only from real Baklava bl-input/bl-button components with validated attributes (type, autocomplete, minlength, required on inputs; type=submit/variant/label on button) and working imperative reportValidity handling. Minor accessibility polish (associating the generic role=alert error to the fields via aria-describedby and per-field messages) and novalidate-on-form reliance are the only notes; otherwise clean, minimal, and highly maintainable."
+}

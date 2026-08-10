@@ -1,0 +1,13 @@
+{
+  "id": "login-form",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 84,
+    "accessibility": 74,
+    "efficiency": 90,
+    "codeQuality": 80,
+    "maintainability": 86,
+    "overall": 82
+  },
+  "verdict": "A clean sign-in form built solely from real bl-input/bl-button elements with valid attributes (type, autocomplete, required, variant, type=submit) and no hallucinated tags; semantic main/h1 plus an aria-live status region are good. It falls short of the idiomatic Baklava pattern by using external <label for> instead of bl-input's label attribute (weak shadow-DOM label association) and by only validating the email field while bypassing password/component validation, so it scores below the augmented arm."
+}

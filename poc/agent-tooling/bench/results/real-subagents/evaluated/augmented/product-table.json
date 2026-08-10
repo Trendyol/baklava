@@ -1,0 +1,46 @@
+{
+  "id": "product-table",
+  "persona": "naive",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "data-view",
+  "complexity": "complex",
+  "prompt": "Show a catalog of products in a grid with column headers, rows that have an action button per row, and controls at the bottom to jump between pages of results. Add a small badge on some rows to mark a product as popular.",
+  "response": "<bl-table>\n  <bl-table-header>\n    <bl-table-row>\n      <bl-table-header-cell>Product</bl-table-header-cell>\n      <bl-table-header-cell>Price</bl-table-header-cell>\n      <bl-table-header-cell>Status</bl-table-header-cell>\n      <bl-table-header-cell>Actions</bl-table-header-cell>\n    </bl-table-row>\n  </bl-table-header>\n  <bl-table-body>\n    <bl-table-row selection-key=\"p1\">\n      <bl-table-cell>Wireless Mouse</bl-table-cell>\n      <bl-table-cell>$24</bl-table-cell>\n      <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"tertiary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row selection-key=\"p2\">\n      <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n      <bl-table-cell>$89</bl-table-cell>\n      <bl-table-cell>&nbsp;</bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"tertiary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n    <bl-table-row selection-key=\"p3\">\n      <bl-table-cell>4K Monitor</bl-table-cell>\n      <bl-table-cell>$299</bl-table-cell>\n      <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n      <bl-table-cell><bl-button size=\"small\" variant=\"tertiary\">View</bl-button></bl-table-cell>\n    </bl-table-row>\n  </bl-table-body>\n</bl-table>\n<bl-pagination current-page=\"1\" total-items=\"42\" items-per-page=\"10\" has-jumper></bl-pagination>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-row",
+      "bl-table-header-cell",
+      "bl-table-body",
+      "bl-table-cell",
+      "bl-badge",
+      "bl-button",
+      "bl-pagination"
+    ],
+    "componentsExpected": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-body",
+      "bl-table-row",
+      "bl-table-cell",
+      "bl-pagination",
+      "bl-button",
+      "bl-badge"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 97,
+      "efficiency": 64,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  }
+}

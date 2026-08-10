@@ -1,0 +1,13 @@
+{
+  "id": "accordion-faq",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 95,
+    "accessibility": 90,
+    "efficiency": 94,
+    "codeQuality": 92,
+    "maintainability": 92,
+    "overall": 93
+  },
+  "verdict": "Uses the real bl-accordion-group and bl-accordion components with correct caption and icon=\"info\" attributes and the canonical CDN script import; no hallucinated tags, clean and minimal. Only minor gap is omitting the recommended default theme stylesheet, and a redundant `faq` wrapper div that adds no layout value beyond the `main` element."
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delete Confirmation</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin: 0;
+      background: #f5f6f8;
+      color: #1f2430;
+    }
+    main {
+      max-width: 720px;
+      margin: 48px auto;
+      padding: 24px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    }
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 12, 20, 0.45);
+      z-index: 100;
+    }
+    .danger {
+      background: #d92d20;
+      border: none;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Project settings</h1>
+    <p>Deleting this project is permanent and cannot be undone.</p>
+
+    <button
+      id="openDialog"
+      onclick="document.querySelector('bl-dialog').open = true"
+      style="padding:10px 16px;border-radius:8px;cursor:pointer;background:#1f2430;color:#fff;border:none"
+    >
+      Delete project
+    </button>
+    <p style="font-size:13px;color:#667085">
+      Opens the confirmation overlay to confirm deletion.
+    </p>
+  </main>
+
+  <div class="backdrop" id="backdrop" style="display:none"></div>
+
+  <bl-dialog
+    id="deleteDialog"
+    open="false"
+    caption="Delete project?"
+    message="This will permanently delete the project and all of its data. This action cannot be undone."
+    style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:420px;background:#fff;border-radius:12px;z-index:120;padding:0;box-shadow:0 8px 30px rgba(0,0,0,0.25)"
+  >
+    <span slot="content">
+      <strong>Delete "Acme Web Portal"?</strong>
+      <p style="margin:8px 0 0;color:#667085">
+        All files, deployments and history for this project will be removed permanently.
+      </p>
+    </span>
+    <span slot="footer">
+      <bl-button
+        variant="cancel"
+        onclick="document.querySelector('bl-dialog').open = false"
+      >
+        Cancel
+      </bl-button>
+      <bl-button
+        variant="danger"
+        onclick="alert('Project deleted'); document.querySelector('bl-dialog').open = false"
+      >
+        Confirm delete
+      </bl-button>
+    </span>
+  </bl-dialog>
+
+  <script>
+    // Open/close the dialog overlay and toggle the blocking backdrop.
+    const dialog = document.getElementById('deleteDialog');
+    const backdrop = document.getElementById('backdrop');
+
+    function openDialog() {
+      dialog.open = true;
+      backdrop.style.display = 'block';
+    }
+
+    function closeDialog() {
+      dialog.open = false;
+      backdrop.style.display = 'none';
+    }
+
+    dialog.addEventListener('bl-open', openDialog);
+    dialog.addEventListener('bl-close', closeDialog);
+    backdrop.addEventListener('click', closeDialog);
+
+    document.getElementById('openDialog').addEventListener('click', openDialog);
+  </script>
+</body>
+</html>

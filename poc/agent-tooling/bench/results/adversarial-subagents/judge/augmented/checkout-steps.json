@@ -1,0 +1,13 @@
+{
+  "id": "checkout-steps",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 78,
+    "accessibility": 80,
+    "efficiency": 85,
+    "codeQuality": 82,
+    "maintainability": 85,
+    "overall": 80
+  },
+  "verdict": "Uses the real bl-stepper / bl-stepper-item / bl-badge API correctly (valid type, direction, usage, variant, title, description, size), but the runtime CDN <script> points to a non-existent package/bundle (@getuikit/bl-ui/bl.bundle.js) so the components would not load, which is the main functional gap."
+}

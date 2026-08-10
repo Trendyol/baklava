@@ -1,0 +1,59 @@
+{
+  "id": "checkout-steps",
+  "persona": "naive",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "Build a multi-step checkout indicator at the top showing the current step: cart, shipping, then payment. Show a badge over a cart icon to signal the cart has two items.",
+  "response": "<div class=\"checkout-steps\">\n  <bl-stepper current=\"cart\" steps=\"cart,shipping,payment\">\n    <span class=\"step active\">Cart</span>\n    <span class=\"step\">Shipping</span>\n    <span class=\"step\">Payment</span>\n  </bl-stepper>\n  <div class=\"cart-icon\">\n    <bl-icon name=\"cart\"></bl-icon>\n    <bl-badge>2</bl-badge>\n  </div>\n</div>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 85,
+    "componentsUsed": [
+      "bl-stepper",
+      "bl-icon",
+      "bl-badge"
+    ],
+    "componentsExpected": [
+      "bl-stepper",
+      "bl-stepper-item",
+      "bl-badge"
+    ],
+    "missed": [
+      "bl-stepper-item"
+    ],
+    "escapeHatches": [
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-stepper> attr \"current\" not part of API",
+        "codeSnippet": "current"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-stepper> attr \"steps\" not part of API",
+        "codeSnippet": "steps"
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 2 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": "missing_components",
+    "confusionSignals": [
+      "Unknown attr current on bl-stepper",
+      "Unknown attr steps on bl-stepper"
+    ],
+    "scores": {
+      "correctness": 89,
+      "accessibility": 79,
+      "efficiency": 82,
+      "codeQuality": 81,
+      "maintainability": 88,
+      "overall": 85
+    }
+  }
+}

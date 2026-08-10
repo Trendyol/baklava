@@ -1,0 +1,74 @@
+{
+  "id": "filter-tabs",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "navigation",
+  "complexity": "moderate",
+  "prompt": "Tabs like shadcn Tabs that switch panes, and a Radix Tooltip or a `title` attribute on a small icon button explaining what it does.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Filter Tabs</title>\n  <style>\n    body {\n      font-family: system-ui, -apple-system, sans-serif;\n      margin: 0;\n      padding: 2rem;\n      background: #f5f5f5;\n      color: #1a1a1a;\n    }\n    .container {\n      max-width: 640px;\n      margin: 0 auto;\n      background: #fff;\n      border: 1px solid #e5e5e5;\n      border-radius: 8px;\n      padding: 1.5rem;\n    }\n    .toolbar {\n      display: flex;\n      justify-content: flex-end;\n      margin-bottom: 1rem;\n    }\n    h2 {\n      margin-top: 0;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"toolbar\">\n      <bl-tooltip content=\"Refresh the current view\">\n        <bl-button square icon=\"refresh\"></bl-button>\n      </bl-tooltip>\n    </div>\n\n    <bl-tab-group>\n      <bl-tab slot=\"nav\" panel=\"all\">All</bl-tab>\n      <bl-tab slot=\"nav\" panel=\"active\">Active</bl-tab>\n      <bl-tab slot=\"nav\" panel=\"archived\">Archived</bl-tab>\n\n      <bl-tab-panel name=\"all\">\n        <p>Showing all items across every category.</p>\n        <ul>\n          <li>Item one</li>\n          <li>Item two</li>\n          <li>Item three</li>\n        </ul>\n      </bl-tab-panel>\n\n      <bl-tab-panel name=\"active\">\n        <p>Showing only active items.</p>\n        <ul>\n          <li>Active item A</li>\n          <li>Active item B</li>\n        </ul>\n      </bl-tab-panel>\n\n      <bl-tab-panel name=\"archived\">\n        <p>Showing archived items.</p>\n        <ul>\n          <li>Archived item X</li>\n        </ul>\n      </bl-tab-panel>\n    </bl-tab-group>\n  </div>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 84,
+    "componentsUsed": [
+      "bl-tooltip",
+      "bl-button",
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel"
+    ],
+    "componentsExpected": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-tooltip"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-tooltip> attr \"content\" not part of API",
+        "codeSnippet": "content"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-button> attr \"square\" not part of API",
+        "codeSnippet": "square"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-tab> attr \"panel\" not part of API",
+        "codeSnippet": "panel"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-tab-panel> attr \"name\" not part of API",
+        "codeSnippet": "name"
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 2 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [
+      "Unknown attr content on bl-tooltip",
+      "Unknown attr square on bl-button",
+      "Unknown attr panel on bl-tab",
+      "Unknown attr name on bl-tab-panel"
+    ],
+    "scores": {
+      "correctness": 90,
+      "accessibility": 85,
+      "efficiency": 74,
+      "codeQuality": 75,
+      "maintainability": 80,
+      "overall": 84
+    }
+  }
+}

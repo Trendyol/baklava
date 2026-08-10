@@ -1,0 +1,13 @@
+{
+  "id": "notification-toast",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 10,
+    "accessibility": 45,
+    "efficiency": 55,
+    "codeQuality": 50,
+    "maintainability": 40,
+    "overall": 25
+  },
+  "verdict": "Fails the core requirement: it defines its own vanilla custom elements (my-toast, my-button) and never uses the real Baklava API, which for a save toast is bl-notification + bl-notification-card (variant/caption/icon/duration) + bl-button loaded via defineCustomElements(); no bl-* tags at all means it is essentially a hallucinated non-design-system implementation."
+}

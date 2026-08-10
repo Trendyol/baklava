@@ -1,0 +1,13 @@
+{
+  "id": "settings-toggles",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 97,
+    "accessibility": 92,
+    "efficiency": 85,
+    "codeQuality": 88,
+    "maintainability": 90,
+    "overall": 90
+  },
+  "verdict": "Uses only real Baklava components (bl-switch with the correct checked attr, bl-select with label/placeholder/help-text, bl-select-option with value/label) — no hallucinated tags and no escape hatches; clean, accessible, minimal markup that fully satisfies the settings/toggles task."
+}

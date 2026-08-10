@@ -1,0 +1,33 @@
+{
+  "id": "destructive-confirm",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "overlays",
+  "complexity": "complex",
+  "prompt": "Make a delete confirm like Ant Design's Modal.confirm — an overlay that blocks the background, with a red danger button to confirm and a grey cancel button.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Delete Confirmation</title>\n  <script type=\"module\">\n    // Baklava web components are registered on the page scope by the bundler.\n    // The component elements below are driven by the real bl-* API.\n  </script>\n</head>\n<body>\n  <main>\n    <bl-dialog open critical caption=\"Delete this item?\">\n      <p>\n        This action cannot be undone. The item and all of its associated data\n        will be permanently removed.\n      </p>\n      <bl-button slot=\"primary-action\" kind=\"danger\" label=\"Delete\" autofocus></bl-button>\n      <bl-button slot=\"secondary-action\" variant=\"secondary\" label=\"Cancel\"></bl-button>\n    </bl-dialog>\n  </main>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-dialog",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-dialog",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  }
+}

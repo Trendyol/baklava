@@ -1,0 +1,33 @@
+{
+  "id": "accordion-faq",
+  "persona": "naive",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "Build an FAQ section where the user clicks a question and it expands to reveal the answer below it. Several questions should be grouped together.",
+  "response": "<bl-accordion-group>\n  <bl-accordion caption=\"How do I reset my password?\">\n    Open Settings and choose Security to reset your password.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I change my email address?\">\n    Go to Profile and update your email address there.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I delete my account?\">\n    Contact support to request account deletion.\n  </bl-accordion>\n  <bl-accordion caption=\"Is my data safe?\">\n    Yes, your data is encrypted at rest and in transit.\n  </bl-accordion>\n</bl-accordion-group>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-accordion-group",
+      "bl-accordion"
+    ],
+    "componentsExpected": [
+      "bl-accordion",
+      "bl-accordion-group"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  }
+}

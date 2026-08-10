@@ -1,0 +1,97 @@
+{
+  "generations": [
+    {
+      "iteration": "real-subagents",
+      "persona": "naive",
+      "model": "mlplatform/deepseek-v4-flash-0731",
+      "timestamp": "2026-08-10T11:43:44.111Z",
+      "before": {
+        "overall": 89,
+        "dims": {
+          "correctness": 95,
+          "accessibility": 79,
+          "efficiency": 83,
+          "codeQuality": 86,
+          "maintainability": 94,
+          "overall": 89
+        },
+        "hall": 0,
+        "esc": 12,
+        "succ": 100
+      },
+      "after": {
+        "overall": 93,
+        "dims": {
+          "correctness": 99,
+          "accessibility": 81,
+          "efficiency": 86,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        },
+        "hall": 0,
+        "esc": 0,
+        "succ": 100
+      },
+      "delta": {
+        "successRate": 0,
+        "avgOverall": 4,
+        "dim.correctness": 4,
+        "dim.accessibility": 2,
+        "dim.efficiency": 3,
+        "dim.codeQuality": 4,
+        "dim.maintainability": 6,
+        "dim.overall": 4,
+        "totalHallucinations": 0,
+        "totalEscapeHatches": -12
+      }
+    },
+    {
+      "iteration": "adversarial-subagents",
+      "persona": "adversarial",
+      "model": "mlplatform/deepseek-v4-flash-0731",
+      "timestamp": "2026-08-10T11:46:14.560Z",
+      "before": {
+        "overall": 82,
+        "dims": {
+          "correctness": 81,
+          "accessibility": 77,
+          "efficiency": 83,
+          "codeQuality": 80,
+          "maintainability": 89,
+          "overall": 82
+        },
+        "hall": 2,
+        "esc": 19,
+        "succ": 63
+      },
+      "after": {
+        "overall": 90,
+        "dims": {
+          "correctness": 98,
+          "accessibility": 85,
+          "efficiency": 73,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 90
+        },
+        "hall": 0,
+        "esc": 8,
+        "succ": 100
+      },
+      "delta": {
+        "successRate": 37,
+        "avgOverall": 8,
+        "dim.correctness": 17,
+        "dim.accessibility": 8,
+        "dim.efficiency": -10,
+        "dim.codeQuality": 7,
+        "dim.maintainability": 7,
+        "dim.overall": 8,
+        "totalHallucinations": -2,
+        "totalEscapeHatches": -11
+      }
+    }
+  ],
+  "updatedAt": "2026-08-10T11:46:14.619Z"
+}

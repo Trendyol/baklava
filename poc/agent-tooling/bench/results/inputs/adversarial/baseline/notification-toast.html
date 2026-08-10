@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Save Notification Toast</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; }
+    body { padding: 24px; }
+    .stack { max-width: 360px; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <my-toast id="saveToast" type="success">
+    <span slot="header">Saved</span>
+    <p>Your changes have been saved successfully.</p>
+  </my-toast>
+
+  <my-button variant="primary" onclick="document.getElementById('saveToast').show()">
+    Save
+  </my-button>
+
+  <script>
+    customElements.define('my-toast', class extends HTMLElement {
+      connectedCallback() {
+        const type = this.getAttribute('type') || 'success';
+        this.innerHTML = `
+          <div class="toast">
+            <div class="toast-header">
+              <strong>${this.querySelector('[slot=header]')?.textContent || 'Notification'}</strong>
+              <button class="close" aria-label="Close" type="button">×</button>
+            </div>
+            <div class="toast-body"></div>
+          </div>
+        `;
+        const body = this.querySelector('.toast-body');
+        body.appendChild(this.querySelector('p'));
+        this.querySelector('.close').addEventListener('click', () => this.hide());
+        this.hidden = true;
+      }
+      show() { this.hidden = false; }
+      hide() { this.hidden = true; }
+    });
+
+    customElements.define('my-button', class extends HTMLElement {
+      connectedCallback() {
+        this.setAttribute('role', 'button');
+        this.setAttribute('tabindex', '0');
+        this.style.cssText = 'padding:8px 16px;';
+      }
+    });
+  </script>
+</body>
+</html>

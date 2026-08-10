@@ -5,13 +5,9 @@
 
 ## Destination
 
-POC'nin **konusu henüz netleşmedi** — destination'ın kendisi bir karar biletidir.
-Yolun sonu: POC'nin konusu ve kapsamı netleşmiş, konuya giden tüm kararlar çözülmüş ve
-POC'yi hayata geçirecek ekibe/dev'e net bir "ne yapılacağı" teslim edilmiş olması.
+POC konusu netleşti: **Baklava'yı agent'lar için kullanılabilir kılan bir araç katmanı + before/after benchmark** — bkz. [POC Konusunu Netleştir](./tickets/01-poc-konusunu-netlestir.md).
 
-Bu haritanın **ilk hedefi**: kullanıcının istediği gibi — *POC başlamadan önce projenin %100
-anlaşıldığına dair kapsamlı bir dokümantasyon* (tüm bileşenler + her işlem) üretmek ve bu
-dokümantasyonu POC'ye giriş context'i olarak kullanmak.
+Yolun sonu: CLI + geliştirilmiş MCP ile bileşenlerin agent'lar tarafından doğru (halüsinasyonsuz) kullanılabilmesi ve bunun **ölçülebilir before/after verisiyle** kanıtlanması.
 
 ## Notes
 
@@ -26,11 +22,12 @@ dokümantasyonu POC'ye giriş context'i olarak kullanmak.
 
 <!-- kapanan her bilet için bir satır: kararın özü + bağlantı -->
 - [Proje Dokümantasyonunu Oluştur](./tickets/02-proje-dokumantasyonunu-olustur.md) — Kapsamlı proje anlama dokümantasyonu `poc/PROJECT-UNDERSTANDING.md` (+ `poc/COMPONENT-REFERENCE.md` 43 bileşen referansı) olarak üretildi; POC giriş context'i olarak kullanılacak.
+- [POC Konusunu Netleştir](./tickets/01-poc-konusunu-netlestir.md) — POC konusu netleşti: **Astryx tarzı agent-friendly tooling (CLI + geliştirilmiş MCP) + before/after benchmark**. Uygulama `poc/agent-tooling/` altında (CLI, bench, mcp, `AGENTS-TOOLING.md`).
 
 ## Not yet specified
 
-- **POC'nin konusu** — kullanıcıyla netleştirilecek (bilet: "POC Konusunu Netleştir").
-- Dokümantasyon tamamlandıktan sonra hangi bileşen/iş akışının POC'ye konu olacağı.
+- Dokümantasyon tamamlandıktan sonra hangi bileşen/iş akışının POC'ye konu olacağı — (artık `poc/agent-tooling` POC'si bu kapsamı doldurdu).
+- (ileri) Benchmark'ın CI/nightly cron ile çalıştırılması ve yeni model armatürlerinin eklenmesi.
 
 ## Out of scope
 

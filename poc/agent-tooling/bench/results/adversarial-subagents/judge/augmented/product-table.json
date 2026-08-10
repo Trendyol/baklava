@@ -1,0 +1,13 @@
+{
+  "id": "product-table",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 97,
+    "accessibility": 85,
+    "efficiency": 86,
+    "codeQuality": 90,
+    "maintainability": 90,
+    "overall": 90
+  },
+  "verdict": "Uses only real Baklava bl-* components with valid attributes (bl-table/header/sticky/row/header-cell/cell/body, bl-button variant/kind/size, bl-badge size, bl-pagination current-page/total-items/items-per-page) verified against the component API; no hallucinated tags. Minor polish items: generic Delete/Edit buttons lack per-product accessible names, and inter-button spacing uses an inline span hack."
+}

@@ -1,0 +1,50 @@
+{
+  "id": "notification-toast",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "feedback",
+  "complexity": "simple",
+  "prompt": "After saving, pop a Bootstrap-style toast like `toast` with a `toast-header` success label and a close button so it can be dismissed.",
+  "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Save confirmation toast — Baklava</title>\n    <!-- Baklava Web Components design system -->\n    <script type=\"module\">\n      import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.esm.js';\n      defineCustomElements();\n    </script>\n    <style>\n      body { font-family: system-ui, sans-serif; padding: 2rem; }\n      .toolbar { display: flex; gap: 0.5rem; align-items: center; }\n      .hidden { display: none; }\n    </style>\n  </head>\n  <body>\n    <!-- Trigger: saving the document pops the confirmation toast -->\n    <div class=\"toolbar\">\n      <bl-button id=\"save-btn\" variant=\"primary\" type=\"submit\">Save changes</bl-button>\n    </div>\n\n    <!-- Toast container: a saved-confirmation toast, dismissible via its close button -->\n    <bl-notification id=\"toast\" duration=\"7\">\n      <bl-notification-card variant=\"success\" caption=\"Saved\" icon>\n        Your changes were saved successfully.\n        <bl-button slot=\"primary-action\" kind=\"success\" @bl-click=\"this.closest('bl-notification-card').closed = true\">\n          Undo\n        </bl-button>\n      </bl-notification-card>\n    </bl-notification>\n\n    <script>\n      const saveBtn = document.getElementById('save-btn');\n      const toast = document.getElementById('toast');\n      // Position the toast fixed to the bottom-right corner, as a toast does.\n      if (toast) toast.style.position = 'fixed';\n      if (toast) toast.style.bottom = '1rem';\n      if (toast) toast.style.right = '1rem';\n      if (toast) toast.style.zIndex = '999';\n      saveBtn.addEventListener('bl-click', () => {\n        if (toast) {\n          toast.classList.remove('hidden');\n          // Ensure the card shows once more (declarative card renders on first connect).\n          const card = toast.querySelector('bl-notification-card');\n          if (card) card.closed = false;\n        }\n      });\n    </script>\n  </body>\n</html>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 89,
+    "componentsUsed": [
+      "bl-button",
+      "bl-notification",
+      "bl-notification-card"
+    ],
+    "componentsExpected": [
+      "bl-notification",
+      "bl-notification-card",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-button> attr \"true\" not part of API",
+        "codeSnippet": "true"
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 1 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [
+      "Unknown attr true on bl-button"
+    ],
+    "scores": {
+      "correctness": 96,
+      "accessibility": 79,
+      "efficiency": 85,
+      "codeQuality": 84,
+      "maintainability": 92,
+      "overall": 89
+    }
+  }
+}

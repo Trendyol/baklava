@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "system": "Baklava",
+    "protocol": "one-shot",
+    "persona": "naive",
+    "note": "Prompts describe user experience, not components. expectedComponents are the correct real Baklava bl-* tags."
+  },
+  "prompts": [
+    {
+      "id": "login-form",
+      "category": "forms",
+      "complexity": "moderate",
+      "prompt": "Build a login page. There should be a field for the email address, a field for the password that hides what is typed, and a prominent button at the end to submit the whole thing when the user presses Enter.",
+      "expectedComponents": ["bl-input", "bl-button"]
+    },
+    {
+      "id": "settings-toggles",
+      "category": "forms",
+      "complexity": "moderate",
+      "prompt": "Build a settings screen with a list of options the user can turn on and off, plus a dropdown to pick a language and a small hint text explaining each option.",
+      "expectedComponents": ["bl-switch", "bl-select", "bl-select-option"]
+    },
+    {
+      "id": "product-table",
+      "category": "data-view",
+      "complexity": "complex",
+      "prompt": "Show a catalog of products in a grid with column headers, rows that have an action button per row, and controls at the bottom to jump between pages of results. Add a small badge on some rows to mark a product as popular.",
+      "expectedComponents": ["bl-table", "bl-table-header", "bl-table-body", "bl-table-row", "bl-table-cell", "bl-pagination", "bl-button", "bl-badge"]
+    },
+    {
+      "id": "destructive-confirm",
+      "category": "overlays",
+      "complexity": "complex",
+      "prompt": "When the user tries to delete something, show a popup in the middle of the page that blocks the background and asks them to confirm, with a clearly dangerous button to confirm deletion and a safe one to cancel.",
+      "expectedComponents": ["bl-dialog", "bl-button"]
+    },
+    {
+      "id": "notification-toast",
+      "category": "feedback",
+      "complexity": "simple",
+      "prompt": "After saving, briefly show a small message box in the corner of the screen letting the user know it worked, with a way to dismiss it.",
+      "expectedComponents": ["bl-notification", "bl-notification-card", "bl-button"]
+    },
+    {
+      "id": "accordion-faq",
+      "category": "content",
+      "complexity": "moderate",
+      "prompt": "Build an FAQ section where the user clicks a question and it expands to reveal the answer below it. Several questions should be grouped together.",
+      "expectedComponents": ["bl-accordion", "bl-accordion-group"]
+    },
+    {
+      "id": "checkout-steps",
+      "category": "content",
+      "complexity": "moderate",
+      "prompt": "Build a multi-step checkout indicator at the top showing the current step: cart, shipping, then payment. Show a badge over a cart icon to signal the cart has two items.",
+      "expectedComponents": ["bl-stepper", "bl-stepper-item", "bl-badge"]
+    },
+    {
+      "id": "filter-tabs",
+      "category": "navigation",
+      "complexity": "moderate",
+      "prompt": "Build a tabbed interface to switch between different views of the same page, with a couple of tabs and their content panels. Add a tooltip on a small icon button explaining it.",
+      "expectedComponents": ["bl-tab-group", "bl-tab", "bl-tab-panel", "bl-icon", "bl-tooltip"]
+    }
+  ]
+}

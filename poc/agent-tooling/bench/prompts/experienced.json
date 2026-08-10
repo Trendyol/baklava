@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "system": "Baklava",
+    "protocol": "one-shot",
+    "persona": "experienced",
+    "note": "Prompts reference specific Baklava components and props by name, as an experienced Baklava developer would. expectedComponents are the correct real bl-* tags."
+  },
+  "prompts": [
+    {
+      "id": "login-form",
+      "category": "forms",
+      "complexity": "moderate",
+      "prompt": "Create a login form: two bl-input fields (type=\"email\" and type=\"password\", both required with labels) inside a <form>, and a bl-button type=\"submit\" variant=\"primary\" as the submit action.",
+      "expectedComponents": ["bl-input", "bl-button"]
+    },
+    {
+      "id": "settings-toggles",
+      "category": "forms",
+      "complexity": "moderate",
+      "prompt": "Build a settings screen with bl-switch toggles for each option and a bl-select (with bl-select-option children) for the language, using the help-text attribute on each field.",
+      "expectedComponents": ["bl-switch", "bl-select", "bl-select-option"]
+    },
+    {
+      "id": "product-table",
+      "category": "data-view",
+      "complexity": "complex",
+      "prompt": "Build a product listing with bl-table and a bl-table-header / bl-table-body. Use bl-table-row and bl-table-cell, add a bl-button action per row, bl-pagination at the bottom, and a bl-badge on popular rows.",
+      "expectedComponents": ["bl-table", "bl-table-header", "bl-table-body", "bl-table-row", "bl-table-cell", "bl-pagination", "bl-button", "bl-badge"]
+    },
+    {
+      "id": "destructive-confirm",
+      "category": "overlays",
+      "complexity": "complex",
+      "prompt": "A destructive confirmation using bl-dialog (open, caption, critical) that blocks the background, with primary kind=\"danger\" and secondary bl-button actions for confirm/cancel.",
+      "expectedComponents": ["bl-dialog", "bl-button"]
+    },
+    {
+      "id": "notification-toast",
+      "category": "feedback",
+      "complexity": "simple",
+      "prompt": "Show a saved-confirmation with bl-notification containing a bl-notification-card, and a dismiss/action bl-button. The card should be dismissible.",
+      "expectedComponents": ["bl-notification", "bl-notification-card", "bl-button"]
+    },
+    {
+      "id": "accordion-faq",
+      "category": "content",
+      "complexity": "moderate",
+      "prompt": "Group several bl-accordion elements inside a bl-accordion-group for an FAQ section where each question expands its answer.",
+      "expectedComponents": ["bl-accordion", "bl-accordion-group"]
+    },
+    {
+      "id": "checkout-steps",
+      "category": "content",
+      "complexity": "moderate",
+      "prompt": "Add a bl-stepper with three bl-stepper-item steps (cart, shipping, payment) marking the current one active, plus a bl-badge over a cart icon displaying 2.",
+      "expectedComponents": ["bl-stepper", "bl-stepper-item", "bl-badge"]
+    },
+    {
+      "id": "filter-tabs",
+      "category": "navigation",
+      "complexity": "moderate",
+      "prompt": "Use bl-tab-group with bl-tab and matching bl-tab-panel for switching views, and add a bl-tooltip on a small icon bl-button.",
+      "expectedComponents": ["bl-tab-group", "bl-tab", "bl-tab-panel", "bl-tooltip"]
+    }
+  ]
+}

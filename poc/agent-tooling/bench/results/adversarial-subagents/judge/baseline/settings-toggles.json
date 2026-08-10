@@ -1,0 +1,13 @@
+{
+  "id": "settings-toggles",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 45,
+    "accessibility": 42,
+    "efficiency": 76,
+    "codeQuality": 70,
+    "maintainability": 80,
+    "overall": 52
+  },
+  "verdict": "Uses real bl-switch and bl-select elements, but the options are authored with a hallucinated <bl-option> tag (the real component is bl-select-option, confirmed via `baklava components`) so the language list will not render; the select also omits its idiomatic `label` attribute and the switches are left without an accessible name. Because of the invalid option tag and weak label wiring it scores well below the augmented arm."
+}

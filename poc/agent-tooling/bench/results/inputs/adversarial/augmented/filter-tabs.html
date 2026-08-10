@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product Dashboard — Tabs</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: #f6f7fb;
+      color: #1a1f36;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e4e7f0;
+      border-radius: 10px;
+      padding: 1.5rem;
+      max-width: 640px;
+      margin: 0 auto;
+      box-shadow: 0 2px 6px rgba(20, 30, 60, 0.04);
+    }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .toolbar h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    bl-tab-panel h3 {
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="toolbar">
+      <h2>Product Dashboard</h2>
+      <!-- Radix-style tooltip on a small icon button -->
+      <bl-tooltip placement="top">
+        <bl-button slot="tooltip-trigger" size="small" icon="info">Help</bl-button>
+        <span slot="tooltip">Switches between product views. More help is available in the docs.</span>
+      </bl-tooltip>
+    </div>
+
+    <bl-tab-group>
+      <bl-tab slot="tabs" name="overview">Overview</bl-tab>
+      <bl-tab slot="tabs" name="details">Details</bl-tab>
+      <bl-tab slot="tabs" name="settings">Settings</bl-tab>
+
+      <bl-tab-panel tab="overview">
+        <h3>Overview</h3>
+        <p>Key metrics for your product at a glance.</p>
+      </bl-tab-panel>
+
+      <bl-tab-panel tab="details">
+        <h3>Details</h3>
+        <p>Full specification and inventory details.</p>
+      </bl-tab-panel>
+
+      <bl-tab-panel tab="settings">
+        <h3>Settings</h3>
+        <p>Configure alerts and preferences.</p>
+      </bl-tab-panel>
+    </bl-tab-group>
+  </main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "id": "notification-toast",
+  "persona": "naive",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "feedback",
+  "complexity": "simple",
+  "prompt": "After saving, briefly show a small message box in the corner of the screen letting the user know it worked, with a way to dismiss it.",
+  "response": "<bl-notification>\n  <bl-notification-card variant=\"success\" caption=\"Saved\" icon>\n    Your changes were saved successfully.\n  </bl-notification-card>\n</bl-notification>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-notification",
+      "bl-notification-card"
+    ],
+    "componentsExpected": [
+      "bl-notification",
+      "bl-notification-card",
+      "bl-button"
+    ],
+    "missed": [
+      "bl-button"
+    ],
+    "escapeHatches": [],
+    "failureMode": "missing_components",
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 95,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 91
+    }
+  }
+}

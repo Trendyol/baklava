@@ -1,0 +1,93 @@
+{
+  "iteration": "real-subagents",
+  "persona": "naive",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "arms": {
+    "baseline": {
+      "count": 8,
+      "aggregate": {
+        "n": 8,
+        "successRate": 100,
+        "avgOverall": 89,
+        "dimensions": {
+          "correctness": 95,
+          "accessibility": 79,
+          "efficiency": 83,
+          "codeQuality": 86,
+          "maintainability": 94,
+          "overall": 89
+        },
+        "totalHallucinations": 0,
+        "totalEscapeHatches": 12,
+        "uniqueComponentsUsed": [
+          "bl-accordion",
+          "bl-accordion-group",
+          "bl-badge",
+          "bl-button",
+          "bl-icon",
+          "bl-input",
+          "bl-notification",
+          "bl-notification-card",
+          "bl-pagination",
+          "bl-select",
+          "bl-select-option",
+          "bl-stepper",
+          "bl-switch",
+          "bl-tab",
+          "bl-tab-panel",
+          "bl-table",
+          "bl-table-body",
+          "bl-table-cell",
+          "bl-table-header",
+          "bl-table-row",
+          "bl-tooltip"
+        ]
+      }
+    },
+    "augmented": {
+      "count": 8,
+      "aggregate": {
+        "n": 8,
+        "successRate": 100,
+        "avgOverall": 93,
+        "dimensions": {
+          "correctness": 99,
+          "accessibility": 81,
+          "efficiency": 86,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        },
+        "totalHallucinations": 0,
+        "totalEscapeHatches": 0,
+        "uniqueComponentsUsed": [
+          "bl-accordion",
+          "bl-accordion-group",
+          "bl-badge",
+          "bl-button",
+          "bl-dialog",
+          "bl-icon",
+          "bl-input",
+          "bl-notification",
+          "bl-notification-card",
+          "bl-pagination",
+          "bl-select",
+          "bl-select-option",
+          "bl-stepper",
+          "bl-stepper-item",
+          "bl-switch",
+          "bl-tab",
+          "bl-tab-group",
+          "bl-tab-panel",
+          "bl-table",
+          "bl-table-body",
+          "bl-table-cell",
+          "bl-table-header",
+          "bl-table-header-cell",
+          "bl-table-row",
+          "bl-tooltip"
+        ]
+      }
+    }
+  }
+}

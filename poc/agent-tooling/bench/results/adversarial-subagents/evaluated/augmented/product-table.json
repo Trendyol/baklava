@@ -1,0 +1,59 @@
+{
+  "id": "product-table",
+  "persona": "adversarial",
+  "model": "mlplatform/deepseek-v4-flash-0731",
+  "category": "data-view",
+  "complexity": "complex",
+  "prompt": "Show my products in a grid like a shadcn DataTable with columns and row-action buttons, Tailwind `badge` styling to mark popular rows, and pagination controls at the bottom.",
+  "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Product Catalog</title>\n  <style>\n    body { margin: 0; font-family: system-ui, sans-serif; background: #fafafa; color: #1d1d1d; }\n    .page { max-width: 960px; margin: 0 auto; padding: 32px 24px; }\n    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }\n    .page-title { margin: 0; font-size: 22px; font-weight: 600; }\n    .table-wrap { background: #fff; border: 1px solid #e6e6e6; border-radius: 8px; overflow: hidden; }\n    .pagination-wrap { background: #fff; border: 1px solid #e6e6e6; border-top: 0; border-radius: 0 0 8px 8px; padding: 12px 16px; }\n  </style>\n</head>\n<body>\n  <main class=\"page\">\n    <div class=\"page-header\">\n      <h1 class=\"page-title\">Product Catalog</h1>\n      <bl-button variant=\"primary\">Add Product</bl-button>\n    </div>\n\n    <div class=\"table-wrap\">\n      <bl-table>\n        <bl-table-header sticky>\n          <bl-table-row>\n            <bl-table-header-cell>Product</bl-table-header-cell>\n            <bl-table-header-cell>Category</bl-table-header-cell>\n            <bl-table-header-cell>Price</bl-table-header-cell>\n            <bl-table-header-cell>Status</bl-table-header-cell>\n            <bl-table-header-cell>Actions</bl-table-header-cell>\n          </bl-table-row>\n        </bl-table-header>\n        <bl-table-body>\n          <bl-table-row>\n            <bl-table-cell>Wireless Headphones</bl-table-cell>\n            <bl-table-cell>Audio</bl-table-cell>\n            <bl-table-cell>$89.00</bl-table-cell>\n            <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n          <bl-table-row>\n            <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n            <bl-table-cell>Accessories</bl-table-cell>\n            <bl-table-cell>$129.00</bl-table-cell>\n            <bl-table-cell><bl-badge size=\"small\">Popular</bl-badge></bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n          <bl-table-row>\n            <bl-table-cell>USB-C Hub</bl-table-cell>\n            <bl-table-cell>Accessories</bl-table-cell>\n            <bl-table-cell>$49.00</bl-table-cell>\n            <bl-table-cell>—</bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n          <bl-table-row>\n            <bl-table-cell>4K Monitor 27\"</bl-table-cell>\n            <bl-table-cell>Displays</bl-table-cell>\n            <bl-table-cell>$349.00</bl-table-cell>\n            <bl-table-cell>—</bl-table-cell>\n            <bl-table-cell>\n              <bl-button variant=\"secondary\" size=\"small\">Edit</bl-button>\n              <span style=\"display:inline-block;width:8px;\"></span>\n              <bl-button kind=\"danger\" size=\"small\">Delete</bl-button>\n            </bl-table-cell>\n          </bl-table-row>\n        </bl-table-body>\n      </bl-table>\n    </div>\n\n    <div class=\"pagination-wrap\">\n      <bl-pagination current-page=\"1\" total-items=\"24\" items-per-page=\"10\"></bl-pagination>\n    </div>\n  </main>\n</body>\n</html>\n",
+  "evaluation": {
+    "success": true,
+    "overall": 86,
+    "componentsUsed": [
+      "bl-button",
+      "bl-table",
+      "bl-table-header",
+      "bl-table-row",
+      "bl-table-header-cell",
+      "bl-table-body",
+      "bl-table-cell",
+      "bl-badge",
+      "bl-pagination"
+    ],
+    "componentsExpected": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-body",
+      "bl-table-row",
+      "bl-table-cell",
+      "bl-pagination",
+      "bl-button",
+      "bl-badge"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "inline_style",
+        "severity": "acceptable",
+        "detail": "used 4 inline style=",
+        "codeSnippet": "style="
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 3 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 96,
+      "accessibility": 97,
+      "efficiency": 35,
+      "codeQuality": 84,
+      "maintainability": 92,
+      "overall": 86
+    }
+  }
+}

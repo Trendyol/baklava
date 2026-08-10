@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign in</title>
+    <link rel="stylesheet" href="https://cdn.baklava.design/1.x/baklava.css" />
+    <style>
+      /* MUI-like centered card layout (spacing implemented in plain CSS, no Tailwind). */
+      .page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fafafa;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      }
+      .card {
+        width: 360px;
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 32px 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .card h1 {
+        margin: 0 0 24px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+      .field {
+        margin-bottom: 20px; /* gap-4 equivalence */
+      }
+      .actions {
+        margin-top: 28px;
+      }
+      .error {
+        margin-top: 12px;
+        color: #b00020;
+        font-size: 14px;
+        min-height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="card" aria-labelledby="login-title">
+        <h1 id="login-title">Sign in</h1>
+        <form id="login-form" novalidate>
+          <div class="field">
+            <bl-input
+              name="email"
+              type="email"
+              label="Email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            ></bl-input>
+          </div>
+          <div class="field">
+            <bl-input
+              name="password"
+              type="password"
+              label="Password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              minlength="8"
+              required
+            ></bl-input>
+          </div>
+          <div class="actions">
+            <bl-button type="submit" variant="primary" label="Sign in"></bl-button>
+          </div>
+        </form>
+        <p class="error" id="form-error" role="alert" hidden></p>
+      </section>
+    </main>
+
+    <script type="module">
+      import '@baklava/components/baklava.js';
+
+      const form = document.getElementById('login-form');
+      const email = form.querySelector('bl-input[name="email"]');
+      const password = form.querySelector('bl-input[name="password"]');
+      const error = document.getElementById('form-error');
+
+      // Prevent the page from refreshing and surface validation feedback.
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const valid = email.reportValidity() && password.reportValidity();
+        if (!valid) {
+          error.textContent = 'Please check your email and password.';
+          error.hidden = false;
+          return;
+        }
+        error.hidden = true;
+        // Demo only: log, don't send credentials anywhere.
+        console.log('Sign-in submitted for', email.value);
+      });
+    </script>
+  </body>
+</html>

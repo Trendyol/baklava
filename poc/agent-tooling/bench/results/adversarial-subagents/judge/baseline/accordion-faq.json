@@ -1,0 +1,13 @@
+{
+  "id": "accordion-faq",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 25,
+    "accessibility": 40,
+    "efficiency": 55,
+    "codeQuality": 50,
+    "maintainability": 45,
+    "overall": 40
+  },
+  "verdict": "Uses the real bl-accordion tag name but otherwise misuses the API: bl-accordion-item is a hallucinated tag that does not exist in Baklava, the summary slot does not exist (the real title slot is caption), and the multiple accordions are not wrapped in bl-accordion-group. As authored the accordions would not render as functional Baklava components."
+}
