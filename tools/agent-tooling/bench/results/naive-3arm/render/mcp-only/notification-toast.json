@@ -1,0 +1,15 @@
+{
+  "id": "notification-toast",
+  "arm": "mcp-only",
+  "file": "naive/mcp-only/notification-toast.html.html",
+  "url": "http://127.0.0.1:49760/.agent-render-tmp/naive-mcp-only-notification-toast.html",
+  "loaded": true,
+  "exceptions": [],
+  "consoleErrors": [],
+  "blElementCount": 4,
+  "upgradedCount": 4,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": true
+}

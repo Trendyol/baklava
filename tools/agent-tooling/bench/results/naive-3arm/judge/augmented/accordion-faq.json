@@ -1,0 +1,13 @@
+{
+  "id": "accordion-faq",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 98,
+    "accessibility": 95,
+    "efficiency": 92,
+    "codeQuality": 95,
+    "maintainability": 95,
+    "overall": 95
+  },
+  "verdict": "Correct, hallucination-free implementation: wraps four real bl-accordion elements (caption attribute verified real, string type) in a real bl-accordion-group default slot, exactly matching the requested grouped click-to-expand FAQ. No invented attributes, slots, or events; bl-accordion natively toggles open state (bl-toggle) and is built on HTMLDetailsElement so it is accessible out of the box. Only note: it does not set multiple on the group, but the prompt did not require multiple-open behavior."
+}

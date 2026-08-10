@@ -1,0 +1,59 @@
+<div class="checkout-header">
+  <div class="cart-wrap">
+    <button type="button" class="cart-button" aria-label="Open shopping cart">
+      <bl-icon name="shopping_cart"></bl-icon>
+      <bl-badge size="small" class="cart-count">2</bl-badge>
+    </button>
+  </div>
+
+  <bl-stepper type="number" direction="horizontal" usage="non-clickable" style="max-width: 520px; margin-top: 24px;">
+    <bl-stepper-item id="cart" title="Cart" description="Your items" variant="active"></bl-stepper-item>
+    <bl-stepper-item id="shipping" title="Shipping" description="Delivery address" variant="default"></bl-stepper-item>
+    <bl-stepper-item id="payment" title="Payment" description="Payment method" variant="default"></bl-stepper-item>
+  </bl-stepper>
+</div>
+
+<style>
+  .checkout-header {
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 16px;
+  }
+  .cart-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+  .cart-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--bl-color-primary, #0053ff);
+  }
+  .cart-count {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    transform: translate(40%, -20%);
+  }
+</style>
+
+<script>
+  // bl-stepper-change is a CustomEvent<string> fired when the active step changes.
+  document.addEventListener('bl-stepper-change', (event) => {
+    const detail = event.detail;
+    console.log('Current checkout step changed to:', detail);
+  });
+  document.querySelector('.cart-button')?.addEventListener('click', () => {
+    console.log('Open shopping cart (2 items)');
+  });
+</script>

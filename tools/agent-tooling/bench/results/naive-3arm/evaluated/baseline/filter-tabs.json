@@ -1,0 +1,302 @@
+{
+  "id": "filter-tabs",
+  "persona": "naive",
+  "model": "unknown",
+  "category": "navigation",
+  "complexity": "moderate",
+  "prompt": "Build a tabbed interface to switch between different views of the same page, with a couple of tabs and their content panels. Add a tooltip on a small icon button explaining it.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 85,
+    "componentsUsed": [
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-tooltip",
+      "bl-icon"
+    ],
+    "componentsExpected": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-icon",
+      "bl-tooltip"
+    ],
+    "missed": [
+      "bl-tab-group"
+    ],
+    "escapeHatches": [
+      {
+        "type": "nesting",
+        "severity": "acceptable",
+        "detail": "<bl-tab> not nested inside bl-tab-group",
+        "codeSnippet": "<bl-tab> not nested inside bl-tab-group"
+      },
+      {
+        "type": "nesting",
+        "severity": "acceptable",
+        "detail": "<bl-tab-panel> not nested inside bl-tab-group",
+        "codeSnippet": "<bl-tab-panel> not nested inside bl-tab-group"
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 1 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": "missing_components",
+    "confusionSignals": [
+      "<bl-tab> not nested inside bl-tab-group",
+      "<bl-tab-panel> not nested inside bl-tab-group"
+    ],
+    "scores": {
+      "correctness": 89,
+      "accessibility": 82,
+      "efficiency": 81,
+      "codeQuality": 81,
+      "maintainability": 88,
+      "overall": 85
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<div class=\"content-tabs\">\n  <bl-tab caption=\"Overview\" selected></bl-tab>\n  <bl-tab caption=\"Details\"></bl-tab>\n  <bl-tab caption=\"Activity\"></bl-tab>\n  <bl-tab-panel>\n    <p>Overview content goes here.</p>\n  </bl-tab-panel>\n  <bl-tab-panel>\n    <p>Details content goes here.</p>\n  </bl-tab-panel>\n  <bl-tab-panel>\n    <p>Activity content goes here.</p>\n  </bl-tab-panel>\n  <bl-tooltip>\n    <bl-icon name=\"info\"></bl-icon>\n    <span slot=\"tooltip\">Shows additional information about this page.</span>\n  </bl-tooltip>\n</div>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 85,
+        "missed": [
+          "bl-tab-group"
+        ],
+        "escapeHatches": [
+          {
+            "type": "nesting",
+            "severity": "acceptable",
+            "detail": "<bl-tab> not nested inside bl-tab-group",
+            "codeSnippet": "<bl-tab> not nested inside bl-tab-group"
+          },
+          {
+            "type": "nesting",
+            "severity": "acceptable",
+            "detail": "<bl-tab-panel> not nested inside bl-tab-group",
+            "codeSnippet": "<bl-tab-panel> not nested inside bl-tab-group"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 89,
+          "accessibility": 82,
+          "efficiency": 81,
+          "codeQuality": 81,
+          "maintainability": 88,
+          "overall": 85
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Product Views</title>\n  <style>\n    body {\n      font-family: system-ui, sans-serif;\n      margin: 2rem;\n      color: #1c1c1c;\n    }\n    .page-header {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      margin-bottom: 1.5rem;\n    }\n    .page-header h1 {\n      font-size: 1.4rem;\n      margin: 0;\n    }\n    .panel p {\n      margin: 0.5rem 0;\n      line-height: 1.6;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"page-header\">\n    <h1>Catalog</h1>\n    <!-- small icon button with a tooltip explaining what it does -->\n    <bl-button icon=\"info\" aria-label=\"About this view\"></bl-button>\n    <bl-tooltip>\n      <span slot=\"content\">Shows information about the current view.</span>\n    </bl-tooltip>\n  </div>\n\n  <bl-tab-group>\n    <bl-tab id=\"tab-overview\" panel=\"panel-overview\" active>Overview</bl-tab>\n    <bl-tab id=\"tab-grid\" panel=\"panel-grid\">Grid</bl-tab>\n    <bl-tab id=\"tab-list\" panel=\"panel-list\">List</bl-tab>\n\n    <bl-tab-panel name=\"panel-overview\">\n      <div class=\"panel\">\n        <p>Here is a quick overview of your products, sales, and recent activity.</p>\n        <p>Overview panels summarize the most important numbers for you.</p>\n      </div>\n    </bl-tab-panel>\n    <bl-tab-panel name=\"panel-grid\">\n      <div class=\"panel\">\n        <p>Grid view shows products laid out in a responsive grid.</p>\n        <p>Each card displays the product image, title, and price.</p>\n      </div>\n    </bl-tab-panel>\n    <bl-tab-panel name=\"panel-list\">\n      <div class=\"panel\">\n        <p>List view shows products as rows with columns for name, stock, and price.</p>\n        <p>You can sort and filter from this view.</p>\n      </div>\n    </bl-tab-panel>\n  </bl-tab-group>\n\n  <script type=\"module\">\n    const tabGroup = document.querySelector('bl-tab-group');\n    const tabs = Array.from(tabGroup.querySelectorAll('bl-tab'));\n    tabs.forEach((tab) => {\n      tab.addEventListener('click', () => {\n        tabs.forEach((t) => t.removeAttribute('active'));\n        tab.setAttribute('active', '');\n      });\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 78,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"panel\" not part of API",
+            "codeSnippet": "panel"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"active\" not part of API",
+            "codeSnippet": "active"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"panel\" not part of API",
+            "codeSnippet": "panel"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"panel\" not part of API",
+            "codeSnippet": "panel"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab-panel> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab-panel> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab-panel> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 4 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 79,
+          "accessibility": 95,
+          "efficiency": 68,
+          "codeQuality": 66,
+          "maintainability": 68,
+          "overall": 78
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Product Views</title>\n  <style>\n    body {\n      font-family: system-ui, sans-serif;\n      margin: 2rem auto;\n      max-width: 720px;\n      padding: 0 1rem;\n    }\n    .toolbar {\n      display: flex;\n      align-items: center;\n      gap: 0.75rem;\n      margin-top: 1rem;\n    }\n    .spacer { flex: 1; }\n  </style>\n</head>\n<body>\n  <h1>Product Views</h1>\n\n  <bl-tab-group>\n    <bl-tab slot=\"nav\" panel=\"overview\">Overview</bl-tab>\n    <bl-tab slot=\"nav\" panel=\"details\">Details</bl-tab>\n    <bl-tab slot=\"nav\" panel=\"reviews\">Reviews</bl-tab>\n\n    <bl-tab-panel name=\"overview\">\n      <h2>Overview</h2>\n      <p>High-level summary of the product and its key specs.</p>\n    </bl-tab-panel>\n\n    <bl-tab-panel name=\"details\">\n      <h2>Details</h2>\n      <p>Full technical specification of the product.</p>\n    </bl-tab-panel>\n\n    <bl-tab-panel name=\"reviews\">\n      <h2>Reviews</h2>\n      <p>Customer reviews for the product.</p>\n    </bl-tab-panel>\n  </bl-tab-group>\n\n  <div class=\"toolbar\">\n    <span class=\"spacer\"></span>\n    <bl-button\n      id=\"helpBtn\"\n      icon=\"question\"\n      aria-label=\"Help\"\n      variant=\"primary\"\n      kind=\"default\"\n    ></bl-button>\n    <bl-tooltip for=\"helpBtn\">Need a hand? Open the help guide.</bl-tooltip>\n  </div>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 79,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"panel\" not part of API",
+            "codeSnippet": "panel"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"panel\" not part of API",
+            "codeSnippet": "panel"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab> attr \"panel\" not part of API",
+            "codeSnippet": "panel"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab-panel> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab-panel> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tab-panel> attr \"name\" not part of API",
+            "codeSnippet": "name"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-tooltip> attr \"for\" not part of API",
+            "codeSnippet": "for"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 79,
+          "accessibility": 95,
+          "efficiency": 77,
+          "codeQuality": 66,
+          "maintainability": 68,
+          "overall": 79
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 82,
+        "std": 4.7,
+        "min": 79,
+        "max": 89,
+        "sem": 2.7
+      },
+      "accessibility": {
+        "mean": 91,
+        "std": 6.1,
+        "min": 82,
+        "max": 95,
+        "sem": 3.5
+      },
+      "efficiency": {
+        "mean": 75,
+        "std": 5.4,
+        "min": 68,
+        "max": 81,
+        "sem": 3.1
+      },
+      "codeQuality": {
+        "mean": 71,
+        "std": 7.1,
+        "min": 66,
+        "max": 81,
+        "sem": 4.1
+      },
+      "maintainability": {
+        "mean": 75,
+        "std": 9.4,
+        "min": 68,
+        "max": 88,
+        "sem": 5.4
+      },
+      "overall": {
+        "mean": 81,
+        "std": 3.1,
+        "min": 78,
+        "max": 85,
+        "sem": 1.8
+      }
+    },
+    "escapeHatches": {
+      "mean": 6,
+      "std": 2.4,
+      "min": 3,
+      "max": 8,
+      "sem": 1.4
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

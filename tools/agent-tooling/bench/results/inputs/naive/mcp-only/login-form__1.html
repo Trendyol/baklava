@@ -1,0 +1,75 @@
+<form id="login-form" class="login-form" novalidate>
+  <div class="login-card">
+    <h2 class="login-title">Sign in</h2>
+    <p class="login-subtitle">Enter your email and password to continue.</p>
+
+    <bl-input
+      id="email"
+      name="email"
+      label="Email address"
+      type="email"
+      placeholder="you@example.com"
+      autocomplete="email"
+      required
+      icon="email"
+    ></bl-input>
+
+    <bl-input
+      id="password"
+      name="password"
+      label="Password"
+      type="password"
+      placeholder="••••••••"
+      autocomplete="current-password"
+      required
+      icon="lock"
+    ></bl-input>
+
+    <bl-button id="submit-btn" type="submit" size="large" class="login-submit">
+      Sign in
+    </bl-button>
+  </div>
+</form>
+
+<script>
+  const email = document.getElementById('email');
+  const password = document.getElementById('password');
+
+  function validateField(cmp) {
+    const valid = cmp.reportValidity ? cmp.reportValidity() : cmp.checkValidity();
+    if (!valid) {
+      cmp.toggleAttribute('invalid', true);
+    } else {
+      cmp.removeAttribute('invalid');
+    }
+    return valid;
+  }
+
+  function submitLogin(ev) {
+    ev.preventDefault();
+    const okEmail = validateField(email);
+    const okPass = validateField(password);
+    if (!okEmail || !okPass) return;
+    // Submit the credentials (demo: log resolved values).
+    const payload = {
+      email: email.value,
+      password: password.value,
+    };
+    console.log('login submit', payload);
+  }
+
+  document.getElementById('login-form').addEventListener('submit', submitLogin);
+  document.getElementById('submit-btn').addEventListener('bl-click', () => {
+    document.getElementById('login-form').requestSubmit();
+  });
+  email.addEventListener('bl-input', () => email.removeAttribute('invalid'));
+  password.addEventListener('bl-input', () => password.removeAttribute('invalid'));
+</script>
+
+<style>
+  .login-form { display: flex; justify-content: center; padding: 48px 16px; }
+  .login-card { width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 20px; }
+  .login-title { margin: 0; font-size: 24px; }
+  .login-subtitle { margin: 0 0 8px; color: #666; }
+  .login-submit { width: 100%; }
+</style>

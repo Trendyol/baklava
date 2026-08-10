@@ -1,0 +1,13 @@
+{
+  "id": "checkout-steps",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 35,
+    "accessibility": 52,
+    "efficiency": 55,
+    "codeQuality": 50,
+    "maintainability": 50,
+    "overall": 50
+  },
+  "verdict": "Uses real bl-stepper, bl-icon and bl-badge tags, but misuses bl-stepper: the 'current' and 'steps' attributes are hallucinated (real stepper attributes are type/direction/usage, and state is tracked by activeStep / bl-stepper-change event), and it places plain <span> elements in the default slot instead of real <bl-stepper-item> children (each with title/variant/icon), so the stepper would render empty/incorrect states. The cart badge (bl-icon name=cart + bl-badge>2) is correct and real. Outcome: the step indicator would not render its three real steps."
+}

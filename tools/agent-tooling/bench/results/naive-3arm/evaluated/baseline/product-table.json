@@ -1,0 +1,291 @@
+{
+  "id": "product-table",
+  "persona": "naive",
+  "model": "unknown",
+  "category": "data-view",
+  "complexity": "complex",
+  "prompt": "Show a catalog of products in a grid with column headers, rows that have an action button per row, and controls at the bottom to jump between pages of results. Add a small badge on some rows to mark a product as popular.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 84,
+    "componentsUsed": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-row",
+      "bl-table-cell",
+      "bl-table-body",
+      "bl-badge",
+      "bl-button",
+      "bl-pagination"
+    ],
+    "componentsExpected": [
+      "bl-table",
+      "bl-table-header",
+      "bl-table-body",
+      "bl-table-row",
+      "bl-table-cell",
+      "bl-pagination",
+      "bl-button",
+      "bl-badge"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-table> attr \"columns\" not part of API",
+        "codeSnippet": "columns"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-badge> attr \"variant\" not part of API",
+        "codeSnippet": "variant"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-pagination> attr \"total\" not part of API",
+        "codeSnippet": "total"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-pagination> attr \"size\" not part of API",
+        "codeSnippet": "size"
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 1 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [
+      "Unknown attr columns on bl-table",
+      "Unknown attr variant on bl-badge",
+      "Unknown attr total on bl-pagination",
+      "Unknown attr size on bl-pagination"
+    ],
+    "scores": {
+      "correctness": 90,
+      "accessibility": 94,
+      "efficiency": 65,
+      "codeQuality": 75,
+      "maintainability": 80,
+      "overall": 84
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<div class=\"catalog\">\n  <bl-table columns=\"name,price\" sortable>\n    <bl-table-header>\n      <bl-table-row>\n        <bl-table-cell>Product</bl-table-cell>\n        <bl-table-cell>Price</bl-table-cell>\n        <bl-table-cell>Status</bl-table-cell>\n        <bl-table-cell>Actions</bl-table-cell>\n      </bl-table-row>\n    </bl-table-header>\n    <bl-table-body>\n      <bl-table-row>\n        <bl-table-cell>Wireless Mouse</bl-table-cell>\n        <bl-table-cell>$24</bl-table-cell>\n        <bl-table-cell><bl-badge variant=\"warning\">Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n        <bl-table-cell>$89</bl-table-cell>\n        <bl-table-cell><bl-badge>Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>USB-C Hub</bl-table-cell>\n        <bl-table-cell>$45</bl-table-cell>\n        <bl-table-cell><span>—</span></bl-table-cell>\n        <bl-table-cell><bl-button size=\"small\">View</bl-button></bl-table-cell>\n      </bl-table-row>\n    </bl-table-body>\n  </bl-table>\n  <bl-pagination current-page=\"1\" total=\"42\" size=\"10\"></bl-pagination>\n</div>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 84,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-table> attr \"columns\" not part of API",
+            "codeSnippet": "columns"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-badge> attr \"variant\" not part of API",
+            "codeSnippet": "variant"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-pagination> attr \"total\" not part of API",
+            "codeSnippet": "total"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-pagination> attr \"size\" not part of API",
+            "codeSnippet": "size"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 90,
+          "accessibility": 94,
+          "efficiency": 65,
+          "codeQuality": 75,
+          "maintainability": 80,
+          "overall": 84
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Product Catalog</title>\n</head>\n<body>\n  <h1>Product Catalog</h1>\n\n  <!-- Tried to guess Baklava's table web components. -->\n  <bl-table>\n    <bl-table-header>\n      <bl-table-row>\n        <bl-table-cell>Name</bl-table-cell>\n        <bl-table-cell>Price</bl-table-cell>\n        <bl-table-cell>Status</bl-table-cell>\n        <bl-table-cell>Action</bl-table-cell>\n      </bl-table-row>\n    </bl-table-header>\n    <bl-table-body>\n      <bl-table-row>\n        <bl-table-cell>Wireless Mouse</bl-table-cell>\n        <bl-table-cell>$29</bl-table-cell>\n        <bl-table-cell><bl-badge>Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button>Buy</bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n        <bl-table-cell>$89</bl-table-cell>\n        <bl-table-cell><bl-badge>Popular</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button>Buy</bl-button></bl-table-cell>\n      </bl-table-row>\n      <bl-table-row>\n        <bl-table-cell>27\" Monitor</bl-table-cell>\n        <bl-table-cell>$249</bl-table-cell>\n        <bl-table-cell><bl-badge>In stock</bl-badge></bl-table-cell>\n        <bl-table-cell><bl-button>Buy</bl-button></bl-table-cell>\n      </bl-table-row>\n    </bl-table-body>\n  </bl-table>\n\n  <bl-pagination total=\"3\" current=\"1\"></bl-pagination>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 90,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-pagination> attr \"total\" not part of API",
+            "codeSnippet": "total"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-pagination> attr \"current\" not part of API",
+            "codeSnippet": "current"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 94,
+          "efficiency": 68,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 90
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Product Catalog</title>\n</head>\n<body>\n  <main>\n    <h1>Product Catalog</h1>\n    <bl-table>\n      <bl-table-header>\n        <bl-table-row>\n          <bl-table-cell>Product</bl-table-cell>\n          <bl-table-cell>Category</bl-table-cell>\n          <bl-table-cell>Price</bl-table-cell>\n          <bl-table-cell>Status</bl-table-cell>\n          <bl-table-cell>Actions</bl-table-cell>\n        </bl-table-row>\n      </bl-table-header>\n      <bl-table-body>\n        <bl-table-row>\n          <bl-table-cell>Wireless Mouse</bl-table-cell>\n          <bl-table-cell>Accessories</bl-table-cell>\n          <bl-table-cell>$29.99</bl-table-cell>\n          <bl-table-cell><bl-badge variant=\"success\">In Stock</bl-badge></bl-table-cell>\n          <bl-table-cell><bl-button>Edit</bl-button></bl-table-cell>\n        </bl-table-row>\n        <bl-table-row>\n          <bl-table-cell>Mechanical Keyboard</bl-table-cell>\n          <bl-table-cell>Accessories</bl-table-cell>\n          <bl-table-cell>$89.00</bl-table-cell>\n          <bl-table-cell><bl-badge variant=\"neutral\">Low Stock</bl-badge></bl-table-cell>\n          <bl-table-cell><bl-button>Edit</bl-button></bl-table-cell>\n        </bl-table-row>\n        <bl-table-row>\n          <bl-table-cell>4K Monitor</bl-table-cell>\n          <bl-table-cell>Displays</bl-table-cell>\n          <bl-table-cell>$349.00</bl-table-cell>\n          <bl-table-cell><bl-badge variant=\"success\">Popular</bl-badge></bl-table-cell>\n          <bl-table-cell><bl-button>Edit</bl-button></bl-table-cell>\n        </bl-table-row>\n        <bl-table-row>\n          <bl-table-cell>USB-C Hub</bl-table-cell>\n          <bl-table-cell>Accessories</bl-table-cell>\n          <bl-table-cell>$45.50</bl-table-cell>\n          <bl-table-cell><bl-badge variant=\"neutral\">In Stock</bl-badge></bl-table-cell>\n          <bl-table-cell><bl-button>Edit</bl-button></bl-table-cell>\n        </bl-table-row>\n        <bl-table-row>\n          <bl-table-cell>Webcam HD</bl-table-cell>\n          <bl-table-cell>Devices</bl-table-cell>\n          <bl-table-cell>$69.99</bl-table-cell>\n          <bl-table-cell><bl-badge variant=\"success\">Popular</bl-badge></bl-table-cell>\n          <bl-table-cell><bl-button>Edit</bl-button></bl-table-cell>\n        </bl-table-row>\n      </bl-table-body>\n    </bl-table>\n\n    <bl-pagination total=\"5\" page-size=\"5\" current=\"1\"></bl-pagination>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 79,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-badge> attr \"variant\" not part of API",
+            "codeSnippet": "variant"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-badge> attr \"variant\" not part of API",
+            "codeSnippet": "variant"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-badge> attr \"variant\" not part of API",
+            "codeSnippet": "variant"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-badge> attr \"variant\" not part of API",
+            "codeSnippet": "variant"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-badge> attr \"variant\" not part of API",
+            "codeSnippet": "variant"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-pagination> attr \"total\" not part of API",
+            "codeSnippet": "total"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-pagination> attr \"page-size\" not part of API",
+            "codeSnippet": "page-size"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-pagination> attr \"current\" not part of API",
+            "codeSnippet": "current"
+          }
+        ],
+        "scores": {
+          "correctness": 84,
+          "accessibility": 94,
+          "efficiency": 68,
+          "codeQuality": 66,
+          "maintainability": 68,
+          "overall": 79
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 90,
+        "std": 4.9,
+        "min": 84,
+        "max": 96,
+        "sem": 2.8
+      },
+      "accessibility": {
+        "mean": 94,
+        "std": 0,
+        "min": 94,
+        "max": 94,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 67,
+        "std": 1.4,
+        "min": 65,
+        "max": 68,
+        "sem": 0.8
+      },
+      "codeQuality": {
+        "mean": 75,
+        "std": 7.3,
+        "min": 66,
+        "max": 84,
+        "sem": 4.2
+      },
+      "maintainability": {
+        "mean": 80,
+        "std": 9.8,
+        "min": 68,
+        "max": 92,
+        "sem": 5.7
+      },
+      "overall": {
+        "mean": 84,
+        "std": 4.5,
+        "min": 79,
+        "max": 90,
+        "sem": 2.6
+      }
+    },
+    "escapeHatches": {
+      "mean": 5,
+      "std": 2.4,
+      "min": 2,
+      "max": 8,
+      "sem": 1.4
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

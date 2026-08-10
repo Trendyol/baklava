@@ -1,0 +1,13 @@
+{
+  "id": "destructive-confirm",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 96,
+    "accessibility": 92,
+    "efficiency": 93,
+    "codeQuality": 93,
+    "maintainability": 93,
+    "overall": 93
+  },
+  "verdict": "Clean, fully API-correct implementation. Uses the real bl-dialog with real attributes (open, caption, critical) and the real primary-action/secondary-action slots; the dangerous confirm button uses the real bl-button kind=\"danger\" (valid kind: danger) and the cancel uses the real variant=\"secondary\". No hallucinated attributes, slots, events, variants, or hand-rolled native controls. The critical attribute plus real dialog backdrop/Escape/focus-trapping correctly implements the blocking destructive-confirm UX."
+}

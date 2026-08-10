@@ -1,0 +1,13 @@
+{
+  "id": "login-form",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 98,
+    "accessibility": 90,
+    "efficiency": 92,
+    "codeQuality": 95,
+    "maintainability": 95,
+    "overall": 94
+  },
+  "verdict": "Uses only real components (bl-input, bl-button) with fully real API members verified against MCP: type='email'/'password' are valid, autocomplete='email'/'current-password' are valid union values, and required/name/label are real attributes; bl-button type='submit' and variant='primary' are both real. The form correctly implements the requested email + password login with a prominent primary submit button inside a <form> so Enter submits. No hallucinated tags, attributes, slots, or events; no hand-rolled native control where a bl-* component exists."
+}

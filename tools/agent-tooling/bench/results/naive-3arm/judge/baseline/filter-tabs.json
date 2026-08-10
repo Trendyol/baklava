@@ -1,0 +1,13 @@
+{
+  "id": "filter-tabs",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 34,
+    "accessibility": 55,
+    "efficiency": 65,
+    "codeQuality": 55,
+    "maintainability": 55,
+    "overall": 49
+  },
+  "verdict": "Uses only real tags (bl-tab, bl-tab-panel, bl-tooltip, bl-icon), but the structure is broken: there is no bl-tab-group wrapper, so the tabs and panels never associate and the core 'switch between views' interaction does not function; the bl-tab-panel elements also omit the required tab attribute ('tab' string #reflects) that binds each panel to a named tab. The bl-tooltip is misused: slot='tooltip' is a hallucinated slot name (the real trigger slot is 'tooltip-trigger') and the bl-icon trigger is left in the default slot, so the icon renders as the popover content instead of the trigger and the tooltip never appears."
+}

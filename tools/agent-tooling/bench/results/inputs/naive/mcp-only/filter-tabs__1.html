@@ -1,0 +1,22 @@
+<div class="filter-tabs">
+  <bl-tab-group>
+    <bl-tab name="overview" slot="tabs" caption="Overview" selected>Overview</bl-tab>
+    <bl-tab name="details" slot="tabs" caption="Details">Details</bl-tab>
+    <bl-tab name="activity" slot="tabs" caption="Activity">Activity</bl-tab>
+
+    <bl-tab-panel tab="overview">
+      <p>Overview content: a high-level summary of the current item goes here.</p>
+    </bl-tab-panel>
+    <bl-tab-panel tab="details">
+      <p>Details content: the full specifications and metadata are shown here.</p>
+    </bl-tab-panel>
+    <bl-tab-panel tab="activity">
+      <p>Activity content: the recent activity feed for this item is listed here.</p>
+    </bl-tab-panel>
+  </bl-tab-group>
+
+  <bl-tooltip placement="top">
+    <bl-button slot="tooltip-trigger" variant="tertiary" size="small" icon="info" aria-label="More information"> </bl-button>
+    <span>Click a tab to switch views, or use the info button for help.</span>
+  </bl-tooltip>
+</div>

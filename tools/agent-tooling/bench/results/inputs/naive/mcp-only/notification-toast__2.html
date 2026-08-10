@@ -1,0 +1,41 @@
+<!-- Success notification toast with dismiss (MCP-only arm sample 2) -->
+
+<!-- Baklava styles -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.css"
+/>
+
+<div class="page">
+  <bl-button id="save-btn" variant="primary">Save</bl-button>
+</div>
+
+<!-- Toast host: renders stacked notification cards in the corner -->
+<bl-notification id="toasts" no-animation></bl-notification>
+
+<script type="module">
+  import { BaklavaIcon } from "https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.esm.js";
+
+  const toasts = document.getElementById("toasts");
+  const saveBtn = document.getElementById("save-btn");
+
+  function showSaved() {
+    toasts.addNotification({
+      caption: "Saved",
+      description: "Your changes have been saved successfully.",
+      icon: BaklavaIcon.CheckCircle,
+      variant: "success",
+      // Automatically dismisses after 5 seconds, but the close button always works
+      duration: 5
+    });
+  }
+
+  saveBtn.addEventListener("bl-click", showSaved);
+</script>
+
+<style>
+  .page {
+    padding: 24px;
+    font-family: system-ui, sans-serif;
+  }
+</style>

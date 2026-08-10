@@ -1,0 +1,23 @@
+<!-- mcp-only / checkout-steps__2 — built from MCP get_component(examples) info -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.js"></script>
+
+<div style="display:flex; align-items:center; justify-content:space-between; gap:24px; max-width:720px; margin:32px auto; font-family:var(--bl-font-family, sans-serif);">
+  <bl-stepper id="checkout-stepper" type="number" direction="horizontal" usage="clickable">
+    <bl-stepper-item title="Cart" description="Review items" variant="active"></bl-stepper-item>
+    <bl-stepper-item title="Shipping" description="Delivery address" variant="default"></bl-stepper-item>
+    <bl-stepper-item title="Payment" description="Pay securely" variant="default"></bl-stepper-item>
+  </bl-stepper>
+
+  <div style="position:relative; display:inline-flex; align-items:center; gap:6px;">
+    <span aria-label="Cart">Cart</span>
+    <bl-badge size="small">2</bl-badge>
+  </div>
+</div>
+
+<script type="module">
+  const stepper = document.getElementById('checkout-stepper');
+  stepper.addEventListener('bl-stepper-change', (e) => {
+    console.log('checkout step changed', e.detail?.activeStep, 'of', e.detail?.totalSteps);
+  });
+</script>

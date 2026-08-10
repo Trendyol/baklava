@@ -70,6 +70,31 @@ const cmp = JSON.parse(readFileSync(cmpPath, 'utf8'));
 check('real-subagents has before/after/delta', cmp.before && cmp.after && cmp.delta);
 check('after overall > before overall', cmp.after.avgOverall > cmp.before.avgOverall);
 
+// 3-arm benchmark (baseline -> mcp-only -> augmented) on the naive battery
+const threePath = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'naive-3arm', 'compare.json');
+check('committed naive-3arm compare.json exists', existsSync(threePath));
+const three = JSON.parse(readFileSync(threePath, 'utf8'));
+check('naive-3arm has all three arms', ['baseline', 'mcp-only', 'augmented'].every((a) => three.arms && three.arms[a]));
+check('naive-3arm ladder has all three steps', Array.isArray(three.ladder) && three.ladder.length === 3);
+const mono = three.arms.baseline.avgOverall <= three.arms['mcp-only'].avgOverall && three.arms['mcp-only'].avgOverall <= three.arms.augmented.avgOverall;
+check('naive-3arm overall is non-decreasing along the ladder', mono, JSON.stringify({ b: three.arms.baseline.avgOverall, m: three.arms['mcp-only'].avgOverall, a: three.arms.augmented.avgOverall }));
+check('naive-3arm escape hatches decrease along the ladder',
+  three.arms.baseline.totalEscapeHatches > three.arms['mcp-only'].totalEscapeHatches && three.arms['mcp-only'].totalEscapeHatches > three.arms.augmented.totalEscapeHatches);
+// Honest CI statement: baseline is separated (no overlap gap) from BOTH tooled
+// arms at the 95% level; the two tooled arms (mcp-only [90,92], augmented
+// [91,93]) partially overlap, so we only assert augmented mean >= mcp-only mean.
+check('naive-3arm baseline separated from both tooled arms (no CI overlap)',
+  three.arms['mcp-only'].overallCI[0] >= three.arms.baseline.overallCI[1] && three.arms.augmented.overallCI[0] >= three.arms.baseline.overallCI[1]);
+check('naive-3arm augmented mean >= mcp-only mean', three.arms.augmented.avgOverall >= three.arms['mcp-only'].avgOverall);
+check('naive-3arm per-prompt n>=3 for the mcp-only arm', (() => {
+  const probe = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'naive-3arm', 'evaluated', 'mcp-only', 'product-table.json');
+  if (!existsSync(probe)) return false;
+  const pr = JSON.parse(readFileSync(probe, 'utf8'));
+  return pr.n >= 3;
+})());
+check('naive-3arm judge data present across all arms', ['baseline', 'mcp-only', 'augmented'].every((a) =>
+  existsSync(path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'naive-3arm', 'judge', a, 'login-form.json'))));
+
 // adversarial persona run + optional LLM-judge layer
 const advPath = path.join(REPO, 'tools', 'agent-tooling', 'bench', 'results', 'adversarial-subagents', 'compare.json');
 check('committed adversarial-subagents compare.json exists', existsSync(advPath));

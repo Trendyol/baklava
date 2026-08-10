@@ -1,0 +1,13 @@
+{
+  "id": "filter-tabs",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 95,
+    "accessibility": 90,
+    "efficiency": 95,
+    "codeQuality": 93,
+    "maintainability": 93,
+    "overall": 93
+  },
+  "verdict": "Clean, fully-correct implementation with zero hallucinated API members. bl-tab-group correctly hosts bl-tab elements in the 'tabs' slot and bl-tab-panel elements in the default slot, with real name/tab attributes linking them. The tooltip is composed properly: bl-button (real icon='info', variant='tertiary', size='small') placed in the bl-tooltip 'tooltip-trigger' slot and the explanatory copy in the default content slot, with valid placement='right'. No native-div fallbacks or present-boolean pitfalls."
+}

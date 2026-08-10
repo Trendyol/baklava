@@ -1,0 +1,178 @@
+{
+  "id": "destructive-confirm",
+  "persona": "naive",
+  "model": "unknown",
+  "category": "overlays",
+  "complexity": "complex",
+  "prompt": "When the user tries to delete something, show a popup in the middle of the page that blocks the background and asks them to confirm, with a clearly dangerous button to confirm deletion and a safe one to cancel.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 90,
+    "componentsUsed": [
+      "bl-button",
+      "bl-dialog"
+    ],
+    "componentsExpected": [
+      "bl-dialog",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 2 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 98,
+      "accessibility": 76,
+      "efficiency": 86,
+      "codeQuality": 87,
+      "maintainability": 96,
+      "overall": 90
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Delete confirmation</title>\n  <script type=\"module\" src=\"/src/baklava.js\"></script>\n  <style>\n    body { font-family: system-ui, sans-serif; padding: 2rem; display: grid; gap: 1rem; place-items: center; }\n  </style>\n</head>\n<body>\n  <bl-button id=\"open-delete\" kind=\"danger\" label=\"Delete account\"></bl-button>\n\n  <bl-dialog id=\"confirm-dialog\" caption=\"Delete account?\" critical>\n    <p>This action cannot be undone. The account and all of its data will be permanently removed.</p>\n    <div slot=\"primary-action\">\n      <bl-button id=\"confirm-delete\" kind=\"danger\" label=\"Delete\" type=\"submit\"></bl-button>\n    </div>\n    <div slot=\"secondary-action\">\n      <bl-button id=\"cancel-delete\" kind=\"neutral\" label=\"Cancel\"></bl-button>\n    </div>\n  </bl-dialog>\n\n  <script>\n    const dialog = document.getElementById('confirm-dialog');\n    const confirmBtn = document.getElementById('confirm-delete');\n    const cancelBtn = document.getElementById('cancel-delete');\n\n    // Open the modal, blocking the background.\n    document.getElementById('open-delete').addEventListener('bl-click', () => {\n      dialog.setAttribute('open', '');\n    });\n\n    // Dangerous confirmation button.\n    confirmBtn.addEventListener('bl-click', () => {\n      // In a real app this would call the delete API.\n      console.log('DELETE confirmed');\n      dialog.removeAttribute('open');\n    });\n\n    // Safe cancel button.\n    cancelBtn.addEventListener('bl-click', () => {\n      dialog.removeAttribute('open');\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 90,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 86,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 90
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!-- Destructive delete confirmation dialog using Baklava bl-dialog + bl-button -->\n<header style=\"padding: 24px;\">\n  <h2 style=\"margin-top: 0;\">Delete confirmation (mcp-only)</h2>\n  <bl-button id=\"open-delete\" variant=\"primary\" kind=\"danger\" icon=\"trash\">Delete item</bl-button>\n</header>\n\n<bl-dialog id=\"delete-dialog\" open critical caption=\"Delete this item?\">\n  <p style=\"margin: 0;\">\n    This action cannot be undone. The selected item and everything inside it will be\n    permanently removed from your workspace.\n  </p>\n  <bl-button\n    slot=\"secondary-action\"\n    id=\"cancel-delete\"\n    variant=\"secondary\"\n    label=\"Cancel\"\n  ></bl-button>\n  <bl-button\n    slot=\"primary-action\"\n    id=\"confirm-delete\"\n    variant=\"primary\"\n    kind=\"danger\"\n    icon=\"trash\"\n    label=\"Delete\"\n  ></bl-button>\n</bl-dialog>\n\n<script type=\"module\">\n  const dialog = document.getElementById('delete-dialog');\n  const openBtn = document.getElementById('open-delete');\n  const cancelBtn = document.getElementById('cancel-delete');\n  const confirmBtn = document.getElementById('confirm-delete');\n\n  // Close the dialog when the user cancels via the Cancel button.\n  cancelBtn.addEventListener('bl-click', () => {\n    dialog.closeDialog();\n  });\n\n  // Close the dialog when the user dismisses it (close button, Escape, backdrop).\n  dialog.addEventListener('bl-dialog-close', () => {\n    dialog.open = false;\n  });\n\n  // Let the user reopen it.\n  openBtn.addEventListener('bl-click', () => {\n    dialog.open = true;\n  });\n\n  // Dangerous action: confirm deletion, then close the dialog.\n  confirmBtn.addEventListener('bl-click', () => {\n    alert('Item deleted.');\n    dialog.closeDialog();\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 3 inline style=",
+            "codeSnippet": "style="
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 77,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 89
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Delete confirmation</title>\n  <style>\n    body {\n      font-family: sans-serif;\n      margin: 0;\n      min-height: 100vh;\n      display: grid;\n      place-items: center;\n    }\n    .card {\n      padding: 24px 28px;\n      border: 1px solid #e2e5ea;\n      border-radius: 12px;\n      max-width: 420px;\n      text-align: center;\n    }\n    .card h2 { margin-top: 0; }\n  </style>\n</head>\n<body class=\"bl-theme-light\">\n  <!-- A page card offering a delete action that opens the destructive dialog -->\n  <div class=\"card\">\n    <h2>Account settings</h2>\n    <p>You can remove this project. This action cannot be undone.</p>\n    <bl-button variant=\"primary\" kind=\"danger\" id=\"open-delete\">Delete project</bl-button>\n  </div>\n\n  <!-- Destructive confirmation dialog: blocks background, asks for confirmation -->\n  <bl-dialog open caption=\"Delete project?\" critical>\n    <p>\n      This will permanently delete the project and all of its data. This action\n      cannot be undone.\n    </p>\n    <bl-button slot=\"secondary-action\" variant=\"primary\" kind=\"neutral\" id=\"cancel-delete\">\n      Cancel\n    </bl-button>\n    <bl-button slot=\"primary-action\" variant=\"primary\" kind=\"danger\" id=\"confirm-delete\">\n      Delete\n    </bl-button>\n  </bl-dialog>\n\n  <script>\n    const dialog = document.querySelector('bl-dialog');\n    const openBtn = document.getElementById('open-delete');\n\n    // Re-open the dialog (it starts open; wire the trigger for a fresh open too)\n    openBtn.addEventListener('bl-click', () => {\n      dialog.open = true;\n    });\n\n    // Cancel: request close with the safe button\n    document.getElementById('cancel-delete').addEventListener('bl-click', () => {\n      dialog.open = false;\n    });\n\n    // Confirm: log the destructive action, then close\n    document.getElementById('confirm-delete').addEventListener('bl-click', () => {\n      console.log('Project deleted (destructive action confirmed).');\n      dialog.open = false;\n    });\n\n    // Escape / backdrop / close-button all route through request-close;\n    // allow it so the dialog closes.\n    dialog.addEventListener('bl-dialog-request-close', (event) => {\n      event.preventDefault();\n      dialog.open = false;\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 89,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 91
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 98,
+        "std": 0,
+        "min": 98,
+        "max": 98,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 84,
+        "std": 5.1,
+        "min": 77,
+        "max": 89,
+        "sem": 2.9
+      },
+      "codeQuality": {
+        "mean": 87,
+        "std": 0,
+        "min": 87,
+        "max": 87,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 96,
+        "std": 0,
+        "min": 96,
+        "max": 96,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 90,
+        "std": 0.8,
+        "min": 89,
+        "max": 91,
+        "sem": 0.5
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0,
+      "min": 1,
+      "max": 1,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

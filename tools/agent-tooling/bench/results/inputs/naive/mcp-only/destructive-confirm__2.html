@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delete confirmation</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+    }
+    .card {
+      padding: 24px 28px;
+      border: 1px solid #e2e5ea;
+      border-radius: 12px;
+      max-width: 420px;
+      text-align: center;
+    }
+    .card h2 { margin-top: 0; }
+  </style>
+</head>
+<body class="bl-theme-light">
+  <!-- A page card offering a delete action that opens the destructive dialog -->
+  <div class="card">
+    <h2>Account settings</h2>
+    <p>You can remove this project. This action cannot be undone.</p>
+    <bl-button variant="primary" kind="danger" id="open-delete">Delete project</bl-button>
+  </div>
+
+  <!-- Destructive confirmation dialog: blocks background, asks for confirmation -->
+  <bl-dialog open caption="Delete project?" critical>
+    <p>
+      This will permanently delete the project and all of its data. This action
+      cannot be undone.
+    </p>
+    <bl-button slot="secondary-action" variant="primary" kind="neutral" id="cancel-delete">
+      Cancel
+    </bl-button>
+    <bl-button slot="primary-action" variant="primary" kind="danger" id="confirm-delete">
+      Delete
+    </bl-button>
+  </bl-dialog>
+
+  <script>
+    const dialog = document.querySelector('bl-dialog');
+    const openBtn = document.getElementById('open-delete');
+
+    // Re-open the dialog (it starts open; wire the trigger for a fresh open too)
+    openBtn.addEventListener('bl-click', () => {
+      dialog.open = true;
+    });
+
+    // Cancel: request close with the safe button
+    document.getElementById('cancel-delete').addEventListener('bl-click', () => {
+      dialog.open = false;
+    });
+
+    // Confirm: log the destructive action, then close
+    document.getElementById('confirm-delete').addEventListener('bl-click', () => {
+      console.log('Project deleted (destructive action confirmed).');
+      dialog.open = false;
+    });
+
+    // Escape / backdrop / close-button all route through request-close;
+    // allow it so the dialog closes.
+    dialog.addEventListener('bl-dialog-request-close', (event) => {
+      event.preventDefault();
+      dialog.open = false;
+    });
+  </script>
+</body>
+</html>

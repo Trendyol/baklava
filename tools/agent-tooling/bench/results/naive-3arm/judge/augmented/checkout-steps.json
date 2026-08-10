@@ -1,0 +1,13 @@
+{
+  "id": "checkout-steps",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 92,
+    "accessibility": 86,
+    "efficiency": 90,
+    "codeQuality": 90,
+    "maintainability": 92,
+    "overall": 90
+  },
+  "verdict": "Correctly uses real Baklava API throughout: bl-stepper with real attrs type=\"dot\" and direction=\"horizontal\" (type accepts \"number\"|\"dot\"|\"icon\", direction accepts \"horizontal\"|\"vertical\"), bl-stepper-item with real variant=\"active\" and title, bl-badge with real size=\"small\" and the real icon slot, and bl-icon with the real name attribute. No hallucinated attributes, slots, or events; the stepper cleanly renders the cart→shipping→payment steps and the badge signals the cart count of 2. Only minor nuance: the badge with the cart icon sits as a standalone trailing element rather than being visually anchored 'over' the cart, but the requested UI is fully and correctly implemented."
+}

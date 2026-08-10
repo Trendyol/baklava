@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings</title>
+</head>
+<body>
+  <form class="settings" id="settings">
+    <h1>Settings</h1>
+
+    <p class="hint">Turn push notifications and reminder alerts on or off.</p>
+    <label class="setting">Notifications<bl-switch name="notifications" checked></bl-switch></label>
+
+    <p class="hint">Receive a short daily summary of your activity.</p>
+    <label class="setting">Daily email summary<bl-switch name="email-summary" checked></bl-switch></label>
+
+    <p class="hint">Allow anonymous usage data to help improve the product.</p>
+    <label class="setting">Usage analytics<bl-switch name="analytics"></bl-switch></label>
+
+    <p class="hint">Enable public profile visibility.</p>
+    <label class="setting">Public profile<bl-switch name="public-profile" checked></bl-switch></label>
+
+    <label class="setting">Interface language</label>
+    <bl-select
+      name="language"
+      label="Language"
+      value="en"
+      help-text="Language used for the interface and notifications."
+    >
+      <bl-select-option value="en" selected>English</bl-select-option>
+      <bl-select-option value="tr">Türkçe</bl-select-option>
+      <bl-select-option value="de">Deutsch</bl-select-option>
+      <bl-select-option value="fr">Français</bl-select-option>
+    </bl-select>
+
+    <output id="out" aria-live="polite"></output>
+  </form>
+
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; color: #1f2937; }
+    .settings { max-width: 28rem; display: grid; gap: 1rem; }
+    h1 { font-size: 1.4rem; margin: 0 0 0.5rem; }
+    .setting { display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-weight: 500; }
+    .hint { margin: 0; font-size: 0.85rem; color: #6b7280; }
+    .hint + .setting { margin-top: 0.35rem; }
+    #out { margin-top: 1rem; font-size: 0.85rem; color: #374151; }
+  </style>
+
+  <script type="module">
+    const output = () => {
+      const switches = [...document.querySelectorAll('.settings bl-switch')];
+      const selected = document.querySelector('.settings bl-select');
+      const lang = selected.selectedOptions?.[0]?.value || selected.value || '';
+      const on = switches.filter((s) => s.checked).map((s) => s.name).join(', ') || 'none';
+      document.getElementById('out').textContent = `Switches on: ${on}. Language: ${lang}.`;
+    };
+
+    document.querySelectorAll('.settings bl-switch').forEach((s) => {
+      s.addEventListener('bl-switch-toggle', output);
+    });
+    document.querySelector('.settings bl-select').addEventListener('bl-select', output);
+    output();
+  </script>
+</body>
+</html>

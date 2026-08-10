@@ -1,0 +1,13 @@
+{
+  "id": "product-table",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 98,
+    "accessibility": 90,
+    "efficiency": 95,
+    "codeQuality": 95,
+    "maintainability": 92,
+    "overall": 94
+  },
+  "verdict": "Fully real API usage — every tag (bl-table/bl-table-header/bl-table-body/bl-table-row/bl-table-cell/bl-table-header-cell/bl-badge/bl-button/bl-pagination) and every attribute is verified: bl-table-row selection-key, bl-badge size='small', bl-button size='small' variant='tertiary', and bl-pagination current-page/total-items/items-per-page/has-jumper all exist and are typed correctly. The prompt is fully implemented (column headers, per-row action button, pagination control, 'Popular' badge on select rows) with no hallucinated members and no hand-rolled native controls."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "notification-toast",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 55,
+    "accessibility": 68,
+    "efficiency": 62,
+    "codeQuality": 65,
+    "maintainability": 68,
+    "overall": 61
+  },
+  "verdict": "Uses real bl-notification and bl-notification-card tags with valid attributes (variant='success', caption='Saved', icon are all confirmed real API members), but the usage pattern is non-functional: bl-notification renders its cards from the notifications array added via the addNotification() JS API, not from slotted children, so the statically-nested bl-notification-card would not render as a toast. Dismissal is only the built-in card close button, never wired because the card never displays."
+}

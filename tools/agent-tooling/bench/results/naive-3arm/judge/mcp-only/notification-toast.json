@@ -1,0 +1,13 @@
+{
+  "id": "notification-toast",
+  "arm": "mcp-only",
+  "scores": {
+    "correctness": 78,
+    "accessibility": 85,
+    "efficiency": 80,
+    "codeQuality": 78,
+    "maintainability": 82,
+    "overall": 80
+  },
+  "verdict": "Uses real components and API correctly overall: bl-notification/bl-notification-card with valid variant=\"success\", permanent, caption, icon, the close() method and the real bl-notification-card-close event, plus bl-button kind=\"success\"/\"danger\", size=\"small\" and the real bl-click event. One API misuse: the dismiss button uses slot=\"action\", but the real slots on bl-notification-card are named \"primary-action\"/\"secondary-action\" (the bare \"action\" is only an internal shadow-DOM slot name), so the button projects into the default body slot instead of the card action area rather than a clean dismiss action."
+}

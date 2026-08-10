@@ -1,0 +1,85 @@
+<!-- mcp-only arm — login-form sample 2. Components/API learned via Baklava MCP server. -->
+<div class="login-card">
+  <h2>Sign in</h2>
+  <p class="subtitle">Enter your credentials to continue.</p>
+
+  <form id="login-form" novalidate>
+    <bl-input
+      type="email"
+      name="email"
+      label="Email address"
+      placeholder="you@example.com"
+      autocomplete="email"
+      required
+    ></bl-input>
+
+    <bl-input
+      type="password"
+      name="password"
+      label="Password"
+      placeholder="••••••••"
+      autocomplete="current-password"
+      required
+    ></bl-input>
+
+    <bl-button type="submit" variant="primary" label="Sign in" class="submit-btn"></bl-button>
+  </form>
+
+  <script>
+    const form = document.getElementById("login-form");
+    const email = form.querySelector('bl-input[name="email"]');
+    const password = form.querySelector('bl-input[name="password"]');
+
+    // Submit on Enter is handled natively by bl-button[type=submit] inside a form.
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      let ok = true;
+      if (!email.value) {
+        email.error = "Email address is required.";
+        ok = false;
+      } else if (!email.value.includes("@")) {
+        email.error = "Enter a valid email address.";
+        ok = false;
+      } else {
+        email.error = "";
+      }
+
+      if (!password.value) {
+        password.error = "Password is required.";
+        ok = false;
+      } else {
+        password.error = "";
+      }
+
+      if (ok) {
+        // In a real app sign the user in here.
+        console.log("Sign in submitted for", email.value);
+      }
+    });
+  </script>
+
+  <style>
+    .login-card {
+      max-width: 380px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+    }
+    .login-card h2 {
+      margin: 0;
+      font: 600 22px/1.3 var(--bl-font-family, sans-serif);
+    }
+    .subtitle {
+      margin: -8px 0 0;
+      color: var(--bl-color-neutral-80, #666);
+    }
+    #login-form {
+      display: grid;
+      gap: 16px;
+    }
+    .submit-btn {
+      margin-top: 4px;
+    }
+  </style>
+</div>

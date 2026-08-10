@@ -1,0 +1,13 @@
+{
+  "id": "accordion-faq",
+  "arm": "mcp-only",
+  "scores": {
+    "correctness": 95,
+    "accessibility": 90,
+    "efficiency": 90,
+    "codeQuality": 92,
+    "maintainability": 95,
+    "overall": 92
+  },
+  "verdict": "Clean, fully-real implementation. Uses the real bl-accordion-group (multiple open by default) wrapping three real bl-accordion items, each using only real API members: caption and icon=\"info\" (both verified; icon=\"info\" appears verbatim in the official bl-accordion story). Content is placed in each accordion's real default slot, so the native <details>/<summary> click-to-expand behavior works out of the box with group-faq semantics. No hallucinated attributes, slots, or events; no hand-rolled native controls where a real bl-* component exists. The only very minor nit is that the FAQ answers are static text without custom markup around them, which is fully acceptable."
+}

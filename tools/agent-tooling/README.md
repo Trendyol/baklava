@@ -59,9 +59,15 @@ node $CLI component select --json          # machine-readable envelope
 
 ## Benchmark usage
 
-The benchmark measures: **baseline (before)** = agent working from raw knowledge
-only; **augmented (after)** = agent with the Baklava agent CLI/tooling. Outputs
-are evaluated against the real CEM on rubric dimensions.
+The benchmark measures **three arms** on the same repo and the same prompts, so the
+tooling's effect is isolated from repo-state noise:
+
+- **baseline** — agent from raw knowledge only, no MCP, no CLI (`bl-*` tag names given).
+- **mcp-only** — agent learns the real API through the **Baklava MCP server only** (the honest
+  “current usage”: an agent asks MCP for component details), no CLI.
+- **augmented** — agent has the Baklava **CLI + MCP**.
+
+Outputs are evaluated against the real CEM on rubric dimensions.
 
 ```bash
 # 1) Generate agent outputs (real LLM) — see README "Generating real outputs",
@@ -99,10 +105,11 @@ correctness/accessibility/efficiency/codeQuality/maintainability/overall on 0–
 `bench/results/<id>/judge/<arm>/<id>.json`. `compare` auto-merges these into a separate
 "LLM Judge" section, kept distinct from the deterministic deltas.
 
-A committed naive real run (16 agent tasks: 8 prompts × 2 arms) lives under
-`bench/results/real-subagents/`. A committed adversarial run (same 16 tasks, adversarial
-persona — prompts baiting escape toward MUI/Bootstrap/Tailwind) lives under
-`bench/results/adversarial-subagents/` and ships with LLM-judge data.
+A committed naive **3-arm** real run (`72 agent tasks`: 8 prompts × 3 arms × 3 samples,
+deepseek) lives under `bench/results/naive-3arm/` and ships with the LLM-judge layer for
+all three arms. Older committed runs — `real-subagents` (16 tasks: 8 prompts × 2 arms) and
+`adversarial-subagents` (16 adversarial tasks) — remain in the rolling scorecard via back-compat
+`before/after` aliases.
 
 ### Step 1 — Headless render layer (real browser)
 
@@ -153,9 +160,15 @@ node tools/agent-tooling/bench/src/cli.mjs evaluate --iteration <id> --persona a
 The n=3 adversarial result: baseline overall **79 (95% CI 75–83)** vs tooled **91
 (95% CI 90–92)** — the CIs do **not** overlap, so the +12 delta is not noise.
 
-Deepseek naive was also brought to n=3 (48 tasks): baseline **87 (95% CI 84–90)** vs
-tooled **92 (95% CI 91–93)**, escape hatches 22→4 — a smaller but still non-overlapping
-tooling gain under the gentler naive persona.
+Deepseek naive was brought to n=3 across all three arms (72 tasks). Deterministic
+evaluator: baseline **87 (95% CI 84–90)** → mcp-only **91 (95% CI 90–92)** → augmented
+**92 (95% CI 91–93)**, escape hatches 22 → 7 → 4. Baseline is separated (no CI overlap)
+from both tooled arms; the two tooled arms overlap each other at the 95% level, so the
+mcp-only→augmented step (+1) is smaller and not individually significant — the durable,
+robust win is **any** Baklava tooling over no tooling. A fresh-context LLM judge sees the
+same direction: baseline **64** → mcp-only **91** → augmented **89** (judge ranks mcp-only
+marginally above augmented; its strict reading of extra surface area makes the CLI+MCP arm
+not clearly better by judgement) — reported transparently, not smoothed away.
 
 ## Validation
 
@@ -164,13 +177,15 @@ node tools/agent-tooling/self-test.mjs   # exit 0 = all checks pass
 ```
 
 The self-test exercises the CLI commands and the deterministic evaluator, and
-verifies the committed real results (`real-subagents`, `adversarial-subagents`) exist
-and show a positive delta.
+verifies the committed real results (`real-subagents`, `adversarial-subagents`, and the
+3-arm `naive-3arm`) exist, show a positive delta, and satisfy the honest CI statements.
 
 ## Reproducing real before/after outputs
 
 Real LLM outputs are produced by running actual coding agents on each prompt in
 each arm (see `AGENTS-TOOLING.md` for the exact agent task prompts), writing to
-`bench/results/inputs/<arm>/<promptId>.html`. Evaluation and comparison then run
-deterministically on those inputs. This keeps the benchmark rerunnable and the
+`bench/results/inputs/<arm>/<promptId>.html`. The mcp-only arm is generated through the
+`mcp/client.mjs` stdio wrapper (real MCP tool calls, **no CLI**); baseline uses only the
+`bl-*` tag names; augmented uses the `baklava.mjs` CLI. Evaluation and comparison then
+run deterministically on those inputs. This keeps the benchmark rerunnable and the
 numbers comparable across iterations.

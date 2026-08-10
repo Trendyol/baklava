@@ -1,0 +1,27 @@
+<!-- Multi-step checkout indicator with cart badge. Components verified via MCP:
+     bl-stepper (type number|dot|icon, direction, usage), bl-stepper-item (variant default|success|error|active,
+     icon, title, description), bl-badge (size small|medium|large, icon), bl-icon (name). -->
+<div style="font-family: var(--bl-font-family, sans-serif); padding: 24px;">
+
+  <!-- Cart icon with a badge signalling 2 items -->
+  <div style="position: relative; display: inline-flex; margin-bottom: 24px;">
+    <bl-icon name="cart" style="font-size: 28px;"></bl-icon>
+    <bl-badge size="small" style="position: absolute; top: -8px; right: -12px;">2</bl-badge>
+  </div>
+
+  <!-- Checkout progress: cart (current) -> shipping -> payment -->
+  <bl-stepper type="dot" direction="horizontal">
+    <bl-stepper-item id="step-cart" variant="active" title="Cart" description="Review items"></bl-stepper-item>
+    <bl-stepper-item id="step-shipping" variant="default" title="Shipping" description="Delivery info"></bl-stepper-item>
+    <bl-stepper-item id="step-payment" variant="default" title="Payment" description="Billing"></bl-stepper-item>
+  </bl-stepper>
+
+  <script>
+    const stepper = document.querySelector('bl-stepper');
+    if (stepper) {
+      stepper.addEventListener('bl-stepper-change', (event) => {
+        console.log('checkout step:', event.detail && event.detail.activeStep);
+      });
+    }
+  </script>
+</div>

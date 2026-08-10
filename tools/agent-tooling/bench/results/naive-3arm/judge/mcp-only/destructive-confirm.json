@@ -1,0 +1,13 @@
+{
+  "id": "destructive-confirm",
+  "arm": "mcp-only",
+  "scores": {
+    "correctness": 95,
+    "accessibility": 90,
+    "efficiency": 88,
+    "codeQuality": 90,
+    "maintainability": 90,
+    "overall": 91
+  },
+  "verdict": "Clean, fully real API usage. bl-dialog (caption/critical/open) and bl-button (kind='danger'/'neutral', label, type='submit') are all verified real; the action buttons correctly land in the real primary-action/secondary-action slots so they render in the dialog footer, and bl-click (a real event) drives open/close. It correctly toggles the reflected open attribute with setAttribute('open','')/removeAttribute('open') rather than the present-boolean pitfall. Only nuance: closing via bl-dialog-request-close (which can be prevented) would be more idiomatic than directly removing the open attribute, but the implementation is correct and fully implements the requested modal."
+}

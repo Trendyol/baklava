@@ -1,0 +1,178 @@
+{
+  "id": "login-form",
+  "persona": "naive",
+  "model": "unknown",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Build a login page. There should be a field for the email address, a field for the password that hides what is typed, and a prominent button at the end to submit the whole thing when the user presses Enter.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-input",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-input",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 1 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 98,
+      "accessibility": 76,
+      "efficiency": 89,
+      "codeQuality": 87,
+      "maintainability": 96,
+      "overall": 91
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!-- Login page built with Baklava components (MCP-only arm) -->\n<style>\n  .login-card {\n    max-width: 360px;\n    margin: 48px auto;\n    padding: 24px;\n    border: 1px solid var(--bl-color-border, #ddd);\n    border-radius: 12px;\n    font-family: var(--bl-font-family, 'Inter', system-ui, sans-serif);\n  }\n  .login-card h1 {\n    margin: 0 0 20px;\n    font-size: 1.4rem;\n    font-weight: 600;\n  }\n  .login-field {\n    display: block;\n    margin-bottom: 16px;\n  }\n  .login-submit {\n    display: block;\n    width: 100%;\n    margin-top: 8px;\n  }\n  .login-status {\n    margin-top: 16px;\n    min-height: 1.2em;\n    font-size: 0.85rem;\n    color: var(--bl-color-error, #c0392b);\n  }\n</style>\n<div class=\"login-card\">\n  <h1>Sign in</h1>\n\n  <form id=\"login-form\" novalidate>\n    <label class=\"login-field\">\n      <bl-input\n        name=\"email\"\n        type=\"email\"\n        label=\"Email address\"\n        placeholder=\"you@example.com\"\n        autocomplete=\"email\"\n        required\n      ></bl-input>\n    </label>\n\n    <label class=\"login-field\">\n      <bl-input\n        name=\"password\"\n        type=\"password\"\n        label=\"Password\"\n        placeholder=\"Enter your password\"\n        autocomplete=\"current-password\"\n        required\n      ></bl-input>\n    </label>\n\n    <bl-button\n      class=\"login-submit\"\n      variant=\"primary\"\n      type=\"submit\"\n    >Sign in</bl-button>\n  </form>\n\n  <p class=\"login-status\" role=\"status\" id=\"login-status\"></p>\n</div>\n\n<script>\n  const form = document.getElementById('login-form');\n  const status = document.getElementById('login-status');\n\n  form.addEventListener('submit', (event) => {\n    event.preventDefault();\n    const email = form.querySelector('bl-input[name=\"email\"]');\n    const password = form.querySelector('bl-input[name=\"password\"]');\n    const valid = email.reportValidity && password.reportValidity\n      ? email.reportValidity() && password.reportValidity()\n      : email.value && password.value;\n    if (!valid) {\n      status.textContent = 'Please fill in both fields.';\n      return;\n    }\n    status.textContent = `Signed in as ${email.value}`;\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 89,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<form id=\"login-form\" class=\"login-form\" novalidate>\n  <div class=\"login-card\">\n    <h2 class=\"login-title\">Sign in</h2>\n    <p class=\"login-subtitle\">Enter your email and password to continue.</p>\n\n    <bl-input\n      id=\"email\"\n      name=\"email\"\n      label=\"Email address\"\n      type=\"email\"\n      placeholder=\"you@example.com\"\n      autocomplete=\"email\"\n      required\n      icon=\"email\"\n    ></bl-input>\n\n    <bl-input\n      id=\"password\"\n      name=\"password\"\n      label=\"Password\"\n      type=\"password\"\n      placeholder=\"••••••••\"\n      autocomplete=\"current-password\"\n      required\n      icon=\"lock\"\n    ></bl-input>\n\n    <bl-button id=\"submit-btn\" type=\"submit\" size=\"large\" class=\"login-submit\">\n      Sign in\n    </bl-button>\n  </div>\n</form>\n\n<script>\n  const email = document.getElementById('email');\n  const password = document.getElementById('password');\n\n  function validateField(cmp) {\n    const valid = cmp.reportValidity ? cmp.reportValidity() : cmp.checkValidity();\n    if (!valid) {\n      cmp.toggleAttribute('invalid', true);\n    } else {\n      cmp.removeAttribute('invalid');\n    }\n    return valid;\n  }\n\n  function submitLogin(ev) {\n    ev.preventDefault();\n    const okEmail = validateField(email);\n    const okPass = validateField(password);\n    if (!okEmail || !okPass) return;\n    // Submit the credentials (demo: log resolved values).\n    const payload = {\n      email: email.value,\n      password: password.value,\n    };\n    console.log('login submit', payload);\n  }\n\n  document.getElementById('login-form').addEventListener('submit', submitLogin);\n  document.getElementById('submit-btn').addEventListener('bl-click', () => {\n    document.getElementById('login-form').requestSubmit();\n  });\n  email.addEventListener('bl-input', () => email.removeAttribute('invalid'));\n  password.addEventListener('bl-input', () => password.removeAttribute('invalid'));\n</script>\n\n<style>\n  .login-form { display: flex; justify-content: center; padding: 48px 16px; }\n  .login-card { width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 20px; }\n  .login-title { margin: 0; font-size: 24px; }\n  .login-subtitle { margin: 0 0 8px; color: #666; }\n  .login-submit { width: 100%; }\n</style>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 89,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!-- mcp-only arm — login-form sample 2. Components/API learned via Baklava MCP server. -->\n<div class=\"login-card\">\n  <h2>Sign in</h2>\n  <p class=\"subtitle\">Enter your credentials to continue.</p>\n\n  <form id=\"login-form\" novalidate>\n    <bl-input\n      type=\"email\"\n      name=\"email\"\n      label=\"Email address\"\n      placeholder=\"you@example.com\"\n      autocomplete=\"email\"\n      required\n    ></bl-input>\n\n    <bl-input\n      type=\"password\"\n      name=\"password\"\n      label=\"Password\"\n      placeholder=\"••••••••\"\n      autocomplete=\"current-password\"\n      required\n    ></bl-input>\n\n    <bl-button type=\"submit\" variant=\"primary\" label=\"Sign in\" class=\"submit-btn\"></bl-button>\n  </form>\n\n  <script>\n    const form = document.getElementById(\"login-form\");\n    const email = form.querySelector('bl-input[name=\"email\"]');\n    const password = form.querySelector('bl-input[name=\"password\"]');\n\n    // Submit on Enter is handled natively by bl-button[type=submit] inside a form.\n    form.addEventListener(\"submit\", (e) => {\n      e.preventDefault();\n      let ok = true;\n      if (!email.value) {\n        email.error = \"Email address is required.\";\n        ok = false;\n      } else if (!email.value.includes(\"@\")) {\n        email.error = \"Enter a valid email address.\";\n        ok = false;\n      } else {\n        email.error = \"\";\n      }\n\n      if (!password.value) {\n        password.error = \"Password is required.\";\n        ok = false;\n      } else {\n        password.error = \"\";\n      }\n\n      if (ok) {\n        // In a real app sign the user in here.\n        console.log(\"Sign in submitted for\", email.value);\n      }\n    });\n  </script>\n\n  <style>\n    .login-card {\n      max-width: 380px;\n      margin: 0 auto;\n      padding: 24px;\n      display: grid;\n      gap: 16px;\n    }\n    .login-card h2 {\n      margin: 0;\n      font: 600 22px/1.3 var(--bl-font-family, sans-serif);\n    }\n    .subtitle {\n      margin: -8px 0 0;\n      color: var(--bl-color-neutral-80, #666);\n    }\n    #login-form {\n      display: grid;\n      gap: 16px;\n    }\n    .submit-btn {\n      margin-top: 4px;\n    }\n  </style>\n</div>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 89,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 91
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 98,
+        "std": 0,
+        "min": 98,
+        "max": 98,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 89,
+        "std": 0,
+        "min": 89,
+        "max": 89,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 87,
+        "std": 0,
+        "min": 87,
+        "max": 87,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 96,
+        "std": 0,
+        "min": 96,
+        "max": 96,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 91,
+        "std": 0,
+        "min": 91,
+        "max": 91,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0,
+      "min": 1,
+      "max": 1,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

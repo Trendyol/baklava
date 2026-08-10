@@ -1,0 +1,25 @@
+<bl-tab-group>
+  <bl-tab name="overview" slot="tabs" caption="Overview" selected>Overview</bl-tab>
+  <bl-tab name="details" slot="tabs" caption="Details">Details</bl-tab>
+  <bl-tab name="settings" slot="tabs" caption="Settings">Settings</bl-tab>
+
+  <bl-tab-panel tab="overview">
+    <h2>Overview</h2>
+    <p>This is the main overview of the page. It summarizes the most important information at a glance.</p>
+  </bl-tab-panel>
+
+  <bl-tab-panel tab="details">
+    <h2>Details</h2>
+    <p>Here you can dive into the full details, including specifications and additional context.</p>
+  </bl-tab-panel>
+
+  <bl-tab-panel tab="settings">
+    <h2>Settings</h2>
+    <p>Configure your preferences here. Changes are applied immediately.</p>
+  </bl-tab-panel>
+</bl-tab-group>
+
+<bl-tooltip placement="right">
+  <bl-button slot="tooltip-trigger" variant="tertiary" size="small" icon="settings">Settings</bl-button>
+  Open the settings panel for this page.
+</bl-tooltip>

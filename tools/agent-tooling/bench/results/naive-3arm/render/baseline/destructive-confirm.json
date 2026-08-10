@@ -1,0 +1,15 @@
+{
+  "id": "destructive-confirm",
+  "arm": "baseline",
+  "file": "naive/baseline/destructive-confirm.html.html",
+  "url": "http://127.0.0.1:49627/.agent-render-tmp/naive-baseline-destructive-confirm.html",
+  "loaded": true,
+  "exceptions": [],
+  "consoleErrors": [],
+  "blElementCount": 0,
+  "upgradedCount": 0,
+  "unupgraded": [],
+  "unlabeledInteractives": [],
+  "unlabeledImgCount": 0,
+  "hasShadowUi": false
+}

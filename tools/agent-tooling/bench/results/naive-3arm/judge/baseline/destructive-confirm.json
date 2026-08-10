@@ -1,0 +1,13 @@
+{
+  "id": "destructive-confirm",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 20,
+    "accessibility": 25,
+    "efficiency": 25,
+    "codeQuality": 40,
+    "maintainability": 30,
+    "overall": 25
+  },
+  "verdict": "Uses ZERO real Baklava components: the modal is hand-rolled as native <div class='overlay'/'modal'> with plain <button> buttons, even though real bl-dialog (open, critical, slots primary-action/secondary-action/tertiary-action, events bl-dialog-open/bl-dialog-request-close/bl-dialog-close) and bl-button (variant primary/secondary/tertiary, kind default/neutral/success/danger) exist and fit this exact UI. As a result the dialog has no focus trap, no Escape/backdrop dismissal, no aria-modal semantics, and no accessible dialog roles or labels; the Delete button carries only a class='danger' that carries system-inconsistent styling instead of using bl-button kind='danger'. It visually shows a blocking overlay but fails to deliver the design system's dialog behaviour or accessibility."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "settings-toggles",
+  "arm": "augmented",
+  "scores": {
+    "correctness": 98,
+    "accessibility": 84,
+    "efficiency": 90,
+    "codeQuality": 92,
+    "maintainability": 95,
+    "overall": 93
+  },
+  "verdict": "Clean, fully-real implementation: three bl-switch elements with the real checked boolean attribute for the on/off options, plus a bl-select with the real label/help-text/placeholder attributes and real bl-select-option children (value/label) for the language dropdown. No hallucinated tags, attributes, slots, or events; no hand-rolled native controls where a real bl-* component exists. Only mild deduction for sparse accessibility annotation (no explicit per-option helper text wiring) and no auto-dismiss/interaction polish."
+}

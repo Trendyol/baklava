@@ -1,0 +1,47 @@
+<style>
+  .grid-badge { --bl-badge-bg-color: var(--bl-color-danger); --bl-badge-color: white; }
+</style>
+<bl-table>
+  <bl-table-header sticky>
+    <bl-table-cell>Product</bl-table-cell>
+    <bl-table-cell>Price</bl-table-cell>
+    <bl-table-cell>Status</bl-table-cell>
+    <bl-table-cell>Action</bl-table-cell>
+  </bl-table-header>
+  <bl-table-body>
+    <bl-table-row>
+      <bl-table-cell>Cappuccino Machine</bl-table-cell>
+      <bl-table-cell>$89.00</bl-table-cell>
+      <bl-table-cell><bl-badge size="small">In stock</bl-badge></bl-table-cell>
+      <bl-table-cell><bl-button size="small" label="View" variant="secondary"></bl-button></bl-table-cell>
+    </bl-table-row>
+    <bl-table-row>
+      <bl-table-cell>Espresso Beans (1kg)</bl-table-cell>
+      <bl-table-cell>$24.50</bl-table-cell>
+      <bl-table-cell><bl-badge size="small">In stock</bl-badge></bl-table-cell>
+      <bl-table-cell><bl-button size="small" label="View" variant="secondary"></bl-button></bl-table-cell>
+    </bl-table-row>
+    <bl-table-row>
+      <bl-table-cell>Pour-Over Kettle</bl-table-cell>
+      <bl-table-cell>$59.00</bl-table-cell>
+      <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+      <bl-table-cell><bl-button size="small" label="View" variant="secondary"></bl-button></bl-table-cell>
+    </bl-table-row>
+    <bl-table-row>
+      <bl-table-cell>French Press</bl-table-cell>
+      <bl-table-cell>$34.00</bl-table-cell>
+      <bl-table-cell><bl-badge size="small">Out of stock</bl-badge></bl-table-cell>
+      <bl-table-cell><bl-button size="small" label="View" variant="secondary"></bl-button></bl-table-cell>
+    </bl-table-row>
+  </bl-table-body>
+</bl-table>
+
+<bl-pagination id="catalog-pagination" current-page="1" total-items="124" items-per-page="10"></bl-pagination>
+
+<script>
+  const pagination = document.getElementById('catalog-pagination');
+  pagination.addEventListener('bl-change', (event) => {
+    const { selectedPage } = event.detail;
+    console.log(`Loading page ${selectedPage}...`);
+  });
+</script>

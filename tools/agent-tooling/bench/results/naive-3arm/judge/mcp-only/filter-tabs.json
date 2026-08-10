@@ -1,0 +1,13 @@
+{
+  "id": "filter-tabs",
+  "arm": "mcp-only",
+  "scores": {
+    "correctness": 100,
+    "accessibility": 94,
+    "efficiency": 96,
+    "codeQuality": 97,
+    "maintainability": 97,
+    "overall": 97
+  },
+  "verdict": "Clean, fully-correct usage: real bl-tab-group with bl-tab(n) in the 'tabs' slot (name+caption are real attrs) and bl-tab-panel in the default slot (tab attr is real); bl-tooltip with a real placement=true default and slot='tooltip-trigger' wrapping a bl-button using real variant='tertiary', size='small', icon='info' and label attrs. No hallucinated attributes, slots, or events; no hand-rolled native controls when a real component exists. Minor: tabs could set aria help-text via bl-tab's real help-text attr, but nothing is incorrect."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "settings-toggles",
+  "arm": "mcp-only",
+  "scores": {
+    "correctness": 95,
+    "accessibility": 85,
+    "efficiency": 88,
+    "codeQuality": 90,
+    "maintainability": 92,
+    "overall": 90
+  },
+  "verdict": "Accurate real-API usage: bl-switch with the real bl-switch-toggle CustomEvent<boolean>, and bl-select with real label/help-text/placeholder attributes plus real bl-select-option value attribute; language dropdown and on/off toggles with per-option hint text fully implement the brief with no hallucinated members. Minor nuance: the switch label text lives outside the bl-switch default slot as a sibling within a native <label>, which still associates and keeps the toggles clickable, so accessibility is only minimally short of ideal."
+}

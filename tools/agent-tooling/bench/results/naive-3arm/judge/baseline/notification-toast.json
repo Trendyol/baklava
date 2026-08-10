@@ -1,0 +1,13 @@
+{
+  "id": "notification-toast",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 70,
+    "accessibility": 65,
+    "efficiency": 70,
+    "codeQuality": 75,
+    "maintainability": 75,
+    "overall": 70
+  },
+  "verdict": "Uses real bl-notification > bl-notification-card > bl-button tags with a valid size='small' attribute and no hallucinated API members, so the markup is API-correct. However the success variant is not set on bl-notification-card (defaults to info despite 'Saved successfully'), the Dismiss button is not wired to the card's real bl-notification-card-request-close/bl-notification-card-close events so it cannot actually dismiss the toast, and there is no 'after saving' trigger logic (bl-notification is driven imperatively via addNotification), leaving the fragment a static toast rather than a dismissible after-save notification."
+}

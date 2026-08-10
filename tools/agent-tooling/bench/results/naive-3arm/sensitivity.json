@@ -1,0 +1,55 @@
+{
+  "iteration": "naive-3arm",
+  "variants": [
+    {
+      "variant": "base",
+      "baseline": 88,
+      "mcp-only": 91,
+      "augmented": 93,
+      "baseline→mcp-only": 3,
+      "mcp-only→augmented": 2
+    },
+    {
+      "variant": "equal",
+      "baseline": 87,
+      "mcp-only": 90,
+      "augmented": 91,
+      "baseline→mcp-only": 3,
+      "mcp-only→augmented": 1
+    },
+    {
+      "variant": "correctnessDominant",
+      "baseline": 90,
+      "mcp-only": 93,
+      "augmented": 94,
+      "baseline→mcp-only": 3,
+      "mcp-only→augmented": 1
+    },
+    {
+      "variant": "accessibilityDominant",
+      "baseline": 85,
+      "mcp-only": 88,
+      "augmented": 88,
+      "baseline→mcp-only": 3,
+      "mcp-only→augmented": 0
+    },
+    {
+      "variant": "maintainabilityDominant",
+      "baseline": 89,
+      "mcp-only": 92,
+      "augmented": 93,
+      "baseline→mcp-only": 3,
+      "mcp-only→augmented": 1
+    }
+  ],
+  "deltaRange": {
+    "baseline→mcp-only": {
+      "min": 3,
+      "max": 3
+    },
+    "mcp-only→augmented": {
+      "min": 0,
+      "max": 2
+    }
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "id": "filter-tabs",
+  "persona": "naive",
+  "model": "unknown",
+  "category": "navigation",
+  "complexity": "moderate",
+  "prompt": "Build a tabbed interface to switch between different views of the same page, with a couple of tabs and their content panels. Add a tooltip on a small icon button explaining it.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-tooltip",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-icon",
+      "bl-tooltip"
+    ],
+    "missed": [
+      "bl-icon"
+    ],
+    "escapeHatches": [],
+    "failureMode": "missing_components",
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 95,
+      "accessibility": 85,
+      "efficiency": 80,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 91
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-tab-group>\n  <bl-tab name=\"products\" slot=\"tabs\" caption=\"Products\"></bl-tab>\n  <bl-tab name=\"pricing\" slot=\"tabs\" caption=\"Pricing\"></bl-tab>\n  <bl-tab name=\"support\" slot=\"tabs\" caption=\"Support\"></bl-tab>\n  <bl-tab-panel tab=\"products\">\n    <p>Products tab — overview of the catalog, featured items and seasonal highlights.</p>\n  </bl-tab-panel>\n  <bl-tab-panel tab=\"pricing\">\n    <p>Pricing tab — compare plans and per-seat cost details.</p>\n  </bl-tab-panel>\n  <bl-tab-panel tab=\"support\">\n    <p>Support tab — contact channels, docs and FAQ shortcuts.</p>\n  </bl-tab-panel>\n</bl-tab-group>\n<bl-tooltip placement=\"top\">\n  <bl-button slot=\"tooltip-trigger\" icon=\"info\" variant=\"tertiary\" size=\"small\" label=\"More info\"></bl-button>\n  Use the tabs above to switch between products, pricing and support.\n</bl-tooltip>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 85,
+          "efficiency": 80,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<div class=\"filter-tabs\">\n  <bl-tab-group>\n    <bl-tab name=\"overview\" slot=\"tabs\" caption=\"Overview\" selected>Overview</bl-tab>\n    <bl-tab name=\"details\" slot=\"tabs\" caption=\"Details\">Details</bl-tab>\n    <bl-tab name=\"activity\" slot=\"tabs\" caption=\"Activity\">Activity</bl-tab>\n\n    <bl-tab-panel tab=\"overview\">\n      <p>Overview content: a high-level summary of the current item goes here.</p>\n    </bl-tab-panel>\n    <bl-tab-panel tab=\"details\">\n      <p>Details content: the full specifications and metadata are shown here.</p>\n    </bl-tab-panel>\n    <bl-tab-panel tab=\"activity\">\n      <p>Activity content: the recent activity feed for this item is listed here.</p>\n    </bl-tab-panel>\n  </bl-tab-group>\n\n  <bl-tooltip placement=\"top\">\n    <bl-button slot=\"tooltip-trigger\" variant=\"tertiary\" size=\"small\" icon=\"info\" aria-label=\"More information\"> </bl-button>\n    <span>Click a tab to switch views, or use the info button for help.</span>\n  </bl-tooltip>\n</div>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 93,
+          "accessibility": 95,
+          "efficiency": 77,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<bl-tab-group>\n  <bl-tab name=\"overview\" slot=\"tabs\" caption=\"Overview\" selected>Overview</bl-tab>\n  <bl-tab name=\"details\" slot=\"tabs\" caption=\"Details\">Details</bl-tab>\n  <bl-tab name=\"settings\" slot=\"tabs\" caption=\"Settings\">Settings</bl-tab>\n\n  <bl-tab-panel tab=\"overview\">\n    <h2>Overview</h2>\n    <p>This is the main overview of the page. It summarizes the most important information at a glance.</p>\n  </bl-tab-panel>\n\n  <bl-tab-panel tab=\"details\">\n    <h2>Details</h2>\n    <p>Here you can dive into the full details, including specifications and additional context.</p>\n  </bl-tab-panel>\n\n  <bl-tab-panel tab=\"settings\">\n    <h2>Settings</h2>\n    <p>Configure your preferences here. Changes are applied immediately.</p>\n  </bl-tab-panel>\n</bl-tab-group>\n\n<bl-tooltip placement=\"right\">\n  <bl-button slot=\"tooltip-trigger\" variant=\"tertiary\" size=\"small\" icon=\"settings\">Settings</bl-button>\n  Open the settings panel for this page.\n</bl-tooltip>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 85,
+          "efficiency": 80,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 94,
+        "std": 0.9,
+        "min": 93,
+        "max": 95,
+        "sem": 0.5
+      },
+      "accessibility": {
+        "mean": 88,
+        "std": 4.7,
+        "min": 85,
+        "max": 95,
+        "sem": 2.7
+      },
+      "efficiency": {
+        "mean": 79,
+        "std": 1.4,
+        "min": 77,
+        "max": 80,
+        "sem": 0.8
+      },
+      "codeQuality": {
+        "mean": 89,
+        "std": 1.4,
+        "min": 87,
+        "max": 90,
+        "sem": 0.8
+      },
+      "maintainability": {
+        "mean": 99,
+        "std": 1.9,
+        "min": 96,
+        "max": 100,
+        "sem": 1.1
+      },
+      "overall": {
+        "mean": 91,
+        "std": 0,
+        "min": 91,
+        "max": 91,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0.5,
+      "min": 0,
+      "max": 1,
+      "sem": 0.3
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "id": "filter-tabs",
+  "persona": "naive",
+  "model": "unknown",
+  "category": "navigation",
+  "complexity": "moderate",
+  "prompt": "Build a tabbed interface to switch between different views of the same page, with a couple of tabs and their content panels. Add a tooltip on a small icon button explaining it.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-tooltip",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-tab-group",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-icon",
+      "bl-tooltip"
+    ],
+    "missed": [
+      "bl-icon"
+    ],
+    "escapeHatches": [],
+    "failureMode": "missing_components",
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 95,
+      "accessibility": 85,
+      "efficiency": 80,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 91
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-tab-group>\n  <bl-tab name=\"overview\" slot=\"tabs\">Overview</bl-tab>\n  <bl-tab name=\"details\" slot=\"tabs\">Details</bl-tab>\n  <bl-tab-panel tab=\"overview\">Overview of the product and its key highlights.</bl-tab-panel>\n  <bl-tab-panel tab=\"details\">Additional details, specifications and pricing.</bl-tab-panel>\n</bl-tab-group>\n<bl-tooltip placement=\"right\">\n  <bl-button slot=\"tooltip-trigger\" icon=\"info\" variant=\"tertiary\" size=\"small\" label=\"More info\"></bl-button>\n  This tabbed view lets you switch between the overview and the full details.\n</bl-tooltip>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 85,
+          "efficiency": 80,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Filter Tabs</title>\n  <script type=\"module\" src=\"/dist/baklava.js\"></script>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #1f2430; }\n    .stack { display: grid; gap: 1.5rem; }\n    bl-tab-panel { padding: 1rem 0; }\n  </style>\n</head>\n<body>\n  <main class=\"stack\">\n    <h1>Product Views</h1>\n\n    <!-- Real Baklava tabs: bl-tab in the \"tabs\" slot, bl-tab-panel in the default slot -->\n    <bl-tab-group aria-label=\"Switch between product views\">\n      <bl-tab slot=\"tabs\" name=\"overview\" caption=\"Overview\"></bl-tab>\n      <bl-tab slot=\"tabs\" name=\"details\" caption=\"Details\" selected></bl-tab>\n      <bl-tab slot=\"tabs\" name=\"related\" caption=\"Related\"></bl-tab>\n\n      <bl-tab-panel tab=\"overview\">\n        <p>Overview panel content: key product information is summarized here.</p>\n      </bl-tab-panel>\n      <bl-tab-panel tab=\"details\">\n        <ul>\n          <li>Technical specifications</li>\n          <li>Compatibility notes</li>\n          <li>Available variants</li>\n        </ul>\n      </bl-tab-panel>\n      <bl-tab-panel tab=\"related\">\n        <p>Related products live in this panel.</p>\n      </bl-tab-panel>\n    </bl-tab-group>\n\n    <!-- Small icon button with a real Baklava tooltip (trigger via slot) -->\n    <bl-tooltip placement=\"top\">\n      Open settings\n      <bl-button\n        slot=\"tooltip-trigger\"\n        variant=\"tertiary\"\n        size=\"small\"\n        icon=\"settings\"\n        label=\"Settings\"\n      ></bl-button>\n    </bl-tooltip>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 95,
+          "efficiency": 80,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Filter &amp; Views</title>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  </head>\n  <body>\n    <main>\n      <h1>Products</h1>\n\n      <bl-tab-group>\n        <bl-tab name=\"overview\" slot=\"tabs\">Overview</bl-tab>\n        <bl-tab name=\"details\" slot=\"tabs\">Details</bl-tab>\n        <bl-tab name=\"activity\" slot=\"tabs\">Activity</bl-tab>\n\n        <bl-tab-panel tab=\"overview\">\n          <p>Summary of the product and its status.</p>\n        </bl-tab-panel>\n        <bl-tab-panel tab=\"details\">\n          <p>Specifications, pricing and dimensions.</p>\n        </bl-tab-panel>\n        <bl-tab-panel tab=\"activity\">\n          <p>Recent updates and change history.</p>\n        </bl-tab-panel>\n      </bl-tab-group>\n\n      <bl-tooltip placement=\"top\">\n        <bl-button slot=\"tooltip-trigger\" icon=\"info\" size=\"small\" label=\"About this page\">\n          About\n        </bl-button>\n        Explains what this page contains.\n      </bl-tooltip>\n    </main>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-icon"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 85,
+          "efficiency": 80,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 95,
+        "std": 0,
+        "min": 95,
+        "max": 95,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 88,
+        "std": 4.7,
+        "min": 85,
+        "max": 95,
+        "sem": 2.7
+      },
+      "efficiency": {
+        "mean": 80,
+        "std": 0,
+        "min": 80,
+        "max": 80,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 92,
+        "std": 0.9,
+        "min": 91,
+        "max": 93,
+        "sem": 0.5
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

@@ -5,6 +5,37 @@
       "persona": "adversarial",
       "model": "mlplatform/deepseek-v4-flash-0731",
       "timestamp": "2026-08-10T12:08:45.664Z",
+      "arms": {
+        "baseline": {
+          "overall": 79,
+          "dims": {
+            "correctness": 77,
+            "accessibility": 82,
+            "efficiency": 82,
+            "codeQuality": 75,
+            "maintainability": 83,
+            "overall": 79
+          },
+          "hall": 3,
+          "esc": 27,
+          "succ": 67
+        },
+        "mcp-only": null,
+        "augmented": {
+          "overall": 91,
+          "dims": {
+            "correctness": 98,
+            "accessibility": 84,
+            "efficiency": 75,
+            "codeQuality": 87,
+            "maintainability": 96,
+            "overall": 91
+          },
+          "hall": 0,
+          "esc": 9,
+          "succ": 100
+        }
+      },
       "before": {
         "overall": 79,
         "dims": {
@@ -51,6 +82,127 @@
       "persona": "naive",
       "model": "mlplatform/deepseek-v4-flash-0731",
       "timestamp": "2026-08-10T12:18:33.637Z",
+      "arms": {
+        "baseline": {
+          "overall": 87,
+          "dims": {
+            "correctness": 93,
+            "accessibility": 82,
+            "efficiency": 80,
+            "codeQuality": 82,
+            "maintainability": 89,
+            "overall": 87
+          },
+          "hall": 0,
+          "esc": 22,
+          "succ": 100
+        },
+        "mcp-only": null,
+        "augmented": {
+          "overall": 92,
+          "dims": {
+            "correctness": 98,
+            "accessibility": 83,
+            "efficiency": 84,
+            "codeQuality": 89,
+            "maintainability": 98,
+            "overall": 92
+          },
+          "hall": 0,
+          "esc": 4,
+          "succ": 100
+        }
+      },
+      "before": {
+        "overall": 87,
+        "dims": {
+          "correctness": 93,
+          "accessibility": 82,
+          "efficiency": 80,
+          "codeQuality": 82,
+          "maintainability": 89,
+          "overall": 87
+        },
+        "hall": 0,
+        "esc": 22,
+        "succ": 100
+      },
+      "after": {
+        "overall": 92,
+        "dims": {
+          "correctness": 98,
+          "accessibility": 83,
+          "efficiency": 84,
+          "codeQuality": 89,
+          "maintainability": 98,
+          "overall": 92
+        },
+        "hall": 0,
+        "esc": 4,
+        "succ": 100
+      },
+      "delta": {
+        "successRate": 0,
+        "avgOverall": 5,
+        "dim.correctness": 5,
+        "dim.accessibility": 1,
+        "dim.efficiency": 4,
+        "dim.codeQuality": 7,
+        "dim.maintainability": 9,
+        "dim.overall": 5,
+        "totalHallucinations": 0,
+        "totalEscapeHatches": -18
+      }
+    },
+    {
+      "iteration": "naive-3arm",
+      "persona": "naive",
+      "model": "deepseek-v4-flash-0731",
+      "timestamp": "2026-08-10T14:41:12.686Z",
+      "arms": {
+        "baseline": {
+          "overall": 87,
+          "dims": {
+            "correctness": 93,
+            "accessibility": 82,
+            "efficiency": 80,
+            "codeQuality": 82,
+            "maintainability": 89,
+            "overall": 87
+          },
+          "hall": 0,
+          "esc": 22,
+          "succ": 100
+        },
+        "mcp-only": {
+          "overall": 91,
+          "dims": {
+            "correctness": 97,
+            "accessibility": 82,
+            "efficiency": 82,
+            "codeQuality": 88,
+            "maintainability": 97,
+            "overall": 91
+          },
+          "hall": 0,
+          "esc": 7,
+          "succ": 100
+        },
+        "augmented": {
+          "overall": 92,
+          "dims": {
+            "correctness": 98,
+            "accessibility": 83,
+            "efficiency": 84,
+            "codeQuality": 89,
+            "maintainability": 98,
+            "overall": 92
+          },
+          "hall": 0,
+          "esc": 4,
+          "succ": 100
+        }
+      },
       "before": {
         "overall": 87,
         "dims": {
@@ -93,5 +245,5 @@
       }
     }
   ],
-  "updatedAt": "2026-08-10T12:40:33.871Z"
+  "updatedAt": "2026-08-10T14:42:11.992Z"
 }

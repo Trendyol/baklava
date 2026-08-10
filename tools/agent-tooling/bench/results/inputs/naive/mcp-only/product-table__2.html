@@ -1,0 +1,57 @@
+<bl-table>
+  <bl-table-header>
+    <bl-table-row>
+      <bl-table-header-cell sort-key="name">Product</bl-table-header-cell>
+      <bl-table-header-cell sort-key="price">Price</bl-table-header-cell>
+      <bl-table-header-cell>Status</bl-table-header-cell>
+      <bl-table-header-cell>Actions</bl-table-header-cell>
+    </bl-table-row>
+  </bl-table-header>
+  <bl-table-body>
+    <bl-table-row selection-key="p1">
+      <bl-table-cell>Wireless Mouse</bl-table-cell>
+      <bl-table-cell>$24</bl-table-cell>
+      <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+      <bl-table-cell><bl-button size="small" variant="secondary">View</bl-button></bl-table-cell>
+    </bl-table-row>
+    <bl-table-row selection-key="p2">
+      <bl-table-cell>Mechanical Keyboard</bl-table-cell>
+      <bl-table-cell>$89</bl-table-cell>
+      <bl-table-cell>&nbsp;</bl-table-cell>
+      <bl-table-cell><bl-button size="small" variant="secondary">View</bl-button></bl-table-cell>
+    </bl-table-row>
+    <bl-table-row selection-key="p3">
+      <bl-table-cell>4K Monitor</bl-table-cell>
+      <bl-table-cell>$299</bl-table-cell>
+      <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+      <bl-table-cell><bl-button size="small" variant="secondary">View</bl-button></bl-table-cell>
+    </bl-table-row>
+    <bl-table-row selection-key="p4">
+      <bl-table-cell>USB-C Hub</bl-table-cell>
+      <bl-table-cell>$45</bl-table-cell>
+      <bl-table-cell>&nbsp;</bl-table-cell>
+      <bl-table-cell><bl-button size="small" variant="secondary">View</bl-button></bl-table-cell>
+    </bl-table-row>
+    <bl-table-row selection-key="p5">
+      <bl-table-cell>Webcam</bl-table-cell>
+      <bl-table-cell>$59</bl-table-cell>
+      <bl-table-cell>&nbsp;</bl-table-cell>
+      <bl-table-cell><bl-button size="small" variant="secondary">View</bl-button></bl-table-cell>
+    </bl-table-row>
+    <bl-table-row selection-key="p6">
+      <bl-table-cell>Laptop Stand</bl-table-cell>
+      <bl-table-cell>$34</bl-table-cell>
+      <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+      <bl-table-cell><bl-button size="small" variant="secondary">View</bl-button></bl-table-cell>
+    </bl-table-row>
+  </bl-table-body>
+</bl-table>
+<bl-pagination
+  current-page="1"
+  total-items="42"
+  items-per-page="6"
+  has-jumper="true"
+  jumper-label="Go to page"
+  has-select="true"
+  select-label="Items per page"
+></bl-pagination>

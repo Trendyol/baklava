@@ -1,0 +1,273 @@
+{
+  "id": "checkout-steps",
+  "persona": "naive",
+  "model": "unknown",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "Build a multi-step checkout indicator at the top showing the current step: cart, shipping, then payment. Show a badge over a cart icon to signal the cart has two items.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 85,
+    "componentsUsed": [
+      "bl-stepper",
+      "bl-icon",
+      "bl-badge"
+    ],
+    "componentsExpected": [
+      "bl-stepper",
+      "bl-stepper-item",
+      "bl-badge"
+    ],
+    "missed": [
+      "bl-stepper-item"
+    ],
+    "escapeHatches": [
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-stepper> attr \"current\" not part of API",
+        "codeSnippet": "current"
+      },
+      {
+        "type": "wrong_component",
+        "severity": "acceptable",
+        "detail": "<bl-stepper> attr \"steps\" not part of API",
+        "codeSnippet": "steps"
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 2 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": "missing_components",
+    "confusionSignals": [
+      "Unknown attr current on bl-stepper",
+      "Unknown attr steps on bl-stepper"
+    ],
+    "scores": {
+      "correctness": 89,
+      "accessibility": 79,
+      "efficiency": 82,
+      "codeQuality": 81,
+      "maintainability": 88,
+      "overall": 85
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<div class=\"checkout-steps\">\n  <bl-stepper current=\"cart\" steps=\"cart,shipping,payment\">\n    <span class=\"step active\">Cart</span>\n    <span class=\"step\">Shipping</span>\n    <span class=\"step\">Payment</span>\n  </bl-stepper>\n  <div class=\"cart-icon\">\n    <bl-icon name=\"cart\"></bl-icon>\n    <bl-badge>2</bl-badge>\n  </div>\n</div>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 85,
+        "missed": [
+          "bl-stepper-item"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-stepper> attr \"current\" not part of API",
+            "codeSnippet": "current"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-stepper> attr \"steps\" not part of API",
+            "codeSnippet": "steps"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 89,
+          "accessibility": 79,
+          "efficiency": 82,
+          "codeQuality": 81,
+          "maintainability": 88,
+          "overall": 85
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Checkout</title>\n  <style>\n    body { font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif; margin: 0; background: #f6f7f9; color: #1c1c1e; }\n    .checkout { max-width: 640px; margin: 48px auto; padding: 24px; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }\n    h1 { font-size: 20px; margin: 0 0 4px; }\n    .cart-line { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; color: #5b5b5e; }\n    .badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; font-size: 13px; }\n  </style>\n</head>\n<body>\n  <div class=\"checkout\">\n    <div class=\"cart-line\">\n      <span aria-hidden=\"true\">🛒</span>\n      <span class=\"badge\">2</span>\n    </div>\n    <h1>Checkout</h1>\n    <bl-stepper current=\"cart\">\n      <bl-stepper-item label=\"Cart\" current></bl-stepper-item>\n      <bl-stepper-item label=\"Shipping\"></bl-stepper-item>\n      <bl-stepper-item label=\"Payment\"></bl-stepper-item>\n    </bl-stepper>\n    <p>Review the items in your cart before continuing to shipping and payment.</p>\n  </div>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 82,
+        "missed": [
+          "bl-badge"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-stepper> attr \"current\" not part of API",
+            "codeSnippet": "current"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-stepper-item> attr \"label\" not part of API",
+            "codeSnippet": "label"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-stepper-item> attr \"current\" not part of API",
+            "codeSnippet": "current"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-stepper-item> attr \"label\" not part of API",
+            "codeSnippet": "label"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-stepper-item> attr \"label\" not part of API",
+            "codeSnippet": "label"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 83,
+          "accessibility": 86,
+          "efficiency": 86,
+          "codeQuality": 72,
+          "maintainability": 76,
+          "overall": 82
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Checkout</title>\n  <style>\n    .checkout { max-width: 720px; margin: 48px auto; padding: 0 24px; font-family: system-ui, sans-serif; }\n    .topbar { position: relative; display: flex; align-items: center; margin-bottom: 32px; }\n    .cart { margin-left: auto; position: relative; display: inline-flex; }\n    .cart-icon { width: 32px; height: 32px; }\n  </style>\n</head>\n<body>\n  <main class=\"checkout\">\n    <div class=\"topbar\">\n      <h1 class=\"sr-only\">Checkout</h1>\n      <div class=\"cart\">\n        <button class=\"cart-button\" type=\"button\" aria-label=\"Cart with 2 items\">\n          <svg class=\"cart-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\">\n            <circle cx=\"9\" cy=\"21\" r=\"1\"></circle>\n            <circle cx=\"20\" cy=\"21\" r=\"1\"></circle>\n            <path d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"></path>\n          </svg>\n          <bl-badge variant=\"danger\">2</bl-badge>\n        </button>\n      </div>\n    </div>\n\n    <bl-stepper>\n      <bl-stepper-item label=\"Cart\" active></bl-stepper-item>\n      <bl-stepper-item label=\"Shipping\"></bl-stepper-item>\n      <bl-stepper-item label=\"Payment\"></bl-stepper-item>\n    </bl-stepper>\n\n    <section class=\"current-step\" aria-live=\"polite\">\n      <h2>Your cart</h2>\n      <p>Review the items in your cart before continuing to shipping.</p>\n    </section>\n  </main>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 86,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-badge> attr \"variant\" not part of API",
+            "codeSnippet": "variant"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-stepper-item> attr \"label\" not part of API",
+            "codeSnippet": "label"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-stepper-item> attr \"active\" not part of API",
+            "codeSnippet": "active"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-stepper-item> attr \"label\" not part of API",
+            "codeSnippet": "label"
+          },
+          {
+            "type": "wrong_component",
+            "severity": "acceptable",
+            "detail": "<bl-stepper-item> attr \"label\" not part of API",
+            "codeSnippet": "label"
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 88,
+          "accessibility": 99,
+          "efficiency": 82,
+          "codeQuality": 72,
+          "maintainability": 76,
+          "overall": 86
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 87,
+        "std": 2.6,
+        "min": 83,
+        "max": 89,
+        "sem": 1.5
+      },
+      "accessibility": {
+        "mean": 88,
+        "std": 8.3,
+        "min": 79,
+        "max": 99,
+        "sem": 4.8
+      },
+      "efficiency": {
+        "mean": 83,
+        "std": 1.9,
+        "min": 82,
+        "max": 86,
+        "sem": 1.1
+      },
+      "codeQuality": {
+        "mean": 75,
+        "std": 4.2,
+        "min": 72,
+        "max": 81,
+        "sem": 2.4
+      },
+      "maintainability": {
+        "mean": 80,
+        "std": 5.7,
+        "min": 76,
+        "max": 88,
+        "sem": 3.3
+      },
+      "overall": {
+        "mean": 84,
+        "std": 1.7,
+        "min": 82,
+        "max": 86,
+        "sem": 1
+      }
+    },
+    "escapeHatches": {
+      "mean": 5,
+      "std": 1.4,
+      "min": 3,
+      "max": 6,
+      "sem": 0.8
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

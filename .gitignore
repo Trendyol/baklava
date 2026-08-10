@@ -34,3 +34,8 @@ src/component-list.json
 coverage/
 build-storybook.log
 baklava-react.ts
+
+# Local dev/runtime artifacts (not part of the deliverable)
+.husky/post-commit
+.husky/post-rewrite
+.pi-subagents/

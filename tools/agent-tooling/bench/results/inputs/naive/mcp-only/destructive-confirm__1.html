@@ -1,0 +1,54 @@
+<!-- Destructive delete confirmation dialog using Baklava bl-dialog + bl-button -->
+<header style="padding: 24px;">
+  <h2 style="margin-top: 0;">Delete confirmation (mcp-only)</h2>
+  <bl-button id="open-delete" variant="primary" kind="danger" icon="trash">Delete item</bl-button>
+</header>
+
+<bl-dialog id="delete-dialog" open critical caption="Delete this item?">
+  <p style="margin: 0;">
+    This action cannot be undone. The selected item and everything inside it will be
+    permanently removed from your workspace.
+  </p>
+  <bl-button
+    slot="secondary-action"
+    id="cancel-delete"
+    variant="secondary"
+    label="Cancel"
+  ></bl-button>
+  <bl-button
+    slot="primary-action"
+    id="confirm-delete"
+    variant="primary"
+    kind="danger"
+    icon="trash"
+    label="Delete"
+  ></bl-button>
+</bl-dialog>
+
+<script type="module">
+  const dialog = document.getElementById('delete-dialog');
+  const openBtn = document.getElementById('open-delete');
+  const cancelBtn = document.getElementById('cancel-delete');
+  const confirmBtn = document.getElementById('confirm-delete');
+
+  // Close the dialog when the user cancels via the Cancel button.
+  cancelBtn.addEventListener('bl-click', () => {
+    dialog.closeDialog();
+  });
+
+  // Close the dialog when the user dismisses it (close button, Escape, backdrop).
+  dialog.addEventListener('bl-dialog-close', () => {
+    dialog.open = false;
+  });
+
+  // Let the user reopen it.
+  openBtn.addEventListener('bl-click', () => {
+    dialog.open = true;
+  });
+
+  // Dangerous action: confirm deletion, then close the dialog.
+  confirmBtn.addEventListener('bl-click', () => {
+    alert('Item deleted.');
+    dialog.closeDialog();
+  });
+</script>

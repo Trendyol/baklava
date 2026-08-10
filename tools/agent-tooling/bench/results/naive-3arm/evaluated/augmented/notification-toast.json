@@ -1,0 +1,157 @@
+{
+  "id": "notification-toast",
+  "persona": "naive",
+  "model": "unknown",
+  "category": "feedback",
+  "complexity": "simple",
+  "prompt": "After saving, briefly show a small message box in the corner of the screen letting the user know it worked, with a way to dismiss it.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-notification",
+      "bl-notification-card"
+    ],
+    "componentsExpected": [
+      "bl-notification",
+      "bl-notification-card",
+      "bl-button"
+    ],
+    "missed": [
+      "bl-button"
+    ],
+    "escapeHatches": [],
+    "failureMode": "missing_components",
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 95,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 91
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-notification>\n  <bl-notification-card variant=\"success\" caption=\"Saved\" icon>\n    Your changes were saved successfully.\n  </bl-notification-card>\n</bl-notification>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-button"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Save confirmation toast</title>\n  <style>\n    body { font-family: system-ui, sans-serif; padding: 2rem; }\n    bl-notification { position: fixed; inset-inline-end: 1rem; inset-block-start: 1rem; z-index: 1000; }\n  </style>\n</head>\n<body>\n  <h1>Save confirmation</h1>\n  <bl-button id=\"save\" variant=\"primary\">Save</bl-button>\n\n  <bl-notification id=\"notifications\"></bl-notification>\n\n  <script type=\"module\">\n    const notify = document.getElementById('notifications');\n    const save = document.getElementById('save');\n\n    const showSaved = () => {\n      notify.addNotification({\n        caption: 'Your changes were saved successfully.',\n        duration: 5,\n        variant: 'success',\n      });\n    };\n\n    save.addEventListener('click', showSaved);\n    // Also surface a confirmation on first load to demonstrate the toast.\n    showSaved();\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [
+          "bl-notification-card"
+        ],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 95,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Save Confirmation Toast</title>\n  <style>\n    body { font-family: system-ui, sans-serif; margin: 2rem; }\n    .page { max-width: 640px; margin: 0 auto; }\n  </style>\n</head>\n<body>\n  <main class=\"page\">\n    <h1>Edit profile</h1>\n    <p>Make your changes, then press the save button. A success toast appears in the corner and can be dismissed.</p>\n    <bl-button type=\"submit\" id=\"save-btn\">Save changes</bl-button>\n  </main>\n\n  <bl-notification id=\"toast\" duration=\"7\">\n    <bl-notification-card\n      variant=\"success\"\n      caption=\"Saved successfully\"\n      icon=\"true\"\n    >\n      <span>Your changes were saved.</span>\n    </bl-notification-card>\n  </bl-notification>\n\n  <script type=\"module\">\n    const card = document.querySelector('bl-notification-card');\n    const btn = document.getElementById('save-btn');\n    btn.addEventListener('bl-click', () => {\n      card.setAttribute('closed', 'false');\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 97,
+        "std": 2.4,
+        "min": 95,
+        "max": 100,
+        "sem": 1.4
+      },
+      "accessibility": {
+        "mean": 77,
+        "std": 1.4,
+        "min": 76,
+        "max": 79,
+        "sem": 0.8
+      },
+      "efficiency": {
+        "mean": 91,
+        "std": 1.9,
+        "min": 88,
+        "max": 92,
+        "sem": 1.1
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 92,
+        "std": 0.9,
+        "min": 91,
+        "max": 93,
+        "sem": 0.5
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

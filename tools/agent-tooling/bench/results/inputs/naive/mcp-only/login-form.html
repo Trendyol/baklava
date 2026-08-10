@@ -1,0 +1,85 @@
+<!-- Login page built with Baklava components (MCP-only arm) -->
+<style>
+  .login-card {
+    max-width: 360px;
+    margin: 48px auto;
+    padding: 24px;
+    border: 1px solid var(--bl-color-border, #ddd);
+    border-radius: 12px;
+    font-family: var(--bl-font-family, 'Inter', system-ui, sans-serif);
+  }
+  .login-card h1 {
+    margin: 0 0 20px;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  .login-field {
+    display: block;
+    margin-bottom: 16px;
+  }
+  .login-submit {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+  }
+  .login-status {
+    margin-top: 16px;
+    min-height: 1.2em;
+    font-size: 0.85rem;
+    color: var(--bl-color-error, #c0392b);
+  }
+</style>
+<div class="login-card">
+  <h1>Sign in</h1>
+
+  <form id="login-form" novalidate>
+    <label class="login-field">
+      <bl-input
+        name="email"
+        type="email"
+        label="Email address"
+        placeholder="you@example.com"
+        autocomplete="email"
+        required
+      ></bl-input>
+    </label>
+
+    <label class="login-field">
+      <bl-input
+        name="password"
+        type="password"
+        label="Password"
+        placeholder="Enter your password"
+        autocomplete="current-password"
+        required
+      ></bl-input>
+    </label>
+
+    <bl-button
+      class="login-submit"
+      variant="primary"
+      type="submit"
+    >Sign in</bl-button>
+  </form>
+
+  <p class="login-status" role="status" id="login-status"></p>
+</div>
+
+<script>
+  const form = document.getElementById('login-form');
+  const status = document.getElementById('login-status');
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const email = form.querySelector('bl-input[name="email"]');
+    const password = form.querySelector('bl-input[name="password"]');
+    const valid = email.reportValidity && password.reportValidity
+      ? email.reportValidity() && password.reportValidity()
+      : email.value && password.value;
+    if (!valid) {
+      status.textContent = 'Please fill in both fields.';
+      return;
+    }
+    status.textContent = `Signed in as ${email.value}`;
+  });
+</script>

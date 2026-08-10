@@ -1,0 +1,32 @@
+<!-- FAQ section built with real Baklava components (verified via MCP get_component / component_examples).
+     bl-accordion-group: multiple (boolean) - if false only one accordion open at a time.
+     bl-accordion: caption (string) shows the trigger label; default slot holds the answer; icon attr optional.
+     Event: bl-toggle (CustomEvent<boolean>) fires when open state changes. -->
+<bl-accordion-group class="faq-group">
+  <h2 class="faq-title">Frequently Asked Questions</h2>
+
+  <bl-accordion caption="How do I reset my password?">
+    <p>Go to the sign-in page and choose "Forgot password". We will email you a secure link to set a new password.</p>
+  </bl-accordion>
+
+  <bl-accordion caption="Which payment methods do you accept?">
+    <p>We accept major credit and debit cards, as well as popular digital wallets. Apple Pay and Google Pay are supported at checkout.</p>
+  </bl-accordion>
+
+  <bl-accordion caption="How long does shipping take?">
+    <p>Standard shipping usually arrives in 3–5 business days. Express shipping is available at checkout for delivery in 1–2 business days.</p>
+  </bl-accordion>
+
+  <bl-accordion caption="Can I cancel my order after placing it?">
+    <p>Yes — you can cancel within 24 hours of placing your order from the order history page. Refunds are issued to the original payment method.</p>
+  </bl-accordion>
+</bl-accordion-group>
+
+<script type="module">
+  // Real Baklava event: bl-toggle (CustomEvent<boolean>) — fires on open-state change.
+  const group = document.querySelector('.faq-group');
+  group?.addEventListener('bl-toggle', (e) => {
+    const caption = e.target?.getAttribute('caption') || 'item';
+    console.log(`[FAQ] "${caption}" ${e.detail ? 'expanded' : 'collapsed'}`);
+  });
+</script>

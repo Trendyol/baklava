@@ -1,0 +1,46 @@
+<!-- Baklava notification toast — saved confirmation shown in a corner, dismissible -->
+<style>
+  .toast-corner {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 1000;
+  }
+  .toast-corner[hidden] { display: none; }
+</style>
+
+<bl-button id="saveBtn" kind="success">Save changes</bl-button>
+
+<bl-notification class="toast-corner">
+  <bl-notification-card
+    id="note"
+    variant="success"
+    permanent
+    caption="Saved successfully — your changes are now live."
+    icon
+  >
+    <bl-button slot="action" size="small" kind="danger" id="dismissBtn">Dismiss</bl-button>
+  </bl-notification-card>
+</bl-notification>
+
+<script>
+  const corner = document.querySelector('.toast-corner');
+  const note = document.getElementById('note');
+  const saveBtn = document.getElementById('saveBtn');
+  const dismissBtn = document.getElementById('dismissBtn');
+
+  // Show the confirmation toast in the corner after saving.
+  saveBtn.addEventListener('bl-click', () => {
+    corner.hidden = false;
+  });
+
+  // Dismiss via the slot action button (calls the card's close()).
+  dismissBtn.addEventListener('bl-click', () => {
+    note.close();
+  });
+
+  // Hide the corner when the card reports it closed.
+  note.addEventListener('bl-notification-card-close', () => {
+    corner.hidden = true;
+  });
+</script>

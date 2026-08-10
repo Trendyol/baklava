@@ -49,24 +49,27 @@ MCP with a local, CEM-backed, token-efficient one.
 
 ## 3. Benchmark — producing before/after data
 
-The harness measures the tooling's effect: an agent working **before** (raw
-knowledge only) vs **after** (with the CLI/tooling). Evaluation is deterministic
+The harness measures the tooling's effect across **three arms** on the same repo
+and prompts, isolating tooling from repo-state noise. Evaluation is deterministic
 against the real CEM.
+
+Arms:
+- **baseline** — only the plain-language prompt + available `bl-*` tag names (no
+  API docs, no MCP, no CLI): realistic guesses and some errors.
+- **mcp-only** — the prompt + the **Baklava MCP server** (via `mcp/client.mjs`), no
+  CLI: the honest “current usage” where an agent asks MCP for real component details.
+- **augmented** — the prompt + the CLI (and MCP), required to run
+  `component <name> --dense` / `example <name>` before writing code: exact-API HTML.
 
 Steps:
 
 1. **Generate agent outputs** for each prompt × arm and save to
-   `bench/results/inputs/<arm>/<promptId>.html`:
-   - `baseline/` — the agent is given only the plain-language prompt and the
-     available `bl-*` tag names (no API docs, no CLI). It produces HTML from
-     general web-component conventions — realistic guesses and some errors.
-   - `augmented/` — the agent is given the prompt AND the CLI, and is required
-     to run `component <name> --dense` / `example <name>` before writing code,
-     producing exact-API HTML.
-   In this benchmark, the agent outputs were produced by real coding **subagents**
-   (one per arm/prompt) following this contract; they are committed under
-   `bench/results/inputs/` and evaluated into `bench/results/real-subagents/`.
-   Any LLM agent can be used as long as it follows the task contract below.
+   `bench/results/inputs/<arm>/<promptId>.html` (multi-sample: `<id>__<n>.html`).
+   In this benchmark the agent outputs were produced by real coding **subagents**
+   (one per arm/prompt) following the task contracts below; the naive deepseek 3-arm
+   run is committed under `bench/results/inputs/` and evaluated into
+   `bench/results/naive-3arm/`. Any LLM agent can be used as long as it follows the
+   contract below.
 2. **Evaluate** (deterministic):
    `node tools/agent-tooling/bench/src/cli.mjs evaluate --iteration <id>`
 3. **Compare** (before/after → `compare.json` + `compare.md`):
@@ -88,6 +91,14 @@ Deterministic demo without an LLM:
 > `node tools/agent-tooling/cli/bin/baklava.mjs build "<prompt>"` then
 > `component <Name> --dense` for each candidate. Use ONLY real components and real
 > attributes/events shown by the CLI. Output only a self-contained HTML fragment.
+
+**MCP-only arm task:**
+> You build frontend HTML with Baklava. You learn the component API ONLY through the
+> Baklava MCP server, using this stdio client wrapper:
+> `node tools/agent-tooling/mcp/client.mjs` — call `list_components`,
+> `component_build`, `get_component`, `component_examples`. Use ONLY real bl-* tags
+> and real attributes/events the MCP responses confirm. Do **not** run the baklava CLI.
+> Output only a self-contained HTML fragment.
 
 ### Rubric (deterministic evaluator)
 

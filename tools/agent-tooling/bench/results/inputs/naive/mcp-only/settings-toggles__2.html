@@ -1,0 +1,35 @@
+<!-- Settings screen: toggles + language dropdown + per-option hint text (built with Baklava bl-* components, MCP-verified) -->
+<section class="settings-panel">
+  <bl-switch>Enable notifications</bl-switch>
+  <p class="hint">Get a notification when something important happens.</p>
+
+  <bl-switch checked>Dark mode</bl-switch>
+  <p class="hint">Use a darker color scheme to reduce eye strain.</p>
+
+  <bl-switch>Email summaries</bl-switch>
+  <p class="hint">Receive a weekly summary of your activity.</p>
+
+  <bl-switch disabled>Auto-save</bl-switch>
+  <p class="hint">This option is currently locked by your administrator.</p>
+
+  <bl-select label="Language" placeholder="Choose a language" value="en">
+    <bl-select-option value="en">English</bl-select-option>
+    <bl-select-option value="tr">Türkçe</bl-select-option>
+    <bl-select-option value="de">Deutsch</bl-select-option>
+    <bl-select-option value="fr">Français</bl-select-option>
+  </bl-select>
+  <p class="hint">Choose the language used across the interface.</p>
+</section>
+
+<script>
+  // Listen to bl-switch-toggle CustomEvents (real Baklava events, confirmed via MCP).
+  document.querySelectorAll('bl-switch').forEach((sw) => {
+    sw.addEventListener('bl-switch-toggle', (e) => {
+      console.log(`Toggled to: ${e.detail ? 'on' : 'off'}`);
+    });
+  });
+  // bl-select fires a CustomEvent on option click; hook in below.
+  document.querySelector('bl-select')?.addEventListener('bl-select-option', (e) => {
+    console.log(`Language selected: ${e.detail}`);
+  });
+</script>

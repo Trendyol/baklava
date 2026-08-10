@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delete confirmation</title>
+  <script type="module" src="/src/baklava.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 2rem; display: grid; gap: 1rem; place-items: center; }
+  </style>
+</head>
+<body>
+  <bl-button id="open-delete" kind="danger" label="Delete account"></bl-button>
+
+  <bl-dialog id="confirm-dialog" caption="Delete account?" critical>
+    <p>This action cannot be undone. The account and all of its data will be permanently removed.</p>
+    <div slot="primary-action">
+      <bl-button id="confirm-delete" kind="danger" label="Delete" type="submit"></bl-button>
+    </div>
+    <div slot="secondary-action">
+      <bl-button id="cancel-delete" kind="neutral" label="Cancel"></bl-button>
+    </div>
+  </bl-dialog>
+
+  <script>
+    const dialog = document.getElementById('confirm-dialog');
+    const confirmBtn = document.getElementById('confirm-delete');
+    const cancelBtn = document.getElementById('cancel-delete');
+
+    // Open the modal, blocking the background.
+    document.getElementById('open-delete').addEventListener('bl-click', () => {
+      dialog.setAttribute('open', '');
+    });
+
+    // Dangerous confirmation button.
+    confirmBtn.addEventListener('bl-click', () => {
+      // In a real app this would call the delete API.
+      console.log('DELETE confirmed');
+      dialog.removeAttribute('open');
+    });
+
+    // Safe cancel button.
+    cancelBtn.addEventListener('bl-click', () => {
+      dialog.removeAttribute('open');
+    });
+  </script>
+</body>
+</html>

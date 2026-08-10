@@ -1,0 +1,13 @@
+{
+  "id": "login-form",
+  "arm": "baseline",
+  "scores": {
+    "correctness": 80,
+    "accessibility": 75,
+    "efficiency": 78,
+    "codeQuality": 82,
+    "maintainability": 82,
+    "overall": 79
+  },
+  "verdict": "Uses ONLY real components and attributes: bl-input (name, type=email/password, label, required) and bl-button (type=submit) all match the real CEM API, so there are no hallucinated API members and the email/password inputs correctly hide typed text via type=password. However the form has onsubmit='return false;' with no submit handler, so the core requirement — submitting when the user presses Enter or clicks 'Log in' — is not actually wired (no real submit action fires). Button styling relies on class='primary', which is cosmetic rather than the real variant='primary' attribute, though primary is the default variant so appearance is acceptable."
+}

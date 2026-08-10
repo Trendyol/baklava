@@ -1,0 +1,80 @@
+<section>
+  <h2>Product Catalog</h2>
+  <bl-table>
+    <bl-table-header sticky>
+      <bl-table-row>
+        <bl-table-header-cell>Product</bl-table-header-cell>
+        <bl-table-header-cell sort-key="category">Category</bl-table-header-cell>
+        <bl-table-header-cell sort-key="price">Price</bl-table-header-cell>
+        <bl-table-header-cell>Status</bl-table-header-cell>
+        <bl-table-header-cell>Actions</bl-table-header-cell>
+      </bl-table-row>
+    </bl-table-header>
+    <bl-table-body>
+      <bl-table-row>
+        <bl-table-cell>Ergonomic Chair</bl-table-cell>
+        <bl-table-cell>Furniture</bl-table-cell>
+        <bl-table-cell>$249</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell><bl-button label="View"></bl-button></bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Mechanical Keyboard</bl-table-cell>
+        <bl-table-cell>Electronics</bl-table-cell>
+        <bl-table-cell>$129</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell><bl-button label="View"></bl-button></bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Wireless Mouse</bl-table-cell>
+        <bl-table-cell>Electronics</bl-table-cell>
+        <bl-table-cell>$59</bl-table-cell>
+        <bl-table-cell></bl-table-cell>
+        <bl-table-cell><bl-button label="View"></bl-button></bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Standing Desk</bl-table-cell>
+        <bl-table-cell>Furniture</bl-table-cell>
+        <bl-table-cell>$499</bl-table-cell>
+        <bl-table-cell><bl-badge size="small">Popular</bl-badge></bl-table-cell>
+        <bl-table-cell><bl-button label="View"></bl-button></bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Desk Lamp</bl-table-cell>
+        <bl-table-cell>Lighting</bl-table-cell>
+        <bl-table-cell>$45</bl-table-cell>
+        <bl-table-cell></bl-table-cell>
+        <bl-table-cell><bl-button label="View"></bl-button></bl-table-cell>
+      </bl-table-row>
+      <bl-table-row>
+        <bl-table-cell>Laptop Stand</bl-table-cell>
+        <bl-table-cell>Accessories</bl-table-cell>
+        <bl-table-cell>$79</bl-table-cell>
+        <bl-table-cell></bl-table-cell>
+        <bl-table-cell><bl-button label="View"></bl-button></bl-table-cell>
+      </bl-table-row>
+    </bl-table-body>
+  </bl-table>
+
+  <bl-pagination
+    current-page="1"
+    total-items="250"
+    items-per-page="10"
+    has-select="true"
+    select-label="Items per page"
+    has-jumper="true"
+    jumper-label="Go to page"
+  ></bl-pagination>
+
+  <script>
+    const pagination = document.querySelector('bl-pagination');
+    pagination.addEventListener('bl-change', (e) => {
+      const { selectedPage } = e.detail;
+      console.log('Page changed to', selectedPage);
+    });
+    const table = document.querySelector('bl-table');
+    table.addEventListener('bl-row-select', (e) => {
+      console.log('Selected rows', e.detail);
+    });
+  </script>
+</section>

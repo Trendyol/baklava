@@ -1,0 +1,150 @@
+{
+  "id": "accordion-faq",
+  "persona": "naive",
+  "model": "unknown",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "Build an FAQ section where the user clicks a question and it expands to reveal the answer below it. Several questions should be grouped together.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-accordion-group",
+      "bl-accordion"
+    ],
+    "componentsExpected": [
+      "bl-accordion",
+      "bl-accordion-group"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-accordion-group>\n  <h2>Frequently Asked Questions</h2>\n\n  <bl-accordion caption=\"What is Baklava?\" icon=\"info\">\n    Baklava is the design system for the Trendyol web platform, built on web components so it works with any framework or none at all.\n  </bl-accordion>\n\n  <bl-accordion caption=\"How do I install it?\" icon=\"info\">\n    Install the <code>@trendyol/baklava</code> package and import the components you need. No build step or framework wrapper is required.\n  </bl-accordion>\n\n  <bl-accordion caption=\"Is it framework agnostic?\" icon=\"info\">\n    Yes. Because Baklava uses <code>&lt;bl-*&gt;</code> custom elements, the same markup works in React, Vue, Angular, or plain HTML pages.\n  </bl-accordion>\n</bl-accordion-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-accordion-group multiple>\n  <bl-accordion caption=\"What is Baklava?\" icon=\"info\">\n    Baklava is Trendyol's open-source web-component library built on Web Components and Lit.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I install it?\" icon=\"info\">\n    Install the package with your package manager and import the components you need.\n  </bl-accordion>\n  <bl-accordion caption=\"Do the components work with any framework?\" icon=\"info\">\n    Yes — because they are framework-agnostic web components, they work with any framework or vanilla HTML.\n  </bl-accordion>\n  <bl-accordion caption=\"How can I customize the look?\" icon=\"info\">\n    Use the exposed CSS custom properties and slots to customize appearance and content.\n  </bl-accordion>\n</bl-accordion-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!-- FAQ section built with real Baklava components (verified via MCP get_component / component_examples).\n     bl-accordion-group: multiple (boolean) - if false only one accordion open at a time.\n     bl-accordion: caption (string) shows the trigger label; default slot holds the answer; icon attr optional.\n     Event: bl-toggle (CustomEvent<boolean>) fires when open state changes. -->\n<bl-accordion-group class=\"faq-group\">\n  <h2 class=\"faq-title\">Frequently Asked Questions</h2>\n\n  <bl-accordion caption=\"How do I reset my password?\">\n    <p>Go to the sign-in page and choose \"Forgot password\". We will email you a secure link to set a new password.</p>\n  </bl-accordion>\n\n  <bl-accordion caption=\"Which payment methods do you accept?\">\n    <p>We accept major credit and debit cards, as well as popular digital wallets. Apple Pay and Google Pay are supported at checkout.</p>\n  </bl-accordion>\n\n  <bl-accordion caption=\"How long does shipping take?\">\n    <p>Standard shipping usually arrives in 3–5 business days. Express shipping is available at checkout for delivery in 1–2 business days.</p>\n  </bl-accordion>\n\n  <bl-accordion caption=\"Can I cancel my order after placing it?\">\n    <p>Yes — you can cancel within 24 hours of placing your order from the order history page. Refunds are issued to the original payment method.</p>\n  </bl-accordion>\n</bl-accordion-group>\n\n<script type=\"module\">\n  // Real Baklava event: bl-toggle (CustomEvent<boolean>) — fires on open-state change.\n  const group = document.querySelector('.faq-group');\n  group?.addEventListener('bl-toggle', (e) => {\n    const caption = e.target?.getAttribute('caption') || 'item';\n    console.log(`[FAQ] \"${caption}\" ${e.detail ? 'expanded' : 'collapsed'}`);\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

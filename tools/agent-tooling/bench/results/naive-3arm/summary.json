@@ -1,0 +1,254 @@
+{
+  "iteration": "naive-3arm",
+  "persona": "naive",
+  "model": "unknown",
+  "arms": {
+    "baseline": {
+      "count": 8,
+      "aggregate": {
+        "n": 8,
+        "successRate": 100,
+        "avgOverall": 87,
+        "overallStd": 3.7,
+        "overallCI": [
+          84,
+          90
+        ],
+        "dimensions": {
+          "correctness": 93,
+          "accessibility": 82,
+          "efficiency": 80,
+          "codeQuality": 82,
+          "maintainability": 89,
+          "overall": 87
+        },
+        "dimStd": {
+          "correctness": 5.7,
+          "accessibility": 7.1,
+          "efficiency": 8.9,
+          "codeQuality": 6.5,
+          "maintainability": 8.6,
+          "overall": 3.7
+        },
+        "dimensionErrBars": {
+          "correctness": {
+            "lo": 89,
+            "hi": 97
+          },
+          "accessibility": {
+            "lo": 77,
+            "hi": 87
+          },
+          "efficiency": {
+            "lo": 74,
+            "hi": 86
+          },
+          "codeQuality": {
+            "lo": 77,
+            "hi": 87
+          },
+          "maintainability": {
+            "lo": 83,
+            "hi": 95
+          },
+          "overall": {
+            "lo": 84,
+            "hi": 90
+          }
+        },
+        "totalHallucinations": 0,
+        "totalEscapeHatches": 22,
+        "uniqueComponentsUsed": [
+          "bl-accordion",
+          "bl-accordion-group",
+          "bl-badge",
+          "bl-button",
+          "bl-icon",
+          "bl-input",
+          "bl-notification",
+          "bl-notification-card",
+          "bl-pagination",
+          "bl-select",
+          "bl-select-option",
+          "bl-stepper",
+          "bl-switch",
+          "bl-tab",
+          "bl-tab-panel",
+          "bl-table",
+          "bl-table-body",
+          "bl-table-cell",
+          "bl-table-header",
+          "bl-table-row",
+          "bl-tooltip"
+        ]
+      }
+    },
+    "mcp-only": {
+      "count": 8,
+      "aggregate": {
+        "n": 8,
+        "successRate": 100,
+        "avgOverall": 91,
+        "overallStd": 1.6,
+        "overallCI": [
+          90,
+          92
+        ],
+        "dimensions": {
+          "correctness": 97,
+          "accessibility": 82,
+          "efficiency": 82,
+          "codeQuality": 88,
+          "maintainability": 97,
+          "overall": 91
+        },
+        "dimStd": {
+          "correctness": 2,
+          "accessibility": 7.2,
+          "efficiency": 9.4,
+          "codeQuality": 2.1,
+          "maintainability": 2.8,
+          "overall": 1.6
+        },
+        "dimensionErrBars": {
+          "correctness": {
+            "lo": 96,
+            "hi": 98
+          },
+          "accessibility": {
+            "lo": 77,
+            "hi": 87
+          },
+          "efficiency": {
+            "lo": 76,
+            "hi": 88
+          },
+          "codeQuality": {
+            "lo": 87,
+            "hi": 89
+          },
+          "maintainability": {
+            "lo": 95,
+            "hi": 99
+          },
+          "overall": {
+            "lo": 90,
+            "hi": 92
+          }
+        },
+        "totalHallucinations": 0,
+        "totalEscapeHatches": 7,
+        "uniqueComponentsUsed": [
+          "bl-accordion",
+          "bl-accordion-group",
+          "bl-badge",
+          "bl-button",
+          "bl-dialog",
+          "bl-icon",
+          "bl-input",
+          "bl-notification",
+          "bl-notification-card",
+          "bl-pagination",
+          "bl-select",
+          "bl-select-option",
+          "bl-stepper",
+          "bl-stepper-item",
+          "bl-switch",
+          "bl-tab",
+          "bl-tab-group",
+          "bl-tab-panel",
+          "bl-table",
+          "bl-table-body",
+          "bl-table-cell",
+          "bl-table-header",
+          "bl-table-row",
+          "bl-tooltip"
+        ]
+      }
+    },
+    "augmented": {
+      "count": 8,
+      "aggregate": {
+        "n": 8,
+        "successRate": 100,
+        "avgOverall": 92,
+        "overallStd": 0.7,
+        "overallCI": [
+          91,
+          93
+        ],
+        "dimensions": {
+          "correctness": 98,
+          "accessibility": 83,
+          "efficiency": 84,
+          "codeQuality": 89,
+          "maintainability": 98,
+          "overall": 92
+        },
+        "dimStd": {
+          "correctness": 1.5,
+          "accessibility": 7.2,
+          "efficiency": 9,
+          "codeQuality": 1.4,
+          "maintainability": 1.9,
+          "overall": 0.7
+        },
+        "dimensionErrBars": {
+          "correctness": {
+            "lo": 97,
+            "hi": 99
+          },
+          "accessibility": {
+            "lo": 78,
+            "hi": 88
+          },
+          "efficiency": {
+            "lo": 78,
+            "hi": 90
+          },
+          "codeQuality": {
+            "lo": 88,
+            "hi": 90
+          },
+          "maintainability": {
+            "lo": 97,
+            "hi": 99
+          },
+          "overall": {
+            "lo": 91,
+            "hi": 93
+          }
+        },
+        "totalHallucinations": 0,
+        "totalEscapeHatches": 4,
+        "uniqueComponentsUsed": [
+          "bl-accordion",
+          "bl-accordion-group",
+          "bl-badge",
+          "bl-button",
+          "bl-dialog",
+          "bl-icon",
+          "bl-input",
+          "bl-notification",
+          "bl-notification-card",
+          "bl-pagination",
+          "bl-select",
+          "bl-select-option",
+          "bl-stepper",
+          "bl-stepper-item",
+          "bl-switch",
+          "bl-tab",
+          "bl-tab-group",
+          "bl-tab-panel",
+          "bl-table",
+          "bl-table-body",
+          "bl-table-cell",
+          "bl-table-header",
+          "bl-table-header-cell",
+          "bl-table-row",
+          "bl-tooltip"
+        ]
+      }
+    }
+  }
+}
