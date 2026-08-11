@@ -1,0 +1,205 @@
+{
+  "id": "checkout-steps",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "Build a multi-step checkout indicator at the top showing the current step: cart, shipping, then payment. Show a badge over a cart icon to signal the cart has two items.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 90,
+    "componentsUsed": [
+      "bl-icon",
+      "bl-badge",
+      "bl-stepper",
+      "bl-stepper-item"
+    ],
+    "componentsExpected": [
+      "bl-stepper",
+      "bl-stepper-item",
+      "bl-badge"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "inline_style",
+        "severity": "acceptable",
+        "detail": "used 1 inline style=",
+        "codeSnippet": "style="
+      },
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 2 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 96,
+      "accessibility": 92,
+      "efficiency": 73,
+      "codeQuality": 84,
+      "maintainability": 92,
+      "overall": 90
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<div class=\"checkout-header\">\n  <div class=\"cart-wrap\">\n    <button type=\"button\" class=\"cart-button\" aria-label=\"Open shopping cart\">\n      <bl-icon name=\"shopping_cart\"></bl-icon>\n      <bl-badge size=\"small\" class=\"cart-count\">2</bl-badge>\n    </button>\n  </div>\n\n  <bl-stepper type=\"number\" direction=\"horizontal\" usage=\"non-clickable\" style=\"max-width: 520px; margin-top: 24px;\">\n    <bl-stepper-item id=\"cart\" title=\"Cart\" description=\"Your items\" variant=\"active\"></bl-stepper-item>\n    <bl-stepper-item id=\"shipping\" title=\"Shipping\" description=\"Delivery address\" variant=\"default\"></bl-stepper-item>\n    <bl-stepper-item id=\"payment\" title=\"Payment\" description=\"Payment method\" variant=\"default\"></bl-stepper-item>\n  </bl-stepper>\n</div>\n\n<style>\n  .checkout-header {\n    font-family: inherit;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 8px;\n    padding: 16px;\n  }\n  .cart-wrap {\n    position: relative;\n    display: inline-flex;\n  }\n  .cart-button {\n    position: relative;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    width: 44px;\n    height: 44px;\n    padding: 0;\n    border: none;\n    background: transparent;\n    cursor: pointer;\n    color: var(--bl-color-primary, #0053ff);\n  }\n  .cart-count {\n    position: absolute;\n    top: 2px;\n    right: 0;\n    transform: translate(40%, -20%);\n  }\n</style>\n\n<script>\n  // bl-stepper-change is a CustomEvent<string> fired when the active step changes.\n  document.addEventListener('bl-stepper-change', (event) => {\n    const detail = event.detail;\n    console.log('Current checkout step changed to:', detail);\n  });\n  document.querySelector('.cart-button')?.addEventListener('click', () => {\n    console.log('Open shopping cart (2 items)');\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 90,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 1 inline style=",
+            "codeSnippet": "style="
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 92,
+          "efficiency": 73,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 90
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!-- Multi-step checkout indicator with cart badge. Components verified via MCP:\n     bl-stepper (type number|dot|icon, direction, usage), bl-stepper-item (variant default|success|error|active,\n     icon, title, description), bl-badge (size small|medium|large, icon), bl-icon (name). -->\n<div style=\"font-family: var(--bl-font-family, sans-serif); padding: 24px;\">\n\n  <!-- Cart icon with a badge signalling 2 items -->\n  <div style=\"position: relative; display: inline-flex; margin-bottom: 24px;\">\n    <bl-icon name=\"cart\" style=\"font-size: 28px;\"></bl-icon>\n    <bl-badge size=\"small\" style=\"position: absolute; top: -8px; right: -12px;\">2</bl-badge>\n  </div>\n\n  <!-- Checkout progress: cart (current) -> shipping -> payment -->\n  <bl-stepper type=\"dot\" direction=\"horizontal\">\n    <bl-stepper-item id=\"step-cart\" variant=\"active\" title=\"Cart\" description=\"Review items\"></bl-stepper-item>\n    <bl-stepper-item id=\"step-shipping\" variant=\"default\" title=\"Shipping\" description=\"Delivery info\"></bl-stepper-item>\n    <bl-stepper-item id=\"step-payment\" variant=\"default\" title=\"Payment\" description=\"Billing\"></bl-stepper-item>\n  </bl-stepper>\n\n  <script>\n    const stepper = document.querySelector('bl-stepper');\n    if (stepper) {\n      stepper.addEventListener('bl-stepper-change', (event) => {\n        console.log('checkout step:', event.detail && event.detail.activeStep);\n      });\n    }\n  </script>\n</div>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 86,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 4 inline style=",
+            "codeSnippet": "style="
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 82,
+          "efficiency": 58,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 86
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!-- mcp-only / checkout-steps__2 — built from MCP get_component(examples) info -->\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.css\" />\n<script type=\"module\" src=\"https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.js\"></script>\n\n<div style=\"display:flex; align-items:center; justify-content:space-between; gap:24px; max-width:720px; margin:32px auto; font-family:var(--bl-font-family, sans-serif);\">\n  <bl-stepper id=\"checkout-stepper\" type=\"number\" direction=\"horizontal\" usage=\"clickable\">\n    <bl-stepper-item title=\"Cart\" description=\"Review items\" variant=\"active\"></bl-stepper-item>\n    <bl-stepper-item title=\"Shipping\" description=\"Delivery address\" variant=\"default\"></bl-stepper-item>\n    <bl-stepper-item title=\"Payment\" description=\"Pay securely\" variant=\"default\"></bl-stepper-item>\n  </bl-stepper>\n\n  <div style=\"position:relative; display:inline-flex; align-items:center; gap:6px;\">\n    <span aria-label=\"Cart\">Cart</span>\n    <bl-badge size=\"small\">2</bl-badge>\n  </div>\n</div>\n\n<script type=\"module\">\n  const stepper = document.getElementById('checkout-stepper');\n  stepper.addEventListener('bl-stepper-change', (e) => {\n    console.log('checkout step changed', e.detail?.activeStep, 'of', e.detail?.totalSteps);\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "inline_style",
+            "severity": "acceptable",
+            "detail": "used 2 inline style=",
+            "codeSnippet": "style="
+          },
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 96,
+          "accessibility": 89,
+          "efficiency": 72,
+          "codeQuality": 84,
+          "maintainability": 92,
+          "overall": 89
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 96,
+        "std": 0,
+        "min": 96,
+        "max": 96,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 88,
+        "std": 4.2,
+        "min": 82,
+        "max": 92,
+        "sem": 2.4
+      },
+      "efficiency": {
+        "mean": 68,
+        "std": 6.8,
+        "min": 58,
+        "max": 73,
+        "sem": 4
+      },
+      "codeQuality": {
+        "mean": 84,
+        "std": 0,
+        "min": 84,
+        "max": 84,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 88,
+        "std": 1.7,
+        "min": 86,
+        "max": 90,
+        "sem": 1
+      }
+    },
+    "escapeHatches": {
+      "mean": 2,
+      "std": 0,
+      "min": 2,
+      "max": 2,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

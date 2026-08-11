@@ -1,0 +1,170 @@
+{
+  "id": "notification-toast",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "feedback",
+  "complexity": "simple",
+  "prompt": "After saving, briefly show a small message box in the corner of the screen letting the user know it worked, with a way to dismiss it.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-button",
+      "bl-notification",
+      "bl-notification-card"
+    ],
+    "componentsExpected": [
+      "bl-notification",
+      "bl-notification-card",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 79,
+      "efficiency": 88,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<!-- Baklava notification toast — saved confirmation shown in a corner, dismissible -->\n<style>\n  .toast-corner {\n    position: fixed;\n    right: 1.5rem;\n    bottom: 1.5rem;\n    z-index: 1000;\n  }\n  .toast-corner[hidden] { display: none; }\n</style>\n\n<bl-button id=\"saveBtn\" kind=\"success\">Save changes</bl-button>\n\n<bl-notification class=\"toast-corner\">\n  <bl-notification-card\n    id=\"note\"\n    variant=\"success\"\n    permanent\n    caption=\"Saved successfully — your changes are now live.\"\n    icon\n  >\n    <bl-button slot=\"action\" size=\"small\" kind=\"danger\" id=\"dismissBtn\">Dismiss</bl-button>\n  </bl-notification-card>\n</bl-notification>\n\n<script>\n  const corner = document.querySelector('.toast-corner');\n  const note = document.getElementById('note');\n  const saveBtn = document.getElementById('saveBtn');\n  const dismissBtn = document.getElementById('dismissBtn');\n\n  // Show the confirmation toast in the corner after saving.\n  saveBtn.addEventListener('bl-click', () => {\n    corner.hidden = false;\n  });\n\n  // Dismiss via the slot action button (calls the card's close()).\n  dismissBtn.addEventListener('bl-click', () => {\n    note.close();\n  });\n\n  // Hide the corner when the card reports it closed.\n  note.addEventListener('bl-notification-card-close', () => {\n    corner.hidden = true;\n  });\n</script>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 79,
+          "efficiency": 88,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Save notification toast</title>\n  <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap\" rel=\"stylesheet\">\n  <style>\n    body {\n      font-family: 'Inter', system-ui, sans-serif;\n      margin: 0;\n      min-height: 100vh;\n      background: #f5f6f8;\n      display: grid;\n      place-items: center;\n    }\n    .demo {\n      background: #fff;\n      border: 1px solid #e5e8ee;\n      border-radius: 12px;\n      padding: 40px;\n      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);\n      display: flex;\n      align-items: center;\n      gap: 16px;\n    }\n    bl-notification {\n      position: fixed;\n      top: 24px;\n      right: 24px;\n      z-index: 999;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"demo\">\n    <span>Settings were edited</span>\n    <bl-button variant=\"primary\" id=\"save-btn\">Save changes</bl-button>\n  </div>\n\n  <bl-notification id=\"notifications\" no-animation></bl-notification>\n\n  <script type=\"module\">\n    const saveBtn = document.getElementById('save-btn');\n    const notifications = document.getElementById('notifications');\n\n    saveBtn.addEventListener('bl-click', () => {\n      notifications.addNotification({\n        caption: 'Your changes have been saved successfully.',\n        variant: 'success',\n        permanent: false,\n        duration: 7,\n        icon: 'check',\n      });\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [
+          "bl-notification-card"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 93,
+          "accessibility": 76,
+          "efficiency": 89,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 89
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!-- Success notification toast with dismiss (MCP-only arm sample 2) -->\n\n<!-- Baklava styles -->\n<link\n  rel=\"stylesheet\"\n  href=\"https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.css\"\n/>\n\n<div class=\"page\">\n  <bl-button id=\"save-btn\" variant=\"primary\">Save</bl-button>\n</div>\n\n<!-- Toast host: renders stacked notification cards in the corner -->\n<bl-notification id=\"toasts\" no-animation></bl-notification>\n\n<script type=\"module\">\n  import { BaklavaIcon } from \"https://cdn.jsdelivr.net/npm/@trendyol/baklava/dist/baklava.esm.js\";\n\n  const toasts = document.getElementById(\"toasts\");\n  const saveBtn = document.getElementById(\"save-btn\");\n\n  function showSaved() {\n    toasts.addNotification({\n      caption: \"Saved\",\n      description: \"Your changes have been saved successfully.\",\n      icon: BaklavaIcon.CheckCircle,\n      variant: \"success\",\n      // Automatically dismisses after 5 seconds, but the close button always works\n      duration: 5\n    });\n  }\n\n  saveBtn.addEventListener(\"bl-click\", showSaved);\n</script>\n\n<style>\n  .page {\n    padding: 24px;\n    font-family: system-ui, sans-serif;\n  }\n</style>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [
+          "bl-notification-card"
+        ],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 93,
+          "accessibility": 76,
+          "efficiency": 89,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 89
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 95,
+        "std": 3.3,
+        "min": 93,
+        "max": 100,
+        "sem": 1.9
+      },
+      "accessibility": {
+        "mean": 77,
+        "std": 1.4,
+        "min": 76,
+        "max": 79,
+        "sem": 0.8
+      },
+      "efficiency": {
+        "mean": 89,
+        "std": 0.5,
+        "min": 88,
+        "max": 89,
+        "sem": 0.3
+      },
+      "codeQuality": {
+        "mean": 88,
+        "std": 1.4,
+        "min": 87,
+        "max": 90,
+        "sem": 0.8
+      },
+      "maintainability": {
+        "mean": 97,
+        "std": 1.9,
+        "min": 96,
+        "max": 100,
+        "sem": 1.1
+      },
+      "overall": {
+        "mean": 90,
+        "std": 1.9,
+        "min": 89,
+        "max": 93,
+        "sem": 1.1
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0.5,
+      "min": 0,
+      "max": 1,
+      "sem": 0.3
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

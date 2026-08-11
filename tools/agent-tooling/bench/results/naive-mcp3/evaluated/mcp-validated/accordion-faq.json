@@ -1,0 +1,150 @@
+{
+  "id": "accordion-faq",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "content",
+  "complexity": "moderate",
+  "prompt": "Build an FAQ section where the user clicks a question and it expands to reveal the answer below it. Several questions should be grouped together.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-accordion-group",
+      "bl-accordion"
+    ],
+    "componentsExpected": [
+      "bl-accordion",
+      "bl-accordion-group"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<section class=\"faq\">\n  <h2>Frequently Asked Questions</h2>\n  <bl-accordion-group>\n    <bl-accordion caption=\"How do I reset my password?\" icon=\"info\">\n      <p>Click \"Forgot password\" on the login screen and follow the email link to set a new one.</p>\n    </bl-accordion>\n    <bl-accordion caption=\"How do I track my order?\" icon=\"info\">\n      <p>Go to \"My Orders\" and open the order you want. The latest status appears at the top.</p>\n    </bl-accordion>\n    <bl-accordion caption=\"What is the return window?\" icon=\"info\">\n      <p>You can return most items within 30 days of delivery, as long as they are unused.</p>\n    </bl-accordion>\n    <bl-accordion caption=\"Do you ship internationally?\" icon=\"info\">\n      <p>Yes, we ship to over 40 countries. Delivery times vary by destination.</p>\n    </bl-accordion>\n  </bl-accordion-group>\n</section>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-accordion-group multiple>\n  <bl-accordion caption=\"How do I reset my password?\">\n    Go to the login page and choose \"Forgot password\". We will email you a secure link.\n  </bl-accordion>\n  <bl-accordion caption=\"Can I change my shipping address after ordering?\">\n    Yes, as long as the order has not been shipped yet. Open the order and edit the address.\n  </bl-accordion>\n  <bl-accordion caption=\"What is your return policy?\">\n    You have 30 days from delivery to return unused items in their original packaging.\n  </bl-accordion>\n  <bl-accordion caption=\"How long does standard delivery take?\">\n    Standard delivery usually takes 3 to 5 business days depending on your location.\n  </bl-accordion>\n</bl-accordion-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<bl-accordion-group>\n  <bl-accordion caption=\"How do I create an account?\" icon=\"info\">\n    Click the \"Sign up\" button in the top-right corner, enter your email and a secure password, then verify your email address to activate your account.\n  </bl-accordion>\n  <bl-accordion caption=\"How can I reset my password?\" icon=\"info\">\n    Use the \"Forgot password\" link on the login page. We will send you a reset link valid for 24 hours. Follow it and choose a new password.\n  </bl-accordion>\n  <bl-accordion caption=\"Is my payment information safe?\" icon=\"info\">\n    Yes. All payments are processed over an encrypted connection and your card details are never stored on our servers.\n  </bl-accordion>\n  <bl-accordion caption=\"Can I change or cancel my order?\" icon=\"info\">\n    You can change the delivery address and cancel an order within the first 30 minutes after placing it, from the order summary page.\n  </bl-accordion>\n  <bl-accordion caption=\"How do I contact support?\" icon=\"info\" open>\n    Open the help center and choose \"Contact Support\". You can also reach us by email at support@example.com, available 24/7.\n  </bl-accordion>\n</bl-accordion-group>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

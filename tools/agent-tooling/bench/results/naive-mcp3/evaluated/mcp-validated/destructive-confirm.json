@@ -1,0 +1,150 @@
+{
+  "id": "destructive-confirm",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "overlays",
+  "complexity": "complex",
+  "prompt": "When the user tries to delete something, show a popup in the middle of the page that blocks the background and asks them to confirm, with a clearly dangerous button to confirm deletion and a safe one to cancel.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 93,
+    "componentsUsed": [
+      "bl-dialog",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-dialog",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 100,
+      "accessibility": 76,
+      "efficiency": 92,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<bl-dialog open critical caption=\"Delete item?\">\n  Are you sure you want to delete this item? This action cannot be undone.\n  <bl-button slot=\"secondary-action\" variant=\"secondary\" label=\"Cancel\"></bl-button>\n  <bl-button slot=\"primary-action\" kind=\"danger\" label=\"Delete\"></bl-button>\n</bl-dialog>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<bl-button>\n  Delete Product\n</bl-button>\n<bl-dialog open critical caption=\"Delete Product\">\n  <p>\n    Are you sure you want to permanently delete this product? This action cannot be undone.\n  </p>\n  <bl-button slot=\"primary-action\" kind=\"danger\" variant=\"primary\">\n    Delete\n  </bl-button>\n  <bl-button slot=\"secondary-action\" variant=\"secondary\">\n    Cancel\n  </bl-button>\n</bl-dialog>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<bl-dialog open critical caption=\"Delete product\">\n  <p>Are you sure you want to permanently delete this product? This action cannot be undone.</p>\n  <bl-button slot=\"primary-action\" variant=\"primary\" kind=\"danger\">Delete product</bl-button>\n  <bl-button slot=\"secondary-action\" variant=\"secondary\">Cancel</bl-button>\n</bl-dialog>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 93,
+        "missed": [],
+        "escapeHatches": [],
+        "scores": {
+          "correctness": 100,
+          "accessibility": 76,
+          "efficiency": 92,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 92,
+        "std": 0,
+        "min": 92,
+        "max": 92,
+        "sem": 0
+      },
+      "codeQuality": {
+        "mean": 90,
+        "std": 0,
+        "min": 90,
+        "max": 90,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 100,
+        "std": 0,
+        "min": 100,
+        "max": 100,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 93,
+        "std": 0,
+        "min": 93,
+        "max": 93,
+        "sem": 0
+      }
+    },
+    "escapeHatches": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

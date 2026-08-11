@@ -1,0 +1,178 @@
+{
+  "id": "login-form",
+  "persona": "naive",
+  "model": "deepseek-v4-flash-0731",
+  "category": "forms",
+  "complexity": "moderate",
+  "prompt": "Build a login page. There should be a field for the email address, a field for the password that hides what is typed, and a prominent button at the end to submit the whole thing when the user presses Enter.",
+  "n": 3,
+  "evaluation": {
+    "success": true,
+    "overall": 91,
+    "componentsUsed": [
+      "bl-input",
+      "bl-button"
+    ],
+    "componentsExpected": [
+      "bl-input",
+      "bl-button"
+    ],
+    "missed": [],
+    "escapeHatches": [
+      {
+        "type": "wrapper_div",
+        "severity": "acceptable",
+        "detail": "used 1 layout div(s)",
+        "codeSnippet": "<div"
+      }
+    ],
+    "failureMode": null,
+    "confusionSignals": [],
+    "scores": {
+      "correctness": 98,
+      "accessibility": 76,
+      "efficiency": 89,
+      "codeQuality": 87,
+      "maintainability": 96,
+      "overall": 91
+    }
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "response": "<div class=\"login-page\">\n  <h1>Sign in</h1>\n  <form onsubmit=\"return false;\">\n    <bl-input name=\"email\" type=\"email\" label=\"Email address\" required></bl-input>\n    <bl-input name=\"password\" type=\"password\" label=\"Password\" required></bl-input>\n    <bl-button type=\"submit\" class=\"primary submit-btn\">Log in</bl-button>\n  </form>\n</div>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 91,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 1 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 89,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 91
+        }
+      }
+    },
+    {
+      "sample": 1,
+      "response": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Login</title>\n    <style>\n      body {\n        font-family: system-ui, -apple-system, sans-serif;\n        margin: 0;\n        min-height: 100vh;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        background: #f5f6f8;\n      }\n      .login-card {\n        width: 100%;\n        max-width: 360px;\n        background: #fff;\n        border-radius: 12px;\n        padding: 24px;\n        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);\n      }\n      .login-card h1 {\n        font-size: 20px;\n        margin: 0 0 16px;\n        text-align: center;\n      }\n      .field {\n        margin-bottom: 14px;\n      }\n      .field label {\n        display: block;\n        font-size: 13px;\n        margin-bottom: 4px;\n      }\n      .submit {\n        width: 100%;\n        margin-top: 8px;\n      }\n    </style>\n  </head>\n  <body>\n    <form class=\"login-card\" id=\"login-form\">\n      <h1>Sign in</h1>\n      <div class=\"field\">\n        <label for=\"email\">Email address</label>\n        <bl-input id=\"email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" required></bl-input>\n      </div>\n      <div class=\"field\">\n        <label for=\"password\">Password</label>\n        <bl-input id=\"password\" type=\"password\" name=\"password\" placeholder=\"Your password\" required></bl-input>\n      </div>\n      <bl-button class=\"submit\" type=\"submit\" variant=\"primary\">Sign in</bl-button>\n    </form>\n\n    <script>\n      document.getElementById('login-form').addEventListener('submit', (e) => {\n        e.preventDefault();\n        const email = document.getElementById('email').value;\n        const password = document.getElementById('password').value;\n        if (email && password) {\n          alert(`Signed in as ${email}`);\n        }\n      });\n    </script>\n  </body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 90,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 2 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 86,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 90
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "response": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Sign in</title>\n  <style>\n    body { font-family: system-ui, sans-serif; margin: 0; background: #f5f6f8; }\n    .login-shell { display: flex; justify-content: center; padding: 64px 16px; }\n    .login-card { background: #fff; border: 1px solid #e4e6eb; border-radius: 12px; padding: 32px; width: 100%; max-width: 380px; box-shadow: 0 4px 16px rgba(0,0,0,.06); }\n    .login-card h1 { margin: 0 0 4px; font-size: 22px; }\n    .login-card p.sub { margin: 0 0 24px; color: #5f6368; font-size: 14px; }\n    .field { margin-bottom: 16px; }\n    .field label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; }\n    .field bl-input { width: 100%; }\n    .login-actions { margin-top: 24px; }\n    .login-actions bl-button { width: 100%; }\n  </style>\n</head>\n<body>\n  <div class=\"login-shell\">\n    <div class=\"login-card\">\n      <h1>Welcome back</h1>\n      <p class=\"sub\">Enter your details to sign in to your account.</p>\n\n      <form id=\"login\" novalidate>\n        <div class=\"field\">\n          <label for=\"email\">Email address</label>\n          <bl-input id=\"email\" type=\"email\" placeholder=\"you@example.com\" required></bl-input>\n        </div>\n        <div class=\"field\">\n          <label for=\"password\">Password</label>\n          <bl-input id=\"password\" type=\"password\" placeholder=\"Your password\" required></bl-input>\n        </div>\n        <div class=\"login-actions\">\n          <bl-button type=\"submit\" variant=\"primary\">Sign in</bl-button>\n        </div>\n      </form>\n    </div>\n  </div>\n\n  <script>\n    const form = document.getElementById('login');\n    const email = document.getElementById('email');\n    const password = document.getElementById('password');\n\n    function submitLogin() {\n      if (!email.value || !password.value) {\n        email.invalid = !email.value;\n        password.invalid = !password.value;\n        return;\n      }\n      // demo only: in a real app this posts to the auth endpoint\n      console.log('submitting login for', email.value);\n    }\n\n    form.addEventListener('submit', (e) => {\n      e.preventDefault();\n      submitLogin();\n    });\n  </script>\n</body>\n</html>\n",
+      "evaluation": {
+        "success": true,
+        "overall": 89,
+        "missed": [],
+        "escapeHatches": [
+          {
+            "type": "wrapper_div",
+            "severity": "acceptable",
+            "detail": "used 5 layout div(s)",
+            "codeSnippet": "<div"
+          }
+        ],
+        "scores": {
+          "correctness": 98,
+          "accessibility": 76,
+          "efficiency": 77,
+          "codeQuality": 87,
+          "maintainability": 96,
+          "overall": 89
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "successRate": 100,
+    "scores": {
+      "correctness": {
+        "mean": 98,
+        "std": 0,
+        "min": 98,
+        "max": 98,
+        "sem": 0
+      },
+      "accessibility": {
+        "mean": 76,
+        "std": 0,
+        "min": 76,
+        "max": 76,
+        "sem": 0
+      },
+      "efficiency": {
+        "mean": 84,
+        "std": 5.1,
+        "min": 77,
+        "max": 89,
+        "sem": 2.9
+      },
+      "codeQuality": {
+        "mean": 87,
+        "std": 0,
+        "min": 87,
+        "max": 87,
+        "sem": 0
+      },
+      "maintainability": {
+        "mean": 96,
+        "std": 0,
+        "min": 96,
+        "max": 96,
+        "sem": 0
+      },
+      "overall": {
+        "mean": 90,
+        "std": 0.8,
+        "min": 89,
+        "max": 91,
+        "sem": 0.5
+      }
+    },
+    "escapeHatches": {
+      "mean": 1,
+      "std": 0,
+      "min": 1,
+      "max": 1,
+      "sem": 0
+    },
+    "hallucinations": {
+      "mean": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "sem": 0
+    }
+  }
+}

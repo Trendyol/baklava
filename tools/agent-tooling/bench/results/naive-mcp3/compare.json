@@ -1,0 +1,464 @@
+{
+  "iteration": "naive-mcp3",
+  "model": "deepseek-v4-flash-0731",
+  "timestamp": "2026-08-11T05:59:56.458Z",
+  "system": "Baklava",
+  "arms": {
+    "baseline": {
+      "n": 8,
+      "successRate": 100,
+      "avgOverall": 87,
+      "overallStd": 3.7,
+      "overallCI": [
+        84,
+        90
+      ],
+      "dimensions": {
+        "correctness": 93,
+        "accessibility": 82,
+        "efficiency": 80,
+        "codeQuality": 82,
+        "maintainability": 89,
+        "overall": 87
+      },
+      "dimStd": {
+        "correctness": 5.7,
+        "accessibility": 7.1,
+        "efficiency": 8.9,
+        "codeQuality": 6.5,
+        "maintainability": 8.6,
+        "overall": 3.7
+      },
+      "dimensionErrBars": {
+        "correctness": {
+          "lo": 89,
+          "hi": 97
+        },
+        "accessibility": {
+          "lo": 77,
+          "hi": 87
+        },
+        "efficiency": {
+          "lo": 74,
+          "hi": 86
+        },
+        "codeQuality": {
+          "lo": 77,
+          "hi": 87
+        },
+        "maintainability": {
+          "lo": 83,
+          "hi": 95
+        },
+        "overall": {
+          "lo": 84,
+          "hi": 90
+        }
+      },
+      "totalHallucinations": 0,
+      "totalEscapeHatches": 22,
+      "uniqueComponentsUsed": [
+        "bl-accordion",
+        "bl-accordion-group",
+        "bl-badge",
+        "bl-button",
+        "bl-icon",
+        "bl-input",
+        "bl-notification",
+        "bl-notification-card",
+        "bl-pagination",
+        "bl-select",
+        "bl-select-option",
+        "bl-stepper",
+        "bl-switch",
+        "bl-tab",
+        "bl-tab-panel",
+        "bl-table",
+        "bl-table-body",
+        "bl-table-cell",
+        "bl-table-header",
+        "bl-table-row",
+        "bl-tooltip"
+      ]
+    },
+    "mcp-only": {
+      "n": 8,
+      "successRate": 100,
+      "avgOverall": 91,
+      "overallStd": 1.6,
+      "overallCI": [
+        90,
+        92
+      ],
+      "dimensions": {
+        "correctness": 97,
+        "accessibility": 82,
+        "efficiency": 82,
+        "codeQuality": 88,
+        "maintainability": 97,
+        "overall": 91
+      },
+      "dimStd": {
+        "correctness": 2,
+        "accessibility": 7.2,
+        "efficiency": 9.4,
+        "codeQuality": 2.1,
+        "maintainability": 2.8,
+        "overall": 1.6
+      },
+      "dimensionErrBars": {
+        "correctness": {
+          "lo": 96,
+          "hi": 98
+        },
+        "accessibility": {
+          "lo": 77,
+          "hi": 87
+        },
+        "efficiency": {
+          "lo": 76,
+          "hi": 88
+        },
+        "codeQuality": {
+          "lo": 87,
+          "hi": 89
+        },
+        "maintainability": {
+          "lo": 95,
+          "hi": 99
+        },
+        "overall": {
+          "lo": 90,
+          "hi": 92
+        }
+      },
+      "totalHallucinations": 0,
+      "totalEscapeHatches": 7,
+      "uniqueComponentsUsed": [
+        "bl-accordion",
+        "bl-accordion-group",
+        "bl-badge",
+        "bl-button",
+        "bl-dialog",
+        "bl-icon",
+        "bl-input",
+        "bl-notification",
+        "bl-notification-card",
+        "bl-pagination",
+        "bl-select",
+        "bl-select-option",
+        "bl-stepper",
+        "bl-stepper-item",
+        "bl-switch",
+        "bl-tab",
+        "bl-tab-group",
+        "bl-tab-panel",
+        "bl-table",
+        "bl-table-body",
+        "bl-table-cell",
+        "bl-table-header",
+        "bl-table-row",
+        "bl-tooltip"
+      ]
+    },
+    "mcp-validated": {
+      "n": 8,
+      "successRate": 100,
+      "avgOverall": 93,
+      "overallStd": 1.1,
+      "overallCI": [
+        92,
+        94
+      ],
+      "dimensions": {
+        "correctness": 99,
+        "accessibility": 81,
+        "efficiency": 86,
+        "codeQuality": 90,
+        "maintainability": 100,
+        "overall": 93
+      },
+      "dimStd": {
+        "correctness": 2.6,
+        "accessibility": 7.3,
+        "efficiency": 9.2,
+        "codeQuality": 0,
+        "maintainability": 0,
+        "overall": 1.1
+      },
+      "dimensionErrBars": {
+        "correctness": {
+          "lo": 97,
+          "hi": 100
+        },
+        "accessibility": {
+          "lo": 76,
+          "hi": 86
+        },
+        "efficiency": {
+          "lo": 80,
+          "hi": 92
+        },
+        "codeQuality": null,
+        "maintainability": null,
+        "overall": {
+          "lo": 92,
+          "hi": 94
+        }
+      },
+      "totalHallucinations": 0,
+      "totalEscapeHatches": 0,
+      "uniqueComponentsUsed": [
+        "bl-accordion",
+        "bl-accordion-group",
+        "bl-badge",
+        "bl-button",
+        "bl-dialog",
+        "bl-icon",
+        "bl-input",
+        "bl-notification",
+        "bl-notification-card",
+        "bl-pagination",
+        "bl-select",
+        "bl-select-option",
+        "bl-stepper",
+        "bl-stepper-item",
+        "bl-switch",
+        "bl-tab",
+        "bl-tab-group",
+        "bl-tab-panel",
+        "bl-table",
+        "bl-table-body",
+        "bl-table-cell",
+        "bl-table-header",
+        "bl-table-header-cell",
+        "bl-table-row",
+        "bl-tooltip"
+      ]
+    }
+  },
+  "ladder": [
+    {
+      "from": "baseline",
+      "to": "mcp-only",
+      "delta": {
+        "successRate": 0,
+        "avgOverall": 4,
+        "dim.correctness": 4,
+        "dim.accessibility": 0,
+        "dim.efficiency": 2,
+        "dim.codeQuality": 6,
+        "dim.maintainability": 8,
+        "dim.overall": 4,
+        "totalHallucinations": 0,
+        "totalEscapeHatches": -15
+      }
+    },
+    {
+      "from": "mcp-only",
+      "to": "mcp-validated",
+      "delta": {
+        "successRate": 0,
+        "avgOverall": 2,
+        "dim.correctness": 2,
+        "dim.accessibility": -1,
+        "dim.efficiency": 4,
+        "dim.codeQuality": 2,
+        "dim.maintainability": 3,
+        "dim.overall": 2,
+        "totalHallucinations": 0,
+        "totalEscapeHatches": -7
+      }
+    },
+    {
+      "from": "baseline",
+      "to": "mcp-validated",
+      "delta": {
+        "successRate": 0,
+        "avgOverall": 6,
+        "dim.correctness": 6,
+        "dim.accessibility": -1,
+        "dim.efficiency": 6,
+        "dim.codeQuality": 8,
+        "dim.maintainability": 11,
+        "dim.overall": 6,
+        "totalHallucinations": 0,
+        "totalEscapeHatches": -22
+      }
+    }
+  ],
+  "delta": {
+    "successRate": 0,
+    "avgOverall": 6,
+    "dim.correctness": 6,
+    "dim.accessibility": -1,
+    "dim.efficiency": 6,
+    "dim.codeQuality": 8,
+    "dim.maintainability": 11,
+    "dim.overall": 6,
+    "totalHallucinations": 0,
+    "totalEscapeHatches": -22
+  },
+  "before": {
+    "n": 8,
+    "successRate": 100,
+    "avgOverall": 87,
+    "overallStd": 3.7,
+    "overallCI": [
+      84,
+      90
+    ],
+    "dimensions": {
+      "correctness": 93,
+      "accessibility": 82,
+      "efficiency": 80,
+      "codeQuality": 82,
+      "maintainability": 89,
+      "overall": 87
+    },
+    "dimStd": {
+      "correctness": 5.7,
+      "accessibility": 7.1,
+      "efficiency": 8.9,
+      "codeQuality": 6.5,
+      "maintainability": 8.6,
+      "overall": 3.7
+    },
+    "dimensionErrBars": {
+      "correctness": {
+        "lo": 89,
+        "hi": 97
+      },
+      "accessibility": {
+        "lo": 77,
+        "hi": 87
+      },
+      "efficiency": {
+        "lo": 74,
+        "hi": 86
+      },
+      "codeQuality": {
+        "lo": 77,
+        "hi": 87
+      },
+      "maintainability": {
+        "lo": 83,
+        "hi": 95
+      },
+      "overall": {
+        "lo": 84,
+        "hi": 90
+      }
+    },
+    "totalHallucinations": 0,
+    "totalEscapeHatches": 22,
+    "uniqueComponentsUsed": [
+      "bl-accordion",
+      "bl-accordion-group",
+      "bl-badge",
+      "bl-button",
+      "bl-icon",
+      "bl-input",
+      "bl-notification",
+      "bl-notification-card",
+      "bl-pagination",
+      "bl-select",
+      "bl-select-option",
+      "bl-stepper",
+      "bl-switch",
+      "bl-tab",
+      "bl-tab-panel",
+      "bl-table",
+      "bl-table-body",
+      "bl-table-cell",
+      "bl-table-header",
+      "bl-table-row",
+      "bl-tooltip"
+    ]
+  },
+  "after": {
+    "n": 8,
+    "successRate": 100,
+    "avgOverall": 93,
+    "overallStd": 1.1,
+    "overallCI": [
+      92,
+      94
+    ],
+    "dimensions": {
+      "correctness": 99,
+      "accessibility": 81,
+      "efficiency": 86,
+      "codeQuality": 90,
+      "maintainability": 100,
+      "overall": 93
+    },
+    "dimStd": {
+      "correctness": 2.6,
+      "accessibility": 7.3,
+      "efficiency": 9.2,
+      "codeQuality": 0,
+      "maintainability": 0,
+      "overall": 1.1
+    },
+    "dimensionErrBars": {
+      "correctness": {
+        "lo": 97,
+        "hi": 100
+      },
+      "accessibility": {
+        "lo": 76,
+        "hi": 86
+      },
+      "efficiency": {
+        "lo": 80,
+        "hi": 92
+      },
+      "codeQuality": null,
+      "maintainability": null,
+      "overall": {
+        "lo": 92,
+        "hi": 94
+      }
+    },
+    "totalHallucinations": 0,
+    "totalEscapeHatches": 0,
+    "uniqueComponentsUsed": [
+      "bl-accordion",
+      "bl-accordion-group",
+      "bl-badge",
+      "bl-button",
+      "bl-dialog",
+      "bl-icon",
+      "bl-input",
+      "bl-notification",
+      "bl-notification-card",
+      "bl-pagination",
+      "bl-select",
+      "bl-select-option",
+      "bl-stepper",
+      "bl-stepper-item",
+      "bl-switch",
+      "bl-tab",
+      "bl-tab-group",
+      "bl-tab-panel",
+      "bl-table",
+      "bl-table-body",
+      "bl-table-cell",
+      "bl-table-header",
+      "bl-table-header-cell",
+      "bl-table-row",
+      "bl-tooltip"
+    ]
+  },
+  "judge": {
+    "baseline": null,
+    "mcp-only": null,
+    "mcp-validated": null
+  },
+  "render": {
+    "baseline": null,
+    "mcp-only": null,
+    "mcp-validated": null
+  }
+}

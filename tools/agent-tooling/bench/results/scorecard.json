@@ -441,7 +441,98 @@
         "totalHallucinations": 0,
         "totalEscapeHatches": -22
       }
+    },
+    {
+      "iteration": "naive-mcp3",
+      "persona": "naive",
+      "model": "deepseek-v4-flash-0731",
+      "timestamp": "2026-08-11T05:59:56.458Z",
+      "arms": {
+        "baseline": {
+          "overall": 87,
+          "dims": {
+            "correctness": 93,
+            "accessibility": 82,
+            "efficiency": 80,
+            "codeQuality": 82,
+            "maintainability": 89,
+            "overall": 87
+          },
+          "hall": 0,
+          "esc": 22,
+          "succ": 100
+        },
+        "mcp-only": {
+          "overall": 91,
+          "dims": {
+            "correctness": 97,
+            "accessibility": 82,
+            "efficiency": 82,
+            "codeQuality": 88,
+            "maintainability": 97,
+            "overall": 91
+          },
+          "hall": 0,
+          "esc": 7,
+          "succ": 100
+        },
+        "mcp-validated": {
+          "overall": 93,
+          "dims": {
+            "correctness": 99,
+            "accessibility": 81,
+            "efficiency": 86,
+            "codeQuality": 90,
+            "maintainability": 100,
+            "overall": 93
+          },
+          "hall": 0,
+          "esc": 0,
+          "succ": 100
+        },
+        "augmented": null
+      },
+      "before": {
+        "overall": 87,
+        "dims": {
+          "correctness": 93,
+          "accessibility": 82,
+          "efficiency": 80,
+          "codeQuality": 82,
+          "maintainability": 89,
+          "overall": 87
+        },
+        "hall": 0,
+        "esc": 22,
+        "succ": 100
+      },
+      "after": {
+        "overall": 93,
+        "dims": {
+          "correctness": 99,
+          "accessibility": 81,
+          "efficiency": 86,
+          "codeQuality": 90,
+          "maintainability": 100,
+          "overall": 93
+        },
+        "hall": 0,
+        "esc": 0,
+        "succ": 100
+      },
+      "delta": {
+        "successRate": 0,
+        "avgOverall": 6,
+        "dim.correctness": 6,
+        "dim.accessibility": -1,
+        "dim.efficiency": 6,
+        "dim.codeQuality": 8,
+        "dim.maintainability": 11,
+        "dim.overall": 6,
+        "totalHallucinations": 0,
+        "totalEscapeHatches": -22
+      }
     }
   ],
-  "updatedAt": "2026-08-10T15:30:42.449Z"
+  "updatedAt": "2026-08-11T06:00:27.961Z"
 }

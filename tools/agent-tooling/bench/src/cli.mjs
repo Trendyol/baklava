@@ -18,7 +18,17 @@ import path from 'node:path';
 
 const REPO = path.resolve(fileURLToPath(new URL('../../../../', import.meta.url)));
 const BENCH = path.join(REPO, 'tools', 'agent-tooling', 'bench');
-const ARMS = ['baseline', 'mcp-only', 'mcp-validated', 'augmented'];
+const ALL_ARMS = ['baseline', 'mcp-only', 'mcp-validated', 'augmented'];
+// Headline benchmark: the three MCP-centric conditions — no tooling, query-only MCP,
+// and MCP + validate feedback loop. The CLI-augmented arm stays available for
+// transport-vs-transport comparisons via BAKLAVA_ARMS="baseline,mcp-only,mcp-validated,augmented".
+const DEFAULT_ARMS = ['baseline', 'mcp-only', 'mcp-validated'];
+function resolveArms() {
+  const env = process.env.BAKLAVA_ARMS;
+  if (env) return env.split(',').map((s) => s.trim()).filter(Boolean);
+  return [...DEFAULT_ARMS];
+}
+const ARMS = resolveArms();
 
 // Human-readable arm labels for reports.
 const ARM_LABELS = {
@@ -210,7 +220,7 @@ function doCompare({ iteration, persona, model }) {
   const render = {};
   for (const a of ARMS) render[a] = readRender(a);
 
-  // 3-step ladder deltas: baseline -> mcp-only -> augmented, plus total.
+  // 3-step ladder deltas: walked along ARMS order, plus baseline -> last total.
   const deltaFor = (from, to) => {
     const b = arms[from], a = arms[to];
     if (!b || !a) return null;
@@ -221,20 +231,21 @@ function doCompare({ iteration, persona, model }) {
     d.totalEscapeHatches = (a.totalEscapeHatches ?? 0) - (b.totalEscapeHatches ?? 0);
     return d;
   };
-  const ladder = [
-    { from: 'baseline', to: 'mcp-only', delta: deltaFor('baseline', 'mcp-only') },
-    { from: 'mcp-only', to: 'mcp-validated', delta: deltaFor('mcp-only', 'mcp-validated') },
-    { from: 'mcp-validated', to: 'augmented', delta: deltaFor('mcp-validated', 'augmented') },
-    { from: 'baseline', to: 'augmented', delta: deltaFor('baseline', 'augmented') },
-  ];
+  // Step-wise ladder along ARMS ordering, plus baseline -> last total.
+  const ladder = [];
+  for (let i = 0; i + 1 < ARMS.length; i++) {
+    ladder.push({ from: ARMS[i], to: ARMS[i + 1], delta: deltaFor(ARMS[i], ARMS[i + 1]) });
+  }
+  ladder.push({ from: ARMS[0], to: ARMS[ARMS.length - 1], delta: deltaFor(ARMS[0], ARMS[ARMS.length - 1]) });
 
   // Back-compat aliases so the rolling scorecard keeps reading this compare.json.
+  const lastArm = ARMS[ARMS.length - 1];
   const compare = {
     iteration, persona, model,
     timestamp: new Date().toISOString(),
     system: 'Baklava',
-    arms, ladder, delta: deltaFor('baseline', 'augmented'),
-    before: arms.baseline, after: arms.augmented,
+    arms, ladder, delta: deltaFor('baseline', lastArm),
+    before: arms.baseline, after: arms[lastArm],
     judge, render,
   };
   writeFileSync(path.join(base, 'compare.json'), JSON.stringify(compare, null, 2));
@@ -276,45 +287,47 @@ function doSensitivity({ iteration }) {
     ? Math.round(rows.reduce((sum, r) => sum + overall(r, w), 0) / rows.length)
     : null;
 
-  const before = scoresFor('baseline');
-  const mcpOnly = scoresFor('mcp-only');
-  const mcpValidated = scoresFor('mcp-validated');
-  const after = scoresFor('augmented');
-  const variants = Object.entries(WEIGHT_VARIANTS).map(([name, w]) => ({
-    variant: name,
-    baseline: aggOverall(before, w),
-    'mcp-only': aggOverall(mcpOnly, w),
-    'mcp-validated': aggOverall(mcpValidated, w),
-    augmented: aggOverall(after, w),
-    'baseline→mcp-only': aggOverall(before, w) != null && aggOverall(mcpOnly, w) != null ? aggOverall(mcpOnly, w) - aggOverall(before, w) : null,
-    'mcp-only→mcp-validated': aggOverall(mcpOnly, w) != null && aggOverall(mcpValidated, w) != null ? aggOverall(mcpValidated, w) - aggOverall(mcpOnly, w) : null,
-    'mcp-validated→augmented': aggOverall(mcpValidated, w) != null && aggOverall(after, w) != null ? aggOverall(after, w) - aggOverall(mcpValidated, w) : null,
-    'mcp-only→augmented': aggOverall(mcpOnly, w) != null && aggOverall(after, w) != null ? aggOverall(after, w) - aggOverall(mcpOnly, w) : null,
-  }));
+  const perArm = {};
+  for (const a of ARMS) perArm[a] = scoresFor(a);
+  const variants = Object.entries(WEIGHT_VARIANTS).map(([name, w]) => {
+    const v = { variant: name };
+    for (const a of ARMS) v[a] = aggOverall(perArm[a], w);
+    for (let i = 0; i + 1 < ARMS.length; i++) {
+      const from = ARMS[i], to = ARMS[i + 1];
+      v[`${from}→${to}`] = (v[from] != null && v[to] != null) ? v[to] - v[from] : null;
+    }
+    return v;
+  });
   const pairDeltas = (fromKey, toKey) => variants.map((v) => v[`${fromKey}→${toKey}`]).filter((d) => d != null);
-  const out = {
-    iteration, variants,
-    deltaRange: {
-      'baseline→mcp-only': (() => { const d = pairDeltas('baseline', 'mcp-only'); return d.length ? { min: Math.min(...d), max: Math.max(...d) } : null; })(),
-      'mcp-only→mcp-validated': (() => { const d = pairDeltas('mcp-only', 'mcp-validated'); return d.length ? { min: Math.min(...d), max: Math.max(...d) } : null; })(),
-      'mcp-validated→augmented': (() => { const d = pairDeltas('mcp-validated', 'augmented'); return d.length ? { min: Math.min(...d), max: Math.max(...d) } : null; })(),
-      'mcp-only→augmented': (() => { const d = pairDeltas('mcp-only', 'augmented'); return d.length ? { min: Math.min(...d), max: Math.max(...d) } : null; })(),
-    },
-  };
+  const deltaRange = {};
+  const stepKeys = [];
+  for (let i = 0; i + 1 < ARMS.length; i++) {
+    const from = ARMS[i], to = ARMS[i + 1];
+    const key = `${from}→${to}`;
+    stepKeys.push(key);
+    const d = pairDeltas(from, to);
+    deltaRange[key] = d.length ? { min: Math.min(...d), max: Math.max(...d) } : null;
+  }
+  const out = { iteration, arms: ARMS, variants, deltaRange };
   writeFileSync(path.join(base, 'sensitivity.json'), JSON.stringify(out, null, 2));
+  const labels = { baseline: 'Baseline', 'mcp-only': 'Agent (MCP)', 'mcp-validated': 'Agent (MCP+Validate)', augmented: 'Augmented (MCP+CLI)' };
+  const header = ['Variant', ...ARMS.map((a) => labels[a] || a), ...stepKeys];
+  const rowKeys = ['variant', ...ARMS, ...stepKeys];
+  const seps = header.map(() => '---');
+  const rangeText = stepKeys.map((k) => `${k} **${fmtRange(out.deltaRange[k])}**`);
   const lines = [
     `# Sensitivity — rubric weights vs before/after delta`,
     `Iteration: \`${iteration}\``,
     ``,
     `> Recomputes overall with several weight vectors. If the step-wise tooling delta`,
-    `> (baseline→mcp-only→augmented) stays clearly positive across all variants, the`,
+    `> (${stepKeys.join(' → ')}) stays clearly positive across all variants, the`,
     `> conclusion is robust to rubric weighting.`,
     ``,
-    '| Variant | Baseline | Agent (MCP) | Agent (MCP+Validate) | Augmented (MCP+CLI) | Δ base→mcp | Δ mcp→mcpV | Δ mcpV→aug |',
-    '|---|---|---|---|---|---|---|---|',
-    ...out.variants.map((v) => `| ${v.variant} | ${v.baseline ?? '—'} | ${v['mcp-only'] ?? '—'} | ${v['mcp-validated'] ?? '—'} | ${v.augmented ?? '—'} | ${fmtDelta(v['baseline→mcp-only'])} | ${fmtDelta(v['mcp-only→mcp-validated'])} | ${fmtDelta(v['mcp-validated→augmented'])} |`),
+    '| ' + header.join(' | ') + ' |',
+    '| ' + seps.join(' | ') + ' |',
+    ...out.variants.map((v) => '| ' + rowKeys.map((h) => String(v[h] ?? '—')).join(' | ') + ' |'),
     ``,
-    `Step-delta ranges: baseline→mcp-only **${fmtRange(out.deltaRange['baseline→mcp-only'])}**, mcp-only→mcp-validated **${fmtRange(out.deltaRange['mcp-only→mcp-validated'])}**, mcp-validated→augmented **${fmtRange(out.deltaRange['mcp-validated→augmented'])}**`,
+    `Step-delta ranges: ${rangeText.join(', ')}`,
   ];
   writeFileSync(path.join(base, 'sensitivity.md'), lines.join('\n'));
   console.log(lines.join('\n'));
@@ -334,12 +347,18 @@ function doScorecard({ persona, model, markdown }) {
       if (persona && c.persona !== persona) continue;
       if (model && c.model !== model) continue;
       const agg = (x) => (x ? { overall: x.avgOverall, dims: x.dimensions || {}, hall: x.totalHallucinations, esc: x.totalEscapeHatches, succ: x.successRate } : null);
+      const present = ALL_ARMS.filter((a) => (c.arms || {})[a]);
+      const lastArm = present.length ? present[present.length - 1] : null;
       const arms = {};
-      for (const a of ['baseline', 'mcp-only', 'mcp-validated', 'augmented']) arms[a] = agg((c.arms || {})[a]);
-      // Back-compat: legacy 2-arm compare.json has before/after aliases only.
-      if (!arms.baseline) arms.baseline = agg(c.before);
-      if (!arms.augmented) arms.augmented = agg(c.after);
-      rows.push({ iteration: it, persona: c.persona || 'naive', model: c.model || 'unknown', timestamp: c.timestamp, arms, before: arms.baseline, after: arms.augmented, delta: c.delta });
+      for (const a of ALL_ARMS) arms[a] = agg((c.arms || {})[a]);
+      // Back-compat: only legacy 2-arm compare.json (no arms map for the row's
+      // present arms) carries its baseline/augmented under before/after aliases.
+      if (present.length === 0) {
+        arms.baseline = arms.baseline || agg(c.before);
+        const target = lastArm || 'augmented';
+        arms[target] = arms[target] || agg(c.after);
+      }
+      rows.push({ iteration: it, persona: c.persona || 'naive', model: c.model || 'unknown', timestamp: c.timestamp, arms, before: arms.baseline, after: arms[lastArm || 'augmented'], delta: c.delta });
     }
   }
   rows.sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1));
@@ -353,18 +372,29 @@ function doScorecard({ persona, model, markdown }) {
 }
 
 function renderScorecard(sc) {
-  const head = [
+  const labels = { baseline: 'Base', 'mcp-only': 'Agent (MCP)', 'mcp-validated': 'Agent (MCP+Val)', augmented: 'Augmented' };
+  const allArms = [...new Set(sc.generations.flatMap((r) => Object.keys(r.arms)))];
+  const last = allArms[allArms.length - 1];
+  const header = ['Iteration', 'Persona', 'Model', ...allArms.map((a) => labels[a] || a), 'Δ base→last', 'Base esc', 'Last esc'];
+  const lines = [
     '# Baklava Agent-Tooling — Rolling Scorecard',
     `> Generated ${sc.updatedAt} · aggregates all committed benchmark iterations.`,
     '',
-    '| Iteration | Persona | Model | Base | Agent (MCP) | Agent (MCP+Val) | Augmented | Δ base→aug | Base esc | Aug esc |',
-    '|---|---|---|---|---|---|---|---|---|',
+    '| ' + header.join(' | ') + ' |',
+    '| ' + header.map(() => '---').join(' | ') + ' |',
   ];
-  const body = sc.generations.map((r) => {
+  for (const r of sc.generations) {
+    const afterArm = r.after || (last && r.arms[last] ? r.arms[last] : null);
     const d = (r.delta && r.delta.avgOverall != null) ? r.delta.avgOverall : null;
-    return `| ${r.iteration} | ${r.persona} | ${r.model} | ${r.arms.baseline?.overall ?? '—'} | ${r.arms['mcp-only']?.overall ?? '—'} | ${r.arms['mcp-validated']?.overall ?? '—'} | ${r.arms.augmented?.overall ?? '—'} | ${d > 0 ? '+' : ''}${d ?? '—'} | ${r.arms.baseline?.esc ?? '—'} | ${r.arms.augmented?.esc ?? '—'} |`;
-  });
-  return [...head, ...body, '', '_Machine-readable: `scorecard.json`._'].join('\n');
+    const cells = [r.iteration, r.persona, r.model];
+    for (const a of allArms) cells.push(r.arms[a]?.overall ?? '—');
+    cells.push((d > 0 ? '+' : '') + (d ?? '—'));
+    cells.push(r.arms.baseline?.esc ?? '—');
+    cells.push(afterArm?.esc ?? '—');
+    lines.push('| ' + cells.join(' | ') + ' |');
+  }
+  lines.push('', '_Machine-readable: `scorecard.json`._');
+  return lines.join('\n');
 }
 
 function renderMarkdown(c) {
@@ -395,16 +425,14 @@ function renderMarkdown(c) {
       ['Code quality', s.codeQuality], ['Efficiency', s.efficiency], ['Maintainability', s.maintainability],
     ].map(([k, v]) => `  | ${k} | ${v} |`).join('\n');
   };
+  const armBlocks = (suffix, fn) => ARMS.flatMap((a) => [`### ${ARM_LABELS[a] || a} ${suffix}`, ``, fn(a)]);
   const judgeSection = (c.judge && Object.values(c.judge).some(Boolean))
     ? [
         `## LLM Judge (separate fresh-context agent — optional holistic layer)`,
         ``,
         `> Non-deterministic model judgment, kept separate from the deterministic rubric above.`,
         ``,
-        `### Baseline judge`, ``, jrows(c.judge.baseline), ``,
-        `### Agent (MCP) judge`, ``, jrows(c.judge['mcp-only']), ``,
-        `### Agent (MCP+Validate) judge`, ``, jrows(c.judge['mcp-validated']), ``,
-        `### Augmented judge`, ``, jrows(c.judge.augmented), ``,
+        ...armBlocks('judge', (a) => jrows(c.judge?.[a])),
       ]
     : [];
   const rrow = (r) => r ? [
@@ -422,36 +450,22 @@ function renderMarkdown(c) {
         `> Browser-observed: did the code load/run without errors and upgrade its custom elements,`,
         `> plus basic accessibility probes. Kept separate from the static rubric.`,
         ``,
-        `### Baseline render`, ``, rrow(c.render.baseline), ``,
-        `### Agent (MCP) render`, ``, rrow(c.render['mcp-only']), ``,
-        `### Agent (MCP+Validate) render`, ``, rrow(c.render['mcp-validated']), ``,
-        `### Augmented render`, ``, rrow(c.render.augmented), ``,
+        ...armBlocks('render', (a) => rrow(c.render?.[a])),
       ]
     : [];
+  const armMain = ARMS.flatMap((a) => {
+    const fallback = a === 'baseline' ? c.before : a === 'augmented' ? c.after : null;
+    return [`## ${ARM_LABELS[a] || a}`, ``, rows(a, c.arms?.[a] || fallback)];
+  });
   return [
     `# Baklava Agent-Friendly Tooling — Before / After Benchmark`,
     ``,
     `Iteration: \`${c.iteration}\` · ${c.timestamp} · System: ${c.system}`,
     ``,
-    `> Three-condition benchmark of whether giving the agent tooling improves component`,
-    `> correctness: **baseline** (no tooling, raw knowledge), **Agent (MCP)** only, and`, 
-    `> **augmented** (MCP + CLI).`,
+    `> Multi-condition benchmark of whether giving the agent Baklava tooling improves`,
+    `> component correctness. Arms: ${ARMS.map((a) => `**${ARM_LABELS[a] || a}**`).join(' · ')}.`,
     ``,
-    `## Baseline (no tooling)`,
-    ``,
-    rows('baseline', c.arms?.baseline || c.before),
-    ``,
-    `## Agent (MCP only)`,
-    ``,
-    rows('mcp-only', c.arms?.['mcp-only']),
-    ``,
-    `## Agent (MCP + Validate)`,
-    ``,
-    rows('mcp-validated', c.arms?.['mcp-validated']),
-    ``,
-    `## Augmented (MCP + CLI)`,
-    ``,
-    rows('augmented', c.arms?.augmented || c.after),
+    ...armMain,
     ``,
     `## Step-wise deltas`,
     ``,
