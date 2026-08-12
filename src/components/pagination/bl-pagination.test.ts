@@ -1,4 +1,5 @@
 import { assert, expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { spy } from "sinon";
 import BlPagination from "./bl-pagination";
 
 import type typeOfBlPagination from "./bl-pagination";
@@ -308,6 +309,39 @@ describe("bl-pagination", () => {
       select?.dispatchEvent(undefinedEvent);
 
       expect(el.itemsPerPage).to.equal(100);
+    });
+  });
+
+  describe("resize listener cleanup", () => {
+    it("should remove the exact same resize listener reference that was added on connect", async () => {
+      const addSpy = spy(window, "addEventListener");
+      const removeSpy = spy(window, "removeEventListener");
+
+      const el = await fixture<typeOfBlPagination>(html`<bl-pagination></bl-pagination>`);
+
+      // connectedCallback registers the resize listener inside a setTimeout(0)
+      await new Promise(resolve => setTimeout(resolve));
+
+      const resizeAddCall = addSpy.getCalls().find(call => call.args[0] === "resize");
+
+      expect(resizeAddCall, "resize listener should be registered on connect").to.exist;
+
+      const registeredHandler = resizeAddCall?.args[1] as EventListener;
+
+      window.dispatchEvent(new Event("resize"));
+
+      el.remove();
+
+      const resizeRemoveCall = removeSpy.getCalls().find(call => call.args[0] === "resize");
+
+      expect(resizeRemoveCall, "resize listener should be removed on disconnect").to.exist;
+      expect(
+        resizeRemoveCall?.args[1],
+        "removeEventListener must target the same handler reference that addEventListener used"
+      ).to.equal(registeredHandler);
+
+      addSpy.restore();
+      removeSpy.restore();
     });
   });
 });
