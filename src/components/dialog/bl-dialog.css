@@ -30,7 +30,7 @@
 }
 
 .dialog::backdrop {
-  background-color: #292e32b3;
+  background-color: var(--bl-color-background-overlay);
 }
 
 .dialog-polyfill {
@@ -43,7 +43,7 @@
   align-items: center;
   justify-content: center;
   z-index: var(--bl-index-dialog);
-  background-color: #292e32b3;
+  background-color: var(--bl-color-background-overlay);
 }
 
 :host([open]) .dialog-polyfill {

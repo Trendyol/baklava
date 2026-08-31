@@ -4,7 +4,7 @@
 
   display: table-cell;
   border: 1px solid var(--bl-color-border-primary);
-  background-color: var(--bl-color-background-tertiary);
+  background-color: var(--bl-color-background-secondary);
   padding: var(--bl-size-m);
   font: var(--bl-font-title-3-medium);
   color: var(--bl-color-text-primary);

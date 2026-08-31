@@ -62,7 +62,6 @@
   align-items: center;
   width: 40px;
 
-  --bl-button-focus-border-color: #000;
   --bl-font-title-4-medium: var(--bl-font-weight-regular) var(--bl-font-size-m);
   --bl-size-xl: 40px;
   --bl-border-radius-m: 50%;

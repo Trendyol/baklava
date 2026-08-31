@@ -82,7 +82,7 @@
   --bl-color-background-warning: var(--bl-color-warning-950);
   --bl-color-background-danger: var(--bl-color-danger-950);
   --bl-color-background-accent: var(--bl-color-accent-950);
-  --bl-color-background-overlay: rgb(28 31 33 / 75%);
+  --bl-color-background-overlay: rgb(28 31 33 / 70%);
 
   /* Size and Spacing */
   --bl-size-4xs: 0.125rem; /* 2px */
