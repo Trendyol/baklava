@@ -17,13 +17,13 @@ General usage example:
 
 ### Usage Examples
 
-Default background color is `--bl-color-accent-primary-background` and default color is `--bl-color-primary`. But any color can be set like this:
+Default background color is `--bl-color-background-brand` and default color is `--bl-color-text-brand`. But any color can be set like this:
 
 ```html
 <style>
 .danger-badge {
---bl-badge-bg-color:var(--bl-color-danger-background);
---bl-badge-color:var(--bl-color-danger);
+--bl-badge-bg-color:var(--bl-color-background-danger);
+--bl-badge-color:var(--bl-color-text-danger);
 }
 </style>
 

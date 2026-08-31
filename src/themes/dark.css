@@ -14,40 +14,75 @@
 
 :root[data-theme="dark"],
 .dark-theme {
-  /* Neutral Colors - Dark Mode */
-  --bl-color-neutral-none: #f0f5ff;
-  --bl-color-neutral-darkest: #f1f2f7;
-  --bl-color-neutral-darker: #afbbca;
-  --bl-color-neutral-dark: #95a1b5;
-  --bl-color-neutral-light: #6e7787;
-  --bl-color-neutral-lighter: #273142;
-  --bl-color-neutral-lightest: #0f131a;
-  --bl-color-neutral-full: #030713;
+  /* Semantic Colors - Text */
+  --bl-color-text-primary: var(--bl-color-base-white);
+  --bl-color-text-primary-hover: var(--bl-color-neutral-100);
+  --bl-color-text-primary-on-color: var(--bl-color-neutral-950);
+  --bl-color-text-secondary: var(--bl-color-neutral-300);
+  --bl-color-text-placeholder: var(--bl-color-neutral-400);
+  --bl-color-text-disabled: var(--bl-color-neutral-500);
+  --bl-color-text-brand: var(--bl-color-brand-400);
+  --bl-color-text-brand-hover: var(--bl-color-brand-300);
+  --bl-color-text-info: var(--bl-color-info-400);
+  --bl-color-text-info-hover: var(--bl-color-info-300);
+  --bl-color-text-success: var(--bl-color-success-400);
+  --bl-color-text-success-hover: var(--bl-color-success-300);
+  --bl-color-text-warning: var(--bl-color-warning-400);
+  --bl-color-text-warning-hover: var(--bl-color-warning-300);
+  --bl-color-text-danger: var(--bl-color-danger-400);
+  --bl-color-text-danger-hover: var(--bl-color-danger-300);
+  --bl-color-text-accent: var(--bl-color-accent-400);
+  --bl-color-text-accent-hover: var(--bl-color-accent-300);
 
-  /* Primary Color - Slightly adjusted for dark mode */
-  --bl-color-primary: #fb882b;
-  --bl-color-primary-highlight: #d46b00;
-  --bl-color-primary-contrast: #1f1d18;
+  /* Semantic Colors - Border */
+  --bl-color-border-primary: var(--bl-color-neutral-600);
+  --bl-color-border-primary-hover: var(--bl-color-brand-400);
+  --bl-color-border-primary-on-color: var(--bl-color-base-white);
+  --bl-color-border-divider: var(--bl-color-neutral-700);
+  --bl-color-border-disabled: var(--bl-color-neutral-700);
+  --bl-color-border-tertiary: var(--bl-color-neutral-900);
+  --bl-color-border-brand: var(--bl-color-brand-400);
+  --bl-color-border-info: var(--bl-color-info-400);
+  --bl-color-border-success: var(--bl-color-success-400);
+  --bl-color-border-warning: var(--bl-color-warning-400);
+  --bl-color-border-danger: var(--bl-color-danger-400);
+  --bl-color-border-neutral: var(--bl-color-base-white);
+  --bl-color-border-accent: var(--bl-color-accent-400);
 
-  /* Success Color - Adjusted for dark mode */
-  --bl-color-success: #3ac96b;
-  --bl-color-success-highlight: #00a84e;
-  --bl-color-success-contrast: #1a1e1a;
+  /* Semantic Colors - Foreground (non-text fills, icons) */
+  --bl-color-foreground-primary: var(--bl-color-base-white);
+  --bl-color-foreground-primary-hover: var(--bl-color-neutral-100);
+  --bl-color-foreground-primary-on-color: var(--bl-color-neutral-950);
+  --bl-color-foreground-secondary: var(--bl-color-neutral-300);
+  --bl-color-foreground-placeholder: var(--bl-color-neutral-400);
+  --bl-color-foreground-disabled: var(--bl-color-neutral-600);
+  --bl-color-foreground-tertiary: var(--bl-color-neutral-700);
+  --bl-color-foreground-brand: var(--bl-color-brand-400);
+  --bl-color-foreground-brand-hover: var(--bl-color-brand-300);
+  --bl-color-foreground-info: var(--bl-color-info-400);
+  --bl-color-foreground-info-hover: var(--bl-color-info-300);
+  --bl-color-foreground-success: var(--bl-color-success-400);
+  --bl-color-foreground-success-hover: var(--bl-color-success-300);
+  --bl-color-foreground-warning: var(--bl-color-warning-400);
+  --bl-color-foreground-warning-hover: var(--bl-color-warning-300);
+  --bl-color-foreground-danger: var(--bl-color-danger-400);
+  --bl-color-foreground-danger-hover: var(--bl-color-danger-300);
+  --bl-color-foreground-featured: var(--bl-color-accent-400);
+  --bl-color-foreground-featured-hover: var(--bl-color-accent-300);
 
-  /* Danger Color - Adjusted for dark mode */
-  --bl-color-danger: #fb8179;
-  --bl-color-danger-highlight: #d8625b;
-  --bl-color-danger-contrast: #211b1a;
-
-  /* Warning Color - Adjusted for dark mode */
-  --bl-color-warning: #e09b1a;
-  --bl-color-warning-highlight: #ba7f00;
-  --bl-color-warning-contrast: #1f1c18;
-
-  /* Info Color - Adjusted for dark mode */
-  --bl-color-info: #76aef5;
-  --bl-color-info-highlight: #588ed4;
-  --bl-color-info-contrast: #1a1d22;
+  /* Semantic Colors - Background */
+  --bl-color-background-primary: var(--bl-color-base-black);
+  --bl-color-background-primary-hover: var(--bl-color-neutral-950);
+  --bl-color-background-secondary: var(--bl-color-neutral-950);
+  --bl-color-background-tertiary: var(--bl-color-neutral-900);
+  --bl-color-background-disabled: var(--bl-color-neutral-900);
+  --bl-color-background-brand: var(--bl-color-brand-950);
+  --bl-color-background-info: var(--bl-color-info-950);
+  --bl-color-background-success: var(--bl-color-success-950);
+  --bl-color-background-warning: var(--bl-color-warning-950);
+  --bl-color-background-danger: var(--bl-color-danger-950);
+  --bl-color-background-accent: var(--bl-color-accent-950);
+  --bl-color-background-overlay: rgb(28 31 33 / 70%);
 
   /* Size and Spacing */
   --bl-size-4xs: 0.125rem; /* 2px */

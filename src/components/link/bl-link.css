@@ -5,9 +5,9 @@
 
 .link {
   /* Custom properties */
-  --color: var(--bl-link-color, var(--bl-color-primary));
-  --hover-color: var(--bl-link-hover-color, var(--bl-color-primary-highlight));
-  --active-color: var(--bl-link-active-color, var(--bl-color-primary-highlight));
+  --color: var(--bl-link-color, var(--bl-color-text-brand));
+  --hover-color: var(--bl-link-hover-color, var(--bl-color-text-brand-hover));
+  --active-color: var(--bl-link-active-color, var(--bl-color-text-brand-hover));
 
   /* Base styles */
   display: inline-flex;
@@ -38,28 +38,28 @@
   content: "";
   position: absolute;
   inset: -2px;
-  border: 2px solid var(--bl-color-primary);
+  border: 2px solid var(--bl-color-border-brand);
   border-radius: var(--bl-border-radius-s);
 }
 
 /* Primary kind */
 .link.standalone.kind-primary {
-  color: var(--bl-color-primary);
+  color: var(--bl-color-text-brand);
 }
 
 .link.standalone.kind-primary:hover,
 .link.standalone.kind-primary:active {
-  color: var(--bl-color-primary-highlight);
+  color: var(--bl-color-text-brand-hover);
 }
 
 /* Neutral kind */
 .link.standalone.kind-neutral {
-  color: var(--bl-color-neutral);
+  color: var(--bl-color-text-primary);
 }
 
 .link.standalone.kind-neutral:hover,
 .link.standalone.kind-neutral:active {
-  color: var(--bl-color-neutral-highlight);
+  color: var(--bl-color-text-primary-hover);
 }
 
 /* Size variants */

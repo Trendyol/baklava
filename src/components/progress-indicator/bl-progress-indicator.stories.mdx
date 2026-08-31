@@ -38,12 +38,12 @@ export const ProgressIndicatorTemplate = (args) => html`
 
 export const FailedTemplate = (args) => html`
 <div>
-<p style='color: var(--bl-color-danger); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'>Upload Failed - Image must not be larger than 3mb.</p>${ProgressIndicatorTemplate({ value:'100', failed:true, ...args })}
+<p style='color: var(--bl-color-text-danger); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'>Upload Failed - Image must not be larger than 3mb.</p>${ProgressIndicatorTemplate({ value:'100', failed:true, ...args })}
 </div>`;
 
 export const WithMaxTemplate = (args) => html`
 <div>
-<p style='color: var(--bl-color-neutral-dark); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'> Completed Tasks: <b style='color: var(--bl-color-success)'> 5/8 </b></p>${ProgressIndicatorTemplate({ max:'8', value: '5', ...args })}
+<p style='color: var(--bl-color-text-secondary); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)'> Completed Tasks: <b style='color: var(--bl-color-text-success)'> 5/8 </b></p>${ProgressIndicatorTemplate({ max:'8', value: '5', ...args })}
 </div>`;
 
 # Progress Indicator
@@ -113,8 +113,8 @@ The progress indicator component supports RTL (Right-to-Left) text direction. Yo
         <div>
           <p style="margin-bottom: 8px;">LTR (Left-to-Right)</p>
           <div>
-            <p style="color: var(--bl-color-neutral-dark); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)">
-              Completed Tasks: <b style="color: var(--bl-color-success)">5/8</b>
+            <p style="color: var(--bl-color-text-secondary); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)">
+              Completed Tasks: <b style="color: var(--bl-color-text-success)">5/8</b>
             </p>
             <bl-progress-indicator max="8" value="5"></bl-progress-indicator>
           </div>
@@ -122,8 +122,8 @@ The progress indicator component supports RTL (Right-to-Left) text direction. Yo
         <div dir="rtl">
           <p style="margin-bottom: 8px;">RTL (Right-to-Left)</p>
           <div>
-            <p style="color: var(--bl-color-neutral-dark); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)">
-              المهام المكتملة: <b style="color: var(--bl-color-success)">5/8</b>
+            <p style="color: var(--bl-color-text-secondary); margin: var(--bl-size-3xs); font: var(--bl-font-title-4-regular)">
+              المهام المكتملة: <b style="color: var(--bl-color-text-success)">5/8</b>
             </p>
             <bl-progress-indicator max="8" value="5"></bl-progress-indicator>
           </div>
@@ -156,12 +156,12 @@ Here's a vanilla JavaScript and HTML example of how to use RTL support:
       margin-bottom: 16px;
     }
     .progress-text {
-      color: var(--bl-color-neutral-dark);
+      color: var(--bl-color-text-secondary);
       margin: var(--bl-size-3xs);
       font: var(--bl-font-title-4-regular);
     }
     .progress-value {
-      color: var(--bl-color-success);
+      color: var(--bl-color-text-success);
       font-weight: bold;
     }
   </style>

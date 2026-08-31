@@ -3,7 +3,7 @@
 }
 
 .accordion {
-  --border: 1px solid var(--bl-color-neutral-lighter);
+  --border: 1px solid var(--bl-color-border-primary);
   --default-radius: var(--bl-size-2xs);
   --radius-top-left: var(--bl-accordion-radius-top-left, var(--default-radius));
   --radius-top-right: var(--bl-accordion-radius-top-right, var(--default-radius));
@@ -23,8 +23,8 @@
   justify-content: space-between;
   gap: var(--bl-size-2xs);
   padding: var(--bl-size-m);
-  background: var(--bl-color-neutral-full);
-  color: var(--bl-color-neutral-darker);
+  background: var(--bl-color-background-primary);
+  color: var(--bl-color-text-primary);
   border: var(--border);
   border-bottom: var(--bl-accordion-border-bottom, var(--border));
   border-radius: var(--radius-top-left) var(--radius-top-right) var(--radius-bottom-right)
@@ -37,11 +37,11 @@
 }
 
 .summary:hover {
-  background: var(--bl-color-neutral-lightest);
+  background: var(--bl-color-background-tertiary);
 }
 
 .summary:focus-visible {
-  outline: 2px solid var(--bl-color-primary);
+  outline: 2px solid var(--bl-color-border-brand);
   outline-offset: -1px;
 }
 
@@ -65,7 +65,7 @@
 
 .accordion-content {
   padding: var(--bl-size-m);
-  background: var(--bl-color-neutral-full);
+  background: var(--bl-color-background-primary);
   border: var(--border);
   border-top: 0;
   border-bottom: var(--bl-accordion-border-bottom, var(--border));
@@ -76,8 +76,8 @@
 
 .disabled .summary {
   cursor: not-allowed;
-  background: var(--bl-color-neutral-lightest);
-  color: var(--bl-color-neutral-light);
+  background: var(--bl-color-background-disabled);
+  color: var(--bl-color-text-disabled);
 }
 
 .accordion:not([open]) .accordion-content {

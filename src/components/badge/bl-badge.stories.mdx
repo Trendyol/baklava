@@ -45,10 +45,10 @@ export const VariantTemplate = (args) => {
 
   return html`
 ${BadgeTemplate({ content:'In Progress', styles: orangeExampleColors, ...args})}
-${BadgeTemplate({ content:'Approved', styles: { '--bl-badge-bg-color' : 'var(--bl-color-success-contrast)', '--bl-badge-color': 'var(--bl-color-success)' },...args})}
-${BadgeTemplate({ content:'Warning', styles: { '--bl-badge-bg-color' : 'var(--bl-color-warning-contrast)', '--bl-badge-color': 'var(--bl-color-warning)' },...args})}
-${BadgeTemplate({ content:'Denied', styles: { '--bl-badge-bg-color' : 'var(--bl-color-danger-contrast)', '--bl-badge-color': 'var(--bl-color-danger)' },...args})}
-${BadgeTemplate({ content:'Neutral', styles: { '--bl-badge-bg-color' : 'var(--bl-color-neutral-lightest)', '--bl-badge-color': 'var(--bl-color-neutral-darker)' },...args})}
+${BadgeTemplate({ content:'Approved', styles: { '--bl-badge-bg-color' : 'var(--bl-color-background-success)', '--bl-badge-color': 'var(--bl-color-text-success)' },...args})}
+${BadgeTemplate({ content:'Warning', styles: { '--bl-badge-bg-color' : 'var(--bl-color-background-warning)', '--bl-badge-color': 'var(--bl-color-text-warning)' },...args})}
+${BadgeTemplate({ content:'Denied', styles: { '--bl-badge-bg-color' : 'var(--bl-color-background-danger)', '--bl-badge-color': 'var(--bl-color-text-danger)' },...args})}
+${BadgeTemplate({ content:'Neutral', styles: { '--bl-badge-bg-color' : 'var(--bl-color-background-tertiary)', '--bl-badge-color': 'var(--bl-color-text-primary)' },...args})}
 ${BadgeTemplate({ content:'Offer', styles: blueExampleColors, ...args})}
 ${BadgeTemplate({ content:'Winner', styles: purpleExampleColors, ...args})}
 `};
@@ -67,11 +67,11 @@ export const WithIconTemplate = (args) => {
   }
 
   return html`
-${BadgeTemplate({ content:'In Progress', icon: 'clock', styles: { '--bl-badge-bg-color' : 'var(--bl-color-primary-contrast)', '--bl-badge-color': 'var(--bl-color-primary)' },...args})}
-${BadgeTemplate({ content:'Approved', icon: 'check_fill', styles: { '--bl-badge-bg-color' : 'var(--bl-color-success-contrast)', '--bl-badge-color': 'var(--bl-color-success)' },...args})}
-${BadgeTemplate({ content:'Warning', icon: 'warning', styles: { '--bl-badge-bg-color' : 'var(--bl-color-warning-contrast)', '--bl-badge-color': 'var(--bl-color-warning)' },...args})}
-${BadgeTemplate({ content:'Denied', icon: 'close_fill', styles: { '--bl-badge-bg-color' : 'var(--bl-color-danger-contrast)', '--bl-badge-color': 'var(--bl-color-danger)' },...args})}
-${BadgeTemplate({ content:'Neutral', icon: 'alert', styles: { '--bl-badge-bg-color' : 'var(--bl-color-neutral-lightest)', '--bl-badge-color': 'var(--bl-color-neutral-darker)' },...args})}
+${BadgeTemplate({ content:'In Progress', icon: 'clock', styles: { '--bl-badge-bg-color' : 'var(--bl-color-background-brand)', '--bl-badge-color': 'var(--bl-color-text-brand)' },...args})}
+${BadgeTemplate({ content:'Approved', icon: 'check_fill', styles: { '--bl-badge-bg-color' : 'var(--bl-color-background-success)', '--bl-badge-color': 'var(--bl-color-text-success)' },...args})}
+${BadgeTemplate({ content:'Warning', icon: 'warning', styles: { '--bl-badge-bg-color' : 'var(--bl-color-background-warning)', '--bl-badge-color': 'var(--bl-color-text-warning)' },...args})}
+${BadgeTemplate({ content:'Denied', icon: 'close_fill', styles: { '--bl-badge-bg-color' : 'var(--bl-color-background-danger)', '--bl-badge-color': 'var(--bl-color-text-danger)' },...args})}
+${BadgeTemplate({ content:'Neutral', icon: 'alert', styles: { '--bl-badge-bg-color' : 'var(--bl-color-background-tertiary)', '--bl-badge-color': 'var(--bl-color-text-primary)' },...args})}
 ${BadgeTemplate({ content:'Offer', icon: 'offers', styles: blueExampleColors, ...args})}
 ${BadgeTemplate({ content:'Winner', icon: 'award', styles: purpleExampleColors, ...args})}
 `};
@@ -111,7 +111,7 @@ You can use the color model like this ways;
 * `hex`
 * `variables`
 
-Default background color is `--bl-color-primary-contrast` and default color is `--bl-color-primary`.
+Default background color is `--bl-color-background-brand` and default color is `--bl-color-text-brand`.
 
 <Canvas>
 <Story name="Variants">

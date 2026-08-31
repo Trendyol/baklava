@@ -3,7 +3,7 @@
 }
 
 .container {
-  --background-color: var(--bl-color-neutral-full);
+  --background-color: var(--bl-color-background-primary);
 
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@
 }
 
 .dialog::backdrop {
-  background-color: #273142b3;
+  background-color: var(--bl-color-background-overlay);
 }
 
 .dialog-polyfill {
@@ -43,7 +43,7 @@
   align-items: center;
   justify-content: center;
   z-index: var(--bl-index-dialog);
-  background-color: #273142b3;
+  background-color: var(--bl-color-background-overlay);
 }
 
 :host([open]) .dialog-polyfill {
@@ -64,7 +64,7 @@ header bl-button {
 
 header h2 {
   font: var(--bl-font-title-1-medium);
-  color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-text-primary);
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -99,7 +99,7 @@ footer {
 
 footer.shadow {
   /* FIXME: Use variables for sizes */
-  box-shadow: 0 -4px 15px #27314226;
+  box-shadow: 0 -4px 15px #292e3226;
 }
 
 @media only screen and (max-width: 471px) {

@@ -15,17 +15,17 @@
   font-size: var(--bl-font-size-xs);
   font-weight: var(--bl-font-weight-medium);
   line-height: var(--bl-font-size-s);
-  color: var(--bl-color-neutral-dark);
+  color: var(--bl-color-text-secondary);
 }
 
 :host(:not(:first-child)) .dropdown-group {
-  border-top: 1px solid var(--bl-color-neutral-lighter);
+  border-top: 1px solid var(--bl-color-border-primary);
   padding-top: var(--bl-size-xs);
 }
 
 /*
 :host(:not(:last-child)) .dropdown-group {
-  border-bottom: 1px solid var(--bl-color-neutral-lighter);
+  border-bottom: 1px solid var(--bl-color-border-primary);
   padding-bottom: var(--bl-size-xs);
 }
 */

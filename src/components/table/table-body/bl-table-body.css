@@ -11,7 +11,7 @@
   padding: var(--bl-size-2xl);
   text-align: center;
   vertical-align: middle;
-  background-color: var(--bl-color-neutral-full);
+  background-color: var(--bl-color-background-primary);
   width: 100%;
   min-height: 250px;
   position: relative;
@@ -33,17 +33,17 @@
 .default-no-data bl-icon {
   font-size: 48px;
   margin-bottom: var(--bl-size-m);
-  color: var(--bl-color-neutral-light);
+  color: var(--bl-color-foreground-placeholder);
 }
 
 .default-no-data .title {
   margin: 0;
   font: var(--bl-font-title-2-regular);
-  color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-text-primary);
 }
 
 .default-no-data .subtitle {
   margin: var(--bl-size-xs) 0 0 0;
   font: var(--bl-font-body-text-2);
-  color: var(--bl-color-neutral-light);
+  color: var(--bl-color-text-placeholder);
 }

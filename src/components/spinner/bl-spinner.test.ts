@@ -16,7 +16,7 @@ describe("bl-spinner", () => {
 
     assert.shadowDom.equal(
       el,
-      "<bl-icon class=\"spinner\" name=\"loading\" style=\"color: var(--bl-color-primary); font-size: var(--bl-font-size-m);\"></bl-icon>"
+      "<bl-icon class=\"spinner\" name=\"loading\" style=\"color: var(--bl-color-foreground-brand); font-size: var(--bl-font-size-m);\"></bl-icon>"
     );
   });
 
@@ -26,7 +26,7 @@ describe("bl-spinner", () => {
     expect(el.size).to.equal("var(--bl-font-size-m)");
     expect(el.disabled).to.equal(false);
     expect(el.overlay).to.equal(false);
-    expect(el.color).to.equal("var(--bl-color-primary)");
+    expect(el.color).to.equal("var(--bl-color-foreground-brand)");
   });
 
   it("sets spinner size", async () => {
@@ -41,14 +41,14 @@ describe("bl-spinner", () => {
   });
 
   it("sets spinner color", async () => {
-    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner color="var(--bl-color-secondary)"></bl-spinner>`);
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner color="red"></bl-spinner>`);
 
     await elementUpdated(el);
 
-    expect(el.color).to.equal("var(--bl-color-secondary)");
+    expect(el.color).to.equal("red");
     const spinner = el.shadowRoot?.querySelector("bl-icon");
 
-    expect(spinner?.style.color).to.equal("var(--bl-color-secondary)");
+    expect(spinner?.style.color).to.equal("red");
   });
 
   it("sets disabled state", async () => {
@@ -59,7 +59,7 @@ describe("bl-spinner", () => {
     expect(el.disabled).to.equal(true);
     const spinner = el.shadowRoot?.querySelector("bl-icon");
 
-    expect(spinner?.style.color).to.equal("var(--bl-color-neutral-light)");
+    expect(spinner?.style.color).to.equal("var(--bl-color-foreground-disabled)");
   });
 
   it("sets overlay state", async () => {
@@ -84,7 +84,7 @@ describe("bl-spinner", () => {
     expect(style.position).to.equal("absolute");
     expect(style.top).to.equal("0px");
     expect(style.left).to.equal("0px");
-    expect(style.backgroundColor).to.equal("rgba(39, 49, 66, 0.7)");
+    expect(style.backgroundColor).to.equal("rgba(28, 31, 33, 0.7)");
     expect(style.zIndex).to.equal("10");
   });
 
