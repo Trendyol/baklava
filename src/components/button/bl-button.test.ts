@@ -1,4 +1,5 @@
 import { assert, expect, fixture, elementUpdated, oneEvent, html } from "@open-wc/testing";
+import { sendMouse } from "@web/test-runner-commands";
 import BlButton from "./bl-button";
 
 import type typeOfBlButton from "./bl-button";
@@ -114,6 +115,137 @@ describe("bl-button", () => {
       expect(spinnerAfterLoading).not.to.exist;
     });
   });
+  describe("Hover styles with nullish `disabled` (#728)", () => {
+    /**
+     * `aria-disabled` is bound with `ifDefined()` over `loading || disabled`, so a
+     * nullish `disabled` (e.g. React's `disabled={undefined}`) drops the attribute
+     * from the DOM entirely. Hover styles therefore key off the absence of
+     * `aria-disabled="true"` instead of the presence of `aria-disabled="false"`.
+     *
+     * These tests move a real pointer and read computed styles, so they fail if the
+     * CSS selector regresses.
+     */
+    const TRANSPARENT = "rgba(0, 0, 0, 0)";
+
+    const stylesOf = (el: typeOfBlButton) => {
+      const button = el.shadowRoot?.querySelector(".button") as HTMLElement;
+      const { backgroundColor, color } = getComputedStyle(button);
+
+      return { backgroundColor, color };
+    };
+
+    const hover = (el: typeOfBlButton) => {
+      const { x, y, width, height } = el.getBoundingClientRect();
+
+      return sendMouse({
+        type: "move",
+        position: [Math.round(x + width / 2), Math.round(y + height / 2)],
+      });
+    };
+
+    // Pointer position is shared across tests, so park it away from the fixture to
+    // keep every test's un-hovered baseline deterministic.
+    beforeEach(async () => {
+      await sendMouse({
+        type: "move",
+        position: [window.innerWidth - 1, window.innerHeight - 1],
+      });
+    });
+
+    it("applies secondary hover styles when `disabled` is undefined", async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button variant="secondary">Test</bl-button>`
+      );
+
+      el.disabled = undefined as unknown as boolean;
+      await elementUpdated(el);
+
+      expect(el.shadowRoot?.querySelector("button")?.hasAttribute("aria-disabled")).to.eq(false);
+
+      const before = stylesOf(el);
+
+      expect(before.backgroundColor).to.eq(TRANSPARENT);
+
+      await hover(el);
+      const after = stylesOf(el);
+
+      expect(after.backgroundColor).not.to.eq(before.backgroundColor);
+      expect(after.color).not.to.eq(before.color);
+    });
+
+    it("applies tertiary hover styles when `disabled` is undefined", async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button variant="tertiary">Test</bl-button>`
+      );
+
+      el.disabled = undefined as unknown as boolean;
+      await elementUpdated(el);
+
+      const before = stylesOf(el);
+
+      expect(before.backgroundColor).to.eq(TRANSPARENT);
+
+      await hover(el);
+
+      expect(stylesOf(el).backgroundColor).not.to.eq(before.backgroundColor);
+    });
+
+    it("applies hover styles to the anchor variant when `disabled` is undefined", async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button variant="secondary" href="https://trendyol.com">Test</bl-button>`
+      );
+
+      el.disabled = undefined as unknown as boolean;
+      await elementUpdated(el);
+
+      expect(el.shadowRoot?.querySelector("a")?.hasAttribute("aria-disabled")).to.eq(false);
+
+      const before = stylesOf(el);
+
+      await hover(el);
+
+      expect(stylesOf(el).backgroundColor).not.to.eq(before.backgroundColor);
+    });
+
+    it("applies hover styles when `disabled` is false", async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button variant="secondary">Test</bl-button>`
+      );
+
+      expect(el.shadowRoot?.querySelector("button")?.getAttribute("aria-disabled")).to.eq("false");
+
+      const before = stylesOf(el);
+
+      await hover(el);
+
+      expect(stylesOf(el).backgroundColor).not.to.eq(before.backgroundColor);
+    });
+
+    it("does not apply hover styles when `disabled` is true", async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button variant="secondary" disabled>Test</bl-button>`
+      );
+
+      const before = stylesOf(el);
+
+      await hover(el);
+
+      expect(stylesOf(el)).to.deep.eq(before);
+    });
+
+    it("does not apply hover styles when `loading` is true", async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button variant="tertiary" loading>Test</bl-button>`
+      );
+
+      const before = stylesOf(el);
+
+      await hover(el);
+
+      expect(stylesOf(el)).to.deep.eq(before);
+    });
+  });
+
   describe("Slot", () => {
     it("renders default slot with element", async () => {
       const el = await fixture<typeOfBlButton>(

@@ -145,12 +145,12 @@
   --main-color: transparent;
 }
 
-:host([variant="secondary"]:hover) .button[aria-disabled="false"] {
+:host([variant="secondary"]:hover) .button:not([aria-disabled="true"]) {
   --content-color: var(--bl-color-neutral-full);
   --bg-color: var(--main-hover-color);
 }
 
-:host([variant="tertiary"]:hover) .button[aria-disabled="false"] {
+:host([variant="tertiary"]:hover) .button:not([aria-disabled="true"]) {
   --content-color: var(--main-hover-color);
   --bg-color: var(--text-hover-color);
 }
