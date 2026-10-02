@@ -67,7 +67,7 @@ const args = parseArgs(process.argv.slice(2), {
         "src/localization.ts",
         ...(await globby([
           "src/generated/**/*.ts",
-          "src/components/**/!(*.(test|d)).ts",
+          "src/components/**/!(*.(test|d|figma)).ts",
           "src/themes/*.css",
           "src/components/**/*.svg",
         ])),

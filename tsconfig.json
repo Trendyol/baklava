@@ -38,5 +38,5 @@
     ]
   },
   "include": ["src"],
-  "exclude": ["examples", "node_modules"]
+  "exclude": ["examples", "node_modules", "**/*.figma.ts"]
 }

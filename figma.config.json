@@ -1,0 +1,7 @@
+{
+  "codeConnect": {
+    "include": ["src/components/**/*.figma.ts"],
+    "exclude": ["src/components/**/*.test.ts", "src/components/**/*.stories.ts"],
+    "label": "Web Components"
+  }
+}

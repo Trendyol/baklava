@@ -21,6 +21,7 @@ export default {
     "src/**/*.constant.ts",
     "src/**/*/*.types.ts",
     "src/components/icon/icon-list.ts",
+    "src/**/*.figma.ts",
   ],
   outdir: "dist/",
   dev: false,
