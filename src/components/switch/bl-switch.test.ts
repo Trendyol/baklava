@@ -132,4 +132,22 @@ describe("bl-switch", () => {
       expect(ev.detail).to.be.true;
     });
   });
+
+  describe("justify content css variable", () => {
+    it("should align the label and the toggle to the start by default", async () => {
+      const el = await fixture<BlSwitch>(html`<bl-switch>Label</bl-switch>`);
+      const label = el.shadowRoot!.querySelector("label")!;
+
+      expect(getComputedStyle(label).justifyContent).to.equal("flex-start");
+    });
+
+    it("should position the label and the toggle with --bl-switch-justify-content", async () => {
+      const el = await fixture<BlSwitch>(
+        html`<bl-switch style="--bl-switch-justify-content: space-between">Label</bl-switch>`
+      );
+      const label = el.shadowRoot!.querySelector("label")!;
+
+      expect(getComputedStyle(label).justifyContent).to.equal("space-between");
+    });
+  });
 });

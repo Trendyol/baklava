@@ -50,6 +50,7 @@ label {
   user-select: none;
   line-height: normal;
   align-items: center;
+  justify-content: var(--bl-switch-justify-content, flex-start);
   margin-block: 0;
 }
 
