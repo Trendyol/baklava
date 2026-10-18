@@ -68,9 +68,27 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
   private handleOptionChecked(event: CustomEvent) {
     const checkedOption = event.target as BlRadio;
 
+    this.rememberFocusedOption(checkedOption);
     this.setValue(checkedOption.value);
     this.onChange(checkedOption.value);
   }
+
+  /**
+   * Keeps the roving index on the option the user interacts with
+   */
+  private rememberFocusedOption(option: Element | null) {
+    const index = this.availableOptions.indexOf(option as BlRadio);
+
+    if (index > -1) {
+      this.focusedOptionIndex = index;
+    }
+  }
+
+  // Without this, a press on an option below the fold is cancelled: focus reaches
+  // the host and handleFocus sends it back to the stale index, scrolling the group up.
+  private handlePointerDown = (event: PointerEvent) => {
+    this.rememberFocusedOption((event.target as Element).closest(blRadioTag));
+  };
 
   private handleKeyDown(event: KeyboardEvent) {
     // Next option
@@ -106,6 +124,7 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
     super.connectedCallback();
 
     this.tabIndex = 0;
+    this.addEventListener("pointerdown", this.handlePointerDown);
     this.addEventListener("focus", this.handleFocus);
     this.addEventListener("keydown", this.handleKeyDown);
   }
