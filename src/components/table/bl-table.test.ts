@@ -1,4 +1,4 @@
-import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { elementUpdated, expect, fixture, html, oneEvent } from "@open-wc/testing";
 import BlTable from "./bl-table";
 import "./table-body/bl-table-body";
 import "./table-cell/bl-table-cell";
@@ -1441,6 +1441,44 @@ describe("bl-table", () => {
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["row-2"]);
+    });
+
+    it("should visually mark the row as selected when the user checks a row checkbox", async () => {
+      const el = await fixture<BlTable>(
+          html`
+            <bl-table selectable>
+              <bl-table-body>
+                <bl-table-row selection-key="row-1">
+                  <bl-table-cell>1</bl-table-cell>
+                </bl-table-row>
+                <bl-table-row selection-key="row-2">
+                  <bl-table-cell>2</bl-table-cell>
+                </bl-table-row>
+              </bl-table-body>
+            </bl-table>`
+      );
+
+      const row = el.querySelector("bl-table-row")!;
+      const cell = row.querySelector("bl-table-cell")!;
+      const checkbox = cell.shadowRoot!.querySelector("bl-checkbox")!;
+
+      setTimeout(() => {
+        checkbox.dispatchEvent(
+            new CustomEvent("bl-checkbox-change", {
+              detail: true,
+            })
+        );
+      });
+
+      const ev = await oneEvent(el, "bl-row-select");
+
+      expect(ev.detail).to.deep.equal(["row-1"]);
+
+      await el.updateComplete;
+      await elementUpdated(cell);
+
+      expect(el.selected).to.deep.equal(["row-1"]);
+      expect(checkbox.checked).to.be.true;
     });
   });
 });
