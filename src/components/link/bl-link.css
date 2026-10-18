@@ -44,22 +44,28 @@
 
 /* Primary kind */
 .link.standalone.kind-primary {
-  color: var(--bl-color-primary);
+  color: var(--bl-link-color, var(--bl-color-primary));
 }
 
-.link.standalone.kind-primary:hover,
+.link.standalone.kind-primary:hover {
+  color: var(--bl-link-hover-color, var(--bl-color-primary-highlight));
+}
+
 .link.standalone.kind-primary:active {
-  color: var(--bl-color-primary-highlight);
+  color: var(--bl-link-active-color, var(--bl-color-primary-highlight));
 }
 
 /* Neutral kind */
 .link.standalone.kind-neutral {
-  color: var(--bl-color-neutral);
+  color: var(--bl-link-color, inherit);
 }
 
-.link.standalone.kind-neutral:hover,
+.link.standalone.kind-neutral:hover {
+  color: var(--bl-link-hover-color, inherit);
+}
+
 .link.standalone.kind-neutral:active {
-  color: var(--bl-color-neutral-highlight);
+  color: var(--bl-link-active-color, inherit);
 }
 
 /* Size variants */

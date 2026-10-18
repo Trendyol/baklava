@@ -181,4 +181,47 @@ describe("bl-link", () => {
 
     expect(slot).to.exist;
   });
+
+  describe("standalone colors in the css hook chain", () => {
+    it("should resolve the standalone primary color from the theme by default", async () => {
+      const el = await fixture<BlLink>(html`<bl-link variant="standalone" href="javascript:void(0)">Home</bl-link>`);
+      const link = el.shadowRoot!.querySelector("a")!;
+
+      expect(getComputedStyle(link).color).to.eq("rgb(242, 122, 26)");
+    });
+
+    it("should allow --bl-link-color to override the standalone primary color", async () => {
+      const el = await fixture<BlLink>(html`<bl-link
+        variant="standalone"
+        style="--bl-link-color: var(--bl-color-success)"
+        href="javascript:void(0)"
+        >Home</bl-link
+      >`);
+      const link = el.shadowRoot!.querySelector("a")!;
+
+      expect(getComputedStyle(link).color).to.eq("rgb(11, 193, 92)");
+    });
+
+    it("should allow --bl-link-color to override the standalone neutral color", async () => {
+      const el = await fixture<BlLink>(html`<bl-link
+        variant="standalone"
+        kind="neutral"
+        style="--bl-link-color: var(--bl-color-info)"
+        href="javascript:void(0)"
+        >Home</bl-link
+      >`);
+      const link = el.shadowRoot!.querySelector("a")!;
+
+      expect(getComputedStyle(link).color).to.eq("rgb(87, 148, 255)");
+    });
+
+    it("should keep the neutral standalone color inherited when no hook is set", async () => {
+      const wrapper = await fixture(html`<div style="color: rgb(110, 119, 135)">
+        <bl-link variant="standalone" kind="neutral" href="javascript:void(0)">Home</bl-link>
+      </div>`);
+      const link = wrapper.querySelector<BlLink>("bl-link")!.shadowRoot!.querySelector("a")!;
+
+      expect(getComputedStyle(link).color).to.eq("rgb(110, 119, 135)");
+    });
+  });
 });
