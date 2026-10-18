@@ -1,6 +1,9 @@
 :host {
   width: 100%;
 
+  /* Keeps the item at its natural height when the dropdown content scrolls. */
+  flex-shrink: 0;
+
   --bl-button-display: block;
   --bl-button-justify: start;
 }

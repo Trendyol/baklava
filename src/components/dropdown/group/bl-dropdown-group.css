@@ -2,6 +2,9 @@
   display: block;
   position: relative;
   width: 100%;
+
+  /* Keeps the group at its natural height when the dropdown content scrolls. */
+  flex-shrink: 0;
 }
 
 .dropdown-group {

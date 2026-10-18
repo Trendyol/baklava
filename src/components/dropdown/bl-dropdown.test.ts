@@ -335,4 +335,64 @@ describe("bl-dropdown", () => {
       expect(dropdown?.opened).to.equal(false);
     });
   });
+
+  describe("content max height css property", () => {
+    const getContent = (el: BlDropdown) =>
+      el.shadowRoot?.querySelector<HTMLElement>(".popover-content") as HTMLElement;
+
+    it("should not constrain the content height by default", async () => {
+      const el = await fixture<BlDropdown>(html`<bl-dropdown label="Dropdown Button">
+        <bl-dropdown-item>Option</bl-dropdown-item>
+      </bl-dropdown>`);
+      const style = getComputedStyle(getContent(el));
+
+      expect(style.maxHeight).to.eq("none");
+      expect(style.overflowY).to.eq("auto");
+    });
+
+    it("should resolve --bl-dropdown-content-max-height on the content", async () => {
+      const el = await fixture<BlDropdown>(
+        html`<bl-dropdown label="Dropdown Button" style="--bl-dropdown-content-max-height: 100px">
+          <bl-dropdown-item>Option</bl-dropdown-item>
+        </bl-dropdown>`
+      );
+
+      expect(getComputedStyle(getContent(el)).maxHeight).to.eq("100px");
+    });
+
+    it("should keep the slotted items and groups from shrinking", async () => {
+      const el = await fixture<BlDropdown>(html`<bl-dropdown label="Dropdown Button">
+        <bl-dropdown-item>Option</bl-dropdown-item>
+        <bl-dropdown-group caption="Group">
+          <bl-dropdown-item>Grouped option</bl-dropdown-item>
+        </bl-dropdown-group>
+      </bl-dropdown>`);
+      const item = el.querySelector("bl-dropdown-item") as HTMLElement;
+      const group = el.querySelector("bl-dropdown-group") as HTMLElement;
+
+      expect(getComputedStyle(item).flexShrink).to.eq("0");
+      expect(getComputedStyle(group).flexShrink).to.eq("0");
+    });
+
+    it("should scroll the overflowing options instead of compressing them", async () => {
+      const el = await fixture<BlDropdown>(
+        html`<bl-dropdown label="Dropdown Button" style="--bl-dropdown-content-max-height: 60px">
+          <bl-dropdown-item>Option 1</bl-dropdown-item>
+          <bl-dropdown-item>Option 2</bl-dropdown-item>
+          <bl-dropdown-item>Option 3</bl-dropdown-item>
+          <bl-dropdown-item>Option 4</bl-dropdown-item>
+        </bl-dropdown>`
+      );
+
+      el.open();
+      await elementUpdated(el);
+
+      const content = getContent(el);
+
+      await waitUntil(() => content.clientHeight > 0, "dropdown content did not render");
+
+      expect(content.clientHeight).to.be.lessThan(70);
+      expect(content.scrollHeight).to.be.greaterThan(content.clientHeight);
+    });
+  });
 });
