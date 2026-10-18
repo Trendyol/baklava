@@ -24,6 +24,7 @@ const NOTIFICATION_VARIANT_ALERT_MAP: Readonly<Record<NotificationVariant, Alert
 /**
  * @tag bl-notification-card
  * @summary Baklava Notification Card component
+ * @cssproperty [--bl-notification-card-animation-play-state=running] Play state of the countdown animation. Use `paused` to keep the progress bar at its initial width.
  */
 
 @customElement("bl-notification-card")

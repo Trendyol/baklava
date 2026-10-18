@@ -27,7 +27,7 @@
   animation-duration: var(--duration, 7s);
   animation-timing-function: linear;
   animation-fill-mode: forwards;
-  animation-play-state: running;
+  animation-play-state: var(--bl-notification-card-animation-play-state, running);
 }
 
 .notification:hover .duration > .remaining {

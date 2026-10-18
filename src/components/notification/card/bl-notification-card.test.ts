@@ -120,6 +120,40 @@ describe("bl-notification-card", () => {
       expect(style.getPropertyValue("animation-play-state")).to.equal("paused");
     });
 
+    it("should freeze the countdown with --bl-notification-card-animation-play-state", async () => {
+      await sendMouse({ type: "move", position: [0, 0] });
+
+      const wrapper = await fixture<HTMLDivElement>(
+        html`<div style="--bl-notification-card-animation-play-state: paused;">
+          <bl-notification-card duration="5"> Description </bl-notification-card>
+        </div>`
+      );
+      const cardEl = wrapper.querySelector<BlNotificationCard>("bl-notification-card")!;
+
+      await cardEl.updateComplete;
+
+      const remainingEl = cardEl.shadowRoot!.querySelector(".remaining")!;
+
+      expect(cardEl.matches(":hover")).to.be.false;
+      expect(getComputedStyle(remainingEl).getPropertyValue("animation-play-state")).to.equal(
+        "paused"
+      );
+    });
+
+    it("should keep the countdown running when the css property is not set", async () => {
+      await sendMouse({ type: "move", position: [0, 0] });
+
+      const el = await fixture<BlNotificationCard>(
+        html`<bl-notification-card duration="5"> Description </bl-notification-card>`
+      );
+
+      const remainingEl = el.shadowRoot!.querySelector(".remaining")!;
+
+      expect(getComputedStyle(remainingEl).getPropertyValue("animation-play-state")).to.equal(
+        "running"
+      );
+    });
+
     it("should close automatically if duration is 0", async () => {
       const el = await fixture<BlNotificationCard>(
         html`<bl-notification-card duration="0"> Description </bl-notification-card>`

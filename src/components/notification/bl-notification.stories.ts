@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { fullscreenLayout } from "../../utilities/chromatic-decorators";
+import { fullscreenLayout, withNoAnimation } from "../../utilities/chromatic-decorators";
 import type { Notification, NotificationProps } from "./bl-notification";
 
 const meta: Meta = {
@@ -12,7 +12,7 @@ const meta: Meta = {
       viewports: [1000],
     },
   },
-  decorators: [fullscreenLayout],
+  decorators: [fullscreenLayout, withNoAnimation],
   argTypes: {
     // Notification Card Props
     duration: {
