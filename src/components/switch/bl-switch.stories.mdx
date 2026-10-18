@@ -138,6 +138,15 @@ We strongly advise against customizing switch with any colors other than success
   </Story>
 </Canvas>
 
+The alignment of the label and the toggle inside the component can be changed with the `--bl-switch-justify-content` CSS property. It is useful when switches are placed in rows with a fixed width and the toggle should stay at the end of the row:
+
+```css
+bl-switch {
+  width: 100%;
+  --bl-switch-justify-content: space-between;
+}
+```
+
 ## RTL Support
 
 The switch component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
