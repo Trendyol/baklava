@@ -14,9 +14,9 @@ export type LinkKind = "primary" | "neutral";
  *
  * @slot icon - Custom icon slot for non-standalone variants
  *
- * @cssproperty [--bl-link-color=--bl-color-primary] Sets the color of link
- * @cssproperty [--bl-link-hover-color=--bl-color-primary-hover] Sets the hover color of link
- * @cssproperty [--bl-link-active-color=--bl-color-primary-active] Sets the active color of link
+ * @cssproperty [--bl-link-color=--bl-color-primary] Sets the color of link. Standalone links with `kind="neutral"` fall back to the inherited text color
+ * @cssproperty [--bl-link-hover-color=--bl-color-primary-highlight] Sets the hover color of link
+ * @cssproperty [--bl-link-active-color=--bl-color-primary-highlight] Sets the active color of link
  */
 
 @customElement("bl-link")
