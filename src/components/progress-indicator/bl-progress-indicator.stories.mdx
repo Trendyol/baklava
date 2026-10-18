@@ -102,6 +102,38 @@ We have 3 sizes of progress indicator: `large`, `medium`, `small`. Default size 
    </Story>
 </Canvas>
 
+## Customization
+
+The fill and the unfilled track colors can be customized with the `--bl-progress-indicator-color` and `--bl-progress-indicator-track-color` CSS properties. By default the fill uses the success color, or the danger color when `failed` is set.
+
+<Canvas isColumn>
+  <Story
+    name="Custom Colors"
+    args={{
+      value: '45',
+      styles: {
+        '--bl-progress-indicator-color': 'var(--bl-color-primary)',
+        '--bl-progress-indicator-track-color': 'var(--bl-color-neutral-light)',
+      },
+    }}
+  >
+    {ProgressIndicatorTemplate.bind({})}
+  </Story>
+  <Story
+    name="Custom Colors Failed"
+    args={{
+      value: '45',
+      failed: true,
+      styles: {
+        '--bl-progress-indicator-color': 'var(--bl-color-warning)',
+        '--bl-progress-indicator-track-color': 'var(--bl-color-neutral-light)',
+      },
+    }}
+  >
+    {ProgressIndicatorTemplate.bind({})}
+  </Story>
+</Canvas>
+
 ## RTL Support
 
 The progress indicator component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
