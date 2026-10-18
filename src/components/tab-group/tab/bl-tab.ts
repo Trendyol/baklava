@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { property, query } from "lit/decorators.js";
+import { guardedCustomElement as customElement } from "../../../utilities/custom-element";
 import { event, EventDispatcher } from "../../../utilities/event";
 import { BaklavaIcon } from "../../icon/icon-list";
 import type BlTabGroup from "../bl-tab-group";

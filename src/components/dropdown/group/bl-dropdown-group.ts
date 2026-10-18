@@ -1,5 +1,6 @@
 import { LitElement, html, CSSResultGroup, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
+import { guardedCustomElement as customElement } from "../../../utilities/custom-element";
 import style from "./bl-dropdown-group.css";
 
 export const blDropdownGroupTag = "bl-dropdown-group";

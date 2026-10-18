@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement, nothing, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";
 import "../icon/bl-icon";

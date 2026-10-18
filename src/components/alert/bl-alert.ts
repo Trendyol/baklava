@@ -1,6 +1,7 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { event, EventDispatcher } from "../../utilities/event";
 import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
 import { ButtonVariant, ButtonKind, ButtonSize } from "../button/bl-button";

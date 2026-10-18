@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import {
   arrow,
@@ -13,6 +13,7 @@ import {
   shift,
   size,
 } from "@floating-ui/dom";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { getTarget } from "../../utilities/elements";
 import { event, EventDispatcher } from "../../utilities/event";
 import style from "./bl-popover.css";

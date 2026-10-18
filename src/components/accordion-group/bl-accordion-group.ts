@@ -1,7 +1,8 @@
 import { html, LitElement, TemplateResult } from "lit";
-import { customElement, property, queryAssignedElements } from "lit/decorators.js";
+import { property, queryAssignedElements } from "lit/decorators.js";
 import { CSSResultGroup } from "lit/development";
 import { BlAccordion } from "../../baklava";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import style from "./bl-accordion-group.css";
 
 @customElement("bl-accordion-group")
