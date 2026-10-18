@@ -1,4 +1,4 @@
-import { relative } from "path";
+import { relative, sep } from "path";
 
 /**
  * @param filePath
@@ -8,6 +8,8 @@ import { relative } from "path";
  */
 export function resolveFilePath(filePath, typeName, replace = "<rootPath>/") {
   const relToProject = relative(process.cwd(), filePath)
+    .split(sep)
+    .join("/")
     .replace(/\.ts$/, "")
     .replace(/^src\//, replace);
   return `import("${relToProject}").${typeName}`;
