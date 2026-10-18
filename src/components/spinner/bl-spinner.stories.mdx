@@ -118,6 +118,28 @@ This example demonstrates a spinner in overlay mode relative to its parent eleme
   </Story>
 </Canvas>
 
+## Customization
+
+The animation speed and the stacking order of the overlay can be adjusted with CSS variables, which can be set on the spinner itself or inherited from any ancestor:
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--bl-spinner-duration` | `1s` | Duration of one spin cycle |
+| `--bl-spinner-overlay-z-index` | `var(--bl-index-overlay)` | `z-index` used when `overlay` is set |
+
+<Canvas>
+  <Story name="Customized Spinner">
+    {(args) => html`
+      <div style="display: flex; gap: 16px; --bl-spinner-duration: 2.5s;">
+        ${SingleSpinnerTemplate({ size: 'var(--bl-font-size-xl)', ...args })}
+        <div style="position: relative; width: 120px; height: 120px; --bl-spinner-duration: 0.5s;">
+          ${SingleSpinnerTemplate({ size: 'var(--bl-font-size-xl)', overlay: true, ...args })}
+        </div>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
 ## Reference
 
 <ArgsTable of="bl-spinner" />

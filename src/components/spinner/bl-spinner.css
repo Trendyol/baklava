@@ -5,7 +5,7 @@
 }
 
 .spinner {
-  animation: spin 1s linear infinite;
+  animation: spin var(--bl-spinner-duration, 1s) linear infinite;
 }
 
 :host([overlay]) {
@@ -18,7 +18,7 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(39 49 66 / 70%);
-  z-index: 10;
+  z-index: var(--bl-spinner-overlay-z-index, var(--bl-index-overlay));
 }
 
 @keyframes spin {
