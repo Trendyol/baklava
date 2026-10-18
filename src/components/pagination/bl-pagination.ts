@@ -98,11 +98,18 @@ export default class BlPagination extends LitElement {
     itemsPerPage: number;
   }>;
 
+  private _handleResize = () => this._paginate();
+
   connectedCallback() {
     super.connectedCallback();
 
     setTimeout(() => {
-      window?.addEventListener("resize", () => this._paginate());
+      if (!this.isConnected) {
+        return;
+      }
+      // A stable handler reference also makes re-connecting idempotent:
+      // addEventListener deduplicates the same listener.
+      window?.addEventListener("resize", this._handleResize);
     });
 
     setDirectionProperty(this);
@@ -110,7 +117,7 @@ export default class BlPagination extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    window?.removeEventListener("resize", this._paginate);
+    window?.removeEventListener("resize", this._handleResize);
   }
 
   updated(changedProperties: PropertyValues<this>) {

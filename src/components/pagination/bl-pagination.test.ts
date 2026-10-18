@@ -11,6 +11,31 @@ describe("bl-pagination", () => {
     assert.instanceOf(el, BlPagination);
   });
 
+  it("should stop listening to window resize when disconnected", async () => {
+    //given
+    const wrapper = await fixture<HTMLElement>(
+      html`<div
+        ><bl-pagination total-items="100" items-per-page="10"></bl-pagination
+      ></div>`
+    );
+    const el = wrapper.querySelector("bl-pagination") as typeOfBlPagination;
+
+    await new Promise((resolve) => setTimeout(resolve));
+
+    let paginateCalls = 0;
+
+    (el as unknown as { _paginate: () => void })._paginate = () => {
+      paginateCalls++;
+    };
+
+    //when
+    el.remove();
+    window.dispatchEvent(new Event("resize"));
+
+    //then
+    expect(paginateCalls).to.eq(0);
+  });
+
   it("should render with the default values", async () => {
     const el = await fixture<typeOfBlPagination>(html`<bl-pagination></bl-pagination>`);
 
