@@ -367,7 +367,9 @@ describe("bl-radio-group", () => {
 
       //then
       expect([...next.messages, ...previous.messages, ...select.messages]).to.be.empty;
-      expect([next.event.defaultPrevented, previous.event.defaultPrevented, select.event.defaultPrevented]).to.eql([false, false, false]);
+      expect(next.event.defaultPrevented).to.be.false;
+      expect(previous.event.defaultPrevented).to.be.false;
+      expect(select.event.defaultPrevented).to.be.false;
       expect(group.value).to.equal("");
     });
 
