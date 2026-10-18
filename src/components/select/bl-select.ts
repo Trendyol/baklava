@@ -33,6 +33,8 @@ export type CleanUpFunction = () => void;
  * @summary Baklava Select component
  *
  * @cssproperty [--bl-popover-position=fixed] Sets the positioning strategy of select popover. You can set it as `absolute` if you need to show popover relative to its trigger element.
+ * @cssproperty [--bl-select-popover-max-height=250px] Sets the maximum height of the popover before its content starts scrolling. It is 290px for a multiple select with a select all option.
+ * @cssproperty [--bl-select-popover-width=100%] Sets the width of the popover. It matches the width of the select field by default.
  */
 @customElement("bl-select")
 @localized()

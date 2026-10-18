@@ -558,6 +558,26 @@ Select can be used with auto width. If you want to use select with auto width, y
   </Story>
 </Canvas>
 
+## Popover Size
+
+The popover is 250px tall and as wide as the select field by default. A multiple select with a select all option is 290px tall. Use `--bl-select-popover-max-height` to change how much of the option list is visible before it starts scrolling, and `--bl-select-popover-width` to make the popover wider or narrower than the field.
+
+<Canvas>
+  <Story name="Custom Popover Size" play={selectOpener}>
+    {() => html`
+      <div style="width: 240px; --bl-select-popover-max-height: 140px; --bl-select-popover-width: 320px;">
+        ${SelectTemplate({
+          placeholder: 'Choose country',
+          options: Array.from({ length: 12 }, (_, index) => ({
+            label: 'Country ' + (index + 1),
+            value: 'country-' + index,
+          })),
+        })}
+      </div>
+    `}
+  </Story>
+</Canvas>
+
 ## RTL Support
 
 The select component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
