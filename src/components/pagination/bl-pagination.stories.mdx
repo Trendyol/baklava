@@ -110,6 +110,18 @@ Use the jumper to directly go to a specific page.
   </Story>
 </Canvas>
 
+The jumper input is 62px wide by default. Use the `--bl-pagination-jumper-width` CSS property to fit it into a different layout, for example when the jumper label is longer than the default "Go to" text.
+
+<Canvas>
+  <Story name="Jumper Width">
+    {() => html`
+      <div style="--bl-pagination-jumper-width: 110px;">
+        ${PaginationTemplate({ currentPage: 1, totalItems: 1500, hasJumper: true })}
+      </div>
+    `}
+  </Story>
+</Canvas>
+
 ## Select
 Use the select helper to change the number of items per page.
 
