@@ -421,6 +421,67 @@ describe("bl-table", () => {
     );
   });
 
+  it("should accept numeric selection keys in the selected property", async () => {
+    //when
+    const el = await fixture<BlTable>(
+      html`
+        <bl-table selectable .selected=${[1]}>
+          <bl-table-body>
+            <bl-table-row selection-key="1">
+              <bl-table-cell>1</bl-table-cell>
+            </bl-table-row>
+            <bl-table-row selection-key="2">
+              <bl-table-cell>2</bl-table-cell>
+            </bl-table-row>
+          </bl-table-body>
+        </bl-table>`
+    );
+
+    await el.updateComplete;
+    const rows = Array.from(el.querySelectorAll("bl-table-row"));
+
+    //then
+    expect(el.selected).to.deep.equal(["1"]);
+    expect(rows[0].getAttribute("checked")).to.equal("true");
+    expect(rows[1].getAttribute("checked")).to.not.equal("true");
+  });
+
+  it("should keep numeric selection keys consistent when rows are clicked", async () => {
+    //when
+    const el = await fixture<BlTable>(
+      html`
+        <bl-table selectable .selected=${[1, "2"]}>
+          <bl-table-body>
+            <bl-table-row selection-key="1">
+              <bl-table-cell>1</bl-table-cell>
+            </bl-table-row>
+            <bl-table-row selection-key="2">
+              <bl-table-cell>2</bl-table-cell>
+            </bl-table-row>
+          </bl-table-body>
+        </bl-table>`
+    );
+
+    el.selected = [2];
+    await el.updateComplete;
+
+    const row = el.querySelector("bl-table-row")!;
+    const cell = row.querySelector("bl-table-cell")!;
+    const checkbox = cell.shadowRoot!.querySelector("bl-checkbox")!;
+
+    setTimeout(() => {
+      checkbox.dispatchEvent(
+        new CustomEvent("bl-checkbox-change", { detail: true })
+      );
+    });
+
+    const ev = await oneEvent(el, "bl-row-select");
+
+    //then: key "1" was dropped by the numeric re-assignment, the click adds it back
+    expect(el.selected).to.deep.equal(["2", "1"]);
+    expect(ev.detail).to.deep.equal(["2", "1"]);
+  });
+
   it("should be rendered with sticky first column", async () => {
     //when
     const el = await fixture<BlTable>(
