@@ -229,7 +229,7 @@ export default class BlSplitButton extends LitElement {
         size="${this.size}"
         loading-label="${ifDefined(this.loadingLabel)}"
         icon="${ifDefined(this.icon)}"
-        href="${ifDefined(this.type)}"
+        href="${ifDefined(this.href)}"
         ?disabled="${this.disabled}"
         ?loading="${this.loading}"
         type="${this.type}"
