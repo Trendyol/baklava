@@ -64,7 +64,7 @@ label {
 }
 
 bl-input {
-  width: 62px;
+  width: var(--bl-pagination-jumper-width, 62px);
 }
 
 bl-select {
