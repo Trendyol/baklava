@@ -51,8 +51,6 @@ export default class BlTabGroup extends LitElement {
   unregisterTab(tab: BlTab) {
     this._connectedTabs.splice(this._connectedTabs.indexOf(tab), 1);
     if (tab.selected && this.isConnected) {
-      // When the whole group is removed, every tab disconnects. Without this guard the selected
-      // tab hands its selection to the next one and overwrites selectedTabName during teardown.
       this._connectedTabs.find(t => !t.disabled)?.select();
     }
   }
