@@ -1,6 +1,7 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import "element-internals-polyfill";
+import { guardedCustomElement as customElement } from "../../../utilities/custom-element";
 import { blTableTag } from "../bl-table";
 import type BlTable from "../bl-table";
 import style from "../table-header/bl-table-header.css";

@@ -1,7 +1,8 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, eventOptions, property, state } from "lit/decorators.js";
+import { eventOptions, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { repeat } from "lit/directives/repeat.js";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import BlAlert from "../alert/bl-alert";
 import { BaklavaIcon } from "../icon/icon-list";
 import style from "./bl-notification.css";

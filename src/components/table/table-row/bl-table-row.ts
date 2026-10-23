@@ -1,7 +1,8 @@
 import { html, LitElement, PropertyValues, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { CSSResultGroup } from "lit/development";
 import "element-internals-polyfill";
+import { guardedCustomElement as customElement } from "../../../utilities/custom-element";
 import "../../checkbox-group/checkbox/bl-checkbox";
 import { blTableBodyTag } from "../table-body/bl-table-body";
 import type BlTableBody from "../table-body/bl-table-body";

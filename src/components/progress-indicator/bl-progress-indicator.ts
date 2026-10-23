@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { property, query, state } from "lit/decorators.js";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import style from "./bl-progress-indicator.css";
 
 export type ProgressIndicatorSize = "small" | "medium" | "large";
