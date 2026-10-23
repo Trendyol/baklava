@@ -320,4 +320,120 @@ describe("bl-radio-group", () => {
     //then
     expect(document.activeElement).to.equal(radioGroup?.options[1]);
   });
+
+  describe("pointer interaction", () => {
+    const fixtureScrollableGroup = () =>
+      fixture<HTMLDivElement>(html`
+        <div style="height: 120px; overflow-y: auto">
+          <bl-radio-group label="Payment Type" name="pt">
+            <bl-radio value="1">Option 1</bl-radio>
+            <bl-radio value="2">Option 2</bl-radio>
+            <bl-radio value="3">Option 3</bl-radio>
+            <bl-radio value="4">Option 4</bl-radio>
+            <bl-radio value="5">Option 5</bl-radio>
+            <bl-radio value="6">Option 6</bl-radio>
+          </bl-radio-group>
+        </div>
+      `);
+
+    it("should keep the focus on the pressed option", async () => {
+      //when
+      const container = await fixtureScrollableGroup();
+      const group = container.querySelector<BlRadioGroup>("bl-radio-group")!;
+
+      await elementUpdated(group);
+
+      container.scrollTop = container.scrollHeight;
+
+      const lastOption = group.options[group.options.length - 1];
+
+      //given a press below the fold: pointerdown reaches the group before focus moves
+      lastOption.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, composed: true }));
+      group.focus();
+      await elementUpdated(group);
+
+      //then
+      expect(document.activeElement).to.equal(lastOption);
+      expect(container.scrollTop).to.be.greaterThan(0);
+    });
+
+    it("should keep the previous position when a disabled option is pressed", async () => {
+      //when
+      const el = await fixture<HTMLDivElement>(html`
+        <div>
+          <input id="previnput" /><bl-radio-group label="Payment Type" name="pt">
+            <bl-radio value="1">Option 1</bl-radio>
+            <bl-radio value="2" disabled>Option 2</bl-radio>
+            <bl-radio value="3">Option 3</bl-radio>
+          </bl-radio-group>
+        </div>
+      `);
+
+      await elementUpdated(el);
+
+      el.querySelector<HTMLInputElement>("#previnput")?.focus();
+
+      const group = el.querySelector<BlRadioGroup>("bl-radio-group")!;
+
+      //given
+      await sendKeys({ press: "Tab" });
+      await sendKeys({ press: "ArrowRight" });
+
+      expect(document.activeElement).to.equal(group.options[2]);
+
+      group.options[1].dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, composed: true }));
+      group.focus();
+      await elementUpdated(group);
+
+      //then
+      expect(document.activeElement).to.equal(group.options[2]);
+    });
+
+    it("should keep the previous position when a press lands outside of an option", async () => {
+      //when
+      const group = await fixture<BlRadioGroup>(html`<bl-radio-group label="Payment Type" name="pt">
+        <bl-radio value="1">Option 1</bl-radio>
+        <bl-radio value="2">Option 2</bl-radio>
+      </bl-radio-group>`);
+
+      await elementUpdated(group);
+
+      //given
+      group.options[1].select();
+      await elementUpdated(group);
+      group.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true }));
+      group.focus();
+      await elementUpdated(group);
+
+      //then
+      expect(document.activeElement).to.equal(group.options[1]);
+    });
+
+    it("should continue keyboard navigation from the option checked with a pointer", async () => {
+      //when
+      const el = await fixture<HTMLDivElement>(html`
+        <div>
+          <input id="previnput" /><bl-radio-group label="Payment Type" name="pt">
+            <bl-radio value="1">Option 1</bl-radio>
+            <bl-radio value="2">Option 2</bl-radio>
+            <bl-radio value="3">Option 3</bl-radio>
+          </bl-radio-group>
+        </div>
+      `);
+
+      await elementUpdated(el);
+
+      const group = el.querySelector<BlRadioGroup>("bl-radio-group")!;
+
+      //given
+      group.options[2].select();
+      await elementUpdated(group);
+      el.querySelector<HTMLInputElement>("#previnput")?.focus();
+      await sendKeys({ press: "Tab" });
+      await sendKeys({ press: "ArrowRight" });
+
+      //then the navigation continues from the last option and wraps around
+      expect(document.activeElement).to.equal(group.options[0]);
+    });
+  });
 });
