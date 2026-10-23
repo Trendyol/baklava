@@ -282,3 +282,61 @@ describe("accessibility", () => {
     expect(el.tabs[2].selected).to.be.true;
   });
 });
+
+describe("unmount", () => {
+  afterEach(() => {
+    fixtureCleanup();
+  });
+
+  const createTabGroup = () =>
+    fixture<BlTabGroup>(html` <bl-tab-group>
+      <bl-tab name="test-1" slot="tabs" selected>Test 1 Tab</bl-tab>
+      <bl-tab name="test-2" slot="tabs">Test 2 Tab</bl-tab>
+      <bl-tab name="test-3" slot="tabs">Test 3 Tab</bl-tab>
+      <bl-tab-panel tab="test-1"></bl-tab-panel>
+      <bl-tab-panel tab="test-2"></bl-tab-panel>
+      <bl-tab-panel tab="test-3"></bl-tab-panel>
+    </bl-tab-group>`);
+
+  it("should unregister only the removed tab panel", async () => {
+    const el = await createTabGroup();
+
+    await nextFrame();
+
+    el.querySelector<HTMLElement>("bl-tab-panel[tab='test-3']")?.remove();
+    await nextFrame();
+
+    expect(el.tabs.length).to.equal(3);
+    expect(el.panels.map(p => p.tab)).to.deep.equal(["test-1", "test-2"]);
+  });
+
+  it("should keep the selected tab when the whole tab group is unmounted", async () => {
+    const el = await createTabGroup();
+
+    await nextFrame();
+
+    const events: string[] = [];
+
+    el.addEventListener("bl-tab-selected", e => {
+      events.push((e as CustomEvent).detail as string);
+    });
+
+    el.remove();
+    await nextFrame();
+
+    expect(events).to.deep.equal([]);
+    expect(el.selectedTabName).to.equal("test-1");
+  });
+
+  it("should hand the selection over when a selected tab is removed", async () => {
+    const el = await createTabGroup();
+
+    await nextFrame();
+
+    el.tabs[0].remove();
+    await nextFrame();
+
+    expect(el.tabs.map(t => t.name)).to.deep.equal(["test-2", "test-3"]);
+    expect(el.selectedTabName).to.equal("test-2");
+  });
+});
