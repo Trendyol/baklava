@@ -13,27 +13,60 @@ describe("bl-pagination", () => {
 
   it("should stop listening to window resize when disconnected", async () => {
     //given
-    const wrapper = await fixture<HTMLElement>(
-      html`<div
-        ><bl-pagination total-items="100" items-per-page="10"></bl-pagination
-      ></div>`
-    );
-    const el = wrapper.querySelector("bl-pagination") as typeOfBlPagination;
+    const el = document.createElement("bl-pagination") as typeOfBlPagination;
 
-    await new Promise((resolve) => setTimeout(resolve));
+    el.setAttribute("total-items", "100");
+    el.setAttribute("items-per-page", "10");
 
-    let paginateCalls = 0;
+    let resizeHandled = 0;
+    let counting = false;
 
+    // The spy is installed before connecting, so the function that gets
+    // registered as the listener is the one this test counts.
     (el as unknown as { _paginate: () => void })._paginate = () => {
-      paginateCalls++;
+      if (counting) {
+        resizeHandled++;
+      }
     };
 
     //when
+    document.body.appendChild(el);
+    await new Promise((resolve) => setTimeout(resolve));
     el.remove();
+    counting = true;
     window.dispatchEvent(new Event("resize"));
 
     //then
-    expect(paginateCalls).to.eq(0);
+    expect(resizeHandled).to.eq(0);
+  });
+
+  it("should not start listening to window resize when disconnected before the listener is added", async () => {
+    //given
+    const el = document.createElement("bl-pagination") as typeOfBlPagination;
+
+    el.setAttribute("total-items", "100");
+    el.setAttribute("items-per-page", "10");
+
+    let resizeHandled = 0;
+    let counting = false;
+
+    // The spy is installed before connecting, so the function that gets
+    // registered as the listener is the one this test counts.
+    (el as unknown as { _paginate: () => void })._paginate = () => {
+      if (counting) {
+        resizeHandled++;
+      }
+    };
+
+    //when
+    document.body.appendChild(el);
+    el.remove();
+    await new Promise((resolve) => setTimeout(resolve));
+    counting = true;
+    window.dispatchEvent(new Event("resize"));
+
+    //then
+    expect(resizeHandled).to.eq(0);
   });
 
   it("should render with the default values", async () => {
