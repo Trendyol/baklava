@@ -20,7 +20,7 @@
   box-sizing: border-box;
   width: 100%;
   border: none;
-  border-radius: var(--bl-size-4xs);
+  border-radius: var(--bl-border-radius-xs);
   margin: 0;
   padding: var(--padding-vertical) var(--padding-horizontal);
   background-color: var(--bg-color);
