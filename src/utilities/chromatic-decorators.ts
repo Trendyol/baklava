@@ -14,6 +14,7 @@ export const withNoAnimation = (story: PartialStoryFn) =>
     html`<style>
       .chromatic-wrapper {
         --bl-drawer-animation-duration: 0;
+        --bl-notification-card-animation-play-state: paused;
       }
     </style>`
   );
