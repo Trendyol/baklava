@@ -25,12 +25,12 @@
   --menu-margin-top: var(--bl-size-2xs);
   --font-size: var(--bl-font-size-m);
   --disabled-color: var(--bl-color-neutral-lightest);
-  --menu-height: 250px;
+  --menu-height: var(--bl-select-popover-max-height, 250px);
   --popover-position: var(--bl-popover-position, fixed);
 }
 
 :host([multiple][view-select-all]) .select-wrapper {
-  --menu-height: 290px;
+  --menu-height: var(--bl-select-popover-max-height, 290px);
 }
 
 :host([size="large"]) .select-wrapper {
@@ -219,7 +219,7 @@
   display: none;
   flex-direction: column;
   z-index: var(--bl-index-popover);
-  width: 100%;
+  width: var(--bl-select-popover-width, 100%);
   top: var(--top);
   left: var(--left);
 }
