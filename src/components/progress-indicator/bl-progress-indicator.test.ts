@@ -84,4 +84,60 @@ describe("bl-progress-indicator", () => {
     expect(el.value).to.eq(4);
     expect(el.failed).to.eq(true);
   });
+
+  it("should use the theme colors by default", async () => {
+    //when
+    const el = await fixture<typeOfBlProgressIndicator>(
+      html`<bl-progress-indicator></bl-progress-indicator>`
+    );
+    const wrapper = el.shadowRoot?.querySelector(".progress-indicator") as HTMLDivElement;
+
+    //then
+    expect(getComputedStyle(wrapper).getPropertyValue("--value-color").trim()).to.eq("#0bc15c");
+    expect(getComputedStyle(wrapper).backgroundColor).to.eq("rgb(241, 242, 247)");
+  });
+
+  it("should use the danger color when failed", async () => {
+    //when
+    const el = await fixture<typeOfBlProgressIndicator>(
+      html`<bl-progress-indicator failed></bl-progress-indicator>`
+    );
+    const wrapper = el.shadowRoot?.querySelector(".progress-indicator") as HTMLDivElement;
+
+    //then
+    expect(getComputedStyle(wrapper).getPropertyValue("--value-color").trim()).to.eq("#ff5043");
+  });
+
+  it("should allow overriding the fill color with --bl-progress-indicator-color", async () => {
+    //when
+    const el = await fixture<typeOfBlProgressIndicator>(
+      html`<bl-progress-indicator style="--bl-progress-indicator-color: #ff0000"></bl-progress-indicator>`
+    );
+    const wrapper = el.shadowRoot?.querySelector(".progress-indicator") as HTMLDivElement;
+
+    //then
+    expect(getComputedStyle(wrapper).getPropertyValue("--value-color").trim()).to.eq("#ff0000");
+  });
+
+  it("should keep the custom fill color when failed", async () => {
+    //when
+    const el = await fixture<typeOfBlProgressIndicator>(
+      html`<bl-progress-indicator failed style="--bl-progress-indicator-color: #ff0000"></bl-progress-indicator>`
+    );
+    const wrapper = el.shadowRoot?.querySelector(".progress-indicator") as HTMLDivElement;
+
+    //then
+    expect(getComputedStyle(wrapper).getPropertyValue("--value-color").trim()).to.eq("#ff0000");
+  });
+
+  it("should allow overriding the track color with --bl-progress-indicator-track-color", async () => {
+    //when
+    const el = await fixture<typeOfBlProgressIndicator>(
+      html`<bl-progress-indicator style="--bl-progress-indicator-track-color: #0000ff"></bl-progress-indicator>`
+    );
+    const wrapper = el.shadowRoot?.querySelector(".progress-indicator") as HTMLDivElement;
+
+    //then
+    expect(getComputedStyle(wrapper).backgroundColor).to.eq("rgb(0, 0, 255)");
+  });
 });
