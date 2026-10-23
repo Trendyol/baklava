@@ -165,6 +165,7 @@ export const SelectTemplate = (args) => html`<bl-select
     ?multiple=${args.multiple}
     ?clearable=${args.clearable}
     ?required=${args.required}
+    ?required-indicator=${args.requiredIndicator}
     ?disabled=${args.disabled}
     ?success=${args.success}
     ?view-select-all=${args.viewSelectAll}
@@ -510,6 +511,16 @@ You can set an error message by setting `invalid-text` attribute.
 <Canvas>
   <Story name="Custom Error Message" args={{ label: 'Choose country', labelFixed: true, required: true, customInvalidText: 'This field is mandatory' }} play={formSubmitter}>
     {FormTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Required Indicator
+
+`required` only turns on the validation rule, it does not change how the label looks. Set `required-indicator` to show a red asterisk next to the label, the same way `bl-input` does it. The asterisk follows the label in every state: inside the field, as the floating caption and in the fixed legend.
+
+<Canvas>
+  <Story name="Required Indicator" args={{ label: 'Choose country', labelFixed: true, required: true, requiredIndicator: true }}>
+    {SelectTemplate.bind({})}
   </Story>
 </Canvas>
 
