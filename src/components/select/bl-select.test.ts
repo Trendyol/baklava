@@ -875,6 +875,113 @@ describe("bl-select", () => {
        //then
        expect(focusedOptions.length).to.equal(0);
     });
+
+    it("should not break the keyboard navigation when every option is disabled", async () => {
+      //given
+      el.querySelectorAll<BlSelectOption>("bl-select-option").forEach(option => {
+        option.disabled = true;
+      });
+
+      await sendKeys({
+        press: tabKey,
+      });
+      await sendKeys({
+        press: "Space",
+      });
+
+      //when
+      await sendKeys({
+        press: "ArrowDown",
+      });
+      await sendKeys({
+        press: "ArrowUp",
+      });
+
+      //then
+      expect(blSelect.opened).to.be.true;
+      expect(document.activeElement).to.equal(blSelect);
+    });
+
+    it("should skip the options hidden by the search filter", async () => {
+      //given
+      const searchEl = await fixture<HTMLDivElement>(html`<div>
+        <input id="previnput" />
+        <bl-select label="Choose sports you like" search-bar>
+          <bl-select-option value="basketball">Basketball</bl-select-option>
+          <bl-select-option value="football">Football</bl-select-option>
+        </bl-select>
+      </div>`);
+
+      await elementUpdated(searchEl);
+
+      const searchSelect = searchEl.querySelector<BlSelect>("bl-select")!;
+
+      searchEl.querySelector<HTMLInputElement>("#previnput")?.focus();
+
+      await sendKeys({
+        press: tabKey,
+      });
+      await sendKeys({
+        press: "Space",
+      });
+
+      searchSelect.shadowRoot?.querySelector<HTMLInputElement>("fieldset input")?.focus();
+
+      await sendKeys({
+        type: "foot",
+      });
+      await elementUpdated(searchSelect);
+
+      //when
+      await sendKeys({
+        press: "ArrowDown",
+      });
+
+      //then
+      expect(searchSelect.options[0].hidden).to.be.true;
+      expect((document.activeElement as BlSelectOption).value).to.equal("football");
+    });
+  });
+
+  describe("keyboard navigation without any option", () => {
+    const tabKey =
+      navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("HeadlessChrome")
+        ? "Alt+Tab"
+        : "Tab";
+
+    it("should keep the popover open and the focus on the select", async () => {
+      //given
+      const el = await fixture<HTMLDivElement>(html`<div>
+        <input id="previnput" />
+        <bl-select label="Choose sports you like"></bl-select>
+        <input id="nextinput" />
+      </div>`);
+
+      await elementUpdated(el);
+
+      const blSelect = el.querySelector<BlSelect>("bl-select")!;
+
+      el.querySelector<HTMLInputElement>("#previnput")?.focus();
+
+      await sendKeys({
+        press: tabKey,
+      });
+      await sendKeys({
+        press: "Space",
+      });
+
+      //when
+      await sendKeys({
+        press: "ArrowDown",
+      });
+      await sendKeys({
+        press: "ArrowUp",
+      });
+
+      //then
+      expect(blSelect.opened).to.be.true;
+      expect(document.activeElement).to.equal(blSelect);
+    });
   });
 
   describe("select all", () => {
