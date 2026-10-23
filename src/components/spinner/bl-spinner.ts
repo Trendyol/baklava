@@ -8,6 +8,8 @@ export const blSpinnerTag = "bl-spinner";
  * @tag bl-spinner
  * @summary Baklava Spinner component
  *
+ * @cssproperty [--bl-spinner-duration=1s] Duration of the spin animation
+ * @cssproperty [--bl-spinner-overlay-z-index=var(--bl-index-overlay)] Stacking order of the spinner overlay
  */
 @customElement(blSpinnerTag)
 export default class BlSpinner extends LitElement {

@@ -85,7 +85,7 @@ describe("bl-spinner", () => {
     expect(style.top).to.equal("0px");
     expect(style.left).to.equal("0px");
     expect(style.backgroundColor).to.equal("rgba(39, 49, 66, 0.7)");
-    expect(style.zIndex).to.equal("10");
+    expect(style.zIndex).to.equal("400");
   });
 
   it("applies spin animation", async () => {
@@ -98,5 +98,45 @@ describe("bl-spinner", () => {
     expect(style.animationDuration).to.equal("1s");
     expect(style.animationTimingFunction).to.equal("linear");
     expect(style.animationIterationCount).to.equal("infinite");
+  });
+
+  it("uses --bl-spinner-duration for the spin animation", async () => {
+    //given
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner></bl-spinner>`);
+
+    el.style.setProperty("--bl-spinner-duration", "2s");
+
+    //when
+    await elementUpdated(el);
+    const style = getComputedStyle(el.shadowRoot?.querySelector("bl-icon") as BlIcon);
+
+    //then
+    expect(style.animationDuration).to.equal("2s");
+  });
+
+  it("uses --bl-spinner-overlay-z-index for the overlay", async () => {
+    //given
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner overlay></bl-spinner>`);
+
+    el.style.setProperty("--bl-spinner-overlay-z-index", "123");
+
+    //when
+    await elementUpdated(el);
+
+    //then
+    expect(getComputedStyle(el).zIndex).to.equal("123");
+  });
+
+  it("falls back to --bl-index-overlay when no z-index is set", async () => {
+    //given
+    const el = await fixture<typeOfBlSpinner>(html`<bl-spinner overlay></bl-spinner>`);
+
+    el.style.setProperty("--bl-index-overlay", "222");
+
+    //when
+    await elementUpdated(el);
+
+    //then
+    expect(getComputedStyle(el).zIndex).to.equal("222");
   });
 });
