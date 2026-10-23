@@ -1,4 +1,4 @@
-import { expect, fixture, html, oneEvent } from "@open-wc/testing";
+import { elementUpdated, expect, fixture, html, oneEvent } from "@open-wc/testing";
 import BlTable from "./bl-table";
 import "./table-body/bl-table-body";
 import "./table-cell/bl-table-cell";
@@ -1441,6 +1441,67 @@ describe("bl-table", () => {
 
       expect(ev).to.exist;
       expect(ev.detail).to.be.deep.equal(["row-2"]);
+    });
+  });
+
+  describe("scroll container and table layout", () => {
+    const createTable = (hostStyles = "") =>
+      fixture<BlTable>(html`
+        <bl-table style="${hostStyles}">
+          <bl-table-header>
+            <bl-table-row>
+              <bl-table-header-cell>ID</bl-table-header-cell>
+            </bl-table-row>
+          </bl-table-header>
+          <bl-table-body>
+            <bl-table-row>
+              <bl-table-cell>1</bl-table-cell>
+            </bl-table-row>
+          </bl-table-body>
+        </bl-table>
+      `);
+
+    it("should expose the shadow scroll container", async () => {
+      //when
+      const el = await createTable();
+
+      //then
+      expect(el.getScrollContainer()).to.equal(el.shadowRoot?.querySelector(".table-wrapper"));
+      expect(el.getScrollContainer()?.classList.contains("table-wrapper")).to.be.true;
+    });
+
+    it("should include the wrapper borders in its max height", async () => {
+      //when
+      const el = await createTable();
+      const wrapper = el.getScrollContainer() as HTMLElement;
+
+      //then
+      expect(getComputedStyle(wrapper).boxSizing).to.equal("border-box");
+    });
+
+    it("should keep auto table layout by default", async () => {
+      //when
+      const el = await createTable();
+
+      //then
+      const table = el.shadowRoot?.querySelector(".table") as HTMLElement;
+      const innerTable = el.shadowRoot?.querySelector(".table table") as HTMLElement;
+
+      expect(getComputedStyle(table).tableLayout).to.equal("auto");
+      expect(getComputedStyle(innerTable).tableLayout).to.equal("auto");
+    });
+
+    it("should apply the --bl-table-layout css property", async () => {
+      //when
+      const el = await createTable("--bl-table-layout: fixed;");
+
+      //then
+      await elementUpdated(el);
+      const table = el.shadowRoot?.querySelector(".table") as HTMLElement;
+      const innerTable = el.shadowRoot?.querySelector(".table table") as HTMLElement;
+
+      expect(getComputedStyle(table).tableLayout).to.equal("fixed");
+      expect(getComputedStyle(innerTable).tableLayout).to.equal("fixed");
     });
   });
 });
