@@ -222,8 +222,6 @@ export default class BlPopover extends LitElement {
           Object.assign(this._popover.style, {
             left: `${x}px`,
             top: `${y}px`,
-            // Without this the popover keeps the flipped coordinates and lands on the opposite
-            // side of the screen once its target is scrolled out of the viewport.
             visibility: middlewareData.hide?.referenceHidden ? "hidden" : "",
           });
 
