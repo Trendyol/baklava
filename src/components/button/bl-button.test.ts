@@ -140,6 +140,53 @@ describe("bl-button", () => {
       expect(el.shadowRoot?.querySelector("a")).to.exist;
       expect(el.shadowRoot?.querySelector("button")).not.to.exist;
     });
+
+    it("fires bl-click event when the anchor is clicked", async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button href="javascript:void(0)">link</bl-button>`
+      );
+      const anchor = el.shadowRoot?.querySelector("a");
+
+      setTimeout(() => anchor?.click());
+      const ev = await oneEvent(el, "bl-click");
+
+      expect(ev).to.exist;
+      expect(ev.detail).to.equal("Click event fired!");
+    });
+
+    it("prevents navigation and skips bl-click on a disabled anchor", async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button href="https://trendyol.com" disabled>link</bl-button>`
+      );
+      const anchor = el.shadowRoot!.querySelector("a")!;
+      let blClickCount = 0;
+
+      el.addEventListener("bl-click", () => blClickCount++);
+
+      const clickEvent = new MouseEvent("click", { bubbles: true, cancelable: true });
+
+      anchor.dispatchEvent(clickEvent);
+
+      expect(clickEvent.defaultPrevented).to.be.true;
+      expect(blClickCount).to.equal(0);
+    });
+
+    it("prevents navigation and skips bl-click on a loading anchor", async () => {
+      const el = await fixture<typeOfBlButton>(
+        html`<bl-button href="https://trendyol.com" loading>link</bl-button>`
+      );
+      const anchor = el.shadowRoot!.querySelector("a")!;
+      let blClickCount = 0;
+
+      el.addEventListener("bl-click", () => blClickCount++);
+
+      const clickEvent = new MouseEvent("click", { bubbles: true, cancelable: true });
+
+      anchor.dispatchEvent(clickEvent);
+
+      expect(clickEvent.defaultPrevented).to.be.true;
+      expect(blClickCount).to.equal(0);
+    });
   });
   describe("Icon only button", () => {
     it("renders with slotted icon content", async () => {
