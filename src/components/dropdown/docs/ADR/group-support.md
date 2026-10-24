@@ -40,12 +40,12 @@ export default class BlDropdownGroup extends LitElement {
 
 // Visual separation between groups
 :host(:not(:first-child)) .dropdown-group {
-  border-top: 1px solid var(--bl-color-neutral-lighter);
+  border-top: 1px solid var(--bl-color-border-primary);
   padding-top: var(--bl-size-xs);
 }
 
 :host(:not(:last-child)) .dropdown-group {
-  border-bottom: 1px solid var(--bl-color-neutral-lighter);
+  border-bottom: 1px solid var(--bl-color-border-primary);
   padding-bottom: var(--bl-size-xs);
 }
 ```

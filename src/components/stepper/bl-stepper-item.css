@@ -5,17 +5,17 @@
 }
 
 .stepper-item {
-  --item-color: var(--bl-color-neutral-light);
-  --item-background: var(--bl-color-neutral-full);
-  --active-color: var(--bl-color-primary);
-  --hover-color: var(--bl-color-primary-highlight);
-  --success-color: var(--bl-color-success);
-  --error-color: var(--bl-color-danger);
-  --disabled-color: var(--bl-color-neutral-lighter);
-  --text-color-active: var(--bl-color-primary);
-  --text-color-default: var(--bl-color-neutral-light);
-  --description-color-active: var(--bl-color-neutral-darker);
-  --description-color-default: var(--bl-color-neutral-light);
+  --item-color: var(--bl-color-foreground-placeholder);
+  --item-background: var(--bl-color-background-primary);
+  --active-color: var(--bl-color-foreground-brand);
+  --hover-color: var(--bl-color-foreground-brand-hover);
+  --success-color: var(--bl-color-foreground-success);
+  --error-color: var(--bl-color-foreground-danger);
+  --disabled-color: var(--bl-color-foreground-disabled);
+  --text-color-active: var(--bl-color-text-brand);
+  --text-color-default: var(--bl-color-text-placeholder);
+  --description-color-active: var(--bl-color-text-primary);
+  --description-color-default: var(--bl-color-text-placeholder);
 
   display: flex;
   align-items: flex-start;
@@ -79,13 +79,13 @@
 }
 
 .connector {
-  background-color: var(--bl-color-neutral-lighter);
+  background-color: var(--bl-color-border-primary);
   transition: background-color 0.2s ease;
   flex-shrink: 0;
 }
 
 .connector.completed {
-  background-color: var(--bl-color-neutral-darker);
+  background-color: var(--bl-color-foreground-primary);
 }
 
 .stepper-item.direction-horizontal .connector {
@@ -247,7 +247,7 @@
 }
 
 .stepper-item.clickable:focus-visible .stepper-indicator {
-  outline: 2px solid var(--bl-color-primary);
+  outline: 2px solid var(--bl-color-border-brand);
   outline-offset: 2px;
 }
 
@@ -329,44 +329,44 @@
 .stepper-item.variant-active.type-number .stepper-indicator {
   border-color: var(--active-color);
   background-color: var(--active-color);
-  color: var(--bl-color-neutral-full);
+  color: var(--bl-color-foreground-primary-on-color);
 }
 
 .stepper-item.variant-success.type-number .stepper-indicator {
   border-color: var(--success-color);
   background-color: var(--success-color);
-  color: var(--bl-color-neutral-full);
+  color: var(--bl-color-foreground-primary-on-color);
 }
 
 .stepper-item.variant-error.type-number .stepper-indicator {
   border-color: var(--error-color);
   background-color: var(--error-color);
-  color: var(--bl-color-neutral-full);
+  color: var(--bl-color-foreground-primary-on-color);
 }
 
 .stepper-item.variant-default.type-icon .stepper-indicator {
   background-color: var(--item-color);
-  color: var(--bl-color-neutral-full);
+  color: var(--bl-color-foreground-primary-on-color);
 }
 
 .stepper-item.variant-hover.type-icon .stepper-indicator {
   background-color: var(--active-color);
-  color: var(--bl-color-neutral-full);
+  color: var(--bl-color-foreground-primary-on-color);
 }
 
 .stepper-item.variant-active.type-icon .stepper-indicator {
   background-color: var(--active-color);
-  color: var(--bl-color-neutral-full);
+  color: var(--bl-color-foreground-primary-on-color);
 }
 
 .stepper-item.variant-success.type-icon .stepper-indicator {
   background-color: var(--success-color);
-  color: var(--bl-color-neutral-full);
+  color: var(--bl-color-foreground-primary-on-color);
 }
 
 .stepper-item.variant-error.type-icon .stepper-indicator {
   background-color: var(--error-color);
-  color: var(--bl-color-neutral-full);
+  color: var(--bl-color-foreground-primary-on-color);
 }
 
 :host([dir="rtl"]) .stepper-item.direction-horizontal {

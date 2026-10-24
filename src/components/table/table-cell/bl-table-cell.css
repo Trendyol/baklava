@@ -1,13 +1,13 @@
 :host {
   display: table-cell;
-  border: 1px solid var(--bl-color-neutral-lighter);
+  border: 1px solid var(--bl-color-border-primary);
   padding: var(--bl-size-m);
   font: var(--bl-font-title-3-regular);
-  color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-text-primary);
   box-sizing: border-box;
   vertical-align: middle;
   word-break: break-word;
-  background-color: var(--bl-color-neutral-full);
+  background-color: var(--bl-color-background-primary);
   background-clip: padding-box;
   border-top: none;
   border-inline-end: none;
@@ -26,7 +26,7 @@
   width: 16px;
   height: 100%;
   z-index: -1;
-  border-inline-end: 1px solid var(--bl-color-neutral-lighter);
+  border-inline-end: 1px solid var(--bl-color-border-primary);
   box-shadow: calc(8px * var(--bl-text-x-direction)) 0 16px 0 rgb(39 49 66 / 10%);
 }
 
@@ -38,7 +38,7 @@
   width: 16px;
   height: 100%;
   z-index: -1;
-  border-inline-start: 1px solid var(--bl-color-neutral-lighter);
+  border-inline-start: 1px solid var(--bl-color-border-primary);
   box-shadow: calc(-8px * var(--bl-text-x-direction)) 0 16px 0 rgb(39 49 66 / 10%);
 }
 

@@ -38,8 +38,8 @@ General usage example:
 ```html
 <style>
 .tab-badge-new {
-   --bl-badge-color: var(--bl-color-primary-background);
-   --bl-badge-bg-color: var(--bl-color-danger);
+   --bl-badge-color: var(--bl-color-text-brand);
+   --bl-badge-bg-color: var(--bl-color-background-danger);
 }
 </style>
 

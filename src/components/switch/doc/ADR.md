@@ -60,4 +60,4 @@ Description
 
 | Property | Description | Default Value |
 | --------------- | --------------- | --------------- |
-| `—bl-switch-color` | The color of the Switch | --bl-color-primary (when `checked`) |
+| `—bl-switch-color` | The color of the Switch | --bl-color-foreground-brand (when `checked`) |

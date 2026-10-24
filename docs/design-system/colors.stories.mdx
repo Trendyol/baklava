@@ -5,46 +5,214 @@ import { html } from 'lit';
 
 # Baklava Color Palette
 
-Baklava uses a list of defined color with some default values.
+Baklava's color system has two layers:
+
+- **Primitives** — raw, theme-agnostic color scales (`--bl-color-{family}-{step}`). These never change between light and dark themes.
+- **Semantic tokens** — role-based tokens (`--bl-color-{category}-{role}`) that reference primitives and are the ones components actually consume. Their values are re-mapped per theme (light/dark), so always prefer semantic tokens over primitives when styling.
+
+## Primitive Colors
 
 <ColorPalette>
   <ColorItem
-    title="--bl-color-primary"
-    subtitle="Primary Color"
-    colors={{ '': 'var(--bl-color-primary)', '--highlight': 'var(--bl-color-primary-highlight)', '--contrast': 'var(--bl-color-primary-contrast)' }}
+    title="--bl-color-neutral"
+    subtitle="Neutral Scale"
+    colors={{
+        '-50': 'var(--bl-color-neutral-50)',
+        '-100': 'var(--bl-color-neutral-100)',
+        '-150': 'var(--bl-color-neutral-150)',
+        '-200': 'var(--bl-color-neutral-200)',
+        '-300': 'var(--bl-color-neutral-300)',
+        '-400': 'var(--bl-color-neutral-400)',
+        '-500': 'var(--bl-color-neutral-500)',
+        '-600': 'var(--bl-color-neutral-600)',
+        '-700': 'var(--bl-color-neutral-700)',
+        '-800': 'var(--bl-color-neutral-800)',
+        '-900': 'var(--bl-color-neutral-900)',
+        '-950': 'var(--bl-color-neutral-950)',
+    }}
+  />
+  <ColorItem
+    title="--bl-color-brand"
+    subtitle="Brand Scale"
+    colors={{
+        '-50': 'var(--bl-color-brand-50)',
+        '-100': 'var(--bl-color-brand-100)',
+        '-200': 'var(--bl-color-brand-200)',
+        '-300': 'var(--bl-color-brand-300)',
+        '-400': 'var(--bl-color-brand-400)',
+        '-500': 'var(--bl-color-brand-500)',
+        '-600': 'var(--bl-color-brand-600)',
+        '-800': 'var(--bl-color-brand-800)',
+        '-900': 'var(--bl-color-brand-900)',
+        '-950': 'var(--bl-color-brand-950)',
+    }}
   />
   <ColorItem
     title="--bl-color-success"
-    subtitle="Success Color"
-    colors={{ '': 'var(--bl-color-success)', '--highlight': 'var(--bl-color-success-highlight)', '--contrast': 'var(--bl-color-success-contrast)' }}
+    subtitle="Success Scale"
+    colors={{
+        '-50': 'var(--bl-color-success-50)',
+        '-100': 'var(--bl-color-success-100)',
+        '-200': 'var(--bl-color-success-200)',
+        '-300': 'var(--bl-color-success-300)',
+        '-400': 'var(--bl-color-success-400)',
+        '-500': 'var(--bl-color-success-500)',
+        '-600': 'var(--bl-color-success-600)',
+        '-700': 'var(--bl-color-success-700)',
+        '-800': 'var(--bl-color-success-800)',
+        '-900': 'var(--bl-color-success-900)',
+        '-950': 'var(--bl-color-success-950)',
+    }}
   />
   <ColorItem
     title="--bl-color-danger"
-    subtitle="Danger Color"
-    colors={{ '': 'var(--bl-color-danger)', '--highlight': 'var(--bl-color-danger-highlight)', '--contrast': 'var(--bl-color-danger-contrast)' }}
+    subtitle="Danger Scale"
+    colors={{
+        '-50': 'var(--bl-color-danger-50)',
+        '-100': 'var(--bl-color-danger-100)',
+        '-200': 'var(--bl-color-danger-200)',
+        '-300': 'var(--bl-color-danger-300)',
+        '-400': 'var(--bl-color-danger-400)',
+        '-500': 'var(--bl-color-danger-500)',
+        '-600': 'var(--bl-color-danger-600)',
+        '-700': 'var(--bl-color-danger-700)',
+        '-800': 'var(--bl-color-danger-800)',
+        '-900': 'var(--bl-color-danger-900)',
+        '-950': 'var(--bl-color-danger-950)',
+    }}
   />
   <ColorItem
     title="--bl-color-warning"
-    subtitle="Warning Color"
-    colors={{ '': 'var(--bl-color-warning)', '--highlight': 'var(--bl-color-warning-highlight)', '--contrast': 'var(--bl-color-warning-contrast)' }}
+    subtitle="Warning Scale"
+    colors={{
+        '-50': 'var(--bl-color-warning-50)',
+        '-100': 'var(--bl-color-warning-100)',
+        '-200': 'var(--bl-color-warning-200)',
+        '-300': 'var(--bl-color-warning-300)',
+        '-400': 'var(--bl-color-warning-400)',
+        '-500': 'var(--bl-color-warning-500)',
+        '-600': 'var(--bl-color-warning-600)',
+        '-700': 'var(--bl-color-warning-700)',
+        '-800': 'var(--bl-color-warning-800)',
+        '-900': 'var(--bl-color-warning-900)',
+        '-950': 'var(--bl-color-warning-950)',
+    }}
   />
   <ColorItem
     title="--bl-color-info"
-    subtitle="Info Color"
-    colors={{ '': 'var(--bl-color-info)', '--highlight': 'var(--bl-color-info-highlight)', '--contrast': 'var(--bl-color-info-contrast)' }}
+    subtitle="Info Scale"
+    colors={{
+        '-50': 'var(--bl-color-info-50)',
+        '-100': 'var(--bl-color-info-100)',
+        '-200': 'var(--bl-color-info-200)',
+        '-300': 'var(--bl-color-info-300)',
+        '-400': 'var(--bl-color-info-400)',
+        '-500': 'var(--bl-color-info-500)',
+        '-600': 'var(--bl-color-info-600)',
+        '-700': 'var(--bl-color-info-700)',
+        '-800': 'var(--bl-color-info-800)',
+        '-950': 'var(--bl-color-info-950)',
+    }}
   />
   <ColorItem
-    title="--bl-color-neutral"
-    subtitle="Neutral Colors"
+    title="--bl-color-accent"
+    subtitle="Accent Scale"
     colors={{
-        '--none': 'var(--bl-color-neutral-none)',
-        '--darkest': 'var(--bl-color-neutral-darkest)',
-        '--darker': 'var(--bl-color-neutral-darker)',
-        '--dark': 'var(--bl-color-neutral-dark)',
-        '--light' : 'var(--bl-color-neutral-light)',
-        '--lighter' : 'var(--bl-color-neutral-lighter)',
-        '--lightest' : 'var(--bl-color-neutral-lightest)',
-        '--full' : 'var(--bl-color-neutral-full)',
+        '-50': 'var(--bl-color-accent-50)',
+        '-100': 'var(--bl-color-accent-100)',
+        '-200': 'var(--bl-color-accent-200)',
+        '-300': 'var(--bl-color-accent-300)',
+        '-400': 'var(--bl-color-accent-400)',
+        '-500': 'var(--bl-color-accent-500)',
+        '-600': 'var(--bl-color-accent-600)',
+        '-700': 'var(--bl-color-accent-700)',
+        '-800': 'var(--bl-color-accent-800)',
+        '-900': 'var(--bl-color-accent-900)',
+        '-950': 'var(--bl-color-accent-950)',
+    }}
+  />
+  <ColorItem
+    title="--bl-color-base"
+    subtitle="Base Colors"
+    colors={{ '-white': 'var(--bl-color-base-white)', '-black': 'var(--bl-color-base-black)' }}
+  />
+</ColorPalette>
+
+## Semantic Tokens
+
+Semantic tokens automatically adapt when the theme switches between light and dark (`data-theme="dark"` / `.dark-theme`). Use these in your own components and overrides instead of the primitives above.
+
+<ColorPalette>
+  <ColorItem
+    title="--bl-color-text"
+    subtitle="Text tokens"
+    colors={{
+        '-primary': 'var(--bl-color-text-primary)',
+        '-primary-hover': 'var(--bl-color-text-primary-hover)',
+        '-secondary': 'var(--bl-color-text-secondary)',
+        '-placeholder': 'var(--bl-color-text-placeholder)',
+        '-disabled': 'var(--bl-color-text-disabled)',
+        '-brand': 'var(--bl-color-text-brand)',
+        '-brand-hover': 'var(--bl-color-text-brand-hover)',
+        '-info': 'var(--bl-color-text-info)',
+        '-success': 'var(--bl-color-text-success)',
+        '-warning': 'var(--bl-color-text-warning)',
+        '-danger': 'var(--bl-color-text-danger)',
+        '-accent': 'var(--bl-color-text-accent)',
+    }}
+  />
+  <ColorItem
+    title="--bl-color-border"
+    subtitle="Border tokens"
+    colors={{
+        '-primary': 'var(--bl-color-border-primary)',
+        '-primary-hover': 'var(--bl-color-border-primary-hover)',
+        '-divider': 'var(--bl-color-border-divider)',
+        '-disabled': 'var(--bl-color-border-disabled)',
+        '-tertiary': 'var(--bl-color-border-tertiary)',
+        '-brand': 'var(--bl-color-border-brand)',
+        '-info': 'var(--bl-color-border-info)',
+        '-success': 'var(--bl-color-border-success)',
+        '-warning': 'var(--bl-color-border-warning)',
+        '-danger': 'var(--bl-color-border-danger)',
+        '-neutral': 'var(--bl-color-border-neutral)',
+        '-accent': 'var(--bl-color-border-accent)',
+    }}
+  />
+  <ColorItem
+    title="--bl-color-foreground"
+    subtitle="Foreground tokens (icons, solid fills)"
+    colors={{
+        '-primary': 'var(--bl-color-foreground-primary)',
+        '-primary-hover': 'var(--bl-color-foreground-primary-hover)',
+        '-secondary': 'var(--bl-color-foreground-secondary)',
+        '-placeholder': 'var(--bl-color-foreground-placeholder)',
+        '-disabled': 'var(--bl-color-foreground-disabled)',
+        '-tertiary': 'var(--bl-color-foreground-tertiary)',
+        '-brand': 'var(--bl-color-foreground-brand)',
+        '-brand-hover': 'var(--bl-color-foreground-brand-hover)',
+        '-info': 'var(--bl-color-foreground-info)',
+        '-success': 'var(--bl-color-foreground-success)',
+        '-warning': 'var(--bl-color-foreground-warning)',
+        '-danger': 'var(--bl-color-foreground-danger)',
+        '-featured': 'var(--bl-color-foreground-featured)',
+    }}
+  />
+  <ColorItem
+    title="--bl-color-background"
+    subtitle="Background tokens"
+    colors={{
+        '-primary': 'var(--bl-color-background-primary)',
+        '-primary-hover': 'var(--bl-color-background-primary-hover)',
+        '-secondary': 'var(--bl-color-background-secondary)',
+        '-tertiary': 'var(--bl-color-background-tertiary)',
+        '-disabled': 'var(--bl-color-background-disabled)',
+        '-brand': 'var(--bl-color-background-brand)',
+        '-info': 'var(--bl-color-background-info)',
+        '-success': 'var(--bl-color-background-success)',
+        '-warning': 'var(--bl-color-background-warning)',
+        '-danger': 'var(--bl-color-background-danger)',
+        '-accent': 'var(--bl-color-background-accent)',
     }}
   />
 </ColorPalette>

@@ -120,7 +120,7 @@ For example, you can use dark theme only in header:
 In addition to setting design tokens, some of our components has their own CSS custom properties to make customisation on their style. And if you want
 you can use those custom properties in your theme definition to make all of those components in a desired style troughout your app.
 
-For example, our badge component has `--bl-badge-color` property and by default it uses `--bl-color-primary`. If you want you can use a different default
+For example, our badge component has `--bl-badge-color` property and by default it uses `--bl-color-text-brand`. If you want you can use a different default
 color for all of the badges on your app by just adding:
 
 ```css
@@ -133,7 +133,7 @@ Using design tokens here is of course also possible:
 
 ```css
 :root {
-  --bl-badge-color: var(--bl-color-success);
+  --bl-badge-color: var(--bl-color-text-success);
 }
 ```
 

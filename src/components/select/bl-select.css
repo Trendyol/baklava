@@ -13,18 +13,18 @@
   --padding-horizontal: var(--bl-size-xs);
   --label-padding: var(--bl-size-3xs);
   --border-size: 1px;
-  --background-color: var(--bl-color-neutral-full);
-  --border-color: var(--bl-color-neutral-lighter);
-  --border-focus-color: var(--bl-color-primary-highlight);
-  --icon-color: var(--bl-color-neutral-light);
-  --text-color: var(--bl-color-neutral-darker);
-  --label-color: var(--bl-color-neutral-dark);
-  --placeholder-color: var(--bl-color-neutral-light);
+  --background-color: var(--bl-color-background-primary);
+  --border-color: var(--bl-color-border-primary);
+  --border-focus-color: var(--bl-color-border-primary-hover);
+  --icon-color: var(--bl-color-foreground-placeholder);
+  --text-color: var(--bl-color-text-primary);
+  --label-color: var(--bl-color-text-secondary);
+  --placeholder-color: var(--bl-color-text-placeholder);
   --height: var(--bl-size-2xl);
   --menu-padding: 0 var(--bl-size-m);
   --menu-margin-top: var(--bl-size-2xs);
   --font-size: var(--bl-font-size-m);
-  --disabled-color: var(--bl-color-neutral-lightest);
+  --disabled-color: var(--bl-color-background-disabled);
   --menu-height: 250px;
   --popover-position: var(--bl-popover-position, fixed);
 }
@@ -47,13 +47,13 @@
 }
 
 :host([disabled]) .select-wrapper {
-  --placeholder-color: var(--bl-color-neutral-light);
+  --placeholder-color: var(--bl-color-text-disabled);
 }
 
 .dirty.invalid {
-  --border-color: var(--bl-color-danger);
-  --border-focus-color: var(--bl-color-danger-highlight);
-  --label-color: var(--bl-color-danger);
+  --border-color: var(--bl-color-border-danger);
+  --border-focus-color: var(--bl-color-border-danger);
+  --label-color: var(--bl-color-text-danger);
 }
 
 .select-input {
@@ -129,11 +129,11 @@
 }
 
 .selected .dropdown-icon {
-  --icon-color: var(--bl-color-neutral-darker);
+  --icon-color: var(--bl-color-foreground-primary);
 }
 
 :host([disabled]) .dropdown-icon {
-  --icon-color: var(--bl-color-neutral-light);
+  --icon-color: var(--bl-color-foreground-disabled);
 }
 
 .select-open .select-input,
@@ -163,7 +163,7 @@
 }
 
 :host([disabled]) .select-input .selected-options {
-  color: var(--bl-color-neutral-light);
+  color: var(--bl-color-text-disabled);
 }
 
 .selected-options li {
@@ -187,11 +187,11 @@
 }
 
 :host([disabled]) .additional-selection-count {
-  color: var(--bl-color-neutral-light);
+  color: var(--bl-color-text-disabled);
 }
 
 :host([disabled]) .selected-options li {
-  color: var(--bl-color-neutral-light);
+  color: var(--bl-color-text-disabled);
 }
 
 .select-input .actions {
@@ -335,11 +335,11 @@ legend span {
 .dirty.invalid label,
 .invalid-text,
 .error-icon {
-  color: var(--bl-color-danger);
+  color: var(--bl-color-text-danger);
 }
 
 .help-text {
-  color: var(--bl-color-neutral-dark);
+  color: var(--bl-color-text-secondary);
 }
 
 .select-open .help-text,
@@ -377,7 +377,7 @@ legend span {
   content: "";
   width: 100%;
   bottom: 0;
-  border-bottom: 1px solid var(--bl-color-neutral-lighter);
+  border-bottom: 1px solid var(--bl-color-border-primary);
 }
 
 .search-bar-input {
@@ -414,7 +414,7 @@ legend span {
   display: block;
   height: 1rem;
   width: 1px;
-  background-color: var(--bl-color-neutral-lighter);
+  background-color: var(--bl-color-border-primary);
 }
 
 .actions bl-icon {

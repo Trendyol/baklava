@@ -37,14 +37,14 @@ export default class BlSpinner extends LitElement {
    * Sets the color of the spinner
    */
   @property({ type: String, reflect: true })
-  color: string = "var(--bl-color-primary)";
+  color: string = "var(--bl-color-foreground-brand)";
 
   render(): TemplateResult {
     return html`<bl-icon
       class="spinner"
       name="loading"
       style="color: ${this.disabled
-        ? "var(--bl-color-neutral-light)"
+        ? "var(--bl-color-foreground-disabled)"
         : this.color}; font-size: ${this.size};"
     ></bl-icon>`;
   }

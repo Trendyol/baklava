@@ -17,8 +17,8 @@
   --height: max(var(--scroll-height), var(--default-scroll-height));
   --input-font: var(--bl-font-body-text-2);
   --border-radius: var(--bl-size-3xs);
-  --border-color: var(--bl-color-neutral-lighter);
-  --background-color: var(--bl-color-neutral-full);
+  --border-color: var(--bl-color-border-primary);
+  --background-color: var(--bl-color-background-primary);
 
   display: flex;
   flex-direction: column;
@@ -51,7 +51,7 @@ textarea {
   margin: 0 calc(-1 * var(--parent-padding));
   border: none;
   border-radius: var(--border-radius);
-  color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-text-primary);
   resize: vertical;
   background-color: transparent;
   display: block;
@@ -70,13 +70,13 @@ textarea {
 }
 
 textarea:disabled {
-  background-color: var(--bl-color-neutral-lightest);
-  color: var(--bl-color-neutral-light);
+  background-color: var(--bl-color-background-disabled);
+  color: var(--bl-color-text-disabled);
   cursor: not-allowed;
 }
 
 :host([disabled]) .wrapper {
-  --background-color: var(--bl-color-neutral-lightest);
+  --background-color: var(--bl-color-background-disabled);
 }
 
 :host([expand]) textarea {
@@ -93,12 +93,12 @@ textarea:disabled {
 }
 
 .wrapper:focus-within {
-  --border-color: var(--bl-color-primary);
+  --border-color: var(--bl-color-border-brand);
 }
 
 .dirty.max-len-invalid,
 .dirty.invalid {
-  --border-color: var(--bl-color-danger);
+  --border-color: var(--bl-color-border-danger);
 }
 
 :host([label]) ::placeholder {
@@ -123,7 +123,7 @@ label {
   inset-inline-start: var(--padding-horizontal);
   inset-inline-end: var(--padding-horizontal);
   pointer-events: none;
-  color: var(--bl-color-neutral-light);
+  color: var(--bl-color-text-placeholder);
 }
 
 .input-wrapper legend {
@@ -144,7 +144,7 @@ label {
   inset-inline-start: var(--padding-horizontal);
   transform: translateY(-50%);
   font: var(--bl-font-caption);
-  color: var(--bl-color-neutral-dark);
+  color: var(--bl-color-text-secondary);
   pointer-events: initial;
   z-index: var(--bl-index-base);
 }
@@ -157,7 +157,7 @@ label {
 
 :host ::placeholder,
 :host([label-fixed]) ::placeholder {
-  color: var(--bl-color-neutral-light);
+  color: var(--bl-color-text-placeholder);
 }
 
 :host([label-fixed]) label {
@@ -166,7 +166,7 @@ label {
   transform: none;
   pointer-events: initial;
   font: var(--bl-font-caption);
-  color: var(--bl-color-neutral-dark);
+  color: var(--bl-color-text-secondary);
   background-color: initial;
   padding: 0;
 }
@@ -198,25 +198,25 @@ label {
 }
 
 .counter-text {
-  color: var(--bl-color-neutral-dark);
+  color: var(--bl-color-text-secondary);
   margin-inline-start: auto;
 }
 
 :where(.max-len-invalid, .dirty.invalid) .hint > .counter-text {
-  color: var(--bl-color-danger);
+  color: var(--bl-color-text-danger);
 }
 
 .dirty.invalid label {
-  color: var(--bl-color-danger);
+  color: var(--bl-color-text-danger);
 }
 
 .invalid-text {
   display: none;
-  color: var(--bl-color-danger);
+  color: var(--bl-color-text-danger);
 }
 
 .help-text {
-  color: var(--bl-color-neutral-dark);
+  color: var(--bl-color-text-secondary);
 }
 
 :where(.dirty.max-len-invalid, .dirty.invalid) .hint > .invalid-text {

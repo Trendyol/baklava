@@ -410,7 +410,7 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
     const searchMagIcon = html`<bl-icon
       class="search-mag-icon"
       name="search"
-      style="color: var(--bl-color-primary);font-size: var(--bl-font-size-s)"
+      style="color: var(--bl-color-foreground-brand);font-size: var(--bl-font-size-s)"
     ></bl-icon>`;
 
     const searchSpinner = html`<bl-spinner class="search-spinner"></bl-spinner>`;
