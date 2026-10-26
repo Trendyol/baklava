@@ -1403,4 +1403,62 @@ describe("bl-select", () => {
       expect(el.opened).to.be.false;
     });
   });
+
+  describe("required indicator", () => {
+    const withIndicator = () =>
+      fixture<BlSelect>(html`<bl-select label="Test Label" required required-indicator>
+        <bl-select-option value="1">Option 1</bl-select-option>
+      </bl-select>`);
+
+    const withOutIndicator = () =>
+      fixture<BlSelect>(html`<bl-select label="Test Label" required>
+        <bl-select-option value="1">Option 1</bl-select-option>
+      </bl-select>`);
+
+    const afterContent = (element?: Element) =>
+      element ? getComputedStyle(element, "::after").content : "";
+
+    it("should show the asterisk on the label when required-indicator is set", async () => {
+      const el = await withIndicator();
+      const label = el.shadowRoot?.querySelector("label");
+
+      expect(label).to.exist;
+      expect(afterContent(label)).to.equal('"*"');
+    });
+
+    it("should show the asterisk on the in-field label when required-indicator is set", async () => {
+      const el = await withIndicator();
+      const inFieldLabel = el.shadowRoot?.querySelector(".label");
+
+      expect(inFieldLabel).to.exist;
+      expect(afterContent(inFieldLabel)).to.equal('"*"');
+    });
+
+    it("should show the asterisk in the legend when required-indicator is set", async () => {
+      const el = await withIndicator();
+      const legendSpan = el.shadowRoot?.querySelector("legend span");
+
+      expect(legendSpan).to.exist;
+      expect(afterContent(legendSpan)).to.equal('"*"');
+    });
+
+    it("should not show the asterisk when required-indicator is not set", async () => {
+      const el = await withOutIndicator();
+
+      expect(afterContent(el.shadowRoot?.querySelector("label"))).to.be.oneOf(["none", ""]);
+      expect(afterContent(el.shadowRoot?.querySelector(".label"))).to.be.oneOf(["none", ""]);
+      expect(afterContent(el.shadowRoot?.querySelector("legend span"))).to.be.oneOf(["none", ""]);
+    });
+
+    it("should reflect the required-indicator property to an attribute", async () => {
+      const el = await withOutIndicator();
+
+      expect(el.hasAttribute("required-indicator")).to.be.false;
+
+      el.requiredIndicator = true;
+      await el.updateComplete;
+
+      expect(el.hasAttribute("required-indicator")).to.be.true;
+    });
+  });
 });
