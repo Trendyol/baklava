@@ -351,6 +351,189 @@ describe("bl-checkbox-group", () => {
       expect(document.activeElement).to.equal(checkboxGroup?.options[0]);
     });
 
+    it("should let Shift+Tab leave the group when the first option is focused", async () => {
+      //when
+      const el = await fixture(
+        html`<div>
+          <input id="previnput" />
+          <bl-checkbox-group label="Choose sports you like">
+            <bl-checkbox value="basketball">Basketball</bl-checkbox>
+            <bl-checkbox value="football">Football</bl-checkbox>
+          </bl-checkbox-group>
+          ><input id="nextinput" />
+        </div>`
+      );
+
+      await elementUpdated(el);
+
+      const previnput = el.querySelector<HTMLInputElement>("#previnput");
+      const checkboxGroup = el.querySelector("bl-checkbox-group") as BlCheckboxGroup;
+
+      previnput?.focus();
+
+      //given
+      await sendKeys({
+        press: "Tab",
+      });
+
+      expect(document.activeElement).to.equal(checkboxGroup.options[0]);
+
+      //when the first option is left backwards, the group itself is the previous tab stop
+      await sendKeys({
+        down: "Shift",
+      });
+      await sendKeys({
+        press: "Tab",
+      });
+      await sendKeys({
+        up: "Shift",
+      });
+
+      //then the focus must stay on the group instead of being pulled back to the first option
+      expect(document.activeElement).to.equal(checkboxGroup);
+
+      //when it is left again
+      await sendKeys({
+        down: "Shift",
+      });
+      await sendKeys({
+        press: "Tab",
+      });
+      await sendKeys({
+        up: "Shift",
+      });
+
+      //then the focus reaches the element before the group
+      expect(document.activeElement).to.equal(previnput);
+    });
+
+    describe("when there is no option to navigate to", () => {
+      const collectErrors = () => {
+        const messages: string[] = [];
+        const handler = (event: ErrorEvent) => messages.push(event.message);
+
+        window.addEventListener("error", handler);
+
+        return {
+          messages,
+          release: () => window.removeEventListener("error", handler),
+        };
+      };
+
+      const pressOn = (checkboxGroup: BlCheckboxGroup, key: string) => {
+        const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+
+        checkboxGroup.dispatchEvent(event);
+
+        return event;
+      };
+
+      const allDisabled = () =>
+        fixture<BlCheckboxGroup>(
+          html`<bl-checkbox-group label="Choose sports you like">
+            <bl-checkbox value="basketball" disabled>Basketball</bl-checkbox>
+            <bl-checkbox value="football" disabled>Football</bl-checkbox>
+          </bl-checkbox-group>`
+        );
+
+      it("should not throw when such a group is focused", async () => {
+        //given
+        const { messages, release } = collectErrors();
+        const checkboxGroup = await allDisabled();
+
+        //when
+        checkboxGroup.focus();
+
+        release();
+
+        //then
+        expect(messages).to.be.empty;
+      });
+
+      it("should leave the arrow keys to the browser instead of throwing", async () => {
+        //given
+        const { messages, release } = collectErrors();
+        const checkboxGroup = await allDisabled();
+
+        checkboxGroup.focus();
+
+        //when
+        const next = pressOn(checkboxGroup, "ArrowRight");
+        const previous = pressOn(checkboxGroup, "ArrowLeft");
+
+        release();
+
+        //then
+        expect(messages).to.be.empty;
+        expect(next.defaultPrevented).to.be.false;
+        expect(previous.defaultPrevented).to.be.false;
+      });
+
+      it("should not throw for a group without any option", async () => {
+        //given
+        const { messages, release } = collectErrors();
+        const checkboxGroup = await fixture<BlCheckboxGroup>(
+          html`<bl-checkbox-group label="Choose sports you like"></bl-checkbox-group>`
+        );
+
+        //when
+        checkboxGroup.focus();
+        const event = pressOn(checkboxGroup, "ArrowDown");
+
+        release();
+
+        //then
+        expect(messages).to.be.empty;
+        expect(event.defaultPrevented).to.be.false;
+      });
+    });
+
+    it("should land on the closest available option when the focused one is disabled", async () => {
+      //when
+      const el = await fixture(
+        html`<div>
+          <input id="previnput" />
+          <bl-checkbox-group label="Choose sports you like">
+            <bl-checkbox value="basketball">Basketball</bl-checkbox>
+            <bl-checkbox value="football">Football</bl-checkbox>
+            <bl-checkbox value="tennis">Tennis</bl-checkbox>
+          </bl-checkbox-group>
+        </div>`
+      );
+
+      await elementUpdated(el);
+
+      const checkboxGroup = el.querySelector("bl-checkbox-group") as BlCheckboxGroup;
+
+      el.querySelector<HTMLInputElement>("#previnput")?.focus();
+
+      //given
+      await sendKeys({
+        press: "Tab",
+      });
+      await sendKeys({
+        press: "ArrowRight",
+      });
+      await sendKeys({
+        press: "ArrowRight",
+      });
+
+      expect(document.activeElement).to.equal(checkboxGroup.options[2]);
+
+      //when the two options at the end of the list are removed from the navigation
+      checkboxGroup.options[1].disabled = true;
+      checkboxGroup.options[2].disabled = true;
+
+      // disabling the focused option moves the focus out of the group, so the key is sent
+      // to the group the way a consumer changing the options would leave it
+      checkboxGroup.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true, cancelable: true })
+      );
+
+      //then the navigation lands on the option that is still available
+      expect(document.activeElement).to.equal(checkboxGroup.options[0]);
+    });
+
     describe("validation", () => {
       it("should be valid by default", async () => {
         const el = await fixture<BlCheckboxGroup>(
