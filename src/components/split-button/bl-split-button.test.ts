@@ -189,6 +189,29 @@ describe("bl-split-button", () => {
         expect(popover.visible).to.false;
       });
 
+      describe("main button link", () => {
+        it("should pass href to the main button and render it as an anchor", async () => {
+          const el = await fixture<typeOfBlSplitButton>(
+            html`<bl-split-button label="Split Button" href="https://trendyol.com"></bl-split-button>`
+          );
+          const mainButton = <BlButton>el.shadowRoot?.querySelector("#split-main-button");
+
+          expect(mainButton.href).to.equal("https://trendyol.com");
+          expect(mainButton.shadowRoot?.querySelector("a")).to.exist;
+          expect(mainButton.shadowRoot?.querySelector("button")).not.to.exist;
+        });
+
+        it("should not use the type property as the href of the main button", async () => {
+          const el = await fixture<typeOfBlSplitButton>(
+            html`<bl-split-button label="Split Button" type="submit"></bl-split-button>`
+          );
+          const mainButton = <BlButton>el.shadowRoot?.querySelector("#split-main-button");
+
+          expect(mainButton.href).to.be.undefined;
+          expect(mainButton.shadowRoot?.querySelector("a")).not.to.exist;
+        });
+      });
+
     describe("keyboard navigation", () => {
         it("should get focus with tabkey", async () => {
           //when
