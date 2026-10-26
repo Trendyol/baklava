@@ -66,9 +66,9 @@ We will implement a Link component with the following key characteristics:
    - CSS Custom Properties:
      ```css
      :host {
-       --bl-link-color: var(--bl-color-primary);           /* Default link color */
-       --bl-link-hover-color: var(--bl-color-primary-hover);   /* Hover state color */
-       --bl-link-active-color: var(--bl-color-primary-active); /* Active state color */
+       --bl-link-color: var(--bl-color-text-brand);           /* Default link color */
+       --bl-link-hover-color: var(--bl-color-text-brand-hover);   /* Hover state color */
+       --bl-link-active-color: var(--bl-color-text-brand-hover); /* Active state color */
      }
      ```
    - Inline Variant Validation:
@@ -156,9 +156,9 @@ We will implement a Link component with the following key characteristics:
       <bl-link
         href="/success"
         style="
-          --bl-link-color: var(--bl-color-success);
-          --bl-link-hover-color: var(--bl-color-success-hover);
-          --bl-link-active-color: var(--bl-color-success-active);
+          --bl-link-color: var(--bl-color-text-success);
+          --bl-link-hover-color: var(--bl-color-text-success-hover);
+          --bl-link-active-color: var(--bl-color-text-success-hover);
         "
       >
         Success Link

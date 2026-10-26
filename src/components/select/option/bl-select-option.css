@@ -5,11 +5,11 @@
 .option-container {
   --option-font: var(--bl-font-title-3-regular);
   --option-spacing: var(--bl-size-xs) 0;
-  --option-selected-color: var(--bl-color-primary);
-  --option-hover-color: var(--bl-color-primary-highlight);
-  --option-color: var(--bl-color-neutral-darker);
-  --option-disabled-color: var(--bl-color-neutral-light);
-  --option-separator: 1px solid var(--bl-color-neutral-lighter);
+  --option-selected-color: var(--bl-color-text-brand);
+  --option-hover-color: var(--bl-color-text-brand-hover);
+  --option-color: var(--bl-color-text-primary);
+  --option-disabled-color: var(--bl-color-text-disabled);
+  --option-separator: 1px solid var(--bl-color-border-primary);
   --option-gap: var(--bl-size-2xs);
   --option-transition: color 120ms ease-out;
 }

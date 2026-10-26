@@ -4,15 +4,15 @@
 }
 
 :host([kind="neutral"]) bl-popover {
-  --bl-popover-border-color: var(--bl-color-neutral-darker);
+  --bl-popover-border-color: var(--bl-color-border-neutral);
 }
 
 :host([kind="success"]) bl-popover {
-  --bl-popover-border-color: var(--bl-color-success);
+  --bl-popover-border-color: var(--bl-color-border-success);
 }
 
 :host([kind="danger"]) bl-popover {
-  --bl-popover-border-color: var(--bl-color-danger);
+  --bl-popover-border-color: var(--bl-color-border-danger);
 }
 
 .split-button-container {
@@ -65,7 +65,7 @@
   display: block;
   height: var(--bl-size-2xl);
   width: 1px;
-  background-color: var(--bl-color-neutral-full);
+  background-color: var(--bl-color-background-primary);
 }
 
 :host([variant="secondary"]) .split-divider {
@@ -82,5 +82,5 @@
 
 :host([dropdown-disabled][disabled]) .split-divider {
   display: block;
-  background-color: var(--bl-color-neutral-lighter);
+  background-color: var(--bl-color-border-primary);
 }

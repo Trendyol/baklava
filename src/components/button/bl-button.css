@@ -5,10 +5,10 @@
 }
 
 .button {
-  --main-color: var(--bl-color-primary);
-  --main-hover-color: var(--bl-color-primary-highlight);
-  --text-hover-color: var(--bl-color-neutral-lightest);
-  --content-color: var(--bl-color-neutral-full);
+  --main-color: var(--bl-color-foreground-brand);
+  --main-hover-color: var(--bl-color-foreground-brand-hover);
+  --text-hover-color: var(--bl-color-background-tertiary);
+  --content-color: var(--bl-color-foreground-primary-on-color);
   --bg-color: var(--main-color);
   --border-color: var(--main-color);
   --padding-vertical: var(--bl-size-2xs);
@@ -109,18 +109,18 @@
 }
 
 :host([kind="neutral"]) .button {
-  --main-color: var(--bl-color-neutral-darker);
-  --main-hover-color: var(--bl-color-neutral-darkest);
+  --main-color: var(--bl-color-foreground-primary);
+  --main-hover-color: var(--bl-color-foreground-primary-hover);
 }
 
 :host([kind="success"]) .button {
-  --main-color: var(--bl-color-success);
-  --main-hover-color: var(--bl-color-success-highlight);
+  --main-color: var(--bl-color-foreground-success);
+  --main-hover-color: var(--bl-color-foreground-success-hover);
 }
 
 :host([kind="danger"]) .button {
-  --main-color: var(--bl-color-danger);
-  --main-hover-color: var(--bl-color-danger-highlight);
+  --main-color: var(--bl-color-foreground-danger);
+  --main-hover-color: var(--bl-color-foreground-danger-hover);
 }
 
 :host([disabled]) {
@@ -132,9 +132,9 @@
 }
 
 :host .button[aria-disabled="true"] {
-  --main-color: var(--bl-color-neutral-lightest);
-  --main-hover-color: var(--bl-color-neutral-lightest);
-  --content-color: var(--bl-color-neutral-lighter);
+  --main-color: var(--bl-color-background-disabled);
+  --main-hover-color: var(--bl-color-background-disabled);
+  --content-color: var(--bl-color-foreground-disabled);
   --bg-color: var(--main-color);
 
   pointer-events: none;
@@ -146,7 +146,7 @@
 }
 
 :host([variant="secondary"]:hover) .button[aria-disabled="false"] {
-  --content-color: var(--bl-color-neutral-full);
+  --content-color: var(--bl-color-foreground-primary-on-color);
   --bg-color: var(--main-hover-color);
 }
 
@@ -173,12 +173,12 @@
 }
 
 :host([variant="secondary"]) .active.button {
-  --content-color: var(--bl-color-neutral-full);
+  --content-color: var(--bl-color-foreground-primary-on-color);
   --bg-color: var(--main-hover-color);
 }
 
 :host([variant="tertiary"]) .active.button {
   --content-color: var(--main-color);
-  --bg-color: var(--bl-color-neutral-lightest);
+  --bg-color: var(--bl-color-background-tertiary);
   --border-color: transparent;
 }
