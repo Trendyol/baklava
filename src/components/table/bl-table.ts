@@ -14,7 +14,7 @@ export type SortDirection = "asc" | "desc" | "";
 /**
  * @tag bl-table
  * @summary Baklava Table component
- *
+ * @cssproperty [--bl-table-layout=auto] Sets the CSS `table-layout` of the table. Use `fixed` to keep percentage based column widths constrained when cells contain long content.
  */
 @customElement(blTableTag)
 export default class BlTable extends LitElement {
@@ -236,15 +236,19 @@ export default class BlTable extends LitElement {
       .map(tableRow => tableRow.selectionKey);
   }
 
-  resetScrollPosition(): void {
-    const tableWrapper = this.shadowRoot?.querySelector(".table-wrapper");
+  /**
+   * Returns the element that scrolls the table content, or null when the table is not rendered yet.
+   * Await updateComplete to make sure the container is available.
+   */
+  getScrollContainer(): HTMLElement | null {
+    return this.shadowRoot?.querySelector<HTMLElement>(".table-wrapper") ?? null;
+  }
 
-    if (tableWrapper) {
-      tableWrapper.scrollTo({
-        behavior: "smooth",
-        top: 0,
-      });
-    }
+  resetScrollPosition(): void {
+    this.getScrollContainer()?.scrollTo({
+      behavior: "smooth",
+      top: 0,
+    });
   }
 
   onSortChange(sortKey: string, sortDirection: SortDirection) {

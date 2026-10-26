@@ -735,6 +735,54 @@ If no "no-data" slot is provided, the table displays a default no-data message w
   </Story>
 </Canvas>
 
+# Scroll Container And Fixed Layout
+
+The table content scrolls inside a wrapper element in the Shadow DOM. `getScrollContainer()` returns that element so it can be used as the `root` of an `IntersectionObserver` for infinite scrolling, or to read and restore the scroll position. It returns `null` until the table is rendered, so await `updateComplete` before calling it. The wrapper counts its own borders inside its `max-height`, which keeps a bounded table from overflowing its parent.
+
+Column widths are calculated from the cell content by default. Set the `--bl-table-layout` CSS property to `fixed` to keep percentage based column widths constrained when cells contain long content.
+
+<Canvas>
+  <Story name="Scroll Container And Fixed Layout">
+    {() => html`
+      <div style="--bl-table-layout: fixed; height: 240px;">
+        <bl-table>
+          <bl-table-header sticky>
+            <bl-table-row>
+              <bl-table-header-cell style="--bl-table-header-cell-width: 60px;">ID</bl-table-header-cell>
+              <bl-table-header-cell style="--bl-table-header-cell-width: 70%;">Description</bl-table-header-cell>
+              <bl-table-header-cell style="--bl-table-header-cell-width: 30%;">Status</bl-table-header-cell>
+            </bl-table-row>
+          </bl-table-header>
+          <bl-table-body>
+            ${Array.from({ length: 8 }, (_, i) => html`
+              <bl-table-row>
+                <bl-table-cell>${i + 1}</bl-table-cell>
+                <bl-table-cell>A very long description that would expand an auto layout table and ignore the percentage width given to this column.</bl-table-cell>
+                <bl-table-cell>Active</bl-table-cell>
+              </bl-table-row>
+            `)}
+          </bl-table-body>
+        </bl-table>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+```html
+<script type="module">
+  const table = document.querySelector('bl-table');
+
+  await table.updateComplete;
+
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(entry => entry.isIntersecting && loadNextPage()),
+    { root: table.getScrollContainer() }
+  );
+
+  observer.observe(document.querySelector('#sentinel'));
+</script>
+```
+
 # RTL Support
 
 The table component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag.
