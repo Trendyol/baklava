@@ -92,6 +92,49 @@ describe("bl-tooltip", () => {
     expect(el.getAttribute("placement")).to.eq("right-start");
   });
 
+  it("should forward offset to the popover", async () => {
+    //when
+    const el = await fixture<typeOfBlTooltip>(
+      html`<bl-tooltip offset="20"
+        ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
+      >`
+    );
+    const tooltipPopover = el.shadowRoot?.querySelector("bl-popover") as typeOfBlPopover;
+
+    //then
+    expect(tooltipPopover.offset).to.eq(20);
+  });
+
+  it("should keep the popover default offset when offset is not set", async () => {
+    //when
+    const el = await fixture<typeOfBlTooltip>(
+      html`<bl-tooltip><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip>`
+    );
+    const tooltipPopover = el.shadowRoot?.querySelector("bl-popover") as typeOfBlPopover;
+
+    //then
+    expect(tooltipPopover.hasAttribute("offset")).to.be.false;
+    expect(tooltipPopover.offset).to.eq(8);
+  });
+
+  it("should update the popover offset when offset attribute was changed", async () => {
+    //given
+    const el = await fixture<typeOfBlTooltip>(
+      html`<bl-tooltip offset="20"
+        ><button slot="tooltip-trigger">Test</button> Test Tooltip</bl-tooltip
+      >`
+    );
+    const tooltipPopover = el.shadowRoot?.querySelector("bl-popover") as typeOfBlPopover;
+
+    el.setAttribute("offset", "40");
+
+    //when
+    await elementUpdated(el);
+
+    //then
+    expect(tooltipPopover.offset).to.eq(40);
+  });
+
   it("should have `visible` class when mouse over of trigger", async () => {
     //given
     const el = await fixture<typeOfBlTooltip>(
