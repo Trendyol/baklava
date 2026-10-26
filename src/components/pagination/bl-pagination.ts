@@ -102,7 +102,12 @@ export default class BlPagination extends LitElement {
     super.connectedCallback();
 
     setTimeout(() => {
-      window?.addEventListener("resize", () => this._paginate());
+      if (!this.isConnected) {
+        return;
+      }
+      // A stable handler reference also makes re-connecting idempotent:
+      // addEventListener deduplicates the same listener.
+      window?.addEventListener("resize", this._paginate);
     });
 
     setDirectionProperty(this);
@@ -123,7 +128,7 @@ export default class BlPagination extends LitElement {
     }
   }
 
-  private _paginate() {
+  private _paginate = (): void => {
     this.pages = [];
     const pageListLength = Math.ceil(Math.abs(this.totalItems / this.itemsPerPage)) || 1;
 
@@ -149,7 +154,7 @@ export default class BlPagination extends LitElement {
     }
 
     this.pages.push(pageListLength);
-  }
+  };
 
   private _changePage(selectedPage: number): void {
     const prevPage = this.currentPage;
