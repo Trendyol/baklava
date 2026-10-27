@@ -118,19 +118,31 @@ export default class BlDropdown extends LitElement {
       return;
     }
 
+    const availableOptions = this.availableOptions;
+
+    // Nothing to navigate to: leave the key to the browser
+    if (availableOptions.length === 0) {
+      this.focusedOptionIndex = -1;
+      return;
+    }
+
     // Don't exceed array indexes
     this.focusedOptionIndex = Math.max(
       0,
-      Math.min(this.focusedOptionIndex, this.options.length - 1)
+      Math.min(this.focusedOptionIndex, availableOptions.length - 1)
     );
 
-    this.options[this.focusedOptionIndex].focus();
+    availableOptions[this.focusedOptionIndex].focus();
 
     event.preventDefault();
   }
 
   get options(): BlDropdownItem[] {
     return [...this.querySelectorAll(blDropdownItemTag)];
+  }
+
+  private get availableOptions(): BlDropdownItem[] {
+    return this.options.filter(option => !option.disabled);
   }
 
   open() {
