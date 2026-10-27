@@ -72,6 +72,7 @@ export default class BlButton extends LitElement {
 
   /**
    * Set link url. If set, button will be rendered as anchor tag.
+   * `bl-click` is still fired and `disabled`/`loading` block the navigation.
    */
   @property({ type: String })
   href?: string;
@@ -139,7 +140,14 @@ export default class BlButton extends LitElement {
       <bl-icon class="close" name="arrow_down"></bl-icon>`;
   }
 
-  private _handleClick() {
+  private _handleClick(event?: MouseEvent) {
+    // An anchor has no native disabled state, so the interaction has to be
+    // blocked here to keep `disabled` and `loading` consistent for both tags.
+    if (this.disabled || this.loading) {
+      event?.preventDefault();
+      return;
+    }
+
     if (this.type === "submit") {
       let targetForm: HTMLFormElement;
 
@@ -216,6 +224,7 @@ export default class BlButton extends LitElement {
           href=${ifDefined(this.href)}
           target=${ifDefined(this.target)}
           role="button"
+          @click="${this._handleClick}"
           >${slots}
         </a>`
       : html`<button
