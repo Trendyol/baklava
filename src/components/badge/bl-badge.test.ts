@@ -91,4 +91,28 @@ describe("bl-badge", () => {
       expect(visible).to.be.false;
     }
   });
+
+  describe("border radius css variable", () => {
+    it("should use the theme border-radius token for the badge radius", async () => {
+      //when
+      const el = await fixture<typeOfBlBadge>(html`<bl-badge>Test</bl-badge>`);
+
+      //then
+      const badge = el.shadowRoot?.querySelector(".badge");
+
+      expect(getComputedStyle(badge as HTMLElement).borderRadius).to.eq("2px");
+    });
+
+    it("should allow overriding the radius through --bl-border-radius-xs", async () => {
+      //when
+      const el = await fixture<typeOfBlBadge>(
+        html`<bl-badge style="--bl-border-radius-xs: 8px">Test</bl-badge>`
+      );
+
+      //then
+      const badge = el.shadowRoot?.querySelector(".badge");
+
+      expect(getComputedStyle(badge as HTMLElement).borderRadius).to.eq("8px");
+    });
+  });
 });
