@@ -1403,4 +1403,53 @@ describe("bl-select", () => {
       expect(el.opened).to.be.false;
     });
   });
+
+  describe("popover size css hooks", () => {
+    const getPopover = (el: BlSelect) =>
+      el.shadowRoot?.querySelector<HTMLElement>(".popover") as HTMLElement;
+
+    it("should keep the default popover max height", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select>
+        <bl-select-option value="1">Option 1</bl-select-option>
+      </bl-select>`);
+
+      expect(getComputedStyle(getPopover(el)).maxHeight).to.eq("250px");
+    });
+
+    it("should allow --bl-select-popover-max-height to override the max height", async () => {
+      const el = await fixture<BlSelect>(
+        html`<bl-select style="--bl-select-popover-max-height: 400px">
+          <bl-select-option value="1">Option 1</bl-select-option>
+        </bl-select>`
+      );
+
+      expect(getComputedStyle(getPopover(el)).maxHeight).to.eq("400px");
+    });
+
+    it("should keep the taller default max height for a multiple select with select all", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select multiple view-select-all>
+        <bl-select-option value="1">Option 1</bl-select-option>
+      </bl-select>`);
+
+      expect(getComputedStyle(getPopover(el)).maxHeight).to.eq("290px");
+    });
+
+    it("should match the popover width to the select field by default", async () => {
+      const el = await fixture<BlSelect>(html`<bl-select>
+        <bl-select-option value="1">Option 1</bl-select-option>
+      </bl-select>`);
+
+      expect(getComputedStyle(getPopover(el)).width).to.eq("100%");
+    });
+
+    it("should allow --bl-select-popover-width to override the width", async () => {
+      const el = await fixture<BlSelect>(
+        html`<bl-select style="--bl-select-popover-width: 300px">
+          <bl-select-option value="1">Option 1</bl-select-option>
+        </bl-select>`
+      );
+
+      expect(getComputedStyle(getPopover(el)).width).to.eq("300px");
+    });
+  });
 });
