@@ -14,6 +14,7 @@ export const blSwitchTag = "bl-switch";
  * @cssproperty [--bl-switch-color-on=--bl-color-primary] Set the checked color
  * @cssproperty [--bl-switch-color-off=--bl-color-neutral-lighter] Set the unchecked color
  * @cssproperty [--bl-switch-animation-duration=300ms] Set the animation duration of switch toggle
+ * @cssproperty [--bl-switch-justify-content=flex-start] Set the horizontal alignment of the label and the toggle inside the component
  */
 @customElement(blSwitchTag)
 export default class BlSwitch extends LitElement {
