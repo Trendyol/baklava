@@ -13,6 +13,8 @@ export const blDropdownTag = "bl-dropdown";
 /**
  * @tag bl-dropdown
  * @summary Baklava Dropdown component
+ *
+ * @cssproperty [--bl-dropdown-content-max-height=none] Sets the maximum height of the dropdown content. When the options do not fit, the list becomes scrollable.
  */
 @customElement(blDropdownTag)
 export default class BlDropdown extends LitElement {

@@ -202,6 +202,20 @@ You can disable dropdown items by setting the `disabled` attribute on the `bl-dr
   </Story>
 </Canvas>
 
+## Scrollable Content
+
+The dropdown content grows with the number of options by default. Set the `--bl-dropdown-content-max-height` CSS property on `bl-dropdown` to cap the height; the options that do not fit become available by scrolling, and neither the items nor the groups are compressed.
+
+<Canvas>
+  <Story
+    name="Scrollable Content"
+    args={{ label: 'Dropdown Button', styles: { '--bl-dropdown-content-max-height': '160px' } }}
+    play={dropdownOpener}
+  >
+    {SingleDropdownButtonTemplate.bind({})}
+  </Story>
+</Canvas>
+
 ## RTL Support
 
 The dropdown component supports RTL (Right-to-Left) text direction. You can enable RTL mode by setting the `dir` attribute on a parent element or the `html` tag. When in RTL mode, the dropdown menu will align from the right side.
