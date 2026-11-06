@@ -214,7 +214,7 @@ export default class BlTable extends LitElement {
    */
   private addSelection(selectionKey: string) {
     if (!this.selected.includes(selectionKey)) {
-      this.selected.push(selectionKey);
+      this.selected = [...this.selected, selectionKey];
     }
   }
 
