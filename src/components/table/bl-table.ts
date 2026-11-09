@@ -23,15 +23,17 @@ export default class BlTable extends LitElement {
   }
 
   /**
-   * Selected table row selection key list
+   * Selected table row selection key list.
+   * Numeric keys are accepted and normalized to strings, matching the
+   * string-based `selection-key` attribute rendered on `bl-table-row`.
    */
   @property({ type: Array, reflect: true, attribute: "selected" })
   get selected(): string[] {
     return this._selectedValues;
   }
 
-  set selected(value: string[]) {
-    this._selectedValues = value;
+  set selected(value: (string | number)[]) {
+    this._selectedValues = value.map(key => String(key));
     this.updateComplete.then(() => {
       this.querySelectorAll("bl-table-header-cell,bl-table-cell,bl-table-row").forEach(com => {
         (com as BlTableHeaderCell | BlTableCell | BlTableRow).requestUpdate();
