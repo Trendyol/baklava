@@ -308,4 +308,49 @@ describe("bl-popover", () => {
     expect(popoverRect.top).to.be.greaterThan(targetRect.top);
     expect(Math.abs(popoverRect.top - targetRect.bottom)).to.be.lessThan(100);
   });
+
+  it("should hide the popover when its target is outside the viewport", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <div
+          id="offscreen-target"
+          style="position: fixed; top: -1000px; left: 0; width: 120px; height: 40px"
+        ></div>
+        <bl-popover placement="bottom">Popover Content</bl-popover>
+      </div>
+    `);
+
+    const popoverEl = wrapper.querySelector<BlPopover>("bl-popover")!;
+    const popoverDiv = popoverEl.shadowRoot!.querySelector<HTMLElement>(".popover")!;
+
+    popoverEl.target = wrapper.querySelector<HTMLElement>("#offscreen-target")!;
+    popoverEl.show();
+    await elementUpdated(popoverEl);
+    await aTimeout(50);
+
+    expect(popoverEl.visible).to.be.true;
+    expect(getComputedStyle(popoverDiv).visibility).to.equal("hidden");
+  });
+
+  it("should keep the popover visible while its target stays inside the viewport", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <div
+          id="onscreen-target"
+          style="position: fixed; top: 120px; left: 0; width: 120px; height: 40px"
+        ></div>
+        <bl-popover placement="bottom">Popover Content</bl-popover>
+      </div>
+    `);
+
+    const popoverEl = wrapper.querySelector<BlPopover>("bl-popover")!;
+    const popoverDiv = popoverEl.shadowRoot!.querySelector<HTMLElement>(".popover")!;
+
+    popoverEl.target = wrapper.querySelector<HTMLElement>("#onscreen-target")!;
+    popoverEl.show();
+    await elementUpdated(popoverEl);
+    await aTimeout(50);
+
+    expect(getComputedStyle(popoverDiv).visibility).to.equal("visible");
+  });
 });
