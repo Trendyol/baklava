@@ -6,6 +6,7 @@ import {
   autoUpdate,
   computePosition,
   flip,
+  hide,
   inline,
   Middleware,
   MiddlewareState,
@@ -181,7 +182,7 @@ export default class BlPopover extends LitElement {
   private getMiddleware(): Middleware[] {
     const middlewareParams: Middleware[] = [];
 
-    middlewareParams.push(offset(this.offset), inline(), flip(), shift({ padding: 4 }));
+    middlewareParams.push(offset(this.offset), inline(), flip(), shift({ padding: 4 }), hide());
 
     if (this.fitSize) {
       middlewareParams.push(
@@ -221,6 +222,7 @@ export default class BlPopover extends LitElement {
           Object.assign(this._popover.style, {
             left: `${x}px`,
             top: `${y}px`,
+            visibility: middlewareData.hide?.referenceHidden ? "hidden" : "",
           });
 
           this._popover.dataset.placement = placement;
