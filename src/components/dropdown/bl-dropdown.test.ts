@@ -334,5 +334,76 @@ describe("bl-dropdown", () => {
       //then
       expect(dropdown?.opened).to.equal(false);
     });
+
+    it("should skip disabled items with arrow keys", async () => {
+      //when
+      const el = await fixture(
+        html`<div>
+          <input id="previnput" /><bl-dropdown label="Dropdown Button">
+            <bl-dropdown-item disabled>Action 1</bl-dropdown-item>
+            <bl-dropdown-item>Action 2</bl-dropdown-item>
+            <bl-dropdown-item disabled>Action 3</bl-dropdown-item>
+          </bl-dropdown>
+        </div>`
+      );
+
+      await elementUpdated(el);
+
+      el.querySelector<HTMLInputElement>("#previnput")?.focus();
+
+      await waitUntil(() => el.querySelector("bl-dropdown"), "Element did not render children");
+
+      const tabKey =
+        navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("HeadlessChrome")
+          ? "Alt+Tab"
+          : "Tab";
+
+      //given
+      await sendKeys({
+        press: tabKey,
+      });
+      await sendKeys({
+        press: "Enter",
+      });
+      await sendKeys({
+        press: "ArrowDown",
+      });
+
+      //then
+      expect(document.activeElement?.textContent?.trim()).to.equal("Action 2");
+
+      //given
+      await sendKeys({
+        press: "ArrowDown",
+      });
+
+      //then
+      expect(document.activeElement?.textContent?.trim()).to.equal("Action 2");
+    });
+
+    it("should not throw or prevent default on arrow keys when there is no available item", async () => {
+      //when
+      const el = await fixture<typeOfBlDropdown>(html`<bl-dropdown label="Dropdown Button">
+        <bl-dropdown-item disabled>Action 1</bl-dropdown-item>
+      </bl-dropdown>`);
+
+      const emptyEl = await fixture<typeOfBlDropdown>(
+        html`<bl-dropdown label="Dropdown Button"></bl-dropdown>`
+      );
+
+      for (const dropdown of [el, emptyEl]) {
+        const event = new KeyboardEvent("keydown", {
+          key: "ArrowDown",
+          bubbles: true,
+          cancelable: true,
+        });
+
+        //given
+        expect(() => dropdown["handleKeyDown"](event)).to.not.throw();
+
+        //then
+        expect(event.defaultPrevented).to.equal(false);
+      }
+    });
   });
 });
