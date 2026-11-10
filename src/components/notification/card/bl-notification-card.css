@@ -41,17 +41,17 @@
 }
 
 .notification[variant="success"] .duration > .remaining {
-  background-color: var(--bl-color-success);
+  background-color: var(--bl-color-foreground-success);
 }
 
 .notification[variant="warning"] .duration > .remaining {
-  background-color: var(--bl-color-warning);
+  background-color: var(--bl-color-foreground-warning);
 }
 
 .notification[variant="danger"] .duration > .remaining {
-  background-color: var(--bl-color-danger);
+  background-color: var(--bl-color-foreground-danger);
 }
 
 .notification[variant="info"] .duration > .remaining {
-  background-color: var(--bl-color-info);
+  background-color: var(--bl-color-foreground-info);
 }

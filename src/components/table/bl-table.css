@@ -5,7 +5,7 @@
 
 .table-wrapper {
   overflow: auto;
-  border: 1px solid var(--bl-color-neutral-lighter);
+  border: 1px solid var(--bl-color-border-primary);
   border-radius: var(--bl-size-3xs);
   position: relative;
   max-height: 100%;

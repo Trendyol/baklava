@@ -4,8 +4,8 @@
 }
 
 .tag {
-  --bg-color: var(--bl-color-neutral-full);
-  --color: var(--bl-color-neutral-darker);
+  --bg-color: var(--bl-color-background-primary);
+  --color: var(--bl-color-text-primary);
   --font: var(--bl-font-title-4-medium);
   --padding-vertical: var(--bl-size-2xs);
   --padding-horizontal: var(--bl-size-xs);
@@ -22,7 +22,7 @@
   box-sizing: border-box;
   overflow: hidden;
   width: 100%;
-  border: 1px solid var(--bl-color-neutral-lighter);
+  border: 1px solid var(--bl-color-border-primary);
   border-radius: var(--border-radius);
   padding-block: var(--padding-vertical);
   padding-inline: var(--padding-horizontal);
@@ -39,20 +39,20 @@
 }
 
 :host([variant="selectable"]) .tag:hover {
-  background-color: var(--bl-color-neutral-lightest);
+  background-color: var(--bl-color-background-tertiary);
 }
 
 :host([variant="selectable"][selected]) .tag {
-  border-color: var(--bl-color-neutral-darker);
-  background-color: var(--bl-color-neutral-darker);
+  border-color: var(--bl-color-border-neutral);
+  background-color: var(--bl-color-foreground-primary);
 
-  --color: var(--bl-color-neutral-full);
+  --color: var(--bl-color-foreground-primary-on-color);
 }
 
 :host([variant="selectable"][disabled]) .tag {
-  background-color: var(--bl-color-neutral-lightest);
-  border-color: var(--bl-color-neutral-lightest);
-  color: var(--bl-color-neutral-light);
+  background-color: var(--bl-color-background-disabled);
+  border-color: var(--bl-color-background-disabled);
+  color: var(--bl-color-text-disabled);
   cursor: not-allowed;
 }
 

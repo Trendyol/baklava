@@ -8,12 +8,12 @@
 }
 
 bl-popover {
-  --bl-popover-background-color: var(--bl-color-info);
+  --bl-popover-background-color: var(--bl-color-foreground-info);
   --bl-popover-arrow-display: block;
   --bl-popover-border-size: 0px;
   --bl-popover-max-width: 424px;
 }
 
 .content {
-  color: var(--bl-color-neutral-full);
+  color: var(--bl-color-foreground-primary-on-color);
 }

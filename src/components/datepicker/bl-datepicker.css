@@ -6,7 +6,7 @@
 .datepicker-content {
   --bl-input-cursor: pointer;
   --icon-size: var(--line-height);
-  --icon-color: var(--bl-color-neutral-light);
+  --icon-color: var(--bl-color-foreground-placeholder);
 
   width: 100%;
   position: relative;
@@ -45,7 +45,7 @@
   display: block;
   height: var(--bl-size-m);
   width: 1px;
-  background-color: var(--bl-color-neutral-lighter);
+  background-color: var(--bl-color-border-primary);
   margin-right: var(--bl-size-3xs);
 }
 

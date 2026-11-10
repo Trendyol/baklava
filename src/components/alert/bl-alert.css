@@ -4,15 +4,15 @@
 
 .alert {
   --padding: var(--bl-size-m);
-  --main-color: var(--bl-color-info);
-  --main-bg-color: var(--bl-color-info-contrast);
+  --main-color: var(--bl-color-foreground-info);
+  --main-bg-color: var(--bl-color-background-info);
 
   position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   background-color: var(--main-bg-color);
-  color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-text-primary);
   box-shadow: inset 0 0 0 1px var(--main-color);
   border-radius: var(--bl-border-radius-l);
   padding: calc(var(--padding) / 2) var(--padding);
@@ -50,7 +50,7 @@
 }
 
 .caption {
-  color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-text-primary);
   font: var(--bl-font-title-3-medium);
 }
 
@@ -62,7 +62,7 @@
 }
 
 .close {
-  --bl-color-neutral-lightest: transparent;
+  --bl-color-background-tertiary: transparent;
 }
 
 .caption + .description {
@@ -74,16 +74,16 @@
 }
 
 :host([variant="success"]) .alert {
-  --main-color: var(--bl-color-success);
-  --main-bg-color: var(--bl-color-success-contrast);
+  --main-color: var(--bl-color-foreground-success);
+  --main-bg-color: var(--bl-color-background-success);
 }
 
 :host([variant="warning"]) .alert {
-  --main-color: var(--bl-color-warning);
-  --main-bg-color: var(--bl-color-warning-contrast);
+  --main-color: var(--bl-color-foreground-warning);
+  --main-bg-color: var(--bl-color-background-warning);
 }
 
 :host([variant="danger"]) .alert {
-  --main-color: var(--bl-color-danger);
-  --main-bg-color: var(--bl-color-danger-contrast);
+  --main-color: var(--bl-color-foreground-danger);
+  --main-bg-color: var(--bl-color-background-danger);
 }

@@ -1,12 +1,12 @@
 .progress-indicator {
   --max: 100;
   --value: 0;
-  --value-color: var(--bl-color-success);
+  --value-color: var(--bl-color-foreground-success);
   --height: var(--bl-size-2xs);
   --radius: var(--bl-border-radius-s);
 
   position: relative;
-  background-color: var(--bl-color-neutral-lightest);
+  background-color: var(--bl-color-background-tertiary);
   height: var(--height);
   border-radius: var(--radius);
   width: 100%;
@@ -34,5 +34,5 @@
 }
 
 :host([failed]) .progress-indicator {
-  --value-color: var(--bl-color-danger);
+  --value-color: var(--bl-color-foreground-danger);
 }

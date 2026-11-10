@@ -72,8 +72,8 @@ export const decorators = [
     const previewBody = document.body;
     previewBody.setAttribute('data-theme', theme);
 
-    previewBody.style.backgroundColor = 'var(--bl-color-neutral-full)';
-    previewBody.style.color = 'var(--bl-color-neutral-darkest)';
+    previewBody.style.backgroundColor = 'var(--bl-color-background-primary)';
+    previewBody.style.color = 'var(--bl-color-text-primary-hover)';
 
     try {
       if (window.parent && window.parent !== window) {

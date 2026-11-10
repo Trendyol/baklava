@@ -85,9 +85,9 @@ This example demonstrates the spinner with different color properties.
   <Story name="Spinner Colors">
     {(args) => html`
       <div style="display: flex; gap: 16px;">
-        ${SingleSpinnerTemplate({ color: "var(--bl-color-info-highlight)", ...args })}
-        ${SingleSpinnerTemplate({ color: "var(--bl-color-danger)", ...args })}
-        ${SingleSpinnerTemplate({ color: "var(--bl-color-success)", ...args })}
+        ${SingleSpinnerTemplate({ color: "var(--bl-color-foreground-info-hover)", ...args })}
+        ${SingleSpinnerTemplate({ color: "var(--bl-color-foreground-danger)", ...args })}
+        ${SingleSpinnerTemplate({ color: "var(--bl-color-foreground-success)", ...args })}
       </div>
     `}
   </Story>

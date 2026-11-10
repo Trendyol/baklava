@@ -4,8 +4,8 @@
 
 .popover {
   --arrow-display: var(--bl-popover-arrow-display, none);
-  --background-color: var(--bl-popover-background-color, var(--bl-color-neutral-full));
-  --border-color: var(--bl-popover-border-color, var(--bl-color-primary-highlight));
+  --background-color: var(--bl-popover-background-color, var(--bl-color-background-primary));
+  --border-color: var(--bl-popover-border-color, var(--bl-color-border-primary-hover));
   --border-size: var(--bl-popover-border-size, 1px);
   --padding: var(--bl-popover-padding, var(--bl-size-m));
   --border-radius: var(--bl-popover-border-radius, var(--bl-size-3xs));
@@ -24,7 +24,7 @@
   hyphens: auto;
   background-color: var(--background-color);
   font: var(--bl-font-title-3-regular);
-  color: var(--bl-color-neutral-darker);
+  color: var(--bl-color-text-primary);
 
   /* UA [popover] sets inset:0; margin:auto; overflow:auto — reset so floating-ui's left/top position wins and the arrow isn't clipped */
   margin: 0;

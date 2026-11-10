@@ -2,15 +2,15 @@
   position: relative;
   display: flex;
   align-items: center;
-  background-color: var(--bl-color-neutral-full);
+  background-color: var(--bl-color-background-primary);
 }
 
 .container {
   --title-padding-vertical: var(--bl-size-m);
   --title-padding-horizontal: var(--bl-size-xl);
-  --title-color: var(--bl-color-neutral-darker);
-  --caption-color: var(--bl-color-neutral-darker);
-  --icon-color: var(--bl-color-neutral-darker);
+  --title-color: var(--bl-color-text-primary);
+  --caption-color: var(--bl-color-text-primary);
+  --icon-color: var(--bl-color-foreground-primary);
   --border-bottom-width: var(--bl-size-4xs);
   --border-left-space: var(--bl-size-xl);
   --font-title: var(--bl-font-title-3-medium);
@@ -35,7 +35,7 @@
   inset-inline-end: 0;
   top: var(--bl-size-m);
   height: calc(100% - var(--bl-size-2xl));
-  border-inline-end: 1px solid var(--bl-color-neutral-lighter);
+  border-inline-end: 1px solid var(--bl-color-border-primary);
 }
 
 :host(:last-of-type) .container::after {
@@ -48,7 +48,7 @@
 
 :host(:focus-visible) .container,
 .container:focus-visible {
-  outline: 2px solid var(--bl-color-primary);
+  outline: 2px solid var(--bl-color-border-brand);
   outline-offset: calc(-1 * var(--bl-size-3xs));
   border-radius: var(--bl-border-radius-s);
 }
@@ -60,7 +60,7 @@
   bottom: calc(-1 * var(--bl-size-4xs));
   inset-inline-start: var(--border-left-space);
   width: calc(100% - var(--bl-size-4xl));
-  border-bottom: var(--border-bottom-width) solid var(--bl-color-primary);
+  border-bottom: var(--border-bottom-width) solid var(--bl-color-border-brand);
 }
 
 :host([selected]:not([disabled])) .container::before {
@@ -69,16 +69,16 @@
 
 :host(:hover) .container,
 :host([selected]) .container {
-  --title-color: var(--bl-color-primary);
-  --icon-color: var(--bl-color-primary);
+  --title-color: var(--bl-color-text-brand);
+  --icon-color: var(--bl-color-foreground-brand);
 }
 
 :host([disabled]) .container {
   cursor: not-allowed;
 
-  --title-color: var(--bl-color-neutral-lighter);
-  --caption-color: var(--bl-color-neutral-lighter);
-  --icon-color: var(--bl-color-neutral-lighter);
+  --title-color: var(--bl-color-text-disabled);
+  --caption-color: var(--bl-color-text-disabled);
+  --icon-color: var(--bl-color-foreground-disabled);
 }
 
 :host(:hover) :where(.title, .icon) {
@@ -164,6 +164,6 @@ bl-tooltip {
   width: var(--bl-size-2xs);
   border-radius: var(--bl-size-3xs);
   margin-inline-start: var(--bl-size-3xs);
-  background-color: var(--bl-color-danger);
+  background-color: var(--bl-color-foreground-danger);
   margin-bottom: 1px;
 }

@@ -17,7 +17,8 @@ General usage example:
 ```html
 <style>
 .checkbox-new {
-   --bl-color-primary: rebeccapurple;
+   --bl-color-foreground-brand: rebeccapurple;
+   --bl-color-text-brand: rebeccapurple;
 }
 </style>
 

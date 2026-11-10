@@ -11,8 +11,8 @@ export const blSwitchTag = "bl-switch";
  * @tag bl-switch
  * @summary Baklava Switch component
  *
- * @cssproperty [--bl-switch-color-on=--bl-color-primary] Set the checked color
- * @cssproperty [--bl-switch-color-off=--bl-color-neutral-lighter] Set the unchecked color
+ * @cssproperty [--bl-switch-color-on=--bl-color-foreground-brand] Set the checked color
+ * @cssproperty [--bl-switch-color-off=--bl-color-border-primary] Set the unchecked color
  * @cssproperty [--bl-switch-animation-duration=300ms] Set the animation duration of switch toggle
  */
 @customElement(blSwitchTag)
