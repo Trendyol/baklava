@@ -1,6 +1,7 @@
 import { CSSResultGroup, html, LitElement } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { property, query, state } from "lit/decorators.js";
 import { FormValue } from "@open-wc/form-helpers";
+import { guardedCustomElement as customElement } from "../../../utilities/custom-element";
 import { event, EventDispatcher } from "../../../utilities/event";
 import { BaklavaIcon } from "../../icon/icon-list";
 import BlSelect from "../bl-select";

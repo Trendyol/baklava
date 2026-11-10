@@ -1,11 +1,12 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { live } from "lit/directives/live.js";
 import { styleMap } from "lit/directives/style-map.js";
 import { FormControlMixin } from "@open-wc/form-control";
 import "element-internals-polyfill";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { event, EventDispatcher } from "../../utilities/event";
 import { textAreaValidators } from "../../utilities/form-control";
 import style from "./bl-textarea.css";

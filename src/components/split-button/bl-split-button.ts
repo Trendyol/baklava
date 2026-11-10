@@ -1,7 +1,8 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { property, query, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { ReferenceElement } from "@floating-ui/core";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { setDirectionProperty } from "../../utilities/direction";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../button/bl-button";

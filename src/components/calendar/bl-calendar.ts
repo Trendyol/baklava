@@ -1,8 +1,9 @@
 import { CSSResultGroup, html, PropertyValues, TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { localized } from "@lit/localize";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { setDirectionProperty } from "../../utilities/direction";
 import { event, EventDispatcher } from "../../utilities/event";
 import { formatToDateArray } from "../../utilities/format-to-date-array";

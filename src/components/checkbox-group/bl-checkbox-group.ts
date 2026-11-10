@@ -1,8 +1,9 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import "element-internals-polyfill";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { event, EventDispatcher } from "../../utilities/event";
 import style from "./bl-checkbox-group.css";
 import BlCheckbox, { blCheckboxTag } from "./checkbox/bl-checkbox";

@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { live } from "lit/directives/live.js";
@@ -7,6 +7,7 @@ import { localized, msg } from "@lit/localize";
 import { FormControlMixin } from "@open-wc/form-control";
 import { submit } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { event, EventDispatcher } from "../../utilities/event";
 import { innerInputValidators } from "../../utilities/form-control";
 import "../button/bl-button";

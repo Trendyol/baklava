@@ -1,5 +1,5 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
-import { customElement, property, query, queryAll, state } from "lit/decorators.js";
+import { property, query, queryAll, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { autoUpdate, computePosition, flip, MiddlewareState, offset, size } from "@floating-ui/dom";
@@ -8,6 +8,7 @@ import { FormControlMixin, requiredValidator } from "@open-wc/form-control";
 import { FormValue } from "@open-wc/form-helpers";
 import "element-internals-polyfill";
 import { LangKey } from "../../localization";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { event, EventDispatcher } from "../../utilities/event";
 import { stringBooleanConverter } from "../../utilities/string-boolean.converter";
 import "../button/bl-button";

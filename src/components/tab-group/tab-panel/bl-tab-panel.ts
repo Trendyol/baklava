@@ -1,5 +1,6 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
+import { guardedCustomElement as customElement } from "../../../utilities/custom-element";
 import type BlTabGroup from "../bl-tab-group";
 import styles from "./bl-tab-panel.css";
 

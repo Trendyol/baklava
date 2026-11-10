@@ -1,6 +1,7 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
+import { guardedCustomElement as customElement } from "../../../utilities/custom-element";
 import { event, EventDispatcher } from "../../../utilities/event";
 import type BlRadioGroup from "../bl-radio-group";
 import { blChangeEventName, blRadioGroupTag } from "../bl-radio-group";

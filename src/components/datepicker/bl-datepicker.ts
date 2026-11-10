@@ -1,7 +1,8 @@
 import { CSSResultGroup, html, TemplateResult } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { property, query, state } from "lit/decorators.js";
 import { BlCalendar, BlPopover } from "../../baklava";
 import DatepickerCalendarMixin from "../../mixins/datepicker-calendar-mixin/datepicker-calendar-mixin";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../calendar/bl-calendar";
 import { CALENDAR_TYPES } from "../calendar/bl-calendar.constant";

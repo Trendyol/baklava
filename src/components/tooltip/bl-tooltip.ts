@@ -1,7 +1,8 @@
 import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { ReferenceElement } from "@floating-ui/core";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { getTarget } from "../../utilities/elements";
 import { event, EventDispatcher } from "../../utilities/event";
 import "../popover/bl-popover";

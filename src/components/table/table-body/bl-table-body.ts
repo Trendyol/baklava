@@ -1,7 +1,8 @@
 import { html, LitElement, TemplateResult } from "lit";
-import { customElement, state } from "lit/decorators.js";
+import { state } from "lit/decorators.js";
 import { CSSResultGroup } from "lit/development";
 import { msg } from "@lit/localize";
+import { guardedCustomElement as customElement } from "../../../utilities/custom-element";
 import "../../icon/bl-icon";
 import type BlTable from "../bl-table";
 import { blTableTag } from "../bl-table";

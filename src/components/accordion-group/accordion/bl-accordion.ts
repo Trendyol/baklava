@@ -1,7 +1,8 @@
 import { html, LitElement, PropertyValues, TemplateResult } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { property, query } from "lit/decorators.js";
 import { CSSResultGroup } from "lit/development";
 import { classMap } from "lit/directives/class-map.js";
+import { guardedCustomElement as customElement } from "../../../utilities/custom-element";
 import { event, EventDispatcher } from "../../../utilities/event";
 import { stringBooleanConverter } from "../../../utilities/string-boolean.converter";
 import "../../icon/bl-icon";

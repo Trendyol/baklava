@@ -1,7 +1,8 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { FormControlMixin } from "@open-wc/form-control";
 import "element-internals-polyfill";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { event, EventDispatcher } from "../../utilities/event";
 import style from "./bl-radio-group.css";
 import BlRadio, { blRadioTag } from "./radio/bl-radio";

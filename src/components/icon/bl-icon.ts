@@ -1,7 +1,8 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { unsafeSVG } from "lit/directives/unsafe-svg.js";
 import { getIconPath } from "../../utilities/asset-paths";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import { event, EventDispatcher } from "../../utilities/event";
 import style from "./bl-icon.css";
 import { BaklavaIcon } from "./icon-list";

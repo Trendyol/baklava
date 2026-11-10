@@ -1,7 +1,8 @@
 import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { guardedCustomElement as customElement } from "../../utilities/custom-element";
 import style from "./bl-link.css";
 
 export type LinkVariant = "inline" | "standalone";
