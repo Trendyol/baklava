@@ -633,7 +633,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
       this.close();
       event.preventDefault();
     } else if (this._isPopoverOpen && ["ArrowDown", "ArrowUp"].includes(event.code)) {
-      const activeOptions = this.options.filter(option => !option.disabled);
+      const activeOptions = this.options.filter(option => !option.disabled && !option.hidden);
+
+      if (activeOptions.length === 0) {
+        // There is nothing left to move to, so let the browser handle the key
+        return;
+      }
 
       event.code === "ArrowDown" && this.focusedOptionIndex++;
       event.code === "ArrowUp" && this.focusedOptionIndex--;
