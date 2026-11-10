@@ -16,6 +16,9 @@ import { centeredLayout } from '../../utilities/chromatic-decorators';
   argTypes={{
     placement: {
       control: 'text'
+    },
+    offset: {
+      control: 'number'
     }
   }}
 />
@@ -42,6 +45,12 @@ export const PlacementTemplate = (args) => html`
 <bl-tooltip placement="${ifDefined(args.placement)}">
   <bl-button slot="tooltip-trigger">${args.placement}</bl-button>
   You can use this section to cancel your order.
+</bl-tooltip>`
+
+export const OffsetTemplate = (args) => html`
+<bl-tooltip placement="top" offset="${ifDefined(args.offset)}">
+  <bl-button slot="tooltip-trigger">${args.offset ? `Offset ${args.offset}` : 'Default offset'}</bl-button>
+  You can set the distance between the tooltip and its trigger.
 </bl-tooltip>`
 
 export const TargetAttrTemplate = (args) => html`
@@ -158,6 +167,21 @@ For example, if there is not enough room on the top, the tooltip is shown on the
     args={{ placement: 'right-end' }}
     play={tooltipOpener}>
     {PlacementTemplate.bind({})}
+  </Story>
+</Canvas>
+
+## Offset
+
+You can set the distance of the tooltip to the target element with `offset`. When it is not set, the `bl-popover` default distance is used.
+
+<Canvas>
+  <Story name="Default Offset" play={tooltipOpener}>
+    {OffsetTemplate.bind({})}
+  </Story>
+  <Story name="Custom Offset"
+    args={{ offset: 40 }}
+    play={tooltipOpener}>
+    {OffsetTemplate.bind({})}
   </Story>
 </Canvas>
 

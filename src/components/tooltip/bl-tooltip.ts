@@ -31,6 +31,13 @@ export default class BlTooltip extends LitElement {
   placement: Placement = "top";
 
   /**
+   * Sets the distance between tooltip and target/trigger element.
+   * Falls back to the `bl-popover` default when unset.
+   */
+  @property({ type: Number })
+  offset?: number;
+
+  /**
    * Fires when hovering over a trigger
    */
   @event("bl-tooltip-show") private onShow: EventDispatcher<string>;
@@ -136,6 +143,7 @@ export default class BlTooltip extends LitElement {
       <bl-popover
         .target="${this.target ?? this.trigger}"
         placement="${ifDefined(this.placement)}"
+        offset="${ifDefined(this.offset)}"
         @bl-popover-hide="${() => this.onHide("")}"
       >
         <slot class="content" id="tooltip" role="tooltip"></slot>
