@@ -254,6 +254,13 @@ label {
   text-overflow: ellipsis;
 }
 
+:host([required-indicator]) label::after,
+:host([required-indicator]) .label::after,
+:host([required-indicator]) legend span::after {
+  content: "*";
+  color: var(--bl-color-danger);
+}
+
 label {
   position: absolute;
   display: block;

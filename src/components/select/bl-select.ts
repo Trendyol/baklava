@@ -109,6 +109,12 @@ export default class BlSelect<ValueType extends FormValue = string> extends Form
   required = false;
 
   /**
+   * Shows a red asterisk (*) next to the label to indicate the field is required.
+   */
+  @property({ type: Boolean, attribute: "required-indicator", reflect: true })
+  requiredIndicator = false;
+
+  /**
    * Shows the component in disabled state.
    */
   @property({ type: Boolean, reflect: true })
