@@ -137,6 +137,21 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
 
   private focusedOptionIndex = 0;
 
+  /**
+   * Option which the keyboard navigation acts on.
+   *
+   * Options can be removed or disabled while the group is focused, which leaves `focusedOptionIndex`
+   * pointing at an option that is no longer there. Keeping the index inside the current option list
+   * makes such a navigation land on the closest available option instead of throwing.
+   */
+  private get focusedOption(): BlCheckbox | undefined {
+    const lastOptionIndex = this.availableOptions.length - 1;
+
+    this.focusedOptionIndex = Math.min(Math.max(this.focusedOptionIndex, 0), lastOptionIndex);
+
+    return this.availableOptions[this.focusedOptionIndex];
+  }
+
   private handleOptionChecked() {
     this.dirty = true;
     this.value = this.checkedOptions;
@@ -160,24 +175,39 @@ export default class BlCheckboxGroup extends FormControlMixin(LitElement) {
         this.focusedOptionIndex = 0;
         return;
       }
+
+      if (this.focusedOptionIndex < 0) {
+        this.focusedOptionIndex = 0;
+        return;
+      }
     } else {
       // Other keys are not our interest here
       return;
     }
 
-    // Don't exceed array indexes
-    this.focusedOptionIndex = Math.max(
-      0,
-      Math.min(this.focusedOptionIndex, this.availableOptions.length - 1)
-    );
+    const option = this.focusedOption;
 
-    this.availableOptions[this.focusedOptionIndex].focus();
+    if (!option) {
+      // There is no available option to focus, let the browser handle the key
+      return;
+    }
+
+    option.focus();
 
     event.preventDefault();
   }
 
-  private handleFocus() {
-    this.availableOptions[this.focusedOptionIndex].focus();
+  private handleFocus(event: FocusEvent) {
+    const previousFocus = event.relatedTarget as HTMLElement | null;
+
+    // Tabbing back out of the group stops on the group itself, because it is a tab stop which
+    // contains the focused option. Moving the focus to an option here would keep the user inside
+    // the group no matter how many times they press Shift+Tab.
+    if (previousFocus && this.contains(previousFocus)) {
+      return;
+    }
+
+    this.focusedOption?.focus();
   }
 
   private handleSubmit(e: SubmitEvent) {
