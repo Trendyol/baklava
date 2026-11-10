@@ -12,6 +12,8 @@ import style from "./bl-pagination.css";
 /**
  * @tag bl-pagination
  * @summary Baklava Pagination component
+ *
+ * @cssproperty [--bl-pagination-jumper-width=62px] Width of the "go to page" jumper input
  */
 
 @customElement("bl-pagination")
