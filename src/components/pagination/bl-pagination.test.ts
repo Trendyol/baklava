@@ -310,4 +310,24 @@ describe("bl-pagination", () => {
       expect(el.itemsPerPage).to.equal(100);
     });
   });
+
+  describe("jumper width css variable", () => {
+    it("should use the default jumper width when no custom property is set", async () => {
+      const el = await fixture<typeOfBlPagination>(html`<bl-pagination has-jumper></bl-pagination>`);
+
+      const jumperInput = el.shadowRoot?.querySelector<BlInput>("bl-input");
+
+      expect(getComputedStyle(jumperInput as BlInput).width).to.eq("62px");
+    });
+
+    it("should allow overriding the jumper width with --bl-pagination-jumper-width", async () => {
+      const el = await fixture<typeOfBlPagination>(
+        html`<bl-pagination has-jumper style="--bl-pagination-jumper-width: 80px"></bl-pagination>`
+      );
+
+      const jumperInput = el.shadowRoot?.querySelector<BlInput>("bl-input");
+
+      expect(getComputedStyle(jumperInput as BlInput).width).to.eq("80px");
+    });
+  });
 });
