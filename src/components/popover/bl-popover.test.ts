@@ -60,6 +60,124 @@ describe("bl-popover", () => {
     expect(el.visible).to.be.false;
   });
 
+  it("should be closed by default and not reflect the open attribute", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover>Popover Content</bl-popover>`);
+
+    expect(el.open).to.be.false;
+    expect(el.hasAttribute("open")).to.be.false;
+  });
+
+  it("should be visible when open attribute is set initially", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover open>Popover Content</bl-popover>`);
+
+    expect(el.visible).to.be.true;
+    expect(el.shadowRoot?.querySelector(".popover")?.classList.contains("visible")).to.be.true;
+    expect(el.shadowRoot?.querySelector("slot")?.getAttribute("aria-live")).to.equal("polite");
+
+    if ("popover" in HTMLElement.prototype) {
+      expect(el.shadowRoot?.querySelector(".popover")?.matches(":popover-open")).to.be.true;
+    }
+  });
+
+  it("should show and hide when open property changes", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover>Popover Content</bl-popover>`);
+    const popoverEl = el.shadowRoot!.querySelector<HTMLElement>(".popover")!;
+    const supported = "popover" in HTMLElement.prototype;
+
+    el.open = true;
+    await elementUpdated(el);
+
+    expect(el.visible).to.be.true;
+    expect(popoverEl.classList.contains("visible")).to.be.true;
+    if (supported) expect(popoverEl.matches(":popover-open")).to.be.true;
+
+    el.open = false;
+    await elementUpdated(el);
+
+    expect(el.visible).to.be.false;
+    expect(popoverEl.classList.contains("visible")).to.be.false;
+    if (supported) expect(popoverEl.matches(":popover-open")).to.be.false;
+  });
+
+  it("should fire show and hide events once when open property changes", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover>Popover Content</bl-popover>`);
+    let showCount = 0;
+    let hideCount = 0;
+
+    el.addEventListener("bl-popover-show", () => showCount++);
+    el.addEventListener("bl-popover-hide", () => hideCount++);
+
+    el.open = true;
+    await elementUpdated(el);
+    expect(showCount).to.equal(1);
+    expect(hideCount).to.equal(0);
+
+    el.open = false;
+    await elementUpdated(el);
+    expect(showCount).to.equal(1);
+    expect(hideCount).to.equal(1);
+  });
+
+  it("should fire show and hide events once when show and hide methods are used", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover>Popover Content</bl-popover>`);
+    let showCount = 0;
+    let hideCount = 0;
+
+    el.addEventListener("bl-popover-show", () => showCount++);
+    el.addEventListener("bl-popover-hide", () => hideCount++);
+
+    el.show();
+    await elementUpdated(el);
+    el.hide();
+    await elementUpdated(el);
+
+    expect(showCount).to.equal(1);
+    expect(hideCount).to.equal(1);
+  });
+
+  it("should reflect the open attribute when shown and hidden by methods", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover>Popover Content</bl-popover>`);
+
+    el.show();
+    await elementUpdated(el);
+    expect(el.hasAttribute("open")).to.be.true;
+
+    el.hide();
+    await elementUpdated(el);
+    expect(el.hasAttribute("open")).to.be.false;
+  });
+
+  it("should set open to false when closed by Escape key", async () => {
+    const el = await fixture<BlPopover>(html`<bl-popover open>Popover Content</bl-popover>`);
+
+    await sendKeys({ press: "Escape" });
+    await elementUpdated(el);
+
+    expect(el.open).to.be.false;
+    expect(el.hasAttribute("open")).to.be.false;
+  });
+
+  it("should position the popover when it is open initially and target is set later", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div style="padding: 250px;">
+        <button id="late-target">Trigger</button>
+        <bl-popover open placement="bottom">Popover Content</bl-popover>
+      </div>
+    `);
+    const popoverEl = wrapper.querySelector<BlPopover>("bl-popover")!;
+    const target = wrapper.querySelector<HTMLElement>("#late-target")!;
+    const popoverDiv = popoverEl.shadowRoot!.querySelector<HTMLElement>(".popover")!;
+
+    popoverEl.target = target;
+    await elementUpdated(popoverEl);
+    await aTimeout(50);
+
+    const targetRect = target.getBoundingClientRect();
+    const popoverRect = popoverDiv.getBoundingClientRect();
+
+    expect(Math.abs(popoverRect.top - targetRect.bottom)).to.be.lessThan(100);
+  });
+
   it("should be triggered successful when target assigned by id", async () => {
     const body = await fixture<HTMLBodyElement>(html`
       <div style="width: 1500px;height: 1500px;">

@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, LitElement, TemplateResult } from "lit";
+import { CSSResultGroup, html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import {
@@ -65,6 +65,12 @@ export default class BlPopover extends LitElement {
    */
   @property({ type: Number })
   offset = 8;
+  /**
+   * Sets the visibility of the popover. It is a declarative alternative to the `show()` and
+   * `hide()` methods and always reflects the current visibility status.
+   */
+  @property({ type: Boolean, reflect: true })
+  open = false;
   @query(".popover") private _popover: HTMLElement;
   @query(".arrow") private arrow: HTMLElement;
   /**
@@ -109,15 +115,15 @@ export default class BlPopover extends LitElement {
   }
 
   /**
-   * Visibility state
+   * Tells whether the side effects of showing the popover (top layer, positioning, listeners) are applied
    */
-  @state() private _visible = false;
+  private _shown = false;
 
   /**
    * Gives the visibility status of the popover
    */
   get visible(): boolean {
-    return this._visible;
+    return this.open;
   }
 
   connectedCallback() {
@@ -134,11 +140,32 @@ export default class BlPopover extends LitElement {
     this.popoverAutoUpdateCleanup && this.popoverAutoUpdateCleanup();
   }
 
+  protected updated(changedProperties: PropertyValues<this>) {
+    if (changedProperties.has("open") && this.open !== this._shown) {
+      this.open ? this._applyShow() : this._applyHide();
+    } else if (changedProperties.has("_target") && this._shown) {
+      this.setPopover();
+    }
+  }
+
   /**
    * Shows popover
    */
   show() {
-    this._visible = true;
+    this.open = true;
+    this._applyShow();
+  }
+
+  /**
+   * Hides popover
+   */
+  hide() {
+    this.open = false;
+    this._applyHide();
+  }
+
+  private _applyShow() {
+    this._shown = true;
 
     if (supportsPopoverApi() && this._popover && !this._popover.matches(":popover-open")) {
       this._popover.showPopover();
@@ -151,11 +178,9 @@ export default class BlPopover extends LitElement {
     document.addEventListener("bl-popover-show", this._handlePopoverShowEvent);
   }
 
-  /**
-   * Hides popover
-   */
-  hide() {
-    this._visible = false;
+  private _applyHide() {
+    this._shown = false;
+    this.popoverAutoUpdateCleanup?.();
 
     if (supportsPopoverApi() && this._popover && this._popover.matches(":popover-open")) {
       this._popover.hidePopover();
@@ -170,11 +195,11 @@ export default class BlPopover extends LitElement {
   render(): TemplateResult {
     const classes = classMap({
       popover: true,
-      visible: this._visible,
+      visible: this.open,
     });
 
     return html` <div class=${classes} popover="manual">
-      <slot id="popover" aria-live=${this._visible ? "polite" : "off"}></slot>
+      <slot id="popover" aria-live=${this.open ? "polite" : "off"}></slot>
       <div class="arrow" aria-hidden="true"></div>
     </div>`;
   }
@@ -212,7 +237,8 @@ export default class BlPopover extends LitElement {
   };
 
   private setPopover() {
-    if (this.target) {
+    if (this.target && this._popover) {
+      this.popoverAutoUpdateCleanup?.();
       this.popoverAutoUpdateCleanup = autoUpdate(this.target as Element, this._popover, () => {
         computePosition(this.target as Element, this._popover, {
           placement: this.placement,

@@ -25,6 +25,10 @@ import { centeredLayout } from '../../utilities/chromatic-decorators';
     offset: {
       control: 'number',
       default: '10'
+    },
+    open: {
+      control: 'boolean',
+      default: false,
     }
   }}
 />
@@ -103,7 +107,7 @@ Be cautious about using this component. Consider using semantically more releava
 
 ## Main behaviours
 
-* Popovers don't open by themself. `show()` method should be called via JavaScript when desired.
+* Popovers don't open by themself. Either `show()` method should be called via JavaScript or `open` attribute/property should be set when desired.
 * Only a single popover can be visible in the screen at the same time. Whenever another popover is shown, other one will close itself automatically, unless they are nested.
 * Popovers tries to keep themself inside viewport. For example: If you place it to bottom of an element and if there is not enough space to show it below, it automatically flips to the top of the element.
 * Popovers can be closed with `Escape` key.
@@ -142,6 +146,15 @@ Or by passing targert reference:
     popover.show();
   })
 </script>
+```
+
+You can also control the visibility declaratively with the `open` attribute/property, the same way as `bl-dialog`. It is reflected to the element,
+so it stays in sync when the popover is closed by `hide()`, `Escape` key or a click outside. This is especially handy with frameworks:
+
+```html
+<bl-button id="popoverOpener">Trigger by id</bl-button>
+
+<bl-popover target="popoverOpener" open>Popover content</bl-popover>
 ```
 
 <Canvas>
