@@ -320,4 +320,99 @@ describe("bl-radio-group", () => {
     //then
     expect(document.activeElement).to.equal(radioGroup?.options[1]);
   });
+
+  describe("when there is no option to navigate to", () => {
+    const withErrorCapture = (run: () => void) => {
+      const messages: string[] = [];
+      const collect = (event: Event) => messages.push((event as ErrorEvent).message);
+
+      window.addEventListener("error", collect);
+      run();
+      window.removeEventListener("error", collect);
+
+      return messages;
+    };
+
+    const pressOn = (group: BlRadioGroup, key: string) => {
+      const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+      const messages = withErrorCapture(() => group.dispatchEvent(event));
+
+      return { event, messages };
+    };
+
+    const disabledGroup = () =>
+      fixture<BlRadioGroup>(html`<bl-radio-group label="Payment Type" name="pt">
+        <bl-radio value="cc" disabled>Credit Card</bl-radio>
+        <bl-radio value="ch" disabled>Cash</bl-radio>
+      </bl-radio-group>`);
+
+    it("should keep the focus on the group itself when every option is disabled", async () => {
+      //when
+      const group = await disabledGroup();
+
+      //then
+      expect(group.availableOptions).to.be.empty;
+      expect(withErrorCapture(() => group.focus())).to.be.empty;
+      expect(document.activeElement).to.equal(group);
+    });
+
+    it("should not consume arrow keys and select nothing when every option is disabled", async () => {
+      //given
+      const group = await disabledGroup();
+
+      //when
+      const next = pressOn(group, "ArrowDown");
+      const previous = pressOn(group, "ArrowUp");
+      const select = pressOn(group, " ");
+
+      //then
+      expect([...next.messages, ...previous.messages, ...select.messages]).to.be.empty;
+      expect(next.event.defaultPrevented).to.be.false;
+      expect(previous.event.defaultPrevented).to.be.false;
+      expect(select.event.defaultPrevented).to.be.false;
+      expect(group.value).to.equal("");
+    });
+
+    it("should not consume arrow keys when no option is slotted yet", async () => {
+      //given
+      const group = await fixture<BlRadioGroup>(
+        html`<bl-radio-group label="Payment Type" name="pt"></bl-radio-group>`
+      );
+
+      //when
+      const { messages, event } = pressOn(group, "ArrowRight");
+
+      //then
+      expect(messages).to.be.empty;
+      expect(event.defaultPrevented).to.be.false;
+    });
+
+    it("should move to an option that is still available when the last focused one is disabled", async () => {
+      //given
+      const group = await fixture<BlRadioGroup>(html`<bl-radio-group label="Payment Type" name="pt">
+        <bl-radio value="cc">Credit Card</bl-radio>
+        <bl-radio value="ch">Cash</bl-radio>
+        <bl-radio value="pp">Pay with balance</bl-radio>
+      </bl-radio-group>`);
+
+      await elementUpdated(group);
+
+      const [first, second, third] = group.options;
+
+      pressOn(group, "ArrowDown");
+      pressOn(group, "ArrowDown");
+      expect(document.activeElement).to.equal(third);
+
+      //when the options the stored index points at are disabled while the group is focused
+      second.disabled = true;
+      third.disabled = true;
+
+      const { messages } = pressOn(group, "ArrowUp");
+
+      //then
+      expect(messages).to.be.empty;
+      expect(document.activeElement).to.equal(first);
+      expect(first.checked).to.be.true;
+    });
+  });
 });

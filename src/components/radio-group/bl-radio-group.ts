@@ -65,6 +65,22 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
 
   private focusedOptionIndex = 0;
 
+  /**
+   * Option which the keyboard navigation acts on.
+   *
+   * Options can be removed or disabled while the group is focused, which leaves
+   * `focusedOptionIndex` pointing at an option that is no longer there. Keeping the index inside
+   * the current option list makes such a navigation land on the closest available option instead
+   * of throwing.
+   */
+  private get focusedOption(): BlRadio | undefined {
+    const lastOptionIndex = this.availableOptions.length - 1;
+
+    this.focusedOptionIndex = Math.min(Math.max(this.focusedOptionIndex, 0), lastOptionIndex);
+
+    return this.availableOptions[this.focusedOptionIndex];
+  }
+
   private handleOptionChecked(event: CustomEvent) {
     const checkedOption = event.target as BlRadio;
 
@@ -73,34 +89,41 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
   }
 
   private handleKeyDown(event: KeyboardEvent) {
-    // Next option
-    if (["ArrowDown", "ArrowRight"].includes(event.key)) {
-      this.focusedOptionIndex++;
-      if (this.focusedOptionIndex >= this.availableOptions.length) {
-        this.focusedOptionIndex = 0; // Wrap around to the first option
-      }
-      this.availableOptions[this.focusedOptionIndex].select();
+    const isNextKey = ["ArrowDown", "ArrowRight"].includes(event.key);
+    const isPreviousKey = ["ArrowUp", "ArrowLeft"].includes(event.key);
+    const isSelectKey = event.key === " ";
 
-      // Previous option
-    } else if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
-      this.focusedOptionIndex--;
-      if (this.focusedOptionIndex < 0) {
-        this.focusedOptionIndex = this.availableOptions.length - 1; // Wrap around to the last option
-      }
-      this.availableOptions[this.focusedOptionIndex].select();
-
-      // Select option
-    } else if ([" "].includes(event.key)) {
-      this.availableOptions[this.focusedOptionIndex].select();
-      return;
-    } else {
+    if (!isNextKey && !isPreviousKey && !isSelectKey) {
       // Other keys are not our interest here
       return;
     }
 
-    this.availableOptions[this.focusedOptionIndex].focus();
+    if (isNextKey) {
+      this.focusedOptionIndex++;
+      if (this.focusedOptionIndex >= this.availableOptions.length) {
+        this.focusedOptionIndex = 0; // Wrap around to the first option
+      }
+    } else if (isPreviousKey) {
+      this.focusedOptionIndex--;
+      if (this.focusedOptionIndex < 0) {
+        this.focusedOptionIndex = this.availableOptions.length - 1; // Wrap around to the last option
+      }
+    }
 
-    event.preventDefault();
+    const option = this.focusedOption;
+
+    if (!option) {
+      // There is no enabled option to select, let the browser handle the key
+      return;
+    }
+
+    option.select();
+
+    if (!isSelectKey) {
+      option.focus();
+
+      event.preventDefault();
+    }
   }
   connectedCallback(): void {
     super.connectedCallback();
@@ -111,7 +134,7 @@ export default class BlRadioGroup extends FormControlMixin(LitElement) {
   }
 
   private handleFocus() {
-    this.availableOptions[this.focusedOptionIndex].focus();
+    this.focusedOption?.focus();
   }
 
   render(): TemplateResult {
